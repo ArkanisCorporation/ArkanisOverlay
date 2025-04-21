@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.Infrastructure.Services.Hosted;
 
 using Domain.Abstractions.Game;
 using Quartz;

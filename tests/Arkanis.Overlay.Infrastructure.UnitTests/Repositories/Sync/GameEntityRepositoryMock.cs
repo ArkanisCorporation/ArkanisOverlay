@@ -8,7 +8,7 @@ using Domain.Models.Game;
 
 internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> repository) : IGameEntityRepository<T> where T : class, IGameEntity
 {
-    private readonly TaskCompletionSource _completionSource = new();
+    private readonly TaskCompletionSource _initialization = new();
 
     internal GameDataState CurrentDataState { get; private set; } = MissingGameDataState.Instance;
     internal List<T> Entities { get; set; } = [];
@@ -32,10 +32,18 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
-        Entities = await syncData.GameEntities.ToListAsync(cancellationToken);
-        _completionSource.TrySetResult();
+        try
+        {
+            Entities = await syncData.GameEntities.ToListAsync(cancellationToken);
+            _initialization.TrySetResult();
+        }
+        catch (Exception ex)
+        {
+            _initialization.TrySetException(ex);
+            throw;
+        }
     }
 
     public Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
-        => _completionSource.Task.WaitAsync(cancellationToken);
+        => _initialization.Task.WaitAsync(cancellationToken);
 }

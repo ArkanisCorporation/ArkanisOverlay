@@ -4,7 +4,7 @@ using Domain.Models.Game;
 using Local;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Services;
+using Services.Hosted;
 using Sync;
 
 public static class DependencyInjection

@@ -4,8 +4,10 @@ using Enums;
 using Models;
 using Models.Trade;
 
-public interface IGameSellable
+public interface IGameSellable : IGameEntity
 {
     Bounds<PriceTag> LatestSellPrices { get; }
     GameTerminalType TerminalType { get; }
+
+    void UpdateSellPrices(Bounds<PriceTag> newPrices);
 }

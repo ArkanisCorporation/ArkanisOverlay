@@ -1,7 +1,9 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
+using Abstractions;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
+using PriceProviders;
 
 public static class DependencyInjection
 {
@@ -17,6 +19,11 @@ public static class DependencyInjection
 
     public static IServiceCollection AddEndpointManagerHostedService(this IServiceCollection services)
         => services.AddHostedService<EndpointManager>();
+
+    public static IServiceCollection AddGameEntityPriceHydratationServices(this IServiceCollection services)
+        => services
+            .AddPriceProviderServices()
+            .AddSingleton<IGameEntityHydratationService, UexGameEntityPriceHydratationService>();
 
     public static IServiceCollection AddUserPreferencesFileManagerServices(this IServiceCollection services)
         => services

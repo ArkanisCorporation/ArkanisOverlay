@@ -51,9 +51,17 @@ public class UexGameEntityInMemoryRepository<T> : IGameEntityRepository<T> where
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
-        CurrentDataState = syncData.DataState;
-        CachedUntil = syncData.CacheUntil;
-        Entities = await syncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken);
-        _initialization.TrySetResult();
+        try
+        {
+            CurrentDataState = syncData.DataState;
+            CachedUntil = syncData.CacheUntil;
+            Entities = await syncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken);
+            _initialization.TrySetResult();
+        }
+        catch (Exception ex)
+        {
+            _initialization.TrySetException(ex);
+            throw;
+        }
     }
 }

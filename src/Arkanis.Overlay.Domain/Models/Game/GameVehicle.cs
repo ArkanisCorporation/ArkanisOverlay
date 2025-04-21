@@ -13,6 +13,9 @@ public abstract class GameVehicle(
     GameEntityCategory vehicleCategory
 ) : GameEntity(UexApiGameEntityId.Create<GameVehicle>(id), vehicleCategory), IGameManufactured, IGamePurchasable, IGameRentable
 {
+    public GameCompany Manufacturer
+        => manufacturer;
+
     public override IEnumerable<SearchableTrait> SearchableAttributes
     {
         get
@@ -31,15 +34,18 @@ public abstract class GameVehicle(
         new GameEntityName.NameWithShortVariant(fullName, shortName)
     );
 
-    public GameCompany Manufacturer
-        => manufacturer;
-
-    public Bounds<PriceTag> LatestBuyPrices { get; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
-
     public GameTerminalType TerminalType
         => GameTerminalType.Item;
 
-    public Bounds<PriceTag> LatestRentPrices { get; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+    public Bounds<PriceTag> LatestPurchasePrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+
+    public void UpdatePurchasePrices(Bounds<PriceTag> newPrices)
+        => LatestPurchasePrices = newPrices;
+
+    public Bounds<PriceTag> LatestRentPrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+
+    public void UpdateRentPrices(Bounds<PriceTag> newPrices)
+        => LatestRentPrices = newPrices;
 }
 
 public class GameSpaceShip(int id, string fullName, string shortName, GameCompany manufacturer) : GameVehicle(

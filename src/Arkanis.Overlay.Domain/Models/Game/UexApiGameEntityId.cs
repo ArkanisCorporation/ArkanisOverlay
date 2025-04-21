@@ -9,6 +9,9 @@ public abstract record UexApiGameEntityId(int Identity) : TypedDomainId<int>(Ide
 
     public static UexId<T> Create<T>(int identity) where T : IGameEntity
         => new(identity);
+
+    public static UexId<T> Create<T>(double identity) where T : IGameEntity
+        => new((int)identity);
 }
 
 public sealed record UexId<T>(int Identity) : UexApiGameEntityId(Identity) where T : IGameEntity

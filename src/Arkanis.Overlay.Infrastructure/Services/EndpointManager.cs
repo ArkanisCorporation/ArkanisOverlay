@@ -2,6 +2,7 @@ using Timer = System.Threading.Timer;
 
 namespace Arkanis.Overlay.Infrastructure.Services;
 
+using Abstractions;
 using API;
 using Data;
 using Data.Entities;
@@ -69,8 +70,7 @@ public sealed class EndpointManager(
 
         dbSet.AddOrUpdate(cacheInfo);
 
-        logger.LogInformation
-        (
+        logger.LogInformation(
             "Marked {type} as updated, next update in {timeUntilNextUpdate}",
             type.Name,
             config.CacheTtl
@@ -84,8 +84,7 @@ public sealed class EndpointManager(
     {
         if (_endpoints.ContainsKey(typeof(T)))
         {
-            logger.LogError
-            (
+            logger.LogError(
                 "Cannot register endpoint {endpoint} for type {type} because it is already registered",
                 apiPath,
                 typeof(T).Name
@@ -103,16 +102,14 @@ public sealed class EndpointManager(
             timeUntilNextUpdate = GetTimeUntilNextUpdate<T>();
         }
 
-        config.Timer = new Timer
-        (
+        config.Timer = new Timer(
             _ => Task.Run(UpdateEndpoint<T>),
             null,
             timeUntilNextUpdate,
             config.CacheTtl
         );
 
-        logger.LogInformation
-        (
+        logger.LogInformation(
             "Registered endpoint {endpoint} for type {type} - Next update in {timeUntilNextUpdate}",
             apiPath,
             typeof(T).Name,
@@ -133,8 +130,7 @@ public sealed class EndpointManager(
 
         if (!_endpoints.TryGetValue(dependencyType, out var dependencyConfig))
         {
-            logger.LogError
-            (
+            logger.LogError(
                 "Cannot register dependant endpoint {endpoint} for type {type} because the " + "dependency type {dependency} is not registered",
                 apiPath,
                 type.Name,
@@ -241,12 +237,12 @@ public sealed class EndpointManager(
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         await RegisterEndpointAsync<CategoryEntity>("categories", "01.00:00:00").ConfigureAwait(false);
-        await RegisterDependantEndpoint<ItemEntity, CategoryEntity>
-        (
-            "items",
-            "01.00:00:00",
-            (apiPath, c) => c.Where(e => e.Type == "item").Select(e => $"{apiPath}?id_category={e.Id}")
-        ).ConfigureAwait(false);
+        await RegisterDependantEndpoint<ItemEntity, CategoryEntity>(
+                "items",
+                "01.00:00:00",
+                (apiPath, c) => c.Where(e => e.Type == "item").Select(e => $"{apiPath}?id_category={e.Id}")
+            )
+            .ConfigureAwait(false);
 
         await RegisterEndpointAsync<CommodityEntity>("commodities", "00.01:00:00").ConfigureAwait(false);
         await RegisterEndpointAsync<VehicleEntity>("vehicles", "00.12:00:00").ConfigureAwait(false);

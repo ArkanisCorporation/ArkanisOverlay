@@ -3,8 +3,10 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Repositories.Sync.Live;
 using Domain.Abstractions.Services;
 using External.UEX;
 using Infrastructure.Repositories.Sync;
+using Infrastructure.Services.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services;
 using Xunit.Microsoft.DependencyInjection;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
@@ -14,6 +16,7 @@ public class LiveUexSyncRepositoryTestFixture : TestBedFixture
         => services
             .AddHttpClient()
             .AddSingleton(typeof(IGameEntityRepository<>), typeof(GameEntityRepositoryMock<>))
+            .AddSingleton<IGameEntityHydratationService, NoHydratationMockService>()
             .AddAllUexApiClients()
             .AddUexSyncRepositoryServices();
 

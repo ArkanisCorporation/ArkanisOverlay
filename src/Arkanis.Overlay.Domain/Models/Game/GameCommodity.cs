@@ -23,10 +23,16 @@ public class GameCommodity(int id, string fullName, string codeName)
 
     public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode(fullName, codeName));
 
-    public Bounds<PriceTag> LatestBuyPrices { get; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+    public Bounds<PriceTag> LatestPurchasePrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
 
-    public Bounds<PriceTag> LatestSellPrices { get; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+    public Bounds<PriceTag> LatestSellPrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
 
     public GameTerminalType TerminalType
         => GameTerminalType.Commodity;
+
+    public void UpdateSellPrices(Bounds<PriceTag> newPrices)
+        => LatestSellPrices = newPrices;
+
+    public void UpdatePurchasePrices(Bounds<PriceTag> newPrices)
+        => LatestPurchasePrices = newPrices;
 }

@@ -8,6 +8,9 @@ using Trade;
 public class GameItem(int id, string fullName, GameCompany manufacturer, GameProductCategory category)
     : GameEntity(UexApiGameEntityId.Create<GameItem>(id), GameEntityCategory.Item), IGameManufactured, IGamePurchasable
 {
+    public GameCompany Manufacturer
+        => manufacturer;
+
     public override IEnumerable<SearchableTrait> SearchableAttributes
     {
         get
@@ -27,11 +30,11 @@ public class GameItem(int id, string fullName, GameCompany manufacturer, GamePro
         new GameEntityName.Name(fullName)
     );
 
-    public GameCompany Manufacturer
-        => manufacturer;
-
-    public Bounds<PriceTag> LatestBuyPrices { get; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
+    public Bounds<PriceTag> LatestPurchasePrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);
 
     public GameTerminalType TerminalType
         => GameTerminalType.Item;
+
+    public void UpdatePurchasePrices(Bounds<PriceTag> newPrices)
+        => LatestPurchasePrices = newPrices;
 }

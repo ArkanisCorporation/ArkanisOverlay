@@ -4,35 +4,41 @@ using Domain.Enums;
 using Domain.Models.Game;
 using Infrastructure.Data.Exceptions;
 using Infrastructure.Data.Mappers;
+using Infrastructure.Services.Abstractions;
+using Services;
 using Shouldly;
+using static ExternalUexDTOFixture;
 
 public class ExternalUexDTOMapperUnitTests
 {
-    [Fact]
-    public void UniverseStartSystemDTO_ToGameEntity_Should_Correctly_Map_Without_Dependencies()
-    {
-        var mapper = new UexApiDtoMapper();
-        var source = ExternalUexDTOFixture.StarSystem;
+    private static IGameEntityHydratationService HydratationService
+        => new NoHydratationMockService();
 
-        var result = mapper.ToGameEntity(source);
+    [Fact]
+    public async Task UniverseStartSystemDTO_ToGameEntity_Should_Correctly_Map_Without_Dependencies()
+    {
+        var mapper = new UexApiDtoMapper(HydratationService);
+        var source = StarSystem;
+
+        var result = await mapper.ToGameEntityAsync(source);
         result.Parent.ShouldBeNull();
         result.Name.ShouldHaveSingleItem()
             .ShouldBeEquivalentTo(new GameEntityName.NameWithCode(source.Name!, source.Code!));
     }
 
     [Fact]
-    public void UniverseTerminalDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
+    public async Task UniverseTerminalDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
-        var mapper = new UexApiDtoMapper();
+        var mapper = new UexApiDtoMapper(HydratationService);
 
         // cache dependencies, order is important
-        mapper.ToGameEntity(ExternalUexDTOFixture.StarSystem);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Planet);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Moon);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Outpost);
+        await mapper.ToGameEntityAsync(StarSystem);
+        await mapper.ToGameEntityAsync(Planet);
+        await mapper.ToGameEntityAsync(Moon);
+        await mapper.ToGameEntityAsync(Outpost);
 
-        var source = ExternalUexDTOFixture.OutpostCommodityTerminal;
-        var result = mapper.ToGameEntity(source);
+        var source = OutpostCommodityTerminal;
+        var result = await mapper.ToGameEntityAsync(source);
 
         result.Type.ShouldBe(GameTerminalType.Commodity);
         result.EntityCategory.ShouldBe(GameEntityCategory.Location);
@@ -43,46 +49,46 @@ public class ExternalUexDTOMapperUnitTests
     }
 
     [Fact]
-    public void UniverseTerminalDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
+    public async Task UniverseTerminalDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
     {
-        var mapper = new UexApiDtoMapper();
+        var mapper = new UexApiDtoMapper(HydratationService);
 
         // cache dependencies
-        mapper.ToGameEntity(ExternalUexDTOFixture.StarSystem);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Planet);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Moon);
+        await mapper.ToGameEntityAsync(StarSystem);
+        await mapper.ToGameEntityAsync(Planet);
+        await mapper.ToGameEntityAsync(Moon);
 
-        var source = ExternalUexDTOFixture.OutpostCommodityTerminal;
-        Should.Throw<ObjectMappingMissingDependentObjectException>(() => mapper.ToGameEntity(source));
+        var source = OutpostCommodityTerminal;
+        await Should.ThrowAsync<ObjectMappingMissingDependentObjectException>(async () => await mapper.ToGameEntityAsync(source));
     }
 
     [Fact]
-    public void ItemDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
+    public async Task ItemDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
-        var mapper = new UexApiDtoMapper();
+        var mapper = new UexApiDtoMapper(HydratationService);
 
         // cache dependencies, order is important
-        mapper.ToGameEntity(ExternalUexDTOFixture.ItemCompany);
-        mapper.ToGameEntity(ExternalUexDTOFixture.ItemHatsCategory);
+        await mapper.ToGameEntityAsync(ItemCompany);
+        await mapper.ToGameEntityAsync(ItemHatsCategory);
 
-        var source = ExternalUexDTOFixture.Item;
-        var result = mapper.ToGameEntity(source);
+        var source = Item;
+        var result = await mapper.ToGameEntityAsync(source);
         result.Manufacturer.ShouldNotBeNull();
         result.TerminalType.ShouldBe(GameTerminalType.Item);
         result.EntityCategory.ShouldBe(GameEntityCategory.Item);
     }
 
     [Fact]
-    public void ItemDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
+    public async Task ItemDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
     {
-        var mapper = new UexApiDtoMapper();
+        var mapper = new UexApiDtoMapper(HydratationService);
 
         // cache dependencies
-        mapper.ToGameEntity(ExternalUexDTOFixture.StarSystem);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Planet);
-        mapper.ToGameEntity(ExternalUexDTOFixture.Moon);
+        await mapper.ToGameEntityAsync(StarSystem);
+        await mapper.ToGameEntityAsync(Planet);
+        await mapper.ToGameEntityAsync(Moon);
 
-        var source = ExternalUexDTOFixture.Item;
-        Should.Throw<ObjectMappingMissingDependentObjectException>(() => mapper.ToGameEntity(source));
+        var source = Item;
+        await Should.ThrowAsync<ObjectMappingMissingDependentObjectException>(async () => await mapper.ToGameEntityAsync(source));
     }
 }

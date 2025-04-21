@@ -19,8 +19,8 @@ internal class UexTerminalRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver
             .DependsOn<GameCity>()
-            .AlsoDependencyOn<GameOutpost>()
-            .AlsoDependencyOn<GameSpaceStation>();
+            .AlsoDependsOn<GameOutpost>()
+            .AlsoDependsOn<GameSpaceStation>();
 
     protected override async Task<UexApiResponse<ICollection<UniverseTerminalDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

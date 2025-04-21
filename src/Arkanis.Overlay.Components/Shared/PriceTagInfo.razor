@@ -9,14 +9,14 @@
     {
         <b>@Label</b>
     }
-    @if (Model is UserPriceTag userPriceTag)
+    @if (Model is KnownPriceTag knownPriceTag)
     {
-        <span>@userPriceTag.Price.ToString("N0")</span>
-        <GameEntityNameCodePart Model="@(userPriceTag.Location.Name.MainContent as GameEntityName.IHasCode)"
+        <span>@knownPriceTag.Price.ToString("N0")</span>
+        <GameEntityNameCodePart Model="@(knownPriceTag.Location.Name.MainContent as GameEntityName.IHasCode)"
                                 Style="font-size: 12px">
             <PrefixContent>
                 <span class="text-secondary mr-1" style="font-weight: lighter">
-                    @SelectLocationPrefix(userPriceTag.Location)
+                    @SelectLocationPrefix(knownPriceTag.Location)
                 </span>
             </PrefixContent>
         </GameEntityNameCodePart>

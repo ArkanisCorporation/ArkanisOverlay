@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.Infrastructure.Services.Abstractions;
 
 using Data.Entities;
 

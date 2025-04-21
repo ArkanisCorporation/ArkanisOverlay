@@ -14,6 +14,13 @@ public class InMemorySearchService(
 {
     public async Task<GameEntitySearchResults> SearchAsync(IEnumerable<SearchQuery> queries, CancellationToken cancellationToken = default)
     {
+        queries = queries.ToList();
+        if (!queries.Any())
+        {
+            logger.LogDebug("No search queries provided, returning empty search result");
+            return GameEntitySearchResults.Empty;
+        }
+
         var stopwatch = Stopwatch.StartNew();
         logger.LogDebug("Searching all entities for matches with {@SearchQuery}", queries);
 

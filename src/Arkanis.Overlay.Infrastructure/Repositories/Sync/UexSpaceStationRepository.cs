@@ -19,8 +19,8 @@ internal class UexSpaceStationRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver
             .DependsOn<GameCity>()
-            .AlsoDependencyOn<GamePlanet>()
-            .AlsoDependencyOn<GameMoon>();
+            .AlsoDependsOn<GamePlanet>()
+            .AlsoDependsOn<GameMoon>();
 
     protected override async Task<UexApiResponse<ICollection<UniverseSpaceStationDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

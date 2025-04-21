@@ -10,13 +10,14 @@ using Xunit.Abstractions;
 public class LiveUexTerminalSyncRepositoryTest(ITestOutputHelper testOutputHelper, LiveUexSyncRepositoryTestFixture fixture)
     : UexSyncRepositoryTestBase<GameTerminal, LiveUexSyncRepositoryTestFixture>(testOutputHelper, fixture)
 {
-    protected override Task LoadDependenciesAsync(CancellationToken cancellationToken)
-        => Task.WhenAll(
-            LoadDependenciesAsync<GameStarSystem>(cancellationToken),
-            LoadDependenciesAsync<GameMoon>(cancellationToken),
-            LoadDependenciesAsync<GamePlanet>(cancellationToken),
-            LoadDependenciesAsync<GameCity>(cancellationToken),
-            LoadDependenciesAsync<GameOutpost>(cancellationToken),
-            LoadDependenciesAsync<GameSpaceStation>(cancellationToken)
-        );
+    protected override async Task LoadDependenciesAsync(CancellationToken cancellationToken)
+        => await Task.WhenAll(
+                LoadDependenciesAsync<GameStarSystem>(cancellationToken),
+                LoadDependenciesAsync<GameMoon>(cancellationToken),
+                LoadDependenciesAsync<GamePlanet>(cancellationToken),
+                LoadDependenciesAsync<GameCity>(cancellationToken),
+                LoadDependenciesAsync<GameOutpost>(cancellationToken),
+                LoadDependenciesAsync<GameSpaceStation>(cancellationToken)
+            )
+            .ConfigureAwait(false);
 }

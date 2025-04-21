@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.Domain.Abstractions.Services;
 using Game;
 using Models.Trade;
 
-public interface IPurchasePriceProvider
+public interface IPurchasePriceProvider : IDependable
 {
     ValueTask UpdatePriceTagAsync(IGamePurchasable gameEntity);
 

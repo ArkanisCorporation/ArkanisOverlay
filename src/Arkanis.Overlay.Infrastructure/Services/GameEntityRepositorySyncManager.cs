@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
+using Abstractions;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
@@ -16,13 +17,19 @@ internal sealed class GameEntityRepositorySyncManager<T>(
     IGameEntityExternalSyncRepository<T> syncRepository,
     IGameEntityRepository<T> repository,
     ILogger<GameEntityRepositorySyncManager<T>> logger
-) where T : class, IGameEntity
+) : ISelfUpdatable where T : class, IGameEntity
 {
+    public async Task UpdateAsync(CancellationToken cancellationToken)
+        => await UpdateAsync(false, cancellationToken);
+
     public async Task UpdateIfNecessaryAsync(CancellationToken cancellationToken)
+        => await UpdateAsync(true, cancellationToken);
+
+    private async Task UpdateAsync(bool onlyWhenNecessary, CancellationToken cancellationToken)
     {
         var gameDataState = await syncRepository.LoadCurrentDataState(cancellationToken);
         var currentLocalState = await repository.GetDataStateAsync(gameDataState, cancellationToken);
-        if (currentLocalState is AppDataUpToDate)
+        if (currentLocalState is AppDataUpToDate && onlyWhenNecessary)
         {
             // TODO: Initialize mapper cache if empty
             logger.LogDebug("Current data of {EntityType} repository are up to date: {AppDataState}", typeof(T), currentLocalState);

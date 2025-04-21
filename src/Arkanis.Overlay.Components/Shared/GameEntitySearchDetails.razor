@@ -60,7 +60,7 @@
         {
             PurchasePriceTag = SearchContext.CurrentLocation is { } location
                 ? await PurchasePriceProvider.GetPriceTagAtAsync(purchasable, location)
-                : purchasable.LatestBuyPrices.Min;
+                : purchasable.LatestPurchasePrices.Min;
         }
 
         if (Model is IGameSellable sellable)

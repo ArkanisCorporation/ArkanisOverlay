@@ -19,7 +19,7 @@ internal class UexOutpostRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver
             .DependsOn<GamePlanet>()
-            .AlsoDependencyOn<GameMoon>();
+            .AlsoDependsOn<GameMoon>();
 
     protected override async Task<UexApiResponse<ICollection<UniverseOutpostDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
