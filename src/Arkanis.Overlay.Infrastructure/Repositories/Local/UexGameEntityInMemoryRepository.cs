@@ -5,8 +5,9 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
+using Microsoft.Extensions.Logging;
 
-public class UexGameEntityInMemoryRepository<T> : IGameEntityRepository<T> where T : class, IGameEntity
+public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRepository<T>> logger) : IGameEntityRepository<T> where T : class, IGameEntity
 {
     private readonly TaskCompletionSource _initialization = new();
 
@@ -14,12 +15,12 @@ public class UexGameEntityInMemoryRepository<T> : IGameEntityRepository<T> where
     internal GameDataState CurrentDataState { get; set; } = MissingGameDataState.Instance;
     internal Dictionary<UexApiGameEntityId, T> Entities { get; set; } = [];
 
-    public Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
-        => _initialization.Task;
+    public async Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
+        => await _initialization.Task.WaitAsync(cancellationToken);
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        await WaitUntilReadyAsync(cancellationToken);
+        await WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
         foreach (var gameEntity in Entities.Values)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -55,11 +56,18 @@ public class UexGameEntityInMemoryRepository<T> : IGameEntityRepository<T> where
         {
             CurrentDataState = syncData.DataState;
             CachedUntil = syncData.CacheUntil;
-            Entities = await syncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken);
+            Entities = await syncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
             _initialization.TrySetResult();
+            logger.LogInformation(
+                "Repository updated successfully to {CurrentDataState} with {EntityCount} entities cached until {CachedUntil}",
+                CurrentDataState,
+                CachedUntil,
+                Entities.Count
+            );
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Failed to update repository");
             _initialization.TrySetException(ex);
             throw;
         }

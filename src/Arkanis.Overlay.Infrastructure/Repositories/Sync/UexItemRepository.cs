@@ -21,7 +21,7 @@ internal class UexItemRepository(
 ) : UexGameEntityRepositoryBase<ItemDTO, GameItem>(stateProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
-        => dependencyResolver.DependsOn<GameProductCategory>();
+        => dependencyResolver.DependsOn<GameProductCategory>(this);
 
     protected override async Task<UexApiResponse<ICollection<ItemDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

@@ -4,16 +4,18 @@ using Abstractions;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
+using Microsoft.Extensions.Hosting;
 
 public class UexGameEntityPriceHydratationService(
     IPurchasePriceProvider purchasePriceProvider,
     ISellPriceProvider sellPriceProvider,
-    IRentPriceProvider rentPriceProvider
+    IRentPriceProvider rentPriceProvider,
+    IHostApplicationLifetime applicationLifetime
 ) : IGameEntityHydratationService
 {
     public async Task HydrateAsync<T>(T gameEntity) where T : IGameEntity
     {
-        await EnsureReadyAsync();
+        await EnsureReadyAsync(applicationLifetime.ApplicationStopping);
         await (gameEntity switch
         {
             GameCommodity commodity => HydrateAsync(commodity),
@@ -23,12 +25,9 @@ public class UexGameEntityPriceHydratationService(
         });
     }
 
-    private async Task EnsureReadyAsync()
-        => await Task.WhenAll(
-                purchasePriceProvider.WaitUntilReadyAsync(),
-                sellPriceProvider.WaitUntilReadyAsync(),
-                rentPriceProvider.WaitUntilReadyAsync()
-            )
+    private async Task EnsureReadyAsync(CancellationToken cancellationToken)
+        => await DependencyResolver.DependsOn(this, [purchasePriceProvider, sellPriceProvider, rentPriceProvider])
+            .WaitUntilReadyAsync(cancellationToken)
             .ConfigureAwait(false);
 
     private async ValueTask HydrateAsync(IGamePurchasable purchasable)

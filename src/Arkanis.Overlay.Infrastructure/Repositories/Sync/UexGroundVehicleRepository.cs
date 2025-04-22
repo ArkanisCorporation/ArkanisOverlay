@@ -17,7 +17,7 @@ internal class UexGroundVehicleRepository(
 ) : UexGameEntityRepositoryBase<VehicleDTO, GameGroundVehicle>(stateProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
-        => dependencyResolver.DependsOn<GameCompany>();
+        => dependencyResolver.DependsOn<GameCompany>(this);
 
     protected override async Task<UexApiResponse<ICollection<VehicleDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

@@ -1,36 +1,28 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
 using Domain.Abstractions;
-using Repositories.Exceptions;
+using Microsoft.Extensions.Logging;
 
-internal abstract class ServiceDependencyResolver(IServiceProvider serviceProvider)
+public class ServiceDependencyResolver(IServiceProvider serviceProvider, ILogger<ServiceDependencyResolver> logger) : DependencyResolver(serviceProvider)
 {
-    protected IServiceProvider ServiceProvider { get; } = serviceProvider;
+    private readonly ILogger<ServiceDependencyResolver> _logger = logger;
 
-    public class Context(ServiceDependencyResolver resolver, params IEnumerable<IDependable> dependencies) : IDependable
+    public Context DependsOn<T>(object dependent) where T : IDependable
+        => CreateDependencyContextOn<T>(dependent);
+
+    private Context CreateDependencyContextOn<T>(object dependent) where T : IDependable
+        => CreateDependencyContext(dependent, CreateDependencyOn<T>());
+
+    private Context CreateDependencyContext(object dependent, params IEnumerable<IDependable> dependencies)
+        => new(dependent, this, dependencies);
+
+    public new sealed class Context(object dependent, ServiceDependencyResolver resolver, params IEnumerable<IDependable> dependencies)
+        : DependencyResolver.Context(dependent, resolver._logger, dependencies)
     {
-        protected readonly List<IDependable> Dependencies = dependencies.ToList();
-
-        public async Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
+        public Context AlsoDependsOn<T>() where T : IDependable
         {
-            var dependencies = Dependencies
-                .Select(dependency => (Instance: dependency, Task: dependency.WaitUntilReadyAsync(cancellationToken)))
-                .ToList();
-
-            try
-            {
-                var tasks = dependencies.Select(x => x.Task).ToList();
-                await Task.WhenAll(tasks).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException e)
-            {
-                var failedDependencies = dependencies
-                    .Where(dependency => !dependency.Task.IsCompletedSuccessfully)
-                    .Select(dependency => dependency.Instance)
-                    .ToArray();
-
-                throw DependencyWaitCancelledException.Create(failedDependencies, e);
-            }
+            AddDependency(resolver.CreateDependencyOn<T>());
+            return this;
         }
     }
 }

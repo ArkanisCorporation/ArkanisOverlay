@@ -12,6 +12,15 @@ internal class InitializeServicesHostedService(
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogDebug("Running initialization of services: {@Services}", services);
-        await Task.WhenAll(services.Select(service => service.InitializeAsync(stoppingToken))).ConfigureAwait(false);
+        var tasks = services.Select(async service =>
+            {
+                logger.LogDebug("Starting initialization: {ServiceType}", service);
+                await service.InitializeAsync(stoppingToken);
+                logger.LogDebug("Successfully initialized: {ServiceType}", service);
+            }
+        );
+
+        await Task.WhenAll(tasks).ConfigureAwait(false);
+        logger.LogDebug("Finished initialization of {ServiceCount} services", services.Count());
     }
 }

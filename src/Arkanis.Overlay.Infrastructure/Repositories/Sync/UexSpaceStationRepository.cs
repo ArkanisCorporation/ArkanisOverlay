@@ -18,7 +18,7 @@ internal class UexSpaceStationRepository(
 {
     protected override IDependable GetDependencies()
         => dependencyResolver
-            .DependsOn<GameCity>()
+            .DependsOn<GameCity>(this)
             .AlsoDependsOn<GamePlanet>()
             .AlsoDependsOn<GameMoon>();
 

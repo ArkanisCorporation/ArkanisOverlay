@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.Infrastructure.Services.PriceProviders;
 
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;

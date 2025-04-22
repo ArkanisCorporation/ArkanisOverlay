@@ -17,7 +17,7 @@ internal sealed class GameEntityRepositorySyncManager<T>(
     IGameEntityExternalSyncRepository<T> syncRepository,
     IGameEntityRepository<T> repository,
     ILogger<GameEntityRepositorySyncManager<T>> logger
-) : ISelfUpdatable where T : class, IGameEntity
+) : SelfInitializableServiceBase, ISelfUpdatable where T : class, IGameEntity
 {
     public async Task UpdateAsync(CancellationToken cancellationToken)
         => await UpdateAsync(false, cancellationToken);
@@ -46,4 +46,7 @@ internal sealed class GameEntityRepositorySyncManager<T>(
 
         await repository.UpdateAllAsync(syncData, cancellationToken);
     }
+
+    protected override Task InitializeAsyncCore(CancellationToken cancellationToken)
+        => UpdateAsync(true, cancellationToken);
 }

@@ -18,7 +18,7 @@ internal class UexTerminalRepository(
 {
     protected override IDependable GetDependencies()
         => dependencyResolver
-            .DependsOn<GameCity>()
+            .DependsOn<GameCity>(this)
             .AlsoDependsOn<GameOutpost>()
             .AlsoDependsOn<GameSpaceStation>();
 

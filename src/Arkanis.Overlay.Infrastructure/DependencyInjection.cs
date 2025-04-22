@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Options;
 using Repositories;
-using Repositories.Sync;
 using Services;
 using Services.Hosted;
 
@@ -15,11 +14,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         => services
+            .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
             .AddAllUexApiClients()
             .AddUexDatabaseServices()
             .AddInMemorySearchServices()
-            .AddUexSyncRepositoryServices()
             .AddUexInMemoryGameEntityServices()
             .AddUserPreferencesFileManagerServices()
             .AddGameEntityPriceHydratationServices();

@@ -4,6 +4,7 @@ using Abstractions;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using PriceProviders;
+using PriceProviders.UEX;
 
 public static class DependencyInjection
 {
@@ -14,16 +15,21 @@ public static class DependencyInjection
             .AddSingleton<ISellPriceProvider>(provider => provider.GetRequiredService<IPriceProvider>())
             .AddSingleton<IRentPriceProvider>(provider => provider.GetRequiredService<IPriceProvider>());
 
+    public static IServiceCollection AddGameEntityPriceHydratationServices(this IServiceCollection services)
+        => services
+            .AddUexPriceProviders()
+            .AddSingleton<IGameEntityHydratationService, UexGameEntityPriceHydratationService>();
+
+    public static IServiceCollection AddUexPriceProviders(this IServiceCollection services)
+        => services
+            .AddSingleton<IPriceProvider, FakePriceProvider>()
+            .AddUexPriceProviderServices();
+
     public static IServiceCollection AddInMemorySearchServices(this IServiceCollection services)
         => services.AddScoped<ISearchService, InMemorySearchService>();
 
     public static IServiceCollection AddEndpointManagerHostedService(this IServiceCollection services)
         => services.AddHostedService<EndpointManager>();
-
-    public static IServiceCollection AddGameEntityPriceHydratationServices(this IServiceCollection services)
-        => services
-            .AddPriceProviderServices()
-            .AddSingleton<IGameEntityHydratationService, UexGameEntityPriceHydratationService>();
 
     public static IServiceCollection AddUserPreferencesFileManagerServices(this IServiceCollection services)
         => services

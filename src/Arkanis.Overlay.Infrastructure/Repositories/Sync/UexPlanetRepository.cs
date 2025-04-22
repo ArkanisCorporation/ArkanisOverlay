@@ -17,7 +17,7 @@ internal class UexPlanetRepository(
 ) : UexGameEntityRepositoryBase<UniversePlanetDTO, GamePlanet>(stateProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
-        => dependencyResolver.DependsOn<GameStarSystem>();
+        => dependencyResolver.DependsOn<GameStarSystem>(this);
 
     protected override async Task<UexApiResponse<ICollection<UniversePlanetDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
