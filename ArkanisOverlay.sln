@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{616E9EA0-1A7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Clients.App", "src\Arkanis.Overlay.Clients.App\Arkanis.Overlay.Clients.App.csproj", "{E6EBE3BA-EA3E-4A72-AD29-6E7AFF4F1B25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.External.UEX", "src\Arkanis.External.UEX\Arkanis.External.UEX.csproj", "{16AB4036-03A1-466D-83F0-56108C3E744F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.UEX", "src\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj", "{16AB4036-03A1-466D-83F0-56108C3E744F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Common", "src\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj", "{CED78CB3-F5FA-49D6-ACBC-565E986BC665}"
 EndProject

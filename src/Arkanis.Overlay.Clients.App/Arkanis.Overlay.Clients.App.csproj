@@ -77,7 +77,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj" />
-        <ProjectReference Include="..\Arkanis.External.UEX\Arkanis.External.UEX.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj" />
         <ProjectReference Include="..\Arkanis.Overlay.Components\Arkanis.Overlay.Components.csproj" />
     </ItemGroup>
 

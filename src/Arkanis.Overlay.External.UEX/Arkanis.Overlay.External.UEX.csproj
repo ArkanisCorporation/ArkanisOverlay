@@ -8,11 +8,11 @@
             $(NoWarn);
             CS8618; <!-- Non-nullable property 'VehicleName' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. -->
         </NoWarn>
+        <PackageId>Arkanis.Overlay.External.UEX</PackageId>
     </PropertyGroup>
 
     <PropertyGroup>
         <RootNamespace>Arkanis.External.UEX</RootNamespace>
-        <AssemblyName>Arkanis.External.UEX</AssemblyName>
     </PropertyGroup>
 
     <PropertyGroup>
