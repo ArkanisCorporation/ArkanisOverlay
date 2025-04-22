@@ -35,18 +35,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexGameApi(System.Net.Http.HttpClient httpClient)
+        public UexGameApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -87,8 +85,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCategoriesOkResponse>> GetCategoriesAsync(string? type = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -167,8 +165,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCategoriesAttributesOkResponse>> GetCategoriesAttributesAsync(double? id_category = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -247,8 +245,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCitiesOkResponse>> GetCitiesAsync(double? id_moon = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -327,8 +325,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCompaniesOkResponse>> GetCompaniesAsync(string? is_item_manufacturer = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -407,8 +405,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetContactsOkResponse>> GetContactsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -481,8 +479,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetContractsOkResponse>> GetContractsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -555,8 +553,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetFactionsOkResponse>> GetFactionsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -629,8 +627,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetGameVersionsOkResponse>> GetGameVersionsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -703,8 +701,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetJumpPointsOkResponse>> GetJumpPointsAsync(double? id_orbit_origin = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -783,8 +781,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetJurisdictionsOkResponse>> GetJurisdictionsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -857,8 +855,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetMoonsOkResponse>> GetMoonsAsync(double? id_star_system = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -937,8 +935,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetOrbitsOkResponse>> GetOrbitsAsync(double? id_star_system = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1016,8 +1014,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse> GetOrbitsDistancesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1095,8 +1093,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetOutpostsOkResponse>> GetOutpostsAsync(double? id_moon = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1175,8 +1173,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetPlanetsOkResponse>> GetPlanetsAsync(double? id_star_system = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1255,8 +1253,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetPoiOkResponse>> GetPoiAsync(double? id_outpost = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1335,8 +1333,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetReleaseNotesOkResponse>> GetReleaseNotesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1409,8 +1407,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetSpaceStationsOkResponse>> GetSpaceStationsAsync(double? id_moon = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1489,8 +1487,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetStarSystemsOkResponse>> GetStarSystemsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1563,8 +1561,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetTerminalsOkResponse>> GetTerminalsAsync(double? id_outpost = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1642,8 +1640,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse> GetTerminalsDistancesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1721,8 +1719,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetVehiclesOkResponse>> GetVehiclesAsync(double? id_company = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -1909,18 +1907,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexCommoditiesApi(System.Net.Http.HttpClient httpClient)
+        public UexCommoditiesApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -1961,8 +1957,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesOkResponse>> GetCommoditiesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2035,8 +2031,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesAlertsOkResponse>> GetCommoditiesAlertsAsync(double? id_commodity = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2118,8 +2114,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2197,8 +2193,8 @@ namespace Arkanis.External.UEX
             if (commodity_code == null)
                 throw new System.ArgumentNullException("commodity_code");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2276,8 +2272,8 @@ namespace Arkanis.External.UEX
             if (commodity_name == null)
                 throw new System.ArgumentNullException("commodity_name");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2355,8 +2351,8 @@ namespace Arkanis.External.UEX
             if (commodity_slug == null)
                 throw new System.ArgumentNullException("commodity_slug");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2434,8 +2430,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2513,8 +2509,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2592,8 +2588,8 @@ namespace Arkanis.External.UEX
             if (terminal_code == null)
                 throw new System.ArgumentNullException("terminal_code");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2671,8 +2667,8 @@ namespace Arkanis.External.UEX
             if (terminal_name == null)
                 throw new System.ArgumentNullException("terminal_name");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2750,8 +2746,8 @@ namespace Arkanis.External.UEX
             if (terminal_slug == null)
                 throw new System.ArgumentNullException("terminal_slug");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2826,8 +2822,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesPricesAllOkResponse>> GetCommoditiesPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2906,8 +2902,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -2984,8 +2980,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesRankingOkResponse>> GetCommoditiesRankingAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3061,8 +3057,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3140,8 +3136,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3219,8 +3215,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3295,8 +3291,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesRawPricesAllOkResponse>> GetCommoditiesRawPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3372,8 +3368,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3451,8 +3447,8 @@ namespace Arkanis.External.UEX
             if (id_orbit_origin == null)
                 throw new System.ArgumentNullException("id_orbit_origin");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3530,8 +3526,8 @@ namespace Arkanis.External.UEX
             if (id_planet_origin == null)
                 throw new System.ArgumentNullException("id_planet_origin");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3609,8 +3605,8 @@ namespace Arkanis.External.UEX
             if (id_terminal_origin == null)
                 throw new System.ArgumentNullException("id_terminal_origin");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3685,8 +3681,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetCommoditiesStatusOkResponse>> GetCommoditiesStatusAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -3867,18 +3863,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexCrewApi(System.Net.Http.HttpClient httpClient)
+        public UexCrewApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -3922,8 +3916,8 @@ namespace Arkanis.External.UEX
             if (specialization == null)
                 throw new System.ArgumentNullException("specialization");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4106,18 +4100,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexStaticApi(System.Net.Http.HttpClient httpClient)
+        public UexStaticApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -4158,8 +4150,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse> GetDataExtractAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4226,8 +4218,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetDataParametersOkResponse>> GetDataParametersAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4408,18 +4400,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexUserApi(System.Net.Http.HttpClient httpClient)
+        public UexUserApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -4460,8 +4450,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetFleetOkResponse>> GetFleetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4534,8 +4524,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetUserOkResponse>> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4607,8 +4597,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse> GetUserRefineriesJobsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4685,8 +4675,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse> GetUserTradesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4764,8 +4754,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetWalletBalanceOkResponse>> GetWalletBalanceAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -4946,18 +4936,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexFuelApi(System.Net.Http.HttpClient httpClient)
+        public UexFuelApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -5001,8 +4989,8 @@ namespace Arkanis.External.UEX
             if (commodity_code == null)
                 throw new System.ArgumentNullException("commodity_code");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5080,8 +5068,8 @@ namespace Arkanis.External.UEX
             if (commodity_name == null)
                 throw new System.ArgumentNullException("commodity_name");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5159,8 +5147,8 @@ namespace Arkanis.External.UEX
             if (commodity_slug == null)
                 throw new System.ArgumentNullException("commodity_slug");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5238,8 +5226,8 @@ namespace Arkanis.External.UEX
             if (id_commodity == null)
                 throw new System.ArgumentNullException("id_commodity");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5317,8 +5305,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5396,8 +5384,8 @@ namespace Arkanis.External.UEX
             if (terminal_code == null)
                 throw new System.ArgumentNullException("terminal_code");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5475,8 +5463,8 @@ namespace Arkanis.External.UEX
             if (terminal_name == null)
                 throw new System.ArgumentNullException("terminal_name");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5554,8 +5542,8 @@ namespace Arkanis.External.UEX
             if (terminal_slug == null)
                 throw new System.ArgumentNullException("terminal_slug");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5630,8 +5618,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetFuelPricesAllOkResponse>> GetFuelPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5812,18 +5800,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexItemsApi(System.Net.Http.HttpClient httpClient)
+        public UexItemsApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -5867,8 +5853,8 @@ namespace Arkanis.External.UEX
             if (id_category == null)
                 throw new System.ArgumentNullException("id_category");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -5946,8 +5932,8 @@ namespace Arkanis.External.UEX
             if (id_company == null)
                 throw new System.ArgumentNullException("id_company");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6024,8 +6010,8 @@ namespace Arkanis.External.UEX
             if (size == null)
                 throw new System.ArgumentNullException("size");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6108,8 +6094,8 @@ namespace Arkanis.External.UEX
             if (uuid == null)
                 throw new System.ArgumentNullException("uuid");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6187,8 +6173,8 @@ namespace Arkanis.External.UEX
             if (id_category == null)
                 throw new System.ArgumentNullException("id_category");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6266,8 +6252,8 @@ namespace Arkanis.External.UEX
             if (id_item == null)
                 throw new System.ArgumentNullException("id_item");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6345,8 +6331,8 @@ namespace Arkanis.External.UEX
             if (uuid == null)
                 throw new System.ArgumentNullException("uuid");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6424,8 +6410,8 @@ namespace Arkanis.External.UEX
             if (id_category == null)
                 throw new System.ArgumentNullException("id_category");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6503,8 +6489,8 @@ namespace Arkanis.External.UEX
             if (id_item == null)
                 throw new System.ArgumentNullException("id_item");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6582,8 +6568,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6658,8 +6644,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetItemsPricesAllOkResponse>> GetItemsPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6840,18 +6826,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexMarketplaceApi(System.Net.Http.HttpClient httpClient)
+        public UexMarketplaceApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -6892,8 +6876,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetMarketplaceFavoritesOkResponse>> GetMarketplaceFavoritesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -6966,8 +6950,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetMarketplaceListingsOkResponse>> GetMarketplaceListingsAsync(string? slug = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7154,18 +7138,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexOrganizationsApi(System.Net.Http.HttpClient httpClient)
+        public UexOrganizationsApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -7209,8 +7191,8 @@ namespace Arkanis.External.UEX
             if (id_organization == null)
                 throw new System.ArgumentNullException("id_organization");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7288,8 +7270,8 @@ namespace Arkanis.External.UEX
             if (slug == null)
                 throw new System.ArgumentNullException("slug");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7472,18 +7454,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexRefineriesApi(System.Net.Http.HttpClient httpClient)
+        public UexRefineriesApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -7524,8 +7504,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetRefineriesAuditsOkResponse>> GetRefineriesAuditsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7598,8 +7578,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetRefineriesCapacitiesOkResponse>> GetRefineriesCapacitiesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7672,8 +7652,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetRefineriesMethodsOkResponse>> GetRefineriesMethodsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7746,8 +7726,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetRefineriesYieldsOkResponse>> GetRefineriesYieldsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -7928,18 +7908,16 @@ namespace Arkanis.External.UEX
         private string _baseUrl;
         #pragma warning restore 8618
 
-        private System.Net.Http.HttpClient _httpClient;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _requestSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(true), true);
         private System.Text.Json.JsonSerializerOptions _instanceRequestSettings;
         private static System.Lazy<System.Text.Json.JsonSerializerOptions> _responseSettings = new System.Lazy<System.Text.Json.JsonSerializerOptions>(() => CreateSerializerSettings(false), true);
         private System.Text.Json.JsonSerializerOptions _instanceResponseSettings;
 
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UexVehiclesApi(System.Net.Http.HttpClient httpClient)
+        public UexVehiclesApi()
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             BaseUrl = "https://uexcorp.space/api";
-            _httpClient = httpClient;
             Initialize();
         }
 
@@ -7980,8 +7958,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetVehiclesLoanersOkResponse>> GetVehiclesLoanersAsync(double? id_vehicle = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8060,8 +8038,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetVehiclesPricesOkResponse>> GetVehiclesPricesAsync(double? id_vehicle = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8143,8 +8121,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8219,8 +8197,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetVehiclesPurchasesPricesAllOkResponse>> GetVehiclesPurchasesPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8296,8 +8274,8 @@ namespace Arkanis.External.UEX
             if (id_terminal == null)
                 throw new System.ArgumentNullException("id_terminal");
 
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
@@ -8372,8 +8350,8 @@ namespace Arkanis.External.UEX
         /// <exception cref="UexApiException">A server side error occurred.</exception>
         public virtual async System.Threading.Tasks.Task<UexApiResponse<GetVehiclesRentalsPricesAllOkResponse>> GetVehiclesRentalsPricesAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var client_ = _httpClient;
-            var disposeClient_ = false;
+            var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
+            var disposeClient_ = true;
             try
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
