@@ -19,6 +19,8 @@ internal class UexCompanyRepository(
         return CreateResponse(response, response.Result.Data);
     }
 
-    protected override double? GetSourceApiId(CompanyDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(CompanyDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameCompany>(source.Id.Value)
+            : null;
 }

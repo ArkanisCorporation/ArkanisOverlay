@@ -27,6 +27,8 @@ internal class UexOutpostRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniverseOutpostDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseOutpostDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameOutpost>(source.Id.Value)
+            : null;
 }

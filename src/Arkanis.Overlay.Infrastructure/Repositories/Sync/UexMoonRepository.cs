@@ -27,6 +27,8 @@ internal class UexMoonRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniverseMoonDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseMoonDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameMoon>(source.Id.Value)
+            : null;
 }

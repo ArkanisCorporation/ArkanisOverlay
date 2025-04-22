@@ -19,6 +19,8 @@ internal class UexStarSystemRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniverseStarSystemDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseStarSystemDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameStarSystem>(source.Id.Value)
+            : null;
 }

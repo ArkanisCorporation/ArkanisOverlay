@@ -37,7 +37,7 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
 
     public async ValueTask<GameEntitySyncData<TDomain>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        await GetDependencies().WaitUntilReadyAsync(cancellationToken);
+        await GetDependencies().WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
@@ -56,7 +56,7 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
 
     public async Task<TDomain?> GetAsync(IDomainId id, CancellationToken cancellationToken = default)
     {
-        await GetDependencies().WaitUntilReadyAsync(cancellationToken);
+        await GetDependencies().WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
         var result = await GetSingleInternalAsync(id, cancellationToken).ConfigureAwait(false);
         return result is not null
             ? await MapToDomainAsync(result)
@@ -80,7 +80,7 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
 
     protected abstract Task<UexApiResponse<ICollection<TSource>>> GetInternalResponseAsync(CancellationToken cancellationToken);
 
-    protected abstract double? GetSourceApiId(TSource source);
+    protected abstract UexApiGameEntityId? GetSourceApiId(TSource source);
 
     private async Task<TSource?> GetSingleInternalAsync(IDomainId id, CancellationToken cancellationToken)
     {

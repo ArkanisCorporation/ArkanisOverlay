@@ -27,6 +27,8 @@ internal class UexCityRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniverseCityDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseCityDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameCity>(source.Id.Value)
+            : null;
 }

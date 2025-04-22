@@ -19,6 +19,8 @@ internal class UexItemCategoryRepository(
         return CreateResponse(response, response.Result.Data);
     }
 
-    protected override double? GetSourceApiId(CategoryDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(CategoryDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameProductCategory>(source.Id.Value)
+            : null;
 }

@@ -19,6 +19,8 @@ internal class UexCommodityRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(CommodityDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(CommodityDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameCommodity>(source.Id.Value)
+            : null;
 }

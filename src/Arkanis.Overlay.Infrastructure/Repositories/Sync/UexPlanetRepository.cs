@@ -25,6 +25,8 @@ internal class UexPlanetRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniversePlanetDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniversePlanetDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GamePlanet>(source.Id.Value)
+            : null;
 }

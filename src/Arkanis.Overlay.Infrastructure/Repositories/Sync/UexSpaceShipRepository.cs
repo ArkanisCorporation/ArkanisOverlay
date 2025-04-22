@@ -25,8 +25,10 @@ internal class UexSpaceShipRepository(
         return CreateResponse(response, response.Result.Data);
     }
 
-    protected override double? GetSourceApiId(VehicleDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(VehicleDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameSpaceShip>(source.Id.Value)
+            : null;
 
     /// <remarks>
     ///     Only space ships must be processed by this repository.

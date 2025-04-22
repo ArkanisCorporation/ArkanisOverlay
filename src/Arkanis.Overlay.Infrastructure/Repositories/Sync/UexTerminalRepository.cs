@@ -28,6 +28,8 @@ internal class UexTerminalRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override double? GetSourceApiId(UniverseTerminalDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseTerminalDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameTerminal>(source.Id.Value)
+            : null;
 }

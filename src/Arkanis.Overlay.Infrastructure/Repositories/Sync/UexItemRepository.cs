@@ -54,8 +54,10 @@ internal class UexItemRepository(
         return CreateResponse(response, items);
     }
 
-    protected override double? GetSourceApiId(ItemDTO source)
-        => source.Id;
+    protected override UexApiGameEntityId? GetSourceApiId(ItemDTO source)
+        => source.Id is not null
+            ? UexApiGameEntityId.Create<GameItem>(source.Id.Value)
+            : null;
 
     /// <remarks>
     ///     Some items do not have company ID defined.
