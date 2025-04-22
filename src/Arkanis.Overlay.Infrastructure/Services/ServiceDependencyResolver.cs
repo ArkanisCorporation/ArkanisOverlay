@@ -7,6 +7,9 @@ public class ServiceDependencyResolver(IServiceProvider serviceProvider, ILogger
 {
     private readonly ILogger<ServiceDependencyResolver> _logger = logger;
 
+    public new Context DependsOn(object dependent, params IEnumerable<IDependable> dependencies)
+        => CreateDependencyContext(dependent, dependencies);
+
     public Context DependsOn<T>(object dependent) where T : IDependable
         => CreateDependencyContextOn<T>(dependent);
 

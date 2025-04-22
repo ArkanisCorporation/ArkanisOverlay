@@ -1,15 +1,21 @@
 namespace Arkanis.Overlay.Infrastructure.Services.PriceProviders.UEX;
 
+using Abstractions;
+using Common.Extensions;
+using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    private static readonly Type ReferenceSourceType = typeof(DependencyInjection);
-
     public static IServiceCollection AddUexPriceProviderServices(this IServiceCollection services)
-        => services.Scan(scan => scan
-            .FromAssembliesOf(ReferenceSourceType)
-            .AddClasses(type => type.InNamespaceOf(ReferenceSourceType), false)
-            .AsImplementedInterfaces()
-        );
+        => services
+            .AddSingleton<UexPurchasePriceProvider>()
+            .Alias<IPurchasePriceProvider, UexPurchasePriceProvider>()
+            .Alias<ISelfInitializable, UexPurchasePriceProvider>()
+            .AddSingleton<UexSellPriceProvider>()
+            .Alias<ISellPriceProvider, UexSellPriceProvider>()
+            .Alias<ISelfInitializable, UexSellPriceProvider>()
+            .AddSingleton<UexRentPriceProvider>()
+            .Alias<IRentPriceProvider, UexRentPriceProvider>()
+            .Alias<ISelfInitializable, UexRentPriceProvider>();
 }

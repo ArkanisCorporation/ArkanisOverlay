@@ -1,8 +1,9 @@
 namespace Arkanis.Overlay.Infrastructure.Services.Abstractions;
 
+using Domain.Abstractions;
 using Domain.Abstractions.Game;
 
-public interface IGameEntityHydratationService
+public interface IGameEntityHydratationService : IDependable
 {
-    Task HydrateAsync<T>(T gameEntity) where T : IGameEntity;
+    Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken = default) where T : IGameEntity;
 }

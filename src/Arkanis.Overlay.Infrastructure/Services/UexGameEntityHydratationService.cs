@@ -4,29 +4,25 @@ using Abstractions;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
-using Microsoft.Extensions.Hosting;
 
 public class UexGameEntityPriceHydratationService(
+    ServiceDependencyResolver dependencyResolver,
     IPurchasePriceProvider purchasePriceProvider,
     ISellPriceProvider sellPriceProvider,
-    IRentPriceProvider rentPriceProvider,
-    IHostApplicationLifetime applicationLifetime
+    IRentPriceProvider rentPriceProvider
 ) : IGameEntityHydratationService
 {
-    public async Task HydrateAsync<T>(T gameEntity) where T : IGameEntity
-    {
-        await EnsureReadyAsync(applicationLifetime.ApplicationStopping);
-        await (gameEntity switch
+    public Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken) where T : IGameEntity
+        => gameEntity switch
         {
-            GameCommodity commodity => HydrateAsync(commodity),
-            GameItem item => HydrateAsync(item),
-            GameVehicle vehicle => HydrateAsync(vehicle),
-            _ => ValueTask.CompletedTask,
-        });
-    }
+            GameItem item => HydrateAsync(item, cancellationToken).AsTask(),
+            GameVehicle vehicle => HydrateAsync(vehicle, cancellationToken).AsTask(),
+            GameCommodity commodity => HydrateAsync(commodity, cancellationToken).AsTask(),
+            _ => Task.CompletedTask,
+        };
 
-    private async Task EnsureReadyAsync(CancellationToken cancellationToken)
-        => await DependencyResolver.DependsOn(this, [purchasePriceProvider, sellPriceProvider, rentPriceProvider])
+    public async Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
+        => await dependencyResolver.DependsOn(this, purchasePriceProvider, sellPriceProvider, rentPriceProvider)
             .WaitUntilReadyAsync(cancellationToken)
             .ConfigureAwait(false);
 
@@ -39,17 +35,22 @@ public class UexGameEntityPriceHydratationService(
     private async ValueTask HydrateAsync(IGameRentable rentable)
         => await rentPriceProvider.UpdatePriceTagAsync(rentable);
 
-    private async ValueTask HydrateAsync(GameCommodity commodity)
+    private async ValueTask HydrateAsync(GameCommodity commodity, CancellationToken cancellationToken)
     {
+        await WaitUntilReadyAsync(cancellationToken);
         await HydrateAsync(commodity as IGamePurchasable);
         await HydrateAsync(commodity as IGameSellable);
     }
 
-    private async ValueTask HydrateAsync(GameItem item)
-        => await HydrateAsync(item as IGamePurchasable);
-
-    private async ValueTask HydrateAsync(GameVehicle item)
+    private async ValueTask HydrateAsync(GameItem item, CancellationToken cancellationToken)
     {
+        await WaitUntilReadyAsync(cancellationToken);
+        await HydrateAsync(item);
+    }
+
+    private async ValueTask HydrateAsync(GameVehicle item, CancellationToken cancellationToken)
+    {
+        await WaitUntilReadyAsync(cancellationToken);
         await HydrateAsync(item as IGamePurchasable);
         await HydrateAsync(item as IGameRentable);
     }

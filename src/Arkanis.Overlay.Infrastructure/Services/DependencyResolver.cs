@@ -21,7 +21,7 @@ public abstract class DependencyResolver(IServiceProvider serviceProvider)
 
     public class Context(object dependent, ILogger logger, params IEnumerable<IDependable> dependencies) : IDependable
     {
-        private readonly List<IDependable> _dependencies = dependencies.ToList();
+        private readonly List<IDependable> _dependencies = dependencies.Distinct().ToList();
 
         public object Dependent { get; } = dependent;
 
@@ -42,7 +42,7 @@ public abstract class DependencyResolver(IServiceProvider serviceProvider)
                 {
                     var finishedTask = await Task.WhenAny(tasks).ConfigureAwait(false);
 
-                    lastProcess = dependencies.SingleOrDefault(process => process.Task == finishedTask);
+                    lastProcess = dependencies.FirstOrDefault(process => process.Task == finishedTask);
                     if (lastProcess is not null)
                     {
                         Logger.LogDebug("Dependency {Dependency} is ready for {Dependent}", lastProcess.Dependency, Dependent);
