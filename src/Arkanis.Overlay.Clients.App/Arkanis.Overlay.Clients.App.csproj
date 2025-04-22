@@ -12,6 +12,7 @@
         <StartupObject>Arkanis.Overlay.Application.Program</StartupObject>
         <!-- see https://learn.microsoft.com/en-us/dotnet/core/extensions/workers#template-defaults -->
         <ServerGarbageCollection>true</ServerGarbageCollection>
+        <RootNamespace>Arkanis.Overlay.Application</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
