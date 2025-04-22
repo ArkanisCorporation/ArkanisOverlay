@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Common\Arkanis.Common.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj" />
     </ItemGroup>
 
 </Project>
