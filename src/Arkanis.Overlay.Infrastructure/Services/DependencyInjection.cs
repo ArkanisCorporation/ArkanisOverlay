@@ -22,7 +22,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddUexPriceProviders(this IServiceCollection services)
         => services
-            .AddSingleton<IPriceProvider, FakePriceProvider>()
+            .AddSingleton<IPriceProvider, PriceProviderAggregate>()
             .AddUexPriceProviderServices();
 
     public static IServiceCollection AddInMemorySearchServices(this IServiceCollection services)

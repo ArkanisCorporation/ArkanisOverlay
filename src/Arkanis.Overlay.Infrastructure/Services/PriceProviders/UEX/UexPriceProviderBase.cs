@@ -3,12 +3,15 @@ namespace Arkanis.Overlay.Infrastructure.Services.PriceProviders.UEX;
 using Common;
 using Domain.Abstractions.Game;
 using Domain.Models;
+using Domain.Models.Game;
 using Domain.Models.Trade;
 using External.UEX.Abstractions;
 using NodaMoney;
 
 public abstract class UexPriceProviderBase : SelfInitializableServiceBase
 {
+    private static readonly IGameLocation FakeLocation = new GameStarSystem(0, "FakeLocation", "FAKE");
+
     protected Bounds<PriceTag> CreateBoundFrom(ICollection<CommodityPriceBriefDTO>? commodityPrices, Func<CommodityPriceBriefDTO?, double?> priceSelector)
         => CreateBoundFrom(commodityPrices ?? [], priceSelector, GetLocationFor, GetUpdateTimeFor);
 
@@ -31,13 +34,13 @@ public abstract class UexPriceProviderBase : SelfInitializableServiceBase
         Func<T?, DateTimeOffset> resolveUpdateTime
     )
     {
-        var minDto = prices.MinBy(priceSelector);
+        var minDto = prices.Where(dto => priceSelector(dto) > 0).MinBy(priceSelector);
         var minPrice = new Money(priceSelector(minDto) ?? 0, ApplicationConstants.GameCurrency);
 
-        var maxDto = prices.MaxBy(priceSelector);
+        var maxDto = prices.Where(dto => priceSelector(dto) > 0).MaxBy(priceSelector);
         var maxPrice = new Money(priceSelector(maxDto) ?? 0, ApplicationConstants.GameCurrency);
 
-        var avgValue = prices.Average(priceSelector);
+        var avgValue = prices.Where(dto => priceSelector(dto) > 0).Average(priceSelector);
         var avgPrice = new Money(avgValue ?? 0, ApplicationConstants.GameCurrency);
 
         return new Bounds<PriceTag>(
@@ -54,16 +57,16 @@ public abstract class UexPriceProviderBase : SelfInitializableServiceBase
     }
 
     private IGameLocation GetLocationFor(CommodityPriceBriefDTO? priceDTO)
-        => throw new NotImplementedException();
+        => FakeLocation;
 
     private IGameLocation GetLocationFor(ItemPriceBriefDTO? priceDTO)
-        => throw new NotImplementedException();
+        => FakeLocation;
 
     private IGameLocation GetLocationFor(VehiclePurchasePriceBriefDTO? priceDTO)
-        => throw new NotImplementedException();
+        => FakeLocation;
 
     private IGameLocation GetLocationFor(VehicleRentalPriceBriefDTO? priceDTO)
-        => throw new NotImplementedException();
+        => FakeLocation;
 
     private DateTimeOffset GetUpdateTimeFor(CommodityPriceBriefDTO? priceDTO)
         => CreateDateTimeFromUnixTimestamp(priceDTO?.Date_modified ?? 0);
