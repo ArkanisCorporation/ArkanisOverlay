@@ -29,4 +29,7 @@ public static class ApplicationConstants
     );
 
     public static readonly DirectoryInfo LocalAppDataDir = Directory.CreateDirectory(LocalAppDataPath);
+
+    static ApplicationConstants()
+        => CurrencyInfo.Register(GameCurrency);
 }
