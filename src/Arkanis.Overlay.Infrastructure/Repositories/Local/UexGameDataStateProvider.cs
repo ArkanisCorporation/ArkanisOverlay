@@ -22,15 +22,16 @@ internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<
     public async Task<GameDataState> LoadCurrentDataState(CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to load current state from UEX API");
-        //await _semaphoreSlim.WaitAsync(cancellationToken).ConfigureAwait(false);
-        if (CachedUntil > DateTimeOffset.Now)
-        {
-            logger.LogDebug("State is cached until {CachedUntil:s}, returning: {DataState}", CachedUntil, CurrentDataState);
-            return CurrentDataState;
-        }
+        await _semaphoreSlim.WaitAsync(cancellationToken);
 
         try
         {
+            if (CachedUntil > DateTimeOffset.Now)
+            {
+                logger.LogDebug("State is cached until {CachedUntil:s}, returning: {DataState}", CachedUntil, CurrentDataState);
+                return CurrentDataState;
+            }
+
             logger.LogDebug("Loading current state from UEX API");
             var response = await staticApi.GetDataParametersAsync(cancellationToken).ConfigureAwait(false);
             var gameVersion = StarCitizenVersion.Create(response.Result.Data?.Global?.Game_version ?? "unknown");
@@ -45,7 +46,7 @@ internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<
         }
         finally
         {
-            // _semaphoreSlim.Release();
+            _semaphoreSlim.Release();
         }
     }
 }
