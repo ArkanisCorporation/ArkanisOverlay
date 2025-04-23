@@ -11,13 +11,13 @@ using static ExternalUexDTOFixture;
 
 public class ExternalUexDTOMapperUnitTests
 {
-    private static IGameEntityHydratationService HydratationService
-        => new NoHydratationMockService();
+    private static IGameEntityHydrationService HydrationService
+        => new NoHydrationMockService();
 
     [Fact]
     public async Task UniverseStartSystemDTO_ToGameEntity_Should_Correctly_Map_Without_Dependencies()
     {
-        var mapper = new UexApiDtoMapper(HydratationService);
+        var mapper = new UexApiDtoMapper(HydrationService);
         var source = StarSystem;
 
         var result = await mapper.ToGameEntityAsync(source);
@@ -29,7 +29,7 @@ public class ExternalUexDTOMapperUnitTests
     [Fact]
     public async Task UniverseTerminalDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
-        var mapper = new UexApiDtoMapper(HydratationService);
+        var mapper = new UexApiDtoMapper(HydrationService);
 
         // cache dependencies, order is important
         await mapper.ToGameEntityAsync(StarSystem);
@@ -51,7 +51,7 @@ public class ExternalUexDTOMapperUnitTests
     [Fact]
     public async Task UniverseTerminalDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
     {
-        var mapper = new UexApiDtoMapper(HydratationService);
+        var mapper = new UexApiDtoMapper(HydrationService);
 
         // cache dependencies
         await mapper.ToGameEntityAsync(StarSystem);
@@ -65,7 +65,7 @@ public class ExternalUexDTOMapperUnitTests
     [Fact]
     public async Task ItemDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
-        var mapper = new UexApiDtoMapper(HydratationService);
+        var mapper = new UexApiDtoMapper(HydrationService);
 
         // cache dependencies, order is important
         await mapper.ToGameEntityAsync(ItemCompany);
@@ -81,7 +81,7 @@ public class ExternalUexDTOMapperUnitTests
     [Fact]
     public async Task ItemDTO_ToGameEntity_Should_Throw_When_Parent_Is_Missing()
     {
-        var mapper = new UexApiDtoMapper(HydratationService);
+        var mapper = new UexApiDtoMapper(HydrationService);
 
         // cache dependencies
         await mapper.ToGameEntityAsync(StarSystem);

@@ -16,7 +16,7 @@ public class LiveUexSyncRepositoryTestFixture : TestBedFixture
         => services
             .AddHttpClient()
             .AddSingleton(typeof(IGameEntityRepository<>), typeof(GameEntityRepositoryMock<>))
-            .AddSingleton<IGameEntityHydratationService, NoHydratationMockService>()
+            .AddSingleton<IGameEntityHydrationService, NoHydrationMockService>()
             .AddAllUexApiClients()
             .AddUexSyncRepositoryServices();
 

@@ -5,12 +5,12 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 
-public class UexGameEntityPriceHydratationService(
+public class UexGameEntityPriceHydrationService(
     ServiceDependencyResolver dependencyResolver,
     IPurchasePriceProvider purchasePriceProvider,
     ISellPriceProvider sellPriceProvider,
     IRentPriceProvider rentPriceProvider
-) : IGameEntityHydratationService
+) : IGameEntityHydrationService
 {
     public Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken) where T : IGameEntity
         => gameEntity switch

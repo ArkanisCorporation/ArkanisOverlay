@@ -18,7 +18,7 @@ public static class DependencyInjection
     public static IServiceCollection AddGameEntityPriceHydratationServices(this IServiceCollection services)
         => services
             .AddUexPriceProviders()
-            .AddSingleton<IGameEntityHydratationService, UexGameEntityPriceHydratationService>();
+            .AddSingleton<IGameEntityHydrationService, UexGameEntityPriceHydrationService>();
 
     public static IServiceCollection AddUexPriceProviders(this IServiceCollection services)
         => services

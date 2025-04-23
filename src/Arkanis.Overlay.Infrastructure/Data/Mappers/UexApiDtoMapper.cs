@@ -15,7 +15,7 @@ using Services.Abstractions;
     EnumMappingIgnoreCase = true
 )]
 [SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance")]
-internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratationService)
+internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationService)
 {
     internal readonly ConcurrentDictionary<string, GameEntity> CachedGameEntities = [];
 
@@ -42,7 +42,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameStarSystem>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -51,7 +51,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GamePlanet>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -60,7 +60,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameMoon>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -69,7 +69,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameCity>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -78,7 +78,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameSpaceStation>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -87,7 +87,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameOutpost>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -96,7 +96,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameTerminal>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -105,7 +105,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameCommodity>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -114,7 +114,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameItem>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -123,7 +123,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameCompany>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -132,7 +132,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
     {
         var result = MapInternal(source);
         CacheGameEntityId<GameProductCategory>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
@@ -146,7 +146,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydratationService hydratation
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, "Unable to select corresponding vehicle type."),
         };
         CacheGameEntityId<GameVehicle>(source.Id, result);
-        await hydratationService.HydrateAsync(result);
+        await hydrationService.HydrateAsync(result);
         return result;
     }
 
