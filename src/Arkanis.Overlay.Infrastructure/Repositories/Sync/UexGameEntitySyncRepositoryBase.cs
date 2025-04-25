@@ -33,6 +33,9 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
 {
     protected ILogger Logger { get; } = logger;
 
+    protected virtual double CacheTimeFactor
+        => 1.0;
+
     public DateTimeOffset CachedUntil { get; set; }
 
     public async ValueTask<GameEntitySyncData<TDomain>> GetAllAsync(InternalDataState internalDataState, CancellationToken cancellationToken = default)
@@ -108,9 +111,8 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
     private LoadedSyncData<TDomain> CreateSyncData(UexApiResponse<ICollection<TSource>> response, ServiceAvailableState serviceState)
     {
         var responseHeaders = response.CreateResponseHeaders();
-        var cacheUntil = responseHeaders.GetCacheUntil();
+        var cacheUntil = responseHeaders.GetCacheUntil(factor: CacheTimeFactor);
         var requestTime = responseHeaders.GetRequestTime();
-
         var domainEntities = response.Result.Where(IncludeSourceModel)
             .ToAsyncEnumerable()
             .SelectAwait(MapToDomainAsync)
