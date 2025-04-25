@@ -11,7 +11,8 @@ public sealed class JsonDocumentValueConverter() : ValueConverter<JsonDocument, 
 {
     private static readonly JsonWriterOptions WriterOptions = new()
     {
-        Indented = true,
+        Indented = false,
+        MaxDepth = 64,
     };
 
     private static readonly JsonDocumentOptions DocumentOptions = new()
