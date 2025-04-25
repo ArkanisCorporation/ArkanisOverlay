@@ -2,7 +2,6 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Local.Specialised;
 
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
-using Domain.Models;
 using Domain.Models.Game;
 
 internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepository<T> decoratedRepository)
