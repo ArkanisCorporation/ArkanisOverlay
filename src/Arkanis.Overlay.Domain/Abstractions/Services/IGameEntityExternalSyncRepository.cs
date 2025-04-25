@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 using Game;
+using Models;
 using Models.Game;
 
 /// <summary>
@@ -11,9 +12,9 @@ using Models.Game;
 /// <typeparam name="T">The entity model provided</typeparam>
 public interface IGameEntityExternalSyncRepository<T> where T : class, IGameEntity
 {
-    ValueTask<GameDataState> LoadCurrentDataState(CancellationToken cancellationToken = default);
+    ValueTask<AppDataState> CreateAppDataStateFor(GameDataState localDataState, CancellationToken cancellationToken = default);
 
-    ValueTask<GameEntitySyncData<T>> GetAllAsync(CancellationToken cancellationToken = default);
+    ValueTask<GameEntitySyncData<T>> GetAllAsync(AppDataState appDataState, CancellationToken cancellationToken = default);
 
     Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default);
 }

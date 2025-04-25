@@ -32,18 +32,40 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
 {
     protected ILogger Logger { get; } = logger;
 
-    public virtual async ValueTask<GameDataState> LoadCurrentDataState(CancellationToken cancellationToken = default)
-        => await stateProvider.LoadCurrentDataState(cancellationToken);
+    public DateTimeOffset CachedUntil { get; set; }
 
-    public async ValueTask<GameEntitySyncData<TDomain>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<AppDataState> CreateAppDataStateFor(GameDataState localDataState, CancellationToken cancellationToken = default)
+    {
+        var externalDataState = await stateProvider.LoadCurrentDataState(cancellationToken);
+        return localDataState switch
+        {
+            MissingGameDataState => AppDataMissing.Instance,
+            SyncedGameDataState current => externalDataState switch
+            {
+                SyncedGameDataState external => new AppDataCached(current, DateTimeOffset.UtcNow, CachedUntil)
+                {
+                    RefreshRequired = current.Version != external.Version || DateTimeOffset.UtcNow < CachedUntil,
+                },
+                _ => new AppDataLoaded(current, current.UpdatedAt),
+            },
+            _ => throw new NotSupportedException($"Unable to determine app data state from current game data state: {localDataState}"),
+        };
+    }
+
+    public async ValueTask<GameEntitySyncData<TDomain>> GetAllAsync(AppDataState appDataState, CancellationToken cancellationToken = default)
     {
         await GetDependencies().WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
+        if (appDataState is not AppDataMissing or AppDataCached { RefreshRequired: true })
+        {
+            // TODO: Load data from cache
+        }
+
         try
         {
             var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
             var cacheUntil = response.CreateResponseHeaders().GetCacheUntil();
             var domainEntities = response.Result.Where(IncludeSourceModel).ToAsyncEnumerable().SelectAwait(MapToDomainAsync);
-            var dataState = await LoadCurrentDataState(cancellationToken);
+            var dataState = await stateProvider.LoadCurrentDataState(cancellationToken);
             return new GameEntitySyncData<TDomain>(domainEntities, dataState, cacheUntil);
         }
         catch (ExternalApiResponseProcessingException ex)

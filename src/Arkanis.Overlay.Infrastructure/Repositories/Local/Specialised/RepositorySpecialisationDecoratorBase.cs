@@ -17,6 +17,9 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
     public bool IsReady
         => _initialization.Task.IsCompleted;
 
+    public GameDataState DataState
+        => decoratedRepository.DataState;
+
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
         try
@@ -42,9 +45,6 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
 
     public Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default)
         => DecoratedRepository.GetAsync(id, cancellationToken);
-
-    public ValueTask<AppDataState> GetDataStateAsync(GameDataState gameDataState, CancellationToken cancellationToken = default)
-        => DecoratedRepository.GetDataStateAsync(gameDataState, cancellationToken);
 
     protected abstract Task UpdateAllAsyncCore(CancellationToken cancellationToken);
 }

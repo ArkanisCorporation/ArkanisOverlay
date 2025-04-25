@@ -15,7 +15,7 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var syncData = await repository.GetAllAsync(cancellationToken);
+        var syncData = await repository.GetAllAsync(AppDataMissing.Instance, cancellationToken);
         await foreach (var gameEntity in syncData.GameEntities.WithCancellation(cancellationToken))
         {
             yield return gameEntity;
@@ -28,7 +28,10 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
     public ValueTask<AppDataState> GetDataStateAsync(GameDataState gameDataState, CancellationToken cancellationToken = default)
         => Entities.Count == 0
             ? ValueTask.FromResult(AppDataMissing.Instance)
-            : ValueTask.FromResult<AppDataState>(new AppDataUpToDate(gameDataState));
+            : ValueTask.FromResult<AppDataState>(new AppDataCached(gameDataState, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddMinutes(15)));
+
+    public GameDataState DataState
+        => new SyncedGameDataState(StarCitizenVersion.Create("4.1.0"), DateTimeOffset.UtcNow);
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {

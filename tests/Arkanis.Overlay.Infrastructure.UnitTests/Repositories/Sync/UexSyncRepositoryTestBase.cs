@@ -30,7 +30,7 @@ public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHe
         var repositorySUT = ResolveSyncRepositoryFor();
 
         await LoadDependenciesAsync(TestCancellationToken);
-        var syncData = await repositorySUT.GetAllAsync(TestCancellationToken);
+        var syncData = await repositorySUT.GetAllAsync(AppDataMissing.Instance, TestCancellationToken);
         var entities = await syncData.GameEntities.ToListAsync(TestCancellationToken);
 
         entities.ShouldNotBeEmpty();
