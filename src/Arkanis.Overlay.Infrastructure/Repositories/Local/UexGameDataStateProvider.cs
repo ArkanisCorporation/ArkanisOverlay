@@ -28,7 +28,7 @@ internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<
         {
             if (CachedUntil > DateTimeOffset.Now)
             {
-                logger.LogDebug("State is cached until {CachedUntil:s}, returning: {DataState}", CachedUntil, CurrentDataState);
+                logger.LogDebug("State is cached until {CachedUntil}, returning: {DataState}", CachedUntil, CurrentDataState);
                 return CurrentDataState;
             }
 
