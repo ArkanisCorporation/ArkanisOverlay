@@ -19,6 +19,7 @@ public static class DependencyInjection
             .AddHostedService<InitializeServicesHostedService>()
             .AddAllUexApiClients()
             .AddOverlaySqliteDatabaseServices()
+            .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()
             .AddUexInMemoryGameEntityServices()
             .AddUserPreferencesFileManagerServices()

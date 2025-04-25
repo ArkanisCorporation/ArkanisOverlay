@@ -4,9 +4,9 @@ using Game;
 
 public abstract record AppDataState;
 
-public record AppDataLoaded(GameDataState DataState, DateTimeOffset CreatedAt) : AppDataState;
+public record AppDataLoaded(SyncedGameDataState DataState, DateTimeOffset CreatedAt) : AppDataState;
 
-public sealed record AppDataCached(GameDataState DataState, DateTimeOffset CreatedAt, DateTimeOffset CachedUntil)
+public sealed record AppDataCached(SyncedGameDataState DataState, DateTimeOffset CreatedAt, DateTimeOffset CachedUntil)
     : AppDataLoaded(DataState, CreatedAt)
 {
     public bool RefreshRequired { get; set; }
