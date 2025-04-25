@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUexDatabaseServices(this IServiceCollection services)
+    public static IServiceCollection AddOverlaySqliteDatabaseServices(this IServiceCollection services)
         => services
-            .AddSingleton<IDbContextFactory<UEXContext>, ClientUexDbContextFactory>()
-            .AddScoped<UEXContext>(provider => provider.GetRequiredService<IDbContextFactory<UEXContext>>().CreateDbContext());
+            .AddSingleton<IDbContextFactory<OverlayDbContext>, ClientOverlayDbContextFactory>()
+            .AddScoped<OverlayDbContext>(provider => provider.GetRequiredService<IDbContextFactory<OverlayDbContext>>().CreateDbContext());
 }

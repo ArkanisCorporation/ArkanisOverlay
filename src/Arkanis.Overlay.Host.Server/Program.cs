@@ -20,11 +20,12 @@ builder.Services.AddMudServices();
 
 builder.Services
     .AddServerOverlayControls()
-    .AddInfrastructure();
+    .AddInfrastructure()
+    .AddInfrastructureConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
-await app.MigrateDatabaseAsync<UEXContext>();
+await app.MigrateDatabaseAsync<OverlayDbContext>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

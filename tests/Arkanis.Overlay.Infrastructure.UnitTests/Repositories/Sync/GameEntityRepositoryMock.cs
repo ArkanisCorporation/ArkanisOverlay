@@ -25,11 +25,6 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
     public Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default)
         => repository.GetAsync(id, cancellationToken);
 
-    public ValueTask<AppDataState> GetDataStateAsync(GameDataState gameDataState, CancellationToken cancellationToken = default)
-        => Entities.Count == 0
-            ? ValueTask.FromResult(AppDataMissing.Instance)
-            : ValueTask.FromResult<AppDataState>(new AppDataCached(gameDataState, DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddMinutes(15)));
-
     public GameDataState DataState
         => new SyncedGameDataState(StarCitizenVersion.Create("4.1.0"), DateTimeOffset.UtcNow);
 

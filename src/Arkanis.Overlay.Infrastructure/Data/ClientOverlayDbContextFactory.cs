@@ -6,17 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-public class ClientUexDbContextFactory(IServiceProvider serviceProvider, IConfiguration configuration) : IDbContextFactory<UEXContext>
+public class ClientOverlayDbContextFactory(IServiceProvider serviceProvider, IConfiguration configuration) : IDbContextFactory<OverlayDbContext>
 {
-    private const string ConnectionName = "UexDatabase";
+    private const string ConnectionName = "OverlayDatabase";
 
-    public UEXContext CreateDbContext()
+    public OverlayDbContext CreateDbContext()
     {
         var connectionString = configuration.GetConnectionString(ConnectionName);
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var hostEnvironment = serviceProvider.GetRequiredService<IHostEnvironment>();
 
-        var optionsBuilder = new DbContextOptionsBuilder<UEXContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<OverlayDbContext>();
         optionsBuilder.UseApplicationServiceProvider(serviceProvider);
         optionsBuilder.UseLoggerFactory(loggerFactory);
         optionsBuilder.UseSqlite(connectionString);
@@ -27,6 +27,6 @@ public class ClientUexDbContextFactory(IServiceProvider serviceProvider, IConfig
             optionsBuilder.EnableDetailedErrors();
         }
 
-        return new UEXContext(optionsBuilder.Options);
+        return new OverlayDbContext(optionsBuilder.Options);
     }
 }

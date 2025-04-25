@@ -3,13 +3,13 @@ namespace Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-internal class DevelopmentUexDbContextFactory : IDesignTimeDbContextFactory<UEXContext>
+internal class DevelopmentUexDbContextFactory : IDesignTimeDbContextFactory<OverlayDbContext>
 {
-    public UEXContext CreateDbContext(string[] args)
+    public OverlayDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<UEXContext>();
-        optionsBuilder.UseSqlite("Data Source=:memory:");
+        var optionsBuilder = new DbContextOptionsBuilder<OverlayDbContext>();
+        optionsBuilder.UseSqlite(args.Length == 1 ? args[0] : "Data Source=:memory:");
 
-        return new UEXContext(optionsBuilder.Options);
+        return new OverlayDbContext(optionsBuilder.Options);
     }
 }

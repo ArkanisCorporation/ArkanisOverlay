@@ -49,7 +49,7 @@ public static class Program
             .UseConsoleLifetime()
             .Build();
 
-        await host.MigrateDatabaseAsync<UEXContext>().ConfigureAwait(false);
+        await host.MigrateDatabaseAsync<OverlayDbContext>().ConfigureAwait(false);
         await host.RunAsync().ConfigureAwait(false);
     }
 
