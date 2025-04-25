@@ -7,7 +7,10 @@ using Models.Game;
 ///     A repository interface matching for all game entities.
 ///     Necessary for <see cref="IGameEntityAggregateRepository" />.
 /// </summary>
-public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEntity>, IDependable;
+public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEntity>, IDependable
+{
+    Type EntityType { get; }
+}
 
 /// <summary>
 ///     A generic repository for a specific game entity type.

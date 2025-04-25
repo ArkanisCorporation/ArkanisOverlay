@@ -11,6 +11,8 @@ using Domain.Abstractions.Services;
 public class UexGameEntityGenericRepositoryAdapter<T>(IGameEntityRepository<T> repository) : IGameEntityRepository
     where T : class, IGameEntity
 {
+    public Type EntityType { get; } = typeof(T);
+
     public bool IsReady
         => repository.IsReady;
 

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models.Game;
 using Services;
 
 internal class GameEntityAggregateRepository(
@@ -11,6 +12,8 @@ internal class GameEntityAggregateRepository(
     IEnumerable<IGameEntityRepository> gameEntityRepositories
 ) : IGameEntityAggregateRepository
 {
+    private readonly Type[] ExcludedEntityTypes = [typeof(GameEntityPricing), typeof(GameItemTrait), typeof(GameProductCategory)];
+
     public async IAsyncEnumerable<IGameEntity> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var outputChannel = Channel.CreateBounded<IGameEntity>(10);
@@ -19,6 +22,7 @@ internal class GameEntityAggregateRepository(
             => await entities.ForEachAwaitAsync(async entity => await outputChannel.Writer.WriteAsync(entity, cancellationToken), cancellationToken);
 
         var processingTasks = gameEntityRepositories
+            .Where(repository => !ExcludedEntityTypes.Any(excludedType => repository.EntityType.IsAssignableTo(excludedType)))
             .Select(repository => repository.GetAllAsync(cancellationToken))
             .Select(PassToOutputAsync);
 

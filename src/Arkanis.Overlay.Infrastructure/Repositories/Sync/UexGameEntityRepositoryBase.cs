@@ -106,7 +106,12 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
     private GameEntitySyncData<TDomain> CreateSyncData(UexApiResponse<ICollection<TSource>> response, GameDataState dataState)
     {
         var cacheUntil = response.CreateResponseHeaders().GetCacheUntil();
-        var domainEntities = response.Result.Where(IncludeSourceModel).ToAsyncEnumerable().SelectAwait(MapToDomainAsync);
+        var domainEntities = response.Result.Where(IncludeSourceModel)
+            .ToAsyncEnumerable()
+            .SelectAwait(MapToDomainAsync)
+            .Where(model => model is not null)
+            .Select(model => model!);
+
         return new GameEntitySyncData<TDomain>(domainEntities, dataState, cacheUntil);
     }
 
@@ -140,14 +145,22 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
         return response.Result.FirstOrDefault(source => uexApiId.Equals(GetSourceApiId(source)));
     }
 
-    private async ValueTask<TDomain> MapToDomainAsync(TSource source)
+    private async ValueTask<TDomain?> MapToDomainAsync(TSource source)
     {
-        var domainEntity = await mapper.ToGameEntityAsync(source);
-        if (domainEntity is not TDomain resultEntity)
+        try
         {
-            throw new ObjectMappingException($"Expected {typeof(TSource)} to map to {typeof(TDomain)}, got {domainEntity.GetType()} instead.", null);
-        }
+            var domainEntity = await mapper.ToGameEntityAsync(source);
+            if (domainEntity is not TDomain resultEntity)
+            {
+                throw new ObjectMappingException($"Expected {typeof(TSource)} to map to {typeof(TDomain)}, got {domainEntity.GetType()} instead.", null);
+            }
 
-        return resultEntity;
+            return resultEntity;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed mapping {Source} to {Target} from {@SourceData}", typeof(TSource).Name, typeof(TDomain).Name, source);
+            return null;
+        }
     }
 }
