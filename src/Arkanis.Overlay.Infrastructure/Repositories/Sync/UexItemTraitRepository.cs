@@ -9,6 +9,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using MoreAsyncLINQ;
 using Services;
 
 internal class UexItemTraitRepository(
@@ -21,6 +22,8 @@ internal class UexItemTraitRepository(
     ILogger<UexItemTraitRepository> logger
 ) : UexGameEntityRepositoryBase<ItemAttributeDTO, GameItemTrait>(stateProvider, cacheProvider, mapper, logger)
 {
+    private const int BatchSize = 4;
+
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameProductCategory>(this);
 
@@ -32,15 +35,22 @@ internal class UexItemTraitRepository(
 
         var items = new List<ItemAttributeDTO>();
         UexApiResponse<GetItemsAttributesOkResponse>? response = null;
-        await foreach (var category in categories)
+
+        await foreach (var categoryBatch in categories.Batch(BatchSize).WithCancellation(cancellationToken))
+        {
+            await Task.WhenAll(categoryBatch.Select(LoadForCategoryAsync));
+        }
+
+        return CreateResponse(response, items);
+
+        async Task<UexApiResponse<GetItemsAttributesOkResponse>> LoadForCategoryAsync(GameProductCategory category)
         {
             var categoryEntityId = category.Id;
             var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await itemsApi.GetItemsAttributesByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
             items.AddRange(response.Result.Data ?? ThrowCouldNotParseResponse());
+            return response;
         }
-
-        return CreateResponse(response, items);
     }
 
     protected override UexApiGameEntityId? GetSourceApiId(ItemAttributeDTO source)
