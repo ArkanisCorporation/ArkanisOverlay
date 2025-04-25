@@ -2,7 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Mappers;
 
 using Domain.Enums;
 using Domain.Models.Game;
-using Infrastructure.Data.Exceptions;
+using Exceptions;
 using Infrastructure.Data.Mappers;
 using Infrastructure.Services.Abstractions;
 using Services;

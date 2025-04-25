@@ -1,7 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using System.Diagnostics.CodeAnalysis;
-using Data.Exceptions;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Game;
@@ -10,6 +9,7 @@ using Domain.Models;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using External.UEX.Extensions;
+using Infrastructure.Exceptions;
 using Local;
 using Microsoft.Extensions.Logging;
 
