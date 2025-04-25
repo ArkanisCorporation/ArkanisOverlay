@@ -23,6 +23,9 @@ internal class UexMoonSyncRepository(
             .DependsOn<GamePlanet>(this)
             .AlsoDependsOn<GameStarSystem>();
 
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniverseMoonDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetMoonsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

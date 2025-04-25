@@ -21,6 +21,9 @@ internal class UexPlanetSyncRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameStarSystem>(this);
 
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniversePlanetDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetPlanetsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

@@ -23,6 +23,9 @@ internal class UexCitySyncRepository(
             .DependsOn<GamePlanet>(this)
             .AlsoDependsOn<GameMoon>();
 
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniverseCityDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetCitiesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

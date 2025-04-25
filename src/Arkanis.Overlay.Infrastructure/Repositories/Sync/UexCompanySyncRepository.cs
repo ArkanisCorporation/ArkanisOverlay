@@ -15,6 +15,9 @@ internal class UexCompanySyncRepository(
     ILogger<UexCompanySyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<CompanyDTO, GameCompany>(stateProvider, cacheProvider, mapper, logger)
 {
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<CompanyDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetCompaniesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

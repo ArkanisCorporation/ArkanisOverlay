@@ -15,6 +15,9 @@ internal class UexStarSystemSyncRepository(
     ILogger<UexStarSystemSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<UniverseStarSystemDTO, GameStarSystem>(stateProvider, cacheProvider, mapper, logger)
 {
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniverseStarSystemDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetStarSystemsAsync(cancellationToken).ConfigureAwait(false);

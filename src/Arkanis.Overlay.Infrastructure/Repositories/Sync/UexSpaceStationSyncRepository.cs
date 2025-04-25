@@ -24,6 +24,9 @@ internal class UexSpaceStationSyncRepository(
             .AlsoDependsOn<GamePlanet>()
             .AlsoDependsOn<GameMoon>();
 
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniverseSpaceStationDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetSpaceStationsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

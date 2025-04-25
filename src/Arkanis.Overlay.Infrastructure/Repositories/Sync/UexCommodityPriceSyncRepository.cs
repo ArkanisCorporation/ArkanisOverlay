@@ -21,6 +21,9 @@ internal class UexCommodityPriceSyncRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);
 
+    protected override double CacheTimeFactor
+        => 0.5;
+
     protected override async Task<UexApiResponse<ICollection<CommodityPriceBriefDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await commoditiesApi.GetCommoditiesPricesAllAsync(cancellationToken).ConfigureAwait(false);

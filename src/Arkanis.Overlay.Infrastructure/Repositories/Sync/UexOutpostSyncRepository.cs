@@ -23,6 +23,9 @@ internal class UexOutpostSyncRepository(
             .DependsOn<GamePlanet>(this)
             .AlsoDependsOn<GameMoon>();
 
+    protected override double CacheTimeFactor
+        => 7;
+
     protected override async Task<UexApiResponse<ICollection<UniverseOutpostDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
         var response = await gameApi.GetOutpostsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
