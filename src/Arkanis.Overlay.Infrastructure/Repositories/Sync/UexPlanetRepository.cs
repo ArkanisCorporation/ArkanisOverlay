@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using Data.Mappers;
 using Domain.Abstractions;
+using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
@@ -10,11 +11,12 @@ using Services;
 
 internal class UexPlanetRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
+    IExternalSyncCacheProvider<UexPlanetRepository> cacheProvider,
     IUexGameApi gameApi,
     UexGameDataStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexPlanetRepository> logger
-) : UexGameEntityRepositoryBase<UniversePlanetDTO, GamePlanet>(stateProvider, mapper, logger)
+) : UexGameEntityRepositoryBase<UniversePlanetDTO, GamePlanet>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameStarSystem>(this);

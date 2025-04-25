@@ -13,12 +13,13 @@ using Services;
 
 internal class UexItemRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
+    IExternalSyncCacheProvider<UexItemRepository> cacheProvider,
     IGameEntityRepository<GameProductCategory> itemCategoryRepository,
     IUexItemsApi itemsApi,
     UexGameDataStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexItemRepository> logger
-) : UexGameEntityRepositoryBase<ItemDTO, GameItem>(stateProvider, mapper, logger)
+) : UexGameEntityRepositoryBase<ItemDTO, GameItem>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameProductCategory>(this);

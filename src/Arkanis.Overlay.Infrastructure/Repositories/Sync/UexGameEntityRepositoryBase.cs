@@ -24,6 +24,7 @@ using Microsoft.Extensions.Logging;
 /// <typeparam name="TDomain">Internal domain type</typeparam>
 internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
     UexGameDataStateProvider stateProvider,
+    IExternalSyncCacheProvider cacheProvider,
     UexApiDtoMapper mapper,
     ILogger logger
 ) : IGameEntityExternalSyncRepository<TDomain>
@@ -55,24 +56,41 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
     public async ValueTask<GameEntitySyncData<TDomain>> GetAllAsync(AppDataState appDataState, CancellationToken cancellationToken = default)
     {
         await GetDependencies().WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
-        if (appDataState is not AppDataMissing or AppDataCached { RefreshRequired: true })
+        if (appDataState is not AppDataCached { RefreshRequired: true })
         {
-            // TODO: Load data from cache
+            var cachedData = await cacheProvider.LoadAsync<UexApiResponse<ICollection<TSource>>>(cancellationToken);
+            if (cachedData is LoadedSyncData<UexApiResponse<ICollection<TSource>>> loadedData)
+            {
+                Logger.LogDebug("Loaded {EntityCount} cached {Type} entities", loadedData.Data.Result.Count, typeof(TDomain).Name);
+                return CreateSyncData(loadedData.Data, loadedData.State.DataState);
+            }
+
+            Logger.LogDebug("Could not load cached {Type} entities: {@CachedData}", typeof(TDomain).Name, cachedData);
         }
 
         try
         {
-            var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
-            var cacheUntil = response.CreateResponseHeaders().GetCacheUntil();
-            var domainEntities = response.Result.Where(IncludeSourceModel).ToAsyncEnumerable().SelectAwait(MapToDomainAsync);
             var dataState = await stateProvider.LoadCurrentDataState(cancellationToken);
-            return new GameEntitySyncData<TDomain>(domainEntities, dataState, cacheUntil);
+            if (dataState is not SyncedGameDataState syncedData)
+            {
+                throw new ExternalApiResponseProcessingException($"Unsupported external game data state: {dataState}");
+            }
+
+            var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
+            var result = CreateSyncData(response, dataState);
+
+            var newAppDataState = new AppDataCached(syncedData, DateTimeOffset.UtcNow, result.CacheUntil);
+            await cacheProvider.StoreAsync(response, newAppDataState, cancellationToken);
+            return result;
         }
         catch (ExternalApiResponseProcessingException ex)
         {
             Logger.LogError(ex, "Failed processing response from remote API");
-            var entities = new List<TDomain>();
-            return new GameEntitySyncData<TDomain>(entities.ToAsyncEnumerable(), MissingGameDataState.Instance, DateTimeOffset.Now + TimeSpan.FromMinutes(15));
+            return new GameEntitySyncData<TDomain>(
+                new List<TDomain>().ToAsyncEnumerable(),
+                MissingGameDataState.Instance,
+                DateTimeOffset.Now + TimeSpan.FromMinutes(15)
+            );
         }
     }
 
@@ -83,6 +101,13 @@ internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
         return result is not null
             ? await MapToDomainAsync(result)
             : null;
+    }
+
+    private GameEntitySyncData<TDomain> CreateSyncData(UexApiResponse<ICollection<TSource>> response, GameDataState dataState)
+    {
+        var cacheUntil = response.CreateResponseHeaders().GetCacheUntil();
+        var domainEntities = response.Result.Where(IncludeSourceModel).ToAsyncEnumerable().SelectAwait(MapToDomainAsync);
+        return new GameEntitySyncData<TDomain>(domainEntities, dataState, cacheUntil);
     }
 
     protected virtual bool IncludeSourceModel(TSource sourceModel)

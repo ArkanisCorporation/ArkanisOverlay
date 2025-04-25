@@ -8,4 +8,4 @@ public sealed record ExpiredCache<TData>(DateTimeOffset ExpiredAt) : CachedSyncD
 
 public sealed record UnprocessableData<TData> : CachedSyncData<TData>;
 
-public sealed record LoadedSyncData<TData>(TData Data, AppDataState State) : CachedSyncData<TData>;
+public sealed record LoadedSyncData<TData>(TData Data, AppDataCached State) : CachedSyncData<TData>;

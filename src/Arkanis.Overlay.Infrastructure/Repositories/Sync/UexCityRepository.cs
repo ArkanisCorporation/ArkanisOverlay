@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using Data.Mappers;
 using Domain.Abstractions;
+using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
@@ -12,9 +13,10 @@ internal class UexCityRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexGameApi gameApi,
     UexGameDataStateProvider stateProvider,
+    IExternalSyncCacheProvider<UexCityRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexCityRepository> logger
-) : UexGameEntityRepositoryBase<UniverseCityDTO, GameCity>(stateProvider, mapper, logger)
+) : UexGameEntityRepositoryBase<UniverseCityDTO, GameCity>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver

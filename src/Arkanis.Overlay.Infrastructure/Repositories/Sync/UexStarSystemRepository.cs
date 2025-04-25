@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using Data.Mappers;
+using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
@@ -9,9 +10,10 @@ using Microsoft.Extensions.Logging;
 internal class UexStarSystemRepository(
     IUexGameApi gameApi,
     UexGameDataStateProvider stateProvider,
+    IExternalSyncCacheProvider<UexStarSystemRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexStarSystemRepository> logger
-) : UexGameEntityRepositoryBase<UniverseStarSystemDTO, GameStarSystem>(stateProvider, mapper, logger)
+) : UexGameEntityRepositoryBase<UniverseStarSystemDTO, GameStarSystem>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override async Task<UexApiResponse<ICollection<UniverseStarSystemDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using Data.Mappers;
 using Domain.Abstractions;
+using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
@@ -12,9 +13,10 @@ internal class UexItemPriceRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexItemsApi itemsApi,
     UexGameDataStateProvider stateProvider,
+    IExternalSyncCacheProvider<UexItemPriceRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexItemPriceRepository> logger
-) : UexGameEntityRepositoryBase<ItemPriceBriefDTO, GameItemPurchasePricing>(stateProvider, mapper, logger)
+) : UexGameEntityRepositoryBase<ItemPriceBriefDTO, GameItemPurchasePricing>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);
