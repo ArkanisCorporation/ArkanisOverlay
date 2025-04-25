@@ -13,7 +13,7 @@ internal class UexSpaceShipRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexSpaceShipRepository> cacheProvider,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexSpaceShipRepository> logger
 ) : UexGameEntityRepositoryBase<VehicleDTO, GameSpaceShip>(stateProvider, cacheProvider, mapper, logger)

@@ -30,18 +30,19 @@ public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHe
         var repositorySUT = ResolveSyncRepositoryFor();
 
         await LoadDependenciesAsync(TestCancellationToken);
-        var syncData = await repositorySUT.GetAllAsync(AppDataMissing.Instance, TestCancellationToken);
-        var entities = await syncData.GameEntities.ToListAsync(TestCancellationToken);
+        var syncData = await repositorySUT.GetAllAsync(DataMissing.Instance, TestCancellationToken);
 
+        var loadedSyncData = syncData as LoadedSyncData<TEntity>;
+        loadedSyncData.ShouldNotBeNull();
+
+        var entities = await loadedSyncData.GameEntities.ToListAsync(TestCancellationToken);
         entities.ShouldNotBeEmpty();
     }
 
     protected async Task LoadDependenciesAsync<TOtherEntity>(CancellationToken cancellationToken) where TOtherEntity : class, IGameEntity
     {
         var planetRepository = ResolveRepositoryFor<TOtherEntity>();
-        var gameDataState = new SyncedGameDataState(StarCitizenVersion.Create("4.1.0"), DateTimeOffset.UtcNow);
-        var cacheUntil = gameDataState.UpdatedAt + TimeSpan.FromMinutes(10);
-        var syncData = new GameEntitySyncData<TOtherEntity>(planetRepository.GetAllAsync(cancellationToken), gameDataState, cacheUntil);
+        var syncData = new LoadedSyncData<TOtherEntity>(planetRepository.GetAllAsync(cancellationToken), TestFixtures.DataCached);
         await planetRepository.UpdateAllAsync(syncData, cancellationToken);
     }
 

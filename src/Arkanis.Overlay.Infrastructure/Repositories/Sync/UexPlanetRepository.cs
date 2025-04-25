@@ -13,7 +13,7 @@ internal class UexPlanetRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexPlanetRepository> cacheProvider,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexPlanetRepository> logger
 ) : UexGameEntityRepositoryBase<UniversePlanetDTO, GamePlanet>(stateProvider, cacheProvider, mapper, logger)

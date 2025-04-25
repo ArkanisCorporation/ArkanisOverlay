@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 internal class UexCommodityRepository(
     IUexCommoditiesApi commoditiesApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexCommodityRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexCommodityRepository> logger

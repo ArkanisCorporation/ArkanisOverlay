@@ -10,13 +10,18 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
 {
     private readonly TaskCompletionSource _initialization = new();
 
-    internal GameDataState CurrentDataState { get; private set; } = MissingGameDataState.Instance;
+    internal ExternalServiceState CurrentDataState { get; private set; } = ServiceUnavailableState.Instance;
     internal List<T> Entities { get; set; } = [];
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var syncData = await repository.GetAllAsync(AppDataMissing.Instance, cancellationToken);
-        await foreach (var gameEntity in syncData.GameEntities.WithCancellation(cancellationToken))
+        var syncData = await repository.GetAllAsync(DataMissing.Instance, cancellationToken);
+        if (syncData is not LoadedSyncData<T> loadedSyncData)
+        {
+            yield break;
+        }
+
+        await foreach (var gameEntity in loadedSyncData.GameEntities.WithCancellation(cancellationToken))
         {
             yield return gameEntity;
         }
@@ -25,14 +30,26 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
     public Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default)
         => repository.GetAsync(id, cancellationToken);
 
-    public GameDataState DataState
-        => new SyncedGameDataState(StarCitizenVersion.Create("4.1.0"), DateTimeOffset.UtcNow);
+    public InternalDataState DataState
+    {
+        get
+        {
+            var gameVersion = StarCitizenVersion.Create("4.1.0");
+            var serviceState = new ServiceAvailableState(gameVersion, DateTimeOffset.UtcNow);
+            return new DataLoaded(serviceState, DateTimeOffset.UtcNow);
+        }
+    }
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
+        if (syncData is not LoadedSyncData<T> loadedSyncData)
+        {
+            return;
+        }
+
         try
         {
-            Entities = await syncData.GameEntities.ToListAsync(cancellationToken);
+            Entities = await loadedSyncData.GameEntities.ToListAsync(cancellationToken);
             _initialization.TrySetResult();
         }
         catch (Exception ex)

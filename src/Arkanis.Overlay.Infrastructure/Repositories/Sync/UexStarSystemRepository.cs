@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 internal class UexStarSystemRepository(
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexStarSystemRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexStarSystemRepository> logger

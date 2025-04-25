@@ -13,7 +13,7 @@ internal class UexOutpostRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexOutpostRepository> cacheProvider,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexOutpostRepository> logger
 ) : UexGameEntityRepositoryBase<UniverseOutpostDTO, GameOutpost>(stateProvider, cacheProvider, mapper, logger)

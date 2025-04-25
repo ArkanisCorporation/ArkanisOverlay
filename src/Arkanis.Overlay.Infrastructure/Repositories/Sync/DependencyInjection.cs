@@ -16,7 +16,7 @@ public static class DependencyInjection
     {
         services
             .AddUexApiMappers()
-            .AddSingleton<UexGameDataStateProvider>()
+            .AddSingleton<UexServiceStateProvider>()
             .AddSingleton<GameEntityRepositoryDependencyResolver>()
             .Scan(scan => scan
                 .FromAssembliesOf(ReferenceSourceType)

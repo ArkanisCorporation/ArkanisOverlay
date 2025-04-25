@@ -13,7 +13,7 @@ internal class UexVehicleRentPriceRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexVehicleRentPriceRepository> cacheProvider,
     IUexVehiclesApi vehiclesApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexVehicleRentPriceRepository> logger
 ) : UexGameEntityRepositoryBase<VehicleRentalPriceBriefDTO, GameVehicleRentalPricing>(stateProvider, cacheProvider, mapper, logger)

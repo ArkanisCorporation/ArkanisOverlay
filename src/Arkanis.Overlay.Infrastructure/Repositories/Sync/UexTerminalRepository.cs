@@ -13,7 +13,7 @@ internal class UexTerminalRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexTerminalRepository> cacheProvider,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexTerminalRepository> logger
 ) : UexGameEntityRepositoryBase<UniverseTerminalDTO, GameTerminal>(stateProvider, cacheProvider, mapper, logger)

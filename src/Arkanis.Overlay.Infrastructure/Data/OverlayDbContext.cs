@@ -3,7 +3,6 @@ namespace Arkanis.Overlay.Infrastructure.Data;
 using System.Text.Json;
 using Converters;
 using Domain.Models;
-using Domain.Models.Game;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +13,7 @@ public class OverlayDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        configurationBuilder.ComplexProperties<SyncedGameDataState>();
+        configurationBuilder.ComplexProperties<ServiceAvailableState>();
 
         configurationBuilder.Properties<StarCitizenVersion>()
             .HaveConversion<StarCitizenVersionValueConverter>()

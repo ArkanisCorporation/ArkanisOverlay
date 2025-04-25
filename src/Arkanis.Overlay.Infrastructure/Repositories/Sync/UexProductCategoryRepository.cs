@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 internal class UexProductCategoryRepository(
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexProductCategoryRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexProductCategoryRepository> logger

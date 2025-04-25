@@ -17,7 +17,7 @@ internal class UexItemRepository(
     IExternalSyncCacheProvider<UexItemRepository> cacheProvider,
     IGameEntityRepository<GameProductCategory> itemCategoryRepository,
     IUexItemsApi itemsApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexItemRepository> logger
 ) : UexGameEntityRepositoryBase<ItemDTO, GameItem>(stateProvider, cacheProvider, mapper, logger)

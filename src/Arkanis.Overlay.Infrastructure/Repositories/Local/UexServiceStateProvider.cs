@@ -1,17 +1,17 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local;
 
 using System.Diagnostics.CodeAnalysis;
+using Domain.Abstractions.Services;
 using Domain.Models;
-using Domain.Models.Game;
 using External.UEX.Abstractions;
 using External.UEX.Extensions;
 using Microsoft.Extensions.Logging;
 
-internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<UexGameDataStateProvider> logger) : IDisposable
+internal sealed class UexServiceStateProvider(IUexStaticApi staticApi, ILogger<UexServiceStateProvider> logger) : IExternalServiceStateProvider, IDisposable
 {
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-    internal GameDataState CurrentDataState { get; set; } = MissingGameDataState.Instance;
+    internal ExternalServiceState CurrentDataState { get; set; } = ServiceUnavailableState.Instance;
 
     internal DateTimeOffset? CachedUntil { get; set; }
 
@@ -19,7 +19,7 @@ internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<
         => _semaphoreSlim.Dispose();
 
     [SuppressMessage("ReSharper", "RedundantEmptyFinallyBlock")]
-    public async Task<GameDataState> LoadCurrentDataState(CancellationToken cancellationToken)
+    public async Task<ExternalServiceState> LoadCurrentServiceStateAsync(CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to load current state from UEX API");
         await _semaphoreSlim.WaitAsync(cancellationToken);
@@ -38,7 +38,7 @@ internal sealed class UexGameDataStateProvider(IUexStaticApi staticApi, ILogger<
             var responseHeaders = response.CreateResponseHeaders();
             var requestTime = responseHeaders.GetRequestTime();
 
-            CurrentDataState = new SyncedGameDataState(gameVersion, requestTime);
+            CurrentDataState = new ServiceAvailableState(gameVersion, requestTime);
             CachedUntil = responseHeaders.GetCacheUntil();
 
             logger.LogDebug("Loaded and cached: {DataState}", CurrentDataState);

@@ -13,7 +13,7 @@ internal class UexMoonRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IExternalSyncCacheProvider<UexMoonRepository> cacheProvider,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
     ILogger<UexMoonRepository> logger
 ) : UexGameEntityRepositoryBase<UniverseMoonDTO, GameMoon>(stateProvider, cacheProvider, mapper, logger)

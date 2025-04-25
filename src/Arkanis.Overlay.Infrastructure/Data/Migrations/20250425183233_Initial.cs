@@ -18,8 +18,8 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Content = table.Column<string>(type: "JSONB", nullable: false),
                     CachedUntil = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    DataState_UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    DataState_Version = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false)
+                    DataAvailableState_UpdatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    DataAvailableState_Version = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false)
                 },
                 constraints: table =>
                 {

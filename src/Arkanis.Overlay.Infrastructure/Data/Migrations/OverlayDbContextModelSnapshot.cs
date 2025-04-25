@@ -30,7 +30,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("JSONB");
 
-                    b.ComplexProperty<Dictionary<string, object>>("DataState", "Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache.DataState#SyncedGameDataState", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("DataAvailableState", "Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache.DataAvailableState#ServiceAvailableState", b1 =>
                         {
                             b1.IsRequired();
 

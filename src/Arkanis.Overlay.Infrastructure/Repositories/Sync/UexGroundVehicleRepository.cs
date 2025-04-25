@@ -12,7 +12,7 @@ using Services;
 internal class UexGroundVehicleRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexGroundVehicleRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexGroundVehicleRepository> logger

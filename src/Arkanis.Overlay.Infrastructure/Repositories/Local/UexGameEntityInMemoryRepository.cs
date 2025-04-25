@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Local;
 using System.Runtime.CompilerServices;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,7 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
     private readonly TaskCompletionSource _initialization = new();
 
     internal Dictionary<UexApiGameEntityId, T> Entities { get; set; } = [];
-    public GameDataState DataState { get; private set; } = MissingGameDataState.Instance;
+    public InternalDataState DataState { get; private set; } = DataMissing.Instance;
 
     public bool IsReady
         => _initialization.Task.IsCompletedSuccessfully;
@@ -36,10 +37,22 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
+        if (syncData is SyncDataUpToDate<T>)
+        {
+            logger.LogDebug("Skipping update for {EntityType}, already up to date", typeof(T).Name);
+            return;
+        }
+
+        if (syncData is not LoadedSyncData<T> loadedSyncData)
+        {
+            logger.LogWarning("Skipping update for {EntityType}: {@SyncData}", typeof(T).Name, syncData);
+            return;
+        }
+
         try
         {
-            DataState = syncData.DataState;
-            Entities = await syncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
+            DataState = loadedSyncData.DataState;
+            Entities = await loadedSyncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
             _initialization.TrySetResult();
             logger.LogInformation(
                 "Repository updated successfully to {CurrentDataState} with {EntityCount} entities",

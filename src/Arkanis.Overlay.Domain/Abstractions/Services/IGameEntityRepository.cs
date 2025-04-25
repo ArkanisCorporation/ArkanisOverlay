@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 using Game;
+using Models;
 using Models.Game;
 
 /// <summary>
@@ -20,7 +21,7 @@ public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEnti
 public interface IGameEntityRepository<T> : IGameEntityReadOnlyRepository<T>, IDependable
     where T : class, IGameEntity
 {
-    GameDataState DataState { get; }
+    InternalDataState DataState { get; }
 
     Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default);
 }

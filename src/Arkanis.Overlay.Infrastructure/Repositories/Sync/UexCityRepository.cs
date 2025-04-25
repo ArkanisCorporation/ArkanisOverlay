@@ -12,7 +12,7 @@ using Services;
 internal class UexCityRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexGameApi gameApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexCityRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexCityRepository> logger

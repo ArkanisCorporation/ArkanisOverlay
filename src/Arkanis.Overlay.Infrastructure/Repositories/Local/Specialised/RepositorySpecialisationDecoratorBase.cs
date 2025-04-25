@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Local.Specialised;
 
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models;
 using Domain.Models.Game;
 
 internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepository<T> decoratedRepository)
@@ -16,7 +17,7 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
     public bool IsReady
         => _initialization.Task.IsCompleted;
 
-    public GameDataState DataState
+    public InternalDataState DataState
         => decoratedRepository.DataState;
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)

@@ -12,7 +12,7 @@ using Services;
 internal class UexCommodityPriceRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexCommoditiesApi commoditiesApi,
-    UexGameDataStateProvider stateProvider,
+    UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider<UexCommodityPriceRepository> cacheProvider,
     UexApiDtoMapper mapper,
     ILogger<UexCommodityPriceRepository> logger
