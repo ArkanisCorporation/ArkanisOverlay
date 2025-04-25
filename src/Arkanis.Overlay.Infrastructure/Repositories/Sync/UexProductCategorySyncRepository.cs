@@ -7,13 +7,13 @@ using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
 
-internal class UexProductCategoryRepository(
+internal class UexProductCategorySyncRepository(
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
-    IExternalSyncCacheProvider<UexProductCategoryRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexProductCategorySyncRepository> cacheProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexProductCategoryRepository> logger
-) : UexGameEntityRepositoryBase<CategoryDTO, GameProductCategory>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexProductCategorySyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<CategoryDTO, GameProductCategory>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override async Task<UexApiResponse<ICollection<CategoryDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

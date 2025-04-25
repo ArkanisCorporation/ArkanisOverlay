@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexTerminalRepository(
+internal class UexTerminalSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexTerminalRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexTerminalSyncRepository> cacheProvider,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexTerminalRepository> logger
-) : UexGameEntityRepositoryBase<UniverseTerminalDTO, GameTerminal>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexTerminalSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<UniverseTerminalDTO, GameTerminal>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver

@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexSpaceShipRepository(
+internal class UexSpaceShipSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexSpaceShipRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexSpaceShipSyncRepository> cacheProvider,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexSpaceShipRepository> logger
-) : UexGameEntityRepositoryBase<VehicleDTO, GameSpaceShip>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexSpaceShipSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<VehicleDTO, GameSpaceShip>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameCompany>(this);

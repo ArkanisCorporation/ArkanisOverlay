@@ -9,28 +9,28 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexOutpostRepository(
+internal class UexCitySyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexOutpostRepository> cacheProvider,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
+    IExternalSyncCacheProvider<UexCitySyncRepository> cacheProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexOutpostRepository> logger
-) : UexGameEntityRepositoryBase<UniverseOutpostDTO, GameOutpost>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexCitySyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<UniverseCityDTO, GameCity>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver
             .DependsOn<GamePlanet>(this)
             .AlsoDependsOn<GameMoon>();
 
-    protected override async Task<UexApiResponse<ICollection<UniverseOutpostDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<UniverseCityDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
-        var response = await gameApi.GetOutpostsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await gameApi.GetCitiesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
-    protected override UexApiGameEntityId? GetSourceApiId(UniverseOutpostDTO source)
+    protected override UexApiGameEntityId? GetSourceApiId(UniverseCityDTO source)
         => source.Id is not null
-            ? UexApiGameEntityId.Create<GameOutpost>(source.Id.Value)
+            ? UexApiGameEntityId.Create<GameCity>(source.Id.Value)
             : null;
 }

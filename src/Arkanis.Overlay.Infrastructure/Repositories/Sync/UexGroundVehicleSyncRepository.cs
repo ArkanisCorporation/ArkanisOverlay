@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexGroundVehicleRepository(
+internal class UexGroundVehicleSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
-    IExternalSyncCacheProvider<UexGroundVehicleRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexGroundVehicleSyncRepository> cacheProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexGroundVehicleRepository> logger
-) : UexGameEntityRepositoryBase<VehicleDTO, GameGroundVehicle>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexGroundVehicleSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<VehicleDTO, GameGroundVehicle>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameCompany>(this);

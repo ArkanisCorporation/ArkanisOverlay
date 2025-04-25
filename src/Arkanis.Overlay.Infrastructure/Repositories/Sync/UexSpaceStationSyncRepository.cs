@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexSpaceStationRepository(
+internal class UexSpaceStationSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexSpaceStationRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexSpaceStationSyncRepository> cacheProvider,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexSpaceStationRepository> logger
-) : UexGameEntityRepositoryBase<UniverseSpaceStationDTO, GameSpaceStation>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexSpaceStationSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<UniverseSpaceStationDTO, GameSpaceStation>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver

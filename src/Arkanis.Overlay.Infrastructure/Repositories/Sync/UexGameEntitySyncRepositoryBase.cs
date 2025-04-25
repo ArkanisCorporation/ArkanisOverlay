@@ -22,7 +22,7 @@ using Microsoft.Extensions.Logging;
 /// <param name="logger">A logger</param>
 /// <typeparam name="TSource">External DTO type</typeparam>
 /// <typeparam name="TDomain">Internal domain type</typeparam>
-internal abstract class UexGameEntityRepositoryBase<TSource, TDomain>(
+internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
     UexServiceStateProvider stateProvider,
     IExternalSyncCacheProvider cacheProvider,
     UexApiDtoMapper mapper,

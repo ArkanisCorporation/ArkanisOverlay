@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexMoonRepository(
+internal class UexMoonSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexMoonRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexMoonSyncRepository> cacheProvider,
     IUexGameApi gameApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexMoonRepository> logger
-) : UexGameEntityRepositoryBase<UniverseMoonDTO, GameMoon>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexMoonSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<UniverseMoonDTO, GameMoon>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver

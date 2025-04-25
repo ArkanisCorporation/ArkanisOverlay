@@ -9,14 +9,14 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexItemPriceRepository(
+internal class UexItemPriceSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexItemsApi itemsApi,
     UexServiceStateProvider stateProvider,
-    IExternalSyncCacheProvider<UexItemPriceRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexItemPriceSyncRepository> cacheProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexItemPriceRepository> logger
-) : UexGameEntityRepositoryBase<ItemPriceBriefDTO, GameItemPurchasePricing>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexItemPriceSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<ItemPriceBriefDTO, GameItemPurchasePricing>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);

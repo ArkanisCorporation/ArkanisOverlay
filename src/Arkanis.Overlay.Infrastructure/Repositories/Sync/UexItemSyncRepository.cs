@@ -12,15 +12,15 @@ using Microsoft.Extensions.Logging;
 using MoreAsyncLINQ;
 using Services;
 
-internal class UexItemRepository(
+internal class UexItemSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexItemRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexItemSyncRepository> cacheProvider,
     IGameEntityRepository<GameProductCategory> itemCategoryRepository,
     IUexItemsApi itemsApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexItemRepository> logger
-) : UexGameEntityRepositoryBase<ItemDTO, GameItem>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexItemSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<ItemDTO, GameItem>(stateProvider, cacheProvider, mapper, logger)
 {
     private const int BatchSize = 4;
 

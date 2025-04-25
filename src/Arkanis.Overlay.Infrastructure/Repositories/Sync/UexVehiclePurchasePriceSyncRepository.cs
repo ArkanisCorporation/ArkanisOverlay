@@ -9,25 +9,25 @@ using Local;
 using Microsoft.Extensions.Logging;
 using Services;
 
-internal class UexVehicleRentPriceRepository(
+internal class UexVehiclePurchasePriceSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
-    IExternalSyncCacheProvider<UexVehicleRentPriceRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexVehiclePurchasePriceSyncRepository> cacheProvider,
     IUexVehiclesApi vehiclesApi,
     UexServiceStateProvider stateProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexVehicleRentPriceRepository> logger
-) : UexGameEntityRepositoryBase<VehicleRentalPriceBriefDTO, GameVehicleRentalPricing>(stateProvider, cacheProvider, mapper, logger)
+    ILogger<UexVehiclePurchasePriceSyncRepository> logger
+) : UexGameEntitySyncRepositoryBase<VehiclePurchasePriceBriefDTO, GameVehiclePurchasePricing>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);
 
-    protected override async Task<UexApiResponse<ICollection<VehicleRentalPriceBriefDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<VehiclePurchasePriceBriefDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
-        var response = await vehiclesApi.GetVehiclesRentalsPricesAllAsync(cancellationToken).ConfigureAwait(false);
+        var response = await vehiclesApi.GetVehiclesPurchasesPricesAllAsync(cancellationToken).ConfigureAwait(false);
         return CreateResponse(response, response.Result.Data);
     }
 
-    protected override UexApiGameEntityId? GetSourceApiId(VehicleRentalPriceBriefDTO source)
+    protected override UexApiGameEntityId? GetSourceApiId(VehiclePurchasePriceBriefDTO source)
         => source.Id is not null
             ? UexApiGameEntityId.Create<GameCommodityPricing>(source.Id.Value)
             : null;
@@ -35,6 +35,6 @@ internal class UexVehicleRentPriceRepository(
     /// <remarks>
     ///     Only process prices which have a non-zero price.
     /// </remarks>
-    protected override bool IncludeSourceModel(VehicleRentalPriceBriefDTO sourceModel)
-        => sourceModel is { Price_rent: > 0 };
+    protected override bool IncludeSourceModel(VehiclePurchasePriceBriefDTO sourceModel)
+        => sourceModel is { Price_buy: > 0 };
 }
