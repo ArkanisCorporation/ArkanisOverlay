@@ -24,10 +24,11 @@ public static class UexResponseExtensions
 
     public static DateTimeOffset GetCacheUntil(this HttpResponseHeaders responseHeaders, TimeSpan? cacheTimeFallback = null, double factor = 1.0)
     {
-        cacheTimeFallback ??= TimeSpan.FromMinutes(30);
-        cacheTimeFallback *= factor;
+        var cacheTime = responseHeaders.CacheControl?.MaxAge;
+        cacheTime ??= cacheTimeFallback;
+        cacheTime ??= TimeSpan.FromMinutes(30);
+        cacheTime *= factor;
 
-        var maxCacheAge = responseHeaders.CacheControl?.MaxAge ?? cacheTimeFallback.Value;
-        return responseHeaders.GetRequestTime() + maxCacheAge;
+        return responseHeaders.GetRequestTime() + cacheTime.Value;
     }
 }
