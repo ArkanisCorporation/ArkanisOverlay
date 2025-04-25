@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Local;
 
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models;
 
 /// <summary>
 ///     Wraps a specific game entity repository to allow using it as a generic game entity repository.
@@ -12,6 +13,9 @@ public class UexGameEntityGenericRepositoryAdapter<T>(IGameEntityRepository<T> r
     where T : class, IGameEntity
 {
     public Type EntityType { get; } = typeof(T);
+
+    public InternalDataState DataState
+        => repository.DataState;
 
     public bool IsReady
         => repository.IsReady;

@@ -11,6 +11,8 @@ using Models.Game;
 public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEntity>, IDependable
 {
     Type EntityType { get; }
+
+    InternalDataState DataState { get; }
 }
 
 /// <summary>
