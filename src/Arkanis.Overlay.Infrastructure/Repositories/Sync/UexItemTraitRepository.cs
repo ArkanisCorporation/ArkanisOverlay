@@ -35,12 +35,9 @@ internal class UexItemTraitRepository(
         await foreach (var category in categories)
         {
             var categoryEntityId = category.Id;
-            var categoryId = (categoryEntityId?.Identity ?? 0).ToString(CultureInfo.InvariantCulture);
+            var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await itemsApi.GetItemsAttributesByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
             items.AddRange(response.Result.Data ?? ThrowCouldNotParseResponse());
-#if DEBUG
-            break;
-#endif
         }
 
         return CreateResponse(response, items);

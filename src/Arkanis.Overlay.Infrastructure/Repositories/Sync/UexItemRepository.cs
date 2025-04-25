@@ -37,13 +37,10 @@ internal class UexItemRepository(
         await foreach (var category in categories)
         {
             var categoryEntityId = category.Id;
-            var categoryId = (categoryEntityId?.Identity ?? 0).ToString(CultureInfo.InvariantCulture);
+            var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await itemsApi.GetItemsByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
             responseDetectedAsNull |= response.Result.Data is null;
             items.AddRange(response.Result.Data ?? []);
-#if DEBUG
-            break;
-#endif
         }
 
         if (items.Count == 0 && responseDetectedAsNull)
