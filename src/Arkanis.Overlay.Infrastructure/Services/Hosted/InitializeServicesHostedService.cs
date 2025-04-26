@@ -1,30 +1,29 @@
 namespace Arkanis.Overlay.Infrastructure.Services.Hosted;
 
 using Abstractions;
-using Domain.Models.Game;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
 /// <summary>
-///     Performs initialization of all <see cref="ISelfInitializable"/> services registered in the DI container.
+///     Performs initialization of all <see cref="ISelfInitializable" /> services registered in the DI container.
+///     Once services are initialized, all <see cref="ISelfUpdatable" /> services are schedule to be automatically updated.
 /// </summary>
-/// <param name="schedulerFactory"></param>
-/// <param name="services"></param>
-/// <param name="logger"></param>
+/// <param name="schedulerFactory">A factory for a job scheduler</param>
+/// <param name="initializableServices">A collection of registered self-initializable services</param>
+/// <param name="updatableServices">A collection of registered self-updatable services</param>
+/// <param name="logger">A logger</param>
 internal class InitializeServicesHostedService(
     ISchedulerFactory schedulerFactory,
-    IEnumerable<ISelfInitializable> services,
+    IEnumerable<ISelfInitializable> initializableServices,
+    IEnumerable<ISelfUpdatable> updatableServices,
     ILogger<InitializeServicesHostedService> logger
 ) : BackgroundService
 {
-    private static readonly TimeSpan RefreshJobInterval = TimeSpan.FromMinutes(10);
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        logger.LogDebug("Running initialization of services: {@Services}", services);
-        var tasks = services.Select(async service =>
+        logger.LogDebug("Running initialization of services: {@Services}", updatableServices);
+        var initializeTasks = initializableServices.Select(async service =>
             {
                 try
                 {
@@ -39,29 +38,16 @@ internal class InitializeServicesHostedService(
             }
         );
 
-        await Task.WhenAll(tasks).ConfigureAwait(false);
-        logger.LogDebug("Finished initialization of {ServiceCount} services", services.Count());
+        await Task.WhenAll(initializeTasks).ConfigureAwait(false);
+        logger.LogDebug("Finished initialization of {ServiceCount} services", initializableServices.Count());
 
         var scheduler = await schedulerFactory.GetScheduler(stoppingToken);
-
-        var genericJobType = typeof(GameEntityRepositorySyncManagerUpdateIfNecessaryJob<>);
-        foreach (var gameEntityType in GameEntityConstants.GameEntityTypes)
+        foreach (var updatableService in updatableServices)
         {
-            var jobType = genericJobType.MakeGenericType(gameEntityType);
-            var jobDetail = JobBuilder.Create(jobType)
-                .WithIdentity(jobType.ShortDisplayName())
-                .Build();
-            var trigger = TriggerBuilder.Create()
-                .WithSimpleSchedule(schedule => schedule
-                    .WithInterval(RefreshJobInterval)
-                    .WithMisfireHandlingInstructionIgnoreMisfires()
-                    .RepeatForever()
-                )
-                .StartAt(DateTimeOffset.UtcNow + RefreshJobInterval)
-                .ForJob(jobDetail)
-                .Build();
-
-            await scheduler.ScheduleJob(jobDetail, trigger, stoppingToken);
+            logger.LogDebug("Scheduling service update job for {Service}", updatableService);
+            await PerformUpdateOnSelfUpdatableServiceJob.ScheduleForAsync(scheduler, updatableService, true, stoppingToken);
         }
+
+        logger.LogDebug("Finished scheduling updates for {ServiceCount} services", updatableServices.Count());
     }
 }

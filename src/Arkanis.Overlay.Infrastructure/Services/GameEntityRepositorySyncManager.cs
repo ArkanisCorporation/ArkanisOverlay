@@ -5,6 +5,7 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Microsoft.Extensions.Logging;
+using Quartz;
 
 /// <summary>
 ///     This service performs synchronization of internal and external game entity repositories.
@@ -19,6 +20,11 @@ internal sealed class GameEntityRepositorySyncManager<T>(
     ILogger<GameEntityRepositorySyncManager<T>> logger
 ) : SelfInitializableServiceBase, ISelfUpdatable where T : class, IGameEntity
 {
+    public ITrigger Trigger { get; } = TriggerBuilder.Create()
+        .StartAt(DateTimeOffset.UtcNow + TimeSpan.FromMinutes(10))
+        .WithSimpleSchedule(schedule => schedule.WithInterval(TimeSpan.FromMinutes(10)).RepeatForever())
+        .Build();
+
     public async Task UpdateAsync(CancellationToken cancellationToken)
         => await UpdateAsync(false, cancellationToken);
 
