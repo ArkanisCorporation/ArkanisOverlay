@@ -20,9 +20,16 @@ internal class InitializeServicesHostedService(
         logger.LogDebug("Running initialization of services: {@Services}", services);
         var tasks = services.Select(async service =>
             {
-                logger.LogDebug("Starting initialization: {ServiceType}", service);
-                await service.InitializeAsync(stoppingToken);
-                logger.LogDebug("Successfully initialized: {ServiceType}", service);
+                try
+                {
+                    logger.LogDebug("Starting initialization: {ServiceType}", service);
+                    await service.InitializeAsync(stoppingToken);
+                    logger.LogDebug("Successfully initialized: {ServiceType}", service);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogCritical(ex, "An error has been encountered while initializing service {ServiceType}", service);
+                }
             }
         );
 

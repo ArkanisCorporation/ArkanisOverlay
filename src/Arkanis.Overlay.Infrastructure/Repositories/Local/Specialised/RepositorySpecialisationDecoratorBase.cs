@@ -4,18 +4,14 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
+using Services;
 
 internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepository<T> decoratedRepository)
-    : IGameEntityRepository<T>, IDecoratorService
+    : InitializableBase, IGameEntityRepository<T>, IDecoratorService
     where T : class, IGameEntity
 {
-    private readonly TaskCompletionSource _initialization = new();
-
     protected IGameEntityRepository<T> DecoratedRepository
         => decoratedRepository;
-
-    public bool IsReady
-        => _initialization.Task.IsCompleted;
 
     public InternalDataState DataState
         => decoratedRepository.DataState;
@@ -26,18 +22,14 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
         {
             await DecoratedRepository.UpdateAllAsync(syncData, cancellationToken);
             await UpdateAllAsyncCore(cancellationToken);
-            _initialization.TrySetResult();
+            Initialized();
         }
         catch (Exception ex)
         {
-            _initialization.TrySetException(ex);
+            {
+                InitializationErrored(ex);
+            }
         }
-    }
-
-    public async Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
-    {
-        await DecoratedRepository.WaitUntilReadyAsync(cancellationToken);
-        await _initialization.Task;
     }
 
     public IAsyncEnumerable<T> GetAllAsync(CancellationToken cancellationToken = default)

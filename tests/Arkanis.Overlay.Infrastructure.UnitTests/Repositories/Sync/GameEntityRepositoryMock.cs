@@ -5,12 +5,11 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
+using Infrastructure.Services;
 
-internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> repository) : IGameEntityRepository<T> where T : class, IGameEntity
+internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> repository) : InitializableBase, IGameEntityRepository<T>
+    where T : class, IGameEntity
 {
-    private readonly TaskCompletionSource _initialization = new();
-
-    internal ExternalServiceState CurrentDataState { get; private set; } = ServiceUnavailableState.Instance;
     internal List<T> Entities { get; set; } = [];
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -50,18 +49,12 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
         try
         {
             Entities = await loadedSyncData.GameEntities.ToListAsync(cancellationToken);
-            _initialization.TrySetResult();
+            Initialized();
         }
         catch (Exception ex)
         {
-            _initialization.TrySetException(ex);
+            InitializationErrored(ex);
             throw;
         }
     }
-
-    public bool IsReady
-        => _initialization.Task.IsCompletedSuccessfully;
-
-    public Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
-        => _initialization.Task.WaitAsync(cancellationToken);
 }

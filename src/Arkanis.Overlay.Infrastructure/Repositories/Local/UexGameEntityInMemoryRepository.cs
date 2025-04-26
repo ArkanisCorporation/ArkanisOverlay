@@ -6,23 +6,18 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
+using Services;
 
-public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRepository<T>> logger) : IGameEntityRepository<T> where T : class, IGameEntity
+public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRepository<T>> logger) : InitializableBase, IGameEntityRepository<T>
+    where T : class, IGameEntity
 {
-    private readonly TaskCompletionSource _initialization = new();
-
     internal Dictionary<UexApiGameEntityId, T> Entities { get; set; } = [];
     public InternalDataState DataState { get; private set; } = DataMissing.Instance;
-
-    public bool IsReady
-        => _initialization.Task.IsCompletedSuccessfully;
-
-    public async Task WaitUntilReadyAsync(CancellationToken cancellationToken = default)
-        => await _initialization.Task.WaitAsync(cancellationToken);
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         await WaitUntilReadyAsync(cancellationToken).ConfigureAwait(false);
+
         foreach (var gameEntity in Entities.Values)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -39,13 +34,13 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
     {
         if (syncData is SyncDataUpToDate<T>)
         {
-            logger.LogDebug("Skipping update for {EntityType}, already up to date", typeof(T).Name);
+            logger.LogDebug("Skipping update for {EntityType} entities, already up to date", typeof(T).Name);
             return;
         }
 
         if (syncData is not LoadedSyncData<T> loadedSyncData)
         {
-            logger.LogWarning("Skipping update for {EntityType}: {@SyncData}", typeof(T).Name, syncData);
+            logger.LogWarning("Unable to perform update of {EntityType} entities: {@SyncData}", typeof(T).Name, syncData);
             return;
         }
 
@@ -53,7 +48,7 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
         {
             DataState = loadedSyncData.DataState;
             Entities = await loadedSyncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
-            _initialization.TrySetResult();
+            Initialized();
             logger.LogInformation(
                 "Repository updated successfully to {CurrentDataState} with {EntityCount} entities",
                 DataState,
@@ -63,7 +58,7 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to update repository of {EntityType}", typeof(T).Name);
-            _initialization.TrySetException(ex);
+            InitializationErrored(ex);
             throw;
         }
     }

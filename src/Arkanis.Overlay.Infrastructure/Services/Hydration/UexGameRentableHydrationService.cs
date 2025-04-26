@@ -11,7 +11,11 @@ using Domain.Abstractions.Services;
 public class UexGameRentableHydrationService(IRentPriceProvider rentPriceProvider) : IHydrationServiceFor<IGameRentable>
 {
     public async Task HydrateAsync(IGameRentable entity, CancellationToken cancellationToken = default)
-        => await rentPriceProvider.UpdatePriceTagAsync(entity);
+    {
+        await WaitUntilReadyAsync(cancellationToken);
+
+        await rentPriceProvider.UpdatePriceTagAsync(entity);
+    }
 
     public bool IsReady
         => rentPriceProvider.IsReady;
