@@ -1,12 +1,17 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local;
 
-using System.Diagnostics.CodeAnalysis;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using External.UEX.Abstractions;
 using External.UEX.Extensions;
 using Microsoft.Extensions.Logging;
 
+/// <summary>
+///     Provides the current state of the UEX API.
+///     Mainly to determine current game version and potential availability of the API.
+/// </summary>
+/// <param name="staticApi"></param>
+/// <param name="logger"></param>
 internal sealed class UexServiceStateProvider(IUexStaticApi staticApi, ILogger<UexServiceStateProvider> logger) : IExternalServiceStateProvider, IDisposable
 {
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
@@ -18,7 +23,6 @@ internal sealed class UexServiceStateProvider(IUexStaticApi staticApi, ILogger<U
     public void Dispose()
         => _semaphoreSlim.Dispose();
 
-    [SuppressMessage("ReSharper", "RedundantEmptyFinallyBlock")]
     public async Task<ExternalServiceState> LoadCurrentServiceStateAsync(CancellationToken cancellationToken)
     {
         logger.LogDebug("Trying to load current state from UEX API");

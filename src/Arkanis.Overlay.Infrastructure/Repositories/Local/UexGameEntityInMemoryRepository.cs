@@ -8,6 +8,11 @@ using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
 using Services;
 
+/// <summary>
+///     A repository for any game entity that stores them directly in memory.
+/// </summary>
+/// <param name="logger">A logger</param>
+/// <typeparam name="T">Target game entity type</typeparam>
 public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRepository<T>> logger) : InitializableBase, IGameEntityRepository<T>
     where T : class, IGameEntity
 {

@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Exceptions;
 using Domain.Abstractions;
 
 public class DependencyWaitCancelledException(IDependable[] dependencies, Exception? innerException = null)
-    : Exception($"Dependency wait task has been cancelled for: {string.Join(',', dependencies.Select(x => x.ToString()))}", innerException)
+    : Exception($"A dependency wait task has been cancelled for: {string.Join(',', dependencies.Select(x => x.ToString()))}", innerException)
 {
     public IDependable[] Dependencies { get; } = dependencies;
 

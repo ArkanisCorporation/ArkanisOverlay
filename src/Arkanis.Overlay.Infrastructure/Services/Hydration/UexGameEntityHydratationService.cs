@@ -3,7 +3,8 @@ namespace Arkanis.Overlay.Infrastructure.Services.Hydration;
 using Abstractions;
 using Domain.Abstractions.Game;
 
-public class GameEntityPriceHydrationService(IEnumerable<IHydrationServiceFor> hydrationServices) : IGameEntityHydrationService
+/// <inheritdoc cref="IGameEntityHydrationService"/>
+public class GameEntityHydrationService(IEnumerable<IHydrationServiceFor> hydrationServices) : IGameEntityHydrationService
 {
     public async Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken) where T : IGameEntity
     {

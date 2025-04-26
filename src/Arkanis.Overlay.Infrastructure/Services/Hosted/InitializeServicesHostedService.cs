@@ -7,6 +7,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
+/// <summary>
+///     Performs initialization of all <see cref="ISelfInitializable"/> services registered in the DI container.
+/// </summary>
+/// <param name="schedulerFactory"></param>
+/// <param name="services"></param>
+/// <param name="logger"></param>
 internal class InitializeServicesHostedService(
     ISchedulerFactory schedulerFactory,
     IEnumerable<ISelfInitializable> services,

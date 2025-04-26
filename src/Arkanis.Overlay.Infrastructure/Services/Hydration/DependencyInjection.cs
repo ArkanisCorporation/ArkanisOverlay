@@ -14,7 +14,7 @@ public static class DependencyInjection
             .AddHydrationServiceFor<UexGameSellableHydrationService, IGameSellable>()
             .AddHydrationServiceFor<UexGameRentableHydrationService, IGameRentable>()
             .AddHydrationServiceFor<UexGameItemTraitHydrationService, GameItem>()
-            .AddSingleton<IGameEntityHydrationService, GameEntityPriceHydrationService>();
+            .AddSingleton<IGameEntityHydrationService, GameEntityHydrationService>();
 
     private static IServiceCollection AddHydrationServiceFor<TService, TEntity>(this IServiceCollection services)
         where TService : class, IHydrationServiceFor<TEntity>

@@ -10,7 +10,7 @@ public static class DependencyInjection
 {
     internal static IServiceCollection AddUexInMemoryRepositories(this IServiceCollection services)
     {
-        services.AddSingleton<IGameEntityAggregateRepository, GameEntityAggregateRepository>();
+        services.AddSingleton<IGameEntityAggregateRepository, GameEntitySearchAggregateRepository>();
 
         var genericRepositoryInterfaceType = typeof(IGameEntityRepository<>);
         var genericRepositoryServiceType = typeof(UexGameEntityInMemoryRepository<>);

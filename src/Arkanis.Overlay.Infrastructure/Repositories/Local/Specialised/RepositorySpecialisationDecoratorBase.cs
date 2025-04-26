@@ -6,6 +6,13 @@ using Domain.Models;
 using Domain.Models.Game;
 using Services;
 
+/// <summary>
+///     A base class for all repository decorators.
+///     Simplifies the implementation of the decorator pattern wrapping the other functionality of the decorated
+///     repository.
+/// </summary>
+/// <param name="decoratedRepository">The repository to be decorated</param>
+/// <typeparam name="T">Target entity type</typeparam>
 internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepository<T> decoratedRepository)
     : InitializableBase, IGameEntityRepository<T>, IDecoratorService
     where T : class, IGameEntity
@@ -26,9 +33,8 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
         }
         catch (Exception ex)
         {
-            {
-                InitializationErrored(ex);
-            }
+            InitializationErrored(ex);
+            throw;
         }
     }
 
@@ -38,5 +44,13 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
     public Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default)
         => DecoratedRepository.GetAsync(id, cancellationToken);
 
+    /// <summary>
+    ///     Forces the decorator to update its internal state.
+    /// </summary>
+    /// <remarks>
+    ///     This method will always be called after the decorated repository has finished updating itself.
+    /// </remarks>
+    /// <param name="cancellationToken">A process cancellation token</param>
+    /// <returns>A processing task that fulfills when the repository has updated its internal state</returns>
     protected abstract Task UpdateAllAsyncCore(CancellationToken cancellationToken);
 }
