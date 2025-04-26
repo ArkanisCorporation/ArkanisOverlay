@@ -8,11 +8,13 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 using Repositories.Local;
 
 internal class ExternalSyncDatabaseCacheProvider<TRepository>(
     UexServiceStateProvider stateProvider,
-    IDbContextFactory<OverlayDbContext> dbContextFactory
+    IDbContextFactory<OverlayDbContext> dbContextFactory,
+    ILogger<ExternalSyncDatabaseCacheProvider<TRepository>> logger
 ) : IExternalSyncCacheProvider<TRepository> where TRepository : class
 {
     private Type RepositoryType { get; } = typeof(TRepository);
@@ -45,13 +47,23 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
             return new MissingDataCache<TSource>();
         }
 
+        var currentServiceState = await stateProvider.LoadCurrentServiceStateAsync(cancellationToken);
         if (cacheRecord.CachedUntil < DateTimeOffset.UtcNow)
         {
             // the cached record has expired
-            return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
+            if (currentServiceState is not ServiceUnavailableState)
+            {
+                // only respect the cache time if the service is available
+                return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
+            }
+
+            logger.LogInformation(
+                "Using expired cache for {Type} entities due to the state of an external service: {ServiceState}",
+                typeof(TSource).Name,
+                currentServiceState
+            );
         }
 
-        var currentServiceState = await stateProvider.LoadCurrentServiceStateAsync(cancellationToken);
         var cachedServiceState = cacheRecord.DataAvailableState;
         var cachedDataState = new DataCached(cachedServiceState, cachedServiceState.UpdatedAt, cacheRecord.CachedUntil);
 
