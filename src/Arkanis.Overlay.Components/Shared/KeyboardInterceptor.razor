@@ -1,0 +1,29 @@
+<div @onkeyup="@OnKeyUp"
+     @onkeyup:stopPropagation="@StopPropagation"
+     @onkeyup:preventDefault="@PreventDefault"
+     @onkeydown="@OnKeyDown"
+     @onkeydown:stopPropagation="@StopPropagation"
+     @onkeydown:preventDefault="@PreventDefault">
+    @ChildContent
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<KeyboardEventArgs> OnKeyUp { get; set; }
+
+    [Parameter]
+    public EventCallback<KeyboardEventArgs> OnKeyDown { get; set; }
+
+    [Parameter]
+    public bool StopPropagation { get; set; }
+
+    [Parameter]
+    public bool PreventDefault { get; set; }
+
+}

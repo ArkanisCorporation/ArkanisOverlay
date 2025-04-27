@@ -7,7 +7,9 @@
 
 <ErrorBoundary>
     <ChildContent>
-        @Body
+        <GlobalKeyboardEventProxyProvider>
+            @Body
+        </GlobalKeyboardEventProxyProvider>
     </ChildContent>
     <ErrorContent>
         <h1>Sorry, an unrecoverable error has occured</h1>

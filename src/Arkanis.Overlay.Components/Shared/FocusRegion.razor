@@ -1,0 +1,52 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
+
+<div class="@Class"
+     style="@Style"
+     @ref="@ContainerElement"
+     @onfocusin="@FocusReceived"
+     @onfocusout="@FocusLost">
+    @ChildContent(CurrentContext)
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment<Context> ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    public bool HasFocus { get; private set; }
+
+    public ElementReference ContainerElement { get; private set; }
+
+    private Context CurrentContext
+        => new(this);
+
+    public async Task FocusAsync()
+    {
+        await ContainerElement.MudFocusFirstAsync();
+    }
+
+    private void FocusReceived()
+        => HasFocus = true;
+
+    private void FocusLost()
+        => HasFocus = false;
+
+    public record Context(FocusRegion SourceRegion)
+    {
+        public bool ContainsFocus
+            => SourceRegion.HasFocus;
+
+        public bool DoesNotContainFocus
+            => !ContainsFocus;
+    }
+
+}

@@ -1,0 +1,82 @@
+@using System.Collections.Concurrent
+@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
+
+<FocusRegion>
+    <div @ref="@_containerRef">
+        @if (!string.IsNullOrWhiteSpace(_containerRef.Id))
+        {
+            <CascadingValue Value="@(this)" IsFixed>
+                @ChildContent(this)
+            </CascadingValue>
+        }
+    </div>
+</FocusRegion>
+
+@code
+{
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _controls;
+    private DotNetObjectReference<QuickAccessContainer>? _selfReference;
+
+    private readonly ConcurrentBag<Item> _items = [];
+
+    private ElementReference _containerRef;
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment<QuickAccessContainer> ChildContent { get; set; }
+
+    [Parameter]
+    public string QuerySelector { get; set; } = "*";
+
+    public async Task RegisterAsync(ElementReference element, EventCallback<VisibilityInfo> callback)
+    {
+        var item = new Item
+        {
+            Element = element,
+            Callback = callback,
+        };
+        _items.Add(item);
+        await UpdateAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _selfReference = DotNetObjectReference.Create(this);
+            _module ??= await JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import",
+                $"./_content/{SharedComponentsModule.Namespace}/{nameof(Shared)}/{nameof(QuickAccessContainer)}.razor.js"
+            );
+            _controls = await _module.InvokeAsync<IJSObjectReference>("QuickAccessContainer.createFor", _selfReference, _containerRef, QuerySelector);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task UpdateAsync()
+    {
+        foreach (var item in _items)
+        {
+            var visibilityInfo = await _controls!.InvokeAsync<VisibilityInfo>("getVisibilityInfo", item.Element);
+            await item.Callback.InvokeAsync(visibilityInfo);
+        }
+    }
+
+    private readonly double _lastScrollTop = 0;
+
+    [JSInvokable]
+    public async Task OnViewUpdate()
+        => await UpdateAsync();
+
+    public record Item
+    {
+        public required ElementReference Element { get; init; }
+        public required EventCallback<VisibilityInfo> Callback { get; init; }
+    }
+
+    public record VisibilityInfo(int Index, bool IsVisible);
+
+}

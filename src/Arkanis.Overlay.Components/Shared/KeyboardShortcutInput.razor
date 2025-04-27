@@ -17,7 +17,7 @@
         HelperText="@HelperText"
         AdornmentIcon="@MaterialSymbols.Outlined.KeyboardKeys"
         Immediate
-        Clearable="@(!KeyboardShortcut.None.Equals(Value))"
+        Clearable="@(!Domain.Models.Keyboard.KeyboardShortcut.None.Equals(Value))"
         OnClearButtonClick="OnClear"
         @onkeydown="OnKeyDown"
         @onkeyup="OnKeyUp"/>
@@ -32,15 +32,20 @@
     private Timer? _finalizeTimer;
     private readonly List<KeyboardKey> _releasedKeys = [];
 
-    [Parameter] public string Label { get; set; } = string.Empty;
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
 
-    [Parameter] public string? HelperText { get; set; } = "Focus this input and press the desired keys";
+    [Parameter]
+    public string? HelperText { get; set; } = "Focus this input and press the desired keys";
 
-    [Parameter] public KeyboardShortcut Value { get; set; } = KeyboardShortcut.None;
+    [Parameter]
+    public Domain.Models.Keyboard.KeyboardShortcut Value { get; set; } = Domain.Models.Keyboard.KeyboardShortcut.None;
 
-    [Parameter] public EventCallback<KeyboardShortcut> ValueChanged { get; set; }
+    [Parameter]
+    public EventCallback<Domain.Models.Keyboard.KeyboardShortcut> ValueChanged { get; set; }
 
-    [Parameter] public bool Required { get; set; }
+    [Parameter]
+    public bool Required { get; set; }
 
     private string? ErrorText
         => Required && Value.IsEmpty
@@ -82,7 +87,7 @@
         if (_finalized)
         {
             // the shortcut has been previously finalized, start from scratch
-            Value = KeyboardShortcut.None;
+            Value = Domain.Models.Keyboard.KeyboardShortcut.None;
             _finalized = false;
         }
 
@@ -148,7 +153,7 @@
 
     private async Task OnClear()
     {
-        Value = KeyboardShortcut.None;
+        Value = Domain.Models.Keyboard.KeyboardShortcut.None;
         await UpdateValueAsync();
     }
 

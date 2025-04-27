@@ -1,3 +1,23 @@
 ﻿@page "/"
+@using Arkanis.Overlay.Domain.Models.Keyboard
 
 <PageTitle>Home</PageTitle>
+
+<MudContainer Class="mt-4">
+    <KeyboardShortcutBadge Key="@KeyboardKey.KeyA" OnKeyPress="@OnKeyPress">
+        <MudPaper Class="pa-4">
+            <MudText tabindex="0">
+                This is text.
+            </MudText>
+            <MudTextField T="string" tabindex="1"/>
+        </MudPaper>
+    </KeyboardShortcutBadge>
+</MudContainer>
+
+@code
+{
+    private void OnKeyPress()
+    {
+        Console.WriteLine("Target key pressed!");
+    }
+}

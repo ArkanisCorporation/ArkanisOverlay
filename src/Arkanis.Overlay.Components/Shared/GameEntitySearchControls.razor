@@ -1,4 +1,5 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models.Keyboard
 <MudStack Spacing="2"
           AlignItems="@AlignItems.Center"
           Justify="@Justify.FlexEnd"
@@ -7,23 +8,25 @@
           Row>
     @if (Model is IGameLocation gameLocation)
     {
+        var isSelectedLocation = SearchContext.CurrentLocation == gameLocation;
+        var color = isSelectedLocation ? Color.Error : Color.Tertiary;
+        var icon = isSelectedLocation ? MaterialSymbols.Outlined.FilterAltOff : MaterialSymbols.Outlined.TravelExplore;
+        var callback = () => isSelectedLocation
+            ? SearchContext.ClearLocationFilterAsync()
+            : SearchContext.SetFilterAsync(gameLocation);
+
         <MudDivider Vertical FlexItem/>
-        @if (SearchContext.CurrentLocation == gameLocation)
-        {
+        <KeyboardShortcutBadge Key="@KeyboardKey.Enter"
+                               Origin="@Origin.BottomCenter"
+                               Color="@color"
+                               IsActive="IsFocused"
+                               OnKeyPress="@callback">
             <MudIconButton
-                Icon="@MaterialSymbols.Outlined.FilterAltOff"
-                OnClick="@SearchContext.ClearLocationFilterAsync"
+                Icon="@icon"
+                OnClick="@callback"
                 Class="focus"
                 tabindex="1"/>
-        }
-        else
-        {
-            <MudIconButton
-                Icon="@MaterialSymbols.Outlined.TravelExplore"
-                OnClick="@(() => SearchContext.SetFilterAsync(gameLocation))"
-                Class="focus"
-                tabindex="1"/>
-        }
+        </KeyboardShortcutBadge>
     }
     @if (Model is IGamePurchasable)
     {
@@ -62,5 +65,8 @@
 
     [Parameter]
     public required IGameEntity Model { get; set; }
+
+    [Parameter]
+    public bool IsFocused { get; set; }
 
 }

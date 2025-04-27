@@ -1,0 +1,75 @@
+@using Arkanis.Overlay.Components.Extensions
+@using Arkanis.Overlay.Components.Services
+@using Arkanis.Overlay.Domain.Models.Keyboard
+@implements IDisposable
+@inject KeyboardEventProxy GlobalKeyboardEventProxy
+
+<MudBadge Origin="@Origin"
+          Content="@Key.ToString()"
+          Class="@Class"
+          BadgeClass="@BadgeClass"
+          Style="@Style"
+          Color="@Color"
+          Visible="@IsActive"
+          Elevation="8"
+          Overlap>
+    @ChildContent
+</MudBadge>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required KeyboardKey Key { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required EventCallback OnKeyPress { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public KeyboardEventProxy? KeyboardEventProxy { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? BadgeClass { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Tertiary;
+
+    [Parameter]
+    public Origin Origin { get; set; } = Origin.TopRight;
+
+    [Parameter]
+    public bool IsActive { get; set; } = true;
+
+    private KeyboardEventProxy UsedKeyboardEventProxy
+        => KeyboardEventProxy ?? GlobalKeyboardEventProxy;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UsedKeyboardEventProxy.OnKeyDown += OnKeyDown;
+    }
+
+    private async void OnKeyDown(object? sender, KeyboardEventArgs arg)
+    {
+        if (IsActive && arg.GetKey() == Key)
+        {
+            await InvokeAsync(() => OnKeyPress.InvokeAsync(arg));
+        }
+    }
+
+    public void Dispose()
+        => UsedKeyboardEventProxy.OnKeyDown -= OnKeyDown;
+
+}

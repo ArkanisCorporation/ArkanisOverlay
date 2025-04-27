@@ -1,0 +1,44 @@
+@using Arkanis.Overlay.Components.Services
+@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
+@inject KeyboardEventProxy KeyboardEventProxy
+@inject ILogger<GlobalKeyboardEventProxyProvider> Logger
+
+<CascadingValue Value="@KeyboardEventProxy" IsFixed>
+    @ChildContent
+</CascadingValue>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    private IJSObjectReference? _module;
+    private DotNetObjectReference<GlobalKeyboardEventProxyProvider>? _selfReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JsRuntime.InvokeAsync<IJSObjectReference>(
+                "import",
+                $"./_content/{SharedComponentsModule.Namespace}/{nameof(Shared)}/{nameof(GlobalKeyboardEventProxyProvider)}.razor.js"
+            );
+
+            _selfReference = DotNetObjectReference.Create(this);
+            await _module.InvokeVoidAsync("KeyboardEventHelper.init", _selfReference);
+        }
+    }
+
+    [JSInvokable]
+    public void OnKeyDown(KeyboardEventArgs keyboardEvent)
+        => KeyboardEventProxy.RegisterKeyDown(keyboardEvent);
+
+    [JSInvokable]
+    public void OnKeyUp(KeyboardEventArgs keyboardEvent)
+        => KeyboardEventProxy.RegisterKeyUp(keyboardEvent);
+
+}

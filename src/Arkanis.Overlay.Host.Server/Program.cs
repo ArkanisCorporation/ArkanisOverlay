@@ -1,3 +1,4 @@
+using Arkanis.Overlay.Components.Services;
 using Arkanis.Overlay.Host.Server.Components;
 using Arkanis.Overlay.Host.Server.Services;
 using Arkanis.Overlay.Infrastructure;
@@ -19,6 +20,7 @@ builder.Services
 builder.Services.AddMudServices();
 
 builder.Services
+    .AddScoped<KeyboardEventProxy>()
     .AddServerOverlayControls()
     .AddInfrastructure()
     .AddInfrastructureConfiguration(builder.Configuration);
