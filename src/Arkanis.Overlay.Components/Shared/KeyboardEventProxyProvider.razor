@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Components.Services
-<CascadingValue Value="@KeyboardEventProxy" IsFixed>
+@using Arkanis.Overlay.Domain.Models.Keyboard
+<CascadingValue Value="@KeyboardProxy" IsFixed>
     <KeyboardInterceptor OnKeyDown="@OnKeyPress">
         @ChildContent
     </KeyboardInterceptor>
@@ -13,9 +14,9 @@
     public required RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public KeyboardEventProxy KeyboardEventProxy { get; set; } = new();
+    public KeyboardProxy KeyboardProxy { get; set; } = new();
 
-    private void OnKeyPress(KeyboardEventArgs obj)
-        => KeyboardEventProxy.RegisterKeyDown(obj);
+    private void OnKeyPress(KeyboardKey keyboardKey)
+        => KeyboardProxy.RegisterKeyDown(keyboardKey);
 
 }

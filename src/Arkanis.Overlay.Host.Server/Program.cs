@@ -22,7 +22,7 @@ builder.Services.AddMudServices();
 
 builder.Services
     .AddJavaScriptEventInterop()
-    .AddScoped<KeyboardEventProxy>()
+    .AddKeyboardProxyService()
     .AddServerOverlayControls()
     .AddInfrastructure()
     .AddInfrastructureConfiguration(builder.Configuration);

@@ -1,12 +1,13 @@
+@using Arkanis.Overlay.Components.Extensions
 @using Arkanis.Overlay.Components.Services
 @using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
 @implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
-@inject KeyboardEventProxy KeyboardEventProxy
+@inject KeyboardProxy KeyboardProxy
 @inject ILogger<GlobalKeyboardEventProxyProvider> Logger
 
-<CascadingValue Value="@KeyboardEventProxy" IsFixed>
+<CascadingValue Value="@KeyboardProxy" IsFixed>
     @ChildContent
 </CascadingValue>
 

@@ -3,10 +3,10 @@ export class KeyboardEventHelper {
     static componentRef;
 
     /**
-     * @param {DotNet.DotNetObject} value
+     * @param {DotNet.DotNetObject} componentRef
      */
-    static init(value) {
-        KeyboardEventHelper.componentRef = value;
+    static init(componentRef) {
+        KeyboardEventHelper.componentRef = componentRef;
         window.addEventListener("keydown", this.processKeyDown);
         window.addEventListener("keyup", this.processKeyUp);
     }

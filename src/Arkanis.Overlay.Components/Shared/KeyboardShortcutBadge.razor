@@ -1,8 +1,7 @@
-@using Arkanis.Overlay.Components.Extensions
 @using Arkanis.Overlay.Components.Services
 @using Arkanis.Overlay.Domain.Models.Keyboard
 @implements IDisposable
-@inject KeyboardEventProxy GlobalKeyboardEventProxy
+@inject KeyboardProxy GlobalKeyboardProxy
 
 <MudBadge Origin="@Origin"
           Content="@Key.ToString()"
@@ -32,7 +31,7 @@
     public required RenderFragment ChildContent { get; set; }
 
     [Parameter]
-    public KeyboardEventProxy? KeyboardEventProxy { get; set; }
+    public KeyboardProxy? KeyboardEventProxy { get; set; }
 
     [Parameter]
     public string? Class { get; set; }
@@ -52,24 +51,24 @@
     [Parameter]
     public bool IsActive { get; set; } = true;
 
-    private KeyboardEventProxy UsedKeyboardEventProxy
-        => KeyboardEventProxy ?? GlobalKeyboardEventProxy;
+    private KeyboardProxy UsedKeyboardProxy
+        => KeyboardEventProxy ?? GlobalKeyboardProxy;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        UsedKeyboardEventProxy.OnKeyDown += OnKeyDown;
+        UsedKeyboardProxy.OnKeyDown += OnKeyDown;
     }
 
-    private async void OnKeyDown(object? sender, KeyboardEventArgs arg)
+    private async void OnKeyDown(object? sender, KeyboardKey keyboardKey)
     {
-        if (IsActive && arg.GetKey() == Key)
+        if (IsActive && keyboardKey == Key)
         {
-            await InvokeAsync(() => OnKeyPress.InvokeAsync(arg));
+            await InvokeAsync(() => OnKeyPress.InvokeAsync(keyboardKey));
         }
     }
 
     public void Dispose()
-        => UsedKeyboardEventProxy.OnKeyDown -= OnKeyDown;
+        => UsedKeyboardProxy.OnKeyDown -= OnKeyDown;
 
 }
