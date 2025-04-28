@@ -1,6 +1,7 @@
 @using Arkanis.Overlay.Components.Services
 @using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
+@implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
 @inject KeyboardEventProxy KeyboardEventProxy
 @inject ILogger<GlobalKeyboardEventProxyProvider> Logger
@@ -41,4 +42,13 @@
     public void OnKeyUp(KeyboardEventArgs keyboardEvent)
         => KeyboardEventProxy.RegisterKeyUp(keyboardEvent);
 
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            await _module.DisposeAsync();
+        }
+
+        _selfReference?.Dispose();
+    }
 }

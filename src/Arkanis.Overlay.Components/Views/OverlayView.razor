@@ -118,7 +118,7 @@
                         <KeyboardShortcutBadge Key="@KeyboardKey.Escape"
                                                Class="w-100"
                                                IsActive="@context.DoesNotContainFocus"
-                                               OnKeyPress="@(() => _searchBox?.FocusAsync())">
+                                               OnKeyPress="@(() => _searchBox?.SelectAsync())">
                             <MudTextField
                                 id="searchBox"
                                 @ref="_searchBox"
@@ -243,6 +243,7 @@
             await _searchCancellation.CancelAsync();
             _searchCancellation = new CancellationTokenSource();
             SearchResults = await SearchService.SearchAsync(searchQueries, _searchCancellation.Token);
+            await InvokeAsync(StateHasChanged);
         }
         catch (OperationCanceledException)
         {

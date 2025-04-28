@@ -103,7 +103,7 @@ export class QuickAccessContainer {
      */
     async pushUpdateToDotNet() {
         console.debug("sending notification to parent .NET component");
-        await this.componentRef.invokeMethodAsync("OnViewUpdate");
+        await this.componentRef.invokeMethodAsync("OnJsUpdateAsync");
     }
 
     /**

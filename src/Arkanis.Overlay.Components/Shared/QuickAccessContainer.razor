@@ -1,16 +1,14 @@
 @using System.Collections.Concurrent
+@using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
+@implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
+@inject ILogger<QuickAccessContainer> Logger
 
-<FocusRegion>
-    <div @ref="@_containerRef">
-        @if (!string.IsNullOrWhiteSpace(_containerRef.Id))
-        {
-            <CascadingValue Value="@(this)" IsFixed>
-                @ChildContent(this)
-            </CascadingValue>
-        }
-    </div>
+<FocusRegion @ref="_regionRef">
+    <CascadingValue Value="@(this)" IsFixed>
+        @ChildContent(this)
+    </CascadingValue>
 </FocusRegion>
 
 @code
@@ -21,7 +19,7 @@
 
     private readonly ConcurrentBag<Item> _items = [];
 
-    private ElementReference _containerRef;
+    private FocusRegion? _regionRef;
 
     [Parameter]
     [EditorRequired]
@@ -38,7 +36,11 @@
             Callback = callback,
         };
         _items.Add(item);
-        await UpdateAsync();
+
+        if (_controls is not null)
+        {
+            await _controls.InvokeVoidAsync("updateDebounced", 150);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -50,26 +52,33 @@
                 "import",
                 $"./_content/{SharedComponentsModule.Namespace}/{nameof(Shared)}/{nameof(QuickAccessContainer)}.razor.js"
             );
-            _controls = await _module.InvokeAsync<IJSObjectReference>("QuickAccessContainer.createFor", _selfReference, _containerRef, QuerySelector);
+            _controls = await _module.InvokeAsync<IJSObjectReference>("QuickAccessContainer.createFor", _selfReference, _regionRef!.ContainerElement, QuerySelector);
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task UpdateAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        if (_controls is not null)
+        {
+            Logger.LogDebug("Requesting JavaScript logic to update");
+            await _controls.InvokeVoidAsync("updateDebounced", 150);
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    [JSInvokable]
+    public async Task OnJsUpdateAsync()
+    {
+        Logger.LogDebug("Updating {ItemCount} items within this quick access container", _items.Count);
         foreach (var item in _items)
         {
             var visibilityInfo = await _controls!.InvokeAsync<VisibilityInfo>("getVisibilityInfo", item.Element);
             await item.Callback.InvokeAsync(visibilityInfo);
         }
     }
-
-    private readonly double _lastScrollTop = 0;
-
-    [JSInvokable]
-    public async Task OnViewUpdate()
-        => await UpdateAsync();
 
     public record Item
     {
@@ -79,4 +88,18 @@
 
     public record VisibilityInfo(int Index, bool IsVisible);
 
+    public async ValueTask DisposeAsync()
+    {
+        if (_module != null)
+        {
+            await _module.DisposeAsync();
+        }
+
+        if (_controls != null)
+        {
+            await _controls.DisposeAsync();
+        }
+
+        _selfReference?.Dispose();
+    }
 }
