@@ -13,3 +13,11 @@
 .text-disabled {
     color: var(--mud-palette-text-disabled);
 }
+
+.formatted {
+    white-space: pre;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}

@@ -15,7 +15,7 @@
     </MudStack>
     @if (Model.Properties is { } properties && !Embedded)
     {
-        <MudStack Style="height: 16px; max-width: 50vw; overflow: scroll;" Class="mt-n2" Row tabindex="-1">
+        <MudStack Style="height: 16px; max-width: 50vw; overflow: hidden;" Class="mt-n2 no-wrap" Row tabindex="-1">
             @foreach (var property in properties)
             {
                 <MudStack Spacing="2" Row>

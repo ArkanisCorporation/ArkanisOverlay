@@ -34,11 +34,11 @@
 {
 
     private KeyboardKey KeyboardShortcut
-        => _visibility?.IsVisible switch
+        => _itemInfo?.IsVisible switch
         {
-            true => _visibility switch
+            true => _itemInfo switch
             {
-                { Index: < 9 } => KeyboardKey.Digit1 + _visibility!.Index,
+                { Index: < 9 } => KeyboardKey.Digit1 + _itemInfo!.Index,
                 { Index: 9 } => KeyboardKey.Digit0,
                 _ => KeyboardKey.Unknown,
             },
@@ -48,7 +48,7 @@
     private bool KeyboardShortcutActive
         => KeyboardShortcut is not KeyboardKey.Unknown && (!_focusRegion?.HasFocus ?? false);
 
-    private QuickAccessContainer.VisibilityInfo? _visibility;
+    private QuickAccessContainer.ItemInfo? _itemInfo;
     private FocusRegion? _focusRegion;
     private IAsyncDisposable? _registration;
 
@@ -61,15 +61,17 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            _registration = await Container.RegisterAsync(_focusRegion!.ContainerElement, EventCallback.Factory.Create<QuickAccessContainer.VisibilityInfo>(this, OnVisibilityChanged));
+            var updateCallback = EventCallback.Factory.Create<QuickAccessContainer.ItemInfo>(this, OnVisibilityChanged);
+            _registration = await Container.RegisterAsync(_focusRegion!.ContainerElement, updateCallback);
         }
     }
 
-    private async Task OnVisibilityChanged(QuickAccessContainer.VisibilityInfo info)
+    private async Task OnVisibilityChanged(QuickAccessContainer.ItemInfo info)
     {
-        _visibility = info;
+        _itemInfo = info;
         await InvokeAsync(StateHasChanged);
     }
 

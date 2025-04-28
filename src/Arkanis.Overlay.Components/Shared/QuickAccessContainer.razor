@@ -27,7 +27,7 @@
     [Parameter]
     public string QuerySelector { get; set; } = "*";
 
-    public async Task<IAsyncDisposable> RegisterAsync(ElementReference element, EventCallback<VisibilityInfo> callback)
+    public async Task<IAsyncDisposable> RegisterAsync(ElementReference element, EventCallback<ItemInfo> callback)
     {
         var item = new Item
         {
@@ -99,7 +99,7 @@
         Logger.LogDebug("Updating {ItemCount} items within this quick access container", items.Count);
         foreach (var item in items)
         {
-            var visibilityInfo = await _controls!.InvokeAsync<VisibilityInfo>("getVisibilityInfo", item.Element);
+            var visibilityInfo = await _controls!.InvokeAsync<ItemInfo>("getVisibilityInfo", item.Element);
             await item.Callback.InvokeAsync(visibilityInfo);
         }
     }
@@ -108,13 +108,13 @@
     {
         public required Func<Item, Task> DisposeFunc { get; init; }
         public required ElementReference Element { get; init; }
-        public required EventCallback<VisibilityInfo> Callback { get; init; }
+        public required EventCallback<ItemInfo> Callback { get; init; }
 
         public async ValueTask DisposeAsync()
             => await DisposeFunc(this);
     }
 
-    public record VisibilityInfo(int Index, bool IsVisible);
+    public record ItemInfo(int Index, bool IsVisible);
 
     public async ValueTask DisposeAsync()
     {
