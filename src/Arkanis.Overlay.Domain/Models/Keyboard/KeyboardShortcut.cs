@@ -11,7 +11,6 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
     public static readonly KeyboardShortcut None = new([]);
 
     public HashSet<KeyboardKey> PressedKeys { get; } = pressedKeys
-        .Order()
         .Distinct()
         .ToHashSet();
 

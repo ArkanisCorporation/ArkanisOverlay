@@ -17,7 +17,7 @@
         HelperText="@HelperText"
         AdornmentIcon="@MaterialSymbols.Outlined.KeyboardKeys"
         Immediate
-        Clearable="@(!Domain.Models.Keyboard.KeyboardShortcut.None.Equals(Value))"
+        Clearable="@(!KeyboardShortcut.None.Equals(Value))"
         OnClearButtonClick="OnClear"
         @onkeydown="OnKeyDown"
         @onkeyup="OnKeyUp"/>
@@ -26,11 +26,8 @@
 @code
 {
 
+    private KeyboardShortcutBuilder? _shortcutBuilder;
     private MudTextField<string>? _textField;
-
-    private bool _finalized = true;
-    private Timer? _finalizeTimer;
-    private readonly List<KeyboardKey> _releasedKeys = [];
 
     [Parameter]
     public string Label { get; set; } = string.Empty;
@@ -39,10 +36,10 @@
     public string? HelperText { get; set; } = "Focus this input and press the desired keys";
 
     [Parameter]
-    public Domain.Models.Keyboard.KeyboardShortcut Value { get; set; } = Domain.Models.Keyboard.KeyboardShortcut.None;
+    public KeyboardShortcut Value { get; set; } = KeyboardShortcut.None;
 
     [Parameter]
-    public EventCallback<Domain.Models.Keyboard.KeyboardShortcut> ValueChanged { get; set; }
+    public EventCallback<KeyboardShortcut> ValueChanged { get; set; }
 
     [Parameter]
     public bool Required { get; set; }
@@ -57,112 +54,53 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _finalizeTimer = new Timer(FinalizeAsync, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
-    }
 
-    private bool AreAnyKeysPressed()
-    {
-        lock (_releasedKeys)
-        {
-            // keys that have been pressed have all been released
-            return Value.PressedKeys.SetEquals(_releasedKeys);
-        }
-    }
-
-    private void ClearReleasedKeysFromKeyPress()
-    {
-        lock (_releasedKeys)
-        {
-            _releasedKeys.ForEach(key => Value -= key);
-            _releasedKeys.Clear();
-        }
+        _shortcutBuilder = new KeyboardShortcutBuilder(UpdatedAsync, FinalizedAsync);
     }
 
     private async Task OnKeyDown(KeyboardEventArgs eventArgs)
     {
-        // a key has been pressed
-        var keyboardKey = eventArgs.GetKey();
-        Logger.LogDebug("Key pressed: {KeyboardKey} ({KeyboardEventArgs})", keyboardKey, eventArgs);
-
-        if (_finalized)
-        {
-            // the shortcut has been previously finalized, start from scratch
-            Value = Domain.Models.Keyboard.KeyboardShortcut.None;
-            _finalized = false;
-        }
-
-        lock (_releasedKeys)
-        {
-            // remove any released keys from the shortcut
-            ClearReleasedKeysFromKeyPress();
-
-            Value += keyboardKey;
-        }
-
-        await UpdateValueAsync();
+        _shortcutBuilder!.AddKey(eventArgs);
+        await UpdateValueAsync(_shortcutBuilder.Value);
     }
 
     private void OnKeyUp(KeyboardEventArgs eventArgs)
+        => _shortcutBuilder!.RemoveKey(eventArgs.GetKey());
+
+    private async Task UpdatedAsync(KeyboardShortcut shortcut)
+        => await InvokeAsync(() => UpdateValueAsync(shortcut));
+
+    private async Task FinalizedAsync(KeyboardShortcut shortcut)
     {
-        // a key has been released
-        var keyboardKey = eventArgs.GetKey();
-        Logger.LogDebug("Key released: {KeyboardKey} ({KeyboardEventArgs})", keyboardKey, eventArgs);
+        await InvokeAsync(() => shortcut.IsValid switch
+            {
+                true => UpdateValueAsync(shortcut),
+                false => UpdateValueAsync(KeyboardShortcut.None),
+            }
+        );
 
-        lock (_releasedKeys)
+        if (_textField is not null)
         {
-            _releasedKeys.Add(keyboardKey);
+            // unfocus the input element to disable keyboard handling
+            await InvokeAsync(() => _textField.BlurAsync());
         }
 
-        // start a timer to remove the key
-        //   or to finalize the shortcut
-        _finalizeTimer?.Change(TimeSpan.FromMilliseconds(250), Timeout.InfiniteTimeSpan);
-    }
-
-    private async void FinalizeAsync(object? state)
-    {
-        // input timeout has expired
-        try
-        {
-            if (AreAnyKeysPressed())
-            {
-                ClearReleasedKeysFromKeyPress();
-                await InvokeAsync(UpdateValueAsync);
-
-                return;
-            }
-
-            lock (_releasedKeys)
-            {
-                _releasedKeys.Clear();
-                _finalized = true;
-            }
-
-            if (_textField is not null)
-            {
-                // unfocus the input element to disable keyboard handling
-                await InvokeAsync(() => _textField.BlurAsync());
-            }
-
-            Logger.LogDebug("Shortcut finalised: {KeyboardKey}", Value.Description);
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Could not finalize keyboard shortcut input");
-        }
+        Logger.LogDebug("Shortcut finalised: {KeyboardKey}", Value.Description);
     }
 
     private async Task OnClear()
     {
-        Value = Domain.Models.Keyboard.KeyboardShortcut.None;
-        await UpdateValueAsync();
+        _shortcutBuilder?.Clear();
+        await UpdateValueAsync(KeyboardShortcut.None);
     }
 
-    private async Task UpdateValueAsync()
+    private async Task UpdateValueAsync(KeyboardShortcut shortcut)
     {
-        await ValueChanged.InvokeAsync(Value);
+        Value = shortcut;
+        await ValueChanged.InvokeAsync(shortcut);
         if (_textField is not null)
         {
-            await _textField!.SetText(Value.Description);
+            await _textField!.SetText(shortcut.Description);
         }
     }
 
