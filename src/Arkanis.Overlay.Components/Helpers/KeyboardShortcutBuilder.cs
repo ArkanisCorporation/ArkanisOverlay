@@ -4,11 +4,11 @@ using Domain.Models.Keyboard;
 using Extensions;
 using Microsoft.AspNetCore.Components.Web;
 
-public class KeyboardShortcutBuilder
+public sealed class KeyboardShortcutBuilder : IDisposable
 {
-    private readonly Func<KeyboardShortcut, Task> _changeCallback;
     private readonly Func<KeyboardShortcut, Task> _completionCallback;
     private readonly Timer? _finalizeTimer;
+    private readonly Func<KeyboardShortcut, Task> _changeCallback;
 
     private readonly List<KeyboardKey> _releasedKeys = [];
 
@@ -24,6 +24,9 @@ public class KeyboardShortcutBuilder
     public KeyboardShortcut Value { get; private set; } = KeyboardShortcut.None;
 
     public TimeSpan FinalizationTimeout { get; set; } = TimeSpan.FromMilliseconds(200);
+
+    public void Dispose()
+        => _finalizeTimer?.Dispose();
 
     private bool AreAnyKeysPressed()
     {
@@ -60,7 +63,9 @@ public class KeyboardShortcutBuilder
 
         if ((eventArgs.ShiftKey || eventArgs.MetaKey) && !KeyboardKeyUtils.IsKeyInCategory(keyboardKey, KeyboardKeyCategory.Modifier))
         {
+            // WORKAROUND:
             // key release event is not reported for keys pressed together with a shift/meta modifier key
+            // by marking the key as released, we can ensure that the shortcut is properly finalized
             RemoveKey(keyboardKey);
         }
     }

@@ -4,7 +4,7 @@
 @inject KeyboardProxy GlobalKeyboardProxy
 
 <MudBadge Origin="@Origin"
-          Content="@Key.ToString()"
+          Content="@_shortcut.Description"
           Class="@Class"
           BadgeClass="@BadgeClass"
           Style="@Style"
@@ -18,9 +18,13 @@
 @code
 {
 
+    private KeyboardShortcut _shortcut = KeyboardShortcut.None;
+
     [Parameter]
-    [EditorRequired]
-    public required KeyboardKey Key { get; set; }
+    public KeyboardKey Key { get; set; }
+
+    [Parameter]
+    public IEnumerable<KeyboardKey>? Keys { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -57,18 +61,26 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        UsedKeyboardProxy.OnKeyDown += OnKeyDown;
+        UsedKeyboardProxy.OnKeyboardShortcut += OnKeyboardShortcut;
     }
 
-    private async void OnKeyDown(object? sender, KeyboardKey keyboardKey)
+    protected override async Task OnParametersSetAsync()
     {
-        if (IsActive && keyboardKey == Key)
+        await base.OnParametersSetAsync();
+        _shortcut = Keys is not null
+            ? new KeyboardShortcut(Keys)
+            : new KeyboardShortcut([Key]);
+    }
+
+    private async void OnKeyboardShortcut(object? sender, KeyboardShortcut keyboardShortcut)
+    {
+        if (IsActive && (keyboardShortcut.Equals((KeyboardShortcut)Key) || _shortcut.Equals(keyboardShortcut)))
         {
-            await InvokeAsync(() => OnKeyPress.InvokeAsync(keyboardKey));
+            await InvokeAsync(() => OnKeyPress.InvokeAsync(keyboardShortcut));
         }
     }
 
     public void Dispose()
-        => UsedKeyboardProxy.OnKeyDown -= OnKeyDown;
+        => UsedKeyboardProxy.OnKeyboardShortcut -= OnKeyboardShortcut;
 
 }

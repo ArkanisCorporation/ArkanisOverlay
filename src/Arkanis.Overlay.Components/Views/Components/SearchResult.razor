@@ -4,7 +4,7 @@
 
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 py-2 focus" tabindex="0">
-        <KeyboardShortcutBadge Key="@(KeyboardShortcut)"
+        <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardShortcut])"
                                Origin="@Origin.TopLeft"
                                Class="w-100"
                                IsActive="@(KeyboardShortcutActive)"

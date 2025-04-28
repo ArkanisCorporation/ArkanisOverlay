@@ -37,11 +37,11 @@
 
     [JSInvokable]
     public void OnKeyDown(KeyboardEventArgs keyboardEvent)
-        => KeyboardEventProxy.RegisterKeyDown(keyboardEvent);
+        => KeyboardProxy.RegisterKeyDown(keyboardEvent.GetKey());
 
     [JSInvokable]
     public void OnKeyUp(KeyboardEventArgs keyboardEvent)
-        => KeyboardEventProxy.RegisterKeyUp(keyboardEvent);
+        => KeyboardProxy.RegisterKeyUp(keyboardEvent.GetKey());
 
     public async ValueTask DisposeAsync()
     {
