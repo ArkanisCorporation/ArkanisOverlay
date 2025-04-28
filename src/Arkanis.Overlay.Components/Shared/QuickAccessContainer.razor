@@ -1,4 +1,3 @@
-@using System.Collections.Concurrent
 @using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
 @implements IAsyncDisposable
@@ -17,7 +16,7 @@
     private IJSObjectReference? _controls;
     private DotNetObjectReference<QuickAccessContainer>? _selfReference;
 
-    private readonly ConcurrentBag<Item> _items = [];
+    private readonly List<Item> _items = [];
 
     private FocusRegion? _regionRef;
 
@@ -28,14 +27,33 @@
     [Parameter]
     public string QuerySelector { get; set; } = "*";
 
-    public async Task RegisterAsync(ElementReference element, EventCallback<VisibilityInfo> callback)
+    public async Task<IAsyncDisposable> RegisterAsync(ElementReference element, EventCallback<VisibilityInfo> callback)
     {
         var item = new Item
         {
             Element = element,
             Callback = callback,
+            DisposeFunc = UnregisterAsync,
         };
-        _items.Add(item);
+        lock (_items)
+        {
+            _items.Add(item);
+        }
+
+        if (_controls is not null)
+        {
+            await _controls.InvokeVoidAsync("updateDebounced", 150);
+        }
+
+        return item;
+    }
+
+    private async Task UnregisterAsync(Item item)
+    {
+        lock (_items)
+        {
+            _items.Remove(item);
+        }
 
         if (_controls is not null)
         {
@@ -72,18 +90,28 @@
     [JSInvokable]
     public async Task OnJsUpdateAsync()
     {
-        Logger.LogDebug("Updating {ItemCount} items within this quick access container", _items.Count);
-        foreach (var item in _items)
+        ICollection<Item> items = [];
+        lock (_items)
+        {
+            items = _items.ToList();
+        }
+
+        Logger.LogDebug("Updating {ItemCount} items within this quick access container", items.Count);
+        foreach (var item in items)
         {
             var visibilityInfo = await _controls!.InvokeAsync<VisibilityInfo>("getVisibilityInfo", item.Element);
             await item.Callback.InvokeAsync(visibilityInfo);
         }
     }
 
-    public record Item
+    public class Item : IAsyncDisposable
     {
+        public required Func<Item, Task> DisposeFunc { get; init; }
         public required ElementReference Element { get; init; }
         public required EventCallback<VisibilityInfo> Callback { get; init; }
+
+        public async ValueTask DisposeAsync()
+            => await DisposeFunc(this);
     }
 
     public record VisibilityInfo(int Index, bool IsVisible);

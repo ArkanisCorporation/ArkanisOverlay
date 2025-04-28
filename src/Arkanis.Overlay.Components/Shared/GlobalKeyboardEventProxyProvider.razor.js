@@ -1,12 +1,20 @@
 export class KeyboardEventHelper {
+    /** @type {DotNet.DotNetObject} */
     static componentRef;
 
+    /**
+     * @param {DotNet.DotNetObject} value
+     */
     static init(value) {
         KeyboardEventHelper.componentRef = value;
         window.addEventListener("keydown", this.processKeyDown);
         window.addEventListener("keyup", this.processKeyUp);
     }
 
+    /**
+     * @param {Event} event
+     * @returns {Promise<void>}
+     */
     static async processKeyDown(event) {
         const eventObj = KeyboardEventHelper.simplify_object(event);
         const consumed = await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyDown", eventObj);
@@ -16,6 +24,10 @@ export class KeyboardEventHelper {
         }
     }
 
+    /**
+     * @param {Event} event
+     * @returns {Promise<void>}
+     */
     static async processKeyUp(event) {
         const eventObj = KeyboardEventHelper.simplify_object(event);
         const consumed = await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyUp", eventObj);
@@ -25,7 +37,15 @@ export class KeyboardEventHelper {
         }
     }
 
-    // See: https://stackoverflow.com/a/58416333/3078351
+    /**
+     * @see https://stackoverflow.com/a/58416333/3078351
+     *
+     * @param {Object} object
+     * @param {Number} depth
+     * @param {Number} max_depth
+     *
+     * @returns {Object}
+     */
     static simplify_object(object, depth = 0, max_depth = 2) {
         // change max_depth to see more levels, for a touch event, 2 is good
         if (depth > max_depth) {

@@ -3,13 +3,13 @@
  * @description This module provides functionality to manage a container of elements for quick visibility-based access.
  */
 export class QuickAccessContainer {
-    /** @type Object */
+    /** @type {DotNet.DotNetObject} */
     componentRef;
 
-    /** @type HTMLElement */
+    /** @type {HTMLElement} */
     containerElement;
 
-    /** @type String */
+    /** @type {String} */
     childElementSelector;
 
     /** @type {Array<HTMLElement>} */
@@ -27,7 +27,7 @@ export class QuickAccessContainer {
     /**
      * Initializes the QuickAccessContainer and links it to the .NET component (via DotNet ObjectReference).
      *
-     * @param {Object} componentRef
+     * @param {DotNet.DotNetObject} componentRef
      * @param {HTMLElement} containerElement
      * @param {String} childElementSelector
      */
@@ -53,7 +53,7 @@ export class QuickAccessContainer {
     /**
      * Creates new instance of QuickAccessContainer for the provider .NET component.
      *
-     * @param {Object} componentRef
+     * @param {DotNet.DotNetObject} componentRef
      * @param {HTMLElement} containerElement
      * @param {String} childElementSelector
      *

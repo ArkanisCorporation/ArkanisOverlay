@@ -1,5 +1,4 @@
-@using Microsoft.JSInterop
-@inject IJSRuntime JsRuntime
+@inject EventInterop EventInterop
 
 <div class="@Class"
      style="@Style"
@@ -37,8 +36,21 @@
     private void FocusReceived()
         => HasFocus = true;
 
-    private void FocusLost()
-        => HasFocus = false;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await EventInterop.RegisterWindowEventHandlerAsync("blur", EventInterop.CreateHandler(FocusLost));
+        }
+    }
+
+    private async Task FocusLost()
+    {
+        HasFocus = false;
+        await InvokeAsync(StateHasChanged);
+    }
 
     public record Context(FocusRegion SourceRegion)
     {

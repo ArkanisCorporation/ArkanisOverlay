@@ -1,7 +1,6 @@
 @using System.Text
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Components.Views.Components
-@using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Domain.Enums
 @using Arkanis.Overlay.Domain.Models.Keyboard
@@ -15,6 +14,7 @@
 @inject IDialogService DialogService
 @inject IOverlayControls OverlayControls
 @inject ISearchService SearchService
+@inject EventInterop EventInterop
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -91,75 +91,73 @@
 
 <MudStack id="searchContainer" Class="d-flex justify-center align-center flex-grow-1 px-3">
     <div style="padding: 7.5vh"></div>
-    <MudFocusTrap DefaultFocus="@DefaultFocus.FirstChild">
-        <MudPaper Elevation="8"
-                  Style="position: sticky; top: 0; z-index: 10; min-width: 60vw;">
+    <MudPaper Elevation="8"
+              Style="position: sticky; top: 0; z-index: 10; min-width: 60vw;">
+        <MudStack Spacing="0"
+                  AlignItems="@AlignItems.Center">
             <MudStack Spacing="0"
-                      AlignItems="@AlignItems.Center">
-                <MudStack Spacing="0"
-                          Class="w-100"
-                          Row>
-                    @if (_searchContext.CurrentLocation is { } currentLocation)
-                    {
-                        <KeyboardShortcutBadge Key="@KeyboardKey.F2"
-                                               Origin="@Origin.BottomCenter"
-                                               Color="@Color.Error"
-                                               Class="d-flex"
-                                               OnKeyPress="@(() => _searchContext.ClearLocationFilterAsync())">
-                            <div class="h-100 px-4 d-flex align-center"
-                                 id="currentLocation"
-                                 style="border: 1px solid var(--mud-palette-lines-inputs); border-radius: var(--mud-default-borderradius); border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                                <GameEntityNameLabel
-                                    Model="@currentLocation.Name"/>
-                            </div>
-                        </KeyboardShortcutBadge>
-                    }
-                    <FocusRegion Class="w-100">
-                        <KeyboardShortcutBadge Key="@KeyboardKey.Escape"
-                                               Class="w-100"
-                                               IsActive="@context.DoesNotContainFocus"
-                                               OnKeyPress="@(() => _searchBox?.SelectAsync())">
-                            <MudTextField
-                                id="searchBox"
-                                @ref="_searchBox"
-                                T="string"
-                                Style="border-bottom-left-radius: 0; border-top-left-radius: 0"
-                                @bind-Value="@SearchText"
-                                @bind-Value:after="@SearchAsync"
-                                Variant="Variant.Outlined"
-                                Adornment="@Adornment.End"
-                                AdornmentIcon="@Icons.Material.Filled.Search"
-                                AdornmentColor="@Color.Secondary"
-                                AutoFocus
-                                Immediate/>
-                        </KeyboardShortcutBadge>
-                    </FocusRegion>
-                </MudStack>
-                <MudText Typo="@Typo.overline" Class="text-secondary px-3">
-                    @ShortcutsText
-                </MudText>
+                      Class="w-100"
+                      Row>
+                @if (_searchContext.CurrentLocation is { } currentLocation)
+                {
+                    <KeyboardShortcutBadge Key="@KeyboardKey.F2"
+                                           Origin="@Origin.BottomCenter"
+                                           Color="@Color.Error"
+                                           Class="d-flex"
+                                           OnKeyPress="@(() => _searchContext.ClearLocationFilterAsync())">
+                        <div class="h-100 px-4 d-flex align-center"
+                             id="currentLocation"
+                             style="border: 1px solid var(--mud-palette-lines-inputs); border-radius: var(--mud-default-borderradius); border-top-right-radius: 0; border-bottom-right-radius: 0;">
+                            <GameEntityNameLabel
+                                Model="@currentLocation.Name"/>
+                        </div>
+                    </KeyboardShortcutBadge>
+                }
+                <FocusRegion Class="w-100">
+                    <KeyboardShortcutBadge Key="@KeyboardKey.Escape"
+                                           Class="w-100"
+                                           IsActive="@context.DoesNotContainFocus"
+                                           OnKeyPress="@(FocusSearchBoxAsync)">
+                        <MudTextField
+                            id="searchBox"
+                            @ref="_searchBox"
+                            T="string"
+                            Style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                            @bind-Value="@SearchText"
+                            @bind-Value:after="@SearchAsync"
+                            Variant="Variant.Outlined"
+                            Adornment="@Adornment.End"
+                            AdornmentIcon="@Icons.Material.Filled.Search"
+                            AdornmentColor="@Color.Secondary"
+                            AutoFocus
+                            Immediate/>
+                    </KeyboardShortcutBadge>
+                </FocusRegion>
             </MudStack>
-        </MudPaper>
+            <MudText Typo="@Typo.overline" Class="text-secondary px-3">
+                @ShortcutsText
+            </MudText>
+        </MudStack>
+    </MudPaper>
 
-        <CascadingValue Value="@_searchContext" IsFixed>
-            @if (SearchResults.GameEntities.Count > 0)
-            {
-                <MudChip T="string" Variant="@Variant.Text">
-                    Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
-                </MudChip>
+    <CascadingValue Value="@_searchContext" IsFixed>
+        @if (SearchResults.GameEntities.Count > 0)
+        {
+            <MudChip T="string" Variant="@Variant.Text">
+                Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
+            </MudChip>
 
-                <QuickAccessContainer QuerySelector=".search-result-container">
-                    <MudStack Class="mt-10 w-100" Style="width: fit-content; min-width: 60vw;">
-                        <MudVirtualize Items="@SearchResults.GameEntities" ItemSize="66" Enabled Context="result">
-                            <SearchResult
-                                @key="@result.Subject.GetHashCode()"
-                                Model="@result.Subject"/>
-                        </MudVirtualize>
-                    </MudStack>
-                </QuickAccessContainer>
-            }
-        </CascadingValue>
-    </MudFocusTrap>
+            <QuickAccessContainer QuerySelector=".search-result-container">
+                <MudStack Class="mt-10 w-100" Style="width: fit-content; min-width: 60vw;">
+                    <MudVirtualize Items="@SearchResults.GameEntities" ItemSize="66" Enabled Context="result">
+                        <SearchResult
+                            @key="@result.Subject.GetHashCode()"
+                            Model="@result.Subject"/>
+                    </MudVirtualize>
+                </MudStack>
+            </QuickAccessContainer>
+        }
+    </CascadingValue>
 </MudStack>
 
 @code
@@ -191,6 +189,17 @@
         {
             ConfigChanged = EventCallback.Factory.Create<OverlaySearchContext>(this, OnSearchContextChange),
         };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            var windowFocusHandler = EventInterop.CreateHandler(FocusSearchBoxAsync);
+            await EventInterop.RegisterWindowEventHandlerAsync("focus", windowFocusHandler);
+        }
     }
 
     private async Task OnSearchContextChange(OverlaySearchContext newContext)
@@ -255,13 +264,16 @@
         }
     }
 
-    private async Task OnResultClick(SearchMatchResult<IGameEntity> result)
-    {
-        // TODO: Show detailed prices in a dialog or expand the list item
-    }
-
     private async Task OpenUserOptionsDialogAsync()
     {
         await UserPreferencesEditDialog.ShowAsync(DialogService);
+    }
+
+    private async Task FocusSearchBoxAsync()
+    {
+        if (_searchBox is not null)
+        {
+            await _searchBox.SelectAsync();
+        }
     }
 }

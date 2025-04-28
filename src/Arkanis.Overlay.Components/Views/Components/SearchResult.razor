@@ -1,5 +1,7 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Models.Keyboard
+@implements IAsyncDisposable
+
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 py-2 focus" tabindex="0">
         <KeyboardShortcutBadge Key="@(KeyboardShortcut)"
@@ -48,6 +50,7 @@
 
     private QuickAccessContainer.VisibilityInfo? _visibility;
     private FocusRegion? _focusRegion;
+    private IAsyncDisposable? _registration;
 
     [CascadingParameter]
     public required QuickAccessContainer Container { get; set; }
@@ -60,7 +63,7 @@
     {
         if (firstRender)
         {
-            await Container.RegisterAsync(_focusRegion!.ContainerElement, EventCallback.Factory.Create<QuickAccessContainer.VisibilityInfo>(this, OnVisibilityChanged));
+            _registration = await Container.RegisterAsync(_focusRegion!.ContainerElement, EventCallback.Factory.Create<QuickAccessContainer.VisibilityInfo>(this, OnVisibilityChanged));
         }
     }
 
@@ -68,6 +71,14 @@
     {
         _visibility = info;
         await InvokeAsync(StateHasChanged);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_registration != null)
+        {
+            await _registration.DisposeAsync();
+        }
     }
 
 }
