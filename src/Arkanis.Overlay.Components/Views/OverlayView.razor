@@ -7,7 +7,6 @@
 @using Arkanis.Overlay.Domain.Models.Search
 @using Humanizer
 @using Microsoft.Extensions.Logging
-@using Microsoft.JSInterop
 @layout OverlayLayout
 
 @inject ILogger<OverlayView> Logger
@@ -105,7 +104,7 @@
                                            Color="@Color.Error"
                                            Class="d-flex"
                                            OnKeyPress="@(() => _searchContext.ClearLocationFilterAsync())">
-                        <div class="h-100 px-4 d-flex align-center"
+                        <div class="h-100 px-4 d-flex align-center no-wrap"
                              id="currentLocation"
                              style="border: 1px solid var(--mud-palette-lines-inputs); border-radius: var(--mud-default-borderradius); border-top-right-radius: 0; border-bottom-right-radius: 0;">
                             <GameEntityNameLabel
@@ -113,10 +112,11 @@
                         </div>
                     </KeyboardShortcutBadge>
                 }
-                <FocusRegion Class="w-100">
+                <FocusRegion Class="w-100" @ref="_searchBoxFocusRegion">
                     <KeyboardShortcutBadge Key="@KeyboardKey.Escape"
+                                           Origin="@(Origin.BottomCenter)"
+                                           Color="@(context.ContainsFocus ? Color.Error : Color.Tertiary)"
                                            Class="w-100"
-                                           IsActive="@context.DoesNotContainFocus"
                                            OnKeyPress="@(FocusSearchBoxAsync)">
                         <MudTextField
                             id="searchBox"
@@ -181,6 +181,7 @@
     };
 
     private OverlaySearchContext _searchContext = new();
+    private FocusRegion? _searchBoxFocusRegion;
 
     protected override void OnInitialized()
     {
@@ -215,11 +216,8 @@
 
     private GameEntitySearchResults SearchResults { get; set; } = GameEntitySearchResults.Empty;
 
-    [JSInvokable("ClickAwayHide")]
-    public void ClickAwayHide()
-    {
-        OverlayControls.HideAsync();
-    }
+    private void ClickAwayHide()
+        => OverlayControls.HideAsync();
 
     private async Task SearchAsync()
     {
@@ -265,15 +263,20 @@
     }
 
     private async Task OpenUserOptionsDialogAsync()
-    {
-        await UserPreferencesEditDialog.ShowAsync(DialogService);
-    }
+        => await UserPreferencesEditDialog.ShowAsync(DialogService);
 
     private async Task FocusSearchBoxAsync()
     {
-        if (_searchBox is not null)
+        if (_searchBoxFocusRegion?.HasFocus == true)
         {
-            await _searchBox.SelectAsync();
+            await OverlayControls.HideAsync();
+        }
+        else
+        {
+            if (_searchBox is not null)
+            {
+                await _searchBox.SelectAsync();
+            }
         }
     }
 }
