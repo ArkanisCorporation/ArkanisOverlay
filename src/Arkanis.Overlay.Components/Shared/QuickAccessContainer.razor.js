@@ -1,3 +1,5 @@
+const SEARCH_BAR_HEIGHT_PX = 100;
+
 /**
  * @module QuickAccessContainer
  * @description This module provides functionality to manage a container of elements for quick visibility-based access.
@@ -53,6 +55,8 @@ export class QuickAccessContainer {
     /**
      * Creates new instance of QuickAccessContainer for the provider .NET component.
      *
+     * @remarks This method is called from .NET code.
+     *
      * @param {DotNet.DotNetObject} componentRef
      * @param {HTMLElement} containerElement
      * @param {String} childElementSelector
@@ -86,6 +90,8 @@ export class QuickAccessContainer {
 
     /**
      * Schedules debounced collection of visible elements and update propagation.
+     *
+     * @remarks This method is called from .NET code.
      *
      * @param {int?} timeout
      */
@@ -129,12 +135,15 @@ export class QuickAccessContainer {
      */
     isFullyVisible(element) {
         const bounds = element.getBoundingClientRect();
-        return bounds.bottom - bounds.height >= 0
+        return bounds.bottom - bounds.height - SEARCH_BAR_HEIGHT_PX >= 0
             && bounds.top + bounds.height <= window.innerHeight;
     }
 
     /**
      * Checks if the element is visible within the viewport and returns its visibility information.
+     *
+     * @remarks This method is called from .NET code.
+     *
      * @param {HTMLElement} element
      *
      * @returns {{
