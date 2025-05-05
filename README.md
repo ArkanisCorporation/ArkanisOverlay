@@ -1,5 +1,14 @@
 # Arkanis Overlay
 
+<a href="https://uexcorp.space">
+    <img
+        src="assets/uex-api-badge-partnered.png"
+        height="32"
+        title="Partnered with UEX"
+        alt="Partnered with UEX Badge"
+    />
+</a>
+
 **A Next-Generation Overlay Companion for Star Citizen**<br>
 Created by **[FatalMerlin](https://discord.com/users/174617873182883841)**,
 co-founder of the in-game organization **[Arkanis Corporation](https://join.arkanis.cc/)**,
@@ -207,3 +216,20 @@ Let’s make Star Citizen a little smoother — together.
 
 ---
 
+## Disclaimer
+<a href="https://uexcorp.space">
+    <img
+        src="assets/MadeByTheCommunity_Black.png"
+        height="128"
+        title="Partnered with UEX"
+        alt="Partnered with UEX Badge"
+    />
+</a>
+
+<br>
+<br>
+
+<sup>
+This is an unofficial Star Citizen application, unaffiliated with the Cloud Imperium group of companies. Some content on this site belongs to their respective owners.<br>
+Star Citizen®, Roberts Space Industries® and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC
+</sup>
