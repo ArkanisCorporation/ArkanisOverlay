@@ -1,0 +1,5 @@
+<Project>
+    <!-- Workaroud for EF Core migrations when using ArtifactsPath: https://github.com/dotnet/efcore/issues/23853#issuecomment-2183607932 -->
+    <Import Condition="Exists('$(MSBuildProjectDirectory)\obj\$(MSBuildProjectFile).EntityFrameworkCore.targets')"
+            Project="$(MSBuildProjectDirectory)\obj\$(MSBuildProjectFile).EntityFrameworkCore.targets"/>
+</Project>

@@ -14,18 +14,7 @@
 }
 
 .badge-container {
-    position: fixed;
-
-    bottom: 25px;
-
-    &.author {
-        right: 25px;
-    }
-
-    &.uex {
-        left: 25px;
-    }
-
+    width: fit-content;
     height: 2rem;
     padding: 0;
     transition: height 0.35s ease-in-out;

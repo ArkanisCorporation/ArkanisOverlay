@@ -1,4 +1,4 @@
-@inject NavigationManager NavigationManager
+@using Arkanis.Overlay.Application.UI.Shared
 <Error>
     <Router AppAssembly="@typeof(RazorApp).Assembly">
         <Found Context="routeData">
@@ -13,9 +13,3 @@
         </NotFound>
     </Router>
 </Error>
-
-@code {
-
-    protected override void OnInitialized() => NavigationManager.NavigateTo("/overlay");
-
-}

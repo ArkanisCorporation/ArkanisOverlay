@@ -26,7 +26,8 @@
                               Loaded="MainWindow_Loaded"
                               Panel.ZIndex="99"
                               Focusable="True"
-                              Services="{DynamicResource services}">
+                              Services="{DynamicResource services}"
+                              StartPath="/overlay">
             <blazor:BlazorWebView.RootComponents>
                 <blazor:RootComponent Selector="#app" ComponentType="{x:Type ui:RazorApp}" />
             </blazor:BlazorWebView.RootComponents>
@@ -41,6 +42,7 @@
 
             <icon:TrayIcon.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Preferences" Click="OnPreferenceCommand" />
                     <MenuItem Header="Exit" Click="OnExitCommand" />
                 </ContextMenu>
             </icon:TrayIcon.ContextMenu>

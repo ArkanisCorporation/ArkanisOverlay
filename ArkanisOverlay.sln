@@ -4,6 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{BAB8C1A2-5
 	ProjectSection(SolutionItems) = preProject
 		DEVELOPMENT.md = DEVELOPMENT.md
 		README.md = README.md
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}"
@@ -27,6 +28,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8BB043D2-BDE7-461C-8D9C-5184A0A0C185}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Infrastructure.UnitTests", "tests\Arkanis.Overlay.Infrastructure.UnitTests\Arkanis.Overlay.Infrastructure.UnitTests.csproj", "{06F00A11-3606-43F2-B6F5-907586C606B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{811538FC-7A46-4712-915E-3BDA29E04C67}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.releaserc = .releaserc
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		package.json = package.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

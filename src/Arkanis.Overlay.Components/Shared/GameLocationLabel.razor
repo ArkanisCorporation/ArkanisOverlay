@@ -1,0 +1,51 @@
+@using Arkanis.Common.Extensions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@if (Model.Name.MainContent is GameEntityName.IHasCode codeName)
+{
+    <GameEntityNameCodePart Model="@codeName"
+                            Style="font-size: 12px">
+        <PrefixContent>
+            @if (!NoPrefix)
+            {
+                <span class="text-secondary mr-1" style="font-weight: lighter">
+                    @SelectLocationPrefix(Model)
+                </span>
+            }
+        </PrefixContent>
+    </GameEntityNameCodePart>
+}
+else
+{
+    <span>
+        @if (!NoPrefix)
+        {
+            <span class="text-secondary mr-1" style="font-weight: lighter">
+                @SelectLocationPrefix(Model)
+            </span>
+        }
+        <MudTooltip Text="@Model.Name.MainContent.FullName" Placement="@Placement.Top">
+            <abbr class="text-primary" title>
+                @Model.Name.MainContent.FullName.Abbreviate()
+            </abbr>
+        </MudTooltip>
+    </span>
+}
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required IGameLocation Model { get; set; }
+
+    [Parameter]
+    public bool NoPrefix { get; set; }
+
+    private string SelectLocationPrefix(IGameLocation location)
+        => location switch
+        {
+            GameTerminal => "@",
+            _ => "within",
+        };
+
+}

@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.text-primary {
+    color: var(--mud-palette-text-primary);
+}
+
 .text-secondary {
     color: var(--mud-palette-text-secondary);
 }

@@ -10,16 +10,13 @@
         <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
         <Platform>x64</Platform>
         <StartupObject>Arkanis.Overlay.Application.Program</StartupObject>
-        <!-- see https://learn.microsoft.com/en-us/dotnet/core/extensions/workers#template-defaults -->
-        <ServerGarbageCollection>true</ServerGarbageCollection>
+        <ServerGarbageCollection>false</ServerGarbageCollection>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <!-- PublishSingleFile in csproj breaks debugger -->
-        <PublishSingleFile>true</PublishSingleFile>
-        <SelfContained>true</SelfContained>
-        <IncludeNativeLibrariesForSelfExtract>false</IncludeNativeLibrariesForSelfExtract>
-        <PublishDir>..\publish</PublishDir>
+    <PropertyGroup>
+        <!-- Exclude unsupported languages -->
+        <ResourceLanguages>en</ResourceLanguages>
+        <SatelliteResourceLanguages>en-US;en</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -79,6 +76,14 @@
         <ProjectReference Include="..\Arkanis.Common\Arkanis.Common.csproj"/>
         <ProjectReference Include="..\Arkanis.External.UEX\Arkanis.External.UEX.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.Components\Arkanis.Overlay.Components.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="packages.lock.json"/>
+        <None Include="packages.lock.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

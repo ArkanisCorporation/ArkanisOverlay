@@ -8,6 +8,13 @@
         "nswag"
       ],
       "rollForward": false
+    },
+    "dotnet-setversion": {
+      "version": "3.1.0",
+      "commands": [
+        "setversion"
+      ],
+      "rollForward": false
     }
   }
 }

@@ -1,0 +1,88 @@
+name: .NET Release
+
+permissions:
+  contents: write       # for publishing a GitHub release
+  issues: write         # for commenting on released issues
+  pull-requests: write  # for commenting on released pull requests
+  packages: write       # for publishing packages in repository registry
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: "Dry run?"
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      new_version:
+        description: "Newly published version"
+        value: ${{ jobs.release.outputs.new_version }}
+      new_tag:
+        description: "New tag"
+        value: ${{ jobs.release.outputs.new_tag }}
+      last_version:
+        description: "Previously published version"
+        value: ${{ jobs.release.outputs.last_version }}
+      last_tag:
+        description: "Previous version tag"
+        value: ${{ jobs.release.outputs.last_tag }}
+
+env:
+  # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  REGISTRY: ghcr.io
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Setup .NET
+        id: setup-dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
+
+      - run: echo "Using .NET ${{ steps.setup-dotnet.outputs.dotnet-version }}"
+
+      - run: echo "Cache hit - ${{ steps.setup-dotnet.outputs.cache-hit }}"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          logout: true
+
+      # determines whether a new version release is mandated
+      # if it is, publish scripts are run and new version is tagged and published
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        id: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEBUG: ${{ inputs.dry_run && 'semantic-release:*' || '' }}
+        with:
+          ci: ${{ ! inputs.dry_run }}
+          dry_run: ${{ inputs.dry_run }}
+          semantic_version: 24.2.3
+          extra_plugins: |
+            @semantic-release/changelog@6.0.3
+            @semantic-release/exec@7.0.3
+
+      - run: echo "New release - ${{ steps.semantic-release.outputs.new_release_version || 'no new release' }}"
+
+    outputs:
+      new_version: ${{ steps.semantic-release.outputs.new_release_version }}
+      new_tag: ${{ steps.semantic-release.outputs.new_release_git_tag }}
+      last_version: ${{ steps.semantic-release.outputs.last_release_version }}
+      last_tag: ${{ steps.semantic-release.outputs.last_release_git_tag }}

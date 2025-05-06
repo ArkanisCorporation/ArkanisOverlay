@@ -27,6 +27,8 @@ SetFocus
 SetActiveWindow
 GetWindowLong
 SetWindowLong
+GetParent
+GetAncestor
 
 WINDOW_LONG_PTR_INDEX
 WINDOW_EX_STYLE
@@ -71,3 +73,16 @@ GetCurrentThreadId
 AttachThreadInput
 BringWindowToTop
 ShowWindow
+
+// ProcessExitWatcher + Process & Window InterOp
+PROCESS_ACCESS_RIGHTS
+WAIT_EVENT
+INFINITE
+
+OpenProcess
+CloseHandle
+WaitForSingleObject
+GetModuleFileNameEx
+
+PostThreadMessage
+GetCurrentThreadId

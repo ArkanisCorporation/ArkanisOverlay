@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Application;
 
+using Common.Extensions;
 using System.Data.Common;
 using Common;
 using Components.Helpers;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using Services;
+using Services.Factories;
 using UI;
 using UI.Windows;
 using Workers;
@@ -118,16 +120,23 @@ public static class Program
 
                 // Data
                 services
-                    .AddWindowOverlayControls()
+                    .AddWindowsOverlayControls()
+                    .AddPreferenceServiceCollection()
                     .AddInfrastructure();
 
                 // Singleton Services
                 services.AddSingleton<BlurHelper>();
                 services.AddMemoryCache();
 
+                // Factories
+                services.AddSingleton<PreferencesWindowFactory>();
+
                 // Workers
-                services.AddSingleton<WindowTracker>();
-                services.AddSingleton<GlobalHotkey>();
+                services.AddSingleton<WindowTracker>()
+                    .Alias<IHostedService, WindowTracker>();
+
+                services.AddSingleton<GlobalHotkey>()
+                    .Alias<IHostedService, GlobalHotkey>();
             }
         );
 }

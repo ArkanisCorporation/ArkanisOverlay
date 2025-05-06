@@ -6,7 +6,7 @@
           Class="mr-n2"
           Style="height: 46px;"
           Row>
-    @if (Model is IGameLocation gameLocation)
+    @if (Model is IGameLocation gameLocation and not GameTerminal)
     {
         var isSelectedLocation = SearchContext.CurrentLocation == gameLocation;
         var color = isSelectedLocation ? Color.Error : Color.Tertiary;

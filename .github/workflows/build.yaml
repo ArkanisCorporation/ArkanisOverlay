@@ -1,25 +1,42 @@
 name: .NET build
 
 on:
+  # You can use the GitHub API to trigger a webhook event called repository_dispatch
+  # when you want to trigger a workflow for activity that happens outside of GitHub.
+  repository_dispatch:
+    branches: [ main, rc, nightly, dev, ci ]
   push:
-    branches: [ main, feature/ci ]
+    branches: [ main, rc, nightly, dev, ci ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, rc, nightly, dev ]
+
+permissions:
+  contents: write       # for publishing a GitHub release
+  issues: write         # for commenting on released issues
+  pull-requests: write  # for commenting on released pull requests
+  packages: write       # for publishing packages in repository registry
+
+env:
+  # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-  build:
+  test:
+    name: Tests
+    uses: ./.github/workflows/_test.yaml
 
+  release:
+    name: Release
+    needs: test
+    uses: ./.github/workflows/_release.yaml
+    secrets: inherit
+    with:
+      dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' }}
+
+  deploy:
+    name: Deployment
+    if: ${{ needs.release.outputs.new_version != '' }}
+    needs: release
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-      - name: Restore dependencies
-        run: dotnet restore /p:EnableWindowsTargeting=true
-      - name: Build
-        run: dotnet build --no-restore /p:EnableWindowsTargeting=true
-      - name: Test
-        run: dotnet test --no-build --verbosity normal /p:EnableWindowsTargeting=true
+      - run: echo "Would run deployment pipeline here"

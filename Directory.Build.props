@@ -6,6 +6,15 @@
         </NoWarn>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <!-- https://github.com/actions/setup-dotnet?tab=readme-ov-file#caching-nuget-packages -->
+        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+        <!-- Use shared artifacts path -->
+        <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+        <!-- Use package version lock file to ensure consistent package versions across builds -->
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
         <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests"/>

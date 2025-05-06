@@ -164,7 +164,7 @@
     private void Cancel()
         => MudDialog.Cancel();
 
-    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    public static Task<DialogResult> ShowAsync(IDialogService dialogService)
     {
         var dialogOptions = new DialogOptions
         {
@@ -172,6 +172,23 @@
             MaxWidth = MaxWidth.Small,
             CloseOnEscapeKey = true,
         };
+
+        return ShowAsync(dialogService, dialogOptions);
+    }
+
+    public static Task<DialogResult> ShowFullscreenAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+        };
+
+        return ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
         var dialogRef = await dialogService.ShowAsync<UserPreferencesEditDialog>(null, dialogOptions);
         return await dialogRef.Result ?? DialogResult.Cancel();
     }

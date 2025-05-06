@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 using System.Diagnostics;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models.Game;
 using Domain.Models.Search;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
@@ -12,6 +13,31 @@ public class InMemorySearchService(
     ILogger<InMemorySearchService> logger
 ) : ISearchService
 {
+    public IAsyncEnumerable<string> GetSearchTokensAsync(CancellationToken cancellationToken = default)
+    {
+        return GetTokensFromEntityNames().Distinct();
+
+        async IAsyncEnumerable<string> GetTokensFromEntityNames()
+        {
+            var names = aggregateRepository.GetAllAsync(cancellationToken)
+                .Select(entity => entity.Name)
+                .Select(name => name.MainContent);
+
+            await foreach (var name in names)
+            {
+                foreach (var nameToken in name.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                {
+                    yield return nameToken;
+                }
+
+                if (name is GameEntityName.NameWithCode nameWithCode)
+                {
+                    yield return nameWithCode.Code;
+                }
+            }
+        }
+    }
+
     public async Task<GameEntitySearchResults> SearchAsync(IEnumerable<SearchQuery> queries, CancellationToken cancellationToken = default)
     {
         queries = queries.ToList();
@@ -32,6 +58,7 @@ public class InMemorySearchService(
             )
             .Where(result => result.ShouldBeExcluded == false)
             .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
+            .Where(result => !result.ContainsUnmatched<TextSearch>())
             .OrderByDescending(result => result)
             .ToListAsync(cancellationToken);
 

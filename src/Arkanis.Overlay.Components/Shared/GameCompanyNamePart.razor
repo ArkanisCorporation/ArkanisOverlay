@@ -1,11 +1,12 @@
-@using Arkanis.Overlay.Domain.Models.Game
 <GameEntityNameLabel Model="@Model.EntityName" Embedded="@Embedded"/>
 
 @code
 {
 
-    [Parameter] public required GameEntityName.CompanyReference Model { get; set; }
+    [Parameter]
+    public required GameEntityName.CompanyReference Model { get; set; }
 
-    [Parameter] public bool Embedded { get; set; }
+    [Parameter]
+    public bool Embedded { get; set; }
 
 }

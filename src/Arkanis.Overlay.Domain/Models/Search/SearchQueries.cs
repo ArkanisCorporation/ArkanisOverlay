@@ -35,24 +35,30 @@ public sealed record EmptySearch : SearchQuery
         => [];
 }
 
-public sealed record FuzzyStringSearch(string Content) : SearchQuery
+public abstract record TextSearch(string Content) : SearchQuery
 {
-    private readonly string _normalizedContent = Content.ToLowerInvariant();
+    protected string NormalizedContent { get; } = Content.ToLowerInvariant();
 
+    public static SearchQuery Fuzzy(string content)
+        => new FuzzyTextSearch(content);
+}
+
+public sealed record FuzzyTextSearch(string Content) : TextSearch(Content)
+{
     public override IEnumerable<SearchMatch> Match(SearchableTrait trait, int depth = 0)
         => trait switch
         {
             SearchableCode data => [new ScoredMatch(Fuzz.Ratio(Content, data.Code), depth, trait, this)],
             SearchableEntityCategory data
-                => [new ScoredMatch(Fuzz.Ratio(_normalizedContent, data.Category.ToString("G").ToLowerInvariant()), depth, trait, this)],
+                => [new ScoredMatch(Fuzz.Ratio(NormalizedContent, data.Category.ToString("G").ToLowerInvariant()), depth, trait, this)],
             SearchableManufacturer data => Match(data.Manufacturer.SearchableAttributes.OfType<SearchableTextTrait>(), depth + 1),
-            SearchableLocation data => Match(data.Location.Parent?.SearchableAttributes.OfType<SearchableTextTrait>() ?? [], depth + 1),
+            SearchableLocation data => Match(data.Location.Parent?.SearchableAttributes ?? [], depth + 1),
             SearchableName data => [new ScoredMatch(Fuzz.TokenSortRatio(Content, data.Name), depth, trait, this)],
             _ => [new NoMatch(trait, this)],
         };
 
     public static SearchQuery Create(string content)
-        => new FuzzyStringSearch(content);
+        => new FuzzyTextSearch(content);
 }
 
 public sealed record LocationSearch(IGameLocation Location) : SearchQuery

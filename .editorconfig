@@ -21,6 +21,10 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 end_of_line = lf
 
+[*.{yml,yaml}]
+indent_size = 2
+tab_width = 2
+
 ##########################################
 # Default .NET Code Style Severities
 # https://docs.microsoft.com/dotnet/fundamentals/code-analysis/configuration-options#scope

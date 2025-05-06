@@ -39,6 +39,11 @@ public partial class App
         {
             var splashScreen = new SplashScreen("Resources\\ArkanisTransparent_512x512.png");
             splashScreen.Show(true, true);
+
+            //? Splash Screen with fixed delay
+            // splashScreen.Show(false, true);
+            // close after 2 seconds()
+            // Task.Delay(2000).ContinueWith(_ => splashScreen.Close(TimeSpan.FromSeconds(0.5)));
         }
 
         if (!Directory.Exists(Constants.LocalAppDataPath))
