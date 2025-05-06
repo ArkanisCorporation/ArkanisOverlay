@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Domain.Models.Game
 <MudText HtmlTag="code"
          Color="@Color.Secondary"
          Style="@CodeCss">
@@ -5,9 +6,7 @@
     {
         <span>@PrefixContent</span>
     }
-    <MudTooltip Text="@TooltipContent" Placement="@Placement.Top">
-        <span>@Model.Code</span>
-    </MudTooltip>
+    <span>@Model.Code</span>
 </MudText>
 
 @code
@@ -22,7 +21,6 @@
             : "font-weight: lighter";
 
     [Parameter]
-    [EditorRequired]
     public required GameEntityName.IHasCode Model { get; set; }
 
     [Parameter]
@@ -33,10 +31,5 @@
 
     [Parameter]
     public RenderFragment? PrefixContent { get; set; }
-
-    public string TooltipContent
-        => Model is GameEntityName.Name name
-            ? name.FullName
-            : Model.Code;
 
 }

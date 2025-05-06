@@ -1,6 +1,7 @@
+@using Arkanis.Overlay.Domain.Models.Game
 <MudStack AlignItems="@AlignItems.Center" Row>
     <MudText Typo="@NameTypo" Style="@NameCss">
-        @if (Embedded && Model is GameEntityName.IHasShortName shortVariant)
+        @if (Model is GameEntityName.IHasShortName shortVariant)
         {
             @shortVariant.ShortName
         }

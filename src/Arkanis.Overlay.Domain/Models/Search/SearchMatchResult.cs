@@ -66,7 +66,7 @@ public abstract record SearchMatchResult(List<SearchMatch> Matches) : IComparabl
 
     protected static List<SearchMatch> GroupAndPickBest(IEnumerable<SearchMatch> matches)
         => matches
-            .GroupBy(match => (match.TargetTrait, match.Source))
+            .GroupBy(match => (match.GetType(), match.TargetTrait))
             .Select(group => group.Max()!)
             .OrderDescending()
             .ToList();
@@ -87,9 +87,6 @@ public record SearchMatchResult<TSubject>(TSubject Subject, List<SearchMatch> Ma
         {
             Matches = GroupAndPickBest(other.Matches.Concat(Matches)),
         };
-
-    public bool ContainsUnmatched<TSource>() where TSource : SearchQuery
-        => ContainsUnmatched<TSource>(_ => true);
 
     public bool ContainsUnmatched<TSource>(Func<UnmatchedSearch<TSource>, bool> predicate) where TSource : SearchQuery
         => UnmatchedQueries.OfType<TSource>()

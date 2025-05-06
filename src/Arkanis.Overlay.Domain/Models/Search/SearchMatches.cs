@@ -51,7 +51,7 @@ public sealed record ExactMatch(SearchableTrait TargetTrait, SearchQuery Source)
 /// <inheritdoc cref="SearchMatch" />
 public sealed record ScoredMatch(int Score, int Depth, SearchableTrait TargetTrait, SearchQuery Source) : SearchMatch(TargetTrait, Source)
 {
-    public double NormalizedScore { get; init; } = Score / Math.Pow(1.6, Depth);
+    public double NormalizedScore { get; init; } = Score / Math.Pow(2, Depth);
 
     public override int CompareTo(SearchMatch? other)
         => other switch
@@ -76,16 +76,6 @@ public sealed record SoftMatch(SearchableTrait TargetTrait, SearchQuery Source) 
             SoftMatch => 0,
             _ => 1,
         };
-
-    public static SearchMatch OrNone(bool isMatch, SearchableTrait trait, SearchQuery query)
-        => isMatch
-            ? new SoftMatch(trait, query)
-            : new NoMatch(trait, query);
-
-    public static SearchMatch OrExcluded(bool isMatch, SearchableTrait trait, SearchQuery query)
-        => isMatch
-            ? new SoftMatch(trait, query)
-            : new ExcludeMatch(trait, query);
 }
 
 /// <summary>

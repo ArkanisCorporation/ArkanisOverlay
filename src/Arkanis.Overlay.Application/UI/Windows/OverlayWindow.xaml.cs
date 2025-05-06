@@ -2,7 +2,6 @@
 
 namespace Arkanis.Overlay.Application.UI.Windows;
 
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -15,7 +14,6 @@ using Helpers;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
-using Services.Factories;
 using Workers;
 
 /// <summary>
@@ -29,7 +27,6 @@ public partial class OverlayWindow
     private readonly ILogger _logger;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly WindowTracker _windowTracker;
-    private readonly PreferencesWindowFactory _preferencesWindowFactory;
 
     private HWND _currentWindowHWnd = HWND.Null;
 
@@ -38,8 +35,7 @@ public partial class OverlayWindow
         IUserPreferencesProvider preferencesProvider,
         WindowTracker windowTracker,
         GlobalHotkey globalHotkey,
-        BlurHelper blurHelper,
-        PreferencesWindowFactory preferencesWindowFactory
+        BlurHelper blurHelper
     )
     {
         Instance = this;
@@ -49,7 +45,6 @@ public partial class OverlayWindow
         _windowTracker = windowTracker;
         _globalHotkey = globalHotkey;
         _blurHelper = blurHelper;
-        _preferencesWindowFactory = preferencesWindowFactory;
 
         SetupWorkerEventListeners();
 
@@ -62,15 +57,14 @@ public partial class OverlayWindow
     public static OverlayWindow? Instance { get; private set; }
 
     private void ApplyUserPreferences(object? sender, UserPreferences newPreferences)
-    {
-        // prevent attempting to set blur when window is not visible
-        // which would lead to a crash
-        if (!IsVisible)
-        {
-            return;
-        }
+        => Dispatcher.Invoke(() => _blurHelper.SetBlurEnabled(newPreferences.BlurBackground));
 
-        Dispatcher.Invoke(() => _blurHelper.SetBlurEnabled(newPreferences.BlurBackground));
+    protected override void OnInitialized(EventArgs e)
+    {
+        base.OnInitialized(e);
+
+        _windowTracker.Start();
+        _globalHotkey.Start();
     }
 
     private void ShowOverlay()
@@ -81,6 +75,7 @@ public partial class OverlayWindow
         AttachThreadInput(windowThreadProcessId, currentThreadId, true);
         BringWindowToTop(mainWindowHandle);
         Show();
+        // PInvoke.ShowWindow((HWND)MainWindowHandle, SHOW_WINDOW_CMD.SW_SHOW);
         AttachThreadInput(windowThreadProcessId, currentThreadId, false);
 
         // only works when window is visible
@@ -97,7 +92,7 @@ public partial class OverlayWindow
     {
         _windowTracker.WindowFound +=
             (_, hWnd) => Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
-        _windowTracker.ProcessExited +=
+        _windowTracker.WindowLost +=
             (_, _) => Dispatcher.Invoke(() =>
                 {
                     _currentWindowHWnd = HWND.Null;
@@ -182,11 +177,8 @@ public partial class OverlayWindow
     private void WebView_Loaded(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
         // If we are running in a development/debugger mode, open dev tools to help out
-        if (Debugger.IsAttached)
-        {
-            BlazorWebView.WebView.CoreWebView2.OpenDevToolsWindow();
-        }
-
+        // if (Debugger.IsAttached) blazorWebView.WebView.CoreWebView2.OpenDevToolsWindow();
+        BlazorWebView.WebView.CoreWebView2.OpenDevToolsWindow();
         BlazorWebView.Focus();
     }
 
@@ -217,13 +209,6 @@ public partial class OverlayWindow
         }
 
         SetForegroundWindow(_currentWindowHWnd);
-    }
-
-    private void OnPreferenceCommand(object sender, RoutedEventArgs e)
-    {
-
-        var preferencesWindow = _preferencesWindowFactory.CreateWindow();
-        preferencesWindow.ShowDialog();
     }
 
     private void OnExitCommand(object sender, RoutedEventArgs e)

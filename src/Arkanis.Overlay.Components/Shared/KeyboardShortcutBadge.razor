@@ -11,8 +11,7 @@
           Color="@Color"
           Visible="@IsActive"
           Elevation="8"
-          Overlap="@(DoNotOverlap == false)"
-          UserAttributes="UnmatchedAttributes">
+          Overlap="@(DoNotOverlap == false)">
     @ChildContent
 </MudBadge>
 
@@ -58,9 +57,6 @@
 
     [Parameter]
     public bool DoNotOverlap { get; set; }
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? UnmatchedAttributes { get; set; }
 
     private IKeyboardProxy UsedKeyboardProxy
         => KeyboardEventProxy ?? GlobalKeyboardProxy;

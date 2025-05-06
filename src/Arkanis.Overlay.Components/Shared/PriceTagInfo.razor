@@ -1,3 +1,5 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models.Game
 @using Arkanis.Overlay.Domain.Models.Trade
 @using Humanizer
 <MudStack Style="@PriceTagCss"
@@ -10,15 +12,27 @@
     }
     @if (Model is KnownPriceTag knownPriceTag)
     {
-        <span style="white-space: nowrap">
-            @GameCurrency.Symbol @knownPriceTag.Price.Amount.ToMetric(MetricNumeralFormats.WithSpace, 3)
-        </span>
-        <GameLocationLabel Model="@knownPriceTag.Location"/>
+        <span>@GameCurrency.Symbol&nbsp;@knownPriceTag.Price.Amount.ToMetric()</span>
+        <GameEntityNameCodePart Model="@(knownPriceTag.Location.Name.MainContent as GameEntityName.IHasCode)"
+                                Style="font-size: 12px">
+            <PrefixContent>
+                <span class="text-secondary mr-1" style="font-weight: lighter">
+                    @SelectLocationPrefix(knownPriceTag.Location)
+                </span>
+            </PrefixContent>
+        </GameEntityNameCodePart>
     }
     else if (Model is MissingPriceTag missingPriceTag)
     {
         <span class="text-secondary">Missing</span>
-        <GameLocationLabel Model="@missingPriceTag.Location"/>
+        <GameEntityNameCodePart Model="@(missingPriceTag.Location.Name.MainContent as GameEntityName.IHasCode)"
+                                Style="font-size: 12px">
+            <PrefixContent>
+                <span class="text-secondary mr-1" style="font-weight: lighter">
+                    @SelectLocationPrefix(missingPriceTag.Location)
+                </span>
+            </PrefixContent>
+        </GameEntityNameCodePart>
     }
     else if (Model is UnknownPriceTag)
     {
@@ -48,4 +62,10 @@
     [Parameter]
     public string? Color { get; set; } = "lightskyblue";
 
+    private string SelectLocationPrefix(IGameLocation location)
+        => location switch
+        {
+            GameTerminal => "@",
+            _ => "within",
+        };
 }

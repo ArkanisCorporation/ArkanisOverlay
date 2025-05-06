@@ -5,9 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddWindowsOverlayControls(this IServiceCollection services)
+    public static IServiceCollection AddWindowOverlayControls(this IServiceCollection services)
         => services.AddSingleton<IOverlayControls, WindowsOverlayControls>();
-
-    public static IServiceCollection AddPreferenceServiceCollection(this IServiceCollection services)
-        => services.AddSingleton<WindowsPreferencesControls>();
 }
