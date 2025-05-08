@@ -13,17 +13,17 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 #| `stdout`         | Only the reason for the verification to fail can be written to `stdout`. |
 #| `stderr`         | Can be used for logging.                                                 |
 
-# [[ -n "${DEBUG+x}" ]] && env 1>&2
+[[ -n "${DEBUG+x}" ]] && env 1>&2
 
 [[ -z "${VERSION+x}" ]] && echo "VERSION is not set" && exit 2
 [[ -z "${VERSION_TAG+x}" ]] && echo "VERSION_TAG is not set" && exit 2
 
-#>&2 echo "Restoring .NET tools..."
-dotnet tool restore &>/dev/null
+>&2 echo "Restoring .NET tools..."
+dotnet tool restore 1>&2
 
-#>&2 echo "Applying the current release version ${VERSION} recursively..."
-dotnet setversion --recursive "${VERSION}" &>/dev/null
+>&2 echo "Applying the current release version ${VERSION} recursively..."
+dotnet setversion --recursive "${VERSION}" 1>&2
 
-run_sub "$THIS_DIR/release-11-verify-win64.sh" &>/dev/null
-run_sub "$THIS_DIR/release-12-verify-win64-velopack.sh" &>/dev/null
-run_sub "$THIS_DIR/release-13-verify-server.sh" &>/dev/null
+run_sub "$THIS_DIR/release-11-verify-win64.sh"
+run_sub "$THIS_DIR/release-12-verify-win64-velopack.sh"
+run_sub "$THIS_DIR/release-13-verify-server.sh"
