@@ -19,11 +19,11 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 [[ -z "${VERSION_TAG+x}" ]] && echo "VERSION_TAG is not set" && exit 2
 
 >&2 echo "Restoring .NET tools..."
-dotnet tool restore 1>&2
+dotnet tool restore >/dev/null
 
 >&2 echo "Applying the current release version ${VERSION} recursively..."
-dotnet setversion --recursive "${VERSION}" 1>&2
+dotnet setversion --recursive "${VERSION}" >/dev/null
 
-run_sub "$THIS_DIR/release-11-verify-win64.sh"
-run_sub "$THIS_DIR/release-12-verify-win64-velopack.sh"
-run_sub "$THIS_DIR/release-13-verify-server.sh"
+run_sub "$THIS_DIR/release-11-verify-win64.sh" >/dev/null
+run_sub "$THIS_DIR/release-12-verify-win64-velopack.sh" >/dev/null
+run_sub "$THIS_DIR/release-13-verify-server.sh" >/dev/null
