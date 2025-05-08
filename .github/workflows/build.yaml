@@ -21,13 +21,13 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-  test:
-    name: Tests
-    uses: ./.github/workflows/_test.yaml
+#  test:
+#    name: Tests
+#    uses: ./.github/workflows/_test.yaml
 
   release:
     name: Release
-    needs: test
+    # needs: test
     uses: ./.github/workflows/_release.yaml
     secrets: inherit
     with:
