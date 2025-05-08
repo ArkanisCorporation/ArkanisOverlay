@@ -14,7 +14,10 @@ set -eEuo pipefail
 [[ -z "${GITHUB_TOKEN+x}" ]] && echo "GITHUB_TOKEN is not set" && exit 2
 [[ -z "${REPOSITORY_URL+x}" ]] && REPOSITORY_URL="https://github.com/ArkanisCorporation/ArkanisOverlay"
 
-[[ -d publish ]] || echo "publish directory does not exist" && exit 2
+if [[ ! -d publish ]]; then
+  echo "publish directory does not exist"
+  exit 2
+fi
 
 >&2 echo "Downloading previous release to build a delta release..."
 dotnet vpk download github \

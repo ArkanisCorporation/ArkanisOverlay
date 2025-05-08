@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eEuo pipefail
 
+THIS_DIR="$(dirname "$(realpath "$0")")"
+
+. "${THIS_DIR}/common.sh"
+
 ### prepareCmd
 #
 #| Command property | Description                                                                                                         |

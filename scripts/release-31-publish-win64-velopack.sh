@@ -14,8 +14,15 @@ set -eEuo pipefail
 [[ -z "${GITHUB_TOKEN+x}" ]] && >&2 echo "GITHUB_TOKEN is not set" && exit 2
 [[ -z "${REPOSITORY_URL+x}" ]] && REPOSITORY_URL="https://github.com/ArkanisCorporation/ArkanisOverlay"
 
-[[ -d publish ]] || >&2 echo "publish directory does not exist" && exit 2
-[[ -d release ]] || >&2 echo "release directory does not exist" && exit 2
+if [[ ! -d publish ]]; then
+  echo "publish directory does not exist"
+  exit 2
+fi
+
+if [[ ! -d release ]]; then
+  echo "release directory does not exist"
+  exit 2
+fi
 
 >&2 echo "Uploading the packed application..."
 dotnet vpk upload github \

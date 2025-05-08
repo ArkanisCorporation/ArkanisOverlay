@@ -11,7 +11,7 @@ set -eEuo pipefail
 
 [[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
->&2 echo "Publishing the windows Overlay application..."
+>&2 echo "Publishing the Windows Overlay application..."
 dotnet publish ./src/Arkanis.Overlay.Application/Arkanis.Overlay.Application.csproj \
     --runtime win-x64 \
     --configuration "${CONFIGURATION}" \
@@ -21,4 +21,4 @@ dotnet publish ./src/Arkanis.Overlay.Application/Arkanis.Overlay.Application.csp
     -p:DebugSymbols=false \
     1>&2
 
->&2 echo "Successfully published Overlay application to: $(realpath publish)"
+>&2 echo "Successfully published the Windows Overlay application to: $(realpath publish)"
