@@ -13,10 +13,11 @@ set -eEuo pipefail
 [[ -z "${REGISTRY+x}" ]] && REGISTRY="ghcr.io"
 [[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
->&2 dotnet publish ./src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj \
+dotnet publish ./src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj \
     --configuration "${CONFIGURATION}" \
     -p:PublishProfile=DefaultContainer \
     -p:ContainerRegistry="${REGISTRY}" \
     -p:ContainerImageTag="${VERSION_TAG}" \
     -p:DebugType=None \
-    -p:DebugSymbols=false
+    -p:DebugSymbols=false \
+    1>&2

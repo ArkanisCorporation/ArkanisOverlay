@@ -11,10 +11,11 @@ set -eEuo pipefail
 
 [[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
->&2 dotnet publish ./src/Arkanis.Overlay.Application/Arkanis.Overlay.Application.csproj \
+dotnet publish ./src/Arkanis.Overlay.Application/Arkanis.Overlay.Application.csproj \
     --runtime win-x64 \
     --configuration "${CONFIGURATION}" \
     --output publish \
     -p:EnableWindowsTargeting=true \
     -p:DebugType=None \
-    -p:DebugSymbols=false
+    -p:DebugSymbols=false \
+    1>&2

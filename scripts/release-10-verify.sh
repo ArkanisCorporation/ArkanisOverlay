@@ -9,14 +9,13 @@ set -eEuo pipefail
 #| `stdout`         | Only the reason for the verification to fail can be written to `stdout`. |
 #| `stderr`         | Can be used for logging.                                                 |
 
-[[ -n "${DEBUG}" ]] && >&2 env
+[[ -n "${DEBUG}" ]] && env 1>&2
 
 [[ -z "${VERSION+x}" ]] && >&2 echo "VERSION is not set" && exit 2
 [[ -z "${VERSION_TAG+x}" ]] && >&2 echo "VERSION_TAG is not set" && exit 2
 
-dotnet tool restore
-dotnet setversion --recursive "${VERSION}"
-
+dotnet tool restore 1>&2
+dotnet setversion --recursive "${VERSION}" 1>&2
 
 "$(dirname "$(realpath "$0")")/release-11-verify-win64.sh"
 "$(dirname "$(realpath "$0")")/release-12-verify-win64-velopack.sh"

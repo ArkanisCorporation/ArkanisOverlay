@@ -9,6 +9,4 @@ set -eEuo pipefail
 #| `stdout`         | Can be used for logging.                                                                                            |
 #| `stderr`         | Can be used for logging.                                                                                            |
 
-[[ -n "${DEBUG}" ]] && env
-
 exit 0

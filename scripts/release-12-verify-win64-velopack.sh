@@ -17,12 +17,13 @@ set -eEuo pipefail
 [[ -d publish ]] || >&2 echo "publish directory does not exist" && exit 2
 
 >&2 echo "Downloading previous release to build a delta release..."
->&2 dotnet vpk download github \
+dotnet vpk download github \
     --repoUrl "${REPOSITORY_URL}" \
-    --token "${GITHUB_TOKEN}"
+    --token "${GITHUB_TOKEN}" \
+    1>&2
 
 >&2 echo "Packing the published application..."
->&2 dotnet vpk [win] pack \
+dotnet vpk [win] pack \
     --packTitle "Arkanis Overlay" \
     --packId Arkanis.Overlay.Application \
     --splashImage ./src/Arkanis.Overlay.Application/Resources/ArkanisTransparent_512x512.png \
@@ -31,4 +32,5 @@ set -eEuo pipefail
     --framework net8.0-x64-desktop \
     --channel "${VERSION_CHANNEL}" \
     --packDir publish \
-    --outputDir release
+    --outputDir release \
+    1>&2
