@@ -8,5 +8,7 @@ public interface IPurchasePriceProvider : IDependable
 {
     ValueTask UpdatePriceTagAsync(IGamePurchasable gameEntity);
 
+    ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGamePurchasable gameEntity, IGameLocation? gameLocation);
+
     ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGamePurchasable gameEntity, IGameLocation gameLocation);
 }
