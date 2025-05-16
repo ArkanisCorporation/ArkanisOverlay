@@ -18,6 +18,13 @@ public class UexRentPriceProvider(
             _ => ValueTask.CompletedTask,
         });
 
+    public async ValueTask<List<PriceTag>> GetPriceTagsWithinAsync(IGameRentable gameEntity, IGameLocation? gameLocation)
+        => gameEntity switch
+        {
+            GameVehicle vehicle => await GetVehiclePriceTagsWithinAsync(vehicle, gameLocation),
+            _ => [],
+        };
+
     public async ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameRentable gameEntity, IGameLocation gameLocation)
         => gameEntity switch
         {
@@ -25,11 +32,17 @@ public class UexRentPriceProvider(
             _ => Bounds.All(PriceTag.Unknown),
         };
 
-    private async ValueTask<Bounds<PriceTag>> GetVehiclePriceTagAsync(GameVehicle gameEntity, IGameLocation gameLocation)
+    private async ValueTask<List<PriceTag>> GetVehiclePriceTagsWithinAsync(GameVehicle gameEntity, IGameLocation? gameLocation)
     {
         var prices = await vehiclePriceRepository.GetRentalPricesForVehicleAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.Price, fallback: PriceTag.MissingFor(gameLocation));
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.Price)).ToList();
+    }
+
+    private async ValueTask<Bounds<PriceTag>> GetVehiclePriceTagAsync(GameVehicle gameEntity, IGameLocation gameLocation)
+    {
+        var pricesAtLocation = await GetVehiclePriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
     }
 
     private async ValueTask UpdateVehicleAsync(GameVehicle gameEntity)

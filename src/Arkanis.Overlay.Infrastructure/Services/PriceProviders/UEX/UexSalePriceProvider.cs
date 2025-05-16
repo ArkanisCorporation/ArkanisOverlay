@@ -8,7 +8,7 @@ using Domain.Models.Trade;
 
 public class UexSalePriceProvider(
     ServiceDependencyResolver resolver,
-    IGameCommodityPricingRepository commodityPricingRepository,
+    IGameCommodityPricingRepository commodityPriceRepository,
     IGameItemPurchasePricingRepository itemPriceRepository
 ) : UexPriceProviderBase, ISalePriceProvider
 {
@@ -20,6 +20,14 @@ public class UexSalePriceProvider(
             _ => ValueTask.CompletedTask,
         });
 
+    public async ValueTask<List<PriceTag>> GetPriceTagsWithinAsync(IGameSellable gameEntity, IGameLocation? gameLocation)
+        => gameEntity switch
+        {
+            GameCommodity commodity => await GetCommodityPriceTagsWithinAsync(commodity, gameLocation),
+            GameItem item => await GetItemPriceTagsWithinAsync(item, gameLocation),
+            _ => [],
+        };
+
     public async ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameSellable gameEntity, IGameLocation gameLocation)
         => gameEntity switch
         {
@@ -28,23 +36,35 @@ public class UexSalePriceProvider(
             _ => Bounds.All(PriceTag.Unknown),
         };
 
-    private async ValueTask<Bounds<PriceTag>> GetCommodityPriceTagAsync(GameCommodity gameEntity, IGameLocation gameLocation)
+    private async ValueTask<List<PriceTag>> GetItemPriceTagsWithinAsync(GameItem gameEntity, IGameLocation? gameLocation)
     {
-        var prices = await commodityPricingRepository.GetAllForCommodityAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.SalePrice, PriceTag.MissingFor(gameLocation));
+        var prices = await itemPriceRepository.GetPurchasePricesForItemAsync(gameEntity.Id);
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.PurchasePrice)).ToList();
+    }
+
+    private async ValueTask<List<PriceTag>> GetCommodityPriceTagsWithinAsync(GameCommodity gameEntity, IGameLocation? gameLocation)
+    {
+        var prices = await commodityPriceRepository.GetAllForCommodityAsync(gameEntity.Id);
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.PurchasePrice)).ToList();
     }
 
     private async ValueTask<Bounds<PriceTag>> GetItemPriceTagAsync(GameItem gameEntity, IGameLocation gameLocation)
     {
-        var prices = await itemPriceRepository.GetPurchasePricesForItemAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.SalePrice, PriceTag.MissingFor(gameLocation));
+        var pricesAtLocation = await GetItemPriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
+    }
+
+    private async ValueTask<Bounds<PriceTag>> GetCommodityPriceTagAsync(GameCommodity gameEntity, IGameLocation gameLocation)
+    {
+        var pricesAtLocation = await GetCommodityPriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
     }
 
     private async ValueTask UpdateCommodityAsync(GameCommodity gameEntity)
     {
-        var prices = await commodityPricingRepository.GetAllForCommodityAsync(gameEntity.Id);
+        var prices = await commodityPriceRepository.GetAllForCommodityAsync(gameEntity.Id);
         var priceBounds = CreateBoundsFrom(prices, price => price.SalePrice);
         gameEntity.UpdateSalePrices(priceBounds);
     }
@@ -57,6 +77,6 @@ public class UexSalePriceProvider(
     }
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
-        => await resolver.DependsOn(this, commodityPricingRepository, itemPriceRepository)
+        => await resolver.DependsOn(this, commodityPriceRepository, itemPriceRepository)
             .WaitUntilReadyAsync(cancellationToken);
 }

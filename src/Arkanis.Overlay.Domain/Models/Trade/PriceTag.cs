@@ -8,8 +8,8 @@ public abstract record PriceTag : IComparable<PriceTag>
     public static readonly PriceTag Unknown = new UnknownPriceTag();
 
     public int CompareTo(PriceTag? other)
-        => this is KnownPriceTag userPriceTag && other is KnownPriceTag otherUserPriceTag
-            ? userPriceTag.CompareTo(otherUserPriceTag)
+        => this is PriceTagWithValue priceTage && other is PriceTagWithValue otherPriceTag
+            ? priceTage.CompareTo(otherPriceTag)
             : -1;
 
     public static bool operator <(PriceTag left, PriceTag right)
@@ -36,9 +36,9 @@ public sealed record UnknownPriceTag : PriceTag;
 
 public sealed record MissingPriceTag(IGameLocation Location) : PriceTag;
 
-public sealed record AggregatePriceTag(GameCurrency Price) : PriceTag, IComparable<AggregatePriceTag>
+public abstract record PriceTagWithValue(GameCurrency Price) : PriceTag, IComparable<PriceTagWithValue>
 {
-    public int CompareTo(AggregatePriceTag? other)
+    public int CompareTo(PriceTagWithValue? other)
     {
         if (ReferenceEquals(this, other))
         {
@@ -51,20 +51,10 @@ public sealed record AggregatePriceTag(GameCurrency Price) : PriceTag, IComparab
     }
 }
 
-public sealed record KnownPriceTag(GameCurrency Price, IGameLocation Location, DateTimeOffset UpdatedAt) : PriceTag, IComparable<KnownPriceTag>
+public sealed record AggregatePriceTag(GameCurrency Price) : PriceTagWithValue(Price);
+
+public sealed record KnownPriceTag(GameCurrency Price, IGameLocation Location, DateTimeOffset UpdatedAt) : PriceTagWithValue(Price)
 {
-    public int CompareTo(KnownPriceTag? other)
-    {
-        if (ReferenceEquals(this, other))
-        {
-            return 0;
-        }
-
-        return other is not null
-            ? Price.CompareTo(other.Price)
-            : 1;
-    }
-
     public static KnownPriceTag Create(int price, IGameLocation location, DateTimeOffset updatedAt)
         => new(new GameCurrency(price), location, updatedAt);
 
