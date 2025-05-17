@@ -22,6 +22,15 @@ public class UexPurchasePriceProvider(
             _ => ValueTask.CompletedTask,
         });
 
+    public async ValueTask<List<PriceTag>> GetPriceTagsWithinAsync(IGamePurchasable gameEntity, IGameLocation? gameLocation)
+        => gameEntity switch
+        {
+            GameCommodity commodity => await GetCommodityPriceTagsWithinAsync(commodity, gameLocation),
+            GameItem item => await GetItemPriceTagsWithinAsync(item, gameLocation),
+            GameVehicle vehicle => await GetVehiclePriceTagsWithinAsync(vehicle, gameLocation),
+            _ => [],
+        };
+
     public async ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGamePurchasable gameEntity, IGameLocation gameLocation)
         => gameEntity switch
         {
@@ -31,25 +40,43 @@ public class UexPurchasePriceProvider(
             _ => Bounds.All(PriceTag.Unknown),
         };
 
-    private async ValueTask<Bounds<PriceTag>> GetVehiclePriceTagAsync(GameVehicle gameEntity, IGameLocation gameLocation)
+    private async ValueTask<List<PriceTag>> GetVehiclePriceTagsWithinAsync(GameVehicle gameEntity, IGameLocation? gameLocation)
     {
         var prices = await vehiclePriceRepository.GetPurchasePricesForVehicleAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.Price, PriceTag.MissingFor(gameLocation));
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.Price)).ToList();
+    }
+
+    private async ValueTask<List<PriceTag>> GetItemPriceTagsWithinAsync(GameItem gameEntity, IGameLocation? gameLocation)
+    {
+        var prices = await itemPriceRepository.GetPurchasePricesForItemAsync(gameEntity.Id);
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.PurchasePrice)).ToList();
+    }
+
+    private async ValueTask<List<PriceTag>> GetCommodityPriceTagsWithinAsync(GameCommodity gameEntity, IGameLocation? gameLocation)
+    {
+        var prices = await commodityPriceRepository.GetAllForCommodityAsync(gameEntity.Id);
+        var pricesAtLocation = prices.Where(x => gameLocation?.IsOrContains(x.Terminal) ?? true).ToList();
+        return pricesAtLocation.Select(price => CreatePriceTagFrom(price, x => x.PurchasePrice)).ToList();
+    }
+
+    private async ValueTask<Bounds<PriceTag>> GetVehiclePriceTagAsync(GameVehicle gameEntity, IGameLocation gameLocation)
+    {
+        var pricesAtLocation = await GetVehiclePriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
     }
 
     private async ValueTask<Bounds<PriceTag>> GetItemPriceTagAsync(GameItem gameEntity, IGameLocation gameLocation)
     {
-        var prices = await itemPriceRepository.GetPurchasePricesForItemAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.PurchasePrice, PriceTag.MissingFor(gameLocation));
+        var pricesAtLocation = await GetItemPriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
     }
 
     private async ValueTask<Bounds<PriceTag>> GetCommodityPriceTagAsync(GameCommodity gameEntity, IGameLocation gameLocation)
     {
-        var prices = await commodityPriceRepository.GetAllForCommodityAsync(gameEntity.Id);
-        var pricesAtLocation = prices.Where(x => gameLocation.IsOrContains(x.Terminal)).ToList();
-        return CreateBoundsFrom(pricesAtLocation, price => price.PurchasePrice, PriceTag.MissingFor(gameLocation));
+        var pricesAtLocation = await GetCommodityPriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(pricesAtLocation, PriceTag.MissingFor(gameLocation));
     }
 
     private async ValueTask UpdateCommodityAsync(GameCommodity gameEntity)
