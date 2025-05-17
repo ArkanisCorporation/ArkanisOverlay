@@ -3,14 +3,14 @@ namespace Arkanis.Overlay.Host.Desktop.Workers;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Domain.Abstractions.Services;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.Accessibility;
 using Windows.Win32.UI.HiDpi;
-using Domain.Abstractions.Services;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 // /// <summary>
 // /// Represents the current state of the window, e.g. if it is minimized, maximized, normal, closed, or lost from tracking.
@@ -194,7 +194,10 @@ public sealed class WindowTracker : IHostedService, IDisposable
     {
         _actionQueue.Enqueue(action);
 
-        if (_thread == null) { return; }
+        if (_thread == null)
+        {
+            return;
+        }
 
         PInvoke.PostThreadMessage(_threadId, WmInvokeAction, UIntPtr.Zero, IntPtr.Zero);
     }
@@ -367,8 +370,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
             Handler_WindowFocused,
             0, // not needed, we need to know if our window has been unfocused
             0, // not needed, we need to know if our window has been unfocused
-            // PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
-            PInvoke.WINEVENT_OUTOFCONTEXT
+            PInvoke.WINEVENT_OUTOFCONTEXT // | PInvoke.WINEVENT_SKIPOWNPROCESS
         );
     }
 
@@ -458,12 +460,12 @@ public sealed class WindowTracker : IHostedService, IDisposable
         var windowTitle = PInvoke.GetWindowText(hWnd);
         var windowProcessName = PInvoke.GetWindowProcessName(hWnd);
         var isTopLevelWindow = PInvoke.IsTopLevelWindow(hWnd);
+        var isStarCitizen = windowProcessName?.EndsWith(Constants.GameExecutableName, StringComparison.InvariantCulture) ?? false;
 
-        var isStarCitizen = windowProcessName?
-                                .EndsWith(Constants.GameExecutableName, StringComparison.InvariantCulture)
-                            ?? false;
-
-        if (!isStarCitizen) { return; }
+        if (!isStarCitizen)
+        {
+            return;
+        }
 
         _logger.LogDebug(
             "New Window created - IsTopLevelWindow: {IsTopLevelWindow} - Class: {WindowClass} - Title: {WindowTitle} - IsStarCitizen: {IsStarCitizen}",
@@ -474,9 +476,15 @@ public sealed class WindowTracker : IHostedService, IDisposable
         );
 
 
-        if (windowClass != WindowClass) { return; }
+        if (windowClass != WindowClass)
+        {
+            return;
+        }
 
-        if (windowTitle != WindowName.Trim()) { return; }
+        if (windowTitle != WindowName.Trim())
+        {
+            return;
+        }
 
         if (!isTopLevelWindow)
         {

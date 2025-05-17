@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Host.Desktop.Helpers;
 
-using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Domain.Models.Keyboard;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 
 public static class WindowsKeyMap
 {

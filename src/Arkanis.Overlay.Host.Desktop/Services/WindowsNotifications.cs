@@ -1,13 +1,13 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using System.Globalization;
-using Windows.Foundation.Collections;
-using Windows.UI.Notifications;
 using Domain.Options;
 using Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NuGet.Versioning;
 using Velopack;
+using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 
 internal class WindowsNotifications : IDisposable
 {

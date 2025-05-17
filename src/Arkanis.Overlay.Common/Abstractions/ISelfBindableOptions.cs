@@ -8,12 +8,5 @@ public interface ISelfBindableOptions
 
     void Bind(IConfiguration configuration)
         => configuration.GetSection(SectionPath)
-            .Bind
-            (
-                this,
-                opts =>
-                {
-                    opts.ErrorOnUnknownConfiguration = true;
-                }
-            );
+            .Bind(this, opts => opts.ErrorOnUnknownConfiguration = true);
 }

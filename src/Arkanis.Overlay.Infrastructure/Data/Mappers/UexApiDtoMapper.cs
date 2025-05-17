@@ -194,7 +194,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private void CacheGameEntityId<T>(double? sourceId, IGameEntity result) where T : class, IGameEntity
         => CachedGameEntities[CreateCacheEntityKey<T>(sourceId)] = result;
 
-    private T? ResolveCachedGameEntity<T>(double? sourceId, bool throwOnCacheMiss = true, [CallerArgumentExpression("sourceId")] string sourceIdExpression = "")
+    private T? ResolveCachedGameEntity<T>(double? sourceId, bool throwOnCacheMiss = true, [CallerArgumentExpression(nameof(sourceId))] string sourceIdExpression = "")
         where T : class, IGameEntity
     {
         var cacheEntityKey = CreateCacheEntityKey<T>(sourceId);
@@ -333,7 +333,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
         => DateTimeOffset.FromUnixTimeSeconds((long)(timestamp ?? 0));
 
     [DoesNotReturn]
-    private static T ThrowInvalidCacheException<T>(double? sourceId, [CallerArgumentExpression("sourceId")] string sourceIdExpression = "")
+    private static T ThrowInvalidCacheException<T>(double? sourceId, [CallerArgumentExpression(nameof(sourceId))] string sourceIdExpression = "")
         => throw new ObjectMappingMissingLinkedRelatedObjectException(
             $"Could not resolve cached entity instance of {typeof(T)} for: {sourceIdExpression} == {sourceId}"
         );

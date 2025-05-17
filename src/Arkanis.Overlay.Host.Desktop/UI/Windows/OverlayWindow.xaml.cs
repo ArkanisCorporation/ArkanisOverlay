@@ -1,4 +1,4 @@
-﻿using static Windows.Win32.PInvoke;
+using static Windows.Win32.PInvoke;
 
 namespace Arkanis.Overlay.Host.Desktop.UI.Windows;
 
@@ -55,7 +55,7 @@ public partial class OverlayWindow
         SetupWorkerEventListeners();
         InitializeComponent();
 
-        Height =_windowTracker.CurrentWindowSize.Height;
+        Height = _windowTracker.CurrentWindowSize.Height;
         Width = _windowTracker.CurrentWindowSize.Width;
 
         Top = _windowTracker.CurrentWindowPosition.Y;
@@ -133,7 +133,10 @@ public partial class OverlayWindow
         _windowTracker.WindowFocusChanged += (_, isFocused) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowFocusChanged: {IsFocused}", isFocused);
-                if (Visibility != Visibility.Visible) { return; }
+                if (Visibility != Visibility.Visible)
+                {
+                    return;
+                }
                 Topmost = isFocused;
             }
         );

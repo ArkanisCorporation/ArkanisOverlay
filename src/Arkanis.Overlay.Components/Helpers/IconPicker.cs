@@ -19,7 +19,7 @@ public class IconPicker : IIconPicker
             PriceType.Buy => Icons.Material.Outlined.AddShoppingCart,
             PriceType.Sell => Icons.Material.Outlined.RemoveShoppingCart,
             PriceType.Rent => Icons.Material.Outlined.CarRental,
-            _ => DefaultIcon,
+            PriceType.Undefined or _ => DefaultIcon,
         };
 
     public static string PickIconFor(GameEntityCategory value)
@@ -32,7 +32,9 @@ public class IconPicker : IIconPicker
             GameEntityCategory.ProductCategory => Icons.Material.Outlined.Topic,
             GameEntityCategory.Company => Icons.Material.Outlined.Domain,
             GameEntityCategory.Location => Icons.Material.Outlined.Public,
-            _ => DefaultIcon,
+            GameEntityCategory.ItemTrait => Icons.Material.Outlined.Label,
+            GameEntityCategory.Price => Icons.Material.Outlined.Sell,
+            GameEntityCategory.Undefined or _ => DefaultIcon,
         };
 
     public static string PickIconFor<T>(T value)
