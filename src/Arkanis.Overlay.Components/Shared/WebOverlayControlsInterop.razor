@@ -1,10 +1,16 @@
-@using Microsoft.Extensions.Logging
+@using Arkanis.Overlay.Domain.Models.Analytics
+@implements IDisposable
+
+@inject IAnalyticsEventReporter AnalyticsEventReporter
+@inject SharedAnalyticsPropertyProvider AnalyticsPropertyProvider
 @inject IOverlayEventControls OverlayEventControls
+@inject IOverlayEventProvider OverlayEventProvider
 @inject EventInterop EventInterop
 @inject ILogger<WebOverlayControlsInterop> Logger
 
 @code
 {
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -18,18 +24,42 @@
 
             var focusLostHandler = EventInterop.CreateHandler(OnWindowFocusLost);
             await EventInterop.RegisterWindowEventHandlerAsync("blur", focusLostHandler);
+
+            OverlayEventProvider.GameConnected += OnGameConnected;
+            OverlayEventProvider.GameDisconnected += OnGameDisconnected;
         }
+    }
+
+    private void OnGameDisconnected(object? sender, EventArgs e)
+    {
+        AnalyticsPropertyProvider.UseNewGameSessionId();
+        var analyticsEvent = new GameDisconnectedEvent(AnalyticsPropertyProvider.GameSessionId);
+        AnalyticsEventReporter.TrackEventAsync(analyticsEvent);
+    }
+
+    private void OnGameConnected(object? sender, EventArgs e)
+    {
+        var analyticsEvent = new GameConnectedEvent(AnalyticsPropertyProvider.GameSessionId);
+        AnalyticsEventReporter.TrackEventAsync(analyticsEvent);
     }
 
     private void OnWindowFocusGained()
     {
         Logger.LogDebug("Window focus gained");
-        OverlayEventControls.OnFocusGained();
+        OverlayEventControls.SetFocus();
     }
 
     private void OnWindowFocusLost()
     {
         Logger.LogDebug("Window focus lost");
-        OverlayEventControls.OnFocusLost();
+        OverlayEventControls.SetFocus(false);
     }
+
+    public void Dispose()
+    {
+        OverlayEventProvider.GameConnected -= OnGameConnected;
+        OverlayEventProvider.GameDisconnected -= OnGameDisconnected;
+        EventInterop.Dispose();
+    }
+
 }

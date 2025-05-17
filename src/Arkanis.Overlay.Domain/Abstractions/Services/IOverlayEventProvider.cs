@@ -7,4 +7,7 @@ public interface IOverlayEventProvider
 
     event EventHandler OverlayFocused;
     event EventHandler OverlayBlurred;
+
+    event EventHandler GameConnected;
+    event EventHandler GameDisconnected;
 }

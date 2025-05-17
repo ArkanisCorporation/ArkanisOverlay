@@ -23,15 +23,36 @@ public class WindowsOverlayControls : IOverlayControls, IOverlayEventProvider, I
     {
     }
 
-    public void OnFocusGained()
-        => OverlayFocused?.Invoke(this, EventArgs.Empty);
+    public void SetFocus(bool isFocused = true)
+    {
+        if (isFocused)
+        {
+            OverlayFocused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            OverlayBlurred?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
-    public void OnFocusLost()
-        => OverlayBlurred?.Invoke(this, EventArgs.Empty);
+    public void SetGameConnected(bool isConnected = true)
+    {
+        if (isConnected)
+        {
+            GameConnected?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            GameDisconnected?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     public event EventHandler? OverlayShown;
     public event EventHandler? OverlayHidden;
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
+
+    public event EventHandler? GameConnected;
+    public event EventHandler? GameDisconnected;
 }

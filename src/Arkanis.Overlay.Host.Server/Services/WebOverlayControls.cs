@@ -50,17 +50,38 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     {
     }
 
-    public void OnFocusGained()
-        => OverlayFocused?.Invoke(this, EventArgs.Empty);
+    public void SetFocus(bool isFocused)
+    {
+        if (isFocused)
+        {
+            OverlayFocused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            OverlayBlurred?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
-    public void OnFocusLost()
-        => OverlayBlurred?.Invoke(this, EventArgs.Empty);
+    public void SetGameConnected(bool isConnected)
+    {
+        if (isConnected)
+        {
+            GameConnected?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            GameDisconnected?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     public event EventHandler? OverlayShown;
     public event EventHandler? OverlayHidden;
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
+
+    public event EventHandler? GameConnected;
+    public event EventHandler? GameDisconnected;
 
     private void ApplyUserPreferencesAsync(object? sender, UserPreferences userPreferences)
     {
