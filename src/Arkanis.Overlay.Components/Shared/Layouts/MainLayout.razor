@@ -1,4 +1,8 @@
+@using Arkanis.Overlay.Common
+@using Arkanis.Overlay.Common.Abstractions
+@using Microsoft.AspNetCore.Http.Extensions
 @inherits LayoutComponentBase
+@inject IAppVersionProvider VersionProvider
 
 <MudThemeProvider Theme="_currentTheme" IsDarkMode="true"/>
 <MudPopoverProvider/>
@@ -7,27 +11,67 @@
 <AnalyticEventSender/>
 <WebOverlayControlsInterop/>
 
-<ErrorBoundary>
+<ErrorBoundary @ref="_errorBoundary">
     <ChildContent>
         <GlobalKeyboardEventProxyProvider>
             @Body
         </GlobalKeyboardEventProxyProvider>
     </ChildContent>
     <ErrorContent>
-        <h1>Sorry, an unrecoverable error has occured</h1>
-        <pre>@context.ToString()</pre>
+        <MudStack Class="h-100 w-100" AlignItems="@AlignItems.Center" Justify="@Justify.Center">
+            <div style="min-width: 20vw">
+                <div class="mb-2">
+                    <h1>Sorry, an unrecoverable error has occured</h1>
+                    <pre>@context.Message</pre>
+                </div>
+                <MudExpansionPanel Text="Error Details">
+                    <pre>@context.ToString()</pre>
+                </MudExpansionPanel>
+                <MudStack Class="mt-4" Row>
+                    <MudButton Color="@Color.Success"
+                               Size="Size.Large"
+                               Variant="Variant.Outlined"
+                               StartIcon="@MaterialSymbols.Outlined.FrameReload"
+                               OnClick="() => _errorBoundary?.Recover()">
+                        Reload Overlay
+                    </MudButton>
+                    <MudButton Color="@Color.Warning"
+                               Size="Size.Large"
+                               Variant="Variant.Outlined"
+                               StartIcon="@MaterialSymbols.Outlined.OpenInBrowser"
+                               Href="@CreateNewIssueUrl(context)"
+                               Target="_blank">
+                        Report this issue (please check if exists first)
+                    </MudButton>
+                </MudStack>
+            </div>
+        </MudStack>
     </ErrorContent>
 </ErrorBoundary>
 
 @code
 {
 
-    readonly MudTheme _currentTheme = new()
+    private readonly MudTheme _currentTheme = new()
     {
         PaletteDark = new PaletteDark
         {
             Surface = "#0e0f0f",
         },
     };
+
+    private ErrorBoundary? _errorBoundary;
+
+    private string CreateNewIssueUrl(Exception context)
+    {
+        var queryBuilder = new QueryBuilder
+        {
+            { "template", "bug_report.yml" },
+            { "version", VersionProvider.CurrentVersion.ToFullString() },
+            { "logs", context.ToString() },
+        };
+
+        return $"{ApplicationConstants.GitHubRepositoryUrl}/issues/new{queryBuilder.ToQueryString()}";
+    }
 
 }
