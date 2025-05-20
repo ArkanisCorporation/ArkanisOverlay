@@ -22,26 +22,14 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
 
     public ValueTask ShowAsync()
     {
-        _snackbar.Add(
-            "This would open the overlay",
-            configure: options =>
-            {
-                options.ShowCloseIcon = false;
-            }
-        );
+        _snackbar.Add("This would open the overlay", configure: options => options.ShowCloseIcon = false);
         OverlayShown?.Invoke(this, EventArgs.Empty);
         return ValueTask.CompletedTask;
     }
 
     public ValueTask HideAsync()
     {
-        _snackbar.Add(
-            "This would close the overlay",
-            configure: options =>
-            {
-                options.ShowCloseIcon = false;
-            }
-        );
+        _snackbar.Add("This would close the overlay", configure: options => options.ShowCloseIcon = false);
         OverlayHidden?.Invoke(this, EventArgs.Empty);
         return ValueTask.CompletedTask;
     }

@@ -30,7 +30,12 @@ public static class KeyboardKeyUtils
 
     private static readonly HashSet<KeyboardKey> EditingKeys =
     [
-        KeyboardKey.Backspace, KeyboardKey.Delete, KeyboardKey.Insert, KeyboardKey.Enter, KeyboardKey.Tab, KeyboardKey.Escape,
+        KeyboardKey.Backspace,
+        KeyboardKey.Delete,
+        KeyboardKey.Insert,
+        KeyboardKey.Enter,
+        KeyboardKey.Tab,
+        KeyboardKey.Escape,
     ];
 
     private static readonly HashSet<KeyboardKey> FunctionKeys =

@@ -47,12 +47,15 @@ internal partial class PInvoke
         var length = GetWindowTextLength(hWnd);
         Span<char> windowText = stackalloc char[length];
         GetWindowText(hWnd, windowText);
-        return SpanToString(windowText, length-1); // ignore trailing null terminator
+        return SpanToString(windowText, length - 1); // ignore trailing null terminator
     }
 
     public static bool IsTopLevelWindow(HWND hWnd)
     {
-        if (hWnd == HWND.Null) { return false; }
+        if (hWnd == HWND.Null)
+        {
+            return false;
+        }
 
         return GetAncestor(hWnd, GET_ANCESTOR_FLAGS.GA_ROOT) == hWnd;
     }
@@ -81,7 +84,10 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, uint length)
     {
-        if (length == 0 || buffer.IsEmpty) { return null; }
+        if (length == 0 || buffer.IsEmpty)
+        {
+            return null;
+        }
 
         // we do not need to check for overflow here
         // because `buffer.Length` is always less than or equal to `Int32.MaxValue`.
@@ -96,7 +102,10 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, int length)
     {
-        if (length == 0 || buffer.IsEmpty) { return null; }
+        if (length == 0 || buffer.IsEmpty)
+        {
+            return null;
+        }
 
         var safeLength = Math.Min(buffer.Length, length);
 

@@ -8,5 +8,5 @@ public static class DependencyInjection
     public static IServiceCollection AddOverlaySqliteDatabaseServices(this IServiceCollection services)
         => services
             .AddSingleton<IDbContextFactory<OverlayDbContext>, ClientOverlayDbContextFactory>()
-            .AddScoped<OverlayDbContext>(provider => provider.GetRequiredService<IDbContextFactory<OverlayDbContext>>().CreateDbContext());
+            .AddScoped(provider => provider.GetRequiredService<IDbContextFactory<OverlayDbContext>>().CreateDbContext());
 }
