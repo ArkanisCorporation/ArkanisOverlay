@@ -7,7 +7,7 @@ using Domain.Models.Trade;
 
 public abstract class PriceProviderBase : SelfInitializableServiceBase
 {
-    protected static Bounds<PriceTag> CreateBoundsFrom<T>(ICollection<T> prices, Func<T, GameCurrency> priceSelector, PriceTag? fallback = null)
+    protected Bounds<PriceTag> CreateBoundsFrom<T>(ICollection<T> prices, Func<T, GameCurrency> priceSelector, PriceTag? fallback = null)
         where T : IGameEntityPrice
     {
         var minDto = prices.Where(dto => priceSelector(dto).Amount > 0).MinBy(priceSelector);
@@ -21,28 +21,60 @@ public abstract class PriceProviderBase : SelfInitializableServiceBase
 
         fallback ??= PriceTag.Unknown;
         return new Bounds<PriceTag>(
-            CreatePriceTag(minDto),
-            CreatePriceTag(maxDto),
+            CreatePriceTag(minDto, priceSelector, fallback),
+            CreatePriceTag(maxDto, priceSelector, fallback),
             avgValue is not null
                 ? new AggregatePriceTag(new GameCurrency(avgValue.Value))
                 : fallback
         );
+    }
 
-        PriceTag CreatePriceTag(T? gameEntityPrice)
+    protected Bounds<PriceTag> CreateBoundsFrom(ICollection<PriceTag> prices, PriceTag? fallback = null)
+    {
+        var minPriceTag = prices.Min();
+        var maxPriceTag = prices.Max();
+
+        int? avgValue = prices.OfType<BarePriceTag>().Any()
+            ? (int)prices.OfType<BarePriceTag>()
+                .Select(priceTag => priceTag.Price)
+                .Where(money => money.Amount > 0)
+                .Average(money => money.Amount)
+            : null;
+
+        fallback ??= PriceTag.Unknown;
+        return new Bounds<PriceTag>(
+            minPriceTag ?? fallback,
+            maxPriceTag ?? fallback,
+            avgValue is not null
+                ? new AggregatePriceTag(new GameCurrency(avgValue.Value))
+                : fallback
+        );
+    }
+
+    protected PriceTag CreatePriceTag(IGameEntityPurchasePrice? purchasePrice, PriceTag? fallback = null)
+        => CreatePriceTag(purchasePrice, price => price.Price, fallback);
+
+    protected PriceTag CreatePriceTag(IGameEntitySalePrice? salePrice, PriceTag? fallback = null)
+        => CreatePriceTag(salePrice, price => price.Price, fallback);
+
+    protected PriceTag CreatePriceTag(IGameEntityRentalPrice? rentalPrice, PriceTag? fallback = null)
+        => CreatePriceTag(rentalPrice, price => price.Price, fallback);
+
+    private PriceTag CreatePriceTag<T>(T? gameEntityPrice, Func<T, GameCurrency> selectPrice, PriceTag? fallback = null) where T : IGameEntityPrice
+    {
+        fallback ??= PriceTag.Unknown;
+        if (gameEntityPrice is null)
         {
-            if (gameEntityPrice is null)
-            {
-                return fallback;
-            }
-
-            var price = priceSelector(gameEntityPrice);
-            return gameEntityPrice switch
-            {
-                GameEntityTerminalPrice context => new KnownPriceTagWithLocation(price, context.Terminal, context.UpdatedAt),
-                GameEntityPrice context => new KnownPriceTag(price, context.UpdatedAt),
-                not null => new KnownPriceTag(price, DateTimeOffset.UnixEpoch),
-                _ => fallback,
-            };
+            return fallback;
         }
+
+        var price = selectPrice(gameEntityPrice);
+        return gameEntityPrice switch
+        {
+            GameEntityTerminalPrice context => new KnownPriceTagWithLocation(price, context.Terminal, context.UpdatedAt),
+            GameEntityPrice context => new KnownPriceTag(price, context.UpdatedAt),
+            not null => new BarePriceTag(price),
+            _ => fallback,
+        };
     }
 }

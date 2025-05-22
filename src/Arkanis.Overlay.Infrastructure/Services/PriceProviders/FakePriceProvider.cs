@@ -10,17 +10,26 @@ public class FakePriceProvider : IPriceProvider
     public ValueTask UpdatePriceTagAsync(IGamePurchasable gameEntity)
         => ValueTask.CompletedTask;
 
+    public ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGamePurchasable gameEntity, IGameLocation? gameLocation)
+        => ValueTask.FromResult<ICollection<PriceTag>>([PriceTag.Unknown]);
+
     public ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGamePurchasable gameEntity, IGameLocation gameLocation)
         => ValueTask.FromResult(Bounds.All(PriceTag.MissingFor(gameLocation)));
 
     public ValueTask UpdatePriceTagAsync(IGameSellable gameEntity)
         => ValueTask.CompletedTask;
 
+    public ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGameSellable gameEntity, IGameLocation? gameLocation)
+        => ValueTask.FromResult<ICollection<PriceTag>>([PriceTag.Unknown]);
+
     public ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameSellable gameEntity, IGameLocation gameLocation)
         => ValueTask.FromResult(Bounds.All(PriceTag.Unknown));
 
     public ValueTask UpdatePriceTagAsync(IGameRentable gameEntity)
         => ValueTask.CompletedTask;
+
+    public ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGameRentable gameEntity, IGameLocation? gameLocation)
+        => ValueTask.FromResult<ICollection<PriceTag>>([PriceTag.Unknown]);
 
     public ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameRentable gameEntity, IGameLocation gameLocation)
         => ValueTask.FromResult(Bounds.All(PriceTag.Unknown));

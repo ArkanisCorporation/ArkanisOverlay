@@ -1,6 +1,8 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Models.Keyboard
+@using Arkanis.Overlay.Domain.Models.Trade
 @implements IAsyncDisposable
+@inject IPriceProvider PriceProvider
 
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 py-2 focus" tabindex="0">
@@ -27,6 +29,16 @@
                     IsFocused="@context.ContainsFocus"/>
             </MudStack>
         </KeyboardShortcutBadge>
+        @if (_focusRegion?.HasFocus == true)
+        {
+            <MudDivider Class="my-2"/>
+            <MudStack Style="max-height: calc(2 * 62px + 12px)">
+                @foreach (var priceTag in PriceTags)
+                {
+                    <div>@priceTag</div>
+                }
+            </MudStack>
+        }
     </MudPaper>
 </FocusRegion>
 
@@ -52,12 +64,24 @@
     private FocusRegion? _focusRegion;
     private IAsyncDisposable? _registration;
 
+    private ICollection<PriceTag> PriceTags { get; set; } = [];
+
     [CascadingParameter]
     public QuickAccessContainer? Container { get; set; }
 
     [Parameter]
     [EditorRequired]
     public required IGameEntity Model { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (Model is IGamePurchasable purchasable)
+        {
+            PriceTags = await PriceProvider.GetPriceTagsWithinAsync(purchasable, null);
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

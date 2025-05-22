@@ -20,6 +20,18 @@ public class SalePriceProvider(
     public async ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameSellable gameEntity, IGameLocation gameLocation)
         => await GetBoundsAsync(gameEntity, gameLocation);
 
+    public async ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGameSellable gameEntity, IGameLocation? gameLocation)
+    {
+        var prices = await pricingRepositoryAggregate.GetAllForAsync(gameEntity.Id);
+        var filtered = gameLocation switch
+        {
+            not null => prices.Where(price => price is IGameLocatedAt locatedAt && gameLocation.IsOrContains(locatedAt.Location)),
+            _ => prices,
+        };
+
+        return filtered.Select(price => CreatePriceTag(price)).ToArray();
+    }
+
     private async ValueTask<Bounds<PriceTag>> GetBoundsAsync(IGameSellable gameEntity, IGameLocation? gameLocation)
     {
         var fallback = gameLocation switch
@@ -28,14 +40,8 @@ public class SalePriceProvider(
             _ => PriceTag.Unknown,
         };
 
-        var prices = await pricingRepositoryAggregate.GetAllForAsync(gameEntity.Id);
-        var filtered = gameLocation switch
-        {
-            not null => prices.Where(price => price is IGameLocatedAt locatedAt && gameLocation.IsOrContains(locatedAt.Location)).ToList(),
-            _ => prices,
-        };
-
-        return CreateBoundsFrom(filtered, price => price.Price, fallback);
+        var filtered = await GetPriceTagsWithinAsync(gameEntity, gameLocation);
+        return CreateBoundsFrom(filtered, fallback);
     }
 
     protected override Task InitializeAsyncCore(CancellationToken cancellationToken)
