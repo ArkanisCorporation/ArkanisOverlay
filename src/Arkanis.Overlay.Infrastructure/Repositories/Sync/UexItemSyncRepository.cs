@@ -25,7 +25,8 @@ internal class UexItemSyncRepository(
     private const int BatchSize = 4;
 
     protected override IDependable GetDependencies()
-        => dependencyResolver.DependsOn<GameProductCategory>(this);
+        => dependencyResolver.DependsOn<GameProductCategory>(this)
+            .AlsoDependsOn<GameCompany>();
 
     protected override async Task<UexApiResponse<ICollection<ItemDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {
