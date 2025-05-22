@@ -1,22 +1,19 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Publish and pack (Release x64)" type="ShConfigurationType"
-                   focusToolWindowBeforeRun="true">
-        <option name="SCRIPT_TEXT"
-                value="dotnet vpk [win] pack --packId Arkanis.Overlay.Host.Desktop --packTitle &quot;Arkanis Overlay&quot; --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/ArkanisTransparent_512x512.png --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico --packVersion 0.0.1-dev.0+20250101000000 --framework net8.0-x64-desktop --channel dev --packDir ./publish --outputDir ./Releases"/>
-        <option name="INDEPENDENT_SCRIPT_PATH" value="true"/>
-        <option name="SCRIPT_PATH" value=""/>
-        <option name="SCRIPT_OPTIONS" value=""/>
-        <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true"/>
-        <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
-        <option name="INDEPENDENT_INTERPRETER_PATH" value="true"/>
-        <option name="INTERPRETER_PATH" value="powershell.exe"/>
-        <option name="INTERPRETER_OPTIONS" value=""/>
-        <option name="EXECUTE_IN_TERMINAL" value="true"/>
-        <option name="EXECUTE_SCRIPT_FILE" value="false"/>
-        <envs/>
-        <method v="2">
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Publish (Release x64)"
-                    run_configuration_type="DotNetFolderPublish"/>
-        </method>
-    </configuration>
+  <configuration default="false" name="Publish and pack (Release x64)" type="ShConfigurationType" focusToolWindowBeforeRun="true">
+    <option name="SCRIPT_TEXT" value="dotnet vpk [win] pack --packId ArkanisOverlay --packTitle &quot;Arkanis Overlay&quot; --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/ArkanisTransparent_512x512.png --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico --packVersion 0.0.1-dev.0+20250101000000 --framework net8.0-x64-desktop --channel dev --packDir ./publish --outputDir ./Releases" />
+    <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+    <option name="SCRIPT_PATH" value="" />
+    <option name="SCRIPT_OPTIONS" value="" />
+    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+    <option name="INTERPRETER_PATH" value="powershell.exe" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="EXECUTE_IN_TERMINAL" value="true" />
+    <option name="EXECUTE_SCRIPT_FILE" value="false" />
+    <envs />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Publish (Release x64)" run_configuration_type="DotNetFolderPublish" />
+    </method>
+  </configuration>
 </component>
