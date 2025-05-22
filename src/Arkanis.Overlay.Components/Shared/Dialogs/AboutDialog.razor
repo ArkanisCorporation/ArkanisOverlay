@@ -1,5 +1,7 @@
 @using Arkanis.Overlay.Common.Abstractions
 @using Humanizer
+@using Humanizer.Localisation
+@implements IDisposable
 @inject IAppVersionProvider VersionProvider
 
 <MudDialog>
@@ -47,7 +49,14 @@
                 .
                 @if (VersionProvider.AutoUpdateCheckAt is { } updateCheckAt)
                 {
-                    <span>Update check in @((updateCheckAt - DateTimeOffset.Now).Humanize()).</span>
+                    if (updateCheckAt <= DateTimeOffset.Now)
+                    {
+                        <span>Update check now in progress...</span>
+                    }
+                    else
+                    {
+                        <span>Update check in @((updateCheckAt - DateTimeOffset.Now).Humanize(minUnit: TimeUnit.Second)).</span>
+                    }
                 }
                 else
                 {
@@ -130,6 +139,10 @@
 @code
 {
 
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(1);
+
+    private Timer? _refreshTimer;
+
     [CascadingParameter]
     public MudThemeProvider? ThemeProvider { get; set; }
 
@@ -166,6 +179,12 @@
     private void Cancel()
         => MudDialog.Cancel();
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _refreshTimer = new Timer(_ => InvokeAsync(StateHasChanged), null, RefreshInterval, RefreshInterval);
+    }
+
     public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
     {
         var dialogOptions = new DialogOptions
@@ -177,4 +196,6 @@
         return await dialogRef.Result ?? DialogResult.Cancel();
     }
 
+    public void Dispose()
+        => _refreshTimer?.Dispose();
 }
