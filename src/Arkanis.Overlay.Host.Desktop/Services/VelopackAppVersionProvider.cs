@@ -13,5 +13,5 @@ public class VelopackAppVersionProvider(ArkanisOverlayUpdateManager updateManage
         => updateManager.CurrentChannel;
 
     public DateTimeOffset? AutoUpdateCheckAt
-        => UpdateProcess.CheckForUpdatesJob.Trigger.GetNextFireTimeUtc();
+        => UpdateProcess.CheckForUpdatesJob.Trigger.GetFireTimeAfter(DateTimeOffset.Now);
 }
