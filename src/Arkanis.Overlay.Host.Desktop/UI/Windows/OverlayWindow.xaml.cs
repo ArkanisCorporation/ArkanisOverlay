@@ -16,6 +16,7 @@ using Helpers;
 using Microsoft.AspNetCore.Components.WebView;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
+using Services;
 using Services.Factories;
 using Workers;
 
@@ -30,6 +31,7 @@ public partial class OverlayWindow
     private readonly ILogger _logger;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly PreferencesWindowFactory _preferencesWindowFactory;
+    private readonly WindowsOverlayControls _windowsOverlayControls;
     private readonly WindowTracker _windowTracker;
 
     private HWND _currentWindowHWnd = HWND.Null;
@@ -40,7 +42,8 @@ public partial class OverlayWindow
         WindowTracker windowTracker,
         GlobalHotkey globalHotkey,
         BlurHelper blurHelper,
-        PreferencesWindowFactory preferencesWindowFactory
+        PreferencesWindowFactory preferencesWindowFactory,
+        WindowsOverlayControls windowsOverlayControls
     )
     {
         Instance = this;
@@ -51,6 +54,7 @@ public partial class OverlayWindow
         _globalHotkey = globalHotkey;
         _blurHelper = blurHelper;
         _preferencesWindowFactory = preferencesWindowFactory;
+        _windowsOverlayControls = windowsOverlayControls;
 
         SetupWorkerEventListeners();
         InitializeComponent();
@@ -107,11 +111,16 @@ public partial class OverlayWindow
     private void SetupWorkerEventListeners()
     {
         _windowTracker.WindowFound +=
-            (_, hWnd) => Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
+            (_, hWnd) =>
+            {
+                Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
+                _windowsOverlayControls.SetGameConnected();
+            };
         _windowTracker.ProcessExited +=
             (_, _) => Dispatcher.Invoke(() =>
                 {
                     _currentWindowHWnd = HWND.Null;
+                    _windowsOverlayControls.SetGameConnected(false);
                     HideOverlay();
                 }
             );

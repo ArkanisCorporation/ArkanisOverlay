@@ -14,9 +14,6 @@
         <option name="EXECUTE_IN_TERMINAL" value="true"/>
         <option name="EXECUTE_SCRIPT_FILE" value="false"/>
         <envs/>
-        <method v="2">
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="Publish (Release x64)"
-                    run_configuration_type="DotNetFolderPublish"/>
-        </method>
+        <method v="2"/>
     </configuration>
 </component>

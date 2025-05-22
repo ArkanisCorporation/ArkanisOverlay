@@ -24,10 +24,15 @@ public abstract class SharedAnalyticsPropertyProvider
         Properties[TrafficTypeKey] = hostEnvironment.IsProduction() ? "public" : "internal";
     }
 
+    public Guid GameSessionId { get; private set; }
+
     protected Dictionary<string, object> Properties { get; } = [];
 
     protected abstract string ApplicationType { get; }
 
     public virtual IEnumerable<KeyValuePair<string, object>> PropertyItems
         => Properties.Append(KeyValuePair.Create<string, object>(ApplicationTypeKey, ApplicationType));
+
+    public void UseNewGameSessionId()
+        => GameSessionId = Guid.NewGuid();
 }

@@ -20,4 +20,8 @@ public sealed record OverlayShownEvent() : BuiltInAnalyticsEvent("overlay_shown"
 
 public sealed record OverlayHiddenEvent() : BuiltInAnalyticsEvent("overlay_hidden");
 
+public sealed record GameConnectedEvent(Guid SessionId) : BuiltInAnalyticsEvent("game_connected");
+
+public sealed record GameDisconnectedEvent(Guid SessionId) : BuiltInAnalyticsEvent("game_disconnected");
+
 public sealed record DialogOpenedEvent(string DialogId) : BuiltInAnalyticsEvent(nameof(DialogOpenedEvent));
