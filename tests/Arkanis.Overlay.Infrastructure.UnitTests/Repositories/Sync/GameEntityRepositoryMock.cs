@@ -6,8 +6,12 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
 using Infrastructure.Services;
+using Microsoft.Extensions.Logging;
 
-internal sealed class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> repository) : InitializableBase, IGameEntityRepository<T>
+internal sealed class GameEntityRepositoryMock<T>(
+    IGameEntityExternalSyncRepository<T> repository,
+    ILogger<GameEntityRepositoryMock<T>> logger
+) : InitializableBase, IGameEntityRepository<T>
     where T : class, IGameEntity
 {
     internal List<T> Entities { get; set; } = [];
@@ -43,12 +47,14 @@ internal sealed class GameEntityRepositoryMock<T>(IGameEntityExternalSyncReposit
     {
         if (syncData is not LoadedSyncData<T> loadedSyncData)
         {
+            logger.LogDebug("Sync data is not loaded, skipping update");
             return;
         }
 
         try
         {
             Entities = await loadedSyncData.GameEntities.ToListAsync(cancellationToken);
+            logger.LogDebug("Storing {EntityCount} loaded entities", Entities.Count);
             Initialized();
         }
         catch (Exception ex)

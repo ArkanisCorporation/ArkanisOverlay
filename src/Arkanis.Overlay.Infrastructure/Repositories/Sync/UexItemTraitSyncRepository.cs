@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
+using System.Collections.Concurrent;
 using System.Globalization;
 using Data.Mappers;
 using Domain.Abstractions;
@@ -33,7 +34,8 @@ internal class UexItemTraitSyncRepository(
             .Where(x => x.CategoryType == GameItemCategoryType.Item)
             .Where(category => category.Id.Identity > 0);
 
-        var items = new List<ItemAttributeDTO>();
+        // this must be a thread-safe collection due to the batching that follows
+        var items = new ConcurrentBag<ItemAttributeDTO>();
         UexApiResponse<GetItemsAttributesOkResponse>? response = null;
 
         await foreach (var categoryBatch in categories.Batch(BatchSize).WithCancellation(cancellationToken))
@@ -41,14 +43,18 @@ internal class UexItemTraitSyncRepository(
             await Task.WhenAll(categoryBatch.Select(LoadForCategoryAsync));
         }
 
-        return CreateResponse(response, items);
+        return CreateResponse(response, items.ToArray());
 
         async Task<UexApiResponse<GetItemsAttributesOkResponse>> LoadForCategoryAsync(GameProductCategory category)
         {
             var categoryEntityId = category.Id;
             var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await itemsApi.GetItemsAttributesByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
-            items.AddRange(response.Result.Data ?? ThrowCouldNotParseResponse());
+            foreach (var dto in response.Result.Data ?? ThrowCouldNotParseResponse())
+            {
+                items.Add(dto);
+            }
+
             return response;
         }
     }
