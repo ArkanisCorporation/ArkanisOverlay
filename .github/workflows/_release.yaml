@@ -84,21 +84,12 @@ jobs:
 
       - run: echo "New release - ${{ steps.semantic-release.outputs.new_release_version || 'no new release' }}"
 
-      - name: Create PR to Backpropagate Release Version
-        uses: peter-evans/create-pull-request@v7
-        id: version-backpropagate
-        if: ${{ ! inputs.dry_run && steps.semantic-release.outputs.new_release_version && github.ref == 'refs/heads/release/stable' }}
-        with:
-          base: ${{ github.event.repository.default_branch }}
-          branch: ${{ github.ref_name }}
-          title: 'Backpropagate release version to default branch: ${{ steps.semantic-release.outputs.new_release_version }}'
-          labels: ci,automated
-
       - name: Enable Backpropagation PR Auto-merge
-        if: ${{ steps.version-backpropagate.outcome == 'success' }}
+        if: ${{ ! inputs.dry_run && steps.semantic-release.outputs.new_release_version && github.ref == 'refs/heads/release/stable' }}
         run: |
-          gh pr merge --merge --auto ${{ steps.version-backpropagate.outputs.pull-request-number }}
-          gh pr review ${{ steps.version-backpropagate.outputs.pull-request-number }} --approve
+          PR_URL=$(gh pr new --base ${{ github.event.repository.default_branch }} --head ${{ github.ref_name }} --title "Backpropagate release version to default branch: ${{ steps.semantic-release.outputs.new_release_version }}" --body "This is an automated post-release action." --label ci --label automated)
+          gh pr merge --merge --auto ${{ steps.version-backpropagate.outputs.pull-request-number }} ${PR_URL}
+          gh pr review ${{ steps.version-backpropagate.outputs.pull-request-number }} --approve ${PR_URL}
 
     outputs:
       new_version: ${{ steps.semantic-release.outputs.new_release_version }}
