@@ -5,11 +5,11 @@ using System.Windows;
 using Microsoft.Web.WebView2.Core;
 using Services;
 
-public partial class PreferencesWindow
+public partial class AboutWindow
 {
-    private readonly WindowControls<PreferencesWindow> _windowControls;
+    private readonly WindowControls<AboutWindow> _windowControls;
 
-    public PreferencesWindow(WindowControls<PreferencesWindow> windowControls)
+    public AboutWindow(WindowControls<AboutWindow> windowControls)
     {
         InitializeComponent();
         _windowControls = windowControls;

@@ -1,12 +1,22 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
-public class WindowsPreferencesControls
-{
-    public event EventHandler? PreferencesClosed;
+using System.Windows;
 
-    public ValueTask CloseAsync()
+public class WindowControls<T> where T : Window
+{
+    private readonly HashSet<T> _windows = [];
+
+    public async ValueTask CloseAsync()
     {
-        PreferencesClosed?.Invoke(this, EventArgs.Empty);
-        return ValueTask.CompletedTask;
+        foreach (var window in _windows)
+        {
+            await window.Dispatcher.InvokeAsync(() => window.Close());
+        }
     }
+
+    public void Bind(T window)
+        => _windows.Add(window);
+
+    public void Unbind(T window)
+        => _windows.Remove(window);
 }

@@ -11,7 +11,4 @@ public static class DependencyInjection
             .Alias<IOverlayControls, WindowsOverlayControls>()
             .Alias<IOverlayEventProvider, WindowsOverlayControls>()
             .Alias<IOverlayEventControls, WindowsOverlayControls>();
-
-    public static IServiceCollection AddPreferenceServiceCollection(this IServiceCollection services)
-        => services.AddSingleton<WindowsPreferencesControls>();
 }

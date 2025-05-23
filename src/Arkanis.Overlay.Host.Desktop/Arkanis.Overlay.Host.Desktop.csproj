@@ -74,14 +74,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ApplicationDefinition Include="UI\App.xaml">
-            <Generator>MSBuild:Compile</Generator>
-            <XamlRuntime>Wpf</XamlRuntime>
-            <SubType>Designer</SubType>
-        </ApplicationDefinition>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.Components\Arkanis.Overlay.Components.csproj"/>

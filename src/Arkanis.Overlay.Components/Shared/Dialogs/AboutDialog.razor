@@ -191,11 +191,31 @@
         {
             FullWidth = true,
             MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
         };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    public static async Task<DialogResult> ShowFullscreenAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            NoHeader = true,
+        };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
         var dialogRef = await dialogService.ShowAsync<AboutDialog>(null, dialogOptions);
         return await dialogRef.Result ?? DialogResult.Cancel();
     }
 
     public void Dispose()
         => _refreshTimer?.Dispose();
+
 }

@@ -157,15 +157,15 @@ public static class Program
         // Data
         services
             .AddWindowsOverlayControls()
-            .AddPreferenceServiceCollection()
             .AddInfrastructure(options => options.HostingMode = HostingMode.LocalSingleUser);
 
         // Singleton Services
         services.AddSingleton<BlurHelper>();
+        services.AddSingleton(typeof(WindowControls<>));
         services.AddMemoryCache();
 
         // Factories
-        services.AddSingleton<PreferencesWindowFactory>();
+        services.AddSingleton<WindowFactory>();
 
         // Workers
         services.AddSingleton<WindowTracker>()

@@ -42,7 +42,9 @@
 
             <icon:TrayIcon.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="About" Click="OnAboutCommand" />
                     <MenuItem Header="Preferences" Click="OnPreferenceCommand" />
+                    <Separator />
                     <MenuItem Header="Exit" Click="OnExitCommand" />
                 </ContextMenu>
             </icon:TrayIcon.ContextMenu>

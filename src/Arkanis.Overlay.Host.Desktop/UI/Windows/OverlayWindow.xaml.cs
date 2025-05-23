@@ -29,7 +29,7 @@ public partial class OverlayWindow
 
     private readonly ILogger _logger;
     private readonly IUserPreferencesProvider _preferencesProvider;
-    private readonly PreferencesWindowFactory _preferencesWindowFactory;
+    private readonly WindowFactory _windowFactory;
     private readonly WindowTracker _windowTracker;
 
     private HWND _currentWindowHWnd = HWND.Null;
@@ -40,7 +40,7 @@ public partial class OverlayWindow
         WindowTracker windowTracker,
         GlobalHotkey globalHotkey,
         BlurHelper blurHelper,
-        PreferencesWindowFactory preferencesWindowFactory
+        WindowFactory windowFactory
     )
     {
         Instance = this;
@@ -50,7 +50,7 @@ public partial class OverlayWindow
         _windowTracker = windowTracker;
         _globalHotkey = globalHotkey;
         _blurHelper = blurHelper;
-        _preferencesWindowFactory = preferencesWindowFactory;
+        _windowFactory = windowFactory;
 
         SetupWorkerEventListeners();
         InitializeComponent();
@@ -239,10 +239,10 @@ public partial class OverlayWindow
     }
 
     private void OnPreferenceCommand(object sender, RoutedEventArgs e)
-    {
-        var preferencesWindow = _preferencesWindowFactory.CreateWindow();
-        preferencesWindow.ShowDialog();
-    }
+        => _windowFactory.CreateWindow<PreferencesWindow>().ShowDialog();
+
+    private void OnAboutCommand(object sender, RoutedEventArgs e)
+        => _windowFactory.CreateWindow<AboutWindow>().ShowDialog();
 
     private void OnExitCommand(object sender, RoutedEventArgs e)
         => Application.Current.Shutdown();

@@ -1,14 +1,16 @@
 @page "/preferences"
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Host.Desktop.Services
+@using Arkanis.Overlay.Host.Desktop.UI.Windows
 
 @inject IDialogService DialogService
-@inject WindowsPreferencesControls PreferencesControls
+@inject WindowControls<PreferencesWindow> WindowControls
 
-@code {
+@code
+{
 
     protected override Task OnInitializedAsync()
         => UserPreferencesEditDialog.ShowFullscreenAsync(DialogService)
-            .ContinueWith(_ => PreferencesControls.CloseAsync());
+            .ContinueWith(_ => WindowControls.CloseAsync());
 
 }
