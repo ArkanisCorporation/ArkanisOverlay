@@ -47,12 +47,6 @@
                         }
                     </MudSelect>
                     <UpdateChannelDetails Model="@Preferences.UpdateChannel"/>
-                    @if (UserPreferencesManager.CurrentPreferences.UpdateChannel != Preferences.UpdateChannel)
-                    {
-                        <MudText Typo="@Typo.caption" Color="@Color.Warning" HtmlTag="p">
-                            App restart is necessary to correctly apply
-                        </MudText>
-                    }
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudStack Spacing="0">

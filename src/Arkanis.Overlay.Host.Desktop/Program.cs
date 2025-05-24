@@ -179,20 +179,20 @@ public static class Program
 
     internal static IServiceCollection AddVelopackServices(this IServiceCollection services)
         => services
-            .AddSingleton<IUpdateSource>(provider =>
+            .AddTransient<IUpdateSource>(provider =>
                 {
                     var userPreferencesProvider = provider.GetRequiredService<IUserPreferencesProvider>();
                     return UpdateHelper.CreateSourceFor(userPreferencesProvider.CurrentPreferences.UpdateChannel);
                 }
             )
-            .AddSingleton<UpdateOptions>(provider => new UpdateOptions
+            .AddTransient<UpdateOptions>(provider => new UpdateOptions
                 {
                     AllowVersionDowngrade = true,
                     ExplicitChannel = provider.GetRequiredService<IUserPreferencesProvider>().CurrentPreferences.UpdateChannel.VelopackChannelId,
                 }
             )
-            .AddSingleton<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
-            .AddSingleton<IAppVersionProvider, VelopackAppVersionProvider>()
+            .AddTransient<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
+            .AddTransient<IAppVersionProvider, VelopackAppVersionProvider>()
             .AddHostedService<UpdateProcess.CheckForUpdatesJob.SelfScheduleService>();
 
     internal static IServiceCollection AddLoggerServices(this IServiceCollection services, IConfiguration configuration)

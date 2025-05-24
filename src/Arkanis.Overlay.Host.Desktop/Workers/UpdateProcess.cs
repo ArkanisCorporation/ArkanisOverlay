@@ -52,35 +52,51 @@ internal class UpdateProcess(
             return;
         }
 
-        if (!forced)
+        try
         {
-            logger.LogDebug("Update is not forced, prompting user for confirmation");
-            if (!await notifications.ShouldUpdateNowAsync(newVersion, cancellationToken))
+            if (!forced)
             {
-                // the user has chosen not to update
-                logger.LogInformation("Update refused by user");
-                return;
+                logger.LogDebug("Update is not forced, prompting user for confirmation");
+                if (!await notifications.ShouldUpdateNowAsync(newVersion, cancellationToken))
+                {
+                    // the user has chosen not to update
+                    logger.LogInformation("Update refused by user");
+                    return;
+                }
             }
-        }
 
-        // download new version
-        ShowProgressToast(newVersion);
+            // download new version
+            ShowProgressToast(newVersion);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Pre-update user prompt has errored, continuing with the update");
+        }
 
         logger.LogDebug("Downloading update from {CurrentVersion} to {NewVersion}", updateManager.CurrentVersion, newVersion.TargetFullRelease.Version);
         await updateManager.DownloadUpdatesAsync(newVersion, UpdateProgressToast, cancelToken: cancellationToken);
 
+        try
+        {
+            logger.LogDebug("Cleaning up before update to {NewVersion}", newVersion.TargetFullRelease.Version);
+
+            // this is necessary to properly clean up sent notifications
+            Dispose();
+            notifications.Dispose();
+
+            if (newVersion.IsDowngrade)
+            {
+                //! breaking changes introduced from new version could make old versions incompatible, so we need to wipe the storage
+                await storageManager.WipeAsync(cancellationToken);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Pre-update cleanup has errored, continuing with the update");
+        }
+
         // install new version and restart app
         logger.LogInformation("Applying update to {NewVersion}", newVersion.TargetFullRelease.Version);
-
-        // this is necessary to properly clean up sent notifications
-        Dispose();
-        notifications.Dispose();
-
-        if (newVersion.IsDowngrade)
-        {
-            //! breaking changes introduced from new version could make old versions incompatible, so we need to wipe the storage
-            await storageManager.WipeAsync(cancellationToken);
-        }
 
         //! this call uses Environment.Exit to immediately terminate the application
         updateManager.ApplyUpdatesAndRestart(newVersion);

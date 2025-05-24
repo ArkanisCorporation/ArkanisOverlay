@@ -51,9 +51,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
 
     private CancellationTokenSource _processExitWatcherCts = new();
 
-    public Size CurrentWindowSize { get; private set; }
-    public Point CurrentWindowPosition { get; private set; }
-
 
     /// <summary>
     ///     The self-launched thread this class runs on.
@@ -76,6 +73,9 @@ public sealed class WindowTracker : IHostedService, IDisposable
         WindowFound += OnWindowFound;
         ProcessExited += OnProcessExited;
     }
+
+    public Size CurrentWindowSize { get; private set; }
+    public Point CurrentWindowPosition { get; private set; }
 
     public void Dispose()
     {
@@ -553,6 +553,8 @@ public sealed class WindowTracker : IHostedService, IDisposable
 
     private void StartProcessExitWatcher()
     {
+        _processExitWatcherCts.Cancel();
+        _processExitWatcherCts.Dispose();
         _processExitWatcherCts = new CancellationTokenSource();
 
         ProcessExitWatcher
@@ -568,7 +570,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
                     {
                         if (task.Exception is not null)
                         {
-                            _logger.LogWarning(task.Exception, "");
+                            _logger.LogWarning(task.Exception, "Process exit watcher encountered an error");
                         }
 
                         Console.WriteLine("Process exit watcher encountered an error: " + task.Exception);
@@ -584,7 +586,15 @@ public sealed class WindowTracker : IHostedService, IDisposable
     }
 
     private void StopProcessExitWatcher()
-        => _processExitWatcherCts.Cancel();
+    {
+        try
+        {
+            _processExitWatcherCts.Cancel();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
 
     public bool IsWindowFocused()
     {
