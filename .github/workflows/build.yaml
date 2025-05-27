@@ -33,10 +33,15 @@ jobs:
     with:
       dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/main' }}
 
-  deploy:
+  deploy-production:
     name: Deployment
-    if: ${{ needs.release.outputs.new_version != '' }}
     needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Would run deployment pipeline here"
+    if: ${{ needs.release.outputs.new_tag != '' }}
+    uses: ./.github/workflows/_deploy-ssh-docker.yaml
+    with:
+      image_ref: ${{ needs.release.outputs.new_tag }}
+    secrets:
+      PRODUCTION_SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+      PRODUCTION_SSH_PORT: ${{ secrets.PRODUCTION_SSH_PORT }}
+      PRODUCTION_SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+      PRODUCTION_SSH_KEY : ${{ secrets.PRODUCTION_SSH_KEY  }}

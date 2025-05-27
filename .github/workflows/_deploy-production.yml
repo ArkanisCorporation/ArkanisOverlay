@@ -1,0 +1,45 @@
+name: Deploy (Production) pipeline
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_ref:
+        description: "Container image reference (tag) that will be deployed"
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      image_ref:
+        type: string
+        required: true
+    secrets:
+      PRODUCTION_SSH_HOST:
+        required: true
+      PRODUCTION_SSH_PORT:
+        required: true
+      PRODUCTION_SSH_USER:
+        required: true
+      PRODUCTION_SSH_KEY:
+        required: true
+
+jobs:
+  deploy-production:
+    name: Production
+    uses: ./.github/workflows/_deploy-ssh-docker.yml
+    with:
+      image_ref: ${{ inputs.image_ref }}
+      container_name: arkanis-overlay
+      environment_name: Production
+    secrets:
+      SSH_HOST: ${{ secrets.PRODUCTION_SSH_HOST }}
+      SSH_PORT: ${{ secrets.PRODUCTION_SSH_PORT }}
+      SSH_USER: ${{ secrets.PRODUCTION_SSH_USER }}
+      SSH_KEY : ${{ secrets.PRODUCTION_SSH_KEY  }}

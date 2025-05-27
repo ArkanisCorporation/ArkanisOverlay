@@ -1,0 +1,96 @@
+name: CernyRytir Deploy
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      image_ref:
+        description: "Container image reference (tag) that will be deployed"
+        required: true
+        type: string
+      environment_name:
+        description: "ASPNETCORE_ENVIRONMENT"
+        required: true
+        type: string
+      container_name:
+        description: "Unique container identifier"
+        required: true
+        type: string
+      debug:
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      SSH_HOST:
+        required: true
+      SSH_PORT:
+        required: true
+      SSH_USER:
+        required: true
+      SSH_KEY:
+        required: true
+
+env:
+  REGISTRY_NAME: ghcr.io
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.image_ref }} to ${{ inputs.environment_name }}
+    runs-on: ubuntu-latest
+    steps:
+      -   name: Deploy using SSH
+          uses: appleboy/ssh-action@v1.2.2
+          env:
+            GITHUB_ACTOR: ${{ github.actor }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            REGISTRY_NAME: ${{ env.REGISTRY_NAME }}
+            ENVIRONMENT_NAME: ${{ inputs.environment_name }}
+            IMAGE_NAME: ${{ github.repository }}
+            IMAGE_REF: ${{ inputs.image_ref }}
+            CONTAINER_NAME: ${{ inputs.container_name }}
+            IS_DEVELOPMENT: ${{ inputs.environment_name != 'Production' && 'true' || 'false' }}
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            port: ${{ secrets.SSH_PORT }}
+            username: ${{ secrets.SSH_USER }}
+            key: ${{ secrets.SSH_KEY }}
+            allenvs: true
+            debug: ${{ }}
+            script: |
+              echo "Current environment:"
+              env
+
+              echo "Logging in to $REGISTRY_NAME using $GITHUB_ACTOR"
+              docker login "$REGISTRY_NAME" -u "$GITHUB_ACTOR" -p "$GITHUB_TOKEN"
+
+              echo "Terminating previous container $CONTAINER_NAME..."
+              docker stop "$CONTAINER_NAME" || true
+
+              echo "Removing previous container $CONTAINER_NAME..."
+              docker rm -f "$CONTAINER_NAME" || true
+
+              echo "Removing dangling images..."
+              docker image prune -f -a
+
+              export IMAGE_URL=$(echo "${REGISTRY_NAME}/${IMAGE_NAME}:${IMAGE_REF}" | tr '[:upper:]' '[:lower:]')
+              echo "Updating local image repository, pulling $IMAGE_URL"
+              docker pull $IMAGE_URL
+
+              # Run new image
+              echo "Deploying $CONTAINER_NAME as $IMAGE_URL..."
+              docker run -d --name "$CONTAINER_NAME" --restart=unless-stopped \
+                -e ASPNETCORE_URLS=http://0.0.0.0:8080 \
+                -e ASPNETCORE_ENVIRONMENT=$ENVIRONMENT_NAME \
+                -e DetailedErrors=$IS_DEVELOPMENT \
+                -v arkanis-overlay-data:/app/ArkanisOverlay \
+                -v /etc/timezone:/etc/timezone:ro \
+                -v /etc/localtime:/etc/localtime:ro \
+                $IMAGE_URL
+
+              # tries=10; \
+              # until [[ "$(docker inspect -f {{.State.Health.Status}} $CONTAINER_NAME)" == "healthy" ]]; do \
+              #     ((tries--)); \
+              #     [[ $tries -le 0 ]] && echo "Container healthcheck has failed!" && exit 1; \
+              #     sleep 3; \
+              # done
+              echo "Done!"
