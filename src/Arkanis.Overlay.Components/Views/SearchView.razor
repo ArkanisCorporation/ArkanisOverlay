@@ -120,10 +120,6 @@
         }
     }
 
-    .focus:focus {
-        outline: 2px solid var(--mud-palette-primary);
-    }
-
     .mud-snackbar {
         min-width: 0;
     }
@@ -133,7 +129,7 @@
     }
 </style>
 
-<div style="@ContainerCss">
+<div>
     <div class="controls-container top">
         <div class="controls-inner-wrapper right pa-4">
             <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
@@ -222,14 +218,6 @@
     };
 
     private OverlaySearchContext _searchContext = new();
-
-    private string ContainerCss
-        => ContainerBlurCss;
-
-    private string ContainerBlurCss
-        => UserPreferencesProvider.CurrentPreferences.BlurBackground
-            ? "backdrop-filter: blur(12px);"
-            : "";
 
     private string ShortcutsText
         => new StringBuilder().AppendJoin(", ", _categorySearchShortcuts.Select(search => $"{search.Key} {search.Value.Category.Humanize().Pluralize()}")).ToString();

@@ -1,17 +1,7 @@
 ﻿@page "/search"
-@using Arkanis.Overlay.Common
-@layout OverlayLayout
+@layout ServerOverlayLayout
 
 <PageTitle>@ApplicationConstants.ApplicationName — Search</PageTitle>
-
-<style>
-    body {
-        background: url(https://media.starcitizen.tools/3/3d/Crusader-port-olisar-3.14.jpg?version=97bc6cfb820bda6f6543f02f4241e074) center;
-        background-size: cover;
-        background-attachment: fixed;
-        height: 100%;
-    }
-</style>
 
 <div style="height: calc(100vh - 48px); overflow-y: scroll">
     <SearchView @rendermode="@(new InteractiveServerRenderMode(true))"/>
