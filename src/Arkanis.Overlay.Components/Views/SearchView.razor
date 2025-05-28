@@ -15,16 +15,32 @@
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .controls-container {
-        position: sticky;
         width: 100%;
-        top: 0;
         z-index: 100;
+        pointer-events: none;
+
+        &.top {
+            position: sticky;
+            top: 0;
+        }
+
+        &.bottom {
+            height: 100%;
+            position: fixed;
+            top: 0;
+        }
 
         & > .controls-inner-wrapper {
             position: absolute;
-            height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
+
+            button,
+            a[href],
+            .active {
+                pointer-events: all;
+            }
 
             &.right {
                 right: 0;
@@ -118,7 +134,7 @@
 </style>
 
 <div style="@ContainerCss">
-    <div class="controls-container">
+    <div class="controls-container top">
         <div class="controls-inner-wrapper right pa-4">
             <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
                 <MudIconButton
@@ -132,6 +148,10 @@
                     Icon="@MaterialSymbols.Outlined.Settings"
                     OnClick="OpenUserOptionsDialogAsync"/>
             </MudStack>
+        </div>
+    </div>
+    <div class="controls-container bottom">
+        <div class="controls-inner-wrapper right pa-4">
             <MudSpacer/>
             <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
                 <UEXBadge/>
@@ -204,7 +224,7 @@
     private OverlaySearchContext _searchContext = new();
 
     private string ContainerCss
-        => $"min-height: 100vh; {ContainerBlurCss}";
+        => ContainerBlurCss;
 
     private string ContainerBlurCss
         => UserPreferencesProvider.CurrentPreferences.BlurBackground

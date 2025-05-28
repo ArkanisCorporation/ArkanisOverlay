@@ -1,8 +1,12 @@
 @inherits LayoutComponentBase
 @using Arkanis.Overlay.Domain.Models.Analytics
+@using Arkanis.Overlay.Domain.Models.Keyboard
+@using MoreLinq.Extensions
 @implements IDisposable
 @layout MainLayout
 
+@inject NavigationManager NavigationManager
+@inject OverlayModules OverlayModules
 @inject IOverlayEventProvider OverlayEventProvider
 @inject IAnalyticsEventReporter AnalyticsEventReporter
 
@@ -12,10 +16,72 @@
     }
 </style>
 
-@Body
+<MudAppBar Style="background: var(--mud-palette-surface);"
+           Fixed="@false"
+           Dense>
+
+    <MudStack Class="w-100"
+              Justify="@Justify.SpaceBetween"
+              AlignItems="@AlignItems.Center"
+              Row>
+        <MudStack Style="width: 20vw" Row>
+        </MudStack>
+
+        <MudStack Row>
+            @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
+            {
+                var moduleShortcut = GetKeyForIndex(moduleIndex);
+                var isModuleActive = IsActive(module);
+                <KeyboardShortcutBadge Key="@moduleShortcut"
+                                       IsActive="@(!isModuleActive)"
+                                       OnKeyPress="@GetActivationCallbackFor(module)"
+                                       Origin="@Origin.BottomCenter"
+                                       Elevation="4">
+                    <MudButton Variant="@Variant.Filled"
+                               Color="@Color.Primary"
+                               Size="@Size.Small"
+                               StartIcon="@module.Icon"
+                               OnClick="@GetActivationCallbackFor(module)"
+                               Disabled="@isModuleActive">
+                        @module.Name
+                    </MudButton>
+                </KeyboardShortcutBadge>
+            }
+        </MudStack>
+
+        <MudStack Style="width: 20vw"
+                  Justify="@Justify.FlexEnd"
+                  AlignItems="@AlignItems.Center"
+                  Row>
+            <MudIconButton
+                Icon="@MaterialSymbols.Outlined.Notifications"
+                Disabled/>
+            <MudAvatar
+                Size="@Size.Small"/>
+        </MudStack>
+    </MudStack>
+</MudAppBar>
+<div>
+    @Body
+</div>
 
 @code
 {
+
+    private bool IsActive(OverlayModules.Entry module)
+        => NavigationManager.ToAbsoluteUri(module.Url).IsBaseOf(new Uri(NavigationManager.Uri));
+
+    private KeyboardKey GetKeyForIndex(int index)
+        => index < 12
+            ? KeyboardKey.F1 + index
+            : KeyboardKey.Unknown;
+
+    private EventCallback GetActivationCallbackFor(OverlayModules.Entry module)
+        => EventCallback.Factory.Create(this, () => Activate(module));
+
+    private void Activate(OverlayModules.Entry module)
+        => NavigationManager.NavigateTo(module.Url);
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
