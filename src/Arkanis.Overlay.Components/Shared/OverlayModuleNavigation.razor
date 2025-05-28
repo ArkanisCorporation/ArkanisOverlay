@@ -1,0 +1,56 @@
+@using Arkanis.Overlay.Domain.Models.Keyboard
+@using MoreLinq
+@inject NavigationManager NavigationManager
+@inject OverlayModules OverlayModules
+
+<MudStack Class="@Class" Style="@Style" Row="@Horizontal">
+    @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Repeat(5).Index())
+    {
+        var moduleShortcut = GetKeyForIndex(moduleIndex);
+        var isModuleActive = IsActive(module);
+        <KeyboardShortcutBadge Key="@moduleShortcut"
+                               IsActive="@(!isModuleActive)"
+                               OnKeyPress="@GetActivationCallbackFor(module)"
+                               Origin="@Origin"
+                               Elevation="4">
+            <MudButton Variant="@Variant.Filled"
+                       Color="@Color.Primary"
+                       StartIcon="@module.Icon"
+                       OnClick="@GetActivationCallbackFor(module)"
+                       Disabled="@isModuleActive">
+                @module.Name
+            </MudButton>
+        </KeyboardShortcutBadge>
+    }
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Style { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Horizontal { get; set; }
+
+    [Parameter]
+    public Origin Origin { get; set; } = Origin.TopRight;
+
+    private bool IsActive(OverlayModules.Entry module)
+        => NavigationManager.ToAbsoluteUri(module.Url).IsBaseOf(new Uri(NavigationManager.Uri));
+
+    private KeyboardKey GetKeyForIndex(int index)
+        => index < 12
+            ? KeyboardKey.F1 + index
+            : KeyboardKey.Unknown;
+
+    private EventCallback GetActivationCallbackFor(OverlayModules.Entry module)
+        => EventCallback.Factory.Create(this, () => Activate(module));
+
+    private void Activate(OverlayModules.Entry module)
+        => NavigationManager.NavigateTo(module.Url);
+
+}
