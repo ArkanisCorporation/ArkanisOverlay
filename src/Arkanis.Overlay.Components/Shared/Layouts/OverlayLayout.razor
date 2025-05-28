@@ -69,7 +69,7 @@
 {
 
     private bool IsActive(OverlayModules.Entry module)
-        => NavigationManager.ToAbsoluteUri(module.Url).IsBaseOf(new Uri(NavigationManager.Uri));
+        => NavigationManager.Uri.StartsWith(NavigationManager.ToAbsoluteUri(module.Url).ToString());
 
     private KeyboardKey GetKeyForIndex(int index)
         => index < 12
