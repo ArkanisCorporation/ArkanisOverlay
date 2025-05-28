@@ -9,6 +9,7 @@
 @inject OverlayModules OverlayModules
 @inject IOverlayEventProvider OverlayEventProvider
 @inject IAnalyticsEventReporter AnalyticsEventReporter
+@inject IUserPreferencesProvider UserPreferencesProvider
 
 <style>
     body {
@@ -36,7 +37,8 @@
                                        IsActive="@(!isModuleActive)"
                                        OnKeyPress="@GetActivationCallbackFor(module)"
                                        Origin="@Origin.BottomCenter"
-                                       Elevation="4">
+                                       Elevation="4"
+                                       DoNotOverlap>
                     <MudButton Variant="@Variant.Filled"
                                Color="@Color.Primary"
                                Size="@Size.Small"
@@ -61,12 +63,19 @@
         </MudStack>
     </MudStack>
 </MudAppBar>
-<div>
+
+<div style="@ContainerBlurCss">
     @Body
 </div>
 
 @code
 {
+
+    private string ContainerBlurCss
+        => UserPreferencesProvider.CurrentPreferences.BlurBackground
+            // calc(100% - 48px) offsets the app bar height
+            ? "min-height: calc(100% - 48px); backdrop-filter: blur(12px);"
+            : "";
 
     private bool IsActive(OverlayModules.Entry module)
         => NavigationManager.Uri.StartsWith(NavigationManager.ToAbsoluteUri(module.Url).ToString());
@@ -85,9 +94,14 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
         OverlayEventProvider.OverlayShown += OnOverlayShown;
         OverlayEventProvider.OverlayHidden += OnOverlayHidden;
+        UserPreferencesProvider.ApplyPreferences += OnPreferencesChanged;
     }
+
+    private void OnPreferencesChanged(object? _, UserPreferences e)
+        => InvokeAsync(StateHasChanged);
 
     private void OnOverlayShown(object? _, EventArgs e)
         => AnalyticsEventReporter.TrackEventAsync(new OverlayShownEvent());
@@ -99,5 +113,7 @@
     {
         OverlayEventProvider.OverlayShown -= OnOverlayShown;
         OverlayEventProvider.OverlayHidden -= OnOverlayHidden;
+        UserPreferencesProvider.ApplyPreferences -= OnPreferencesChanged;
     }
+
 }
