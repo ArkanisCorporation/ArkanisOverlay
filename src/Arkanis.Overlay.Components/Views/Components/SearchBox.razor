@@ -12,7 +12,7 @@
             @if (SearchContext?.CurrentLocation is { } currentLocation)
             {
                 <KeyboardShortcutBadge id="currentLocation"
-                                       Key="@KeyboardKey.F2"
+                                       Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyL])"
                                        Origin="@Origin.BottomCenter"
                                        Color="@Color.Error"
                                        Class="d-flex"
