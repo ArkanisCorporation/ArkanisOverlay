@@ -55,6 +55,7 @@ internal sealed class VirtualItemInventoryEntryEntity : ItemInventoryEntryEntity
 
 internal sealed class PhysicalItemInventoryEntryEntity : ItemInventoryEntryEntityBase
 {
+    [Column(nameof(LocationId))]
     public required UexApiGameEntityId LocationId { get; set; }
 
     internal new class Configuration : IEntityTypeConfiguration<PhysicalItemInventoryEntryEntity>
@@ -96,6 +97,7 @@ internal sealed class VirtualCommodityInventoryEntryEntity : CommodityInventoryE
 
 internal sealed class PhysicalCommodityInventoryEntryEntity : CommodityInventoryEntryEntityBase
 {
+    [Column(nameof(LocationId))]
     public required UexApiGameEntityId LocationId { get; set; }
 
     internal new class Configuration : IEntityTypeConfiguration<PhysicalCommodityInventoryEntryEntity>

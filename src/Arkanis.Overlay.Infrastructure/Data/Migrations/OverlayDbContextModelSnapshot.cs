@@ -55,7 +55,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(34)
+                        .HasMaxLength(55)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GameEntityId")
@@ -120,15 +120,37 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.ToTable("InventoryListItems");
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalCommodityInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
+
+                    b.HasDiscriminator().HasValue("PhysicalCommodityInventoryEntryEntity");
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalItemInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
                     b.Property<string>("LocationId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
 
                     b.HasDiscriminator().HasValue("PhysicalItemInventoryEntryEntity");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualCommodityInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.HasDiscriminator().HasValue("VirtualCommodityInventoryEntryEntity");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualItemInventoryEntryEntity", b =>

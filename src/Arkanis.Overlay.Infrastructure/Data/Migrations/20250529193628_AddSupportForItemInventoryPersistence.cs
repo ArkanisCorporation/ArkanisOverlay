@@ -20,7 +20,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     GameEntityId = table.Column<string>(type: "TEXT", nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 34, nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 55, nullable: false),
                     Quantity_Amount = table.Column<long>(type: "INTEGER", nullable: false),
                     Quantity_Unit = table.Column<int>(type: "INTEGER", nullable: false),
                     LocationId = table.Column<string>(type: "TEXT", nullable: true)
