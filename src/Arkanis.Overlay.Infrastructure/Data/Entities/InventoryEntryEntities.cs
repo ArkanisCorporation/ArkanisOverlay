@@ -69,3 +69,44 @@ internal sealed class PhysicalItemInventoryEntryEntity : ItemInventoryEntryEntit
         }
     }
 }
+
+internal class CommodityInventoryEntryEntityBase : InventoryEntryEntityBase
+{
+    [NotMapped]
+    public required UexId<GameCommodity> CommodityId { get; set; }
+
+    public override UexApiGameEntityId GameEntityId
+    {
+        get => CommodityId;
+        set
+            => CommodityId = value as UexId<GameCommodity>
+                             ?? throw new InvalidOperationException($"Tried assigning incompatible entity ID to {GetType()}: {value}");
+    }
+}
+
+internal sealed class VirtualCommodityInventoryEntryEntity : CommodityInventoryEntryEntityBase
+{
+    internal new class Configuration : IEntityTypeConfiguration<VirtualCommodityInventoryEntryEntity>
+    {
+        public void Configure(EntityTypeBuilder<VirtualCommodityInventoryEntryEntity> builder)
+            => builder.HasBaseType<InventoryEntryEntityBase>()
+                .HasDiscriminator();
+    }
+}
+
+internal sealed class PhysicalCommodityInventoryEntryEntity : CommodityInventoryEntryEntityBase
+{
+    public required UexApiGameEntityId LocationId { get; set; }
+
+    internal new class Configuration : IEntityTypeConfiguration<PhysicalCommodityInventoryEntryEntity>
+    {
+        public void Configure(EntityTypeBuilder<PhysicalCommodityInventoryEntryEntity> builder)
+        {
+            builder.HasBaseType<InventoryEntryEntityBase>()
+                .HasDiscriminator();
+
+            builder.Property(x => x.LocationId)
+                .HasConversion<UexApiDomainIdConverter>();
+        }
+    }
+}

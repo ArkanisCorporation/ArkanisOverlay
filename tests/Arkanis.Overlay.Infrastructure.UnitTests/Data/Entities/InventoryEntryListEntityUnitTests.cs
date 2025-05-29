@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Shouldly;
 using Xunit.Abstractions;
 
+[Collection(TestConstants.Collections.DbContext)]
 public class InventoryEntryListEntityUnitTests(ITestOutputHelper testOutputHelper, OverlayDbContextTestFixture fixture)
     : DbContextTestBed<OverlayDbContextTestFixture, OverlayDbContext>(testOutputHelper, fixture)
 {
     [Fact]
     public async Task Can_Insert_And_Query()
     {
-        var sourceList = DatabaseInventoryEntitiesFixture.SourceList;
+        var sourceList = DatabaseInventoryEntitiesFixture.ItemList;
 
         await using (var dbContext = await CreateDbContextAsync())
         {

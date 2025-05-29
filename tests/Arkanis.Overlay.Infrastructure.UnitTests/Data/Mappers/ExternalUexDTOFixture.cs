@@ -139,4 +139,31 @@ public static class ExternalUexDTOFixture
         Code = "SSCD1",
         Type = "commodity",
     };
+
+    public static CommodityDTO Commodity1 { get; } = new()
+    {
+        Id = 1,
+        Id_parent = 2,
+        Name = "Agricium",
+        Code = "AGRI",
+        Kind = "Metal",
+    };
+
+    public static CommodityDTO Commodity2 { get; } = new()
+    {
+        Id = 3,
+        Id_parent = 0,
+        Name = "Agricultural Supplies",
+        Code = "AGRS",
+        Kind = "Agricultural",
+    };
+
+    public static CommodityDTO Commodity3 { get; } = new()
+    {
+        Id = 58,
+        Id_parent = 59,
+        Name = "Quantainium",
+        Code = "QUAN",
+        Kind = "Mineral",
+    };
 }

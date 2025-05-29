@@ -113,6 +113,24 @@ internal static class GameEntityFixture
         ItemJacketsCategory
     );
 
+    public static GameCommodity Commodity1 { get; } = new(
+        (int)(ExternalUexDTOFixture.Commodity1.Id ?? 0),
+        ExternalUexDTOFixture.Commodity1.Name!,
+        ExternalUexDTOFixture.Commodity1.Code!
+    );
+
+    public static GameCommodity Commodity2 { get; } = new(
+        (int)(ExternalUexDTOFixture.Commodity2.Id ?? 0),
+        ExternalUexDTOFixture.Commodity2.Name!,
+        ExternalUexDTOFixture.Commodity2.Code!
+    );
+
+    public static GameCommodity Commodity3 { get; } = new(
+        (int)(ExternalUexDTOFixture.Commodity3.Id ?? 0),
+        ExternalUexDTOFixture.Commodity3.Name!,
+        ExternalUexDTOFixture.Commodity3.Code!
+    );
+
     public static IGameEntity[] AllEntities
         =>
         [
@@ -130,5 +148,8 @@ internal static class GameEntityFixture
             Item1,
             Item2,
             Item3,
+            Commodity1,
+            Commodity2,
+            Commodity3,
         ];
 }
