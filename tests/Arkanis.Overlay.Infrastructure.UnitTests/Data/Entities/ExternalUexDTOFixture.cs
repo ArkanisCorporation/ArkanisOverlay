@@ -9,7 +9,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         ItemId = GameEntityFixture.Item1.StrongId,
-        Quantity = new Quantity(1, Quantity.Type.StandardCargoUnit),
+        Quantity = new Quantity(1, Quantity.UnitType.StandardCargoUnit),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -17,7 +17,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         ItemId = GameEntityFixture.Item2.StrongId,
-        Quantity = new Quantity(2, Quantity.Type.CentiStandardCargoUnit),
+        Quantity = new Quantity(2, Quantity.UnitType.CentiStandardCargoUnit),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -25,7 +25,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         ItemId = GameEntityFixture.Item3.StrongId,
-        Quantity = new Quantity(10, Quantity.Type.Count),
+        Quantity = new Quantity(10, Quantity.UnitType.Count),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -41,7 +41,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         CommodityId = GameEntityFixture.Commodity1.StrongId,
-        Quantity = new Quantity(5, Quantity.Type.StandardCargoUnit),
+        Quantity = new Quantity(5, Quantity.UnitType.StandardCargoUnit),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -49,7 +49,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         CommodityId = GameEntityFixture.Commodity2.StrongId,
-        Quantity = new Quantity(8, Quantity.Type.StandardCargoUnit),
+        Quantity = new Quantity(8, Quantity.UnitType.StandardCargoUnit),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -57,7 +57,7 @@ internal static class DatabaseInventoryEntitiesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         CommodityId = GameEntityFixture.Commodity3.StrongId,
-        Quantity = new Quantity(300, Quantity.Type.CentiStandardCargoUnit),
+        Quantity = new Quantity(300, Quantity.UnitType.CentiStandardCargoUnit),
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 

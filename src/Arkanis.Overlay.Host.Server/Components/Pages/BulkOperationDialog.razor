@@ -1,0 +1,85 @@
+@typeparam T
+
+<MudDialog>
+    <DialogContent>
+        @Description
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton Color="@CurrentOptions.SubmitColor"
+                   OnClick="@SubmitAsync">
+            @CurrentOptions.SubmitLabel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public required IEnumerable<T> Items { get; set; }
+
+    [Parameter]
+    public required Func<T, Task> PerformOperation { get; set; }
+
+    [Parameter]
+    public required RenderFragment Description { get; set; }
+
+    [Parameter]
+    public required Options CurrentOptions { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<DialogResult> ShowAsync(
+        IDialogService dialogService,
+        IEnumerable<T> items,
+        Configuration configuration,
+        Options? options = null
+    )
+    {
+        options ??= new Options();
+        var dialogParameters = new DialogParameters<BulkOperationDialog<T>>
+        {
+            [nameof(PerformOperation)] = configuration.PerformOperation,
+            [nameof(Description)] = configuration.Description,
+            [nameof(Items)] = items,
+            [nameof(CurrentOptions)] = options,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<BulkOperationDialog<T>>(options.Title, dialogParameters, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    private async Task SubmitAsync()
+    {
+        foreach (var item in Items)
+        {
+            await PerformOperation(item);
+        }
+
+        MudDialog.Close();
+    }
+
+    public class Configuration
+    {
+        public required Func<T, Task> PerformOperation { get; set; }
+        public required RenderFragment Description { get; set; }
+    }
+
+    public class Options
+    {
+        public string Title { get; set; } = "Confirm Action";
+        public Color SubmitColor { get; set; } = Color.Primary;
+        public string SubmitLabel { get; set; } = "Submit";
+    }
+}

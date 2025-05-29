@@ -12,6 +12,12 @@ public class OverlayModules
             Name = "Search",
             Icon = Icons.Material.Filled.Search,
         },
+        new()
+        {
+            Url = "/inventory",
+            Name = "Inventory",
+            Icon = Icons.Material.Filled.Warehouse,
+        },
     ];
 
     public ICollection<Entry> GetAll()

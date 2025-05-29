@@ -26,6 +26,7 @@
               AlignItems="@AlignItems.Center"
               Row>
         <MudStack Style="width: 20vw" Row>
+            <SectionOutlet SectionId="@RenderSections.AppBar.AppMenu"/>
         </MudStack>
 
         <MudStack Row>
@@ -55,6 +56,7 @@
                   Justify="@Justify.FlexEnd"
                   AlignItems="@AlignItems.Center"
                   Row>
+            <SectionOutlet SectionId="@RenderSections.AppBar.UserMenu"/>
             <MudIconButton
                 Icon="@MaterialSymbols.Outlined.Notifications"
                 Disabled/>
@@ -65,7 +67,9 @@
 </MudAppBar>
 
 <div style="@ContainerBlurCss">
-    @Body
+    <div style="height: calc(100vh - 48px); overflow-y: scroll">
+        @Body
+    </div>
 </div>
 
 @code

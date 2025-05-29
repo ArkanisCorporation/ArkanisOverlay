@@ -1,0 +1,265 @@
+@using Arkanis.Overlay.Common.Extensions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models.Game
+@using Arkanis.Overlay.Domain.Models.Inventory
+<style>
+    .mud-data-grid .mud-table-cell.mud-datagrid-group {
+        background-color: inherit;
+    }
+
+    .mud-table-row .mud-table-cell {
+        background-color: var(--mud-palette-background-gray);
+    }
+</style>
+<MudDataGrid Items="@Models"
+             SelectedItems="@SelectedModels"
+             SelectedItemsChanged="@SelectedModelsChanged"
+             Class="@Class"
+             Groupable="true"
+             MultiSelection
+             Dense
+             Hover>
+    <Columns>
+        <SelectColumn/>
+        <PropertyColumn Property="@(x => x.Quantity)"
+                        AggregateDefinition="@(new AggregateDefinition<InventoryEntryBase>())">
+            <CellTemplate>
+                <QuantityLabel Model="@context.Item.Quantity"/>
+            </CellTemplate>
+            <AggregateTemplate>
+                <QuantityAggregateLabel Models="@context.Select(x => x.Quantity)"/>
+            </AggregateTemplate>
+        </PropertyColumn>
+        <PropertyColumn Title="Entity"
+                        Property="@(x => x.Entity.Name.MainContent.FullName)">
+            <CellTemplate>
+                @context.Item.Entity.Name.MainContent.FullName
+            </CellTemplate>
+        </PropertyColumn>
+        <TemplateColumn Title="Type"
+                        GroupBy="@(x => GetEntryType(x))"
+                        Grouping="@Groupings.Contains(Column.EntryType)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.EntryType)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@Groupings.Contains(Column.EntryType)">
+            <CellTemplate>
+                @GetEntryType(context.Item)
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Manufacturer"
+                        GroupBy="@(x => (x.Entity as IGameManufactured)?.Manufacturer)"
+                        Grouping="@Groupings.Contains(Column.Manufacturer)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Manufacturer)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="true">
+            <GroupTemplate>
+                @if (context.Grouping.Key is GameCompany company)
+                {
+                    <GameEntityNameLabel Model="@company.Name"/>
+                }
+                else
+                {
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </GroupTemplate>
+            <CellTemplate>
+                @if (context.Item.Entity is IGameManufactured manufactured)
+                {
+                    @manufactured.Manufacturer.Name.MainContent.FullName
+                }
+                else
+                {
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Location"
+                        GroupBy="@(x => (x as IGameLocatedAt)?.Location)"
+                        Grouping="@Groupings.Contains(Column.Location)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Location)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@Groupings.Contains(Column.Location)">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <MudTooltip>
+                            <TooltipContent>
+                                <QuantityAggregateLabel Models="@context.Grouping.Select(x => x.Quantity)"/>
+                            </TooltipContent>
+                            <ChildContent>
+                                <MudChip Value="@context.Grouping.Count()"/>
+                            </ChildContent>
+                        </MudTooltip>
+                    </div>
+
+                    @if (context.Grouping.Key is IGameLocation location)
+                    {
+                        <GameEntityNameLabel Model="@location.Name"/>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            Without permanent storage
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <MudChip
+                            Value="@selected.Length"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                @if (context.Item is IGameLocatedAt locatedAt)
+                {
+                    @locatedAt.Location.Name.MainContent.FullName
+                }
+                else
+                {
+                    <MudText Typo="@Typo.inherit" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="List"
+                        GroupBy="@(x => _entryListMapping.GetValueOrDefault(x.Id)?.FirstOrDefault())"
+                        Grouping="@Groupings.Contains(Column.List)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.List)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@Groupings.Contains(Column.List)">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <MudTooltip>
+                            <TooltipContent>
+                                <QuantityAggregateLabel Models="@context.Grouping.Select(x => x.Quantity)"/>
+                            </TooltipContent>
+                            <ChildContent>
+                                <MudChip Value="@context.Grouping.Count()"/>
+                            </ChildContent>
+                        </MudTooltip>
+                    </div>
+
+                    @if (context.Grouping.Key is InventoryEntryList list)
+                    {
+                        @list.Name
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            Not assigned to any list
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <MudChip
+                            Value="@selected.Length"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                @if (_entryListMapping.GetValueOrDefault(context.Item.Id) is { } lists)
+                {
+                    <MudChipSet Size="@Size.Small">
+                        @foreach (var list in lists)
+                        {
+                            <MudChip Text="@list.Name"/>
+                        }
+                    </MudChipSet>
+                }
+                else
+                {
+                    <MudText Typo="@Typo.inherit" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        @if (EntryActionsContent is not null)
+        {
+            <TemplateColumn Title="Actions"
+                            HeaderStyle="justify-items: right"
+                            CellStyle="text-align: right">
+                <CellTemplate>
+                    @EntryActionsContent(context)
+                </CellTemplate>
+            </TemplateColumn>
+        }
+    </Columns>
+    <NoRecordsContent>
+        <MudText Typo="@Typo.body2" Class="text-secondary">
+            There are no inventory entries yet.
+        </MudText>
+    </NoRecordsContent>
+</MudDataGrid>
+
+@code
+{
+
+    private Dictionary<InventoryEntryId, InventoryEntryList[]> _entryListMapping = [];
+
+    [Parameter]
+    public ICollection<InventoryEntryBase> Models { get; set; } = [];
+
+    [Parameter]
+    public ICollection<InventoryEntryList> Lists { get; set; } = [];
+
+    [Parameter]
+    public HashSet<InventoryEntryBase> SelectedModels { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<HashSet<InventoryEntryBase>> SelectedModelsChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment<CellContext<InventoryEntryBase>>? EntryActionsContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public bool ExpandAll { get; set; }
+
+    [Parameter]
+    public Column[] Groupings { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _entryListMapping = Lists.SelectMany(list => list.Entries.Select(entry => KeyValuePair.Create(entry.Id, list)))
+            .GroupBy(x => x.Key)
+            .ToDictionary(group => group.Key, group => group.Select(pair => pair.Value).ToArray());
+    }
+
+    private string GetEntryType(InventoryEntryBase contextItem)
+        => contextItem switch
+        {
+            ItemInventoryEntry => "Item",
+            CommodityInventoryEntry => "Commodity",
+            _ => "unknown",
+        };
+
+    public enum Column
+    {
+        Location,
+        Manufacturer,
+        EntryType,
+        List,
+    }
+}

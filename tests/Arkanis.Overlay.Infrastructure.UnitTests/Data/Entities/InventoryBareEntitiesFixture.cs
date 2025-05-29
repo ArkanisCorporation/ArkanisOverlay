@@ -8,7 +8,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Item = GameEntityFixture.Item1,
-        Quantity = new Quantity(1, Quantity.Type.Count),
+        Quantity = new Quantity(1, Quantity.UnitType.Count),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -16,7 +16,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Item = GameEntityFixture.Item2,
-        Quantity = new Quantity(2, Quantity.Type.Count),
+        Quantity = new Quantity(2, Quantity.UnitType.Count),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -24,7 +24,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Item = GameEntityFixture.Item3,
-        Quantity = new Quantity(10, Quantity.Type.Count),
+        Quantity = new Quantity(10, Quantity.UnitType.Count),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -40,7 +40,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Commodity = GameEntityFixture.Commodity1,
-        Quantity = new Quantity(5, Quantity.Type.StandardCargoUnit),
+        Quantity = new Quantity(5, Quantity.UnitType.StandardCargoUnit),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -48,7 +48,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Commodity = GameEntityFixture.Commodity2,
-        Quantity = new Quantity(8, Quantity.Type.StandardCargoUnit),
+        Quantity = new Quantity(8, Quantity.UnitType.StandardCargoUnit),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -56,7 +56,7 @@ public static class DomainInventoryEntriesFixture
     {
         Id = InventoryEntryId.CreateNew(),
         Commodity = GameEntityFixture.Commodity3,
-        Quantity = new Quantity(300, Quantity.Type.CentiStandardCargoUnit),
+        Quantity = new Quantity(300, Quantity.UnitType.CentiStandardCargoUnit),
         Location = GameEntityFixture.SpaceStation,
     };
 

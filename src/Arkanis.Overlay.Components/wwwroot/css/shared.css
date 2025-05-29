@@ -29,3 +29,35 @@
 .focus:focus {
     outline: 2px solid var(--mud-palette-primary);
 }
+
+.mud-paper:not(.mud-paper-square) .mud-table-root tr:last-of-type > :first-child,
+.mud-expansion-panels:not(.mud-expansion-panels-square) .mud-table-root tr:last-of-type > :first-child {
+    border-bottom-left-radius: var(--mud-default-borderradius) !important;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root tr:last-of-type > :last-child,
+.mud-expansion-panels:not(.mud-expansion-panels-square) .mud-table-root tr:last-of-type > :last-child {
+    border-bottom-right-radius: var(--mud-default-borderradius) !important;
+}
+
+@keyframes fadeInDown {
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInLeft {
+    0% {
+        transform: translateX(10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

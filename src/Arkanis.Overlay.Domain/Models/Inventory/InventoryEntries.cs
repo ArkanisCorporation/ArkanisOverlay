@@ -53,6 +53,8 @@ public abstract class InventoryEntryBase : IIdentifiable
 
     IDomainId IIdentifiable.Id
         => Id;
+
+    public abstract InventoryEntryBase SetLocation(IGameLocation location);
 }
 
 public abstract class ItemInventoryEntry : InventoryEntryBase
@@ -63,11 +65,26 @@ public abstract class ItemInventoryEntry : InventoryEntryBase
         => Item;
 }
 
-public sealed class VirtualItemInventoryEntry : ItemInventoryEntry;
+public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
+{
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+        => new PhysicalItemInventoryEntry
+        {
+            Item = Item,
+            Quantity = Quantity,
+            Location = location,
+        };
+}
 
 public sealed class PhysicalItemInventoryEntry : ItemInventoryEntry, IGameLocatedAt
 {
     public required IGameLocation Location { get; set; }
+
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+    {
+        Location = location;
+        return this;
+    }
 }
 
 public abstract class CommodityInventoryEntry : InventoryEntryBase
@@ -78,9 +95,24 @@ public abstract class CommodityInventoryEntry : InventoryEntryBase
         => Commodity;
 }
 
-public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry;
+public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
+{
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+        => new PhysicalCommodityInventoryEntry
+        {
+            Commodity = Commodity,
+            Quantity = Quantity,
+            Location = location,
+        };
+}
 
 public sealed class PhysicalCommodityInventoryEntry : CommodityInventoryEntry, IGameLocatedAt
 {
     public required IGameLocation Location { get; set; }
+
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+    {
+        Location = location;
+        return this;
+    }
 }

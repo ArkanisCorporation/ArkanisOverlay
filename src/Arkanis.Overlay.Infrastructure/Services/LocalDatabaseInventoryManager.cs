@@ -23,8 +23,10 @@ internal class LocalDatabaseInventoryManager(
     public async Task UpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        dbContext.InventoryEntries.AddOrUpdate(mapper.Map(entry));
+        var entity = mapper.Map(entry);
+        dbContext.InventoryEntries.AddOrUpdate(entity);
         await dbContext.SaveChangesAsync(cancellationToken);
+        await CompactifyEntitiesAsync(entity, cancellationToken);
     }
 
     public async Task DeleteEntryAsync(InventoryEntryId entryId, CancellationToken cancellationToken = default)
@@ -87,6 +89,11 @@ internal class LocalDatabaseInventoryManager(
             );
             await dbContext.InventoryListItems.AddRangeAsync(newListItems, cancellationToken);
 
+            foreach (var existingEntry in existingList.Entries)
+            {
+                await CompactifyEntitiesAsync(existingEntry, cancellationToken);
+            }
+
             listEntity.Entries.Clear();
             dbContext.InventoryLists.Update(listEntity);
         }
@@ -104,5 +111,29 @@ internal class LocalDatabaseInventoryManager(
         await dbContext.InventoryLists
             .Where(x => x.Id == listId)
             .ExecuteDeleteAsync(cancellationToken);
+    }
+
+    private async Task CompactifyEntitiesAsync(InventoryEntryEntityBase current, CancellationToken cancellationToken)
+    {
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var otherExistingEntities = await dbContext.InventoryEntries
+            .Where(x => x.Id != current.Id)
+            .Where(x => x.GameEntityId == current.GameEntityId)
+            .Where(x => x.Quantity.Unit == current.Quantity.Unit)
+            .ToListAsync(cancellationToken);
+
+        if (otherExistingEntities.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var existing in otherExistingEntities)
+        {
+            current.Quantity.Amount += existing.Quantity.Amount;
+            dbContext.InventoryEntries.Remove(existing);
+        }
+
+        dbContext.InventoryEntries.Update(current);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }
