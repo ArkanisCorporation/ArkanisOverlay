@@ -33,6 +33,9 @@ internal class InventoryEntryListEntity
                     left => left.HasOne<InventoryEntryEntityBase>().WithMany().HasForeignKey(x => x.EntryId).HasPrincipalKey(x => x.Id),
                     left => left.HasOne<InventoryEntryListEntity>().WithMany().HasForeignKey(x => x.ListId).HasPrincipalKey(x => x.Id)
                 );
+
+            builder.Navigation(x => x.Entries)
+                .AutoInclude();
         }
     }
 }

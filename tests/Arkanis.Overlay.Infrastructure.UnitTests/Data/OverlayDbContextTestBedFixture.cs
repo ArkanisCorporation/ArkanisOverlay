@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Xunit.Microsoft.DependencyInjection;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
-public class OverlayDbContextTestFixture : TestBedFixture
+public class OverlayDbContextTestBedFixture : TestBedFixture
 {
     protected override void AddServices(IServiceCollection services, IConfiguration? configuration)
     {

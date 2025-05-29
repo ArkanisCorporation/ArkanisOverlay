@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 [Index(nameof(GameEntityId))]
-internal abstract class InventoryEntryEntityBase
+internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntryId>
 {
-    [Key]
-    public required InventoryEntryId Id { get; init; }
-
     public abstract UexApiGameEntityId GameEntityId { get; set; }
 
     public required Quantity Quantity { get; set; }
+
+    [Key]
+    public required InventoryEntryId Id { get; init; }
 
     internal class Configuration : IEntityTypeConfiguration<InventoryEntryEntityBase>
     {

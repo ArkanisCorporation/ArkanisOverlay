@@ -7,8 +7,8 @@ using Shouldly;
 using Xunit.Abstractions;
 
 [Collection(TestConstants.Collections.DbContext)]
-public class InventoryEntryEntityUnitTests(ITestOutputHelper testOutputHelper, OverlayDbContextTestFixture fixture)
-    : DbContextTestBed<OverlayDbContextTestFixture, OverlayDbContext>(testOutputHelper, fixture)
+public class InventoryEntryEntityUnitTests(ITestOutputHelper testOutputHelper, OverlayDbContextTestBedFixture fixture)
+    : DbContextTestBed<OverlayDbContextTestBedFixture, OverlayDbContext>(testOutputHelper, fixture)
 {
     [Theory]
     [MemberData(nameof(DatabaseInventoryEntities))]

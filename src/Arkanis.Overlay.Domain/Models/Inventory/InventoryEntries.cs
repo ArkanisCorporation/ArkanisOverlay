@@ -10,6 +10,39 @@ public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
         => new(Guid.NewGuid());
 }
 
+public static class InventoryEntry
+{
+    public static VirtualItemInventoryEntry Create(GameItem gameItem, Quantity quantity)
+        => new()
+        {
+            Item = gameItem,
+            Quantity = quantity,
+        };
+
+    public static PhysicalItemInventoryEntry CreateAt(GameItem gameItem, Quantity quantity, IGameLocation location)
+        => new()
+        {
+            Item = gameItem,
+            Quantity = quantity,
+            Location = location,
+        };
+
+    public static VirtualCommodityInventoryEntry Create(GameCommodity gameCommodity, Quantity quantity)
+        => new()
+        {
+            Commodity = gameCommodity,
+            Quantity = quantity,
+        };
+
+    public static PhysicalCommodityInventoryEntry CreateAt(GameCommodity gameCommodity, Quantity quantity, IGameLocation location)
+        => new()
+        {
+            Commodity = gameCommodity,
+            Quantity = quantity,
+            Location = location,
+        };
+}
+
 public abstract class InventoryEntryBase : IIdentifiable
 {
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
@@ -24,7 +57,7 @@ public abstract class InventoryEntryBase : IIdentifiable
 
 public abstract class ItemInventoryEntry : InventoryEntryBase
 {
-    public required GameItem Item { get; set; }
+    public required GameItem Item { get; init; }
 
     public override IGameEntity Entity
         => Item;
@@ -39,7 +72,7 @@ public sealed class PhysicalItemInventoryEntry : ItemInventoryEntry, IGameLocate
 
 public abstract class CommodityInventoryEntry : InventoryEntryBase
 {
-    public required GameCommodity Commodity { get; set; }
+    public required GameCommodity Commodity { get; init; }
 
     public override IGameEntity Entity
         => Commodity;

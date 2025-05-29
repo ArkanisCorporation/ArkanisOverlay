@@ -6,8 +6,8 @@ using Shouldly;
 using Xunit.Abstractions;
 
 [Collection(TestConstants.Collections.DbContext)]
-public class InventoryEntryListEntityUnitTests(ITestOutputHelper testOutputHelper, OverlayDbContextTestFixture fixture)
-    : DbContextTestBed<OverlayDbContextTestFixture, OverlayDbContext>(testOutputHelper, fixture)
+public class InventoryEntryListEntityUnitTests(ITestOutputHelper testOutputHelper, OverlayDbContextTestBedFixture fixture)
+    : DbContextTestBed<OverlayDbContextTestBedFixture, OverlayDbContext>(testOutputHelper, fixture)
 {
     [Fact]
     public async Task Can_Insert_And_Query()
@@ -22,9 +22,7 @@ public class InventoryEntryListEntityUnitTests(ITestOutputHelper testOutputHelpe
 
         await using (var dbContext = await CreateDbContextAsync())
         {
-            var loadedItem = await dbContext.InventoryLists
-                .Include(x => x.Entries)
-                .SingleAsync();
+            var loadedItem = await dbContext.InventoryLists.SingleAsync();
 
             sourceList.Entries.Sort(DatabaseInventoryEntitiesFixture.Comparison);
             loadedItem.ShouldBeEquivalentTo(sourceList);

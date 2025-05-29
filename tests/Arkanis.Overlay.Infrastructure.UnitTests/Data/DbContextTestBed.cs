@@ -6,11 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
-public abstract class DbContextTestBed<TFixture, TContext>(ITestOutputHelper testOutputHelper, TFixture fixture)
-    : TestBed<TFixture>(testOutputHelper, fixture), IDependencyInjectionTestBed
+public abstract class DbContextTestBed<TFixture, TContext>
+    : TestBed<TFixture>, IDependencyInjectionTestBed
     where TContext : DbContext
     where TFixture : TestBedFixture
 {
+    protected DbContextTestBed(ITestOutputHelper testOutputHelper, TFixture fixture) : base(testOutputHelper, fixture)
+    {
+        using var dbContext = CreateDbContext();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
+    }
+
     public TestBedFixture Fixture
         => _fixture;
 
@@ -20,19 +27,13 @@ public abstract class DbContextTestBed<TFixture, TContext>(ITestOutputHelper tes
     protected TContext CreateDbContext()
     {
         var dbContextFactory = this.GetRequiredService<IDbContextFactory<TContext>>();
-        var dbContext = dbContextFactory.CreateDbContext();
-
-        dbContext.Database.EnsureCreated();
-        return dbContext;
+        return dbContextFactory.CreateDbContext();
     }
 
     protected async Task<TContext> CreateDbContextAsync()
     {
         var dbContextFactory = this.GetRequiredService<IDbContextFactory<TContext>>();
-        var dbContext = await dbContextFactory.CreateDbContextAsync();
-
-        await dbContext.Database.EnsureCreatedAsync();
-        return dbContext;
+        return await dbContextFactory.CreateDbContextAsync();
     }
 
     protected override async ValueTask DisposeAsyncCore()
