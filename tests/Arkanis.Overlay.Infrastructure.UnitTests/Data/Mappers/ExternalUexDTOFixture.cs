@@ -13,25 +13,67 @@ public static class ExternalUexDTOFixture
         Nickname = "Code Blue",
     };
 
-    public static CategoryDTO ItemHatsCategory { get; } = new()
+    public static CategoryDTO ItemLegwearCategory { get; } = new()
     {
-        Id = 10,
+        Id = 13,
         Type = "item",
         Section = "Clothing",
-        Name = "Hats",
+        Name = "Legwear",
         Is_game_related = 1,
         Is_mining = 0,
     };
 
-    public static ItemDTO Item { get; } = new()
+    public static CategoryDTO ItemFootwearCategory { get; } = new()
     {
-        Id = 998,
-        Uuid = "6cb8150c-6e2d-4d93-9f11-3ba743227215",
-        Id_category = ItemHatsCategory.Id,
-        Id_company = ItemCompany.Id,
-        Name = "Col Head Cover Maroon",
+        Id = 8,
+        Type = "item",
         Section = "Clothing",
-        Category = "Hats",
+        Name = "Footwear",
+        Is_game_related = 1,
+        Is_mining = 0,
+    };
+
+    public static CategoryDTO ItemJacketsCategory { get; } = new()
+    {
+        Id = 11,
+        Type = "item",
+        Section = "Clothing",
+        Name = "Jackets",
+        Is_game_related = 1,
+        Is_mining = 0,
+    };
+
+    public static ItemDTO Item1 { get; } = new()
+    {
+        Id = 3332,
+        Uuid = "26929685-659d-460c-b6c9-d3286ff9ab44",
+        Id_category = ItemLegwearCategory.Id,
+        Id_company = ItemCompany.Id,
+        Name = "Ajax Security Uniform Pants",
+        Section = "Clothing",
+        Category = "Legwear",
+    };
+
+    public static ItemDTO Item2 { get; } = new()
+    {
+        Id = 3333,
+        Uuid = "bdfed6de-7e10-4b47-a229-5493ab7576a6",
+        Id_category = ItemFootwearCategory.Id,
+        Id_company = ItemCompany.Id,
+        Name = "Ajax Security Uniform Shoes",
+        Section = "Clothing",
+        Category = "Footwear",
+    };
+
+    public static ItemDTO Item3 { get; } = new()
+    {
+        Id = 3334,
+        Uuid = "0aba253a-f590-4ea0-88ae-fa34a5c2d030",
+        Id_category = ItemJacketsCategory.Id,
+        Id_company = ItemCompany.Id,
+        Name = "Ajax Security Uniform Jacket",
+        Section = "Clothing",
+        Category = "Jackets",
     };
 
     public static UniverseStarSystemDTO StarSystem { get; } = new()

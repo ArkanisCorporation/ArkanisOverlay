@@ -9,6 +9,9 @@ using Trade;
 public class GameItem(int id, string fullName, GameCompany manufacturer, GameProductCategory category)
     : GameEntity(UexApiGameEntityId.Create<GameItem>(id), GameEntityCategory.Item), IGameManufactured, IGameTradable
 {
+    public UexId<GameItem> StrongId
+        => (Id as UexId<GameItem>)!;
+
     public TraitCollection Traits { get; } = new();
 
     public GameCompany Manufacturer

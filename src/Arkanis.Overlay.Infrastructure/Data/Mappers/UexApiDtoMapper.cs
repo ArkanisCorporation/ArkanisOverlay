@@ -20,7 +20,7 @@ using Services.Abstractions;
 [SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance")]
 internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationService)
 {
-    internal readonly ConcurrentDictionary<string, IGameEntity> CachedGameEntities = [];
+    private readonly ConcurrentDictionary<UexApiGameEntityId, IGameEntity> _cachedGameEntities = [];
 
     public async ValueTask<IGameEntity> ToGameEntityAsync<TSource>(TSource source) where TSource : class
     {
@@ -81,7 +81,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameStarSystem ToGameEntity(UniverseStarSystemDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameStarSystem>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -89,7 +89,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GamePlanet ToGameEntity(UniversePlanetDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GamePlanet>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -97,7 +97,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameMoon ToGameEntity(UniverseMoonDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameMoon>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -105,7 +105,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameCity ToGameEntity(UniverseCityDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameCity>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -113,7 +113,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameSpaceStation ToGameEntity(UniverseSpaceStationDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameSpaceStation>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -121,7 +121,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameOutpost ToGameEntity(UniverseOutpostDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameOutpost>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -129,7 +129,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameTerminal ToGameEntity(UniverseTerminalDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameTerminal>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -137,7 +137,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameCommodity ToGameEntity(CommodityDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameCommodity>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -145,7 +145,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameItem ToGameEntity(ItemDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameItem>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -153,7 +153,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameItemTrait ToGameEntity(ItemAttributeDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameItemTrait>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -161,7 +161,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameCompany ToGameEntity(CompanyDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameCompany>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -169,7 +169,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameProductCategory ToGameEntity(CategoryDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<GameProductCategory>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -182,7 +182,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             { Is_ground_vehicle: 1 } => MapInternalGroundVehicle(source),
             _ => throw new ArgumentOutOfRangeException(nameof(source), source, "Unable to select corresponding vehicle type."),
         };
-        CacheGameEntityId<GameVehicle>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -190,7 +190,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameEntityPrice ToGameEntity(CommodityPriceBriefDTO source)
     {
         var purchaseResult = MapInternal(source);
-        CacheGameEntityId<IPriceOf<GameCommodity, GameEntityTradePrice>>(source.Id, purchaseResult);
+        CacheGameEntity(purchaseResult);
         return purchaseResult;
     }
 
@@ -198,7 +198,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameEntityPrice ToGameEntity(ItemPriceBriefDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<IPriceOf<GameItem, GameEntityTradePrice>>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -206,7 +206,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameEntityPrice ToGameEntity(VehiclePurchasePriceBriefDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<IPriceOf<GameVehicle, GameEntityPurchasePrice>>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -214,7 +214,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameEntityPrice ToGameEntity(VehicleRentalPriceBriefDTO source)
     {
         var result = MapInternal(source);
-        CacheGameEntityId<IPriceOf<GameVehicle, GameEntityRentalPrice>>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
@@ -227,25 +227,30 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             "sell" => MapInternalPurchasePrice(source), // someone wants to sell on the marketplace, so the price is the purchase price
             _ => throw new ArgumentOutOfRangeException(nameof(source), source.Operation, "Unable to select marketplace price type based on operation."),
         };
-        CacheGameEntityId<IPriceOf<GameItem, GameEntityMarketPrice>>(source.Id, result);
+        CacheGameEntity(result);
         return result;
     }
 
-    private void CacheGameEntityId<T>(double? sourceId, IGameEntity result) where T : class, IGameEntity
-        => CachedGameEntities[CreateCacheEntityKey<T>(sourceId)] = result;
+    internal void CacheGameEntity(IGameEntity result)
+        => _cachedGameEntities[result.Id] = result;
+
+    public T ResolveCachedGameEntity<T>(UexId<T> id)
+        where T : class, IGameEntity
+        => _cachedGameEntities.GetValueOrDefault(id) as T ?? ThrowInvalidCacheException<T>(id.Identity);
+
+    public T ResolveCachedGameEntity<T>(UexApiGameEntityId id)
+        where T : class, IGameEntity
+        => _cachedGameEntities.GetValueOrDefault(id) as T ?? ThrowInvalidCacheException<T>(id.Identity);
 
     private T? ResolveCachedGameEntity<T>(double? sourceId, bool throwOnCacheMiss = true, [CallerArgumentExpression("sourceId")] string sourceIdExpression = "")
         where T : class, IGameEntity
     {
-        var cacheEntityKey = CreateCacheEntityKey<T>(sourceId);
-        var cachedEntity = CachedGameEntities.GetValueOrDefault(cacheEntityKey) as T;
+        var entityId = UexApiGameEntityId.Create<T>(sourceId ?? 0);
+        var cachedEntity = _cachedGameEntities.GetValueOrDefault(entityId) as T;
         return sourceId > 0 && cachedEntity is null && throwOnCacheMiss
             ? ThrowInvalidCacheException<T>(sourceId, sourceIdExpression)
             : cachedEntity;
     }
-
-    private static string CreateCacheEntityKey<T>(double? sourceId)
-        => $"{typeof(T).Name}-{sourceId}";
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
     [MapProperty(nameof(UniverseStarSystemDTO.Name), "fullName")]
