@@ -42,6 +42,7 @@ public static class DependencyInjection
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()
+            .AddLocalInventoryManagementServices()
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();
