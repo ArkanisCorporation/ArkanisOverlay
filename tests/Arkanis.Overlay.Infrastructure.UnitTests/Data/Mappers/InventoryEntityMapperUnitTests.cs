@@ -8,8 +8,6 @@ using MoreLinq;
 using Services;
 using Shouldly;
 
-#pragma warning disable xUnit1016 // MemberData must reference a public member. Add or change the visibility of the data member to public.
-#pragma warning disable xUnit1019 // MemberData must reference a data type assignable to 'System.Collections.Generic.IEnumerable<object[]>'.
 public class InventoryEntityMapperUnitTests
 {
     [Theory]
@@ -85,5 +83,3 @@ public class InventoryEntityMapperUnitTests
             [DomainInventoryEntriesFixture.PhysicalItem3],
         ];
 }
-#pragma warning restore xUnit1019
-#pragma warning restore xUnit1016
