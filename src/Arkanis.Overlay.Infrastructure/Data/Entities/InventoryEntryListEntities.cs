@@ -18,7 +18,7 @@ internal class InventoryEntryListEntity
     [MaxLength(10000)]
     public required string Notes { get; set; }
 
-    public virtual List<InventoryEntryEntityBase> Entities { get; init; } = [];
+    public virtual List<InventoryEntryEntityBase> Entries { get; init; } = [];
 
     internal class Configuration : IEntityTypeConfiguration<InventoryEntryListEntity>
     {
@@ -27,7 +27,7 @@ internal class InventoryEntryListEntity
             builder.Property(x => x.Id)
                 .HasConversion<GuidDomainIdConverter<InventoryEntryListId>>();
 
-            builder.HasMany(x => x.Entities)
+            builder.HasMany(x => x.Entries)
                 .WithMany()
                 .UsingEntity<InventoryEntryListItemEntity>(
                     left => left.HasOne<InventoryEntryEntityBase>().WithMany().HasForeignKey(x => x.EntryId).HasPrincipalKey(x => x.Id),

@@ -23,10 +23,10 @@ public class InventoryEntryListEntityUnitTests(ITestOutputHelper testOutputHelpe
         await using (var dbContext = await CreateDbContextAsync())
         {
             var loadedItem = await dbContext.InventoryLists
-                .Include(x => x.Entities)
+                .Include(x => x.Entries)
                 .SingleAsync();
 
-            sourceList.Entities.Sort(DatabaseInventoryEntitiesFixture.Comparison);
+            sourceList.Entries.Sort(DatabaseInventoryEntitiesFixture.Comparison);
             loadedItem.ShouldBeEquivalentTo(sourceList);
         }
     }

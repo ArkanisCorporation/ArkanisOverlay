@@ -9,6 +9,29 @@ using Riok.Mapperly.Abstractions;
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
 internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
 {
+    private GameItem ResolveItem(UexId<GameItem> itemId)
+        => uexMapper.ResolveCachedGameEntity(itemId);
+
+    private GameCommodity ResolveCommodity(UexId<GameCommodity> commodityId)
+        => uexMapper.ResolveCachedGameEntity(commodityId);
+
+    private IGameLocation ResolveLocation(UexApiGameEntityId locationId)
+        => uexMapper.ResolveCachedGameEntity<IGameLocation>(locationId);
+
+    #region (To Database) Inventory List Mapping
+
+    public partial InventoryEntryListEntity Map(InventoryEntryList list);
+
+    #endregion
+
+    #region (To Domain) Inventory List Mapping
+
+    public partial InventoryEntryList Map(InventoryEntryListEntity list);
+
+    #endregion
+
+    #region (To Database) Inventory Entry Mapping
+
     public InventoryEntryEntityBase Map(InventoryEntryBase entryBase)
         => entryBase switch
         {
@@ -33,6 +56,10 @@ internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
 
     [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.GameEntityId))]
     private partial PhysicalCommodityInventoryEntryEntity Map(PhysicalCommodityInventoryEntry bareEntry);
+
+    #endregion
+
+    #region (To Domain) Inventory Entry Entity Mappings
 
     public InventoryEntryBase Map(InventoryEntryEntityBase entryBase)
         => entryBase switch
@@ -61,12 +88,5 @@ internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
     [MapProperty(nameof(PhysicalCommodityInventoryEntryEntity.LocationId), nameof(PhysicalCommodityInventoryEntry.Location), Use = nameof(ResolveLocation))]
     private partial PhysicalCommodityInventoryEntry Map(PhysicalCommodityInventoryEntryEntity bareEntry);
 
-    private GameItem ResolveItem(UexId<GameItem> itemId)
-        => uexMapper.ResolveCachedGameEntity(itemId);
-
-    private GameCommodity ResolveCommodity(UexId<GameCommodity> commodityId)
-        => uexMapper.ResolveCachedGameEntity(commodityId);
-
-    private IGameLocation ResolveLocation(UexApiGameEntityId locationId)
-        => uexMapper.ResolveCachedGameEntity<IGameLocation>(locationId);
+    #endregion
 }

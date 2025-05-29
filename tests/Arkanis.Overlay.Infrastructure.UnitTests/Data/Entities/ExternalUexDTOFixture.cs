@@ -34,7 +34,7 @@ internal static class DatabaseInventoryEntitiesFixture
         Id = InventoryEntryListId.CreateNew(),
         Name = nameof(ItemList),
         Notes = "This is for a unit test",
-        Entities = [PhysicalItem1, PhysicalItem2],
+        Entries = [PhysicalItem1, PhysicalItem2],
     };
 
     public static readonly PhysicalCommodityInventoryEntryEntity PhysicalCommodity1 = new()
@@ -66,7 +66,7 @@ internal static class DatabaseInventoryEntitiesFixture
         Id = InventoryEntryListId.CreateNew(),
         Name = nameof(CommodityList),
         Notes = "This is for a unit test",
-        Entities = [PhysicalCommodity1, PhysicalCommodity2],
+        Entries = [PhysicalCommodity1, PhysicalCommodity2],
     };
 
     public static readonly IEnumerable<InventoryEntryEntityBase> AllEntries =
@@ -82,7 +82,7 @@ internal static class DatabaseInventoryEntitiesFixture
     public static readonly IEnumerable<InventoryEntryListEntity> AllLists = [ItemList, CommodityList];
 
     static DatabaseInventoryEntitiesFixture()
-        => ItemList.Entities.Sort(Comparison);
+        => ItemList.Entries.Sort(Comparison);
 
     public static int Comparison(InventoryEntryEntityBase left, InventoryEntryEntityBase right)
         => left.Id.Identity.CompareTo(right.Id.Identity);
