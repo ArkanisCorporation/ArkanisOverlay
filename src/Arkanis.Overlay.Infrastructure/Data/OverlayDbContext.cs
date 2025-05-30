@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Data;
 using System.Text.Json;
 using Converters;
 using Domain.Models;
+using Domain.Models.Inventory;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,19 @@ public class OverlayDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<ExternalSourceDataCache> ExternalSourceDataCache
         => Set<ExternalSourceDataCache>();
 
+    internal DbSet<InventoryEntryEntityBase> InventoryEntries
+        => Set<InventoryEntryEntityBase>();
+
+    internal DbSet<InventoryEntryListEntity> InventoryLists
+        => Set<InventoryEntryListEntity>();
+
+    internal DbSet<InventoryEntryListItemEntity> InventoryListItems
+        => Set<InventoryEntryListItemEntity>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.ComplexProperties<ServiceAvailableState>();
+        configurationBuilder.ComplexProperties<Quantity>();
 
         configurationBuilder.Properties<StarCitizenVersion>()
             .HaveConversion<StarCitizenVersionValueConverter>()

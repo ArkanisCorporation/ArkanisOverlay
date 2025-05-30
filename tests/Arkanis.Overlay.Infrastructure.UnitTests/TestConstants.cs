@@ -4,6 +4,8 @@ public static class TestConstants
 {
     public static class Collections
     {
+        public const string DbContext = "DbContext Tests";
+
         public const string RepositorySyncCachedApi = "Cached Sync Repository Tests";
         public const string RepositorySyncLiveApi = "Live Sync Repository Tests";
     }
