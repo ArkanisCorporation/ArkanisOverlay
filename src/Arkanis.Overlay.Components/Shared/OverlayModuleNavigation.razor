@@ -4,7 +4,7 @@
 @inject OverlayModules OverlayModules
 
 <MudStack Class="@Class" Style="@Style" Row="@Horizontal">
-    @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Repeat(5).Index())
+    @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
         var moduleShortcut = GetKeyForIndex(moduleIndex);
         var isModuleActive = IsActive(module);
