@@ -15,7 +15,40 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
     : DbContextTestBed<LocalDatabaseServiceTestBedFixture, OverlayDbContext>(testOutputHelper, fixture)
 {
     [Fact]
-    public async Task Can_Insert()
+    public async Task Can_Insert_Entry()
+    {
+        await SetUp();
+
+        var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
+
+        var source = InventoryEntry.Create(GameEntityFixture.Item1, new Quantity(1, Quantity.UnitType.Count));
+
+        await inventoryManager.UpdateEntryAsync(source);
+
+        var databaseList = await inventoryManager.GetAllEntriesAsync();
+        databaseList.Single(x => x.Id == source.Id).ShouldBeEquivalentTo(source);
+    }
+
+    [Fact]
+    public async Task Can_Insert_And_Change_Type_Entry()
+    {
+        await SetUp();
+
+        var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
+
+        var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count));
+        await inventoryManager.UpdateEntryAsync(source);
+
+        var updatedSource = source.SetLocation(GameEntityFixture.Outpost);
+        await inventoryManager.UpdateEntryAsync(updatedSource);
+
+        var databaseEntries = await inventoryManager.GetAllEntriesAsync();
+        var databaseEntry = databaseEntries.SingleOrDefault(x => x.Id == source.Id).ShouldNotBeNull();
+        databaseEntry.ShouldBeEquivalentTo(updatedSource);
+    }
+
+    [Fact]
+    public async Task Can_Insert_List()
     {
         await SetUp();
 
@@ -23,7 +56,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         var sourceList = new InventoryEntryList
         {
-            Name = nameof(Can_Insert),
+            Name = nameof(Can_Insert_List),
             Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
         };
 
@@ -34,7 +67,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
     }
 
     [Fact]
-    public async Task Can_Update_Add_Entries()
+    public async Task Can_Update_List_Add_Entries()
     {
         await SetUp();
 
@@ -42,7 +75,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         var sourceList = new InventoryEntryList
         {
-            Name = nameof(Can_Update_Remove_Entries),
+            Name = nameof(Can_Update_List_Remove_Entries),
             Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
         };
 
@@ -58,7 +91,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
     }
 
     [Fact]
-    public async Task Can_Update_Remove_Entries()
+    public async Task Can_Update_List_Remove_Entries()
     {
         await SetUp();
 
@@ -66,7 +99,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         var sourceList = new InventoryEntryList
         {
-            Name = nameof(Can_Update_Remove_Entries),
+            Name = nameof(Can_Update_List_Remove_Entries),
             Entries =
             [
                 DomainInventoryEntriesFixture.PhysicalCommodity1,
@@ -89,7 +122,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
     }
 
     [Fact]
-    public async Task Can_Update_Properties()
+    public async Task Can_Update_List()
     {
         await SetUp();
 
@@ -97,7 +130,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         var sourceList = new InventoryEntryList
         {
-            Name = nameof(Can_Update_Remove_Entries),
+            Name = nameof(Can_Update_List),
             Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
         };
 

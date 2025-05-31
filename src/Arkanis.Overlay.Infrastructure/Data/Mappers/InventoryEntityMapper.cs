@@ -46,15 +46,19 @@ internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
         };
 
     [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.GameEntityId))]
+    [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.Discriminator))]
     private partial VirtualItemInventoryEntryEntity Map(VirtualItemInventoryEntry bareEntry);
 
     [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.GameEntityId))]
+    [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.Discriminator))]
     private partial PhysicalItemInventoryEntryEntity Map(PhysicalItemInventoryEntry bareEntry);
 
     [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.GameEntityId))]
+    [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.Discriminator))]
     private partial VirtualCommodityInventoryEntryEntity Map(VirtualCommodityInventoryEntry bareEntry);
 
     [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.GameEntityId))]
+    [MapperIgnoreTarget(nameof(InventoryEntryEntityBase.Discriminator))]
     private partial PhysicalCommodityInventoryEntryEntity Map(PhysicalCommodityInventoryEntry bareEntry);
 
     #endregion

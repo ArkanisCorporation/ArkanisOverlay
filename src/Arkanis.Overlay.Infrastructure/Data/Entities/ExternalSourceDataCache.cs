@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Entities;
 
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using Abstractions;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

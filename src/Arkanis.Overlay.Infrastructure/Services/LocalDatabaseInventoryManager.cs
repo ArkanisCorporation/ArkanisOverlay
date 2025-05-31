@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 
 using Data;
 using Data.Entities;
+using Data.Entities.Abstractions;
 using Data.Extensions;
 using Data.Mappers;
 using Domain.Abstractions.Services;
@@ -120,11 +121,21 @@ internal class LocalDatabaseInventoryManager(
             .Where(x => x.Id != current.Id)
             .Where(x => x.GameEntityId == current.GameEntityId)
             .Where(x => x.Quantity.Unit == current.Quantity.Unit)
+            .Where(x => x.Discriminator == current.Discriminator)
             .ToListAsync(cancellationToken);
 
         if (otherExistingEntities.Count == 0)
         {
             return;
+        }
+
+        if (current is IDatabaseEntityWithLocation currentAt)
+        {
+            // only merge entries at the same location
+            otherExistingEntities.RemoveAll(other
+                => other is not IDatabaseEntityWithLocation otherAt
+                   || otherAt.LocationId != currentAt.LocationId
+            );
         }
 
         foreach (var existing in otherExistingEntities)

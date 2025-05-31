@@ -70,6 +70,7 @@ public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
     public override InventoryEntryBase SetLocation(IGameLocation location)
         => new PhysicalItemInventoryEntry
         {
+            Id = Id,
             Item = Item,
             Quantity = Quantity,
             Location = location,
@@ -100,6 +101,7 @@ public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
     public override InventoryEntryBase SetLocation(IGameLocation location)
         => new PhysicalCommodityInventoryEntry
         {
+            Id = Id,
             Commodity = Commodity,
             Quantity = Quantity,
             Location = location,

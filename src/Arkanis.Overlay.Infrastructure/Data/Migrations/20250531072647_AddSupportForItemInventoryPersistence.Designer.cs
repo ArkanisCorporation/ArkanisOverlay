@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    [Migration("20250529193628_AddSupportForItemInventoryPersistence")]
+    [Migration("20250531072647_AddSupportForItemInventoryPersistence")]
     partial class AddSupportForItemInventoryPersistence
     {
         /// <inheritdoc />
@@ -58,7 +58,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(55)
+                        .HasMaxLength(21)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("GameEntityId")
@@ -69,7 +69,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<long>("Amount")
+                            b1.Property<int>("Amount")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<int>("Unit")
@@ -82,7 +82,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.ToTable("InventoryEntries");
 
-                    b.HasDiscriminator().HasValue("InventoryEntryEntityBase");
+                    b.HasDiscriminator().HasValue("Undefined_Undefined");
 
                     b.UseTphMappingStrategy();
                 });
@@ -133,7 +133,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
 
-                    b.HasDiscriminator().HasValue("PhysicalCommodityInventoryEntryEntity");
+                    b.HasDiscriminator().HasValue("Physical_Commodity");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalItemInventoryEntryEntity", b =>
@@ -146,21 +146,21 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
 
-                    b.HasDiscriminator().HasValue("PhysicalItemInventoryEntryEntity");
+                    b.HasDiscriminator().HasValue("Physical_Item");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualCommodityInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
-                    b.HasDiscriminator().HasValue("VirtualCommodityInventoryEntryEntity");
+                    b.HasDiscriminator().HasValue("Virtual_Commodity");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualItemInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
-                    b.HasDiscriminator().HasValue("VirtualItemInventoryEntryEntity");
+                    b.HasDiscriminator().HasValue("Virtual_Item");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListItemEntity", b =>
