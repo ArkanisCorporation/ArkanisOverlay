@@ -44,6 +44,7 @@ public static class DependencyInjection
             .AddJavaScriptEventInterop()
             .AddGlobalKeyboardProxyService()
             .AddGoogleTrackingServices()
+            .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, ServerAnalyticsPropertyProvider>()
             .AddServerOverlayControls()
             .AddInfrastructure(options => options.HostingMode = HostingMode.Server)

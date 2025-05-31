@@ -25,3 +25,7 @@
 .no-wrap {
     white-space: nowrap;
 }
+
+.focus:focus {
+    outline: 2px solid var(--mud-palette-primary);
+}
