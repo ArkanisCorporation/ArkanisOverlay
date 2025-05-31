@@ -9,7 +9,8 @@
 <PageTitle>@ApplicationConstants.ApplicationName — Inventory</PageTitle>
 
 <style>
-    .mud-paper {
+    .mud-main-content .mud-paper,
+    .mud-main-content .mud-expansion-panels {
         animation: 250ms fadeInDown;
     }
 </style>
@@ -388,7 +389,7 @@
                             }
                             else
                             {
-                                <i>without permanent storage</i>
+                                <i>unassigned</i>
                             }
                             <ul class="pl-4">
                                 @foreach (var entry in entriesByLocation!)
