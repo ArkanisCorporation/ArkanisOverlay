@@ -16,7 +16,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache", b =>
                 {
@@ -46,6 +46,133 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExternalSourceDataCache");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GameEntityId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Quantity", "Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase.Quantity#Quantity", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("Amount")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Unit")
+                                .HasColumnType("INTEGER");
+                        });
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameEntityId");
+
+                    b.ToTable("InventoryEntries");
+
+                    b.HasDiscriminator().HasValue("Undefined_Undefined");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InventoryLists");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListItemEntity", b =>
+                {
+                    b.Property<Guid>("EntryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ListId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("EntryId", "ListId");
+
+                    b.HasIndex("ListId", "EntryId")
+                        .IsUnique();
+
+                    b.ToTable("InventoryListItems");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalCommodityInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
+
+                    b.HasDiscriminator().HasValue("Physical_Commodity");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalItemInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
+
+                    b.HasDiscriminator().HasValue("Physical_Item");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualCommodityInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.HasDiscriminator().HasValue("Virtual_Commodity");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualItemInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.HasDiscriminator().HasValue("Virtual_Item");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListItemEntity", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", null)
+                        .WithMany()
+                        .HasForeignKey("EntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

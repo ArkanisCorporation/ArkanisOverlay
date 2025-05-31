@@ -2,9 +2,11 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Mappers;
 
 using Domain.Enums;
 using Domain.Models.Game;
+using Entities;
 using Exceptions;
 using Infrastructure.Data.Mappers;
 using Infrastructure.Services.Abstractions;
+using MoreLinq;
 using Services;
 using Shouldly;
 using static ExternalUexDTOFixture;
@@ -68,12 +70,9 @@ public class ExternalUexDTOMapperUnitTests
     public async Task ItemDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
         var mapper = new UexApiDtoMapper(HydrationService);
+        GameEntityFixture.AllEntities.ForEach(mapper.CacheGameEntity);
 
-        // cache dependencies, order is important
-        await mapper.ToGameEntityAsync(ItemCompany);
-        await mapper.ToGameEntityAsync(ItemHatsCategory);
-
-        var source = Item;
+        var source = Item1;
         var result = await mapper.ToGameEntityAsync(source) as GameItem;
 
         result.ShouldNotBeNull();
@@ -92,7 +91,7 @@ public class ExternalUexDTOMapperUnitTests
         await mapper.ToGameEntityAsync(Planet);
         await mapper.ToGameEntityAsync(Moon);
 
-        var source = Item;
+        var source = Item1;
         await Should.ThrowAsync<ObjectMappingMissingLinkedRelatedObjectException>(async () => await mapper.ToGameEntityAsync(source));
     }
 }

@@ -15,16 +15,32 @@
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .controls-container {
-        position: sticky;
         width: 100%;
-        top: 0;
         z-index: 100;
+        pointer-events: none;
+
+        &.top {
+            position: sticky;
+            top: 0;
+        }
+
+        &.bottom {
+            height: 100%;
+            position: fixed;
+            top: 0;
+        }
 
         & > .controls-inner-wrapper {
             position: absolute;
-            height: 100vh;
+            height: 100%;
             display: flex;
             flex-direction: column;
+
+            button,
+            a[href],
+            .active {
+                pointer-events: all;
+            }
 
             &.right {
                 right: 0;
@@ -55,28 +71,6 @@
         }
     }
 
-    @@keyframes fadeInDown {
-        0% {
-            transform: translateY(-50%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    @@keyframes fadeInLeft {
-        0% {
-            transform: translateX(10%);
-            opacity: 0;
-        }
-        100% {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-
     #search-box-container {
         animation: 250ms fadeInDown;
     }
@@ -104,10 +98,6 @@
         }
     }
 
-    .focus:focus {
-        outline: 2px solid var(--mud-palette-primary);
-    }
-
     .mud-snackbar {
         min-width: 0;
     }
@@ -117,8 +107,8 @@
     }
 </style>
 
-<div style="@ContainerCss">
-    <div class="controls-container">
+<div>
+    <div class="controls-container top">
         <div class="controls-inner-wrapper right pa-4">
             <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
                 <MudIconButton
@@ -132,6 +122,10 @@
                     Icon="@MaterialSymbols.Outlined.Settings"
                     OnClick="OpenUserOptionsDialogAsync"/>
             </MudStack>
+        </div>
+    </div>
+    <div class="controls-container bottom">
+        <div class="controls-inner-wrapper right pa-4">
             <MudSpacer/>
             <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
                 <UEXBadge/>
@@ -185,14 +179,6 @@
     };
 
     private OverlaySearchContext _searchContext = new();
-
-    private string ContainerCss
-        => $"min-height: 100vh; {ContainerBlurCss}";
-
-    private string ContainerBlurCss
-        => UserPreferencesProvider.CurrentPreferences.BlurBackground
-            ? "backdrop-filter: blur(12px);"
-            : "";
 
     private string ShortcutsText
         => new StringBuilder().AppendJoin(", ", _categorySearchShortcuts.Select(search => $"{search.Key} {search.Value.Category.Humanize().Pluralize()}")).ToString();

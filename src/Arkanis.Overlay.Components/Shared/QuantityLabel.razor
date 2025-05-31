@@ -1,0 +1,30 @@
+@using Arkanis.Overlay.Domain.Models.Inventory
+@using Humanizer
+<span>
+    @if (Model is not null)
+    {
+        @Model.Amount.ToMetric(MetricNumeralFormats.WithSpace, 3)
+        @UnitText
+    }
+    else
+    {
+        <MudSkeleton SkeletonType="@SkeletonType.Text" Width="60px"/>
+    }
+</span>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public Quantity? Model { get; set; }
+
+    private MarkupString UnitText
+        => Model?.Unit switch
+        {
+            null => new MarkupString("<unknown unit>"),
+            Quantity.UnitType.Count => new MarkupString("&times;"),
+            _ => new MarkupString(Model.Unit.Humanize()),
+        };
+
+}

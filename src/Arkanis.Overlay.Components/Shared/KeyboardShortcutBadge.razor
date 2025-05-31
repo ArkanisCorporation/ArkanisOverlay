@@ -10,7 +10,7 @@
           Style="@Style"
           Color="@Color"
           Visible="@IsActive"
-          Elevation="8"
+          Elevation="@Elevation"
           Overlap="@(DoNotOverlap == false)"
           UserAttributes="UnmatchedAttributes">
     @ChildContent
@@ -58,6 +58,9 @@
 
     [Parameter]
     public bool DoNotOverlap { get; set; }
+
+    [Parameter]
+    public int Elevation { get; set; } = 8;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? UnmatchedAttributes { get; set; }

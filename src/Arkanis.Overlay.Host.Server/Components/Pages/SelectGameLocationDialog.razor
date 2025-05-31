@@ -1,0 +1,51 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.Game
+<MudDialog DefaultFocus="@DefaultFocus.FirstChild" ContentClass="py-2">
+    <TitleContent>
+        Select Location
+    </TitleContent>
+    <DialogContent>
+        <GameEntitySelectBox
+            EntityCategory="@GameEntityCategory.Location"
+            Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
+            @bind-Value="Location"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@Submit">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public IGameEntity? Location { get; set; }
+
+    private void Submit()
+        => MudDialog.Close(DialogResult.Ok(Location));
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<IGameLocation?> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<SelectGameLocationDialog>(null, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<IGameLocation>();
+    }
+
+}

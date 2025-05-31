@@ -23,6 +23,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInMemorySearchServices(this IServiceCollection services)
         => services.AddScoped<ISearchService, InMemorySearchService>();
 
+    public static IServiceCollection AddLocalInventoryManagementServices(this IServiceCollection services)
+        => services.AddScoped<IInventoryManager, LocalDatabaseInventoryManager>();
+
     public static IServiceCollection AddServicesForUserPreferencesFromJsonFile(this IServiceCollection services)
         => services.AddUserPreferencesServices<UserPreferencesJsonFileManager>();
 

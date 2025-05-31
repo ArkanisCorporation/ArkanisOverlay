@@ -1,0 +1,114 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.Game
+@using Arkanis.Overlay.Domain.Models.Inventory
+@using Humanizer
+@inject IInventoryManager InventoryManager
+@inject ILogger<NewInventoryEntryDialog> Logger
+
+<MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
+    <TitleContent>
+        Select Item or Commodity
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Accept="@(location => location is GameItem or GameCommodity)"
+                    @bind-Value="Entity"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField
+                    @bind-Value="@_quantity.Amount"
+                    InputType="@InputType.Number"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudSelect @bind-Value="@_quantity.Unit">
+                    @foreach (var unit in Enum.GetValues<Quantity.UnitType>().Except([Quantity.UnitType.Undefined]))
+                    {
+                        <MudSelectItem Value="@unit">
+                            @unit.Humanize()
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    EntityCategory="@GameEntityCategory.Location"
+                    Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
+                    @bind-Value="Location"/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@Submit"
+                   Disabled="@(!CanSubmit)">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private readonly Quantity _quantity = new(1, Quantity.UnitType.Count);
+
+    private bool CanSubmit
+        => Entity is not null && _quantity.Amount > 0;
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public IGameEntity? Entity { get; set; }
+
+    [Parameter]
+    public IGameEntity? Location { get; set; }
+
+    private void Submit()
+    {
+        var inventoryEntry = CreateInventoryEntry();
+        InventoryManager.UpdateEntryAsync(inventoryEntry);
+        MudDialog.Close(DialogResult.Ok(Entity));
+    }
+
+    private InventoryEntryBase CreateInventoryEntry()
+        => Entity switch
+        {
+            GameItem item => Location is IGameLocation location
+                ? InventoryEntry.CreateAt(item, _quantity, location)
+                : InventoryEntry.Create(item, _quantity),
+            GameCommodity commodity => Location is IGameLocation location
+                ? InventoryEntry.CreateAt(commodity, _quantity, location)
+                : InventoryEntry.Create(commodity, _quantity),
+            _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {Entity}"),
+        };
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
+    {
+        var dialogParameters = new DialogParameters<NewInventoryEntryDialog>
+        {
+            [nameof(Entity)] = entity,
+            [nameof(Location)] = location,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<NewInventoryEntryDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryBase>();
+    }
+
+}

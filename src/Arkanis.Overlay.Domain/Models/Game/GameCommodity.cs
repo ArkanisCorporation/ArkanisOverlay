@@ -8,6 +8,9 @@ using Trade;
 public class GameCommodity(int id, string fullName, string codeName)
     : GameEntity(UexApiGameEntityId.Create<GameCommodity>(id), GameEntityCategory.Commodity), IGameTradable
 {
+    public UexId<GameCommodity> StrongId
+        => (Id as UexId<GameCommodity>)!;
+
     public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode(fullName, codeName));
 
     public Bounds<PriceTag> LatestPurchasePrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);

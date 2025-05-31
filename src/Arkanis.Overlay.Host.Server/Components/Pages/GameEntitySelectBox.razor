@@ -1,0 +1,72 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.Search
+@inject ISearchService SearchService
+
+<MudAutocomplete Label="@Title"
+                 Value="@Value"
+                 ValueChanged="@ValueChanged"
+                 Text="@GetText(Value)"
+                 Clearable="@(!Required)"
+                 Required="@Required"
+                 CoerceText="false"
+                 SearchFunc="@FindLocationsAsync">
+    <ItemTemplate>
+        @if (context is not null)
+        {
+            <div class="my-n2">
+                <GameEntityNameLabel Model="@context.Name"/>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="@Typo.inherit" Class="text-secondary">
+                Unknown
+            </MudText>
+        }
+    </ItemTemplate>
+</MudAutocomplete>
+
+@code
+{
+
+    [Parameter]
+    public string? Title { get; set; } = "Game entity";
+
+    [Parameter]
+    public IGameEntity? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<IGameEntity?> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public GameEntityCategory EntityCategory { get; set; }
+
+    [Parameter]
+    public Func<IGameEntity, bool> Accept { get; set; } = _ => true;
+
+    private async Task<IEnumerable<IGameEntity?>> FindLocationsAsync(string? searchText, CancellationToken ct)
+    {
+        IEnumerable<SearchQuery> queries = [];
+        if (EntityCategory is not GameEntityCategory.Undefined)
+        {
+            queries = queries.Append(new EntityCategorySearch(EntityCategory));
+        }
+
+        if (searchText is not null)
+        {
+            queries = queries.Append(new FuzzyTextSearch(searchText));
+        }
+
+        var results = await SearchService.SearchAsync(queries, ct);
+        return results.GameEntities.Select(x => x.Subject).Where(Accept);
+    }
+
+    private string? GetText(IGameEntity? value)
+        => value?.Name.MainContent.FullName;
+
+}

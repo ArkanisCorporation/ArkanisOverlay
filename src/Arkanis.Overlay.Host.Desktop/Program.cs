@@ -140,6 +140,7 @@ public static class Program
         services.AddHttpClient();
 
         services.AddGoogleTrackingServices()
+            .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, DesktopAnalyticsPropertyProvider>();
 
         services.AddGlobalKeyboardProxyService();
