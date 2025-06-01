@@ -47,7 +47,7 @@
 
     private async Task SubmitAsync()
     {
-        await InventoryManager.UpdateListAsync(Model);
+        await InventoryManager.AddOrUpdateListAsync(Model);
         MudDialog.Close(DialogResult.Ok(Model));
     }
 

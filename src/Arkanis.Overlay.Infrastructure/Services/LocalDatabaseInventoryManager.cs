@@ -21,7 +21,7 @@ internal class LocalDatabaseInventoryManager(
         return entities.Select(x => mapper.Map(x)).ToList();
     }
 
-    public async Task UpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
+    public async Task AddOrUpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
     {
         var entity = mapper.Map(entry);
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
@@ -55,7 +55,7 @@ internal class LocalDatabaseInventoryManager(
         return entities.Select(mapper.Map).ToList();
     }
 
-    public async Task UpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default)
+    public async Task AddOrUpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var currentListEntity = mapper.Map(list);

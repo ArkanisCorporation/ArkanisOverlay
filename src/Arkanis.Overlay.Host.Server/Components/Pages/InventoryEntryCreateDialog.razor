@@ -74,7 +74,7 @@
         }
 
         var inventoryEntry = CreateInventoryEntry(Entity);
-        await InventoryManager.UpdateEntryAsync(inventoryEntry);
+        await InventoryManager.AddOrUpdateEntryAsync(inventoryEntry);
         MudDialog.Close(DialogResult.Ok(inventoryEntry));
     }
 

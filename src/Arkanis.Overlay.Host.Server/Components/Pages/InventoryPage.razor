@@ -485,7 +485,7 @@
 
         var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
         {
-            PerformOperation = async entry => await InventoryManager.UpdateEntryAsync(entry.SetLocation(location)),
+            PerformOperation = async entry => await InventoryManager.AddOrUpdateEntryAsync(entry.SetLocation(location)),
             Description = @<div>
                 <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
                 <div class="pl-4">
@@ -520,7 +520,7 @@
             PerformOperation = async entry =>
             {
                 entry.List = list;
-                await InventoryManager.UpdateEntryAsync(entry);
+                await InventoryManager.AddOrUpdateEntryAsync(entry);
             },
             Description = @<div>
                 <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
@@ -631,7 +631,7 @@
         if (inventoryEntryList is not null)
         {
             contextItem.List = inventoryEntryList;
-            await InventoryManager.UpdateEntryAsync(contextItem);
+            await InventoryManager.AddOrUpdateEntryAsync(contextItem);
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
         }

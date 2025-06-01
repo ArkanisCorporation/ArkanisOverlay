@@ -126,15 +126,15 @@
                 ? SourceModel.SetLocation(TargetLocation)
                 : SourceModel;
 
-            await InventoryManager.UpdateEntryAsync(updatedModel);
+            await InventoryManager.AddOrUpdateEntryAsync(updatedModel);
         }
         else
         {
             var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetList);
-            await InventoryManager.UpdateEntryAsync(transferModel);
+            await InventoryManager.AddOrUpdateEntryAsync(transferModel);
 
             SourceModel.Quantity.Amount -= TargetQuantity.Amount;
-            await InventoryManager.UpdateEntryAsync(SourceModel);
+            await InventoryManager.AddOrUpdateEntryAsync(SourceModel);
         }
 
         MudDialog.Close(DialogResult.Ok(SourceModel));
