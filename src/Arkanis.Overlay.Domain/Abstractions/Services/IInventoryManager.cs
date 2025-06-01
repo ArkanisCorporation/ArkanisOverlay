@@ -1,9 +1,12 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
+using Game;
 using Models.Inventory;
 
 public interface IInventoryManager
 {
+    Task<ICollection<InventoryEntryBase>> GetUnassignedForAsync(IDomainId domainId, CancellationToken cancellationToken = default);
+
     Task<ICollection<InventoryEntryBase>> GetAllEntriesAsync(CancellationToken cancellationToken = default);
 
     Task AddOrUpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default);

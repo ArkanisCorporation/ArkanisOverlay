@@ -1,5 +1,11 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models.Inventory
 @using Arkanis.Overlay.Domain.Models.Keyboard
+@using MoreLinq
+@inject IDialogService DialogService
+@inject IInventoryManager InventoryManager
+
 <MudStack Spacing="2"
           AlignItems="@AlignItems.Center"
           Justify="@Justify.FlexEnd"
@@ -21,44 +27,104 @@
                                Color="@color"
                                IsActive="IsFocused"
                                OnKeyPress="@callback">
-            <MudIconButton
-                Icon="@icon"
-                OnClick="@callback"
-                Class="focus"
-                tabindex="1"/>
+            <MudTooltip Text="@($"Show matching results within/at {Model.Name.MainContent.FullName}")"
+                        Placement="@Placement.Top">
+                <MudIconButton
+                    Icon="@icon"
+                    OnClick="@callback"
+                    Class="focus"
+                    tabindex="1"/>
+            </MudTooltip>
         </KeyboardShortcutBadge>
     }
-    @if (Model is IGamePurchasable)
+    @if (Model is GameItem or GameCommodity)
     {
         <MudDivider Vertical FlexItem/>
-        <MudIconButton
-            Icon="@MaterialSymbols.Outlined.AddShoppingCart"
-            Class="focus"
-            tabindex="1"
-            Disabled/>
-    }
-    @if (Model is IGameSellable)
-    {
-        <MudDivider Vertical FlexItem/>
-        <MudIconButton
-            Icon="@MaterialSymbols.Outlined.RemoveShoppingCart"
-            Class="focus"
-            tabindex="1"
-            Disabled/>
-    }
-    @if (Model is IGameRentable)
-    {
-        <MudDivider Vertical FlexItem/>
-        <MudIconButton
-            Icon="@MaterialSymbols.Outlined.HourglassTop"
-            Class="focus"
-            tabindex="1"
-            Disabled/>
+        <KeyboardShortcutBadge Key="@KeyboardKey.KeyI"
+                               Origin="@Origin.BottomCenter"
+                               Color="@Color.Tertiary"
+                               IsActive="IsFocused"
+                               OnKeyPress="@OnManageInventoryClickAsync">
+            <CustomBadge Origin="@Origin.TopRight"
+                         Visible="@_isOpen"
+                         Overlap>
+                <ChildContent>
+                    <MudBadge Content="@_unassignedEntityCount"
+                              Visible="@(_unassignedEntityCount > 0)"
+                              Origin="@Origin.TopCenter"
+                              Color="@Color.Info"
+                              Overlap>
+                        <MudTooltip Text="Manage inventory"
+                                    Placement="@Placement.Top">
+                            <MudIconButton
+                                Icon="@MaterialSymbols.Outlined.Warehouse"
+                                OnClick="@OnManageInventoryClickAsync"
+                                Class="focus"
+                                tabindex="1"/>
+                        </MudTooltip>
+                    </MudBadge>
+                </ChildContent>
+                <BadgeContent>
+                    <MudPaper>
+                        <MudList T="string">
+                            <KeyboardShortcutBadge Key="@KeyboardKey.KeyA"
+                                                   Origin="@Origin.TopCenter"
+                                                   Color="@Color.Tertiary"
+                                                   IsActive="IsFocused"
+                                                   OnKeyPress="@OnAddAsync"
+                                                   Class="d-flex">
+                                <MudListItem OnClick="OnAddAsync"
+                                             tabindex="1">
+                                    <span class="w-100">
+                                        Add new entry
+                                    </span>
+                                </MudListItem>
+                            </KeyboardShortcutBadge>
+                            @foreach (var (entryIndex, entry) in _unassignedEntries.Index())
+                            {
+                                var callback = () => InventoryEntryUpdateDialog.ShowEditAsync(DialogService, entry);
+                                <KeyboardShortcutBadge Key="@(KeyboardKey.Digit1 + entryIndex)"
+                                                       Origin="@Origin.TopCenter"
+                                                       Color="@Color.Tertiary"
+                                                       IsActive="IsFocused"
+                                                       OnKeyPress="@callback"
+                                                       Class="d-flex">
+                                    <MudListItem OnClick="@callback"
+                                                 tabindex="1">
+                                        <MudStack Spacing="1" AlignItems="@AlignItems.Center" Row>
+                                            <span>
+                                                Update
+                                            </span>
+                                            <MudStack Spacing="0">
+                                                <span>
+                                                    @entry.Quantity
+                                                    @entry.Entity.Name.MainContent.FullName
+                                                </span>
+                                                @if (entry.List is { } list)
+                                                {
+                                                    <MudChip
+                                                        Text="@list.Name"
+                                                        Size="@Size.Small"/>
+                                                }
+                                            </MudStack>
+                                        </MudStack>
+                                    </MudListItem>
+                                </KeyboardShortcutBadge>
+                            }
+                        </MudList>
+                    </MudPaper>
+                </BadgeContent>
+            </CustomBadge>
+        </KeyboardShortcutBadge>
     }
 </MudStack>
 
 @code
 {
+
+    private ICollection<InventoryEntryBase> _unassignedEntries = [];
+    private int _unassignedEntityCount;
+    private bool _isOpen;
 
     [CascadingParameter]
     public OverlaySearchContext? SearchContext { get; set; }
@@ -69,4 +135,24 @@
     [Parameter]
     public bool IsFocused { get; set; }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        _unassignedEntries = await InventoryManager.GetUnassignedForAsync(Model.Id);
+        _unassignedEntityCount = _unassignedEntries.Sum(x => x.Quantity.Amount);
+
+        if (!IsFocused)
+        {
+            _isOpen = false;
+        }
+    }
+
+    private async Task OnManageInventoryClickAsync()
+    {
+        _isOpen = !_isOpen;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnAddAsync()
+        => await InventoryEntryUpdateDialog.ShowEditAsync(DialogService, Model);
 }

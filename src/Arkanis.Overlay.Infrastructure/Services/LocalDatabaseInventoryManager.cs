@@ -5,7 +5,9 @@ using Data.Entities;
 using Data.Entities.Abstractions;
 using Data.Extensions;
 using Data.Mappers;
+using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
+using Domain.Models.Game;
 using Domain.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +16,29 @@ internal class LocalDatabaseInventoryManager(
     InventoryEntityMapper mapper
 ) : IInventoryManager
 {
+    public async Task<ICollection<InventoryEntryBase>> GetUnassignedForAsync(IDomainId domainId, CancellationToken cancellationToken = default)
+    {
+        if (domainId is not UexApiGameEntityId uexId)
+        {
+            return [];
+        }
+
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        var entities = await dbContext.InventoryEntries
+            .Where(x => x.GameEntityId == uexId)
+            .ToArrayAsync(cancellationToken);
+
+        return entities
+            .Where(x => x.EntryType is InventoryEntryBase.EntryType.Virtual)
+            .Select(x => mapper.Map(x))
+            .ToArray();
+    }
+
     public async Task<ICollection<InventoryEntryBase>> GetAllEntriesAsync(CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var entities = await dbContext.InventoryEntries.ToListAsync(cancellationToken);
-        return entities.Select(x => mapper.Map(x)).ToList();
+        var entities = await dbContext.InventoryEntries.ToArrayAsync(cancellationToken);
+        return entities.Select(x => mapper.Map(x)).ToArray();
     }
 
     public async Task AddOrUpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
@@ -51,8 +71,8 @@ internal class LocalDatabaseInventoryManager(
     public async Task<ICollection<InventoryEntryList>> GetAllListsAsync(CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var entities = await dbContext.InventoryLists.ToListAsync(cancellationToken);
-        return entities.Select(mapper.Map).ToList();
+        var entities = await dbContext.InventoryLists.ToArrayAsync(cancellationToken);
+        return entities.Select(mapper.Map).ToArray();
     }
 
     public async Task AddOrUpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default)

@@ -1,9 +1,8 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Domain.Enums
 @using Arkanis.Overlay.Domain.Models.Inventory
 @inject IInventoryManager InventoryManager
-@inject ILogger<InventoryEntryCreateDialog> Logger
+@inject ILogger<InventoryEntryUpdateDialog> Logger
 
 <MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
     <TitleContent>
@@ -36,7 +35,7 @@
                     Label="Location"
                     HelperText="@LocationHelperText"
                     EntityCategory="@GameEntityCategory.Location"
-                    Accept="@InventoryPage.AcceptLocation"
+                    Accept="@Location"
                     @bind-Value="TargetLocationEntity"
                     Required="@(IsTransferMode || SourceModel is IGameLocatedAt)"/>
             </MudItem>
@@ -156,6 +155,9 @@
     private void Cancel()
         => MudDialog.Cancel();
 
+    public static async Task<InventoryEntryBase?> ShowEditAsync(IDialogService dialogService, IGameEntity gameEntity, IGameLocation? location = null)
+        => await ShowAsync(dialogService, ModeType.Edit, InventoryEntry.Create(gameEntity, Quantity.Default), location);
+
     public static async Task<InventoryEntryBase?> ShowEditAsync(IDialogService dialogService, InventoryEntryBase model, IGameLocation? location = null)
         => await ShowAsync(dialogService, ModeType.Edit, model, location);
 
@@ -181,10 +183,12 @@
         return await dialogRef.GetReturnValueAsync<InventoryEntryBase>();
     }
 
+    private bool Location(IGameEntity entity)
+        => entity is GameSpaceStation or GameCity or GameOutpost;
+
     public enum ModeType
     {
         Edit,
         Transfer,
     }
-
 }
