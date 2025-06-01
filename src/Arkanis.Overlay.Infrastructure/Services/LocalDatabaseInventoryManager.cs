@@ -35,6 +35,7 @@ internal class LocalDatabaseInventoryManager(
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         await dbContext.InventoryEntries
             .Where(x => x.Id == entryId)
+            .IgnoreAutoIncludes()
             .ExecuteDeleteAsync(cancellationToken);
     }
 
