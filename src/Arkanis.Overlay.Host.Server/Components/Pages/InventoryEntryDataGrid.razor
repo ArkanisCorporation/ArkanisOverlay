@@ -15,7 +15,8 @@
         background-color: var(--mud-palette-background);
     }
 </style>
-<MudDataGrid Items="@Models"
+<MudDataGrid @ref="_dataGridRef"
+             Items="@SortedModels"
              SelectedItems="@SelectedModels"
              SelectedItemsChanged="@SelectedModelsChanged"
              Class="@Class"
@@ -271,6 +272,8 @@
 @code
 {
 
+    private MudDataGrid<InventoryEntryBase>? _dataGridRef;
+
     [Parameter]
     public ICollection<InventoryEntryBase> Models { get; set; } = [];
 
@@ -297,6 +300,46 @@
 
     [Parameter]
     public Column[] Groupings { get; set; } = [];
+
+    private InventoryEntryBase[] SortedModels { get; set; } = [];
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        // sort models by group and finally always by name
+        SortedModels = SortModels(Models, [..Groupings, Column.Entity]);
+        if (_dataGridRef is not null && ExpandAll)
+        {
+            await _dataGridRef.ExpandAllGroupsAsync();
+        }
+    }
+
+    private InventoryEntryBase[] SortModels(IEnumerable<InventoryEntryBase> models, params Column[] groupings)
+    {
+        if (groupings.Length == 0)
+        {
+            return models.ToArray();
+        }
+
+        var sortColumn = groupings.First();
+        models = sortColumn switch
+        {
+            Column.Location => OrderBy(x => (x as IGameLocatedAt)?.Location.Name.MainContent.FullName),
+            Column.Manufacturer => OrderBy(x => (x.Entity as IGameManufactured)?.Manufacturer.Name.MainContent.FullName),
+            Column.EntryType => OrderBy(x => x.Type),
+            Column.List => OrderBy(x => x.List?.Name),
+            Column.Entity => OrderBy(x => x.Entity.Name.MainContent.FullName),
+            _ => models,
+        };
+
+        return SortModels(models, groupings.Skip(1).ToArray());
+
+        IOrderedEnumerable<InventoryEntryBase> OrderBy<T>(Func<InventoryEntryBase, T> selectProperty)
+            => models is IOrderedEnumerable<InventoryEntryBase> orderedModels
+                ? orderedModels.ThenBy(selectProperty)
+                : models.OrderBy(selectProperty);
+    }
 
     private string GetRowClass(InventoryEntryBase entry, int rowIndex)
         => SelectedModels.Contains(entry)
