@@ -45,9 +45,18 @@ public static class InventoryEntry
 
 public abstract class InventoryEntryBase : IIdentifiable
 {
+    public enum EntryType
+    {
+        Undefined,
+        Virtual,
+        Physical,
+    }
+
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
 
     public abstract IGameEntity Entity { get; }
+
+    public abstract EntryType Type { get; }
 
     public required Quantity Quantity { get; set; }
 
@@ -67,6 +76,9 @@ public abstract class ItemInventoryEntry : InventoryEntryBase
 
 public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
 {
+    public override EntryType Type
+        => EntryType.Virtual;
+
     public override InventoryEntryBase SetLocation(IGameLocation location)
         => new PhysicalItemInventoryEntry
         {
@@ -79,6 +91,9 @@ public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
 
 public sealed class PhysicalItemInventoryEntry : ItemInventoryEntry, IGameLocatedAt
 {
+    public override EntryType Type
+        => EntryType.Physical;
+
     public required IGameLocation Location { get; set; }
 
     public override InventoryEntryBase SetLocation(IGameLocation location)
@@ -98,6 +113,9 @@ public abstract class CommodityInventoryEntry : InventoryEntryBase
 
 public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
 {
+    public override EntryType Type
+        => EntryType.Virtual;
+
     public override InventoryEntryBase SetLocation(IGameLocation location)
         => new PhysicalCommodityInventoryEntry
         {
@@ -110,6 +128,9 @@ public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
 
 public sealed class PhysicalCommodityInventoryEntry : CommodityInventoryEntry, IGameLocatedAt
 {
+    public override EntryType Type
+        => EntryType.Physical;
+
     public required IGameLocation Location { get; set; }
 
     public override InventoryEntryBase SetLocation(IGameLocation location)

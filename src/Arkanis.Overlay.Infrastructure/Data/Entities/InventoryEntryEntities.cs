@@ -20,7 +20,7 @@ internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntr
 
     public abstract GameEntityCategory GameEntityCategory { get; }
 
-    public abstract SubType Type { get; }
+    public abstract InventoryEntryBase.EntryType EntryType { get; }
 
     public required Quantity Quantity { get; set; }
 
@@ -28,22 +28,15 @@ internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntr
     //   ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Discriminator
     {
-        get => _discriminator ?? CreateDiscriminatorValueFor(GameEntityCategory, Type);
+        get => _discriminator ?? CreateDiscriminatorValueFor(GameEntityCategory, EntryType);
         private init => _discriminator = value;
     }
 
     [Key]
     public required InventoryEntryId Id { get; init; }
 
-    protected static string CreateDiscriminatorValueFor(GameEntityCategory entityCategory, SubType subType)
-        => $"{subType}_{entityCategory}";
-
-    internal enum SubType
-    {
-        Undefined,
-        Virtual,
-        Physical,
-    }
+    protected static string CreateDiscriminatorValueFor(GameEntityCategory entityCategory, InventoryEntryBase.EntryType entryType)
+        => $"{entryType}_{entityCategory}";
 
     internal class Configuration : IEntityTypeConfiguration<InventoryEntryEntityBase>
     {
@@ -57,7 +50,7 @@ internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntr
 
             // explicit value must be defined for manual discriminator property in this case
             builder.HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Undefined, SubType.Undefined));
+                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Undefined, InventoryEntryBase.EntryType.Undefined));
 
             // allows entities to mutate types on Update
             // see: https://github.com/dotnet/efcore/issues/3786#issuecomment-161063981
@@ -84,22 +77,22 @@ internal abstract class ItemInventoryEntryEntityBase : InventoryEntryEntityBase
 
 internal sealed class VirtualItemInventoryEntryEntity : ItemInventoryEntryEntityBase
 {
-    public override SubType Type
-        => SubType.Virtual;
+    public override InventoryEntryBase.EntryType EntryType
+        => InventoryEntryBase.EntryType.Virtual;
 
     internal new class Configuration : IEntityTypeConfiguration<VirtualItemInventoryEntryEntity>
     {
         public void Configure(EntityTypeBuilder<VirtualItemInventoryEntryEntity> builder)
             => builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, SubType.Virtual));
+                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, InventoryEntryBase.EntryType.Virtual));
     }
 }
 
 internal sealed class PhysicalItemInventoryEntryEntity : ItemInventoryEntryEntityBase, IDatabaseEntityWithLocation
 {
-    public override SubType Type
-        => SubType.Physical;
+    public override InventoryEntryBase.EntryType EntryType
+        => InventoryEntryBase.EntryType.Physical;
 
     [Column(nameof(LocationId))]
     public required UexApiGameEntityId LocationId { get; set; }
@@ -110,7 +103,7 @@ internal sealed class PhysicalItemInventoryEntryEntity : ItemInventoryEntryEntit
         {
             builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, SubType.Physical));
+                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, InventoryEntryBase.EntryType.Physical));
 
             builder.Property(x => x.LocationId)
                 .HasConversion<UexApiDomainIdConverter>();
@@ -137,22 +130,22 @@ internal abstract class CommodityInventoryEntryEntityBase : InventoryEntryEntity
 
 internal sealed class VirtualCommodityInventoryEntryEntity : CommodityInventoryEntryEntityBase
 {
-    public override SubType Type
-        => SubType.Virtual;
+    public override InventoryEntryBase.EntryType EntryType
+        => InventoryEntryBase.EntryType.Virtual;
 
     internal new class Configuration : IEntityTypeConfiguration<VirtualCommodityInventoryEntryEntity>
     {
         public void Configure(EntityTypeBuilder<VirtualCommodityInventoryEntryEntity> builder)
             => builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, SubType.Virtual));
+                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, InventoryEntryBase.EntryType.Virtual));
     }
 }
 
 internal sealed class PhysicalCommodityInventoryEntryEntity : CommodityInventoryEntryEntityBase, IDatabaseEntityWithLocation
 {
-    public override SubType Type
-        => SubType.Physical;
+    public override InventoryEntryBase.EntryType EntryType
+        => InventoryEntryBase.EntryType.Physical;
 
     [Column(nameof(LocationId))]
     public required UexApiGameEntityId LocationId { get; set; }
@@ -163,7 +156,7 @@ internal sealed class PhysicalCommodityInventoryEntryEntity : CommodityInventory
         {
             builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, SubType.Physical));
+                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, InventoryEntryBase.EntryType.Physical));
 
             builder.Property(x => x.LocationId)
                 .HasConversion<UexApiDomainIdConverter>();
