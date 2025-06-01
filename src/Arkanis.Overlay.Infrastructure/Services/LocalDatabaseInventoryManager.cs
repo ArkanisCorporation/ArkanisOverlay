@@ -58,21 +58,39 @@ internal class LocalDatabaseInventoryManager(
     public async Task UpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var listEntity = mapper.Map(list);
-        var alreadyExists = await dbContext.InventoryLists.ExistsAsync(listEntity, cancellationToken);
-        if (alreadyExists)
+        var currentListEntity = mapper.Map(list);
+        var existingListEntity = await dbContext.InventoryLists
+            .SingleOrDefaultAsync(x => x.Id == currentListEntity.Id, cancellationToken);
+
+        if (existingListEntity is not null)
         {
-            foreach (var entryEntity in listEntity.Entries)
+            var existingEntryIds = existingListEntity.Entries.Select(x => x.Id).ToHashSet();
+            var currentEntryIds = currentListEntity.Entries.Select(x => x.Id).ToHashSet();
+
+            foreach (var entryEntity in existingListEntity.Entries.Where(entryEntity => !currentEntryIds.Contains(entryEntity.Id)))
             {
-                await dbContext.InventoryEntries.AddOrUpdateAsync(entryEntity, cancellationToken);
+                //? these are entries newly missing from the current list
+                entryEntity.List = null;
             }
 
-            listEntity.Entries.Clear();
-            await dbContext.InventoryLists.AddOrUpdateAsync(listEntity, cancellationToken);
+            foreach (var entryEntity in currentListEntity.Entries.Where(entryEntity => !existingEntryIds.Contains(entryEntity.Id)))
+            {
+                //? these are entries newly added to the current list
+                await dbContext.AddAsync(entryEntity, cancellationToken);
+            }
+
+            foreach (var entryEntity in currentListEntity.Entries.Where(entryEntity => existingEntryIds.Contains(entryEntity.Id)).ToList())
+            {
+                //? these are entries that were not changed
+                currentListEntity.Entries.Remove(entryEntity);
+            }
+
+            dbContext.Entry(existingListEntity).State = EntityState.Detached;
+            await dbContext.InventoryLists.AddOrUpdateAsync(currentListEntity, cancellationToken);
         }
         else
         {
-            await dbContext.AddAsync(listEntity, cancellationToken);
+            await dbContext.AddAsync(currentListEntity, cancellationToken);
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);
