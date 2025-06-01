@@ -11,4 +11,5 @@ public interface IKeyboardProxy
 
     void RegisterKeyUp(KeyboardEventArgs keyboardEvent);
     void RegisterKeyDown(KeyboardEventArgs keyboardEvent);
+    void Clear();
 }
