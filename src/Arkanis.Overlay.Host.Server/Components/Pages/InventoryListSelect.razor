@@ -6,7 +6,9 @@
            ValueChanged="ValueChanged"
            Placeholder="Select an inventory list"
            Label="List"
-           Clearable>
+           HelperText="@HelperText"
+           Required="@Required"
+           Clearable="@(!Required)">
     @foreach (var list in Lists)
     {
         <MudSelectItem Value="@list">
@@ -29,6 +31,12 @@
 
     [Parameter]
     public EventCallback<InventoryEntryList?> ValueChanged { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
 
     private ICollection<InventoryEntryList> Lists { get; set; } = [];
 

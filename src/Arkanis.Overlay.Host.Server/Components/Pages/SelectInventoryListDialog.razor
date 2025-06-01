@@ -11,7 +11,7 @@
         <MudButton OnClick="@Cancel">Cancel</MudButton>
         <MudButton Color="@Color.Success"
                    OnClick="@Submit">
-            Submit
+            @SubmitLabel
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -24,6 +24,9 @@
 
     [Parameter]
     public InventoryEntryList? InventoryList { get; set; }
+
+    [Parameter]
+    public string SubmitLabel { get; set; } = "Continue";
 
     private void Submit()
         => MudDialog.Close(DialogResult.Ok(InventoryList));

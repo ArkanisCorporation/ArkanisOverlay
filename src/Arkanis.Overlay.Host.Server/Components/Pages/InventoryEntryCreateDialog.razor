@@ -3,9 +3,8 @@
 @using Arkanis.Overlay.Domain.Enums
 @using Arkanis.Overlay.Domain.Models.Game
 @using Arkanis.Overlay.Domain.Models.Inventory
-@using Humanizer
 @inject IInventoryManager InventoryManager
-@inject ILogger<NewInventoryEntryDialog> Logger
+@inject ILogger<InventoryEntryCreateDialog> Logger
 
 <MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
     <TitleContent>
@@ -20,23 +19,9 @@
                     @bind-Value="Entity"
                     Required/>
             </MudItem>
-            <MudItem xs="12" sm="3">
-                <MudTextField
-                    Label="Amount"
-                    @bind-Value="@_quantity.Amount"
-                    InputType="@InputType.Number"
-                    Required/>
-            </MudItem>
-            <MudItem xs="12" sm="2">
-                <MudSelect Label="Unit"
-                           @bind-Value="@_quantity.Unit">
-                    @foreach (var unit in Enum.GetValues<Quantity.UnitType>().Except([Quantity.UnitType.Undefined]))
-                    {
-                        <MudSelectItem Value="@unit">
-                            @unit.Humanize()
-                        </MudSelectItem>
-                    }
-                </MudSelect>
+            <MudItem xs="12" sm="5">
+                <QuantityField
+                    @bind-Value="@_quantity"/>
             </MudItem>
             <MudItem xs="12" sm="7">
                 <InventoryListSelect
@@ -64,7 +49,7 @@
 @code
 {
 
-    private readonly Quantity _quantity = new(1, Quantity.UnitType.Count);
+    private Quantity _quantity = new(1, Quantity.UnitType.Count);
 
     private bool CanSubmit
         => Entity is not null && _quantity.Amount > 0;
@@ -83,29 +68,25 @@
 
     private async Task SubmitAsync()
     {
-        var inventoryEntry = CreateInventoryEntry();
+        if (Entity is null)
+        {
+            return;
+        }
+
+        var inventoryEntry = CreateInventoryEntry(Entity);
         await InventoryManager.UpdateEntryAsync(inventoryEntry);
-        MudDialog.Close(DialogResult.Ok(Entity));
+        MudDialog.Close(DialogResult.Ok(inventoryEntry));
     }
 
-    private InventoryEntryBase CreateInventoryEntry()
-        => Entity switch
-        {
-            GameItem item => Location is IGameLocation location
-                ? InventoryEntry.CreateAt(item, _quantity, location, List)
-                : InventoryEntry.Create(item, _quantity, List),
-            GameCommodity commodity => Location is IGameLocation location
-                ? InventoryEntry.CreateAt(commodity, _quantity, location, List)
-                : InventoryEntry.Create(commodity, _quantity, List),
-            _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {Entity}"),
-        };
+    private InventoryEntryBase CreateInventoryEntry(IGameEntity entity)
+        => InventoryEntry.Create(entity, _quantity, Location as IGameLocation, List);
 
     private void Cancel()
         => MudDialog.Cancel();
 
     public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
     {
-        var dialogParameters = new DialogParameters<NewInventoryEntryDialog>
+        var dialogParameters = new DialogParameters<InventoryEntryCreateDialog>
         {
             [nameof(Entity)] = entity,
             [nameof(Location)] = location,
@@ -118,7 +99,7 @@
             CloseButton = true,
         };
 
-        var dialogRef = await dialogService.ShowAsync<NewInventoryEntryDialog>(null, dialogParameters, dialogOptions);
+        var dialogRef = await dialogService.ShowAsync<InventoryEntryCreateDialog>(null, dialogParameters, dialogOptions);
         return await dialogRef.GetReturnValueAsync<InventoryEntryBase>();
     }
 

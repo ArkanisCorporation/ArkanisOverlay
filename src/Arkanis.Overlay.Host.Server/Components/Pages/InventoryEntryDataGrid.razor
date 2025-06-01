@@ -36,7 +36,48 @@
             </AggregateTemplate>
         </PropertyColumn>
         <PropertyColumn Title="Entity"
-                        Property="@(x => x.Entity.Name.MainContent.FullName)">
+                        Property="@(x => x.Entity.Name.MainContent.FullName)"
+                        GroupBy="@(x => x.Entity)"
+                        Grouping="@Groupings.Contains(Column.Entity)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Entity)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@Groupings.Contains(Column.Entity)">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <MudTooltip>
+                            <TooltipContent>
+                                <QuantityAggregateLabel Models="@context.Grouping.Select(x => x.Quantity)"/>
+                            </TooltipContent>
+                            <ChildContent>
+                                <MudChip Value="@context.Grouping.Count()"/>
+                            </ChildContent>
+                        </MudTooltip>
+                    </div>
+
+                    @if (context.Grouping.Key is IGameEntity entity)
+                    {
+                        <GameEntityNameLabel Model="@entity.Name"/>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            N/A
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <MudChip
+                            Value="@selected.Length"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
             <CellTemplate>
                 @context.Item.Entity.Name.MainContent.FullName
             </CellTemplate>
@@ -276,5 +317,6 @@
         Manufacturer,
         EntryType,
         List,
+        Entity,
     }
 }

@@ -1,0 +1,184 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.Inventory
+@inject IInventoryManager InventoryManager
+@inject ILogger<InventoryEntryCreateDialog> Logger
+
+<MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
+    <TitleContent>
+        @if (IsTransferMode)
+        {
+            <span>Inventory Transfer</span>
+        }
+        else
+        {
+            <span>Inventory Modification</span>
+        }
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Label="Inventory Entity"
+                    Value="@SourceModel.Entity"
+                    Disabled/>
+            </MudItem>
+            <MudItem xs="12">
+                <QuantityField
+                    AmountHelperText="@AmountHelperText"
+                    @bind-Value="@TargetQuantity"
+                    Max="@(IsTransferMode ? SourceModel.Quantity.Amount : int.MaxValue)"
+                    DisabledUnitChange="@IsTransferMode"/>
+            </MudItem>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Label="Location"
+                    HelperText="@LocationHelperText"
+                    EntityCategory="@GameEntityCategory.Location"
+                    Accept="@InventoryPage.AcceptLocation"
+                    @bind-Value="TargetLocationEntity"
+                    Required="@IsTransferMode"/>
+            </MudItem>
+            <MudItem xs="12">
+                <InventoryListSelect
+                    HelperText="@ListHelperText"
+                    @bind-Value="@TargetList"/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@SubmitAsync"
+                   Disabled="@(!CanSubmit)">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private bool CanSubmit
+        => TargetQuantity.Amount > 0
+           && (IsEditMode || TargetLocation is not null);
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public required InventoryEntryBase SourceModel { get; set; }
+
+    [Parameter]
+    public Quantity TargetQuantity { get; set; } = Quantity.Default;
+
+    [Parameter]
+    public IGameEntity? TargetLocationEntity { get; set; }
+
+    [Parameter]
+    public InventoryEntryList? TargetList { get; set; }
+
+    [Parameter]
+    public ModeType Mode { get; set; }
+
+    private string AmountHelperText
+        => IsTransferMode
+            ? $"Up to {SourceModel.Quantity} available"
+            : string.Empty;
+
+    private string LocationHelperText
+        => IsTransferMode
+            ? SourceModel is IGameLocatedAt locatedAt
+                ? $"Previously at {locatedAt.Location.Name.MainContent.FullName}"
+                : "Previously unassigned"
+            : string.Empty;
+
+    private string ListHelperText
+        => IsTransferMode
+            ? SourceModel.List is { } list
+                ? $"Previously in {list.Name}"
+                : "Previously unassigned"
+            : string.Empty;
+
+    private bool IsEditMode
+        => Mode is ModeType.Edit;
+
+    private bool IsTransferMode
+        => Mode is ModeType.Transfer;
+
+    public IGameLocation? TargetLocation
+        => TargetLocationEntity as IGameLocation;
+
+    private async Task SubmitAsync()
+    {
+        if (!CanSubmit)
+        {
+            return;
+        }
+
+        if (TargetQuantity == SourceModel.Quantity)
+        {
+            // the entry is updated as a whole
+            await InventoryManager.UpdateEntryAsync(SourceModel);
+        }
+        else
+        {
+            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation);
+            await InventoryManager.UpdateEntryAsync(transferModel);
+
+            SourceModel.Quantity.Amount -= TargetQuantity.Amount;
+            await InventoryManager.UpdateEntryAsync(SourceModel);
+        }
+
+        MudDialog.Close(DialogResult.Ok(SourceModel));
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (SourceModel is IGameLocatedAt locatedAt)
+        {
+            TargetLocationEntity ??= locatedAt.Location;
+        }
+
+        TargetList ??= SourceModel.List;
+        TargetQuantity = new Quantity(SourceModel.Quantity.Amount, SourceModel.Quantity.Unit);
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryBase?> ShowEditAsync(IDialogService dialogService, InventoryEntryBase model, IGameLocation? location = null)
+        => await ShowAsync(dialogService, ModeType.Edit, model, location);
+
+    public static async Task<InventoryEntryBase?> ShowTransferAsync(IDialogService dialogService, InventoryEntryBase model, IGameLocation? location = null)
+        => await ShowAsync(dialogService, ModeType.Transfer, model, location);
+
+    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, ModeType mode, InventoryEntryBase model, IGameLocation? location = null)
+    {
+        var dialogParameters = new DialogParameters<InventoryEntryUpdateDialog>
+        {
+            [nameof(Mode)] = mode,
+            [nameof(SourceModel)] = model,
+            [nameof(TargetLocationEntity)] = location,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<InventoryEntryUpdateDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryBase>();
+    }
+
+    public enum ModeType
+    {
+        Edit,
+        Transfer,
+    }
+
+}

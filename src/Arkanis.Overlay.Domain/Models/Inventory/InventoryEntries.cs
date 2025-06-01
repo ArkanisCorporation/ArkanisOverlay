@@ -45,6 +45,35 @@ public static class InventoryEntry
             Location = location,
             List = list,
         };
+
+    public static InventoryEntryBase Create(IGameEntity source, Quantity quantity, IGameLocation? location = null, InventoryEntryList? list = null)
+        => source switch
+        {
+            GameItem item => location is not null
+                ? CreateAt(item, quantity, location, list)
+                : Create(item, quantity, list),
+            GameCommodity commodity => location is not null
+                ? CreateAt(commodity, quantity, location, list)
+                : Create(commodity, quantity, list),
+            _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {source}"),
+        };
+
+    public static InventoryEntryBase CreateFrom(
+        InventoryEntryBase source,
+        Quantity? quantity = null,
+        IGameLocation? location = null,
+        InventoryEntryList? list = null
+    )
+    {
+        quantity ??= source.Quantity;
+        list ??= source.List;
+        if (source is IGameLocatedAt locatedAt)
+        {
+            location ??= locatedAt.Location;
+        }
+
+        return Create(source.Entity, quantity, location, list);
+    }
 }
 
 public abstract class InventoryEntryBase : IIdentifiable

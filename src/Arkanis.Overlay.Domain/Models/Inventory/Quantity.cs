@@ -17,6 +17,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         Count,
     }
 
+    public static Quantity Default
+        => new(0, UnitType.Count);
+
     public int Amount { get; set; } = Amount;
 
     public UnitType Unit { get; set; } = Unit;

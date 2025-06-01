@@ -14,7 +14,7 @@
         <MudButton OnClick="@Cancel">Cancel</MudButton>
         <MudButton Color="@Color.Success"
                    OnClick="@Submit">
-            Submit
+            @SubmitLabel
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -30,6 +30,9 @@
 
     [Parameter]
     public required Func<IGameLocation, bool> AcceptLocation { get; set; }
+
+    [Parameter]
+    public string SubmitLabel { get; set; } = "Continue";
 
     private bool AcceptEntity(IGameEntity entity)
         => entity is IGameLocation location && AcceptLocation(location);

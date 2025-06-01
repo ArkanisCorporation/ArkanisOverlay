@@ -90,7 +90,7 @@
                             <MudStack AlignItems="@AlignItems.Center"
                                       Justify="@Justify.FlexEnd"
                                       Row>
-                                <MudTooltip Text="Bulk assign inventory list"
+                                <MudTooltip Text="Bulk assign list"
                                             Placement="@Placement.Top">
                                     <MudBadge Content="@SelectedEntries.Count"
                                               Color="@Color.Info"
@@ -98,13 +98,13 @@
                                               Max="999"
                                               Visible="@(SelectedEntries.Count > 0)">
                                         <MudIconButton
-                                            Icon="@Icons.Material.Filled.PlaylistAddCheck"
+                                            Icon="@Icons.Material.Filled.PlaylistAdd"
                                             Color="@Color.Info"
                                             OnClick="@AssignListToSelectedAsync"
                                             Disabled="@(SelectedEntries.Count == 0)"/>
                                     </MudBadge>
                                 </MudTooltip>
-                                <MudTooltip Text="Bulk assign permanent storage"
+                                <MudTooltip Text="Bulk transfer"
                                             Placement="@Placement.Top">
                                     <MudBadge Content="@SelectedEntries.Count"
                                               Color="@Color.Info"
@@ -112,13 +112,13 @@
                                               Max="999"
                                               Visible="@(SelectedEntries.Count > 0)">
                                         <MudIconButton
-                                            Icon="@Icons.Material.Filled.PinDrop"
+                                            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
                                             Color="@Color.Info"
-                                            OnClick="@AssignLocationToSelectedAsync"
+                                            OnClick="@TransferSelectedAsync"
                                             Disabled="@(SelectedEntries.Count == 0)"/>
                                     </MudBadge>
                                 </MudTooltip>
-                                <MudTooltip Text="Bulk remove from inventory"
+                                <MudTooltip Text="Bulk remove"
                                             Placement="@Placement.Top">
                                     <MudBadge Content="@SelectedEntries.Count"
                                               Color="@Color.Error"
@@ -238,6 +238,34 @@
                             <TabContent>
                                 <MudStack AlignItems="@AlignItems.Center" Spacing="0">
                                     <MudChip T="string" Size="@Size.Small">
+                                        @FilteredEntities.Length entities
+                                    </MudChip>
+                                    <MudText Typo="@Typo.inherit">
+                                        By Entity
+                                    </MudText>
+                                </MudStack>
+                            </TabContent>
+                            <ChildContent>
+                                <MudDivider/>
+                                <InventoryEntryDataGrid Models="@FilteredEntries"
+                                                        @bind-SelectedModels="@SelectedEntries"
+                                                        Lists="@AllLists"
+                                                        Groupings="@( [InventoryEntryDataGrid.Column.Entity])"
+                                                        ExpandAll="FiltersActive">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
+                                    <EntryActionsContent>
+                                        @EntryCellActions(context)
+                                    </EntryActionsContent>
+                                </InventoryEntryDataGrid>
+                            </ChildContent>
+                        </MudTabPanel>
+
+                        <MudTabPanel>
+                            <TabContent>
+                                <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                    <MudChip T="string" Size="@Size.Small">
                                         @FilteredEntries.Count entries
                                     </MudChip>
                                     <MudText Typo="@Typo.inherit">
@@ -309,13 +337,14 @@
 
     public ICollection<InventoryEntryBase> AllEntries { get; set; } = [];
 
-    public IEnumerable<InventoryEntryBase> UnassignedEntries
-        => FilteredEntries.Where(x => x.Type is InventoryEntryBase.EntryType.Virtual);
+    public InventoryEntryBase[] UnassignedEntries { get; set; } = [];
 
     public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = new(IIdentifiable.EqualityComparer.Default);
 
     public IGameLocation[] AllLocations { get; set; } = [];
     public IGameLocation[] FilteredLocations { get; set; } = [];
+
+    public IGameEntity[] FilteredEntities { get; set; } = [];
 
     protected override async Task OnParametersSetAsync()
     {
@@ -341,11 +370,21 @@
             .ToArray();
 
         FilteredLocations = GetUniqueLocations(FilteredEntries);
+
+        FilteredEntities = FilteredEntries
+            .Select(x => x.Entity)
+            .Distinct()
+            .ToArray();
+
         FilteredLists = FilteredEntries
             .Select(x => x.List)
             .Distinct()
             .OfType<InventoryEntryList>()
             .OrderBy(x => x.Name)
+            .ToArray();
+
+        UnassignedEntries = FilteredEntries
+            .Where(x => x.Type is InventoryEntryBase.EntryType.Virtual)
             .ToArray();
 
         var entryIds = AllEntries.Select(x => x.Id).ToHashSet();
@@ -384,23 +423,23 @@
 
     private RenderFragment<CellContext<InventoryEntryBase>> EntryCellActions
         => context => @<div>
-                          <MudTooltip Text="Add to inventory list"
+                          <MudTooltip Text="Transfer"
                                       Placement="@Placement.Top">
                               <MudIconButton
-                                  Icon="@Icons.Material.Filled.PlaylistAddCheck"
+                                  Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
                                   Size="@Size.Small"
                                   Color="@Color.Info"
-                                  OnClick="@(() => AddToListAsync(context.Item))"/>
+                                  OnClick="@(() => TransferAsync(context.Item))"/>
                           </MudTooltip>
-                          <MudTooltip Text="Assign permanent storage"
+                          <MudTooltip Text="Modify"
                                       Placement="@Placement.Top">
                               <MudIconButton
-                                  Icon="@Icons.Material.Filled.PinDrop"
+                                  Icon="@Icons.Material.Filled.Edit"
                                   Size="@Size.Small"
-                                  Color="@Color.Info"
-                                  OnClick="@(() => AssignLocationAsync(context.Item))"/>
+                                  Color="@Color.Warning"
+                                  OnClick="@(() => UpdateAsync(context.Item))"/>
                           </MudTooltip>
-                          <MudTooltip Text="Remove from inventory"
+                          <MudTooltip Text="Remove"
                                       Placement="@Placement.Top">
                               <MudIconButton
                                   Icon="@Icons.Material.Filled.DeleteForever"
@@ -412,7 +451,7 @@
 
     private async Task CreateNewEntryAsync()
     {
-        if (await NewInventoryEntryDialog.ShowAsync(DialogService) is not null)
+        if (await InventoryEntryCreateDialog.ShowAsync(DialogService) is not null)
         {
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
@@ -437,7 +476,7 @@
         }
     }
 
-    private async Task AssignLocationToSelectedAsync()
+    private async Task TransferSelectedAsync()
     {
         if ((_selectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is not { } location)
         {
@@ -568,12 +607,19 @@
         }
     }
 
-    private async Task AssignLocationAsync(InventoryEntryBase contextItem)
+    private async Task UpdateAsync(InventoryEntryBase contextItem)
     {
-        if ((_selectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService, AcceptLocation)) is { } location)
+        if (await InventoryEntryUpdateDialog.ShowEditAsync(DialogService, contextItem, _selectedLocation) is not null)
         {
-            var updatedContextItem = contextItem.SetLocation(location);
-            await InventoryManager.UpdateEntryAsync(updatedContextItem);
+            await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task TransferAsync(InventoryEntryBase contextItem)
+    {
+        if (await InventoryEntryUpdateDialog.ShowTransferAsync(DialogService, contextItem, _selectedLocation) is not null)
+        {
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
         }
@@ -591,7 +637,10 @@
         }
     }
 
-    private bool AcceptLocation(IGameLocation arg)
-        => arg is GameSpaceStation or GameCity or GameOutpost;
+    public static bool AcceptLocation(IGameEntity entity)
+        => entity is IGameLocation location && AcceptLocation(location);
+
+    public static bool AcceptLocation(IGameLocation location)
+        => location is GameSpaceStation or GameCity or GameOutpost;
 
 }
