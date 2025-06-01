@@ -14,7 +14,10 @@
 @code
 {
 
+    const int DebounceIntervalMs = 50;
+
     private JsComponentInterop<FocusRegion>? _interop;
+    private CancellationTokenSource _focusLostCancellation = new(0);
 
     [Parameter]
     [EditorRequired]
@@ -38,6 +41,13 @@
 
     private async Task OnFocusReceived()
     {
+        if (HasFocus)
+        {
+            //? focus received while still in-focus - cancel any pending focus loss handling
+            await _focusLostCancellation.CancelAsync();
+            return;
+        }
+
         HasFocus = true;
         await InvokeAsync(InitializeInteropAsync);
     }
@@ -62,6 +72,18 @@
 
     private async Task OnFocusLost()
     {
+        try
+        {
+            // debounce focus loss handling
+            _focusLostCancellation = new CancellationTokenSource();
+            await Task.Delay(DebounceIntervalMs, _focusLostCancellation.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            //? debounce cancelled - event lost and again received focus very quickly, no need to change state
+            return;
+        }
+
         HasFocus = false;
         await InvokeAsync(StateHasChanged);
         await InvokeAsync(DisposeInteropAsync);
