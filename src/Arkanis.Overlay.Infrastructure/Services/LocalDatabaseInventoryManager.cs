@@ -26,8 +26,8 @@ internal class LocalDatabaseInventoryManager(
         var entity = mapper.Map(entry);
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         await dbContext.InventoryEntries.AddOrUpdateAsync(entity, cancellationToken);
-        await CompactifyEntitiesAsync(entity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
+        await CompactifyEntitiesAsync(entity, cancellationToken);
     }
 
     public async Task DeleteEntryAsync(InventoryEntryId entryId, CancellationToken cancellationToken = default)
