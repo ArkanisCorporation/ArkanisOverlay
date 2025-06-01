@@ -10,11 +10,16 @@
     .mud-table-row .mud-table-cell {
         background-color: var(--mud-palette-background-gray);
     }
+
+    .mud-table-row.selected .mud-table-cell {
+        background-color: var(--mud-palette-background);
+    }
 </style>
 <MudDataGrid Items="@Models"
              SelectedItems="@SelectedModels"
              SelectedItemsChanged="@SelectedModelsChanged"
              Class="@Class"
+             RowClassFunc="GetRowClass"
              Groupable="true"
              MultiSelection
              Dense
@@ -252,6 +257,11 @@
     [Parameter]
     public Column[] Groupings { get; set; } = [];
 
+    private string GetRowClass(InventoryEntryBase entry, int rowIndex)
+        => SelectedModels.Contains(entry)
+            ? "selected"
+            : string.Empty;
+
     private string GetEntryType(InventoryEntryBase contextItem)
         => contextItem switch
         {
@@ -267,5 +277,4 @@
         EntryType,
         List,
     }
-
 }
