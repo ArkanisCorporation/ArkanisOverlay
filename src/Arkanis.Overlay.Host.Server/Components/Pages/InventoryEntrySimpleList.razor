@@ -6,7 +6,7 @@
         @foreach (var entry in Models)
         {
             <li>
-                @entry.Entity.Name.MainContent.FullName
+                @entry.Entity.Name.MainContent.FullName <span class="text-secondary">(@entry.Quantity)</span>
             </li>
         }
     </ul>

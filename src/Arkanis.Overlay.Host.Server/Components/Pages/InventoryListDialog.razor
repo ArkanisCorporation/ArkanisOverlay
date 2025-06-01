@@ -43,11 +43,7 @@
     public required IMudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public InventoryEntryList Model { get; set; } = new()
-    {
-        Name = string.Empty,
-        Notes = string.Empty,
-    };
+    public InventoryEntryList Model { get; set; } = CreateDefaultModel();
 
     private async Task SubmitAsync()
     {
@@ -62,7 +58,7 @@
     {
         var dialogParameters = new DialogParameters<InventoryListDialog>
         {
-            [nameof(Model)] = model,
+            [nameof(Model)] = model ?? CreateDefaultModel(),
         };
         var dialogOptions = new DialogOptions
         {
@@ -75,5 +71,12 @@
         var dialogRef = await dialogService.ShowAsync<InventoryListDialog>(null, dialogParameters, dialogOptions);
         return await dialogRef.GetReturnValueAsync<InventoryEntryList>();
     }
+
+    private static InventoryEntryList CreateDefaultModel()
+        => new()
+        {
+            Name = string.Empty,
+            Notes = string.Empty,
+        };
 
 }

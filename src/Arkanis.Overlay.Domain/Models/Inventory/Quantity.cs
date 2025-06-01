@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Domain.Models.Inventory;
 
 using System.ComponentModel;
+using Humanizer;
 
 public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, IComparable<Quantity>
 {
@@ -42,6 +43,16 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
             ? unitComparison
             : Amount.CompareTo(other.Amount);
     }
+
+    public override string ToString()
+        => $"{Amount.ToMetric(MetricNumeralFormats.WithSpace, 3)} {GetUnitString(Unit)}";
+
+    public static string GetUnitString(UnitType unit)
+        => unit switch
+        {
+            UnitType.Count => "\u00d7", // multiplication sign
+            _ => unit.Humanize(),
+        };
 
     public static bool operator <(Quantity left, Quantity right)
         => ReferenceEquals(left, null)

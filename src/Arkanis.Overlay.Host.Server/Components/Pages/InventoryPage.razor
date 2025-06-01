@@ -556,7 +556,7 @@
         var options = new MessageBoxOptions
         {
             Title = "Are you sure?",
-            MarkupMessage = new MarkupString($"Do you really want to permanently remove <u>all</u> <b>{contextItem.Entity.Name.MainContent.FullName}</b>{atLocationPart} from your inventory?"),
+            MarkupMessage = new MarkupString($"Do you really want to permanently remove {contextItem.Quantity} <b>{contextItem.Entity.Name.MainContent.FullName}</b>{atLocationPart} from your inventory?"),
             YesText = "Remove",
             CancelText = "Cancel",
         };
@@ -584,8 +584,8 @@
         var inventoryEntryList = _selectedList ?? await SelectInventoryListDialog.ShowAsync(DialogService);
         if (inventoryEntryList is not null)
         {
-            inventoryEntryList.Entries.Add(contextItem);
-            await InventoryManager.UpdateListAsync(inventoryEntryList);
+            contextItem.List = inventoryEntryList;
+            await InventoryManager.UpdateEntryAsync(contextItem);
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
         }
