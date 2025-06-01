@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    partial class OverlayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250601055357_OnlyAllowInventoryEntryMembershipInSingleList")]
+    partial class OnlyAllowInventoryEntryMembershipInSingleList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");

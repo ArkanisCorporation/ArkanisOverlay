@@ -4,10 +4,11 @@
 @using Arkanis.Overlay.Domain.Models.Search
 @inject ISearchService SearchService
 
-<MudAutocomplete Label="@Title"
+<MudAutocomplete Label="@Label"
                  Value="@Value"
                  ValueChanged="@ValueChanged"
                  Text="@GetText(Value)"
+                 Placeholder="Search for game entity"
                  Clearable="@(!Required)"
                  Required="@Required"
                  CoerceText="false"
@@ -32,7 +33,7 @@
 {
 
     [Parameter]
-    public string? Title { get; set; } = "Game entity";
+    public string? Label { get; set; } = "Game entity";
 
     [Parameter]
     public IGameEntity? Value { get; set; }

@@ -1,14 +1,14 @@
 @using Arkanis.Overlay.Domain.Models.Inventory
 <MudDialog DefaultFocus="@DefaultFocus.FirstChild" ContentClass="py-2">
     <TitleContent>
-        Select Location
+        Select Inventory List
     </TitleContent>
     <DialogContent>
         <InventoryListSelect
             @bind-Value="InventoryList"/>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
         <MudButton Color="@Color.Success"
                    OnClick="@Submit">
             Submit

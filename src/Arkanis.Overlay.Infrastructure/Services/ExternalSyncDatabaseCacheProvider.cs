@@ -40,7 +40,7 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
             DataAvailableState = dataState.SourcedState,
             CachedUntil = dataState.CachedUntil,
         };
-        await db.ExternalSourceDataCache.AddOrUpdateAsync(cacheRecord);
+        await db.ExternalSourceDataCache.AddOrUpdateAsync(cacheRecord, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
     }
 

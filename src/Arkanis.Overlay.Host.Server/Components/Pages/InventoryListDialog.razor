@@ -24,7 +24,7 @@
         </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
         <MudButton Color="@Color.Success"
                    OnClick="@SubmitAsync"
                    Disabled="@(!CanSubmit)">
@@ -62,11 +62,7 @@
     {
         var dialogParameters = new DialogParameters<InventoryListDialog>
         {
-            [nameof(Model)] = new InventoryEntryList
-            {
-                Name = string.Empty,
-                Notes = string.Empty,
-            },
+            [nameof(Model)] = model,
         };
         var dialogOptions = new DialogOptions
         {

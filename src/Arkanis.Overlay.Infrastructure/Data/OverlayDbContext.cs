@@ -18,9 +18,6 @@ public class OverlayDbContext(DbContextOptions options) : DbContext(options)
     internal DbSet<InventoryEntryListEntity> InventoryLists
         => Set<InventoryEntryListEntity>();
 
-    internal DbSet<InventoryEntryListItemEntity> InventoryListItems
-        => Set<InventoryEntryListItemEntity>();
-
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.ComplexProperties<ServiceAvailableState>();

@@ -12,34 +12,38 @@ public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
 
 public static class InventoryEntry
 {
-    public static VirtualItemInventoryEntry Create(GameItem gameItem, Quantity quantity)
+    public static VirtualItemInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
         => new()
         {
-            Item = gameItem,
+            Item = item,
             Quantity = quantity,
+            List = list,
         };
 
-    public static PhysicalItemInventoryEntry CreateAt(GameItem gameItem, Quantity quantity, IGameLocation location)
+    public static PhysicalItemInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
         => new()
         {
-            Item = gameItem,
+            Item = item,
             Quantity = quantity,
             Location = location,
+            List = list,
         };
 
-    public static VirtualCommodityInventoryEntry Create(GameCommodity gameCommodity, Quantity quantity)
+    public static VirtualCommodityInventoryEntry Create(GameCommodity commodity, Quantity quantity, InventoryEntryList? list = null)
         => new()
         {
-            Commodity = gameCommodity,
+            Commodity = commodity,
             Quantity = quantity,
+            List = list,
         };
 
-    public static PhysicalCommodityInventoryEntry CreateAt(GameCommodity gameCommodity, Quantity quantity, IGameLocation location)
+    public static PhysicalCommodityInventoryEntry CreateAt(GameCommodity commodity, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
         => new()
         {
-            Commodity = gameCommodity,
+            Commodity = commodity,
             Quantity = quantity,
             Location = location,
+            List = list,
         };
 }
 
@@ -53,6 +57,8 @@ public abstract class InventoryEntryBase : IIdentifiable
     }
 
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
+
+    public InventoryEntryList? List { get; set; }
 
     public abstract IGameEntity Entity { get; }
 
@@ -86,6 +92,7 @@ public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
             Item = Item,
             Quantity = Quantity,
             Location = location,
+            List = List,
         };
 }
 
@@ -123,6 +130,7 @@ public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
             Commodity = Commodity,
             Quantity = Quantity,
             Location = location,
+            List = List,
         };
 }
 

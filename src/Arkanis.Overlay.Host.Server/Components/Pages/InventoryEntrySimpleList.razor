@@ -1,0 +1,103 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models.Inventory
+@if (Grouping is GroupBy.None)
+{
+    <ul class="@Class">
+        @foreach (var entry in Models)
+        {
+            <li>
+                @entry.Entity.Name.MainContent.FullName
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <ul class="@Class">
+        @if (Grouping is GroupBy.Location)
+        {
+            @foreach (var entriesByLocation in ModelsByLocation)
+            {
+                <li class="mt-2">
+                    @if (entriesByLocation.Key is not null)
+                    {
+                        <span>
+                            from <b>@entriesByLocation.Key?.Name.MainContent.FullName</b>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">unassigned</span>
+                    }
+
+                    <InventoryEntrySimpleList
+                        Models="entriesByLocation"
+                        Class="pl-4"/>
+                </li>
+            }
+        }
+        else if (Grouping is GroupBy.List)
+        {
+            @foreach (var entriesByLocation in ModelsByList)
+            {
+                <li class="mt-2">
+                    @if (entriesByLocation.Key is not null)
+                    {
+                        <span>
+                            from <b>@entriesByLocation.Key?.Name</b>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">unassigned</span>
+                    }
+
+                    <InventoryEntrySimpleList
+                        Models="entriesByLocation"
+                        Class="pl-4"/>
+                </li>
+            }
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Warning">
+                Unsupported entry grouping by @Grouping.
+            </MudAlert>
+            <InventoryEntrySimpleList
+                Models="Models"
+                Class="pl-4"/>
+        }
+    </ul>
+}
+
+<ul class="pl-4">
+</ul>
+
+@code
+{
+
+    [Parameter]
+    public IEnumerable<InventoryEntryBase> Models { get; set; } = [];
+
+    [Parameter]
+    public string? Class { get; set; } = "pl-4";
+
+    [Parameter]
+    public GroupBy Grouping { get; set; }
+
+    private IOrderedEnumerable<IGrouping<IGameLocation?, InventoryEntryBase>> ModelsByLocation
+        => Models.GroupBy(entry => (entry as IGameLocatedAt)?.Location)
+            .OrderBy(group => group.Key?.Name.MainContent.FullName);
+
+    private IOrderedEnumerable<IGrouping<InventoryEntryList?, InventoryEntryBase>> ModelsByList
+        => Models.GroupBy(entry => entry.List)
+            .OrderBy(group => group.Key?.Name);
+
+    public enum GroupBy
+    {
+        None,
+        Location,
+        List,
+    }
+
+}

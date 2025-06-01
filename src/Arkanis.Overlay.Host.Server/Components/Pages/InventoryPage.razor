@@ -1,4 +1,5 @@
 @page "/inventory"
+@using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Domain.Models.Game
@@ -13,6 +14,10 @@
     .mud-main-content .mud-paper,
     .mud-main-content .mud-expansion-panels {
         animation: 250ms fadeInDown;
+    }
+
+    :not(:hover) * .visible-on-parent-hover {
+        display: none;
     }
 </style>
 
@@ -95,6 +100,7 @@
                                         <MudIconButton
                                             Icon="@Icons.Material.Filled.PlaylistAddCheck"
                                             Color="@Color.Info"
+                                            OnClick="@AssignListToSelectedAsync"
                                             Disabled="@(SelectedEntries.Count == 0)"/>
                                     </MudBadge>
                                 </MudTooltip>
@@ -156,8 +162,11 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@UnassignedEntries.ToList()"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        Lists="@Lists"
+                                                        Lists="@AllLists"
                                                         ExpandAll="true">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -184,9 +193,12 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        Lists="@Lists"
+                                                        Lists="@AllLists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.Location])"
                                                         ExpandAll="FiltersActive">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -198,7 +210,7 @@
                             <TabContent>
                                 <MudStack AlignItems="@AlignItems.Center" Spacing="0">
                                     <MudChip T="string" Size="@Size.Small">
-                                        @Lists.Count lists
+                                        @FilteredLists.Length lists
                                     </MudChip>
                                     <MudText Typo="@Typo.inherit">
                                         By List
@@ -209,9 +221,12 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        Lists="@Lists"
+                                                        Lists="@AllLists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.List])"
                                                         ExpandAll="FiltersActive">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -234,7 +249,10 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        Lists="@Lists">
+                                                        Lists="@AllLists">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -257,7 +275,10 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@AllEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        Lists="@Lists">
+                                                        Lists="@AllLists">
+                                    <ListActionsContent>
+                                        @ListActions(context)
+                                    </ListActionsContent>
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -283,14 +304,15 @@
 
     private ICollection<InventoryEntryBase> FilteredEntries { get; set; } = [];
 
-    public ICollection<InventoryEntryList> Lists { get; set; } = [];
+    public ICollection<InventoryEntryList> AllLists { get; set; } = [];
+    public InventoryEntryList[] FilteredLists { get; set; } = [];
 
     public ICollection<InventoryEntryBase> AllEntries { get; set; } = [];
 
     public IEnumerable<InventoryEntryBase> UnassignedEntries
         => FilteredEntries.Where(x => x.Type is InventoryEntryBase.EntryType.Virtual);
 
-    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = [];
+    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = new(IIdentifiable.EqualityComparer.Default);
 
     public IGameLocation[] AllLocations { get; set; } = [];
     public IGameLocation[] FilteredLocations { get; set; } = [];
@@ -304,7 +326,7 @@
     private async Task RefreshDataAsync()
     {
         AllEntries = await InventoryManager.GetAllEntriesAsync();
-        Lists = await InventoryManager.GetAllListsAsync();
+        AllLists = await InventoryManager.GetAllListsAsync();
         AllLocations = GetUniqueLocations(AllEntries);
 
         UpdateFilters();
@@ -315,9 +337,19 @@
         FilteredEntries = AllEntries
             .Where(x => _searchText is null || x.Entity.Name.MainContent.FullName.Contains(_searchText, StringComparison.OrdinalIgnoreCase))
             .Where(x => _selectedLocation is null || (x is IGameLocatedAt locatedAt && locatedAt.Location == _selectedLocation))
+            .Where(x => _selectedList is null || x.List?.Id == _selectedList.Id)
             .ToArray();
 
         FilteredLocations = GetUniqueLocations(FilteredEntries);
+        FilteredLists = FilteredEntries
+            .Select(x => x.List)
+            .Distinct()
+            .OfType<InventoryEntryList>()
+            .OrderBy(x => x.Name)
+            .ToArray();
+
+        var entryIds = AllEntries.Select(x => x.Id).ToHashSet();
+        SelectedEntries.RemoveWhere(entry => !entryIds.Contains(entry.Id));
     }
 
     private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
@@ -335,6 +367,14 @@
         AssignList,
         AssignLocation,
     }
+
+    private RenderFragment<InventoryEntryList> ListActions
+        => context => @<div>
+                          <MudIconButton
+                              Class="visible-on-parent-hover"
+                              Icon="@Icons.Material.Filled.Edit"
+                              OnClick="@(() => EditListAsync(context))"/>
+                      </div>;
 
     private RenderFragment<CellContext<InventoryEntryBase>> EntryCellActions
         => context => @<div>
@@ -407,39 +447,53 @@
                     <GameEntityNameLabel Model="@location.Name"/>
                 </div>
                 <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
-                <ul class="pl-4">
-                    @foreach (var entriesByLocation in SelectedEntries
-                                      .GroupBy(entry => (entry as IGameLocatedAt)?.Location)
-                                      .OrderBy(group => group.Key?.Name.MainContent.FullName))
-                    {
-                        <li>
-                            @if (entriesByLocation.Key is not null)
-                            {
-                                <span>
-                                    from <b>@entriesByLocation.Key?.Name.MainContent.FullName</b>
-                                </span>
-                            }
-                            else
-                            {
-                                <i>unassigned</i>
-                            }
-                            <ul class="pl-4">
-                                @foreach (var entry in entriesByLocation!)
-                                {
-                                    <li>
-                                        @entry.Entity.Name.MainContent.FullName
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-                    }
-                </ul>
+                <InventoryEntrySimpleList
+                    Grouping="@InventoryEntrySimpleList.GroupBy.Location"
+                    Models="@SelectedEntries"/>
             </div>,
         };
         var options = new BulkOperationDialog<InventoryEntryBase>.Options
         {
             SubmitColor = Color.Success,
             SubmitLabel = "Transfer",
+        };
+
+        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
+        await RefreshDataAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task AssignListToSelectedAsync()
+    {
+        if ((_selectedList ?? await SelectInventoryListDialog.ShowAsync(DialogService)) is not { } list)
+        {
+            return;
+        }
+
+        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
+        {
+            PerformOperation = async entry =>
+            {
+                entry.List = list;
+                await InventoryManager.UpdateEntryAsync(entry);
+            },
+            Description = @<div>
+                <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
+                <div class="pl-4">
+                    <MudText Typo="@Typo.h6">
+                        @list.Name
+                    </MudText>
+                </div>
+                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
+                <InventoryEntrySimpleList
+                    Grouping="@InventoryEntrySimpleList.GroupBy.List"
+                    Models="@SelectedEntries"/>
+            </div>,
+        };
+        var options = new BulkOperationDialog<InventoryEntryBase>.Options
+        {
+            SubmitColor = Color.Success,
+            SubmitLabel = "Assign",
         };
 
         await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
@@ -456,12 +510,8 @@
                 <MudText Typo="@Typo.inherit">
                     Please confirm <u>permanent removal</u> of the following inventory entries:
                 </MudText>
-                <ul class="pl-4">
-                    @foreach (var entry in SelectedEntries)
-                    {
-                        <li>@entry.Entity.Name.MainContent.FullName</li>
-                    }
-                </ul>
+                <InventoryEntrySimpleList
+                    Models="@SelectedEntries"/>
             </div>,
         };
         var options = new BulkOperationDialog<InventoryEntryBase>.Options

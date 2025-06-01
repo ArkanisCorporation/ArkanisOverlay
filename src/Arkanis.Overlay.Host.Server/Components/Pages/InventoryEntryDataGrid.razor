@@ -132,11 +132,12 @@
                 }
             </CellTemplate>
         </TemplateColumn>
-        <TemplateColumn Title="@(Groupings.Contains(Column.List) ? "Other lists" : "Lists")"
-                        GroupBy="@(x => GetPrimaryList(x))"
+        <TemplateColumn Title="List"
+                        GroupBy="@(x => x.List)"
                         Grouping="@Groupings.Contains(Column.List)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.List)"
-                        GroupExpanded="@ExpandAll">
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@Groupings.Contains(Column.List)">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -155,12 +156,26 @@
 
                     @if (context.Grouping.Key is InventoryEntryList list)
                     {
-                        @list.Name
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.h6">
+                                @list.Name
+                            </MudText>
+                            @if (!string.IsNullOrWhiteSpace(list.Notes))
+                            {
+                                <MudText Typo="@Typo.body2">
+                                    @list.Notes
+                                </MudText>
+                            }
+                        </MudStack>
+                        if (ListActionsContent is not null)
+                        {
+                            @ListActionsContent(list)
+                        }
                     }
                     else
                     {
                         <MudText Typo="@Typo.h6" Class="text-secondary">
-                            Not assigned to any list
+                            Unassigned
                         </MudText>
                     }
 
@@ -174,15 +189,12 @@
                 </MudStack>
             </GroupTemplate>
             <CellTemplate>
-                @if (GetOtherLists(context.Item) is { Count: > 0 } lists)
+                @if (context.Item.List is { } list)
                 {
-                    <MudChipSet Size="@Size.Small">
-                        @* skip first "primary" grouping list and only show other if grouped by list *@
-                        @foreach (var list in lists)
-                        {
-                            <MudChip Text="@list!.Name"/>
-                        }
-                    </MudChipSet>
+                    <MudChip
+                        Text="@list.Name"
+                        Size="@Size.Small"
+                        Class="ma-0"/>
                 }
                 else
                 {
@@ -213,8 +225,6 @@
 @code
 {
 
-    private Dictionary<InventoryEntryId, InventoryEntryList[]> _entryListMapping = [];
-
     [Parameter]
     public ICollection<InventoryEntryBase> Models { get; set; } = [];
 
@@ -231,6 +241,9 @@
     public RenderFragment<CellContext<InventoryEntryBase>>? EntryActionsContent { get; set; }
 
     [Parameter]
+    public RenderFragment<InventoryEntryList>? ListActionsContent { get; set; }
+
+    [Parameter]
     public string? Class { get; set; }
 
     [Parameter]
@@ -238,20 +251,6 @@
 
     [Parameter]
     public Column[] Groupings { get; set; } = [];
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        _entryListMapping = Lists.SelectMany(list => list.Entries.Select(entry => KeyValuePair.Create(entry.Id, list)))
-            .GroupBy(pair => pair.Key)
-            .ToDictionary(
-                group => group.Key,
-                group => group
-                    .Select(pair => pair.Value)
-                    .OrderBy(list => list.Name)
-                    .ToArray()
-            );
-    }
 
     private string GetEntryType(InventoryEntryBase contextItem)
         => contextItem switch
@@ -269,17 +268,4 @@
         List,
     }
 
-    private InventoryEntryList? GetPrimaryList(InventoryEntryBase entry)
-        => _entryListMapping.GetValueOrDefault(entry.Id)?.FirstOrDefault();
-
-    private ICollection<InventoryEntryList> GetOtherLists(InventoryEntryBase entry)
-    {
-        if (_entryListMapping.GetValueOrDefault(entry.Id) is not { } otherLists)
-        {
-            return [];
-        }
-
-        var primaryList = GetPrimaryList(entry);
-        return otherLists.Where(x => x.Id != primaryList?.Id).ToArray();
-    }
 }

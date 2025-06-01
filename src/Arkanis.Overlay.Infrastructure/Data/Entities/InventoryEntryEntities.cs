@@ -32,6 +32,10 @@ internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntr
         private init => _discriminator = value;
     }
 
+    public InventoryEntryListId? ListId { get; set; }
+
+    public InventoryEntryListEntity? List { get; set; }
+
     [Key]
     public required InventoryEntryId Id { get; init; }
 
@@ -45,8 +49,14 @@ internal abstract class InventoryEntryEntityBase : IDatabaseEntity<InventoryEntr
             builder.Property(x => x.Id)
                 .HasConversion<GuidDomainIdConverter<InventoryEntryId>>();
 
+            builder.Property(x => x.ListId)
+                .HasConversion<GuidDomainIdConverter<InventoryEntryListId>>();
+
             builder.Property(x => x.GameEntityId)
                 .HasConversion<UexApiDomainIdConverter>();
+
+            builder.Navigation(x => x.List)
+                .AutoInclude();
 
             // explicit value must be defined for manual discriminator property in this case
             builder.HasDiscriminator(x => x.Discriminator)

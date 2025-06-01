@@ -15,18 +15,21 @@
         <MudGrid>
             <MudItem xs="12">
                 <GameEntitySelectBox
+                    Label="Item or commodity"
                     Accept="@(location => location is GameItem or GameCommodity)"
                     @bind-Value="Entity"
                     Required/>
             </MudItem>
-            <MudItem xs="12" sm="6">
+            <MudItem xs="12" sm="3">
                 <MudTextField
+                    Label="Amount"
                     @bind-Value="@_quantity.Amount"
                     InputType="@InputType.Number"
                     Required/>
             </MudItem>
-            <MudItem xs="12" sm="6">
-                <MudSelect @bind-Value="@_quantity.Unit">
+            <MudItem xs="12" sm="2">
+                <MudSelect Label="Unit"
+                           @bind-Value="@_quantity.Unit">
                     @foreach (var unit in Enum.GetValues<Quantity.UnitType>().Except([Quantity.UnitType.Undefined]))
                     {
                         <MudSelectItem Value="@unit">
@@ -35,8 +38,13 @@
                     }
                 </MudSelect>
             </MudItem>
+            <MudItem xs="12" sm="7">
+                <InventoryListSelect
+                    @bind-Value="@List"/>
+            </MudItem>
             <MudItem xs="12">
                 <GameEntitySelectBox
+                    Label="Location"
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
                     @bind-Value="Location"/>
@@ -44,7 +52,7 @@
         </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
         <MudButton Color="@Color.Success"
                    OnClick="@SubmitAsync"
                    Disabled="@(!CanSubmit)">
@@ -70,6 +78,9 @@
     [Parameter]
     public IGameEntity? Location { get; set; }
 
+    [Parameter]
+    public InventoryEntryList? List { get; set; }
+
     private async Task SubmitAsync()
     {
         var inventoryEntry = CreateInventoryEntry();
@@ -81,11 +92,11 @@
         => Entity switch
         {
             GameItem item => Location is IGameLocation location
-                ? InventoryEntry.CreateAt(item, _quantity, location)
-                : InventoryEntry.Create(item, _quantity),
+                ? InventoryEntry.CreateAt(item, _quantity, location, List)
+                : InventoryEntry.Create(item, _quantity, List),
             GameCommodity commodity => Location is IGameLocation location
-                ? InventoryEntry.CreateAt(commodity, _quantity, location)
-                : InventoryEntry.Create(commodity, _quantity),
+                ? InventoryEntry.CreateAt(commodity, _quantity, location, List)
+                : InventoryEntry.Create(commodity, _quantity, List),
             _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {Entity}"),
         };
 

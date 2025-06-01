@@ -29,21 +29,10 @@ internal class InventoryEntryListEntity : IDatabaseEntity<InventoryEntryListId>
                 .HasConversion<GuidDomainIdConverter<InventoryEntryListId>>();
 
             builder.HasMany(x => x.Entries)
-                .WithMany()
-                .UsingEntity<InventoryEntryListItemEntity>(
-                    left => left.HasOne<InventoryEntryEntityBase>().WithMany().HasForeignKey(x => x.EntryId).HasPrincipalKey(x => x.Id),
-                    right => right.HasOne<InventoryEntryListEntity>().WithMany().HasForeignKey(x => x.ListId).HasPrincipalKey(x => x.Id)
-                );
+                .WithOne(x => x.List);
 
             builder.Navigation(x => x.Entries)
                 .AutoInclude();
         }
     }
-}
-
-[Index(nameof(ListId), nameof(EntryId), IsUnique = true)]
-internal class InventoryEntryListItemEntity
-{
-    public required InventoryEntryListId ListId { get; init; }
-    public required InventoryEntryId EntryId { get; init; }
 }

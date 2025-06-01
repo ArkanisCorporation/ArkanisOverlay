@@ -18,16 +18,16 @@ internal class LocalDatabaseInventoryManager(
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var entities = await dbContext.InventoryEntries.ToListAsync(cancellationToken);
-        return entities.Select(mapper.Map).ToList();
+        return entities.Select(x => mapper.Map(x)).ToList();
     }
 
     public async Task UpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
     {
-        await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var entity = mapper.Map(entry);
-        await dbContext.InventoryEntries.AddOrUpdateAsync(entity);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        await dbContext.InventoryEntries.AddOrUpdateAsync(entity, cancellationToken);
         await CompactifyEntitiesAsync(entity, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteEntryAsync(InventoryEntryId entryId, CancellationToken cancellationToken = default)
@@ -57,46 +57,17 @@ internal class LocalDatabaseInventoryManager(
     public async Task UpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        var alreadyExists = await dbContext.InventoryLists.AnyAsync(x => x.Id == list.Id, cancellationToken);
-
         var listEntity = mapper.Map(list);
+        var alreadyExists = await dbContext.InventoryLists.ExistsAsync(listEntity, cancellationToken);
         if (alreadyExists)
         {
-            var existingList = await dbContext.InventoryLists
-                .AsNoTracking()
-                .SingleAsync(x => x.Id == list.Id, cancellationToken);
-
-            var removedEntryIds = existingList.Entries
-                .Where(existing => listEntity.Entries.All(current => current.Id != existing.Id))
-                .Select(x => x.Id)
-                .ToArray();
-
-            await dbContext.InventoryListItems
-                .Where(x => x.ListId == existingList.Id)
-                .Where(x => removedEntryIds.Contains(x.EntryId))
-                .ExecuteDeleteAsync(cancellationToken);
-
-            var newEntries = listEntity.Entries
-                .Where(x => existingList.Entries.All(y => y.Id != x.Id))
-                .ToList();
-
-            await dbContext.InventoryEntries.AddRangeAsync(newEntries, cancellationToken);
-
-            var newListItems = newEntries.Select(x => new InventoryEntryListItemEntity
-                {
-                    ListId = list.Id,
-                    EntryId = x.Id,
-                }
-            );
-            await dbContext.InventoryListItems.AddRangeAsync(newListItems, cancellationToken);
-
-            foreach (var entry in listEntity.Entries)
+            foreach (var entryEntity in listEntity.Entries)
             {
-                await dbContext.InventoryEntries.AddOrUpdateAsync(entry);
+                await dbContext.InventoryEntries.AddOrUpdateAsync(entryEntity, cancellationToken);
             }
 
             listEntity.Entries.Clear();
-            await dbContext.InventoryLists.AddOrUpdateAsync(listEntity);
+            await dbContext.InventoryLists.AddOrUpdateAsync(listEntity, cancellationToken);
         }
         else
         {
@@ -114,14 +85,22 @@ internal class LocalDatabaseInventoryManager(
             .ExecuteDeleteAsync(cancellationToken);
     }
 
+    /// <summary>
+    ///     Compacts multiple database entities into one.
+    ///     This is used to prevent having multiple entries for the same entity in the same list within the same location.
+    /// </summary>
+    /// <param name="current">The entry entity to compactify.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     private async Task CompactifyEntitiesAsync(InventoryEntryEntityBase current, CancellationToken cancellationToken)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var otherExistingEntities = await dbContext.InventoryEntries
             .Where(x => x.Id != current.Id)
+            .Where(x => x.ListId == current.ListId)
             .Where(x => x.GameEntityId == current.GameEntityId)
             .Where(x => x.Quantity.Unit == current.Quantity.Unit)
             .Where(x => x.Discriminator == current.Discriminator)
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         if (otherExistingEntities.Count == 0)
@@ -138,10 +117,11 @@ internal class LocalDatabaseInventoryManager(
             );
         }
 
-        foreach (var existing in otherExistingEntities)
+        foreach (var other in otherExistingEntities)
         {
-            current.Quantity.Amount += existing.Quantity.Amount;
-            dbContext.InventoryEntries.Remove(existing);
+            current.Quantity.Amount += other.Quantity.Amount;
+            other.List = null; //! prevent recursive change tracking of the list and its related entities
+            dbContext.InventoryEntries.Remove(other);
         }
 
         dbContext.InventoryEntries.Update(current);
