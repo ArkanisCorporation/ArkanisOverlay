@@ -1,6 +1,7 @@
 @page "/inventory"
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Models.Game
 @using Arkanis.Overlay.Domain.Models.Inventory
 @layout ServerOverlayLayout
 @inject IDialogService DialogService
@@ -29,7 +30,8 @@
                          OnClick="@CreateNewEntryAsync">
                 New entry
             </MudMenuItem>
-            <MudMenuItem Icon="@Icons.Material.Filled.PlaylistAdd">
+            <MudMenuItem Icon="@Icons.Material.Filled.PlaylistAdd"
+                         OnClick="@CreateNewListAsync">
                 New list
             </MudMenuItem>
         </ChildContent>
@@ -75,24 +77,9 @@
                             </MudSelect>
                         </MudItem>
                         <MudItem xs="12" md="3">
-                            <MudSelect @bind-Value="_selectedList"
-                                       @bind-Value:after="UpdateFilters"
-                                       Placeholder="Select an inventory list"
-                                       Label="List"
-                                       Clearable>
-                                @foreach (var list in Lists)
-                                {
-                                    <MudSelectItem Value="@list">
-                                        @list.Name
-                                    </MudSelectItem>
-                                }
-                                @if (Lists.Count == 0)
-                                {
-                                    <MudSelectItem T="InventoryEntryList" Value="@null" Disabled>
-                                        No inventory lists used yet
-                                    </MudSelectItem>
-                                }
-                            </MudSelect>
+                            <InventoryListSelect
+                                @bind-Value="_selectedList"
+                                @bind-Value:after="UpdateFilters"/>
                         </MudItem>
                         <MudItem xs="12" md="3">
                             <MudStack AlignItems="@AlignItems.Center"
@@ -169,6 +156,7 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@UnassignedEntries.ToList()"
                                                         @bind-SelectedModels="@SelectedEntries"
+                                                        Lists="@Lists"
                                                         ExpandAll="true">
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
@@ -196,6 +184,7 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
+                                                        Lists="@Lists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.Location])"
                                                         ExpandAll="FiltersActive">
                                     <EntryActionsContent>
@@ -220,6 +209,7 @@
                                 <MudDivider/>
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
+                                                        Lists="@Lists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.List])"
                                                         ExpandAll="FiltersActive">
                                     <EntryActionsContent>
@@ -229,11 +219,34 @@
                             </ChildContent>
                         </MudTabPanel>
 
-                        <MudTabPanel Text="All Inventory">
+                        <MudTabPanel>
                             <TabContent>
                                 <MudStack AlignItems="@AlignItems.Center" Spacing="0">
                                     <MudChip T="string" Size="@Size.Small">
                                         @FilteredEntries.Count entries
+                                    </MudChip>
+                                    <MudText Typo="@Typo.inherit">
+                                        Matching
+                                    </MudText>
+                                </MudStack>
+                            </TabContent>
+                            <ChildContent>
+                                <MudDivider/>
+                                <InventoryEntryDataGrid Models="@FilteredEntries"
+                                                        @bind-SelectedModels="@SelectedEntries"
+                                                        Lists="@Lists">
+                                    <EntryActionsContent>
+                                        @EntryCellActions(context)
+                                    </EntryActionsContent>
+                                </InventoryEntryDataGrid>
+                            </ChildContent>
+                        </MudTabPanel>
+
+                        <MudTabPanel>
+                            <TabContent>
+                                <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                    <MudChip T="string" Size="@Size.Small">
+                                        @AllEntries.Count entries
                                     </MudChip>
                                     <MudText Typo="@Typo.inherit">
                                         All Inventory
@@ -242,9 +255,9 @@
                             </TabContent>
                             <ChildContent>
                                 <MudDivider/>
-                                <InventoryEntryDataGrid Models="@FilteredEntries"
+                                <InventoryEntryDataGrid Models="@AllEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
-                                                        ExpandAll="FiltersActive">
+                                                        Lists="@Lists">
                                     <EntryActionsContent>
                                         @EntryCellActions(context)
                                     </EntryActionsContent>
@@ -272,7 +285,7 @@
 
     public ICollection<InventoryEntryList> Lists { get; set; } = [];
 
-    public ICollection<InventoryEntryBase> Entries { get; set; } = [];
+    public ICollection<InventoryEntryBase> AllEntries { get; set; } = [];
 
     public IEnumerable<InventoryEntryBase> UnassignedEntries
         => FilteredEntries.Where(x => x is not IGameLocatedAt);
@@ -290,16 +303,16 @@
 
     private async Task RefreshDataAsync()
     {
-        Entries = await InventoryManager.GetAllEntriesAsync();
+        AllEntries = await InventoryManager.GetAllEntriesAsync();
         Lists = await InventoryManager.GetAllListsAsync();
-        AllLocations = GetUniqueLocations(Entries);
+        AllLocations = GetUniqueLocations(AllEntries);
 
         UpdateFilters();
     }
 
     private void UpdateFilters()
     {
-        FilteredEntries = Entries
+        FilteredEntries = AllEntries
             .Where(x => _searchText is null || x.Entity.Name.MainContent.FullName.Contains(_searchText, StringComparison.OrdinalIgnoreCase))
             .Where(x => _selectedLocation is null || (x is IGameLocatedAt locatedAt && locatedAt.Location == _selectedLocation))
             .ToArray();
@@ -325,12 +338,13 @@
 
     private RenderFragment<CellContext<InventoryEntryBase>> EntryCellActions
         => context => @<div>
-                          <MudTooltip Text="Assign inventory list"
+                          <MudTooltip Text="Add to inventory list"
                                       Placement="@Placement.Top">
                               <MudIconButton
                                   Icon="@Icons.Material.Filled.PlaylistAddCheck"
                                   Size="@Size.Small"
-                                  Color="@Color.Info"/>
+                                  Color="@Color.Info"
+                                  OnClick="@(() => AddToListAsync(context.Item))"/>
                           </MudTooltip>
                           <MudTooltip Text="Assign permanent storage"
                                       Placement="@Placement.Top">
@@ -353,6 +367,24 @@
     private async Task CreateNewEntryAsync()
     {
         if (await NewInventoryEntryDialog.ShowAsync(DialogService) is not null)
+        {
+            await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task CreateNewListAsync()
+    {
+        if (await InventoryListDialog.ShowAsync(DialogService) is not null)
+        {
+            await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task EditListAsync(InventoryEntryList list)
+    {
+        if (await InventoryListDialog.ShowAsync(DialogService, list) is not null)
         {
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
@@ -465,7 +497,7 @@
 
     private async Task AssignLocationAsync(InventoryEntryBase contextItem)
     {
-        if ((_selectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is { } location)
+        if ((_selectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService, AcceptLocation)) is { } location)
         {
             var updatedContextItem = contextItem.SetLocation(location);
             await InventoryManager.UpdateEntryAsync(updatedContextItem);
@@ -473,4 +505,20 @@
             await InvokeAsync(StateHasChanged);
         }
     }
+
+    private async Task AddToListAsync(InventoryEntryBase contextItem)
+    {
+        var inventoryEntryList = _selectedList ?? await SelectInventoryListDialog.ShowAsync(DialogService);
+        if (inventoryEntryList is not null)
+        {
+            inventoryEntryList.Entries.Add(contextItem);
+            await InventoryManager.UpdateListAsync(inventoryEntryList);
+            await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private bool AcceptLocation(IGameLocation arg)
+        => arg is GameSpaceStation or GameCity or GameOutpost;
+
 }

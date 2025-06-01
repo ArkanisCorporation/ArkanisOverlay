@@ -6,13 +6,17 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 public static class DbSetExtensions
 {
+    public static async Task<bool> ExistsAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity currentEntity)
+        where TEntity : class, IDatabaseEntity
+        => await dbSet.AnyAsync(existingEntity => existingEntity.Equals(currentEntity));
+
     // See: https://stackoverflow.com/a/76121820/4161937
-    public static EntityEntry<TEntity> AddOrUpdate<TEntity>(this DbSet<TEntity> dbSet, TEntity currentEntity)
+    public static async Task<EntityEntry<TEntity>> AddOrUpdateAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity currentEntity)
         where TEntity : class, IDatabaseEntity
     {
-        var exists = dbSet.Any(existingEntity => existingEntity.Equals(currentEntity));
+        var exists = await dbSet.ExistsAsync(currentEntity);
         return exists
             ? dbSet.Update(currentEntity)
-            : dbSet.Add(currentEntity);
+            : await dbSet.AddAsync(currentEntity);
     }
 }

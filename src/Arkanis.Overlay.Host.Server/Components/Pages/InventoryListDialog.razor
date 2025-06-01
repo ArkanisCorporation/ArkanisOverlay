@@ -1,0 +1,83 @@
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Models.Inventory
+@inject IInventoryManager InventoryManager
+@inject ILogger<NewInventoryEntryDialog> Logger
+
+<MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
+    <TitleContent>
+        Inventory List
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField
+                    Label="List name"
+                    @bind-Value="@Model.Name"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField
+                    Label="Notes"
+                    @bind-Value="@Model.Notes"
+                    Lines="4"/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@SubmitAsync"
+                   Disabled="@(!CanSubmit)">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private bool CanSubmit
+        => Model is { Name.Length: > 0 };
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public InventoryEntryList Model { get; set; } = new()
+    {
+        Name = string.Empty,
+        Notes = string.Empty,
+    };
+
+    private async Task SubmitAsync()
+    {
+        await InventoryManager.UpdateListAsync(Model);
+        MudDialog.Close(DialogResult.Ok(Model));
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService, InventoryEntryList? model = null)
+    {
+        var dialogParameters = new DialogParameters<InventoryListDialog>
+        {
+            [nameof(Model)] = new InventoryEntryList
+            {
+                Name = string.Empty,
+                Notes = string.Empty,
+            },
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<InventoryListDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryList>();
+    }
+
+}

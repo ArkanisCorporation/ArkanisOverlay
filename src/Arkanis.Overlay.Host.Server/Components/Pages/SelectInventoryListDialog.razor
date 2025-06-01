@@ -1,0 +1,46 @@
+@using Arkanis.Overlay.Domain.Models.Inventory
+<MudDialog DefaultFocus="@DefaultFocus.FirstChild" ContentClass="py-2">
+    <TitleContent>
+        Select Location
+    </TitleContent>
+    <DialogContent>
+        <InventoryListSelect
+            @bind-Value="InventoryList"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@Submit">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public InventoryEntryList? InventoryList { get; set; }
+
+    private void Submit()
+        => MudDialog.Close(DialogResult.Ok(InventoryList));
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<SelectInventoryListDialog>(null, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryList>();
+    }
+
+}

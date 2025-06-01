@@ -46,7 +46,7 @@
     <DialogActions>
         <MudButton OnClick="@Cancel">Close</MudButton>
         <MudButton Color="@Color.Success"
-                   OnClick="@Submit"
+                   OnClick="@SubmitAsync"
                    Disabled="@(!CanSubmit)">
             Submit
         </MudButton>
@@ -70,10 +70,10 @@
     [Parameter]
     public IGameEntity? Location { get; set; }
 
-    private void Submit()
+    private async Task SubmitAsync()
     {
         var inventoryEntry = CreateInventoryEntry();
-        InventoryManager.UpdateEntryAsync(inventoryEntry);
+        await InventoryManager.UpdateEntryAsync(inventoryEntry);
         MudDialog.Close(DialogResult.Ok(Entity));
     }
 

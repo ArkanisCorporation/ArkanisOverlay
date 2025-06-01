@@ -132,12 +132,11 @@
                 }
             </CellTemplate>
         </TemplateColumn>
-        <TemplateColumn Title="List"
-                        GroupBy="@(x => _entryListMapping.GetValueOrDefault(x.Id)?.FirstOrDefault())"
+        <TemplateColumn Title="@(Groupings.Contains(Column.List) ? "Other lists" : "Lists")"
+                        GroupBy="@(x => GetPrimaryList(x))"
                         Grouping="@Groupings.Contains(Column.List)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.List)"
-                        GroupExpanded="@ExpandAll"
-                        Hidden="@Groupings.Contains(Column.List)">
+                        GroupExpanded="@ExpandAll">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -175,12 +174,13 @@
                 </MudStack>
             </GroupTemplate>
             <CellTemplate>
-                @if (_entryListMapping.GetValueOrDefault(context.Item.Id) is { } lists)
+                @if (GetOtherLists(context.Item) is { Count: > 0 } lists)
                 {
                     <MudChipSet Size="@Size.Small">
+                        @* skip first "primary" grouping list and only show other if grouped by list *@
                         @foreach (var list in lists)
                         {
-                            <MudChip Text="@list.Name"/>
+                            <MudChip Text="@list!.Name"/>
                         }
                     </MudChipSet>
                 }
@@ -243,8 +243,14 @@
     {
         base.OnParametersSet();
         _entryListMapping = Lists.SelectMany(list => list.Entries.Select(entry => KeyValuePair.Create(entry.Id, list)))
-            .GroupBy(x => x.Key)
-            .ToDictionary(group => group.Key, group => group.Select(pair => pair.Value).ToArray());
+            .GroupBy(pair => pair.Key)
+            .ToDictionary(
+                group => group.Key,
+                group => group
+                    .Select(pair => pair.Value)
+                    .OrderBy(list => list.Name)
+                    .ToArray()
+            );
     }
 
     private string GetEntryType(InventoryEntryBase contextItem)
@@ -261,5 +267,19 @@
         Manufacturer,
         EntryType,
         List,
+    }
+
+    private InventoryEntryList? GetPrimaryList(InventoryEntryBase entry)
+        => _entryListMapping.GetValueOrDefault(entry.Id)?.FirstOrDefault();
+
+    private ICollection<InventoryEntryList> GetOtherLists(InventoryEntryBase entry)
+    {
+        if (_entryListMapping.GetValueOrDefault(entry.Id) is not { } otherLists)
+        {
+            return [];
+        }
+
+        var primaryList = GetPrimaryList(entry);
+        return otherLists.Where(x => x.Id != primaryList?.Id).ToArray();
     }
 }

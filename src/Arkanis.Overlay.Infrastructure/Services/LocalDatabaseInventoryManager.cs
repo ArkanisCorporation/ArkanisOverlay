@@ -25,7 +25,7 @@ internal class LocalDatabaseInventoryManager(
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var entity = mapper.Map(entry);
-        dbContext.InventoryEntries.AddOrUpdate(entity);
+        await dbContext.InventoryEntries.AddOrUpdateAsync(entity);
         await dbContext.SaveChangesAsync(cancellationToken);
         await CompactifyEntitiesAsync(entity, cancellationToken);
     }
@@ -90,13 +90,13 @@ internal class LocalDatabaseInventoryManager(
             );
             await dbContext.InventoryListItems.AddRangeAsync(newListItems, cancellationToken);
 
-            foreach (var existingEntry in existingList.Entries)
+            foreach (var entry in listEntity.Entries)
             {
-                await CompactifyEntitiesAsync(existingEntry, cancellationToken);
+                await dbContext.InventoryEntries.AddOrUpdateAsync(entry);
             }
 
             listEntity.Entries.Clear();
-            dbContext.InventoryLists.Update(listEntity);
+            await dbContext.InventoryLists.AddOrUpdateAsync(listEntity);
         }
         else
         {
