@@ -1,10 +1,8 @@
 ﻿namespace Arkanis.Overlay.Host.Desktop.UI;
 
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using Windows;
-using Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
