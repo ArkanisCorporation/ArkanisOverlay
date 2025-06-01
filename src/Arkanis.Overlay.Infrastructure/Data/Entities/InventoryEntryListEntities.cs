@@ -29,7 +29,8 @@ internal class InventoryEntryListEntity : IDatabaseEntity<InventoryEntryListId>
                 .HasConversion<GuidDomainIdConverter<InventoryEntryListId>>();
 
             builder.HasMany(x => x.Entries)
-                .WithOne(x => x.List);
+                .WithOne(x => x.List)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Navigation(x => x.Entries)
                 .AutoInclude();

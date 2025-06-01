@@ -372,8 +372,14 @@
         => context => @<div>
                           <MudIconButton
                               Class="visible-on-parent-hover"
+                              Color="@Color.Warning"
                               Icon="@Icons.Material.Filled.Edit"
                               OnClick="@(() => EditListAsync(context))"/>
+                          <MudIconButton
+                              Class="visible-on-parent-hover"
+                              Color="@Color.Error"
+                              Icon="@Icons.Material.Filled.DeleteForever"
+                              OnClick="@(() => DeleteForeverAsync(context))"/>
                       </div>;
 
     private RenderFragment<CellContext<InventoryEntryBase>> EntryCellActions
@@ -523,6 +529,23 @@
         await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
         await RefreshDataAsync();
         await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task DeleteForeverAsync(InventoryEntryList contextItem)
+    {
+        var options = new MessageBoxOptions
+        {
+            Title = "Are you sure?",
+            MarkupMessage = new MarkupString($"Do you really want to permanently remove inventory list <b>{contextItem.Name}</b>? Assigned items themselves will <u>not</u> be removed."),
+            YesText = "Remove",
+            CancelText = "Cancel",
+        };
+        if (await DialogService.ShowMessageBox(options) == true)
+        {
+            await InventoryManager.DeleteListAsync(contextItem.Id);
+            await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private async Task DeleteForeverAsync(InventoryEntryBase contextItem)
