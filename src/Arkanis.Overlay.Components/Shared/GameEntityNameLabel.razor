@@ -8,11 +8,14 @@
     <MudStack Style="@MainContentStyle" Spacing="1" Row>
         @if (Model.Company is { } companyReference)
         {
-            <div class="d-flex" style="color: var(--mud-palette-text-secondary) !important">
+            <div class="d-flex text-secondary flex-truncate">
                 <GameCompanyNamePart Model="@companyReference"/>
             </div>
         }
-        <GameEntityNamePart Model="@Model.MainContent" Embedded="@Embedded"/>
+        <GameEntityNamePart
+            Class="no-wrap"
+            Model="@Model.MainContent"
+            Embedded="@Embedded"/>
     </MudStack>
     @if (Model.Properties is { Count: > 0 } properties && !Embedded)
     {

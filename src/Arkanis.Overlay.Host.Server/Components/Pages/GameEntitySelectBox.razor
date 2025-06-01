@@ -7,7 +7,7 @@
 <MudAutocomplete Label="@Label"
                  Value="@Value"
                  ValueChanged="@ValueChanged"
-                 Text="@Text"
+                 Text="@GetText(Value)"
                  HelperText="@HelperText"
                  Placeholder="Search for game entity"
                  Disabled="@Disabled"
@@ -57,12 +57,15 @@
     [Parameter]
     public string? HelperText { get; set; }
 
-    private string? Text { get; set; }
-
-    protected override void OnParametersSet()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnParametersSet();
-        Text = GetText(Value);
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // force render to update initially coerced display text for default values
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private async Task<IEnumerable<IGameEntity?>> FindLocationsAsync(string? searchText, CancellationToken ct)

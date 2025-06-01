@@ -2,8 +2,9 @@
 @using Arkanis.Overlay.Domain.Models.Inventory
 @inject IInventoryManager InventoryManager
 
-<MudSelect Value="Value"
-           ValueChanged="ValueChanged"
+<MudSelect Value="@Value"
+           ValueChanged="@ValueChanged"
+           Text="@Value?.Name"
            Placeholder="Select an inventory list"
            Label="List"
            HelperText="@HelperText"
@@ -39,6 +40,17 @@
     public bool Required { get; set; }
 
     private ICollection<InventoryEntryList> Lists { get; set; } = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // force render to update initially coerced display text for default values
+            await InvokeAsync(StateHasChanged);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

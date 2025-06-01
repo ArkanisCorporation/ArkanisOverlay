@@ -1,4 +1,6 @@
-<MudStack AlignItems="@AlignItems.Center" Row>
+<MudStack Class="@Class"
+          AlignItems="@AlignItems.Center"
+          Row>
     <MudText Typo="@NameTypo" Style="@NameCss">
         @if (Embedded && Model is GameEntityName.IHasShortName shortVariant)
         {
@@ -33,5 +35,8 @@
 
     [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
 
 }

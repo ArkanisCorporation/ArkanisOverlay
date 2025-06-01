@@ -40,6 +40,16 @@
     border-bottom-right-radius: var(--mud-default-borderradius) !important;
 }
 
+.flex-truncate {
+    flex-shrink: 1;
+
+    &, & * {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 @keyframes fadeInDown {
     0% {
         transform: translateY(-50%);

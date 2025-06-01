@@ -38,7 +38,7 @@
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@InventoryPage.AcceptLocation"
                     @bind-Value="TargetLocationEntity"
-                    Required="@IsTransferMode"/>
+                    Required="@(IsTransferMode || SourceModel is IGameLocatedAt)"/>
             </MudItem>
             <MudItem xs="12">
                 <InventoryListSelect
@@ -117,14 +117,20 @@
             return;
         }
 
-        if (TargetQuantity == SourceModel.Quantity)
+        if (IsEditMode || TargetQuantity == SourceModel.Quantity)
         {
             // the entry is updated as a whole
-            await InventoryManager.UpdateEntryAsync(SourceModel);
+            SourceModel.Quantity = TargetQuantity;
+            SourceModel.List = TargetList;
+            var updatedModel = TargetLocation is not null
+                ? SourceModel.SetLocation(TargetLocation)
+                : SourceModel;
+
+            await InventoryManager.UpdateEntryAsync(updatedModel);
         }
         else
         {
-            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation);
+            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetList);
             await InventoryManager.UpdateEntryAsync(transferModel);
 
             SourceModel.Quantity.Amount -= TargetQuantity.Amount;
