@@ -6,6 +6,8 @@ public interface IGameLocation : IGameEntity, ISearchableRecursively
 {
     HashSet<UexApiGameEntityId> ParentIds { get; }
 
+    IEnumerable<IGameLocation> Parents { get; }
+
     IGameLocation? ParentLocation { get; }
 
     ISearchableRecursively? ISearchableRecursively.Parent

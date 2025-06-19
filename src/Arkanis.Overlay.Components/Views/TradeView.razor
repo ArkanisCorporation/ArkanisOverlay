@@ -1,0 +1,264 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.Search
+@using Arkanis.Overlay.External.UEX.Abstractions
+@inject ISearchService SearchService
+@inject IUexCommoditiesApi UexCommodities
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-main-content .mud-paper,
+    .mud-main-content .mud-expansion-panels {
+        animation: 250ms fadeInDown;
+    }
+
+    :not(:hover) * .visible-on-parent-hover {
+        display: none;
+    }
+
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-tabs-tabbar-content .mud-badge.mud-badge-top.center.mud-badge-overlap {
+        bottom: calc(100% - 8px);
+    }
+
+    .mud-tabs-tabbar .mud-tabs-scroll-button {
+        display: none;
+    }
+
+    .mud-tabs-tabbar-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    .mud-tabs-tabbar-wrapper .mud-badge-root {
+        width: 100%;
+    }
+
+    .mud-tabs-tabbar-wrapper > * {
+        flex: 1;
+    }
+</style>
+
+<div>
+    <MudMainContent Class="pb-8">
+        <MudContainer>
+            <MudStack Spacing="6">
+                <MudPaper Style="position: sticky; top: 0; z-index: 100"
+                          Elevation="4"
+                          Class="py-2 px-4">
+                    <MudGrid>
+                        <MudItem xs="12" md="3">
+                            <MudTextField
+                                @bind-Value="@_searchText"
+                                DebounceInterval="200"
+                                OnDebounceIntervalElapsed="RefreshDataAsync"
+                                Label="Search"
+                                Placeholder="Item or commodity name"
+                                Clearable/>
+                        </MudItem>
+                        <MudItem xs="12" md="3">
+                            <MudSelect @bind-Value="_selectedLocation"
+                                       @bind-Value:after="RefreshDataAsync"
+                                       Label="Location"
+                                       Placeholder="Select a game location"
+                                       Clearable>
+                                @foreach (var location in AllLocations)
+                                {
+                                    <MudSelectItem Value="@location">
+                                        @location.Name.MainContent.FullName
+                                    </MudSelectItem>
+                                }
+                                @if (AllLocations.Count == 0)
+                                {
+                                    <div class="relative">
+                                        <MudProgressLinear
+                                            Class="absolute"
+                                            Indeterminate/>
+                                    </div>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+
+                <MudStack Spacing="3">
+                    @foreach (var route in FilteredRoutes)
+                    {
+                        var priceOrigin = new GameCurrency((int)(route.Price_origin ?? 0));
+                        var priceDestination = new GameCurrency((int)(route.Price_destination ?? 0));
+                        var scuReachable = _cargoCapacity > 0
+                            ? Math.Min(_cargoCapacity, (int)(route.Scu_reachable ?? 0))
+                            : (int)(route.Scu_reachable ?? 0);
+
+                        <MudPaper Class="px-4 py-2 focus" tabindex="0">
+                            <MudStack AlignItems="@AlignItems.Center"
+                                      Class="w-100"
+                                      Row>
+                                <MudStack Style="width: 40%" Row>
+                                    <MudStack>
+                                    <span>
+                                        @route.Origin_terminal_name
+                                    </span>
+                                        <TerminalInventoryStatusLabel
+                                            Model="@(Enum.Parse<TerminalInventoryStatus>(route.Status_destination.ToString() ?? "0"))"
+                                            IsPurchase/>
+                                    </MudStack>
+                                    <MudStack Justify="@Justify.Center"
+                                              Spacing="0">
+                                        <GamePriceLabel
+                                            Model="@priceOrigin"
+                                            Suffix="/SCU"/>
+                                        <span>
+                                        @scuReachable SCU
+                                    </span>
+                                    </MudStack>
+                                </MudStack>
+
+                                <MudStack AlignItems="@AlignItems.Center"
+                                          Justify="@Justify.Center"
+                                          Class="flex-grow-1 mx-4"
+                                          Spacing="0"
+                                          Row>
+                                    <MudText Typo="Typo.inherit" Color="@Color.Error">
+                                        <GamePriceLabel
+                                            Model="@(priceOrigin * scuReachable)"
+                                            Decimals="1"/>
+                                    </MudText>
+
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Class="mx-6"
+                                              Spacing="0">
+                                        <MudText Typo="@Typo.body2" Class="my-n1 no-wrap text-secondary">
+                                            @route.Commodity_name
+                                        </MudText>
+                                        <MudIcon
+                                            Icon="@Icons.Material.Filled.ArrowRightAlt"
+                                            Size="@Size.Large"
+                                            Class="my-n1"/>
+                                        @if (route.Distance is { } distance)
+                                        {
+                                            <MudText Typo="@Typo.body2"
+                                                     Class="my-n1 no-wrap">
+                                                @distance Gm
+                                            </MudText>
+                                        }
+                                    </MudStack>
+
+                                    <MudStack Justify="@Justify.FlexEnd"
+                                              Class="text-right"
+                                              Spacing="0">
+                                        <MudText Typo="Typo.inherit">
+                                            <GamePriceLabel
+                                                Model="@(priceDestination * scuReachable)"
+                                                Decimals="1"/>
+                                        </MudText>
+                                        <MudText Typo="Typo.inherit"
+                                                 Color="@Color.Success"
+                                                 Class="no-wrap">
+                                            <GamePriceLabel
+                                                Model="@(priceDestination * scuReachable - priceOrigin * scuReachable)"
+                                                Prefix="+"
+                                                Decimals="1"/>
+                                        </MudText>
+                                    </MudStack>
+                                </MudStack>
+
+                                <MudStack Style="width: 40%; text-align: right;"
+                                          Justify="@Justify.FlexEnd"
+                                          Row>
+                                    <MudStack Justify="@Justify.Center"
+                                              Spacing="0">
+                                        <MudStack Justify="@Justify.FlexEnd"
+                                                  Row>
+                                            <MudText Typo="Typo.inherit" Color="@Color.Success">
+                                                (+@(((1 - priceOrigin / priceDestination) * 100).ToString("N1"))%)
+                                            </MudText>
+                                            <GamePriceLabel
+                                                Model="@priceDestination"
+                                                Suffix="/SCU"/>
+                                        </MudStack>
+                                        <span>
+                                            @scuReachable SCU
+                                        </span>
+                                    </MudStack>
+                                    <MudStack Style="width: 40%">
+                                        <span>
+                                            @route.Destination_terminal_name
+                                        </span>
+                                        <TerminalInventoryStatusLabel
+                                            Model="@(Enum.Parse<TerminalInventoryStatus>(route.Status_destination.ToString() ?? "0"))"
+                                            IsSale/>
+                                    </MudStack>
+                                </MudStack>
+                            </MudStack>
+                        </MudPaper>
+                    }
+                </MudStack>
+            </MudStack>
+        </MudContainer>
+    </MudMainContent>
+</div>
+
+@code
+{
+    private string _searchText = string.Empty;
+    private readonly int _cargoCapacity = 0;
+    private IGameLocation? _selectedLocation;
+    private UexApiGameEntityId? _filteredPlanetId;
+
+    public ICollection<IGameLocation> AllLocations { get; set; } = [];
+
+    public ICollection<CommodityRouteDTO> AllRoutes { get; set; } = [];
+    public ICollection<CommodityRouteDTO> FilteredRoutes { get; set; } = [];
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        var results = await SearchService.SearchAsync([new EntityCategorySearch(GameEntityCategory.Location)]);
+        AllLocations = results.GameEntities
+            .Select(x => x.Subject)
+            .OfType<IGameLocation>()
+            .Where(x => x is not GameStarSystem)
+            .ToArray();
+
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        UexApiGameEntityId? planetId;
+        if (_selectedLocation is GamePlanet planet)
+        {
+            planetId = planet.Id;
+        }
+        else if (_selectedLocation?.Parents.OfType<GamePlanet>().SingleOrDefault() is { } parentPlanet)
+        {
+            planetId = parentPlanet.Id;
+        }
+        else
+        {
+            AllRoutes = [];
+            return;
+        }
+
+        if (planetId != _filteredPlanetId)
+        {
+            _filteredPlanetId = planetId;
+            var routesResult = await UexCommodities.GetCommoditiesRoutesByPlanetOriginAsync(planetId.Identity.ToString());
+            AllRoutes = routesResult.Result.Data ?? [];
+        }
+
+        FilteredRoutes = AllRoutes
+            .Where(x => x.Commodity_name?.Contains(_searchText, StringComparison.OrdinalIgnoreCase) == true)
+            .Where(x => x.Price_origin > 0)
+            .Where(x => x.Price_destination > x.Price_origin)
+            .OrderBy(x => x.Price_origin - x.Price_destination)
+            .ToArray();
+    }
+
+}

@@ -1,6 +1,8 @@
 @using Humanizer
-<span style="white-space: nowrap">
-    @GameCurrency.Symbol @Model.Amount.ToMetric(MetricNumeralFormats.WithSpace, 3)
+<span class="no-wrap">
+    @Prefix
+    @Model.Amount.ToMetric(MetricNumeralFormats.WithSpace, Decimals)
+    @Suffix
 </span>
 
 @code
@@ -9,5 +11,14 @@
     [Parameter]
     [EditorRequired]
     public required GameCurrency Model { get; set; }
+
+    [Parameter]
+    public string Prefix { get; set; } = GameCurrency.Symbol;
+
+    [Parameter]
+    public string Suffix { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Decimals { get; set; } = 3;
 
 }

@@ -12,10 +12,12 @@
     {
         var moduleShortcut = GetKeyForIndex(moduleIndex);
         var isModuleActive = IsActive(module);
+        var isShortcutAvailable = !isModuleActive && !module.Disabled;
+        var isButtonDisabled = isModuleActive || module.Disabled;
         var updateCount = GetUpdateCount(module);
         <KeyboardShortcutBadge @key="@module.Name"
                                Key="@moduleShortcut"
-                               IsActive="@(!isModuleActive)"
+                               IsActive="@isShortcutAvailable"
                                OnKeyPress="@GetActivationCallbackFor(module)"
                                Origin="@KeybindsOrigin"
                                Elevation="4"
@@ -30,7 +32,7 @@
                            Color="@Color.Primary"
                            StartIcon="@module.Icon"
                            OnClick="@GetActivationCallbackFor(module)"
-                           Disabled="@isModuleActive">
+                           Disabled="@isButtonDisabled">
                     @module.Name
                 </MudButton>
             </MudBadge>

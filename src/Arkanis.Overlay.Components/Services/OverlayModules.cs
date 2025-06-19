@@ -25,6 +25,19 @@ public class OverlayModules
                 return await inventoryManager.GetUnassignedCountAsync();
             },
         },
+        new()
+        {
+            Url = "/trade",
+            Name = "Trade",
+            Icon = Icons.Material.Filled.Storefront,
+        },
+        new()
+        {
+            Url = "/mining",
+            Name = "Mining",
+            Icon = Icons.Material.Filled.Deblur,
+            Disabled = true,
+        },
     ];
 
     public ICollection<Entry> GetAll()
@@ -35,6 +48,7 @@ public class OverlayModules
         public required string Url { get; init; }
         public required string Name { get; init; }
 
+        public bool Disabled { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
 
         public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } = _ => ValueTask.FromResult(0);

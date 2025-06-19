@@ -15,6 +15,10 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
         ? [parent.Id, ..parent.ParentIds]
         : [];
 
+    public IEnumerable<IGameLocation> Parents { get; } = parent is not null
+        ? [parent, ..parent.Parents]
+        : [];
+
     IGameLocation? IGameLocation.ParentLocation
         => Parent;
 
