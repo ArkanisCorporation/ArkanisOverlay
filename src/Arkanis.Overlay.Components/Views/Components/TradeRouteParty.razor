@@ -46,9 +46,21 @@
         <GamePriceLabel
             Model="@Model.Price"
             Suffix="/SCU"/>
-        <span>
-            @Model.CargoUnitsAvailable.ToString("N0") SCU
-        </span>
+        @if (IsOrigin)
+        {
+            <span>
+                @if (Context?.CargoCapacity is var capacity and > 0)
+                {
+                    <span>
+                        @Math.Min(capacity.Value, Model.CargoUnitsAvailable)/
+                    </span>
+                }
+                <span>
+                    @Model.CargoUnitsAvailable.ToString("N0")
+                    SCU
+                </span>
+            </span>
+        }
     </MudStack>
 </MudStack>
 
@@ -69,6 +81,9 @@
 
     private bool IsDestination
         => Side == PartySide.Destination;
+
+    [CascadingParameter]
+    public TradeView.SearchContext? Context { get; set; }
 
     [Parameter]
     [EditorRequired]

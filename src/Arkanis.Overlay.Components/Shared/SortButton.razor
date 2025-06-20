@@ -1,0 +1,60 @@
+<span @onclick="ToggleDirection"
+      @onclick:preventDefault="true"
+      @onclick:stopPropagation="true"
+      @oncontextmenu="ToggleDirection"
+      @oncontextmenu:preventDefault="true"
+      @oncontextmenu:stopPropagation="true">
+    <MudButton StartIcon="@Icon"
+               Color="@Color"
+               ClickPropagation="true">
+        @ChildContent
+    </MudButton>
+</span>
+
+@code
+{
+
+    private Color Color
+        => Direction == SortDirection.None
+            ? Color.Inherit
+            : Color.Success;
+
+    private string Icon
+        => Direction switch
+        {
+            SortDirection.Ascending => Icons.Material.Filled.KeyboardArrowUp,
+            SortDirection.Descending => Icons.Material.Filled.KeyboardArrowDown,
+            _ => Icons.Material.Filled.Sort,
+        };
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public SortDirection Direction { get; set; }
+
+    [Parameter]
+    public EventCallback<SortDirection> DirectionChanged { get; set; }
+
+    private async Task ToggleDirection(MouseEventArgs args)
+    {
+        Direction = Direction switch
+        {
+            _ when args.Button == 2 => SortDirection.None,
+            SortDirection.Ascending => SortDirection.Descending,
+            SortDirection.Descending => SortDirection.Ascending,
+            _ => SortDirection.Descending,
+        };
+
+        await DirectionChanged.InvokeAsync(Direction);
+    }
+
+    public enum SortDirection
+    {
+        None,
+        Ascending,
+        Descending,
+    }
+
+}

@@ -4,6 +4,7 @@ using System.ComponentModel;
 
 public enum TerminalInventoryStatus
 {
+    [Description("Unknown Inventory Status")]
     Unknown = 0,
 
     [Description("Out of Stock (Empty)")]

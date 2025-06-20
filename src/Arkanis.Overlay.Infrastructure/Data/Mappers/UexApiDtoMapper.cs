@@ -308,8 +308,10 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameTerminal MapInternal(UniverseTerminalDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapperIgnoreTarget(nameof(GameCommodity.IsLegal))]
     [MapProperty(nameof(CommodityDTO.Name), "fullName")]
     [MapProperty(nameof(CommodityDTO.Code), "codeName")]
+    [MapProperty(nameof(CommodityDTO.Is_illegal), nameof(GameCommodity.IsIllegal))]
     private partial GameCommodity MapInternal(CommodityDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
