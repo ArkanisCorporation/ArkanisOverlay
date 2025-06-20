@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Components.Views.Components
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Enums
 @using Arkanis.Overlay.Domain.Models.Search
@@ -47,10 +48,21 @@
     <MudStack Spacing="6"
               Justify="@Justify.FlexStart"
               AlignItems="@AlignItems.Center">
-        <MudPaper Style="position: sticky; top: 0; z-index: 100"
+        <div style="padding: 2vh"></div>
+        <MudPaper Style="position: sticky; top: 0; z-index: 100; min-width: 60vw"
                   Elevation="4"
                   Class="py-2 px-4">
             <MudGrid>
+                <MudItem xs="12" md="3">
+                    <MudTextField
+                        @bind-Value="@_cargoCapacity"
+                        InputType="@InputType.Number"
+                        DebounceInterval="200"
+                        OnDebounceIntervalElapsed="RefreshDataAsync"
+                        Label="Cargo capacity"
+                        Placeholder="Used ship capacity"
+                        Clearable/>
+                </MudItem>
                 <MudItem xs="12" md="3">
                     <MudTextField
                         @bind-Value="@_searchText"
@@ -91,50 +103,40 @@
                 var priceOrigin = route.Origin.Price;
                 var priceDestination = route.Destination.Price;
                 var scuReachable = _cargoCapacity > 0
-                    ? Math.Min(_cargoCapacity, route.Origin.CargoUnitsAvailable)
+                    ? Math.Min(_cargoCapacity.Value, route.Origin.CargoUnitsAvailable)
                     : route.Origin.CargoUnitsAvailable;
 
-                <MudPaper Class="px-4 focus" tabindex="0">
-                    <MudStack AlignItems="@AlignItems.Center"
-                              Class="w-100"
-                              Row>
-                        <MudStack Row>
-                            <MudStack Spacing="0">
-                                <GameEntityNameLabel
-                                    Model="@route.Origin.Terminal.Name"/>
-                                <TerminalInventoryStatusLabel
-                                    Model="@route.Origin.InventoryStatus"
-                                    IsPurchase/>
-                            </MudStack>
+                <MudPaper Class="px-4 py-2 focus" tabindex="0">
+                    <div style="display: grid; grid-template-columns: 4fr 1fr 1fr 1fr 4fr min-content;">
+                        <div style="grid-column: 1">
+                            <TradeRouteParty
+                                Model="@route.Origin"
+                                Route="@route"
+                                Side="@TradeRouteParty.PartySide.Origin"
+                                Spacing="6"/>
+                        </div>
+                        <div style="grid-column: 2">
                             <MudStack Justify="@Justify.Center"
+                                      AlignItems="@AlignItems.End"
+                                      Class="text-right h-100"
                                       Spacing="0">
-                                <GamePriceLabel
-                                    Model="@priceOrigin"
-                                    Suffix="/SCU"/>
-                                <span>
-                                    @scuReachable SCU
-                                </span>
+                                <MudText Typo="Typo.inherit" Color="@Color.Error">
+                                    <GamePriceLabel
+                                        Model="@(priceOrigin * scuReachable)"
+                                        Decimals="1"/>
+                                </MudText>
                             </MudStack>
-                        </MudStack>
-
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Class="flex-grow-1 mx-4"
-                                  Style="width: 15%"
-                                  Spacing="0"
-                                  Row>
-                            <MudText Typo="Typo.inherit" Color="@Color.Error">
-                                <GamePriceLabel
-                                    Model="@(priceOrigin * scuReachable)"
-                                    Decimals="1"/>
-                            </MudText>
-
+                        </div>
+                        <div style="grid-column: 3">
                             <MudStack AlignItems="@AlignItems.Center"
                                       Class="mx-6"
                                       Spacing="0">
                                 <MudText Typo="@Typo.body2" Class="my-n1 no-wrap text-secondary">
                                     <GameEntityNameLabel
-                                        Model="@route.Commodity.Name"/>
+                                        Typo="@Typo.inherit"
+                                        Model="@route.Commodity.Name"
+                                        Style="height: initial"
+                                        PreferCode/>
                                 </MudText>
                                 <MudIcon
                                     Icon="@Icons.Material.Filled.ArrowRightAlt"
@@ -148,9 +150,11 @@
                                     </MudText>
                                 }
                             </MudStack>
-
-                            <MudStack Justify="@Justify.FlexEnd"
-                                      Class="text-right"
+                        </div>
+                        <div style="grid-column: 4">
+                            <MudStack Justify="@Justify.Center"
+                                      AlignItems="@AlignItems.End"
+                                      Class="text-right h-100"
                                       Spacing="0">
                                 <MudText Typo="Typo.inherit">
                                     <GamePriceLabel
@@ -166,36 +170,37 @@
                                         Decimals="1"/>
                                 </MudText>
                             </MudStack>
-                        </MudStack>
+                        </div>
+                        <div style="grid-column: 5">
+                            <TradeRouteParty
+                                Model="@route.Destination"
+                                Route="@route"
+                                Side="@TradeRouteParty.PartySide.Destination"
+                                Class="flex-grow-1"
+                                Spacing="6"/>
+                        </div>
+                        <div style="grid-column: 6">
+                            <MudStack Spacing="2"
+                                      AlignItems="@AlignItems.Center"
+                                      Justify="@Justify.FlexEnd"
+                                      Class="h-100 ml-3 mr-n2"
+                                      Row>
 
-                        <MudStack Style="text-align: right;"
-                                  Justify="@Justify.FlexEnd"
-                                  Row>
-                            <MudStack Justify="@Justify.Center"
-                                      Spacing="0">
-                                <MudStack Justify="@Justify.FlexEnd"
-                                          Row>
-                                    <MudText Typo="Typo.inherit" Color="@Color.Success">
-                                        (+@(((1 - priceOrigin / priceDestination) * 100).ToString("N1"))%)
-                                    </MudText>
-                                    <GamePriceLabel
-                                        Model="@priceDestination"
-                                        Suffix="/SCU"/>
-                                </MudStack>
-                                <span>
-                                    @scuReachable SCU
-                                </span>
+                                <MudDivider
+                                    FlexItem
+                                    Vertical/>
+
+                                <MudTooltip
+                                    Text="@("Show matching results within/at")"
+                                    Placement="@Placement.Top">
+                                    <MudIconButton
+                                        Icon="@Icons.Material.Filled.AirlineStops"
+                                        Class="focus"
+                                        tabindex="1"/>
+                                </MudTooltip>
                             </MudStack>
-                            <MudStack Style="width: 40%"
-                                      Spacing="0">
-                                <GameEntityNameLabel
-                                    Model="@route.Destination.Terminal.Name"/>
-                                <TerminalInventoryStatusLabel
-                                    Model="@route.Destination.InventoryStatus"
-                                    IsSale/>
-                            </MudStack>
-                        </MudStack>
-                    </MudStack>
+                        </div>
+                    </div>
                 </MudPaper>
             }
         </MudStack>
@@ -205,7 +210,7 @@
 @code
 {
     private string _searchText = string.Empty;
-    private readonly int _cargoCapacity = 0;
+    private int? _cargoCapacity;
     private IGameLocation? _selectedLocation;
 
     public ICollection<IGameLocation> AllLocations { get; set; } = [];
@@ -232,7 +237,7 @@
         FilteredRoutes = await TradeRouteRepository.GetAllAsync()
             .Where(x => _selectedLocation is null || _selectedLocation.Contains(x.Origin.Terminal) || _selectedLocation.Contains(x.Destination.Terminal))
             .Where(x => x.Destination.Price > x.Origin.Price)
-            .OrderByDescending(x => x.PriceReturnOnInvestmentPercent)
+            .OrderByDescending(x => x.PriceReturnOnInvestmentPercent * x.Origin.Price.Amount)
             .Take(10)
             .ToArrayAsync();
     }

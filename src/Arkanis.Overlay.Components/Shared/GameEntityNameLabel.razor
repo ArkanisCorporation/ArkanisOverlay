@@ -5,7 +5,9 @@
             <GameLocationNamePart Model="@locationReference"/>
         </div>
     }
-    <MudStack Style="@MainContentStyle" Spacing="1" Row>
+    <MudStack Style="@MainContentStyle"
+              Spacing="1"
+              Row>
         @if (Model.Company is { } companyReference)
         {
             <div class="d-flex text-secondary flex-truncate">
@@ -14,7 +16,9 @@
         }
         <GameEntityNamePart
             Class="no-wrap"
+            Typo="@Typo"
             Model="@Model.MainContent"
+            PreferCode="PreferCode"
             Embedded="@Embedded"/>
     </MudStack>
     @if (Model.Properties is { Count: > 0 } properties && !Embedded)
@@ -35,14 +39,24 @@
 {
 
     private string MainContentStyle
-        => Model.Location is not null || Model.Properties is { Count: > 0 }
-            ? "height: 40px;"
-            : "height: 56px;";
+        => Style
+           ?? (Model.Location is not null || Model.Properties is { Count: > 0 }
+               ? "height: 40px;"
+               : "height: 56px;");
 
     [Parameter]
     public required GameEntityName Model { get; set; }
 
     [Parameter]
+    public Typo? Typo { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public bool PreferCode { get; set; }
 
 }

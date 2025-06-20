@@ -1,0 +1,100 @@
+<MudStack Style="@MainWrapperStyle"
+          Class="@Class"
+          Justify="@Justify.SpaceBetween"
+          Reverse="@IsDestination"
+          Spacing="Spacing"
+          Row>
+    <MudStack Spacing="0">
+        <div style="height: 28px;">
+            <GameLocationNamePart Model="@Model.Terminal.Name.Location"
+                                  Reverse="@IsDestination">
+                <SuffixContent>
+                    @GameLocationNamePart.Separator
+                    <GameEntityNamePart
+                        Model="@Model.Terminal.Name.MainContent"
+                        Style="height: initial; font-size: inherit;"
+                        Typo="@Typo.inherit"
+                        PreferCode
+                        Embedded/>
+                </SuffixContent>
+            </GameLocationNamePart>
+        </div>
+        <TerminalInventoryStatusLabel
+            Model="@Model.InventoryStatus"
+            IsPurchase="@IsOrigin"
+            IsSale="@IsDestination"/>
+    </MudStack>
+    <MudStack Justify="@Justify.Center"
+              Class="text-right text-secondary"
+              Spacing="0">
+        @if (IsDestination)
+        {
+            var priceDiff = PriceDestination / PriceOrigin - 1;
+            if (priceDiff > 0)
+            {
+                <MudText Typo="Typo.inherit" Color="@Color.Success">
+                    +@((priceDiff * 100).ToString("N1"))%
+                </MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.inherit" Color="@Color.Error">
+                    @((priceDiff * 100).ToString("N1"))%
+                </MudText>
+            }
+        }
+        <GamePriceLabel
+            Model="@Model.Price"
+            Suffix="/SCU"/>
+        <span>
+            @Model.CargoUnitsAvailable.ToString("N0") SCU
+        </span>
+    </MudStack>
+</MudStack>
+
+@code
+{
+
+    private GameCurrency PriceOrigin
+        => Route.Origin.Price;
+
+    private GameCurrency PriceDestination
+        => Route.Destination.Price;
+
+    private string MainWrapperStyle
+        => $"text-align: {(Side == PartySide.Origin ? "left" : "right")}; {Style}";
+
+    private bool IsOrigin
+        => Side == PartySide.Origin;
+
+    private bool IsDestination
+        => Side == PartySide.Destination;
+
+    [Parameter]
+    [EditorRequired]
+    public required GameTradeRoute.Party Model { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required GameTradeRoute Route { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required PartySide Side { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; } = 3;
+
+    public enum PartySide
+    {
+        Origin,
+        Destination,
+    }
+
+}
