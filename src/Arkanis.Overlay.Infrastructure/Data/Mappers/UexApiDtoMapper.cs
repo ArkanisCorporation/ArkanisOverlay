@@ -39,6 +39,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             CompanyDTO company => ToGameEntity(company),
             CategoryDTO category => ToGameEntity(category),
             VehicleDTO vehicle => ToGameEntity(vehicle),
+            CommodityRouteDTO tradeRoute => ToGameEntity(tradeRoute),
             ItemPriceBriefDTO itemPrice => ToGameEntity(itemPrice),
             CommodityPriceBriefDTO commodityPrice => ToGameEntity(commodityPrice),
             VehiclePurchasePriceBriefDTO vehiclePurchasePrice => ToGameEntity(vehiclePurchasePrice),
@@ -67,6 +68,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             CompanyDTO => UexApiGameEntityId.Create<GameCompany>(getSourceId(source) ?? 0),
             CategoryDTO => UexApiGameEntityId.Create<GameProductCategory>(getSourceId(source) ?? 0),
             VehicleDTO => UexApiGameEntityId.Create<GameVehicle>(getSourceId(source) ?? 0),
+            CommodityRouteDTO => UexApiGameEntityId.Create<GameTradeRoute>(getSourceId(source) ?? 0),
             ItemPriceBriefDTO => UexApiGameEntityId.Create<IPriceOf<GameItem, GameEntityTradePrice>>(getSourceId(source) ?? 0),
             CommodityPriceBriefDTO => UexApiGameEntityId.Create<IPriceOf<GameCommodity, GameEntityTradePrice>>(getSourceId(source) ?? 0),
             VehiclePurchasePriceBriefDTO => UexApiGameEntityId.Create<IPriceOf<GameVehicle, GameEntityPurchasePrice>>(getSourceId(source) ?? 0),
@@ -187,6 +189,14 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     }
 
     [UserMapping(Default = true)]
+    private GameTradeRoute ToGameEntity(CommodityRouteDTO source)
+    {
+        var result = MapInternal(source);
+        CacheGameEntity(result);
+        return result;
+    }
+
+    [UserMapping(Default = true)]
     private GameEntityPrice ToGameEntity(CommodityPriceBriefDTO source)
     {
         var purchaseResult = MapInternal(source);
@@ -291,6 +301,9 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(UniverseTerminalDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseTerminalDTO.Nickname), "shortName")]
     [MapProperty(nameof(UniverseTerminalDTO.Code), "codeName")]
+    [MapProperty(nameof(UniverseTerminalDTO.Is_available_live), nameof(GameTerminal.IsAvailable))]
+    [MapProperty(nameof(UniverseTerminalDTO.Is_auto_load), nameof(GameTerminal.IsAutoLoad))]
+    [MapProperty(nameof(UniverseTerminalDTO.Max_container_size), nameof(GameTerminal.MaxContainerSize))]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForTerminal))]
     private partial GameTerminal MapInternal(UniverseTerminalDTO source);
 
@@ -334,6 +347,26 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(VehicleDTO.Name), "shortName")]
     [MapPropertyFromSource("manufacturer", Use = nameof(GetCompanyForVehicle))]
     private partial GameGroundVehicle MapInternalGroundVehicle(VehicleDTO source);
+
+    [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapProperty(nameof(CommodityRouteDTO.Price_margin), nameof(GameTradeRoute.PriceMarginPercent))]
+    [MapProperty(nameof(CommodityRouteDTO.Price_roi), nameof(GameTradeRoute.PriceReturnOnInvestmentPercent))]
+    [MapPropertyFromSource(nameof(GameTradeRoute.Commodity), Use = nameof(GetCommodityForTradeRoute))]
+    [MapPropertyFromSource(nameof(GameTradeRoute.Origin), Use = nameof(MapTradeRouteOriginParty))]
+    [MapPropertyFromSource(nameof(GameTradeRoute.Destination), Use = nameof(MapTradeRouteDestinationParty))]
+    private partial GameTradeRoute MapInternal(CommodityRouteDTO source);
+
+    [MapPropertyFromSource(nameof(GameTradeRoute.Party.Terminal), Use = nameof(GetOriginTerminalForTradeRoute))]
+    [MapProperty(nameof(CommodityRouteDTO.Price_origin), nameof(GameTradeRoute.Party.Price))]
+    [MapProperty(nameof(CommodityRouteDTO.Scu_origin), nameof(GameTradeRoute.Party.CargoUnitsAvailable))]
+    [MapProperty(nameof(CommodityRouteDTO.Status_origin), nameof(GameTradeRoute.Party.InventoryStatus))]
+    private partial GameTradeRoute.Party MapTradeRouteOriginParty(CommodityRouteDTO source);
+
+    [MapPropertyFromSource(nameof(GameTradeRoute.Party.Terminal), Use = nameof(GetDestinationTerminalForTradeRoute))]
+    [MapProperty(nameof(CommodityRouteDTO.Price_destination), nameof(GameTradeRoute.Party.Price))]
+    [MapProperty(nameof(CommodityRouteDTO.Scu_destination), nameof(GameTradeRoute.Party.CargoUnitsAvailable))]
+    [MapProperty(nameof(CommodityRouteDTO.Status_destination), nameof(GameTradeRoute.Party.InventoryStatus))]
+    private partial GameTradeRoute.Party MapTradeRouteDestinationParty(CommodityRouteDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
     [MapPropertyFromSource(nameof(GameEntityPrice.Id), Use = nameof(GetEntityIdForCommodityPrice))]
@@ -394,6 +427,11 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [UserMapping(Default = true)]
     private static GameCurrency MapInternalMoney(double? amount)
         => new((int)(amount ?? 0));
+
+    [UserMapping(Default = true)]
+    private static bool MapInternalBoolean(double? boolean)
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        => boolean == 1;
 
     [UserMapping(Default = true)]
     private static DateTimeOffset MapInternalDate(double? timestamp)
@@ -503,6 +541,18 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
         {
             Type = GameTerminalType.Undefined,
         };
+
+    private GameTerminal GetOriginTerminalForTradeRoute(CommodityRouteDTO commodityRoute)
+        => ResolveCachedGameEntity<GameTerminal>(commodityRoute.Id_terminal_origin)
+           ?? ThrowMissingMappingException<GameTerminal, CommodityRouteDTO>(commodityRoute.Id_terminal_origin);
+
+    private GameTerminal GetDestinationTerminalForTradeRoute(CommodityRouteDTO commodityRoute)
+        => ResolveCachedGameEntity<GameTerminal>(commodityRoute.Id_terminal_destination)
+           ?? ThrowMissingMappingException<GameTerminal, CommodityRouteDTO>(commodityRoute.Id_terminal_destination);
+
+    private GameCommodity GetCommodityForTradeRoute(CommodityRouteDTO commodityRoute)
+        => ResolveCachedGameEntity<GameCommodity>(commodityRoute.Id_commodity)
+           ?? ThrowMissingMappingException<GameCommodity, CommodityRouteDTO>(commodityRoute.Id_commodity);
 
     private GameCommodity GetCommodityForPrice(CommodityPriceBriefDTO commodityPrice)
         => ResolveCachedGameEntity<GameCommodity>(commodityPrice.Id_commodity)
