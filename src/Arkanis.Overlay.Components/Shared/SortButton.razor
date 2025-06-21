@@ -1,3 +1,5 @@
+@typeparam T where T : notnull
+
 <span @onclick="ToggleDirection"
       @onclick:preventDefault="true"
       @onclick:stopPropagation="true"
@@ -15,21 +17,34 @@
 {
 
     private Color Color
-        => Direction == SortDirection.None
+        => Direction == SortDirection.None || !IsActive
             ? Color.Inherit
             : Color.Success;
 
     private string Icon
         => Direction switch
         {
-            SortDirection.Ascending => Icons.Material.Filled.KeyboardArrowUp,
-            SortDirection.Descending => Icons.Material.Filled.KeyboardArrowDown,
+            SortDirection.Ascending when IsActive => Icons.Material.Filled.KeyboardArrowUp,
+            SortDirection.Descending when IsActive => Icons.Material.Filled.KeyboardArrowDown,
             _ => Icons.Material.Filled.Sort,
         };
+
+    private bool IsActive
+        => TargetField.Equals(ActiveField);
 
     [Parameter]
     [EditorRequired]
     public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required T TargetField { get; set; }
+
+    [Parameter]
+    public T? ActiveField { get; set; }
+
+    [Parameter]
+    public EventCallback<T?> ActiveFieldChanged { get; set; }
 
     [Parameter]
     public SortDirection Direction { get; set; }
@@ -37,17 +52,41 @@
     [Parameter]
     public EventCallback<SortDirection> DirectionChanged { get; set; }
 
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
     private async Task ToggleDirection(MouseEventArgs args)
     {
-        Direction = Direction switch
+        var newDirection = Direction switch
         {
             _ when args.Button == 2 => SortDirection.None,
-            SortDirection.Ascending => SortDirection.Descending,
-            SortDirection.Descending => SortDirection.Ascending,
+            SortDirection.Ascending when IsActive => SortDirection.Descending,
+            SortDirection.Descending when IsActive => SortDirection.Ascending,
             _ => SortDirection.Descending,
         };
 
+        if (newDirection == SortDirection.None)
+        {
+            if (!IsActive)
+            {
+                return;
+            }
+        }
+
+        Direction = newDirection;
         await DirectionChanged.InvokeAsync(Direction);
+
+        if (Direction == SortDirection.None)
+        {
+            // the current field was active, so remove it
+            await ActiveFieldChanged.InvokeAsync(default);
+        }
+        else
+        {
+            await ActiveFieldChanged.InvokeAsync(TargetField);
+        }
+
+        await OnChange.InvokeAsync();
     }
 
     public enum SortDirection

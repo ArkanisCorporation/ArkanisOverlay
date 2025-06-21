@@ -117,10 +117,22 @@
                     </MudStack>
                 </MudItem>
                 <MudItem xs="12" md="5">
-                    <SortButton>
-                        ROI
+                    <SortButton TargetField="@SortField.Profit"
+                                @bind-ActiveField="@_sortBy"
+                                @bind-Direction="@_sortDirection"
+                                OnChange="@RefreshDataAsync">
+                        Profit
                     </SortButton>
-                    <SortButton>
+                    <SortButton TargetField="@SortField.Margin"
+                                @bind-ActiveField="@_sortBy"
+                                @bind-Direction="@_sortDirection"
+                                OnChange="@RefreshDataAsync">
+                        Margin
+                    </SortButton>
+                    <SortButton TargetField="@SortField.Distance"
+                                @bind-ActiveField="@_sortBy"
+                                @bind-Direction="@_sortDirection"
+                                OnChange="@RefreshDataAsync">
                         Distance
                     </SortButton>
                 </MudItem>
@@ -249,6 +261,9 @@
     private bool _onlySpaceLocations;
     private bool _onlyAutoLoadLocations;
 
+    private SortField _sortBy;
+    private SortButton<SortField>.SortDirection _sortDirection;
+
     private IGameEntity? _selectedCommodityEntity;
     private IGameEntity? _selectedOriginLocationEntity;
     private IGameEntity? _selectedDestinationLocationEntity;
@@ -321,15 +336,28 @@
             .Distinct()
             .ToArray();
 
+        var orderByDirection = _sortDirection == SortButton<SortField>.SortDirection.Descending || _sortBy == SortField.None
+            ? OrderByDirection.Descending
+            : OrderByDirection.Ascending;
+
         FilteredRoutes = AllRoutes
             .Where(FilterByOrigin)
             .Where(FilterByDestination)
             .Where(FilterByCommodity)
             .Where(FilterByPropertiesOrigin)
-            .OrderByDescending(x => x.PriceReturnOnInvestmentPercent * x.Origin.Price.Amount)
+            .OrderBy(Order, orderByDirection)
             .Take(25)
             .ToArray();
     }
+
+    private double Order(GameTradeRoute x)
+        => _sortBy switch
+        {
+            SortField.Margin => x.PriceMarginPercent,
+            SortField.Distance => x.Distance ?? double.MaxValue,
+            SortField.Profit => Math.Min(_context.CargoCapacity ?? int.MaxValue, x.Origin.CargoUnitsAvailable) * (x.Destination.Price.Amount - x.Origin.Price.Amount),
+            _ => x.PriceReturnOnInvestmentPercent * x.Origin.Price.Amount,
+        };
 
     bool FilterByOrigin(GameTradeRoute x)
         => SelectedOriginLocation is null || SelectedOriginLocation.IsOrContains(x.Origin.Terminal);
@@ -352,5 +380,13 @@
         public GameCommodity? Commodity { get; set; }
         public IGameLocation? OriginLocation { get; set; }
         public IGameLocation? DestinationLocation { get; set; }
+    }
+
+    public enum SortField
+    {
+        None,
+        Margin,
+        Profit,
+        Distance,
     }
 }
