@@ -5,8 +5,8 @@
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
-    .mud-main-content .mud-paper,
-    .mud-main-content .mud-expansion-panels {
+    .mud-paper,
+    .mud-expansion-panels {
         animation: 250ms fadeInDown;
     }
 
@@ -18,26 +18,16 @@
         overflow: visible !important;
     }
 
-    .mud-tabs-tabbar-content .mud-badge.mud-badge-top.center.mud-badge-overlap {
-        bottom: calc(100% - 8px);
+    .mud-expand-panel:not(:last-child).mud-expand-panel-border {
+        border-bottom: 1px solid var(--mud-palette-lines-default) !important;
     }
 
-    .mud-tabs-tabbar .mud-tabs-scroll-button {
-        display: none;
+    .mud-expand-panel.mud-panel-expanded {
+        margin-bottom: 0;
     }
 
-    .mud-tabs-tabbar-wrapper {
-        display: flex !important;
-        width: 100% !important;
-        transform: none !important;
-    }
-
-    .mud-tabs-tabbar-wrapper .mud-badge-root {
-        width: 100%;
-    }
-
-    .mud-tabs-tabbar-wrapper > * {
-        flex: 1;
+    .mud-expand-panel-content {
+        padding-bottom: 0 !important;
     }
 </style>
 

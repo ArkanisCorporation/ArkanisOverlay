@@ -16,30 +16,12 @@
         display: none;
     }
 
-    .mud-tabs-tabbar-content {
-        overflow: visible !important;
-    }
-
     .mud-tabs-tabbar-content .mud-badge.mud-badge-top.center.mud-badge-overlap {
         bottom: calc(100% - 8px);
     }
 
     .mud-tabs-tabbar .mud-tabs-scroll-button {
         display: none;
-    }
-
-    .mud-tabs-tabbar-wrapper {
-        display: flex !important;
-        width: 100% !important;
-        transform: none !important;
-    }
-
-    .mud-tabs-tabbar-wrapper .mud-badge-root {
-        width: 100%;
-    }
-
-    .mud-tabs-tabbar-wrapper > * {
-        flex: 1;
     }
 </style>
 
@@ -231,7 +213,8 @@
                 </MudExpansionPanels>
 
                 <MudPaper>
-                    <MudTabs @bind-ActivePanelIndex="@_activePanelIndex"
+                    <MudTabs Class="with-badges"
+                             @bind-ActivePanelIndex="@_activePanelIndex"
                              AlwaysShowScrollButtons="false"
                              Rounded>
                         <MudTabPanel>

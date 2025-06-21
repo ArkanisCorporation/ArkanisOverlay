@@ -123,3 +123,23 @@
 .mud-data-grid .flex-row-reverse > .column-header {
     flex-direction: row-reverse;
 }
+
+.mud-tabs.with-badges {
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-tabs-tabbar-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    .mud-tabs-tabbar-wrapper .mud-badge-root {
+        width: 100%;
+    }
+
+    .mud-tabs-tabbar-wrapper > * {
+        flex: 1;
+    }
+}
