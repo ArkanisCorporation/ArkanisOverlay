@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using Domain.Abstractions.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
@@ -73,6 +74,9 @@ public class OverlayModules
 
         public bool Disabled { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
+
+        public string GetAbsoluteUri(NavigationManager  navigationManager)
+            => navigationManager.ToAbsoluteUri(Url).ToString();
 
         public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } = _ => ValueTask.FromResult(0);
     }

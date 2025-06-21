@@ -71,6 +71,13 @@
 
     private Timer? _timer;
     private readonly ConcurrentDictionary<string, int> _moduleUpdates = [];
+    private string? _currentUri;
+
+    private string CurrentUri
+    {
+        get => _currentUri ?? NavigationManager.Uri;
+        set => _currentUri = value;
+    }
 
     private int ActiveModuleIndex
         => OverlayModules.GetAll()
@@ -101,7 +108,7 @@
     public bool DoNotOverlapUpdates { get; set; }
 
     private bool IsActive(OverlayModules.Entry module)
-        => NavigationManager.Uri.StartsWith(NavigationManager.ToAbsoluteUri(module.Url).ToString());
+        => CurrentUri.StartsWith(module.GetAbsoluteUri(NavigationManager));
 
     protected override void OnInitialized()
     {
@@ -136,7 +143,10 @@
     }
 
     private void OnLocationChangedAsync(object? _, LocationChangedEventArgs e)
-        => UpdateDataAsync(null);
+    {
+        CurrentUri = e.Location;
+        UpdateDataAsync(null);
+    }
 
     private KeyboardKey GetKeyForIndex(int index)
         => index < 12
@@ -147,7 +157,10 @@
         => EventCallback.Factory.Create(this, () => Activate(module));
 
     private void Activate(OverlayModules.Entry module)
-        => NavigationManager.NavigateTo(module.Url);
+    {
+        CurrentUri = module.GetAbsoluteUri(NavigationManager);
+        NavigationManager.NavigateTo(module.Url);
+    }
 
     private int GetUpdateCount(OverlayModules.Entry module)
         => _moduleUpdates.GetValueOrDefault(module.Name);
