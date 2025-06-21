@@ -124,6 +124,17 @@
     flex-direction: row-reverse;
 }
 
+:not(:hover) * .visible-on-parent-hover {
+    display: none !important;
+}
+
+.mud-tabs {
+    .mud-chip.mud-chip-size-small {
+        margin: 0;
+        height: 20px;
+    }
+}
+
 .mud-tabs.with-badges {
     .mud-tabs-tabbar-content {
         overflow: visible !important;

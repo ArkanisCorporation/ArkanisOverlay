@@ -1,0 +1,662 @@
+@inject IGameEntityRepository<GameTradeRoute> TradeRouteRepository
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-expand-panel-text {
+        max-width: 100%;
+    }
+
+    .mud-stepper {
+        .mud-stepper-content > .d-flex[role="group"] {
+            height: 33vh;
+        }
+    }
+</style>
+
+<MudContainer>
+    <MudPaper>
+        <div class="pa-4">
+            <MudStack AlignItems="@AlignItems.Center"
+                      Class="mr-4"
+                      Row>
+                <MudChip
+                    T="int"
+                    Value="4"
+                    Color="@Color.Info"/>
+                <MudText Typo="@Typo.h4">
+                    Trades In Progress
+                </MudText>
+            </MudStack>
+            <MudText Typo="@Typo.body1"
+                     Style="max-width: 100%;"
+                     Class="px-2">
+                All of the items below have been added during a recent play session.
+                However, they have not yet been assigned a permanent storage within the universe.
+                Please review the inventory table below and either remove or transfer the entries to
+                a designated permanent storage.
+            </MudText>
+        </div>
+        <MudDivider/>
+        <MudExpansionPanels Gutters="false">
+            @{ var panelIndex = 0; }
+            @foreach (var route in Routes.Take(4))
+            {
+                <MudExpansionPanel Gutters="false"
+                                   Expanded="@(panelIndex++ == 0)">
+                    <TitleContent>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Class="mr-4"
+                                  Row>
+                            <MudChip T="string">
+                                <QuantityLabel
+                                    Model="@(new Quantity(route.Origin.CargoUnitsAvailable, Quantity.UnitType.StandardCargoUnit))"/>
+                            </MudChip>
+                            <MudStack Spacing="0"
+                                      Class="flex-truncate">
+                                <GameEntityNameLabel
+                                    Model="@route.Name"
+                                    Style=""/>
+                                <MudText Typo="@Typo.body2" Class="text-secondary">
+                                    Currently: Travelling to destination terminal
+                                </MudText>
+                            </MudStack>
+                            <MudIconButton
+                                Class="visible-on-parent-hover"
+                                Color="@Color.Warning"
+                                Icon="@Icons.Material.Filled.Edit"/>
+                            <MudIconButton
+                                Class="visible-on-parent-hover"
+                                Color="@Color.Error"
+                                Icon="@Icons.Material.Filled.DeleteForever"/>
+                            <MudSpacer/>
+                            <MudStack AlignItems="@AlignItems.End" Spacing="0"
+                                      Class="h-100">
+                                <MudText Typo="@Typo.h6" Color="@Color.Error" Class="mb-n3">
+                                    <GamePriceLabel
+                                        Model="@(route.Origin.Price * route.Origin.CargoUnitsAvailable)"/>
+                                </MudText>
+                                <MudText Typo="@Typo.h6" Color="@Color.Success">
+                                    <GamePriceLabel
+                                        Model="@(route.Destination.Price * route.Origin.CargoUnitsAvailable)"/>
+                                </MudText>
+                            </MudStack>
+                        </MudStack>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudDivider/>
+                        <MudStepper>
+                            <ChildContent>
+                                <MudStep Title="Reach origin"
+                                         Style="background-size: cover; background-image: url(https://d3a1t0pe7zmm0w.cloudfront.net/terminals/443/images/3dbebf093ab1c6a6139cd3522a1ed7b3a2f96eae.jpg);  background-color: rgba(0,0,0,0.75); background-blend-mode: overlay;">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Travel
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Reach the origin purchase terminal at
+                                            </MudText>
+                                        </MudStack>
+                                        <GameEntityNameLabel
+                                            Model="@route.Origin.Terminal.Name"/>
+                                        <div>
+                                            <MudButton StartIcon="@MaterialIcons.Filled.LocationPin"
+                                                       Color="@Color.Success"
+                                                       Size="@Size.Large">
+                                                I am at the terminal
+                                            </MudButton>
+                                        </div>
+                                    </MudStack>
+                                </MudStep>
+                                <MudStep Title="Obtain cargo">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Purchase
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Make a purchase of the selected commodity
+                                            </MudText>
+                                        </MudStack>
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="6"
+                                                  Row>
+                                            <GameEntityNameLabel
+                                                Model="@route.Commodity.Name"/>
+                                            <MudText>
+                                                with max. container size of
+                                            </MudText>
+                                            <MudText Typo="@Typo.h5">
+                                                @route.Destination.MaxContainerSize.Humanize()
+                                            </MudText>
+                                        </MudStack>
+                                        <MudGrid Style="min-width: 400px; max-width: 75%;">
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="Quantity purchased (SCU)"
+                                                    Value="@route.Origin.CargoUnitsAvailable"
+                                                    InputType="@InputType.Number"
+                                                    Required/>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="Purchase price (per SCU)"
+                                                    Value="@route.Origin.Price.Amount"
+                                                    InputType="@InputType.Number"
+                                                    Required/>
+                                            </MudItem>
+                                            <MudItem xs="12" md="4">
+                                                <MudStack AlignItems="@AlignItems.End"
+                                                          Justify="@Justify.Center"
+                                                          Class="h-100">
+                                                    <MudText Typo="@Typo.h6"
+                                                             Color="@Color.Error">
+                                                        =
+                                                        <GamePriceLabel
+                                                            Model="@(route.Origin.Price * route.Origin.CargoUnitsAvailable)"/>
+                                                    </MudText>
+                                                </MudStack>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="5">
+                                                <MudSelect T="TerminalInventoryStatus"
+                                                           Label="Remaining stock status"
+                                                           Value="@route.Origin.InventoryStatus"
+                                                           HelperText="Stock status reported AFTER the purchase">
+                                                    @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
+                                                    {
+                                                        <MudSelectItem Value="@status">
+                                                            @status.Humanize()
+                                                        </MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="Remaining stock (SCU)"
+                                                    Value="@route.Origin.CargoUnitsAvailable"
+                                                    HelperText="Stock reported AFTER the purchase"/>
+                                            </MudItem>
+                                            <MudItem xs="12" md="3">
+                                                <MudSelect T="GameContainerSize"
+                                                           Label="Max. available container"
+                                                           Value="@route.Origin.MaxContainerSize">
+                                                    @foreach (var status in Enum.GetValues<GameContainerSize>().Where(x => x is not GameContainerSize.Unknown))
+                                                    {
+                                                        <MudSelectItem Value="@status">
+                                                            @status.Humanize()
+                                                        </MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                        </MudGrid>
+                                        <MudCheckBox T="bool">
+                                            <MudStack Spacing="0">
+                                                <MudText>
+                                                    I have verified the provided values
+                                                </MudText>
+                                                <MudText Typo="Typo.caption" Class="text-secondary">
+                                                    By providing these values you are contributing to the accuracy
+                                                    of the trade routes for all players
+                                                </MudText>
+                                            </MudStack>
+                                        </MudCheckBox>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.AddShoppingCart"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I have made the purchase
+                                        </MudButton>
+                                    </MudStack>
+                                </MudStep>
+                                <MudStep Title="Load">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Load cargo
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Load purchased cargo to your ship at
+                                            </MudText>
+                                        </MudStack>
+                                        <GameEntityNameLabel
+                                            Model="@route.Origin.Terminal.Name"/>
+                                        <MudCheckBox T="bool">
+                                            <MudStack Spacing="0">
+                                                <MudText>
+                                                    I have used auto-load
+                                                </MudText>
+                                            </MudStack>
+                                        </MudCheckBox>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.FrontLoader"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I have all the cargo loaded
+                                        </MudButton>
+                                    </MudStack>
+                                </MudStep>
+                                <MudStep Title="Reach destination"
+                                         Style="background-size: cover; background-image: url(https://d3a1t0pe7zmm0w.cloudfront.net/terminals/1/images/524f464d025618baa4bada1b8afe43a4164af29f.jpg);  background-color: rgba(0,0,0,0.75); background-blend-mode: overlay;">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Travel @route.Distance Gm
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Reach the destination at
+                                            </MudText>
+                                        </MudStack>
+                                        <GameEntityNameLabel
+                                            Model="@route.Destination.Terminal.Parent!.Name"/>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.LocationPin"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I am at the destination
+                                        </MudButton>
+                                    </MudStack>
+                                </MudStep>
+                                <MudStep Title="Unload">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Unload cargo
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Unload purchased cargo from your ship at
+                                            </MudText>
+                                        </MudStack>
+                                        <GameEntityNameLabel
+                                            Model="@route.Destination.Terminal.Parent!.Name"/>
+                                        <MudCheckBox T="bool">
+                                            <MudStack Spacing="0">
+                                                <MudText>
+                                                    I will use auto-load
+                                                </MudText>
+                                            </MudStack>
+                                        </MudCheckBox>
+                                        <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I have the ship stored
+                                        </MudButton>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.FrontLoader"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I have all the cargo unloaded
+                                        </MudButton>
+                                    </MudStack>
+                                </MudStep>
+                                <MudStep Title="Sell cargo">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center"
+                                              Spacing="6">
+                                        <MudStack AlignItems="AlignItems.Center"
+                                                  Spacing="0">
+                                            <MudText Typo="@Typo.h5">
+                                                Sale
+                                            </MudText>
+                                            <MudText Typo="@Typo.body2">
+                                                Sell the transported commodity
+                                            </MudText>
+                                        </MudStack>
+                                        <MudStack AlignItems="@AlignItems.Center"
+                                                  Spacing="6"
+                                                  Row>
+                                            <GameEntityNameLabel
+                                                Model="@route.Commodity.Name"/>
+                                            <MudText>
+                                                at
+                                            </MudText>
+                                            <GameEntityNameLabel
+                                                Model="@route.Destination.Terminal.Name"/>
+                                        </MudStack>
+                                        <MudGrid Style="min-width: 400px; max-width: 75%;">
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="Quantity sold (SCU)"
+                                                    Value="@route.Destination.CargoUnitsAvailable"
+                                                    InputType="@InputType.Number"
+                                                    Required/>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="Sale price (per SCU)"
+                                                    Value="@route.Destination.Price.Amount"
+                                                    InputType="@InputType.Number"
+                                                    Required/>
+                                            </MudItem>
+                                            <MudItem xs="12" md="4">
+                                                <MudStack AlignItems="@AlignItems.End"
+                                                          Justify="@Justify.Center"
+                                                          Class="h-100">
+                                                    <MudText Typo="@Typo.h6"
+                                                             Color="@Color.Success">
+                                                        =
+                                                        <GamePriceLabel
+                                                            Model="@(route.Destination.Price * route.Destination.CargoUnitsAvailable)"/>
+                                                    </MudText>
+                                                </MudStack>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="5">
+                                                <MudSelect T="TerminalInventoryStatus"
+                                                           Label="New stock status"
+                                                           Value="@route.Destination.InventoryStatus"
+                                                           HelperText="Stock status reported AFTER the sale">
+                                                    @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
+                                                    {
+                                                        <MudSelectItem Value="@status">
+                                                            @status.Humanize()
+                                                        </MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudTextField
+                                                    Label="New stock (SCU)"
+                                                    Value="@route.Destination.CargoUnitsAvailable"
+                                                    HelperText="Stock reported AFTER the sale"/>
+                                            </MudItem>
+                                            <MudItem xs="12" md="3">
+                                                <MudSelect T="GameContainerSize"
+                                                           Label="Max. acceptable container"
+                                                           Value="@route.Destination.MaxContainerSize">
+                                                    @foreach (var status in Enum.GetValues<GameContainerSize>().Where(x => x is not GameContainerSize.Unknown))
+                                                    {
+                                                        <MudSelectItem Value="@status">
+                                                            @status.Humanize()
+                                                        </MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                        </MudGrid>
+                                        <MudCheckBox T="bool">
+                                            <MudStack Spacing="0">
+                                                <MudText>
+                                                    I have verified the provided values
+                                                </MudText>
+                                                <MudText Typo="Typo.caption" Class="text-secondary">
+                                                    By providing these values you are contributing to the accuracy
+                                                    of the trade routes for all players
+                                                </MudText>
+                                            </MudStack>
+                                        </MudCheckBox>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.ShoppingCartCheckout"
+                                                   Color="@Color.Warning"
+                                                   Size="@Size.Large">
+                                            I have made partial sale
+                                        </MudButton>
+                                        <MudButton StartIcon="@MaterialIcons.Filled.ShoppingCartCheckout"
+                                                   Color="@Color.Success"
+                                                   Size="@Size.Large">
+                                            I have made the sale
+                                        </MudButton>
+                                    </MudStack>
+                                </MudStep>
+                            </ChildContent>
+                            <CompletedContent>
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <div style="height: 33vh; overflow: auto">
+                                            <MudTimeline TimelinePosition="@TimelinePosition.Left">
+                                                <MudTimelineItem Color="@Color.Info"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.Check"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Accepted
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Info"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.FlightLand"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Reached origin terminal
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Warning"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.AddShoppingCart"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Cargo acquired
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Info"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.FrontLoader"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Cargo loaded
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Info"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.FlightLand"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Reached destination terminal
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Info"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.FrontLoader"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Cargo unloaded
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                                <MudTimelineItem Color="@Color.Success"
+                                                                 Size="@Size.Medium">
+                                                    <ItemDot>
+                                                        <MudIcon
+                                                            Icon="@MaterialIcons.Filled.AttachMoney"
+                                                            Size="@Size.Medium"/>
+                                                    </ItemDot>
+                                                    <ItemContent>
+                                                        <MudStack Spacing="0">
+                                                            <MudText>
+                                                                Cargo sold
+                                                            </MudText>
+                                                            <MudText Typo="Typo.caption" Class="text-secondary">
+                                                                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                                                                Earth, Sol
+                                                            </MudText>
+                                                        </MudStack>
+                                                    </ItemContent>
+                                                </MudTimelineItem>
+                                            </MudTimeline>
+                                        </div>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudStack Class="h-100 w-100 pt-5">
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.SpaceBetween"
+                                                      Class="w-100"
+                                                      Row>
+                                                <MudText Typo="Typo.h6">
+                                                    Trade run profit
+                                                </MudText>
+                                                <MudText Typo="Typo.h6" Color="@Color.Success">
+                                                    <GamePriceLabel Model="@route.Destination.Price"/>
+                                                </MudText>
+                                            </MudStack>
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.SpaceBetween"
+                                                      Class="w-100"
+                                                      Row>
+                                                <MudText Typo="Typo.h6">
+                                                    Trade run length
+                                                </MudText>
+                                                <MudText Typo="Typo.h6" Color="@Color.Success">
+                                                    @TimeSpan.FromHours(2).Humanize()
+                                                </MudText>
+                                            </MudStack>
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.SpaceBetween"
+                                                      Class="w-100"
+                                                      Row>
+                                                <MudText Typo="Typo.h6">
+                                                    Cargo acquired
+                                                </MudText>
+                                                <MudText Typo="Typo.h6" Color="@Color.Success">
+                                                    <QuantityLabel
+                                                        Model="@(Quantity.FromScu(route.Origin.CargoUnitsAvailable))"/>
+                                                </MudText>
+                                            </MudStack>
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.SpaceBetween"
+                                                      Class="w-100"
+                                                      Row>
+                                                <MudText Typo="Typo.h6">
+                                                    Cargo sold
+                                                </MudText>
+                                                <MudText Typo="Typo.h6" Color="@Color.Warning">
+                                                    <QuantityLabel
+                                                        Model="@(Quantity.FromScu(route.Origin.CargoUnitsAvailable - 10))"/>
+                                                </MudText>
+                                            </MudStack>
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.SpaceBetween"
+                                                      Class="w-100"
+                                                      Row>
+                                                <MudText Typo="Typo.h6">
+                                                    Cargo remaining
+                                                </MudText>
+                                                <MudText Typo="Typo.h6" Color="@Color.Error">
+                                                    <QuantityLabel
+                                                        Model="@(Quantity.FromScu(10))"/>
+                                                </MudText>
+                                            </MudStack>
+                                            <MudSpacer/>
+                                            <MudAlert Severity="@Severity.Error"
+                                                      ContentAlignment="HorizontalAlignment.Center">
+                                                There still seem to be some unsold cargo left.
+                                            </MudAlert>
+                                            <MudButton Variant="@Variant.Outlined"
+                                                       Color="@Color.Warning"
+                                                       Class="w-100">
+                                                Continue to different destination
+                                            </MudButton>
+                                            <MudButton Color="@Color.Error"
+                                                       Class="w-100">
+                                                Finalize - remaining cargo lost
+                                            </MudButton>
+                                            <MudButton Color="@Color.Success"
+                                                       Class="w-100">
+                                                Finalize - keep cargo in the inventory
+                                            </MudButton>
+                                            <MudButton Variant="@Variant.Outlined"
+                                                       Color="@Color.Success"
+                                                       Class="w-100">
+                                                Finalize
+                                            </MudButton>
+                                        </MudStack>
+                                    </MudItem>
+                                </MudGrid>
+                            </CompletedContent>
+                            @* <ActionContent> *@
+                            @* *@
+                            @* </ActionContent> *@
+                        </MudStepper>
+                    </ChildContent>
+                </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
+    </MudPaper>
+</MudContainer>
+
+@code
+{
+
+    private GameTradeRoute[] Routes { get; set; } = [];
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        Routes = await TradeRouteRepository.GetAllAsync()
+            .Where(x => x.Destination.Price > x.Origin.Price)
+            .ToArrayAsync();
+    }
+
+}

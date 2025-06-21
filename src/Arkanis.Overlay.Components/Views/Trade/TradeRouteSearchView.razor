@@ -1,0 +1,372 @@
+@using Arkanis.Overlay.Components.Views.Components
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IGameEntityRepository<GameTradeRoute> TradeRouteRepository
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-paper,
+    .mud-expansion-panels {
+        animation: 250ms fadeInDown;
+    }
+
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-expand-panel:not(:last-child).mud-expand-panel-border {
+        border-bottom: 1px solid var(--mud-palette-lines-default) !important;
+    }
+
+    .mud-expand-panel.mud-panel-expanded {
+        margin-bottom: 0;
+    }
+
+    .mud-expand-panel-content {
+        padding-bottom: 0 !important;
+    }
+</style>
+
+<MudPaper Style="position: sticky; top: 0; z-index: 100; min-width: 60vw"
+          Elevation="4"
+          Class="py-2 px-4">
+    <MudGrid>
+        <MudItem xs="12" md="3">
+            <MudTextField
+                @bind-Value="@_context.CargoCapacity"
+                InputType="@InputType.Number"
+                DebounceInterval="200"
+                OnDebounceIntervalElapsed="RefreshDataAsync"
+                Label="Cargo capacity (SCU)"
+                Placeholder="Used ship capacity"
+                Clearable/>
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <GameEntitySelectBox
+                Label="Commodity"
+                EntityCategory="@GameEntityCategory.Commodity"
+                Accept="@(commodity => ApplicableCommodities.Contains(commodity))"
+                @bind-Value="@_selectedCommodityEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <GameEntitySelectBox
+                Label="Origin location"
+                EntityCategory="@GameEntityCategory.Location"
+                Accept="@(location => ApplicableOriginLocations.Contains(location))"
+                @bind-Value="@_selectedOriginLocationEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <GameEntitySelectBox
+                Label="Destination location"
+                EntityCategory="@GameEntityCategory.Location"
+                Accept="@(location => ApplicableDestinationLocations.Contains(location))"
+                @bind-Value="@_selectedDestinationLocationEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" md="7">
+            <MudStack Spacing="2" Row>
+                <MudToggleIconButton
+                    @bind-Toggled="@_allowIllegal"
+                    @bind-Toggled:after="@RefreshDataAsync"
+                    Icon="@Icons.Material.Filled.LocalPolice"
+                    Color="@Color.Success"
+                    ToggledColor="@Color.Error"/>
+                <MudToggleIconButton
+                    @bind-Toggled="@_onlyAutoLoadLocations"
+                    @bind-Toggled:after="@RefreshDataAsync"
+                    Icon="@Icons.Material.Filled.AutoMode"
+                    Color="@Color.Inherit"
+                    ToggledColor="@Color.Success"/>
+                <MudDivider Vertical FlexItem/>
+                <MudToggleIconButton
+                    @bind-Toggled="@_onlyGroundLocations"
+                    @bind-Toggled:after="@RefreshDataAsync"
+                    Disabled="@_onlySpaceLocations"
+                    Icon="@Icons.Material.Filled.SouthAmerica"
+                    Color="@Color.Inherit"
+                    ToggledColor="@Color.Warning"/>
+                <MudToggleIconButton
+                    @bind-Toggled="@_onlySpaceLocations"
+                    @bind-Toggled:after="@RefreshDataAsync"
+                    Disabled="@_onlyGroundLocations"
+                    Icon="@Icons.Material.Filled.Rocket"
+                    Color="@Color.Inherit"
+                    ToggledColor="@Color.Warning"/>
+            </MudStack>
+        </MudItem>
+        <MudItem xs="12" md="5">
+            <SortButton TargetField="@SortField.Profit"
+                        @bind-ActiveField="@_sortBy"
+                        @bind-Direction="@_sortDirection"
+                        OnChange="@RefreshDataAsync">
+                Profit
+            </SortButton>
+            <SortButton TargetField="@SortField.Margin"
+                        @bind-ActiveField="@_sortBy"
+                        @bind-Direction="@_sortDirection"
+                        OnChange="@RefreshDataAsync">
+                Margin
+            </SortButton>
+            <SortButton TargetField="@SortField.Distance"
+                        @bind-ActiveField="@_sortBy"
+                        @bind-Direction="@_sortDirection"
+                        OnChange="@RefreshDataAsync">
+                Distance
+            </SortButton>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<CascadingValue Value="@_context" IsFixed>
+    <MudStack Spacing="3"
+              Class="mt-n3"> @* virtualization creates a static first item which offsets the spacing *@
+        <Virtualize Items="@FilteredRoutes"
+                    ItemSize="64"
+                    OverscanCount="20"
+                    Context="route">
+            @{
+                var priceOrigin = route.Origin.Price;
+                var priceDestination = route.Destination.Price;
+                var scuReachable = _context.CargoCapacity > 0
+                    ? Math.Min(_context.CargoCapacity.Value, route.Origin.CargoUnitsAvailable)
+                    : route.Origin.CargoUnitsAvailable;
+            }
+            <MudPaper Class="px-4 focus"
+                      tabindex="0">
+                <div style="min-height: 64px; align-content: center;">
+                    <div style="display: grid; grid-template-columns: 4fr 1fr 1fr 1fr 4fr min-content;"
+                         class="align-center gap-3">
+                        <div style="grid-column: 1">
+                            <TradeRouteParty
+                                Model="@route.Origin"
+                                Route="@route"
+                                Side="@TradeRouteParty.PartySide.Origin"
+                                Spacing="6"/>
+                        </div>
+                        <div style="grid-column: 2">
+                            <MudStack Justify="@Justify.Center"
+                                      AlignItems="@AlignItems.End"
+                                      Class="text-right h-100"
+                                      Spacing="0">
+                                <MudText Typo="Typo.inherit" Color="@Color.Error">
+                                    <GamePriceLabel
+                                        Model="@(priceOrigin * scuReachable)"
+                                        Decimals="1"/>
+                                </MudText>
+                            </MudStack>
+                        </div>
+                        <div style="grid-column: 3">
+                            <MudStack AlignItems="@AlignItems.Center"
+                                      Justify="Justify.Center"
+                                      Class="h-100 mx-3"
+                                      Spacing="0">
+                                <MudText Typo="@Typo.body2" Class="my-n1 no-wrap text-secondary">
+                                    <GameEntityNameLabel
+                                        Typo="@Typo.inherit"
+                                        Model="@route.Commodity.Name"
+                                        Style="height: initial; z-index: 10"
+                                        PreferCode/>
+                                </MudText>
+                                <MudIcon
+                                    Icon="@Icons.Material.Filled.ArrowRightAlt"
+                                    Size="@Size.Large"
+                                    Class="my-n1"/>
+                                @if (route.Distance is { } distance)
+                                {
+                                    <MudText Typo="@Typo.body2"
+                                             Class="my-n1 no-wrap">
+                                        @distance Gm
+                                    </MudText>
+                                }
+                            </MudStack>
+                        </div>
+                        <div style="grid-column: 4" class="d-flex justify-start">
+                            <MudStack Spacing="0"
+                                      Class="text-right">
+                                <MudText Typo="Typo.inherit">
+                                    <GamePriceLabel
+                                        Model="@(priceDestination * scuReachable)"
+                                        Decimals="1"/>
+                                </MudText>
+                                <MudText Typo="Typo.inherit"
+                                         Color="@Color.Success"
+                                         Class="no-wrap">
+                                    <GamePriceLabel
+                                        Model="@(priceDestination * scuReachable - priceOrigin * scuReachable)"
+                                        Prefix="+"
+                                        Decimals="1"/>
+                                </MudText>
+                            </MudStack>
+                        </div>
+                        <div style="grid-column: 5">
+                            <TradeRouteParty
+                                Model="@route.Destination"
+                                Route="@route"
+                                Side="@TradeRouteParty.PartySide.Destination"
+                                Class="flex-grow-1"
+                                Spacing="6"/>
+                        </div>
+                        <div style="grid-column: 6">
+                            <MudStack Spacing="2"
+                                      AlignItems="@AlignItems.Center"
+                                      Justify="@Justify.FlexEnd"
+                                      Class="h-100 mr-n2"
+                                      Row>
+
+                                <MudDivider
+                                    FlexItem
+                                    Vertical/>
+
+                                <MudTooltip
+                                    Text="@("Show matching results within/at")"
+                                    Placement="@Placement.Top">
+                                    <MudIconButton
+                                        Icon="@Icons.Material.Filled.AirlineStops"
+                                        Class="focus"
+                                        tabindex="1"/>
+                                </MudTooltip>
+                            </MudStack>
+                        </div>
+                    </div>
+                </div>
+            </MudPaper>
+        </Virtualize>
+    </MudStack>
+</CascadingValue>
+
+@code
+{
+    private bool _allowIllegal;
+    private bool _onlyGroundLocations;
+    private bool _onlySpaceLocations;
+    private bool _onlyAutoLoadLocations;
+
+    private SortField _sortBy;
+    private SortButton<SortField>.SortDirection _sortDirection;
+
+    private IGameEntity? _selectedCommodityEntity;
+    private IGameEntity? _selectedOriginLocationEntity;
+    private IGameEntity? _selectedDestinationLocationEntity;
+
+    private IGameLocation? SelectedOriginLocation
+        => _selectedOriginLocationEntity as IGameLocation;
+
+    private IGameLocation? SelectedDestinationLocation
+        => _selectedDestinationLocationEntity as IGameLocation;
+
+    private ICollection<IGameLocation> AllLocations { get; set; } = [];
+    private ICollection<IGameLocation> ApplicableOriginLocations { get; set; } = [];
+    private ICollection<IGameLocation> ApplicableDestinationLocations { get; set; } = [];
+
+    private GameCommodity[] ApplicableCommodities { get; set; } = [];
+
+    private GameTradeRoute[] AllRoutes { get; set; } = [];
+    private GameTradeRoute[] FilteredRoutes { get; set; } = [];
+
+    private readonly SearchContext _context = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        AllRoutes = await TradeRouteRepository.GetAllAsync()
+            .Where(x => x.Destination.Price > x.Origin.Price)
+            .ToArrayAsync();
+
+        AllLocations = AllRoutes
+            .SelectMany(x => new[] { x.Origin.Terminal, x.Destination.Terminal })
+            .Distinct()
+            .ToArray();
+
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        await Task.CompletedTask;
+        _context.Commodity = _selectedCommodityEntity as GameCommodity;
+        _context.OriginLocation = SelectedOriginLocation;
+        _context.DestinationLocation = SelectedDestinationLocation;
+
+        ApplicableCommodities = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByDestination)
+            .Where(FilterByPropertiesOrigin)
+            .Select(x => x.Commodity)
+            .Distinct()
+            .ToArray();
+
+        ApplicableOriginLocations = AllRoutes
+            .Where(FilterByDestination)
+            .Where(FilterByCommodity)
+            .Where(FilterByPropertiesOrigin)
+            .Select(x => x.Origin.Terminal)
+            .Distinct()
+            .SelectMany(x => (IEnumerable<IGameLocation>) [x, ..x.Parents])
+            .Distinct()
+            .ToArray();
+
+        ApplicableDestinationLocations = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByCommodity)
+            .Where(FilterByPropertiesOrigin)
+            .Select(x => x.Destination.Terminal)
+            .Distinct()
+            .SelectMany(x => (IEnumerable<IGameLocation>) [x, ..x.Parents])
+            .Distinct()
+            .ToArray();
+
+        var orderByDirection = _sortDirection == SortButton<SortField>.SortDirection.Descending || _sortBy == SortField.None
+            ? OrderByDirection.Descending
+            : OrderByDirection.Ascending;
+
+        FilteredRoutes = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByDestination)
+            .Where(FilterByCommodity)
+            .Where(FilterByPropertiesOrigin)
+            .OrderBy(Order, orderByDirection)
+            .ToArray();
+    }
+
+    private double Order(GameTradeRoute x)
+        => _sortBy switch
+        {
+            SortField.Margin => x.PriceMarginPercent,
+            SortField.Distance => x.Distance ?? double.MaxValue,
+            SortField.Profit => Math.Min(_context.CargoCapacity ?? int.MaxValue, x.Origin.CargoUnitsAvailable) * (x.Destination.Price.Amount - x.Origin.Price.Amount),
+            _ => x.PriceReturnOnInvestmentPercent * x.Origin.Price.Amount,
+        };
+
+    bool FilterByOrigin(GameTradeRoute x)
+        => SelectedOriginLocation is null || SelectedOriginLocation.IsOrContains(x.Origin.Terminal);
+
+    bool FilterByDestination(GameTradeRoute x)
+        => SelectedDestinationLocation is null || SelectedDestinationLocation.IsOrContains(x.Destination.Terminal);
+
+    bool FilterByPropertiesOrigin(GameTradeRoute x)
+        => (_allowIllegal || !x.Commodity.IsIllegal)
+           && (!_onlyGroundLocations || (x.Origin.Terminal.IsOnGround && x.Destination.Terminal.IsOnGround))
+           && (!_onlySpaceLocations || (x.Origin.Terminal.IsInSpace && x.Destination.Terminal.IsInSpace))
+           && (!_onlyAutoLoadLocations || (x.Origin.Terminal.IsAutoLoad && x.Destination.Terminal.IsAutoLoad));
+
+    bool FilterByCommodity(GameTradeRoute x)
+        => _selectedCommodityEntity is null || x.Commodity == _selectedCommodityEntity;
+
+    public class SearchContext
+    {
+        public int? CargoCapacity { get; set; }
+        public GameCommodity? Commodity { get; set; }
+        public IGameLocation? OriginLocation { get; set; }
+        public IGameLocation? DestinationLocation { get; set; }
+    }
+
+    public enum SortField
+    {
+        None,
+        Margin,
+        Profit,
+        Distance,
+    }
+}

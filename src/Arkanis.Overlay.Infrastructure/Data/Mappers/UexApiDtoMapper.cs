@@ -362,12 +362,18 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(CommodityRouteDTO.Price_origin), nameof(GameTradeRoute.Party.Price))]
     [MapProperty(nameof(CommodityRouteDTO.Scu_origin), nameof(GameTradeRoute.Party.CargoUnitsAvailable))]
     [MapProperty(nameof(CommodityRouteDTO.Status_origin), nameof(GameTradeRoute.Party.InventoryStatus))]
+    [MapProperty(nameof(CommodityRouteDTO.Container_sizes_origin), nameof(GameTradeRoute.Party.MaxContainerSize), Use = nameof(MapMaxContainerSizeFromList))]
     private partial GameTradeRoute.Party MapTradeRouteOriginParty(CommodityRouteDTO source);
 
     [MapPropertyFromSource(nameof(GameTradeRoute.Party.Terminal), Use = nameof(GetDestinationTerminalForTradeRoute))]
     [MapProperty(nameof(CommodityRouteDTO.Price_destination), nameof(GameTradeRoute.Party.Price))]
     [MapProperty(nameof(CommodityRouteDTO.Scu_destination), nameof(GameTradeRoute.Party.CargoUnitsAvailable))]
     [MapProperty(nameof(CommodityRouteDTO.Status_destination), nameof(GameTradeRoute.Party.InventoryStatus))]
+    [MapProperty(
+        nameof(CommodityRouteDTO.Container_sizes_destination),
+        nameof(GameTradeRoute.Party.MaxContainerSize),
+        Use = nameof(MapMaxContainerSizeFromList)
+    )]
     private partial GameTradeRoute.Party MapTradeRouteDestinationParty(CommodityRouteDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
@@ -425,6 +431,11 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(MarketplaceListingDTO.Price), nameof(GameEntityMarketSalePrice.SalePrice), Use = nameof(MapInternalMoney))]
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetEntityForMarketPrice))]
     private partial GameEntityMarketSalePrice MapInternalSalePrice(MarketplaceListingDTO source);
+
+    private GameContainerSize MapMaxContainerSizeFromList(string? source)
+        => !string.IsNullOrEmpty(source)
+            ? source.Split(',').Select(Enum.Parse<GameContainerSize>).Max()
+            : GameContainerSize.Unknown;
 
     [UserMapping(Default = true)]
     private static GameCurrency MapInternalMoney(double? amount)

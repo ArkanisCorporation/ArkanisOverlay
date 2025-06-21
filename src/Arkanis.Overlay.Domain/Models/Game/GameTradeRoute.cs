@@ -39,6 +39,7 @@ public class GameTradeRoute(int id, GameCommodity commodity)
         public required GameTerminal Terminal { get; set; }
         public required GameCurrency Price { get; set; }
         public required TerminalInventoryStatus InventoryStatus { get; set; }
+        public required GameContainerSize MaxContainerSize { get; set; }
         public required int CargoUnitsAvailable { get; set; }
     }
 }

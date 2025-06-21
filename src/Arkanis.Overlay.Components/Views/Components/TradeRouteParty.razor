@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Components.Views.Trade
 <MudStack Style="@MainWrapperStyle"
           Class="@Class"
           Justify="@Justify.SpaceBetween"
@@ -83,7 +84,7 @@
         => Side == PartySide.Destination;
 
     [CascadingParameter]
-    public TradeView.SearchContext? Context { get; set; }
+    public TradeRouteSearchView.SearchContext? Context { get; set; }
 
     [Parameter]
     [EditorRequired]
