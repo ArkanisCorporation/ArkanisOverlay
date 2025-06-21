@@ -7,24 +7,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
+        <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazor-Analytics" />
-        <PackageReference Include="MathEvaluator" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
-        <PackageReference Include="MudBlazor" />
-        <PackageReference Include="MudBlazor.FontIcons.MaterialSymbols" />
+        <PackageReference Include="Blazor-Analytics"/>
+        <PackageReference Include="MathEvaluator"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
+        <PackageReference Include="MudBlazor"/>
+        <PackageReference Include="MudBlazor.FontIcons.MaterialIcons"/>
+        <PackageReference Include="MudBlazor.FontIcons.MaterialSymbols"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj" />
-        <ProjectReference Include="..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj" />
+        <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="wwwroot\assets\img\uex-api-badge-powered.png" />
+        <Resource Include="wwwroot\assets\img\uex-api-badge-powered.png"/>
     </ItemGroup>
 
 </Project>

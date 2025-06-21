@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Components.Services;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
+using MudBlazor.FontIcons.MaterialSymbols;
 
 public class OverlayModules
 {
@@ -12,7 +13,7 @@ public class OverlayModules
         {
             Url = "/search",
             Name = "Search",
-            Icon = Icons.Material.Filled.Search,
+            Icon = Outlined.Search,
         },
         new()
         {
@@ -29,13 +30,34 @@ public class OverlayModules
         {
             Url = "/trade",
             Name = "Trade",
-            Icon = Icons.Material.Filled.Storefront,
+            Icon = Outlined.Storefront,
         },
         new()
         {
             Url = "/mining",
             Name = "Mining",
-            Icon = Icons.Material.Filled.Deblur,
+            Icon = Outlined.Deblur,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/hangar",
+            Name = "Hangar",
+            Icon = Outlined.GarageDoor,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/org",
+            Name = "Org",
+            Icon = Icons.Material.Filled.Groups,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/settings",
+            Name = "Settings",
+            Icon = Outlined.Settings,
             Disabled = true,
         },
     ];
