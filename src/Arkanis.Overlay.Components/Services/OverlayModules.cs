@@ -31,6 +31,7 @@ public class OverlayModules
             Url = "/trade",
             Name = "Trade",
             Icon = Outlined.Storefront,
+            GetUpdateCountAsync = _ => ValueTask.FromResult(4),
         },
         new()
         {

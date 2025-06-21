@@ -1,0 +1,24 @@
+@using System.Globalization
+@using Arkanis.Overlay.Common
+@GameValue.ToString(Format, CultureInfo)@Suffix
+
+@code
+{
+
+    private DateTimeOffset GameValue
+        => DateTimeOffset.Now + ApplicationConstants.GameTimeOffset;
+
+    [Parameter]
+    [EditorRequired]
+    public DateTimeOffset Model { get; set; }
+
+    [Parameter]
+    public string? Suffix { get; set; } = ", Earth, Sol";
+
+    [Parameter]
+    public string Format { get; set; } = "F";
+
+    [Parameter]
+    public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentUICulture;
+
+}

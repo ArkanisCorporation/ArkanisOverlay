@@ -19,7 +19,7 @@ public class GameTradeRoute(int id, GameCommodity commodity)
     public override GameEntityName Name
         => new(
             new GameEntityName.Name(
-                $"{Commodity.Name.MainContent.FullName} from {Origin.Terminal.Name.MainContent.FullName} to {Destination.Terminal.Name.MainContent.FullName}"
+                $"{Commodity.Name.MainContent.FullName} from {Origin.Terminal.Parent!.Name.MainContent.FullName} to {Destination.Terminal.Parent!.Name.MainContent.FullName}"
             )
         );
 

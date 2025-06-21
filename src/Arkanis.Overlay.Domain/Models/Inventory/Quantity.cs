@@ -47,6 +47,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
             : Amount.CompareTo(other.Amount);
     }
 
+    public static Quantity FromScu(int amountScu)
+        => new(amountScu, UnitType.StandardCargoUnit);
+
     public static IEnumerable<Quantity> Aggregate(IEnumerable<Quantity> quantities)
         => quantities.GroupBy(x => x.Unit)
             .Select(group => new Quantity(group.Sum(quantity => quantity.Amount), group.Key));

@@ -4,10 +4,10 @@ using System.ComponentModel;
 
 public enum TerminalInventoryStatus
 {
-    [Description("Unknown Inventory Status")]
+    [Description("Unknown Inventory")]
     Unknown = 0,
 
-    [Description("Out of Stock (Empty)")]
+    [Description("Out of Stock")]
     OutOfStock = 1,
 
     [Description("Very Low Inventory")]
@@ -25,6 +25,6 @@ public enum TerminalInventoryStatus
     [Description("Very High Inventory")]
     VeryHigh = 6,
 
-    [Description("Maximum Inventory (No Demand)")]
+    [Description("Maximum Inventory")]
     Maximum = 7,
 }
