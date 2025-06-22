@@ -1,47 +1,42 @@
 @using Arkanis.Overlay.Components.Views.Trade
-<div>
+<MudMainContent>
     <MudStack Spacing="6"
-              Class="py-6"
               Justify="@Justify.FlexStart"
               AlignItems="@AlignItems.Center">
 
-        <MudTabs ActivePanelIndex="ActivePanelIndex" Rounded>
-            <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RunsInProgress))"
-                         Disabled="@(TradeRunsInProgress == 0)">
-                <TabWrapperContent>
-                    @context
-                </TabWrapperContent>
-                <TabContent>
-                    <MudStack Spacing="3" Row>
-                        <MudText Typo="@Typo.inherit">
-                            In Progress
-                        </MudText>
-                        @if (TradeRunsInProgress > 0)
-                        {
-                            <MudChip
-                                Size="@Size.Small"
-                                Value="@TradeRunsInProgress"
-                                Color="@Color.Warning"/>
-                        }
-                    </MudStack>
-                </TabContent>
-            </MudTabPanel>
+        <MudPaper>
+            <MudTabs ActivePanelIndex="ActivePanelIndex" Rounded>
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RunsInProgress))"
+                             Disabled="@(TradeRunsInProgress == 0)">
+                    <TabContent>
+                        <MudStack Spacing="3" Row>
+                            <MudText Typo="@Typo.inherit">
+                                In Progress
+                            </MudText>
+                            @if (TradeRunsInProgress > 0)
+                            {
+                                <MudChip
+                                    Size="@Size.Small"
+                                    Value="@TradeRunsInProgress"
+                                    Color="@Color.Warning"/>
+                            }
+                        </MudStack>
+                    </TabContent>
+                </MudTabPanel>
 
-            <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RouteSearch))">
-                <TabWrapperContent>
-                    @context
-                </TabWrapperContent>
-                <TabContent>
-                    Route Search
-                </TabContent>
-            </MudTabPanel>
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RouteSearch))">
+                    <TabContent>
+                        Route Search
+                    </TabContent>
+                </MudTabPanel>
 
-            <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.Ledger))">
-                <TabContent>
-                    Ledger
-                </TabContent>
-            </MudTabPanel>
-        </MudTabs>
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.Ledger))">
+                    <TabContent>
+                        Ledger
+                    </TabContent>
+                </MudTabPanel>
+            </MudTabs>
+        </MudPaper>
 
         @if (ActiveTab is Tab.RunsInProgress)
         {
@@ -59,7 +54,7 @@
         }
 
     </MudStack>
-</div>
+</MudMainContent>
 
 @code
 {
