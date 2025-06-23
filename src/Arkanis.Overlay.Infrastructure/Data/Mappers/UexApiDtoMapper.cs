@@ -263,35 +263,47 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     }
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseStarSystemDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseStarSystemDTO.Code), "codeName")]
     private partial GameStarSystem MapInternal(UniverseStarSystemDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniversePlanetDTO.Name), "fullName")]
     [MapProperty(nameof(UniversePlanetDTO.Code), "codeName")]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForPlanet))]
     private partial GamePlanet MapInternal(UniversePlanetDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseMoonDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseMoonDTO.Code), "codeName")]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForMoon))]
     private partial GameMoon MapInternal(UniverseMoonDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseSpaceStationDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseSpaceStationDTO.Nickname), "shortName")]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForSpaceStation))]
     private partial GameSpaceStation MapInternal(UniverseSpaceStationDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseCityDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseCityDTO.Code), "codeName")]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForCity))]
     private partial GameCity MapInternal(UniverseCityDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseOutpostDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseOutpostDTO.Nickname), "shortName")]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForOutpost))]
@@ -301,6 +313,8 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(UniverseTerminalDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseTerminalDTO.Nickname), "shortName")]
     [MapProperty(nameof(UniverseTerminalDTO.Code), "codeName")]
+    [MapProperty(nameof(UniverseTerminalDTO.Screenshot_full), nameof(GameLocationEntity.ImageUrl))]
+    [MapProperty(nameof(UniverseTerminalDTO.Screenshot_author), nameof(GameLocationEntity.ImageAuthor))]
     [MapProperty(nameof(UniverseTerminalDTO.Is_available_live), nameof(GameTerminal.IsAvailable))]
     [MapProperty(nameof(UniverseTerminalDTO.Is_auto_load), nameof(GameTerminal.IsAutoLoad))]
     [MapProperty(nameof(UniverseTerminalDTO.Max_container_size), nameof(GameTerminal.MaxContainerSize))]

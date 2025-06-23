@@ -3368,6 +3368,15 @@ components:
           type: string
         contact_url:
           type: object
+        screenshot:
+          type: string
+          nullable: true
+        screenshot_full:
+          type: string
+          nullable: true
+        screenshot_author:
+          type: string
+          nullable: true
         date_added:
           type: number
         date_modified:

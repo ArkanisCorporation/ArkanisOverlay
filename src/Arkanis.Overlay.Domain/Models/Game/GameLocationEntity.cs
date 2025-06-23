@@ -11,6 +11,9 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
 
     public GameLocationEntity? Parent { get; } = parent;
 
+    public string? ImageUrl { get; set; }
+    public string? ImageAuthor { get; set; }
+
     public HashSet<UexApiGameEntityId> ParentIds { get; } = parent is not null
         ? [parent.Id, ..parent.ParentIds]
         : [];

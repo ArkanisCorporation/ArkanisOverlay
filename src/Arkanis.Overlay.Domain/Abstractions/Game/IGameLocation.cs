@@ -10,6 +10,10 @@ public interface IGameLocation : IGameEntity, ISearchableRecursively
 
     IGameLocation? ParentLocation { get; }
 
+    public string? ImageUrl { get; }
+
+    public string? ImageAuthor { get; }
+
     ISearchableRecursively? ISearchableRecursively.Parent
         => ParentLocation;
 
