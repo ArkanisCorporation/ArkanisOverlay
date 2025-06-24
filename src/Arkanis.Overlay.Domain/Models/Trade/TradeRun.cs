@@ -4,6 +4,7 @@ using Enums;
 using Game;
 using Inventory;
 using MoreLinq;
+using MudBlazor.FontIcons.MaterialIcons;
 
 public record TradeRunId(Guid Identity) : TypedDomainId<Guid>(Identity)
 {
@@ -21,6 +22,9 @@ public class TradeRun
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.Now;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.Now;
     public DateTimeOffset? FinishedAt { get; set; }
+
+    public Stage? StageInProgress
+        => Stages.FirstOrDefault(x => x.FinalizedAt is null);
 
     public IEnumerable<QuantityOf> AcquiredQuantities
         => Acquisitions.GroupBy(x => x.Quantity.Reference.EntityId)
@@ -44,11 +48,11 @@ public class TradeRun
 
     public IEnumerable<QuantityOf> UnsoldQuantities
         => AcquiredQuantities.LeftJoin(
-                SoldQuantities,
-                acquired => acquired.Reference.EntityId,
-                acquired => acquired,
-                (acquired, sold) => new QuantityOf(acquired.Reference, acquired.Amount - sold.Amount, acquired.Unit)
-            );
+            SoldQuantities,
+            acquired => acquired.Reference.EntityId,
+            acquired => acquired,
+            (acquired, sold) => new QuantityOf(acquired.Reference, acquired.Amount - sold.Amount, acquired.Unit)
+        );
 
     public GameCurrency Investment
         => new(-1 * Acquisitions.Sum(x => x.PriceTotal.Amount));
@@ -72,6 +76,101 @@ public class TradeRun
             .Where(x => x.Reference.EntityId == gameEntityId)
             .SingleOrDefault(Quantity.Zero);
 
+    public IEnumerable<PlayerEvent> CreateEvents()
+    {
+        yield return new PlayerEvent.RunStarted(CreatedAt);
+
+        foreach (var playerEvent in Stages.SelectMany(x => x.CreateEvents()).OrderBy(x => x.OccuredAt))
+        {
+            yield return playerEvent;
+        }
+
+        if (FinishedAt is not null)
+        {
+            yield return new PlayerEvent.RunCompleted(FinishedAt.Value);
+        }
+    }
+
+    public abstract class PlayerEvent(DateTimeOffset occuredAt)
+    {
+        public abstract string Text { get; }
+        public abstract string Icon { get; }
+
+        public DateTimeOffset OccuredAt { get; } = occuredAt;
+
+        public class RunStarted(DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => "Trade run started";
+
+            public override string Icon
+                => Filled.Check;
+        }
+
+        public class RunCompleted(DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => "Trade run finalized";
+
+            public override string Icon
+                => Filled.Start;
+        }
+
+        public class StageCompleted(DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => "Trade part completed";
+
+            public override string Icon
+                => Filled.Check;
+        }
+
+        public class Takeoff(DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => "Started travelling";
+
+            public override string Icon
+                => Filled.FlightTakeoff;
+        }
+
+        public class Landing(DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => "Reached destination";
+
+            public override string Icon
+                => Filled.FlightLand;
+        }
+
+        public class CargoAcquired(QuantityOf quantity, DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => $"Purchased {quantity}";
+
+            public override string Icon
+                => Filled.AddShoppingCart;
+        }
+
+        public class CargoSold(QuantityOf quantity, DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => $"Sold {quantity}";
+
+            public override string Icon
+                => Filled.AttachMoney;
+        }
+
+        public class CargoTransferred(QuantityOf quantity, DateTimeOffset occuredAt) : PlayerEvent(occuredAt)
+        {
+            public override string Text
+                => $"Finished transferring {quantity}";
+
+            public override string Icon
+                => Filled.Forklift;
+        }
+    }
+
     public abstract class Stage
     {
         public GameCurrency PricePerUnit { get; set; } = GameCurrency.Zero;
@@ -80,6 +179,8 @@ public class TradeRun
             => PricePerUnit * Quantity.Amount;
 
         public abstract GameCurrency Balance { get; }
+        public abstract string Title { get; }
+        public abstract string CurrentStepTitle { get; }
 
         public required QuantityOf Quantity { get; set; }
         public bool UsedAutoload { get; set; }
@@ -88,6 +189,8 @@ public class TradeRun
         public DateTimeOffset? ReachedAt { get; set; }
         public DateTimeOffset? TransferredAt { get; set; }
         public DateTimeOffset? FinalizedAt { get; set; }
+
+        public abstract IEnumerable<PlayerEvent> CreateEvents();
     }
 
     public abstract class AcquisitionStage : Stage
@@ -96,10 +199,52 @@ public class TradeRun
 
         public override GameCurrency Balance
             => PricePerUnit * Quantity.Amount * -1;
+
+        public override string CurrentStepTitle
+            => this switch
+            {
+                { ReachedAt: null } => "Travel to the destination",
+                { AcquiredAt: null } => "Acquire the cargo",
+                { TransferredAt: null } => "Load the acquired cargo",
+                { FinalizedAt: null } => "Prepare for takeoff",
+                { FinalizedAt: not null } => "This stage has been finished",
+                _ => "Continue",
+            };
+
+        public override IEnumerable<PlayerEvent> CreateEvents()
+        {
+            if (StartedAt is not null)
+            {
+                yield return new PlayerEvent.Takeoff(StartedAt.Value);
+            }
+
+            if (ReachedAt is not null)
+            {
+                yield return new PlayerEvent.Landing(ReachedAt.Value);
+            }
+
+            if (AcquiredAt is not null)
+            {
+                yield return new PlayerEvent.CargoAcquired(Quantity, AcquiredAt.Value);
+            }
+
+            if (TransferredAt is not null)
+            {
+                yield return new PlayerEvent.CargoTransferred(Quantity, TransferredAt.Value);
+            }
+
+            if (FinalizedAt is not null)
+            {
+                yield return new PlayerEvent.StageCompleted(FinalizedAt.Value);
+            }
+        }
     }
 
     public sealed class TerminalPurchaseStage : AcquisitionStage
     {
+        public override string Title
+            => $"Purchase {Quantity} at {Terminal.Name.MainContent.FullName}";
+
         public required GameTerminal Terminal { get; set; }
 
         // TODO: relevant terminal data
@@ -116,10 +261,53 @@ public class TradeRun
 
         public override GameCurrency Balance
             => PricePerUnit * Quantity.Amount;
+
+        public override string CurrentStepTitle
+            => this switch
+            {
+                { ReachedAt: null } => "Travel to the destination",
+                { TransferredAt: null } when !UsedAutoload => "Unload the acquired cargo",
+                { SoldAt: null } => "Sell the cargo",
+                { TransferredAt: null } => "Wait for the cargo to unload",
+                { FinalizedAt: null } => "Prepare for takeoff",
+                { FinalizedAt: not null } => "This stage has been finished",
+                _ => "Continue",
+            };
+
+        public override IEnumerable<PlayerEvent> CreateEvents()
+        {
+            if (StartedAt is not null)
+            {
+                yield return new PlayerEvent.Takeoff(StartedAt.Value);
+            }
+
+            if (ReachedAt is not null)
+            {
+                yield return new PlayerEvent.Landing(ReachedAt.Value);
+            }
+
+            if (SoldAt is not null)
+            {
+                yield return new PlayerEvent.CargoSold(Quantity, SoldAt.Value);
+            }
+
+            if (TransferredAt is not null)
+            {
+                yield return new PlayerEvent.CargoTransferred(Quantity, TransferredAt.Value);
+            }
+
+            if (FinalizedAt is not null)
+            {
+                yield return new PlayerEvent.StageCompleted(FinalizedAt.Value);
+            }
+        }
     }
 
     public sealed class TerminalSaleStage : SaleStage
     {
+        public override string Title
+            => $"Sell {Quantity} at {Terminal.Name.MainContent.FullName}";
+
         public required GameTerminal Terminal { get; set; }
 
         // TODO: relevant terminal data
@@ -136,5 +324,9 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
     public OwnableEntityReference Reference { get; set; } = Reference;
 
     public override string ToString()
-        => base.ToString();
+        => Unit switch
+        {
+            UnitType.Count => $"{base.ToString()} {Reference.Entity.Name.MainContent.FullName}",
+            _ => $"{base.ToString()} of {Reference.Entity.Name.MainContent.FullName}",
+        };
 }

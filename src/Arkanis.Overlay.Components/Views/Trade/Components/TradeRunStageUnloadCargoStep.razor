@@ -16,31 +16,43 @@
         </MudStack>
         <GameEntityNameLabel
             Model="@Location.Name"/>
-        <MudCheckBox @bind-Value="@Model.UsedAutoload"
-                     @bind-Value:after="@UpdateAsync">
-            <MudStack Spacing="0">
-                <MudText>
-                    I will use auto-load
-                </MudText>
-            </MudStack>
-        </MudCheckBox>
-        @if (Model.UsedAutoload)
+        @if (IsPostTrade && Model.UsedAutoload)
         {
-            <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
+            <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
                        OnClick="@OnTransferredClick"
                        Color="@Color.Success"
                        Size="@Size.Large">
-                I have the ship stored
+                The cargo transfer has finished
             </MudButton>
         }
         else
         {
-            <MudButton StartIcon="@MaterialIcons.Filled.FrontLoader"
-                       OnClick="@OnTransferredClick"
-                       Color="@Color.Success"
-                       Size="@Size.Large">
-                I have all the cargo unloaded
-            </MudButton>
+            <MudCheckBox @bind-Value="@Model.UsedAutoload"
+                         @bind-Value:after="@UpdateAsync">
+                <MudStack Spacing="0">
+                    <MudText>
+                        I will use auto-load
+                    </MudText>
+                </MudStack>
+            </MudCheckBox>
+            @if (Model.UsedAutoload)
+            {
+                <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
+                           OnClick="@OnTransferredClick"
+                           Color="@Color.Success"
+                           Size="@Size.Large">
+                    I have the ship stored
+                </MudButton>
+            }
+            else
+            {
+                <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
+                           OnClick="@OnTransferredClick"
+                           Color="@Color.Success"
+                           Size="@Size.Large">
+                    I have unloaded the cargo
+                </MudButton>
+            }
         }
     </MudStack>
 </MudStep>
@@ -52,7 +64,7 @@
         => Model.TransferredAt is not null;
 
     private bool IsDisabled
-        => IsCompleted;
+        => IsCompleted || (!Model.UsedAutoload && IsPostTrade);
 
     [CascadingParameter]
     public MudStepper? StepperReference { get; set; }
@@ -77,6 +89,9 @@
     [Parameter]
     public string StepTitle { get; set; } = "Load";
 
+    [Parameter]
+    public bool IsPostTrade { get; set; }
+
     private async Task NextStepAsync()
     {
         if (StepperReference is not null)
@@ -90,7 +105,11 @@
 
     private async Task OnTransferredClick()
     {
-        Model.TransferredAt = DateTimeOffset.Now;
+        if (!Model.UsedAutoload || IsPostTrade)
+        {
+            Model.TransferredAt = DateTimeOffset.Now;
+        }
+
         await NextStepAsync();
     }
 

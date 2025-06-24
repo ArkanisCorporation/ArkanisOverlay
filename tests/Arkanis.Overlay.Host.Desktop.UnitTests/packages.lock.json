@@ -1105,15 +1105,15 @@
           "Blazor-Analytics": "[3.12.0, )",
           "MathEvaluator": "[2.3.1, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.16, )",
-          "MudBlazor": "[8.6.0, )",
-          "MudBlazor.FontIcons.MaterialIcons": "[1.3.0, )",
-          "MudBlazor.FontIcons.MaterialSymbols": "[1.3.0, )"
+          "MudBlazor": "[8.6.0, )"
         }
       },
       "arkanis.overlay.domain": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.Common": "[1.0.0, )"
+          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "MudBlazor.FontIcons.MaterialIcons": "[1.3.0, )",
+          "MudBlazor.FontIcons.MaterialSymbols": "[1.3.0, )"
         }
       },
       "arkanis.overlay.external.uex": {

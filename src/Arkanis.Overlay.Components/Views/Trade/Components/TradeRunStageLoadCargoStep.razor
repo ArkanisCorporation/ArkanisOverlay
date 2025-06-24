@@ -16,18 +16,30 @@
         </MudStack>
         <GameEntityNameLabel
             Model="@Location.Name"/>
-        <MudCheckBox @bind-Value="@Model.UsedAutoload">
+        <MudCheckBox @bind-Value="@Model.UsedAutoload"
+                     @bind-Value:after="@UpdateAsync">
             <MudStack Spacing="0">
                 <MudText>
                     I have used auto-load
                 </MudText>
             </MudStack>
         </MudCheckBox>
-        <MudButton StartIcon="@MaterialIcons.Filled.FrontLoader"
+        <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
                    OnClick="@OnTransferredClick"
                    Color="@Color.Success"
                    Size="@Size.Large">
-            I have all the cargo loaded
+            @if (Model.UsedAutoload)
+            {
+                <MudText Typo="@Typo.inherit">
+                    The cargo transfer has finished
+                </MudText>
+            }
+            else
+            {
+                <MudText Typo="@Typo.inherit">
+                    I have loaded the cargo
+                </MudText>
+            }
         </MudButton>
     </MudStack>
 </MudStep>
@@ -49,6 +61,9 @@
     public required TradeRun.Stage Model { get; set; }
 
     [Parameter]
+    public EventCallback<TradeRun.Stage> ModelChanged { get; set; }
+
+    [Parameter]
     [EditorRequired]
     public required IGameLocation Location { get; set; }
 
@@ -68,6 +83,9 @@
             await StepperReference.NextStepAsync();
         }
     }
+
+    private async Task UpdateAsync()
+        => await ModelChanged.InvokeAsync(Model);
 
     private async Task OnTransferredClick()
     {

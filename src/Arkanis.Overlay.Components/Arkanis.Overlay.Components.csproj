@@ -15,8 +15,6 @@
         <PackageReference Include="MathEvaluator"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
         <PackageReference Include="MudBlazor"/>
-        <PackageReference Include="MudBlazor.FontIcons.MaterialIcons"/>
-        <PackageReference Include="MudBlazor.FontIcons.MaterialSymbols"/>
     </ItemGroup>
 
     <ItemGroup>

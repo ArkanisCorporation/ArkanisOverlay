@@ -1,12 +1,11 @@
 @using System.Globalization
-@using Arkanis.Overlay.Common
 @GameValue.ToString(Format, CultureInfo)@Suffix
 
 @code
 {
 
     private DateTimeOffset GameValue
-        => DateTimeOffset.Now + ApplicationConstants.GameTimeOffset;
+        => Model + ApplicationConstants.GameTimeOffset;
 
     [Parameter]
     [EditorRequired]

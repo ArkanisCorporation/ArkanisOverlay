@@ -3,8 +3,11 @@
         <div style="height: 33vh; overflow: auto">
             <MudTimeline TimelinePosition="@TimelinePosition.Left"
                          Style="min-height: 100%">
-                <TradeRunStageTimelineItems
-                    Model="@Model"/>
+                @foreach (var playerEvent in Model.CreateEvents().OrderBy(x => x.OccuredAt))
+                {
+                    <TradeRunPlayerEventTimelineItem
+                        Model="@playerEvent"/>
+                }
             </MudTimeline>
         </div>
     </MudItem>
@@ -63,10 +66,9 @@
                               Row>
                         <MudText Typo="@Typo.h6"
                                  Color="@(Model.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
-                            <QuantityLabel
-                                Model="@Model.Quantity"/>
+                            @Model.Quantity.ToString()
                         </MudText>
-                        <MudText Typo="@Typo.h6" Color="@Color.Success">
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
                             /
                         </MudText>
                         <MudText Typo="@Typo.h6" Color="@Color.Success">

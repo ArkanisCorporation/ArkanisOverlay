@@ -26,8 +26,8 @@
                         PreferCode/>
                 }
                 <span>
-                from
-            </span>
+                    from
+                </span>
                 @foreach (var (terminalIndex, terminal) in Model.Acquisitions
                                   .OfType<TradeRun.TerminalPurchaseStage>()
                                   .Select(x => x.Terminal)
@@ -40,12 +40,12 @@
                     }
 
                     <span>
-                    @terminal.Name.Location?.Location.Name.MainContent.FullName
-                </span>
+                        @terminal.Name.Location?.Location.Name.MainContent.FullName
+                    </span>
                 }
                 <span>
-                to
-            </span>
+                    to
+                </span>
                 @foreach (var (terminalIndex, terminal) in Model.Sales
                                   .OfType<TradeRun.TerminalSaleStage>()
                                   .Select(x => x.Terminal)
@@ -59,14 +59,23 @@
 
 
                     <span>
-                    @terminal.Name.Location?.Location.Name.MainContent.FullName
-                </span>
+                        @terminal.Name.Location?.Location.Name.MainContent.FullName
+                    </span>
                 }
             </MudStack>
         </MudText>
-        <MudText Typo="@Typo.body2" Class="text-secondary">
-            Currently: TODO stage
-        </MudText>
+        @if (Model.StageInProgress is { } stage)
+        {
+            <MudText Typo="@Typo.body2" Class="text-secondary">
+                @stage.CurrentStepTitle
+            </MudText>
+        }
+        else
+        {
+            <MudText Typo="@Typo.body2" Class="text-secondary">
+                Finalize the trade run
+            </MudText>
+        }
     </MudStack>
     <MudIconButton
         Class="visible-on-parent-hover"

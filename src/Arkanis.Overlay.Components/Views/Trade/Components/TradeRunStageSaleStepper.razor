@@ -15,12 +15,21 @@
                 Location="@destinationLocation"
                 StepTitle="Unload"
                 Title="Unload cargo"
-                Description="Unload purchased cargo from your ship at"/>
+                Description="Unload the purchased cargo from your ship at"/>
 
             <TradeRunStageSellCargoStep
                 Model="@terminalSale"
                 ModelChanged="@(x => ModelChanged.InvokeAsync(x))"
                 TradeRun="@TradeRun"/>
+
+            <TradeRunStageUnloadCargoStep
+                Model="@terminalSale"
+                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"
+                Location="@destinationLocation"
+                StepTitle="Auto-unload"
+                Title="Wait for cargo to unload"
+                Description="Wait for the cargo to unload from your ship at"
+                IsPostTrade/>
         }
         else
         {

@@ -43,7 +43,7 @@
                             Color="@Color.Success"/>
                     }
                     <MudText Style="color: var(--mud-palette-text-primary);">
-                        @stage.GetType().Name
+                        @stage.Title
                     </MudText>
                 </MudStack>
             </TitleContent>
@@ -65,7 +65,9 @@
     }
 
     <MudExpansionPanel Gutters="false"
-                       Expanded="@AllStagesComplete">
+                       Expanded="@AllStagesComplete"
+                       Disabled="@AllStagesComplete"
+                       HideIcon="@AllStagesComplete">
         <TitleContent>
             <MudStack Row>
                 <MudIcon
@@ -83,16 +85,18 @@
                     @if (Model.HasUnsoldCargo)
                     {
                         <MudButton Class="w-100"
+                                   OnClick="FinalizeRun"
                                    Color="@Color.Error">
                             Finalize - remaining cargo lost
                         </MudButton>
                         <MudButton Class="w-100"
+                                   OnClick="FinalizeRunCargoKept"
                                    Color="@Color.Warning"
                                    Disabled="@IsInProgress">
                             Finalize - keep cargo in the inventory
                         </MudButton>
                         <MudButton Class="w-100"
-                                   OnClick="OnContinueToDifferentLocation"
+                                   OnClick="ContinueToDifferentLocation"
                                    Variant="@Variant.Outlined"
                                    Color="@Color.Success"
                                    Disabled="@IsInProgress">
@@ -102,6 +106,7 @@
                     else
                     {
                         <MudButton Class="w-100"
+                                   OnClick="FinalizeRun"
                                    Variant="@Variant.Outlined"
                                    Color="@Color.Success"
                                    Disabled="@IsInProgress">
@@ -119,9 +124,6 @@
     private bool AllStagesComplete
         => Model.Stages.All(x => x.FinalizedAt is not null);
 
-    private object? StageInProgress
-        => Model.Stages.FirstOrDefault(x => x.FinalizedAt is null);
-
     private bool IsInProgress
         => !AllStagesComplete;
 
@@ -138,12 +140,13 @@
     private async Task OnUpdateAsync(TradeRun.Stage _)
         => await ModelChanged.InvokeAsync(Model);
 
-    protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
-    }
+    private Task FinalizeRun()
+        => Task.CompletedTask;
 
-    private async Task OnContinueToDifferentLocation()
+    private Task FinalizeRunCargoKept()
+        => Task.CompletedTask;
+
+    private async Task ContinueToDifferentLocation()
     {
         var location = await SelectGameLocationDialog.ShowAsync(DialogService, IsAcceptableDestination);
         if (location is GameTerminal terminal)

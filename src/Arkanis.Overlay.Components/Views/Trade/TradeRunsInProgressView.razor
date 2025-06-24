@@ -18,7 +18,7 @@
 
     .mud-stepper {
         .mud-stepper-content > .d-flex[role="group"] {
-            height: 33vh;
+            min-height: 30vh;
         }
     }
 
@@ -104,6 +104,8 @@
         foreach (var tradeRoute in Routes.Take(4))
         {
             var commodity = new CommodityReference(tradeRoute.Commodity);
+            var commodityQuantity = new QuantityOf(commodity, tradeRoute.Origin.CargoUnitsAvailable, Quantity.UnitType.StandardCargoUnit);
+
             var tradeRun = new TradeRun
             {
                 Acquisitions =
@@ -115,7 +117,7 @@
                         StockStatus = tradeRoute.Origin.InventoryStatus,
                         Stock = Quantity.FromScu(tradeRoute.Origin.CargoUnitsAvailable),
                         Terminal = tradeRoute.Origin.Terminal,
-                        Quantity = new QuantityOf(commodity, tradeRoute.Origin.CargoUnitsAvailable, Quantity.UnitType.StandardCargoUnit),
+                        Quantity = commodityQuantity,
                     },
                 ],
                 Sales =
@@ -126,7 +128,7 @@
                         MaxContainerSize = tradeRoute.Destination.MaxContainerSize,
                         StockStatus = tradeRoute.Destination.InventoryStatus,
                         Terminal = tradeRoute.Destination.Terminal,
-                        Quantity = new QuantityOf(commodity, tradeRoute.Destination.CargoUnitsAvailable, Quantity.UnitType.StandardCargoUnit),
+                        Quantity = commodityQuantity,
                     },
                 ],
             };

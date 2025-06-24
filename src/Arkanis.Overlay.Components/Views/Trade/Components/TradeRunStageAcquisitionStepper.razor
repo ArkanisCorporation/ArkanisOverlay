@@ -14,7 +14,8 @@
 
             <TradeRunStageLoadCargoStep
                 Model="@terminalPurchase"
-                Location="@terminalPurchase.Terminal"/>
+                Location="@terminalPurchase.Terminal"
+                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"/>
         }
         else
         {
