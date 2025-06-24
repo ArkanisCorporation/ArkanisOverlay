@@ -1,0 +1,84 @@
+<MudStepper>
+    <ChildContent>
+        @if (Model is TradeRun.TerminalPurchaseStage terminalPurchase)
+        {
+            <TradeRunStageTravelToStep
+                Model="@terminalPurchase"
+                Location="@terminalPurchase.Terminal"
+                StepTitle="Reach origin"
+                Description="Reach the origin purchase terminal at"/>
+
+            <TradeRunStagePurchaseCargoStep
+                Model="@terminalPurchase"
+                ModelChanged="@(x => ModelChanged.InvokeAsync(x))"/>
+
+            <TradeRunStageLoadCargoStep
+                Model="@terminalPurchase"
+                Location="@terminalPurchase.Terminal"/>
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Error">
+                Trade run model of type @Model.GetType() is not supported.
+            </MudAlert>
+        }
+    </ChildContent>
+    <CompletedContent>
+        <TradeRunStageSummary Model="@Model"
+                              TradeRun="@TradeRun">
+            <ControlsContent>
+                @if (!IsCompleted)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               OnClick="@OnFinalizeClick"
+                               StartIcon="@MaterialIcons.Filled.FlightTakeoff"
+                               Color="@Color.Success"
+                               Class="w-100">
+                        Finalize stage and continue
+                    </MudButton>
+                }
+            </ControlsContent>
+        </TradeRunStageSummary>
+    </CompletedContent>
+    <ActionContent>
+        @* Navigation is controlled by step contents. *@
+    </ActionContent>
+</MudStepper>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun.AcquisitionStage Model { get; set; }
+
+    [Parameter]
+    public EventCallback<TradeRun.AcquisitionStage> ModelChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun TradeRun { get; set; }
+
+    [Parameter]
+    public bool IsCompleted { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsCompletedChanged { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        IsCompleted = Model.FinalizedAt is not null;
+    }
+
+    private async Task OnFinalizeClick()
+    {
+        Model.FinalizedAt = DateTimeOffset.Now;
+
+        if (IsCompleted == false)
+        {
+            IsCompleted = true;
+            await IsCompletedChanged.InvokeAsync(true);
+        }
+    }
+}

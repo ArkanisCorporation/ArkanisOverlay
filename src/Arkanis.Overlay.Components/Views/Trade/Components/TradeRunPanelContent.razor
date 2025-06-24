@@ -1,0 +1,165 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IDialogService DialogService
+
+<MudExpansionPanels MultiExpansion
+                    Gutters="false"
+                    Class="stages">
+    @{ var isFirstIncomplete = true; }
+    @foreach (var stage in Model.Stages)
+    {
+        var isIncomplete = stage.FinalizedAt is null;
+        var isCurrentlyInProgress = isIncomplete && isFirstIncomplete;
+        if (isCurrentlyInProgress)
+        {
+            stage.StartedAt ??= DateTimeOffset.Now;
+        }
+
+        <MudExpansionPanel @key="@stage"
+                           Tag="@stage"
+                           Gutters="false"
+                           Disabled="@isIncomplete"
+                           Expanded="@isCurrentlyInProgress"
+                           HideIcon="@isIncomplete">
+            <TitleContent>
+                <MudStack Row>
+                    @if (isCurrentlyInProgress)
+                    {
+                        <MudProgressCircular
+                            Style="animation-duration: 8s;"
+                            Color="@Color.Warning"
+                            Size="@Size.Small"
+                            Indeterminate/>
+                    }
+                    else if (isIncomplete)
+                    {
+                        <MudIcon
+                            Icon="@MaterialIcons.Filled.HourglassTop"/>
+                    }
+                    else
+                    {
+                        <MudIcon
+                            Icon="@MaterialIcons.Filled.CheckCircle"
+                            Color="@Color.Success"/>
+                    }
+                    <MudText Style="color: var(--mud-palette-text-primary);">
+                        @stage.GetType().Name
+                    </MudText>
+                </MudStack>
+            </TitleContent>
+            <ChildContent>
+                <MudDivider/>
+
+                <TradeRunStageStepper
+                    Model="@stage"
+                    ModelChanged="@OnUpdateAsync"
+                    TradeRun="@Model"
+                    IsCompletedChanged="OnStageCompletedChanged"/>
+            </ChildContent>
+        </MudExpansionPanel>
+
+        if (isIncomplete)
+        {
+            isFirstIncomplete = false;
+        }
+    }
+
+    <MudExpansionPanel Gutters="false"
+                       Expanded="@AllStagesComplete">
+        <TitleContent>
+            <MudStack Row>
+                <MudIcon
+                    Icon="@MaterialIcons.Filled.FileOpen"/>
+                <MudText>
+                    Run Summary
+                </MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider/>
+
+            <TradeRunSummary Model="@Model">
+                <ControlsContent>
+                    @if (Model.HasUnsoldCargo)
+                    {
+                        <MudButton Class="w-100"
+                                   Color="@Color.Error">
+                            Finalize - remaining cargo lost
+                        </MudButton>
+                        <MudButton Class="w-100"
+                                   Color="@Color.Warning"
+                                   Disabled="@IsInProgress">
+                            Finalize - keep cargo in the inventory
+                        </MudButton>
+                        <MudButton Class="w-100"
+                                   OnClick="OnContinueToDifferentLocation"
+                                   Variant="@Variant.Outlined"
+                                   Color="@Color.Success"
+                                   Disabled="@IsInProgress">
+                            Continue to a different destination
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Class="w-100"
+                                   Variant="@Variant.Outlined"
+                                   Color="@Color.Success"
+                                   Disabled="@IsInProgress">
+                            Finalize
+                        </MudButton>
+                    }
+                </ControlsContent>
+            </TradeRunSummary>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code
+{
+    private bool AllStagesComplete
+        => Model.Stages.All(x => x.FinalizedAt is not null);
+
+    private object? StageInProgress
+        => Model.Stages.FirstOrDefault(x => x.FinalizedAt is null);
+
+    private bool IsInProgress
+        => !AllStagesComplete;
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun Model { get; set; }
+
+    [Parameter]
+    public EventCallback<TradeRun> ModelChanged { get; set; }
+
+    private void OnStageCompletedChanged()
+        => StateHasChanged();
+
+    private async Task OnUpdateAsync(TradeRun.Stage _)
+        => await ModelChanged.InvokeAsync(Model);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task OnContinueToDifferentLocation()
+    {
+        var location = await SelectGameLocationDialog.ShowAsync(DialogService, IsAcceptableDestination);
+        if (location is GameTerminal terminal)
+        {
+            foreach (var unsoldQuantity in Model.UnsoldQuantities)
+            {
+                var stage = new TradeRun.TerminalSaleStage
+                {
+                    Terminal = terminal,
+                    Quantity = unsoldQuantity with { },
+                };
+                Model.Sales.Add(stage);
+            }
+        }
+    }
+
+    private bool IsAcceptableDestination(IGameLocation location)
+        => location is GameTerminal;
+}

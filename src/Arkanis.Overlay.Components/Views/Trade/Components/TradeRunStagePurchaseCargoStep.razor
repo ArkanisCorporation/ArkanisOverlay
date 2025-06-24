@@ -1,0 +1,143 @@
+<MudStep Title="Obtain cargo"
+         Completed="@IsCompleted"
+         Disabled="@IsDisabled">
+    <MudStack AlignItems="@AlignItems.Center"
+              Justify="@Justify.Center"
+              Spacing="6">
+        <MudStack AlignItems="AlignItems.Center"
+                  Spacing="0">
+            <MudText Typo="@Typo.h5">
+                Purchase
+            </MudText>
+            <MudText Typo="@Typo.body2">
+                Make a purchase of the selected commodity
+            </MudText>
+        </MudStack>
+        <MudStack AlignItems="AlignItems.Center"
+                  Spacing="6"
+                  Row>
+            <GameEntityNameLabel
+                Model="@Model.Quantity.Reference.Entity.Name"/>
+            @* <MudText> *@
+            @*     with max. container size of *@
+            @* </MudText> *@
+            @* <MudText Typo="@Typo.h5"> *@
+            @*     @TradeRun.Destination.MaxContainerSize.Humanize() *@
+            @* </MudText> *@
+        </MudStack>
+        <MudGrid Style="min-width: 400px; max-width: 75%;">
+            <MudItem xs="12" sm="6" md="4">
+                <MudNumericField
+                    Label="Quantity purchased (SCU)"
+                    @bind-Value="@Model.Quantity.Amount"
+                    @bind-Value:after="@UpdateAsync"
+                    Min="0"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudNumericField
+                    Label="Purchase price (per SCU)"
+                    @bind-Value="@Model.PricePerUnit.Amount"
+                    @bind-Value:after="@UpdateAsync"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudStack AlignItems="@AlignItems.End"
+                          Justify="@Justify.Center"
+                          Class="h-100">
+                    <MudText Typo="@Typo.h6"
+                             Color="@Color.Error">
+                        =
+                        <GameCurrencyLabel
+                            Model="@Model.PriceTotal"/>
+                    </MudText>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="5">
+                <MudSelect T="TerminalInventoryStatus"
+                           Label="Remaining stock status"
+                           @bind-Value="@Model.StockStatus"
+                           HelperText="Stock status reported AFTER the purchase">
+                    @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
+                    {
+                        <MudSelectItem Value="@status">
+                            @status.Humanize()
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudNumericField
+                    Label="Remaining stock (SCU)"
+                    @bind-Value="@Model.Stock.Amount"
+                    HelperText="Stock reported AFTER the purchase"
+                    Min="0"/>
+            </MudItem>
+            <MudItem xs="12" md="3">
+                <MudSelect T="GameContainerSize"
+                           Label="Max. available container"
+                           @bind-Value="@Model.MaxContainerSize">
+                    @foreach (var status in Enum.GetValues<GameContainerSize>().Where(x => x is not GameContainerSize.Unknown))
+                    {
+                        <MudSelectItem Value="@status">
+                            @status.Humanize()
+                        </MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+        <MudCheckBox @bind-Value="@Model.SourcedDataConfirmed">
+            <MudStack Spacing="0">
+                <MudText>
+                    I have verified the provided values
+                </MudText>
+                <MudText Typo="Typo.caption" Class="text-secondary">
+                    By providing these values you are contributing to the accuracy of the trade routes for all players
+                </MudText>
+            </MudStack>
+        </MudCheckBox>
+        <MudButton StartIcon="@MaterialIcons.Filled.AddShoppingCart"
+                   OnClick="@OnAcquiredClick"
+                   Color="@Color.Success"
+                   Size="@Size.Large">
+            I have made the purchase
+        </MudButton>
+    </MudStack>
+</MudStep>
+
+@code
+{
+
+    private bool IsCompleted
+        => Model.AcquiredAt is not null;
+
+    private bool IsDisabled
+        => IsCompleted;
+
+    [CascadingParameter]
+    public MudStepper? StepperReference { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun.TerminalPurchaseStage Model { get; set; }
+
+    [Parameter]
+    public EventCallback<TradeRun.TerminalPurchaseStage> ModelChanged { get; set; }
+
+    private async Task NextStepAsync()
+    {
+        if (StepperReference is not null)
+        {
+            await StepperReference.NextStepAsync();
+        }
+    }
+
+    private async Task UpdateAsync()
+        => await ModelChanged.InvokeAsync(Model);
+
+    private async Task OnAcquiredClick()
+    {
+        Model.AcquiredAt = DateTimeOffset.Now;
+        await NextStepAsync();
+    }
+}

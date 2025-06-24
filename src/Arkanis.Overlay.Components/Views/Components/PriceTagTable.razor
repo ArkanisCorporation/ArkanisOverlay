@@ -1,4 +1,3 @@
-@using Humanizer
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .mud-table thead th {
@@ -34,7 +33,7 @@
                 <MudTd>
                     @if (priceTag is BarePriceTag barePriceTag)
                     {
-                        <GamePriceLabel Model="@barePriceTag.Price"/>
+                        <GameCurrencyLabel Model="@barePriceTag.Price"/>
                     }
                     else
                     {

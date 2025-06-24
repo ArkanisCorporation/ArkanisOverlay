@@ -1,0 +1,149 @@
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.Check"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Accepted
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.FlightLand"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Reached origin terminal
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Warning"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.AddShoppingCart"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Cargo acquired
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.FrontLoader"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Cargo loaded
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.FlightLand"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Reached destination terminal
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.FrontLoader"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Cargo unloaded
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+<MudTimelineItem Color="@Color.Success"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@MaterialIcons.Filled.AttachMoney"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                Cargo sold
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                @((DateTimeOffset.Now + ApplicationConstants.GameTimeOffset).ToString("F")),
+                Earth, Sol
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun.Stage Model { get; set; }
+
+}

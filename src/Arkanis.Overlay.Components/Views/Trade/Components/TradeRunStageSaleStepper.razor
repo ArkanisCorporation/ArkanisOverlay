@@ -1,0 +1,89 @@
+<MudStepper>
+    <ChildContent>
+        @if (Model is TradeRun.TerminalSaleStage terminalSale)
+        {
+            var destinationLocation = terminalSale.Terminal.Parent ?? terminalSale.Terminal;
+            <TradeRunStageTravelToStep
+                Model="@terminalSale"
+                Location="@destinationLocation"
+                StepTitle="Reach destination"
+                Description="Reach the destination at"/>
+
+            <TradeRunStageUnloadCargoStep
+                Model="@terminalSale"
+                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"
+                Location="@destinationLocation"
+                StepTitle="Unload"
+                Title="Unload cargo"
+                Description="Unload purchased cargo from your ship at"/>
+
+            <TradeRunStageSellCargoStep
+                Model="@terminalSale"
+                ModelChanged="@(x => ModelChanged.InvokeAsync(x))"
+                TradeRun="@TradeRun"/>
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Error">
+                Trade run model of type @Model.GetType() is not supported.
+            </MudAlert>
+        }
+    </ChildContent>
+    <CompletedContent>
+        <TradeRunStageSummary Model="@Model"
+                              TradeRun="@TradeRun">
+            <ControlsContent>
+                @if (!IsCompleted)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               OnClick="@OnFinalizeClick"
+                               Color="@Color.Success"
+                               Class="w-100">
+                        Finalize stage
+                    </MudButton>
+                }
+            </ControlsContent>
+        </TradeRunStageSummary>
+    </CompletedContent>
+    <ActionContent>
+        @* Navigation is controlled by step contents. *@
+    </ActionContent>
+</MudStepper>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun.SaleStage Model { get; set; }
+
+    [Parameter]
+    public EventCallback<TradeRun.SaleStage> ModelChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun TradeRun { get; set; }
+
+    [Parameter]
+    public bool IsCompleted { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsCompletedChanged { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        IsCompleted = Model.FinalizedAt is not null;
+    }
+
+    private async Task OnFinalizeClick()
+    {
+        Model.FinalizedAt = DateTimeOffset.Now;
+
+        if (IsCompleted == false)
+        {
+            IsCompleted = true;
+            await IsCompletedChanged.InvokeAsync(true);
+        }
+    }
+}

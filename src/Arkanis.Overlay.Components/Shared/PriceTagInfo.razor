@@ -8,7 +8,7 @@
     }
     @if (Model is KnownPriceTag knownPriceTag)
     {
-        <GamePriceLabel Model="@knownPriceTag.Price"/>
+        <GameCurrencyLabel Model="@knownPriceTag.Price"/>
         if (Model is KnownPriceTagWithLocation priceTagWithLocation)
         {
             <GameLocationLabel Model="@priceTagWithLocation.Location"/>

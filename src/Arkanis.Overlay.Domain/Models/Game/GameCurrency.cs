@@ -15,6 +15,8 @@ public record GameCurrency(int Amount) : IComparable<GameCurrency>, IFormattable
     public static string Symbol
         => ApplicationConstants.CurrencySymbol;
 
+    public int Amount { get; set; } = Amount;
+
     public int CompareTo(GameCurrency? other)
     {
         if (ReferenceEquals(this, other))

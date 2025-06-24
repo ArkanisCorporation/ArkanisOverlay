@@ -1,0 +1,102 @@
+<MudStack AlignItems="@AlignItems.Center"
+          Class="mr-4"
+          Row>
+    <MudChip T="string">
+        <QuantityAggregateLabel
+            Models="@(Model.Acquisitions.Select(x => x.Quantity))"/>
+    </MudChip>
+    <MudStack Spacing="0"
+              Class="flex-truncate">
+
+        <MudText Typo="@Typo.h5">
+            <MudStack AlignItems="@AlignItems.Baseline" Row>
+                @foreach (var (entityIndex, entity) in Model.Acquisitions
+                                  .Select(x => x.Quantity.Reference.Entity)
+                                  .Distinct()
+                                  .Index())
+                {
+                    if (entityIndex > 0)
+                    {
+                        <span>,</span>
+                    }
+
+                    <GameEntityNameLabel
+                        Model="@entity.Name"
+                        Style=""
+                        PreferCode/>
+                }
+                <span>
+                from
+            </span>
+                @foreach (var (terminalIndex, terminal) in Model.Acquisitions
+                                  .OfType<TradeRun.TerminalPurchaseStage>()
+                                  .Select(x => x.Terminal)
+                                  .Distinct()
+                                  .Index())
+                {
+                    if (terminalIndex > 0)
+                    {
+                        <span>,</span>
+                    }
+
+                    <span>
+                    @terminal.Name.Location?.Location.Name.MainContent.FullName
+                </span>
+                }
+                <span>
+                to
+            </span>
+                @foreach (var (terminalIndex, terminal) in Model.Sales
+                                  .OfType<TradeRun.TerminalSaleStage>()
+                                  .Select(x => x.Terminal)
+                                  .Distinct()
+                                  .Index())
+                {
+                    if (terminalIndex > 0)
+                    {
+                        <span>,</span>
+                    }
+
+
+                    <span>
+                    @terminal.Name.Location?.Location.Name.MainContent.FullName
+                </span>
+                }
+            </MudStack>
+        </MudText>
+        <MudText Typo="@Typo.body2" Class="text-secondary">
+            Currently: TODO stage
+        </MudText>
+    </MudStack>
+    <MudIconButton
+        Class="visible-on-parent-hover"
+        Color="@Color.Warning"
+        Icon="@Icons.Material.Filled.Edit"/>
+    <MudIconButton
+        Class="visible-on-parent-hover"
+        Color="@Color.Error"
+        Icon="@Icons.Material.Filled.DeleteForever"/>
+    <MudSpacer/>
+    <MudStack AlignItems="@AlignItems.End" Spacing="0"
+              Class="h-100">
+        <MudText Class="mb-n3">
+            <GameCurrencyLabel
+                Model="@(Model.Investment)"
+                Typo="@Typo.h6"
+                UseColour/>
+        </MudText>
+        <GameCurrencyLabel
+            Model="@(Model.Profit)"
+            Typo="@Typo.h6"
+            UseColour/>
+    </MudStack>
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun Model { get; set; }
+
+}

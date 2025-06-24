@@ -154,3 +154,11 @@
         flex: 1;
     }
 }
+
+.mud-expand-panel.mud-panel-expanded.mud-disabled {
+    .mud-icon-root,
+    .mud-svg-icon,
+    .mud-icon-default {
+        color: inherit;
+    }
+}

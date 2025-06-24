@@ -150,7 +150,7 @@
                                       Class="text-right h-100"
                                       Spacing="0">
                                 <MudText Typo="Typo.inherit" Color="@Color.Error">
-                                    <GamePriceLabel
+                                    <GameCurrencyLabel
                                         Model="@(priceOrigin * scuReachable)"
                                         Decimals="1"/>
                                 </MudText>
@@ -185,14 +185,14 @@
                             <MudStack Spacing="0"
                                       Class="text-right">
                                 <MudText Typo="Typo.inherit">
-                                    <GamePriceLabel
+                                    <GameCurrencyLabel
                                         Model="@(priceDestination * scuReachable)"
                                         Decimals="1"/>
                                 </MudText>
                                 <MudText Typo="Typo.inherit"
                                          Color="@Color.Success"
                                          Class="no-wrap">
-                                    <GamePriceLabel
+                                    <GameCurrencyLabel
                                         Model="@(priceDestination * scuReachable - priceOrigin * scuReachable)"
                                         Prefix="+"
                                         Decimals="1"/>
