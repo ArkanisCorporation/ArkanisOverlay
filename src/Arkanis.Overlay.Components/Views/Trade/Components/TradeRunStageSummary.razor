@@ -1,90 +1,76 @@
 @inherits TradeRunStageComponent<TradeRun.Stage>
 
-<MudGrid>
-    <MudItem xs="12" md="6">
-        <div style="height: 33vh; overflow: auto">
-            <MudTimeline TimelinePosition="@TimelinePosition.Left"
-                         Style="min-height: 100%">
-                @foreach (var playerEvent in Stage.CreateEvents().OrderBy(x => x.OccuredAt))
-                {
-                    <TradeRunPlayerEventTimelineItem
-                        Model="@playerEvent"/>
-                }
-            </MudTimeline>
-        </div>
-    </MudItem>
-    <MudItem xs="12" md="6">
-        <MudStack Class="h-100 w-100 pa-6">
+<TradeRunSummaryTemplate Events="@Stage.CreateEvents()">
+    <MudStack Class="h-100 w-100 pa-6">
+        <MudStack AlignItems="@AlignItems.Baseline"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="Typo.h6">
+                Stage balance
+            </MudText>
+            <GameCurrencyLabel
+                Model="@Stage.Balance"
+                Typo="@Typo.h6"
+                UseColour/>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Baseline"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="Typo.h6">
+                Stage length
+            </MudText>
+            <MudText Typo="Typo.h6" Color="@Color.Success">
+                @StageLength.Humanize()
+            </MudText>
+        </MudStack>
+        @if (Stage is TradeRun.AcquisitionStage)
+        {
             <MudStack AlignItems="@AlignItems.Baseline"
                       Justify="@Justify.SpaceBetween"
                       Class="w-100"
                       Row>
                 <MudText Typo="Typo.h6">
-                    Stage balance
-                </MudText>
-                <GameCurrencyLabel
-                    Model="@Stage.Balance"
-                    Typo="@Typo.h6"
-                    UseColour/>
-            </MudStack>
-            <MudStack AlignItems="@AlignItems.Baseline"
-                      Justify="@Justify.SpaceBetween"
-                      Class="w-100"
-                      Row>
-                <MudText Typo="Typo.h6">
-                    Stage length
+                    Cargo bought
                 </MudText>
                 <MudText Typo="Typo.h6" Color="@Color.Success">
-                    @StageLength.Humanize()
+                    <QuantityLabel
+                        Model="@Stage.Quantity"/>
                 </MudText>
             </MudStack>
-            @if (Stage is TradeRun.AcquisitionStage)
-            {
+        }
+        else if (Stage is TradeRun.SaleStage)
+        {
+            var acquiredQuantity = TradeRun.AcquiredQuantityOf(Stage.Quantity.Reference.EntityId);
+            <MudStack AlignItems="@AlignItems.Baseline"
+                      Justify="@Justify.SpaceBetween"
+                      Class="w-100"
+                      Row>
+                <MudText Typo="Typo.h6">
+                    Cargo sold
+                </MudText>
                 <MudStack AlignItems="@AlignItems.Baseline"
-                          Justify="@Justify.SpaceBetween"
-                          Class="w-100"
+                          Justify="@Justify.FlexEnd"
                           Row>
-                    <MudText Typo="Typo.h6">
-                        Cargo bought
+                    <MudText Typo="@Typo.h6"
+                             Color="@(Stage.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
+                        @Stage.Quantity.ToString()
                     </MudText>
-                    <MudText Typo="Typo.h6" Color="@Color.Success">
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        /
+                    </MudText>
+                    <MudText Typo="@Typo.h6" Color="@Color.Success">
                         <QuantityLabel
-                            Model="@Stage.Quantity"/>
+                            Model="@acquiredQuantity"/>
                     </MudText>
                 </MudStack>
-            }
-            else if (Stage is TradeRun.SaleStage)
-            {
-                var acquiredQuantity = TradeRun.AcquiredQuantityOf(Stage.Quantity.Reference.EntityId);
-                <MudStack AlignItems="@AlignItems.Baseline"
-                          Justify="@Justify.SpaceBetween"
-                          Class="w-100"
-                          Row>
-                    <MudText Typo="Typo.h6">
-                        Cargo sold
-                    </MudText>
-                    <MudStack AlignItems="@AlignItems.Baseline"
-                              Justify="@Justify.FlexEnd"
-                              Row>
-                        <MudText Typo="@Typo.h6"
-                                 Color="@(Stage.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
-                            @Stage.Quantity.ToString()
-                        </MudText>
-                        <MudText Typo="@Typo.h6" Class="text-secondary">
-                            /
-                        </MudText>
-                        <MudText Typo="@Typo.h6" Color="@Color.Success">
-                            <QuantityLabel
-                                Model="@acquiredQuantity"/>
-                        </MudText>
-                    </MudStack>
-                </MudStack>
-            }
-            <MudSpacer/>
-            @ControlsContent
-        </MudStack>
-    </MudItem>
-</MudGrid>
+            </MudStack>
+        }
+        <MudSpacer/>
+        @ControlsContent
+    </MudStack>
+</TradeRunSummaryTemplate>
 
 @code
 {

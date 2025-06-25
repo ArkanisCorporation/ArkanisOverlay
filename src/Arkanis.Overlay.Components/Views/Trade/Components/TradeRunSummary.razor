@@ -1,70 +1,56 @@
 @inherits TradeRunComponent
 
-<MudGrid>
-    <MudItem xs="12" md="6">
-        <div style="height: 33vh; overflow: auto">
-            <MudTimeline TimelinePosition="@TimelinePosition.Left"
-                         Style="min-height: 100%">
-                @foreach (var playerEvent in TradeRun.CreateEvents())
-                {
-                    <TradeRunPlayerEventTimelineItem
-                        Model="@playerEvent"/>
-                }
-            </MudTimeline>
-        </div>
-    </MudItem>
-    <MudItem xs="12" md="6">
-        <MudStack Class="h-100 w-100 pa-6">
-            <MudStack AlignItems="@AlignItems.Center"
-                      Justify="@Justify.SpaceBetween"
-                      Class="w-100"
+<TradeRunSummaryTemplate Events="@TradeRun.CreateEvents()">
+    <MudStack Class="h-100 w-100 pa-6">
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="@Typo.h6">
+                Trade run profit
+            </MudText>
+            <GameCurrencyLabel
+                Model="@TradeRun.Profit"
+                Typo="@Typo.h6"
+                UseColour/>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="@Typo.h6">
+                Trade run length
+            </MudText>
+            <MudText Typo="@Typo.h6" Color="@Color.Success">
+                @(((TradeRun.FinishedAt ?? DateTimeOffset.UtcNow) - TradeRun.CreatedAt).Humanize())
+            </MudText>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="@Typo.h6">
+                Cargo sold
+            </MudText>
+            <MudStack AlignItems="@AlignItems.End"
                       Row>
-                <MudText Typo="@Typo.h6">
-                    Trade run profit
+                <MudText Typo="@Typo.h6" Color="@Color.Warning">
+                    <QuantityAggregateLabel
+                        Models="@(TradeRun.Sales.Select(x => x.Quantity))"/>
                 </MudText>
-                <GameCurrencyLabel
-                    Model="@TradeRun.Profit"
-                    Typo="@Typo.h6"
-                    UseColour/>
-            </MudStack>
-            <MudStack AlignItems="@AlignItems.Center"
-                      Justify="@Justify.SpaceBetween"
-                      Class="w-100"
-                      Row>
-                <MudText Typo="@Typo.h6">
-                    Trade run length
+                <MudText Typo="@Typo.h6" Class="text-secondary">
+                    /
                 </MudText>
                 <MudText Typo="@Typo.h6" Color="@Color.Success">
-                    @(((TradeRun.FinishedAt ?? DateTimeOffset.UtcNow) - TradeRun.CreatedAt).Humanize())
+                    <QuantityAggregateLabel
+                        Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
                 </MudText>
             </MudStack>
-            <MudStack AlignItems="@AlignItems.Center"
-                      Justify="@Justify.SpaceBetween"
-                      Class="w-100"
-                      Row>
-                <MudText Typo="@Typo.h6">
-                    Cargo sold
-                </MudText>
-                <MudStack AlignItems="@AlignItems.End"
-                          Row>
-                    <MudText Typo="@Typo.h6" Color="@Color.Warning">
-                        <QuantityAggregateLabel
-                            Models="@(TradeRun.Sales.Select(x => x.Quantity))"/>
-                    </MudText>
-                    <MudText Typo="@Typo.h6" Class="text-secondary">
-                        /
-                    </MudText>
-                    <MudText Typo="@Typo.h6" Color="@Color.Success">
-                        <QuantityAggregateLabel
-                            Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
-                    </MudText>
-                </MudStack>
-            </MudStack>
-            <MudSpacer/>
-            @ControlsContent
         </MudStack>
-    </MudItem>
-</MudGrid>
+        <MudSpacer/>
+        @ControlsContent
+    </MudStack>
+</TradeRunSummaryTemplate>
 
 @code
 {
