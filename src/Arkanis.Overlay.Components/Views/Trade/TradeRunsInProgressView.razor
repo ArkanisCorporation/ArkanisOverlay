@@ -74,13 +74,13 @@
                     <TitleContent>
                         <TradeRunPanelTitle
                             TradeRun="tradeRun"
-                            TradeRunChanged="@StateHasChanged"/>
+                            TradeRunChanged="@OnTradeRunChanged"/>
                     </TitleContent>
                     <ChildContent>
                         <MudDivider/>
                         <TradeRunPanelContent
                             TradeRun="tradeRun"
-                            TradeRunChanged="@StateHasChanged"/>
+                            TradeRunChanged="@OnTradeRunChanged"/>
                     </ChildContent>
                 </MudExpansionPanel>
             }
@@ -139,4 +139,9 @@
         }
     }
 
+    private async Task OnTradeRunChanged()
+    {
+        // TODO: persist trade run changes
+        await InvokeAsync(StateHasChanged);
+    }
 }

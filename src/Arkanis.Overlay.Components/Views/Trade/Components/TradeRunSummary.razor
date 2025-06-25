@@ -22,7 +22,7 @@
                 Trade run length
             </MudText>
             <MudText Typo="@Typo.h6" Color="@Color.Success">
-                @(((TradeRun.FinishedAt ?? DateTimeOffset.UtcNow) - TradeRun.CreatedAt).Humanize())
+                @(((TradeRun.FinalizedAt ?? DateTimeOffset.UtcNow) - TradeRun.CreatedAt).Humanize())
             </MudText>
         </MudStack>
         <MudStack AlignItems="@AlignItems.Center"
@@ -32,20 +32,38 @@
             <MudText Typo="@Typo.h6">
                 Cargo sold
             </MudText>
-            <MudStack AlignItems="@AlignItems.End"
-                      Row>
-                <MudText Typo="@Typo.h6" Color="@Color.Warning">
-                    <QuantityAggregateLabel
-                        Models="@(TradeRun.Sales.Select(x => x.Quantity))"/>
-                </MudText>
+            @if (TradeRun.AcquiredQuantities.ToList() is { Count: > 0 } acquiredQuantities)
+            {
+                <MudStack AlignItems="@AlignItems.Center"
+                          Row>
+                    @if (TradeRun.SoldQuantities.ToList() is { Count: > 0 } soldQuantities)
+                    {
+                        <MudText Typo="@Typo.h6" Color="@(TradeRun.HasUnsoldCargo ? Color.Warning : Color.Success)">
+                            <QuantityAggregateLabel
+                                Models="@soldQuantities"/>
+                        </MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            0
+                        </MudText>
+                    }
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        /
+                    </MudText>
+                    <MudText Typo="@Typo.h6" Color="@Color.Success">
+                        <QuantityAggregateLabel
+                            Models="@acquiredQuantities"/>
+                    </MudText>
+                </MudStack>
+            }
+            else
+            {
                 <MudText Typo="@Typo.h6" Class="text-secondary">
-                    /
+                    N/A
                 </MudText>
-                <MudText Typo="@Typo.h6" Color="@Color.Success">
-                    <QuantityAggregateLabel
-                        Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
-                </MudText>
-            </MudStack>
+            }
         </MudStack>
         <MudSpacer/>
         @ControlsContent

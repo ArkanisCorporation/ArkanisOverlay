@@ -83,36 +83,39 @@
             <TradeRunSummary TradeRun="@TradeRun"
                              TradeRunChanged="@UpdateRunAsync">
                 <ControlsContent>
-                    @if (TradeRun.HasUnsoldCargo)
+                    @if (!TradeRun.FinalizedAt.HasValue)
                     {
-                        <MudButton Class="w-100"
-                                   OnClick="FinalizeRun"
-                                   Color="@Color.Error">
-                            Finalize - remaining cargo lost
-                        </MudButton>
-                        <MudButton Class="w-100"
-                                   OnClick="FinalizeRunCargoKept"
-                                   Color="@Color.Warning"
-                                   Disabled="@IsInProgress">
-                            Finalize - keep cargo in the inventory
-                        </MudButton>
-                        <MudButton Class="w-100"
-                                   OnClick="ContinueToDifferentLocation"
-                                   Variant="@Variant.Outlined"
-                                   Color="@Color.Success"
-                                   Disabled="@IsInProgress">
-                            Continue to a different destination
-                        </MudButton>
-                    }
-                    else
-                    {
-                        <MudButton Class="w-100"
-                                   OnClick="FinalizeRun"
-                                   Variant="@Variant.Outlined"
-                                   Color="@Color.Success"
-                                   Disabled="@IsInProgress">
-                            Finalize
-                        </MudButton>
+                        @if (TradeRun.HasUnsoldCargo)
+                        {
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunAsync"
+                                       Color="@Color.Error">
+                                Finalize - remaining cargo lost
+                            </MudButton>
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunCargoKeptAsync"
+                                       Color="@Color.Warning"
+                                       Disabled="@(IsInProgress && !TradeRun.HasUnsoldCargo)">
+                                Finalize - keep cargo in the inventory
+                            </MudButton>
+                            <MudButton Class="w-100"
+                                       OnClick="ContinueToDifferentLocationAsync"
+                                       Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Disabled="@IsInProgress">
+                                Continue to a different destination
+                            </MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunAsync"
+                                       Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Disabled="@IsInProgress">
+                                Finalize
+                            </MudButton>
+                        }
                     }
                 </ControlsContent>
             </TradeRunSummary>
@@ -128,14 +131,21 @@
     private bool IsInProgress
         => !AllStagesComplete;
 
-    private Task FinalizeRun()
-        => Task.CompletedTask;
-
-    private Task FinalizeRunCargoKept()
-        => Task.CompletedTask;
-
-    private async Task ContinueToDifferentLocation()
+    private async Task FinalizeRunAsync()
     {
+        TradeRun.FinalizedAt = DateTimeOffset.Now;
+        await UpdateRunAsync();
+    }
+
+    private async Task FinalizeRunCargoKeptAsync()
+    {
+        // TODO: save unsold cargo into inventory
+        await FinalizeRunAsync();
+    }
+
+    private async Task ContinueToDifferentLocationAsync()
+    {
+        // TODO: rework destination selection
         var location = await SelectGameLocationDialog.ShowAsync(DialogService, IsAcceptableDestination);
         if (location is GameTerminal terminal)
         {
@@ -148,6 +158,8 @@
                 };
                 TradeRun.Sales.Add(stage);
             }
+
+            await UpdateRunAsync();
         }
     }
 

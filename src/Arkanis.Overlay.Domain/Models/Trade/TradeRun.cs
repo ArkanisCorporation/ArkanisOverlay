@@ -21,13 +21,15 @@ public class TradeRun
 
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.Now;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.Now;
-    public DateTimeOffset? FinishedAt { get; set; }
+    public DateTimeOffset? FinalizedAt { get; set; }
 
     public Stage? StageInProgress
         => Stages.FirstOrDefault(x => x.FinalizedAt is null);
 
     public IEnumerable<QuantityOf> AcquiredQuantities
-        => Acquisitions.GroupBy(x => x.Quantity.Reference.EntityId)
+        => Acquisitions
+            .Where(x => x.FinalizedAt is not null)
+            .GroupBy(x => x.Quantity.Reference.EntityId)
             .Select(amounts => new QuantityOf(
                     amounts.First().Quantity.Reference,
                     amounts.Select(amount => amount.Quantity.Amount).Sum(),
@@ -85,9 +87,9 @@ public class TradeRun
             yield return playerEvent;
         }
 
-        if (FinishedAt is not null)
+        if (FinalizedAt is not null)
         {
-            yield return new PlayerEvent.RunCompleted(FinishedAt.Value);
+            yield return new PlayerEvent.RunCompleted(FinalizedAt.Value);
         }
     }
 

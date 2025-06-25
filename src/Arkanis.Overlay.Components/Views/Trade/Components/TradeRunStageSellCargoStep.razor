@@ -99,7 +99,17 @@
                 </MudText>
             </MudStack>
         </MudCheckBox>
-        @if (Stage.Quantity < UnsoldAmount)
+        @if (Stage.Quantity.Amount == 0)
+        {
+            <MudButton
+                StartIcon="@MaterialIcons.Filled.Error"
+                OnClick="@OnSoldClick"
+                Color="@Color.Error"
+                Size="@Size.Large">
+                I have not made the sale
+            </MudButton>
+        }
+        else if (Stage.Quantity < UnsoldAmount)
         {
             <MudButton
                 StartIcon="@MaterialIcons.Filled.ShoppingCartCheckout"
