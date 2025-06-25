@@ -1,13 +1,12 @@
 <MudStack Spacing="0"
-          Class="game-entity-name-label">
+          Class="game-entity-name">
     @if (Model.Location is { } locationReference && !Embedded)
     {
-        <div class="header location" style="height: 16px;">
+        <div class="header location">
             <GameLocationNamePart Model="@locationReference"/>
         </div>
     }
-    <MudStack Style="@MainContentStyle"
-              Class="primary"
+    <MudStack Class="primary"
               Spacing="1"
               Row>
         @if (Model.Company is { } companyReference)
@@ -25,8 +24,7 @@
     </MudStack>
     @if (Model.Properties is { Count: > 0 } properties && !Embedded)
     {
-        <MudStack Style="height: 18px; max-width: 50vw; overflow: hidden;"
-                  Class="footer properties mt-n2 no-wrap"
+        <MudStack Class="footer properties mt-n2 no-wrap"
                   Row>
             @foreach (var property in properties)
             {
@@ -41,12 +39,6 @@
 
 @code
 {
-
-    private string MainContentStyle
-        => Style
-           ?? (Model.Location is not null || Model.Properties is { Count: > 0 }
-               ? "height: 40px;"
-               : "height: 56px;");
 
     [Parameter]
     public required GameEntityName Model { get; set; }

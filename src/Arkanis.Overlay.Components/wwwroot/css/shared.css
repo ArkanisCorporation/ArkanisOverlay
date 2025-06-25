@@ -162,3 +162,28 @@
         color: inherit;
     }
 }
+
+.game-entity-name {
+    .header {
+        height: 16px;
+    }
+
+    .footer {
+        height: 18px;
+        max-width: 50vw;
+        overflow: hidden;
+    }
+
+    .primary .code {
+        height: 18px;
+    }
+
+    .primary {
+        height: 56px;
+    }
+
+    .primary:not(:last-child),
+    .primary:not(:first-child) {
+        height: 40px;
+    }
+}

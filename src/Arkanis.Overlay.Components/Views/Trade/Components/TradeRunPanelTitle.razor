@@ -7,7 +7,7 @@
         <QuantityAggregateLabel
             Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
     </MudChip>
-    <MudStack Spacing="0">
+    <MudStack Spacing="0" Class="overflow-hidden">
         <MudText Typo="@Typo.h5">
             <MudStack AlignItems="@AlignItems.Baseline" Row>
                 @foreach (var (entityIndex, entity) in TradeRun.Acquisitions
@@ -20,9 +20,9 @@
                         <span>,</span>
                     }
 
-                    <GameEntityNameLabel
-                        Model="@entity.Name"
-                        Style=""
+                    <GameEntityNamePart
+                        Model="@entity.Name.MainContent"
+                        Typo="@Typo.inherit"
                         PreferCode/>
                 }
                 <span>
