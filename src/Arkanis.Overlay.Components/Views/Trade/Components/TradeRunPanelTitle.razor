@@ -9,7 +9,9 @@
     </MudChip>
     <MudStack Spacing="0" Class="overflow-hidden">
         <MudText Typo="@Typo.h5">
-            <MudStack AlignItems="@AlignItems.Baseline" Row>
+            <MudStack AlignItems="@AlignItems.Baseline"
+                      Spacing="2"
+                      Row>
                 @foreach (var (entityIndex, entity) in TradeRun.Acquisitions
                                   .Select(x => x.Quantity.Reference.Entity)
                                   .Distinct()
@@ -17,7 +19,7 @@
                 {
                     if (entityIndex > 0)
                     {
-                        <span>,</span>
+                        <span class="text-secondary ml-n2">,</span>
                     }
 
                     <GameEntityNamePart
@@ -25,7 +27,7 @@
                         Typo="@Typo.inherit"
                         PreferCode/>
                 }
-                <span>
+                <span class="text-secondary">
                     from
                 </span>
                 @foreach (var (terminalIndex, terminal) in TradeRun.Acquisitions
@@ -36,14 +38,14 @@
                 {
                     if (terminalIndex > 0)
                     {
-                        <span>,</span>
+                        <span class="text-secondary ml-n2">,</span>
                     }
 
                     <span class="flex-truncate">
                         @terminal.Name.Location?.Location.Name.MainContent.FullName
                     </span>
                 }
-                <span>
+                <span class="text-secondary">
                     to
                 </span>
                 @foreach (var (terminalIndex, terminal) in TradeRun.Sales
@@ -54,7 +56,7 @@
                 {
                     if (terminalIndex > 0)
                     {
-                        <span>,</span>
+                        <span class="text-secondary ml-n2">,</span>
                     }
 
 
