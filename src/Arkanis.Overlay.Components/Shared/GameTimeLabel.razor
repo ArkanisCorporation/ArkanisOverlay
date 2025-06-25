@@ -5,14 +5,14 @@
 {
 
     private DateTimeOffset GameValue
-        => Model + ApplicationConstants.GameTimeOffset;
+        => Model.AddYears(ApplicationConstants.GameTimeYearOffset);
 
     [Parameter]
     [EditorRequired]
     public DateTimeOffset Model { get; set; }
 
     [Parameter]
-    public string? Suffix { get; set; } = ", Earth, Sol";
+    public string? Suffix { get; set; } = ", Earth, Sol System";
 
     [Parameter]
     public string Format { get; set; } = "F";
