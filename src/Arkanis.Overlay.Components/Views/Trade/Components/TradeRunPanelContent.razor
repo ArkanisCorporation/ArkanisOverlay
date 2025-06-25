@@ -1,5 +1,4 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
-@using Arkanis.Overlay.Domain.Abstractions.Game
 @inherits TradeRunComponent
 @inject IDialogService DialogService
 
@@ -146,23 +145,27 @@
     private async Task ContinueToDifferentLocationAsync()
     {
         // TODO: rework destination selection
-        var location = await SelectGameLocationDialog.ShowAsync(DialogService, IsAcceptableDestination);
-        if (location is GameTerminal terminal)
+        foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
         {
-            foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
-            {
-                var stage = new TradeRun.TerminalSaleStage
+            var selectedTradeRoute = await TradeRouteSearchDialog.ShowAsync(
+                DialogService,
+                new TradeRouteSearchDialog.Parameters
                 {
-                    Terminal = terminal,
-                    Quantity = unsoldQuantity with { },
-                };
-                TradeRun.Sales.Add(stage);
+                    Commodity = unsoldQuantity.Reference.Entity as GameCommodity,
+                }
+            );
+
+            if (selectedTradeRoute is null)
+            {
+                continue;
             }
 
-            await UpdateRunAsync();
+            var stage = TradeRun.TerminalSaleStage.Create(selectedTradeRoute);
+            stage.Quantity = unsoldQuantity;
+            TradeRun.Sales.Add(stage);
         }
+
+        await UpdateRunAsync();
     }
 
-    private bool IsAcceptableDestination(IGameLocation location)
-        => location is GameTerminal;
 }

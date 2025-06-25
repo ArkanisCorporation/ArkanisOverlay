@@ -105,37 +105,7 @@
 
         foreach (var tradeRoute in Routes.Take(4))
         {
-            var commodity = new CommodityReference(tradeRoute.Commodity);
-            var commodityQuantity = new QuantityOf(commodity, tradeRoute.Origin.CargoUnitsAvailable, Quantity.UnitType.StandardCargoUnit);
-
-            var tradeRun = new TradeRun
-            {
-                Acquisitions =
-                [
-                    new TradeRun.TerminalPurchaseStage
-                    {
-                        PricePerUnit = tradeRoute.Origin.Price,
-                        MaxContainerSize = tradeRoute.Origin.MaxContainerSize,
-                        StockStatus = tradeRoute.Origin.InventoryStatus,
-                        Stock = Quantity.FromScu(tradeRoute.Origin.CargoUnitsAvailable),
-                        Terminal = tradeRoute.Origin.Terminal,
-                        Quantity = commodityQuantity,
-                    },
-                ],
-                Sales =
-                [
-                    new TradeRun.TerminalSaleStage
-                    {
-                        PricePerUnit = tradeRoute.Destination.Price,
-                        MaxContainerSize = tradeRoute.Destination.MaxContainerSize,
-                        StockStatus = tradeRoute.Destination.InventoryStatus,
-                        Terminal = tradeRoute.Destination.Terminal,
-                        Quantity = commodityQuantity with { },
-                    },
-                ],
-            };
-
-            TradeRuns.Add(tradeRun);
+            TradeRuns.Add(TradeRun.Create(tradeRoute));
         }
     }
 

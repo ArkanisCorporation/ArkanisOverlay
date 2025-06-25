@@ -9,6 +9,10 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
 
     public const string FormatWithReferenceCode = nameof(FormatWithReferenceCode);
 
+    public QuantityOf(OwnableEntityReference reference, Quantity quantity) : this(reference, quantity.Amount, quantity.Unit)
+    {
+    }
+
     public OwnableEntityReference Reference { get; set; } = Reference;
 
     private string ReferenceFullName

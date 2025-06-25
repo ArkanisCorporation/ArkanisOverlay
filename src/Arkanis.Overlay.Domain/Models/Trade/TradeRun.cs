@@ -78,6 +78,13 @@ public class TradeRun
             .Where(x => x.Reference.EntityId == gameEntityId)
             .SingleOrDefault(Quantity.Zero);
 
+    public static TradeRun Create(GameTradeRoute tradeRoute)
+        => new()
+        {
+            Acquisitions = [TerminalPurchaseStage.Create(tradeRoute)],
+            Sales = [TerminalSaleStage.Create(tradeRoute)],
+        };
+
     public IEnumerable<PlayerEvent> CreateEvents()
     {
         yield return new PlayerEvent.RunStarted(CreatedAt);
@@ -255,6 +262,23 @@ public class TradeRun
         public GameContainerSize MaxContainerSize { get; set; }
         public TerminalInventoryStatus StockStatus { get; set; }
         public Quantity Stock { get; set; } = Inventory.Quantity.FromScu(0);
+
+        public static TerminalPurchaseStage Create(GameTradeRoute tradeRoute)
+        {
+            var commodity = new CommodityReference(tradeRoute.Commodity);
+            var currentStock = Inventory.Quantity.FromScu(tradeRoute.Origin.CargoUnitsAvailable);
+            var commodityQuantity = new QuantityOf(commodity, currentStock);
+
+            return new TerminalPurchaseStage
+            {
+                PricePerUnit = tradeRoute.Origin.Price,
+                MaxContainerSize = tradeRoute.Origin.MaxContainerSize,
+                StockStatus = tradeRoute.Origin.InventoryStatus,
+                Stock = currentStock,
+                Terminal = tradeRoute.Origin.Terminal,
+                Quantity = commodityQuantity,
+            };
+        }
     }
 
     public abstract class SaleStage : Stage
@@ -318,5 +342,20 @@ public class TradeRun
         public GameContainerSize MaxContainerSize { get; set; }
         public TerminalInventoryStatus StockStatus { get; set; }
         public Quantity Stock { get; set; } = Inventory.Quantity.FromScu(0);
+
+        public static TerminalSaleStage Create(GameTradeRoute tradeRoute)
+        {
+            var commodity = new CommodityReference(tradeRoute.Commodity);
+            var commodityQuantity = new QuantityOf(commodity, tradeRoute.Origin.CargoUnitsAvailable, Inventory.Quantity.UnitType.StandardCargoUnit);
+
+            return new TerminalSaleStage
+            {
+                PricePerUnit = tradeRoute.Destination.Price,
+                MaxContainerSize = tradeRoute.Destination.MaxContainerSize,
+                StockStatus = tradeRoute.Destination.InventoryStatus,
+                Terminal = tradeRoute.Destination.Terminal,
+                Quantity = commodityQuantity,
+            };
+        }
     }
 }
