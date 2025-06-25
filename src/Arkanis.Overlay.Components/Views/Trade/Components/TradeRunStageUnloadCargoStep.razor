@@ -17,7 +17,7 @@
             </MudText>
         </MudStack>
         <GameEntityNameLabel
-            Model="@Location.Name"/>
+            Model="@PreferredLocation.Name"/>
         @if (IsPostTrade && Stage.UsedAutoload)
         {
             <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
@@ -68,6 +68,11 @@
     private bool IsDisabled
         => IsCompleted || (!Stage.UsedAutoload && IsPostTrade);
 
+    private IGameLocation PreferredLocation
+        => PreferParentLocation
+            ? Location.ParentLocation ?? Location
+            : Location;
+
     [Parameter]
     [EditorRequired]
     public required IGameLocation Location { get; set; }
@@ -83,6 +88,9 @@
 
     [Parameter]
     public bool IsPostTrade { get; set; }
+
+    [Parameter]
+    public bool PreferParentLocation { get; set; }
 
     private async Task OnTransferredClick()
     {

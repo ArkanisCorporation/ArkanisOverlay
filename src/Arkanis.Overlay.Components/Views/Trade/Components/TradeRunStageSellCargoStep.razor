@@ -153,7 +153,7 @@
 
     private async Task OnSoldClick()
     {
-        Stage.SoldAt = DateTimeOffset.Now;
+        Stage.SoldAt ??= DateTimeOffset.Now;
         await NextStepAsync();
     }
 }

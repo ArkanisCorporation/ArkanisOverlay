@@ -4,23 +4,24 @@
     <ChildContent>
         @if (Stage is TradeRun.TerminalSaleStage terminalSale)
         {
-            var destinationLocation = terminalSale.Terminal.Parent ?? terminalSale.Terminal;
             <TradeRunStageTravelToStep
                 Stage="@terminalSale"
                 StageChanged="@UpdateStageAsync"
                 TradeRun="@TradeRun"
-                Location="@destinationLocation"
+                Location="@terminalSale.Terminal"
                 StepTitle="Reach destination"
-                Description="Reach the destination at"/>
+                Description="Reach the destination at"
+                PreferParentLocation/>
 
             <TradeRunStageUnloadCargoStep
                 Stage="@terminalSale"
                 StageChanged="@UpdateStageAsync"
                 TradeRun="@TradeRun"
-                Location="@destinationLocation"
+                Location="@terminalSale.Terminal"
                 StepTitle="Unload"
                 Title="Unload cargo"
-                Description="Unload the purchased cargo from your ship at"/>
+                Description="Unload the purchased cargo from your ship at"
+                PreferParentLocation/>
 
             <TradeRunStageSellCargoStep
                 Stage="@terminalSale"
@@ -31,10 +32,11 @@
                 Stage="@terminalSale"
                 StageChanged="@UpdateStageAsync"
                 TradeRun="@TradeRun"
-                Location="@destinationLocation"
+                Location="@terminalSale.Terminal"
                 StepTitle="Auto-unload"
                 Title="Wait for cargo unload"
                 Description="Wait for the cargo to unload from your ship at"
+                PreferParentLocation
                 IsPostTrade/>
         }
         else

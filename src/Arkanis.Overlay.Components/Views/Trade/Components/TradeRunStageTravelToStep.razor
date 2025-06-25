@@ -2,10 +2,35 @@
 @using MudBlazor.Utilities
 @inherits TradeRunStageComponent<TradeRun.Stage>
 
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .image-author {
+        position: absolute;
+        bottom: .5em;
+        right: 1em;
+    }
+
+    .mud-expand-panel:not(.mud-panel-expanded) .image-author {
+        display: none;
+    }
+</style>
+
 <MudStep Title="@StepTitle"
          Style="@_style"
          Completed="@IsCompleted"
          Disabled="@IsDisabled">
+    @if (Location.ImageAuthor is not null)
+    {
+        <MudText Typo="@Typo.caption"
+                 Class="image-author text-secondary">
+            Screenshot by
+            <MudLink Typo="@Typo.inherit"
+                     Href="@($"https://uexcorp.space/@{Location.ImageAuthor}")"
+                     Target="_blank">
+                @Location.ImageAuthor (UEX)
+            </MudLink>
+        </MudText>
+    }
     <MudStack AlignItems="@AlignItems.Center"
               Justify="@Justify.Center"
               Spacing="6">
@@ -19,7 +44,7 @@
             </MudText>
         </MudStack>
         <GameEntityNameLabel
-            Model="@Location.Name"/>
+            Model="@PreferredLocation.Name"/>
         <MudButton StartIcon="@MaterialIcons.Filled.FlightLand"
                    OnClick="@OnReachedClick"
                    Color="@Color.Success"
@@ -42,6 +67,11 @@
     private bool IsDisabled
         => IsCompleted;
 
+    private IGameLocation PreferredLocation
+        => PreferParentLocation
+            ? Location.ParentLocation ?? Location
+            : Location;
+
     [Parameter]
     [EditorRequired]
     public required IGameLocation Location { get; set; }
@@ -54,6 +84,9 @@
 
     [Parameter]
     public string StepTitle { get; set; } = "Travel";
+
+    [Parameter]
+    public bool PreferParentLocation { get; set; }
 
     protected override void OnParametersSet()
     {
