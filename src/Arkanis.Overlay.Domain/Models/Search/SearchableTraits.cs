@@ -24,7 +24,12 @@ public abstract record SearchableTextTrait(string Content) : SearchableTrait
     public string NormalizedContent { get; } = Content.ToLowerInvariant();
 }
 
-public sealed record SearchableName(string Name) : SearchableTextTrait(Name);
+public sealed record SearchableName(string Name) : SearchableTextTrait(Name)
+{
+    public SearchableName(GameEntityName Name) : this(Name.MainContent.FullName)
+    {
+    }
+}
 
 public sealed record SearchableCode(string Code) : SearchableTextTrait(Code);
 

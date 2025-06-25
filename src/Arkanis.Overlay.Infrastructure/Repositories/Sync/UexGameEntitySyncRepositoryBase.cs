@@ -116,7 +116,7 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
         var responseHeaders = response.CreateResponseHeaders();
         var cacheUntil = responseHeaders.GetCacheUntil(factor: CacheTimeFactor);
         var requestTime = responseHeaders.GetRequestTime();
-        var domainEntities = response.Result.Where(IncludeSourceModel)
+        var domainEntities = FilterSourceModels(response.Result.Where(IncludeSourceModel))
             .ToAsyncEnumerable()
             .SelectAwait(MapToDomainAsync)
             .Where(model => model is not null)
@@ -125,6 +125,9 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
         var dataState = new DataCached(serviceState, requestTime, cacheUntil);
         return new LoadedSyncData<TDomain>(domainEntities, dataState);
     }
+
+    protected virtual IEnumerable<TSource> FilterSourceModels(IEnumerable<TSource> models)
+        => models;
 
     protected virtual bool IncludeSourceModel(TSource sourceModel)
         => true;

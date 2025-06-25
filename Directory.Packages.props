@@ -1,72 +1,73 @@
 <Project>
-  <PropertyGroup>
-    <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management -->
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Blazor-Analytics" Version="3.12.0" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="1.0.14" />
-    <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Plugins" Version="1.0.14" />
-    <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Wpf" Version="1.0.14" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
-    <PackageVersion Include="FluentValidation" Version="12.0.0" />
-    <PackageVersion Include="FuzzySharp" Version="2.0.2" />
-    <PackageVersion Include="Humanizer" Version="2.14.1" />
-    <PackageVersion Include="MathEvaluator" Version="2.3.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.16" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.16" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.100" />
-    <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.16" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.16" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
-    <PackageVersion Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
-    <PackageVersion Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
-    <PackageVersion Include="MoreAsyncLINQ" Version="0.8.0" />
-    <PackageVersion Include="morelinq" Version="4.4.0" />
-    <PackageVersion Include="MudBlazor.FontIcons.MaterialSymbols" Version="1.2.0" />
-    <PackageVersion Include="MudBlazor" Version="8.6.0" />
-    <PackageVersion Include="NuGet.Versioning" Version="6.14.0" />
-    <PackageVersion Include="Octokit" Version="14.0.0" />
-    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0" />
-    <PackageVersion Include="Quartz.Jobs" Version="3.14.0" />
-    <PackageVersion Include="Quartz" Version="3.14.0" />
-    <PackageVersion Include="Riok.Mapperly" Version="4.2.1" />
-    <PackageVersion Include="Scrutor" Version="6.0.1" />
-    <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
-    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.4" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
-    <PackageVersion Include="Serilog" Version="4.3.0" />
-    <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="SingleInstanceCore" Version="2.2.2" />
-    <PackageVersion Include="TrayIcon" Version="1.1.1.1" />
-    <PackageVersion Include="Velopack" Version="0.0.1251" />
-    <PackageVersion Include="xunit" Version="2.9.3" />
-    <PackageVersion Include="Xunit.Microsoft.DependencyInjection" Version="8.2.2" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0" />
-  </ItemGroup>
+    <PropertyGroup>
+        <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management -->
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageVersion Include="Blazor-Analytics" Version="3.12.0"/>
+        <PackageVersion Include="coverlet.collector" Version="6.0.4"/>
+        <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="1.0.14"/>
+        <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Plugins" Version="1.0.14"/>
+        <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Wpf" Version="1.0.14"/>
+        <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0"/>
+        <PackageVersion Include="FluentValidation" Version="12.0.0"/>
+        <PackageVersion Include="FuzzySharp" Version="2.0.2"/>
+        <PackageVersion Include="Humanizer" Version="2.14.1"/>
+        <PackageVersion Include="MathEvaluator" Version="2.3.1"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.16"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.16"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.100"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0"/>
+        <PackageVersion Include="Microsoft.Data.Sqlite" Version="8.0.16"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.16"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.16"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2"/>
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.1"/>
+        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0"/>
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0"/>
+        <PackageVersion Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3"/>
+        <PackageVersion Include="Microsoft.Win32.Registry" Version="5.0.0"/>
+        <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183"/>
+        <PackageVersion Include="MoreAsyncLINQ" Version="0.8.0"/>
+        <PackageVersion Include="morelinq" Version="4.4.0"/>
+        <PackageVersion Include="MudBlazor.FontIcons.MaterialIcons" Version="1.3.0"/>
+        <PackageVersion Include="MudBlazor.FontIcons.MaterialSymbols" Version="1.3.0"/>
+        <PackageVersion Include="MudBlazor" Version="8.6.0"/>
+        <PackageVersion Include="NuGet.Versioning" Version="6.14.0"/>
+        <PackageVersion Include="Octokit" Version="14.0.0"/>
+        <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.14.0"/>
+        <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0"/>
+        <PackageVersion Include="Quartz.Jobs" Version="3.14.0"/>
+        <PackageVersion Include="Quartz" Version="3.14.0"/>
+        <PackageVersion Include="Riok.Mapperly" Version="4.2.1"/>
+        <PackageVersion Include="Scrutor" Version="6.0.1"/>
+        <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0"/>
+        <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.4"/>
+        <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0"/>
+        <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0"/>
+        <PackageVersion Include="Serilog" Version="4.3.0"/>
+        <PackageVersion Include="Shouldly" Version="4.3.0"/>
+        <PackageVersion Include="SingleInstanceCore" Version="2.2.2"/>
+        <PackageVersion Include="TrayIcon" Version="1.1.1.1"/>
+        <PackageVersion Include="Velopack" Version="0.0.1251"/>
+        <PackageVersion Include="xunit" Version="2.9.3"/>
+        <PackageVersion Include="Xunit.Microsoft.DependencyInjection" Version="8.2.2"/>
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0"/>
+    </ItemGroup>
 </Project>

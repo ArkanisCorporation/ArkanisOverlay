@@ -1,0 +1,66 @@
+@inherits TradeRunStageComponent<TradeRun.AcquisitionStage>
+
+<MudStepper>
+    <ChildContent>
+        @if (Stage is TradeRun.TerminalPurchaseStage terminalPurchase)
+        {
+            <TradeRunStageTravelToStep
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalPurchase.Terminal"
+                StepTitle="Reach origin"
+                Description="Reach the origin purchase terminal at"/>
+
+            <TradeRunStagePurchaseCargoStep
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"/>
+
+            <TradeRunStageLoadCargoStep
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalPurchase.Terminal"/>
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Error">
+                Trade run model of type @Stage.GetType() is not supported.
+            </MudAlert>
+        }
+    </ChildContent>
+    <CompletedContent>
+        <TradeRunStageSummary Stage="@Stage"
+                              StageChanged="@UpdateStageAsync"
+                              TradeRun="@TradeRun">
+            <ControlsContent>
+                @if (!IsCompleted)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               OnClick="@OnFinalizeClick"
+                               StartIcon="@MaterialIcons.Filled.FlightTakeoff"
+                               Color="@Color.Success"
+                               Class="w-100">
+                        Finalize stage and continue
+                    </MudButton>
+                }
+            </ControlsContent>
+        </TradeRunStageSummary>
+    </CompletedContent>
+    <ActionContent>
+        @* Navigation is controlled by step contents. *@
+    </ActionContent>
+</MudStepper>
+
+@code
+{
+    private bool IsCompleted
+        => Stage.FinalizedAt is not null;
+
+    private async Task OnFinalizeClick()
+    {
+        Stage.FinalizedAt = DateTimeOffset.Now;
+        await UpdateStageAsync();
+    }
+}

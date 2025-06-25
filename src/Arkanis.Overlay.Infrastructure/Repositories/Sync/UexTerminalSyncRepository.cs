@@ -30,6 +30,9 @@ internal class UexTerminalSyncRepository(
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 
+    protected override bool IncludeSourceModel(UniverseTerminalDTO sourceModel)
+        => sourceModel.Is_player_owned == 0;
+
     protected override UexApiGameEntityId? GetSourceApiId(UniverseTerminalDTO source)
         => source.Id is not null
             ? Mapper.CreateGameEntityId(source, x => x.Id)

@@ -1,0 +1,106 @@
+@using Arkanis.Overlay.Components.Views.Trade
+<MudMainContent>
+    <MudStack Spacing="6"
+              Justify="@Justify.FlexStart"
+              AlignItems="@AlignItems.Center">
+
+        <MudPaper>
+            <MudTabs ActivePanelIndex="ActivePanelIndex" Rounded>
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RunsInProgress))"
+                             Disabled="@(TradeRunsInProgress == 0)">
+                    <TabContent>
+                        <MudStack Spacing="3" Row>
+                            <MudText Typo="@Typo.inherit">
+                                In Progress
+                            </MudText>
+                            @if (TradeRunsInProgress > 0)
+                            {
+                                <MudChip
+                                    Size="@Size.Small"
+                                    Value="@TradeRunsInProgress"
+                                    Color="@Color.Warning"/>
+                            }
+                        </MudStack>
+                    </TabContent>
+                </MudTabPanel>
+
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RouteSearch))">
+                    <TabContent>
+                        Route Search
+                    </TabContent>
+                </MudTabPanel>
+
+                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.Ledger))">
+                    <TabContent>
+                        Ledger
+                    </TabContent>
+                </MudTabPanel>
+            </MudTabs>
+        </MudPaper>
+
+        @if (ActiveTab is Tab.RunsInProgress)
+        {
+            <TradeRunsInProgressView/>
+        }
+
+        @if (ActiveTab is Tab.RouteSearch)
+        {
+            <TradeRouteSearchView/>
+        }
+
+        @if (ActiveTab is Tab.Ledger)
+        {
+            <TradeLedgerView/>
+        }
+
+    </MudStack>
+</MudMainContent>
+
+@code
+{
+
+    [Parameter]
+    public Tab ActiveTab { get; set; }
+
+    [Parameter]
+    public EventCallback<Tab> ActiveTabChanged { get; set; }
+
+    public int ActivePanelIndex
+        => (int)ActiveTab - 1;
+
+    public int TradeRunsInProgress { get; set; }
+
+    public enum Tab
+    {
+        Default,
+        RunsInProgress,
+        RouteSearch,
+        Ledger,
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        TradeRunsInProgress = 4;
+        if (ActiveTab == Tab.Default)
+        {
+            await ActivateTabAsync(
+                TradeRunsInProgress > 0
+                    ? Tab.RunsInProgress
+                    : Tab.RouteSearch
+            );
+        }
+        else if (ActiveTab == Tab.RunsInProgress && TradeRunsInProgress == 0)
+        {
+            await ActivateTabAsync(Tab.RouteSearch);
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task ActivateTabAsync(Tab activeTab)
+    {
+        ActiveTab = activeTab;
+        await ActiveTabChanged.InvokeAsync(activeTab);
+    }
+
+}

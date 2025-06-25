@@ -1,0 +1,24 @@
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-stepper-nav {
+        border-bottom: 1px solid var(--mud-palette-lines-default);
+    }
+</style>
+
+@if (Stage is TradeRun.AcquisitionStage acquisitionStage)
+{
+    <TradeRunStageAcquisitionStepper
+        Stage="@acquisitionStage"
+        StageChanged="@UpdateStageAsync"
+        TradeRun="@TradeRun"/>
+}
+
+@if (Stage is TradeRun.SaleStage saleStage)
+{
+    <TradeRunStageSaleStepper
+        Stage="@saleStage"
+        StageChanged="@UpdateStageAsync"
+        TradeRun="@TradeRun"/>
+}

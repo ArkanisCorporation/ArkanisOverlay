@@ -9,7 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj" />
+        <PackageReference Include="MudBlazor.FontIcons.MaterialIcons"/>
+        <PackageReference Include="MudBlazor.FontIcons.MaterialSymbols"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
     </ItemGroup>
 
 </Project>

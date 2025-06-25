@@ -17,6 +17,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         Count,
     }
 
+    public static Quantity Zero
+        => new(0, UnitType.Count);
+
     public static Quantity Default
         => new(1, UnitType.Count);
 
@@ -46,6 +49,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
             ? unitComparison
             : Amount.CompareTo(other.Amount);
     }
+
+    public static Quantity FromScu(int amountScu)
+        => new(amountScu, UnitType.StandardCargoUnit);
 
     public static IEnumerable<Quantity> Aggregate(IEnumerable<Quantity> quantities)
         => quantities.GroupBy(x => x.Unit)

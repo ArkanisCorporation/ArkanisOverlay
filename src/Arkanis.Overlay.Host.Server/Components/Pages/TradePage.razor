@@ -1,0 +1,15 @@
+@page "/trade"
+@page "/trade/{page}"
+@layout ServerOverlayLayout
+
+<PageTitle>@ApplicationConstants.ApplicationName — Trade</PageTitle>
+
+<div>
+    <TradeView @rendermode="@(new InteractiveServerRenderMode(false))"/>
+</div>
+
+@code
+{
+    [Parameter]
+    public string? Page { get; set; }
+}
