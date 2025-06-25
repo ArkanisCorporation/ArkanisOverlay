@@ -243,7 +243,7 @@ public class TradeRun
     public sealed class TerminalPurchaseStage : AcquisitionStage
     {
         public override string Title
-            => $"Purchase {Quantity} at {Terminal.Name.MainContent.FullName}";
+            => $"Purchase {Quantity.ToString(QuantityOf.FormatWithReferenceCode, null)} at {Terminal.Name.MainContent.FullName}";
 
         public required GameTerminal Terminal { get; set; }
 
@@ -306,7 +306,7 @@ public class TradeRun
     public sealed class TerminalSaleStage : SaleStage
     {
         public override string Title
-            => $"Sell {Quantity} at {Terminal.Name.MainContent.FullName}";
+            => $"Sell {Quantity.ToString(QuantityOf.FormatWithReferenceCode, null)} at {Terminal.Name.MainContent.FullName}";
 
         public required GameTerminal Terminal { get; set; }
 
@@ -317,16 +317,4 @@ public class TradeRun
         public TerminalInventoryStatus StockStatus { get; set; }
         public Quantity Stock { get; set; } = Inventory.Quantity.FromScu(0);
     }
-}
-
-public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.UnitType Unit) : Quantity(Amount, Unit)
-{
-    public OwnableEntityReference Reference { get; set; } = Reference;
-
-    public override string ToString()
-        => Unit switch
-        {
-            UnitType.Count => $"{base.ToString()} {Reference.Entity.Name.MainContent.FullName}",
-            _ => $"{base.ToString()} of {Reference.Entity.Name.MainContent.FullName}",
-        };
 }
