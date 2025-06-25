@@ -1,41 +1,24 @@
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .mud-stepper-nav {
         border-bottom: 1px solid var(--mud-palette-lines-default);
     }
 </style>
-@if (Model is TradeRun.AcquisitionStage acquisitionStage)
+
+@if (Stage is TradeRun.AcquisitionStage acquisitionStage)
 {
     <TradeRunStageAcquisitionStepper
-        Model="@acquisitionStage"
-        ModelChanged="@(x => ModelChanged.InvokeAsync(x))"
-        TradeRun="@TradeRun"
-        IsCompletedChanged="@IsCompletedChanged"/>
+        Stage="@acquisitionStage"
+        StageChanged="@UpdateStageAsync"
+        TradeRun="@TradeRun"/>
 }
 
-@if (Model is TradeRun.SaleStage saleStage)
+@if (Stage is TradeRun.SaleStage saleStage)
 {
     <TradeRunStageSaleStepper
-        Model="@saleStage"
-        ModelChanged="@(x => ModelChanged.InvokeAsync(x))"
-        TradeRun="@TradeRun"
-        IsCompletedChanged="@IsCompletedChanged"/>
-}
-
-@code
-{
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.Stage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.Stage> ModelChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun TradeRun { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> IsCompletedChanged { get; set; }
-
+        Stage="@saleStage"
+        StageChanged="@UpdateStageAsync"
+        TradeRun="@TradeRun"/>
 }

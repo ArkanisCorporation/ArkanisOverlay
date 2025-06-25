@@ -1,9 +1,11 @@
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
 <MudGrid>
     <MudItem xs="12" md="6">
         <div style="height: 33vh; overflow: auto">
             <MudTimeline TimelinePosition="@TimelinePosition.Left"
                          Style="min-height: 100%">
-                @foreach (var playerEvent in Model.CreateEvents().OrderBy(x => x.OccuredAt))
+                @foreach (var playerEvent in Stage.CreateEvents().OrderBy(x => x.OccuredAt))
                 {
                     <TradeRunPlayerEventTimelineItem
                         Model="@playerEvent"/>
@@ -21,7 +23,7 @@
                     Stage balance
                 </MudText>
                 <GameCurrencyLabel
-                    Model="@Model.Balance"
+                    Model="@Stage.Balance"
                     Typo="@Typo.h6"
                     UseColour/>
             </MudStack>
@@ -36,7 +38,7 @@
                     @StageLength.Humanize()
                 </MudText>
             </MudStack>
-            @if (Model is TradeRun.AcquisitionStage)
+            @if (Stage is TradeRun.AcquisitionStage)
             {
                 <MudStack AlignItems="@AlignItems.Baseline"
                           Justify="@Justify.SpaceBetween"
@@ -47,13 +49,13 @@
                     </MudText>
                     <MudText Typo="Typo.h6" Color="@Color.Success">
                         <QuantityLabel
-                            Model="@Model.Quantity"/>
+                            Model="@Stage.Quantity"/>
                     </MudText>
                 </MudStack>
             }
-            else if (Model is TradeRun.SaleStage)
+            else if (Stage is TradeRun.SaleStage)
             {
-                var acquiredQuantity = TradeRun.AcquiredQuantityOf(Model.Quantity.Reference.EntityId);
+                var acquiredQuantity = TradeRun.AcquiredQuantityOf(Stage.Quantity.Reference.EntityId);
                 <MudStack AlignItems="@AlignItems.Baseline"
                           Justify="@Justify.SpaceBetween"
                           Class="w-100"
@@ -65,8 +67,8 @@
                               Justify="@Justify.FlexEnd"
                               Row>
                         <MudText Typo="@Typo.h6"
-                                 Color="@(Model.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
-                            @Model.Quantity.ToString()
+                                 Color="@(Stage.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
+                            @Stage.Quantity.ToString()
                         </MudText>
                         <MudText Typo="@Typo.h6" Class="text-secondary">
                             /
@@ -88,21 +90,13 @@
 {
 
     [Parameter]
-    [EditorRequired]
-    public required TradeRun.Stage Model { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun TradeRun { get; set; }
-
-    [Parameter]
     public RenderFragment? ControlsContent { get; set; }
 
     private DateTimeOffset StageStartedAt
-        => Model.StartedAt ?? DateTimeOffset.UtcNow;
+        => Stage.StartedAt ?? DateTimeOffset.UtcNow;
 
     private DateTimeOffset StageFinalizedAt
-        => Model.FinalizedAt ?? DateTimeOffset.Now;
+        => Stage.FinalizedAt ?? DateTimeOffset.Now;
 
     private TimeSpan StageLength
         => StageStartedAt - StageFinalizedAt;

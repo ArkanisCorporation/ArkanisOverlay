@@ -1,9 +1,11 @@
+@inherits TradeRunComponent
+
 <MudGrid>
     <MudItem xs="12" md="6">
         <div style="height: 33vh; overflow: auto">
             <MudTimeline TimelinePosition="@TimelinePosition.Left"
                          Style="min-height: 100%">
-                @foreach (var playerEvent in Model.CreateEvents())
+                @foreach (var playerEvent in TradeRun.CreateEvents())
                 {
                     <TradeRunPlayerEventTimelineItem
                         Model="@playerEvent"/>
@@ -21,7 +23,7 @@
                     Trade run profit
                 </MudText>
                 <GameCurrencyLabel
-                    Model="@Model.Profit"
+                    Model="@TradeRun.Profit"
                     Typo="@Typo.h6"
                     UseColour/>
             </MudStack>
@@ -33,7 +35,7 @@
                     Trade run length
                 </MudText>
                 <MudText Typo="@Typo.h6" Color="@Color.Success">
-                    @(((Model.FinishedAt ?? DateTimeOffset.UtcNow) - Model.CreatedAt).Humanize())
+                    @(((TradeRun.FinishedAt ?? DateTimeOffset.UtcNow) - TradeRun.CreatedAt).Humanize())
                 </MudText>
             </MudStack>
             <MudStack AlignItems="@AlignItems.Center"
@@ -47,14 +49,14 @@
                           Row>
                     <MudText Typo="@Typo.h6" Color="@Color.Warning">
                         <QuantityAggregateLabel
-                            Models="@(Model.Sales.Select(x => x.Quantity))"/>
+                            Models="@(TradeRun.Sales.Select(x => x.Quantity))"/>
                     </MudText>
                     <MudText Typo="@Typo.h6" Class="text-secondary">
                         /
                     </MudText>
                     <MudText Typo="@Typo.h6" Color="@Color.Success">
                         <QuantityAggregateLabel
-                            Models="@(Model.Acquisitions.Select(x => x.Quantity))"/>
+                            Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
                     </MudText>
                 </MudStack>
             </MudStack>
@@ -66,10 +68,6 @@
 
 @code
 {
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun Model { get; set; }
 
     [Parameter]
     public RenderFragment? ControlsContent { get; set; }

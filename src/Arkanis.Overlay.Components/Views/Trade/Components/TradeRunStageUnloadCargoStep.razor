@@ -1,4 +1,6 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@inherits TradeRunStageComponent<TradeRun.SaleStage>
+
 <MudStep Title="@Title"
          Completed="@IsCompleted"
          Disabled="@IsDisabled">
@@ -16,7 +18,7 @@
         </MudStack>
         <GameEntityNameLabel
             Model="@Location.Name"/>
-        @if (IsPostTrade && Model.UsedAutoload)
+        @if (IsPostTrade && Stage.UsedAutoload)
         {
             <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
                        OnClick="@OnTransferredClick"
@@ -27,15 +29,15 @@
         }
         else
         {
-            <MudCheckBox @bind-Value="@Model.UsedAutoload"
-                         @bind-Value:after="@UpdateAsync">
+            <MudCheckBox @bind-Value="@Stage.UsedAutoload"
+                         @bind-Value:after="@UpdateStageAsync">
                 <MudStack Spacing="0">
                     <MudText>
                         I will use auto-load
                     </MudText>
                 </MudStack>
             </MudCheckBox>
-            @if (Model.UsedAutoload)
+            @if (Stage.UsedAutoload)
             {
                 <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
                            OnClick="@OnTransferredClick"
@@ -61,20 +63,10 @@
 {
 
     private bool IsCompleted
-        => Model.TransferredAt is not null;
+        => Stage.TransferredAt is not null;
 
     private bool IsDisabled
-        => IsCompleted || (!Model.UsedAutoload && IsPostTrade);
-
-    [CascadingParameter]
-    public MudStepper? StepperReference { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.Stage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.Stage> ModelChanged { get; set; }
+        => IsCompleted || (!Stage.UsedAutoload && IsPostTrade);
 
     [Parameter]
     [EditorRequired]
@@ -92,22 +84,11 @@
     [Parameter]
     public bool IsPostTrade { get; set; }
 
-    private async Task NextStepAsync()
-    {
-        if (StepperReference is not null)
-        {
-            await StepperReference.NextStepAsync();
-        }
-    }
-
-    private async Task UpdateAsync()
-        => await ModelChanged.InvokeAsync(Model);
-
     private async Task OnTransferredClick()
     {
-        if (!Model.UsedAutoload || IsPostTrade)
+        if (!Stage.UsedAutoload || IsPostTrade)
         {
-            Model.TransferredAt = DateTimeOffset.Now;
+            Stage.TransferredAt = DateTimeOffset.Now;
         }
 
         await NextStepAsync();

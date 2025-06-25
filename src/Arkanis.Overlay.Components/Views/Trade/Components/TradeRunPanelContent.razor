@@ -1,12 +1,13 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@inherits TradeRunComponent
 @inject IDialogService DialogService
 
 <MudExpansionPanels MultiExpansion
                     Gutters="false"
                     Class="stages">
     @{ var isFirstIncomplete = true; }
-    @foreach (var stage in Model.Stages)
+    @foreach (var stage in TradeRun.Stages)
     {
         var isIncomplete = stage.FinalizedAt is null;
         var isCurrentlyInProgress = isIncomplete && isFirstIncomplete;
@@ -51,10 +52,9 @@
                 <MudDivider/>
 
                 <TradeRunStageStepper
-                    Model="@stage"
-                    ModelChanged="@OnUpdateAsync"
-                    TradeRun="@Model"
-                    IsCompletedChanged="OnStageCompletedChanged"/>
+                    Stage="@stage"
+                    StageChanged="@UpdateRunAsync"
+                    TradeRun="@TradeRun"/>
             </ChildContent>
         </MudExpansionPanel>
 
@@ -80,9 +80,10 @@
         <ChildContent>
             <MudDivider/>
 
-            <TradeRunSummary Model="@Model">
+            <TradeRunSummary TradeRun="@TradeRun"
+                             TradeRunChanged="@UpdateRunAsync">
                 <ControlsContent>
-                    @if (Model.HasUnsoldCargo)
+                    @if (TradeRun.HasUnsoldCargo)
                     {
                         <MudButton Class="w-100"
                                    OnClick="FinalizeRun"
@@ -122,23 +123,10 @@
 @code
 {
     private bool AllStagesComplete
-        => Model.Stages.All(x => x.FinalizedAt is not null);
+        => TradeRun.Stages.All(x => x.FinalizedAt is not null);
 
     private bool IsInProgress
         => !AllStagesComplete;
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun> ModelChanged { get; set; }
-
-    private void OnStageCompletedChanged()
-        => StateHasChanged();
-
-    private async Task OnUpdateAsync(TradeRun.Stage _)
-        => await ModelChanged.InvokeAsync(Model);
 
     private Task FinalizeRun()
         => Task.CompletedTask;
@@ -151,14 +139,14 @@
         var location = await SelectGameLocationDialog.ShowAsync(DialogService, IsAcceptableDestination);
         if (location is GameTerminal terminal)
         {
-            foreach (var unsoldQuantity in Model.UnsoldQuantities)
+            foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
             {
                 var stage = new TradeRun.TerminalSaleStage
                 {
                     Terminal = terminal,
                     Quantity = unsoldQuantity with { },
                 };
-                Model.Sales.Add(stage);
+                TradeRun.Sales.Add(stage);
             }
         }
     }

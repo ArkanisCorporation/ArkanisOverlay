@@ -1,16 +1,18 @@
+@inherits TradeRunComponent
+
 <MudStack AlignItems="@AlignItems.Center"
           Class="mr-4"
           Row>
     <MudChip T="string">
         <QuantityAggregateLabel
-            Models="@(Model.Acquisitions.Select(x => x.Quantity))"/>
+            Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
     </MudChip>
     <MudStack Spacing="0"
               Class="flex-truncate">
 
         <MudText Typo="@Typo.h5">
             <MudStack AlignItems="@AlignItems.Baseline" Row>
-                @foreach (var (entityIndex, entity) in Model.Acquisitions
+                @foreach (var (entityIndex, entity) in TradeRun.Acquisitions
                                   .Select(x => x.Quantity.Reference.Entity)
                                   .Distinct()
                                   .Index())
@@ -28,7 +30,7 @@
                 <span>
                     from
                 </span>
-                @foreach (var (terminalIndex, terminal) in Model.Acquisitions
+                @foreach (var (terminalIndex, terminal) in TradeRun.Acquisitions
                                   .OfType<TradeRun.TerminalPurchaseStage>()
                                   .Select(x => x.Terminal)
                                   .Distinct()
@@ -46,7 +48,7 @@
                 <span>
                     to
                 </span>
-                @foreach (var (terminalIndex, terminal) in Model.Sales
+                @foreach (var (terminalIndex, terminal) in TradeRun.Sales
                                   .OfType<TradeRun.TerminalSaleStage>()
                                   .Select(x => x.Terminal)
                                   .Distinct()
@@ -64,7 +66,7 @@
                 }
             </MudStack>
         </MudText>
-        @if (Model.StageInProgress is { } stage)
+        @if (TradeRun.StageInProgress is { } stage)
         {
             <MudText Typo="@Typo.body2" Class="text-secondary">
                 @stage.CurrentStepTitle
@@ -90,12 +92,12 @@
               Class="h-100">
         <MudText Class="mb-n3">
             <GameCurrencyLabel
-                Model="@(Model.Investment)"
+                Model="@(TradeRun.Investment)"
                 Typo="@Typo.h6"
                 UseColour/>
         </MudText>
         <GameCurrencyLabel
-            Model="@(Model.Profit)"
+            Model="@(TradeRun.Profit)"
             Typo="@Typo.h6"
             UseColour/>
     </MudStack>
@@ -103,9 +105,5 @@
 
 @code
 {
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun Model { get; set; }
 
 }

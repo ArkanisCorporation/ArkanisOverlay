@@ -1,3 +1,5 @@
+@inherits TradeRunStageComponent<TradeRun.TerminalPurchaseStage>
+
 <MudStep Title="Obtain cargo"
          Completed="@IsCompleted"
          Disabled="@IsDisabled">
@@ -17,7 +19,7 @@
                   Spacing="6"
                   Row>
             <GameEntityNameLabel
-                Model="@Model.Quantity.Reference.Entity.Name"/>
+                Model="@Stage.Quantity.Reference.Entity.Name"/>
             @* <MudText> *@
             @*     with max. container size of *@
             @* </MudText> *@
@@ -29,16 +31,16 @@
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="Quantity purchased (SCU)"
-                    @bind-Value="@Model.Quantity.Amount"
-                    @bind-Value:after="@UpdateAsync"
+                    @bind-Value="@Stage.Quantity.Amount"
+                    @bind-Value:after="@UpdateStageAsync"
                     Min="0"
                     Required/>
             </MudItem>
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="Purchase price (per SCU)"
-                    @bind-Value="@Model.PricePerUnit.Amount"
-                    @bind-Value:after="@UpdateAsync"
+                    @bind-Value="@Stage.PricePerUnit.Amount"
+                    @bind-Value:after="@UpdateStageAsync"
                     Required/>
             </MudItem>
             <MudItem xs="12" md="4">
@@ -49,14 +51,14 @@
                              Color="@Color.Error">
                         =
                         <GameCurrencyLabel
-                            Model="@Model.PriceTotal"/>
+                            Model="@Stage.PriceTotal"/>
                     </MudText>
                 </MudStack>
             </MudItem>
             <MudItem xs="12" sm="6" md="5">
                 <MudSelect T="TerminalInventoryStatus"
                            Label="Remaining stock status"
-                           @bind-Value="@Model.StockStatus"
+                           @bind-Value="@Stage.StockStatus"
                            HelperText="Stock status reported AFTER the purchase">
                     @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
                     {
@@ -69,14 +71,14 @@
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="Remaining stock (SCU)"
-                    @bind-Value="@Model.Stock.Amount"
+                    @bind-Value="@Stage.Stock.Amount"
                     HelperText="Stock reported AFTER the purchase"
                     Min="0"/>
             </MudItem>
             <MudItem xs="12" md="3">
                 <MudSelect T="GameContainerSize"
                            Label="Max. available container"
-                           @bind-Value="@Model.MaxContainerSize">
+                           @bind-Value="@Stage.MaxContainerSize">
                     @foreach (var status in Enum.GetValues<GameContainerSize>().Where(x => x is not GameContainerSize.Unknown))
                     {
                         <MudSelectItem Value="@status">
@@ -86,7 +88,7 @@
                 </MudSelect>
             </MudItem>
         </MudGrid>
-        <MudCheckBox @bind-Value="@Model.SourcedDataConfirmed">
+        <MudCheckBox @bind-Value="@Stage.SourcedDataConfirmed">
             <MudStack Spacing="0">
                 <MudText>
                     I have verified the provided values
@@ -109,35 +111,14 @@
 {
 
     private bool IsCompleted
-        => Model.AcquiredAt is not null;
+        => Stage.AcquiredAt is not null;
 
     private bool IsDisabled
         => IsCompleted;
 
-    [CascadingParameter]
-    public MudStepper? StepperReference { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.TerminalPurchaseStage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.TerminalPurchaseStage> ModelChanged { get; set; }
-
-    private async Task NextStepAsync()
-    {
-        if (StepperReference is not null)
-        {
-            await StepperReference.NextStepAsync();
-        }
-    }
-
-    private async Task UpdateAsync()
-        => await ModelChanged.InvokeAsync(Model);
-
     private async Task OnAcquiredClick()
     {
-        Model.AcquiredAt = DateTimeOffset.Now;
+        Stage.AcquiredAt = DateTimeOffset.Now;
         await NextStepAsync();
     }
 }

@@ -72,13 +72,15 @@
                 <MudExpansionPanel Gutters="false"
                                    Expanded="@(panelIndex++ == 0)">
                     <TitleContent>
-                        <TradeRunPanelTitle Model="tradeRun"/>
+                        <TradeRunPanelTitle
+                            TradeRun="tradeRun"
+                            TradeRunChanged="@StateHasChanged"/>
                     </TitleContent>
                     <ChildContent>
                         <MudDivider/>
                         <TradeRunPanelContent
-                            Model="tradeRun"
-                            ModelChanged="StateHasChanged"/>
+                            TradeRun="tradeRun"
+                            TradeRunChanged="@StateHasChanged"/>
                     </ChildContent>
                 </MudExpansionPanel>
             }
@@ -128,7 +130,7 @@
                         MaxContainerSize = tradeRoute.Destination.MaxContainerSize,
                         StockStatus = tradeRoute.Destination.InventoryStatus,
                         Terminal = tradeRoute.Destination.Terminal,
-                        Quantity = commodityQuantity,
+                        Quantity = commodityQuantity with { },
                     },
                 ],
             };

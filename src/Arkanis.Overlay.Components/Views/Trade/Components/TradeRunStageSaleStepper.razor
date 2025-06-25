@@ -1,45 +1,52 @@
+@inherits TradeRunStageComponent<TradeRun.SaleStage>
+
 <MudStepper>
     <ChildContent>
-        @if (Model is TradeRun.TerminalSaleStage terminalSale)
+        @if (Stage is TradeRun.TerminalSaleStage terminalSale)
         {
             var destinationLocation = terminalSale.Terminal.Parent ?? terminalSale.Terminal;
             <TradeRunStageTravelToStep
-                Model="@terminalSale"
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
                 Location="@destinationLocation"
                 StepTitle="Reach destination"
                 Description="Reach the destination at"/>
 
             <TradeRunStageUnloadCargoStep
-                Model="@terminalSale"
-                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
                 Location="@destinationLocation"
                 StepTitle="Unload"
                 Title="Unload cargo"
                 Description="Unload the purchased cargo from your ship at"/>
 
             <TradeRunStageSellCargoStep
-                Model="@terminalSale"
-                ModelChanged="@(x => ModelChanged.InvokeAsync(x))"
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
                 TradeRun="@TradeRun"/>
 
             <TradeRunStageUnloadCargoStep
-                Model="@terminalSale"
-                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
                 Location="@destinationLocation"
                 StepTitle="Auto-unload"
-                Title="Wait for cargo to unload"
+                Title="Wait for cargo unload"
                 Description="Wait for the cargo to unload from your ship at"
                 IsPostTrade/>
         }
         else
         {
             <MudAlert Severity="@Severity.Error">
-                Trade run model of type @Model.GetType() is not supported.
+                Trade run model of type @Stage.GetType() is not supported.
             </MudAlert>
         }
     </ChildContent>
     <CompletedContent>
-        <TradeRunStageSummary Model="@Model"
+        <TradeRunStageSummary Stage="@Stage"
+                              StageChanged="@UpdateStageAsync"
                               TradeRun="@TradeRun">
             <ControlsContent>
                 @if (!IsCompleted)
@@ -61,38 +68,12 @@
 
 @code
 {
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.SaleStage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.SaleStage> ModelChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun TradeRun { get; set; }
-
-    [Parameter]
-    public bool IsCompleted { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> IsCompletedChanged { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        IsCompleted = Model.FinalizedAt is not null;
-    }
+    private bool IsCompleted
+        => Stage.FinalizedAt is not null;
 
     private async Task OnFinalizeClick()
     {
-        Model.FinalizedAt = DateTimeOffset.Now;
-
-        if (IsCompleted == false)
-        {
-            IsCompleted = true;
-            await IsCompletedChanged.InvokeAsync(true);
-        }
+        Stage.FinalizedAt = DateTimeOffset.Now;
+        await UpdateStageAsync();
     }
 }

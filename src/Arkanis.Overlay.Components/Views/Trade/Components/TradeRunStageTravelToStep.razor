@@ -1,5 +1,7 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using MudBlazor.Utilities
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
 <MudStep Title="@StepTitle"
          Style="@_style"
          Completed="@IsCompleted"
@@ -35,17 +37,10 @@
     private string _style = string.Empty;
 
     private bool IsCompleted
-        => Model.ReachedAt is not null;
+        => Stage.ReachedAt is not null;
 
     private bool IsDisabled
         => IsCompleted;
-
-    [CascadingParameter]
-    public MudStepper? StepperReference { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.Stage Model { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -60,14 +55,6 @@
     [Parameter]
     public string StepTitle { get; set; } = "Travel";
 
-    private async Task NextStepAsync()
-    {
-        if (StepperReference is not null)
-        {
-            await StepperReference.NextStepAsync();
-        }
-    }
-
     protected override void OnParametersSet()
     {
         _style = StyleBuilder.Default(StyleBase)
@@ -80,7 +67,8 @@
 
     private async Task OnReachedClick()
     {
-        Model.ReachedAt = DateTimeOffset.Now;
+        Stage.ReachedAt = DateTimeOffset.Now;
         await NextStepAsync();
     }
+
 }

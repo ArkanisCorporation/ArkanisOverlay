@@ -1,3 +1,5 @@
+@inherits TradeRunStageComponent<TradeRun.TerminalSaleStage>
+
 <MudStep Title="Sell cargo"
          Completed="@IsCompleted"
          Disabled="@IsDisabled">
@@ -17,19 +19,19 @@
                   Spacing="6"
                   Row>
             <GameEntityNameLabel
-                Model="@(Model.Quantity.Reference.Entity.Name)"/>
+                Model="@(Stage.Quantity.Reference.Entity.Name)"/>
             <MudText>
                 at
             </MudText>
             <GameEntityNameLabel
-                Model="@(Model.Terminal.Name)"/>
+                Model="@(Stage.Terminal.Name)"/>
         </MudStack>
         <MudGrid Style="min-width: 400px; max-width: 75%;">
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="Quantity sold (SCU)"
-                    @bind-Value="@Model.Quantity.Amount"
-                    @bind-Value:after="@UpdateAsync"
+                    @bind-Value="@Stage.Quantity.Amount"
+                    @bind-Value:after="@UpdateStageAsync"
                     Min="0"
                     Max="@UnsoldAmount.Amount"
                     Required/>
@@ -37,8 +39,8 @@
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="Sale price (per SCU)"
-                    @bind-Value="@Model.PricePerUnit.Amount"
-                    @bind-Value:after="@UpdateAsync"
+                    @bind-Value="@Stage.PricePerUnit.Amount"
+                    @bind-Value:after="@UpdateStageAsync"
                     Min="1"
                     Required/>
             </MudItem>
@@ -50,14 +52,14 @@
                              Color="@Color.Success">
                         =
                         <GameCurrencyLabel
-                            Model="@Model.PriceTotal"/>
+                            Model="@Stage.PriceTotal"/>
                     </MudText>
                 </MudStack>
             </MudItem>
             <MudItem xs="12" sm="6" md="5">
                 <MudSelect T="TerminalInventoryStatus"
                            Label="New stock status"
-                           @bind-Value="@Model.StockStatus"
+                           @bind-Value="@Stage.StockStatus"
                            HelperText="Stock status reported AFTER the sale">
                     @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
                     {
@@ -70,14 +72,14 @@
             <MudItem xs="12" sm="6" md="4">
                 <MudNumericField
                     Label="New stock (SCU)"
-                    @bind-Value="@Model.Stock.Amount"
+                    @bind-Value="@Stage.Stock.Amount"
                     HelperText="Stock reported AFTER the sale"
                     Min="0"/>
             </MudItem>
             <MudItem xs="12" md="3">
                 <MudSelect T="GameContainerSize"
                            Label="Max. acceptable container"
-                           @bind-Value="@Model.MaxContainerSize">
+                           @bind-Value="@Stage.MaxContainerSize">
                     @foreach (var status in Enum.GetValues<GameContainerSize>().Where(x => x is not GameContainerSize.Unknown))
                     {
                         <MudSelectItem Value="@status">
@@ -87,7 +89,7 @@
                 </MudSelect>
             </MudItem>
         </MudGrid>
-        <MudCheckBox @bind-Value="@Model.SourcedDataConfirmed">
+        <MudCheckBox @bind-Value="@Stage.SourcedDataConfirmed">
             <MudStack Spacing="0">
                 <MudText>
                     I have verified the provided values
@@ -97,7 +99,7 @@
                 </MudText>
             </MudStack>
         </MudCheckBox>
-        @if (Model.Quantity < UnsoldAmount)
+        @if (Stage.Quantity < UnsoldAmount)
         {
             <MudButton
                 StartIcon="@MaterialIcons.Filled.ShoppingCartCheckout"
@@ -124,49 +126,24 @@
 {
 
     private bool IsCompleted
-        => Model.SoldAt is not null;
+        => Stage.SoldAt is not null;
 
     private bool IsDisabled
         => IsCompleted;
 
     private Quantity UnsoldAmount { get; set; } = Quantity.Zero;
 
-    [CascadingParameter]
-    public MudStepper? StepperReference { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.TerminalSaleStage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.TerminalSaleStage> ModelChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun TradeRun { get; set; }
-
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         UnsoldAmount = TradeRun.UnsoldQuantities
-            .Where(x => x.Reference.EntityId == Model.Quantity.Reference.EntityId)
+            .Where(x => x.Reference.EntityId == Stage.Quantity.Reference.EntityId)
             .SingleOrDefault(Quantity.Zero);
     }
 
-    private async Task NextStepAsync()
-    {
-        if (StepperReference is not null)
-        {
-            await StepperReference.NextStepAsync();
-        }
-    }
-
-    private async Task UpdateAsync()
-        => await ModelChanged.InvokeAsync(Model);
-
     private async Task OnSoldClick()
     {
-        Model.SoldAt = DateTimeOffset.Now;
+        Stage.SoldAt = DateTimeOffset.Now;
         await NextStepAsync();
     }
 }

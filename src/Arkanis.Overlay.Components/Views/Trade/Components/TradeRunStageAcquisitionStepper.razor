@@ -1,31 +1,38 @@
+@inherits TradeRunStageComponent<TradeRun.AcquisitionStage>
+
 <MudStepper>
     <ChildContent>
-        @if (Model is TradeRun.TerminalPurchaseStage terminalPurchase)
+        @if (Stage is TradeRun.TerminalPurchaseStage terminalPurchase)
         {
             <TradeRunStageTravelToStep
-                Model="@terminalPurchase"
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
                 Location="@terminalPurchase.Terminal"
                 StepTitle="Reach origin"
                 Description="Reach the origin purchase terminal at"/>
 
             <TradeRunStagePurchaseCargoStep
-                Model="@terminalPurchase"
-                ModelChanged="@(x => ModelChanged.InvokeAsync(x))"/>
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"/>
 
             <TradeRunStageLoadCargoStep
-                Model="@terminalPurchase"
-                Location="@terminalPurchase.Terminal"
-                ModelChanged="@(x => ModelChanged.InvokeAsync(Model))"/>
+                Stage="@terminalPurchase"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalPurchase.Terminal"/>
         }
         else
         {
             <MudAlert Severity="@Severity.Error">
-                Trade run model of type @Model.GetType() is not supported.
+                Trade run model of type @Stage.GetType() is not supported.
             </MudAlert>
         }
     </ChildContent>
     <CompletedContent>
-        <TradeRunStageSummary Model="@Model"
+        <TradeRunStageSummary Stage="@Stage"
+                              StageChanged="@UpdateStageAsync"
                               TradeRun="@TradeRun">
             <ControlsContent>
                 @if (!IsCompleted)
@@ -48,38 +55,12 @@
 
 @code
 {
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun.AcquisitionStage Model { get; set; }
-
-    [Parameter]
-    public EventCallback<TradeRun.AcquisitionStage> ModelChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required TradeRun TradeRun { get; set; }
-
-    [Parameter]
-    public bool IsCompleted { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> IsCompletedChanged { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        IsCompleted = Model.FinalizedAt is not null;
-    }
+    private bool IsCompleted
+        => Stage.FinalizedAt is not null;
 
     private async Task OnFinalizeClick()
     {
-        Model.FinalizedAt = DateTimeOffset.Now;
-
-        if (IsCompleted == false)
-        {
-            IsCompleted = true;
-            await IsCompletedChanged.InvokeAsync(true);
-        }
+        Stage.FinalizedAt = DateTimeOffset.Now;
+        await UpdateStageAsync();
     }
 }
