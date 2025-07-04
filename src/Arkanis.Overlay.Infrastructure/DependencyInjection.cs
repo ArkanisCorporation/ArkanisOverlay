@@ -5,6 +5,7 @@ using Common.Extensions;
 using Data;
 using Domain;
 using Domain.Abstractions.Services;
+using External.MedRunner;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,6 +52,7 @@ public static class DependencyInjection
                     };
                 }
             )
+            .AddMedRunnerApiClient()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()

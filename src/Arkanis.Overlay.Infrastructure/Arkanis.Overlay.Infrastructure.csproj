@@ -23,6 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Arkanis.Overlay.External.MedRunner\Arkanis.Overlay.External.MedRunner.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
     </ItemGroup>
