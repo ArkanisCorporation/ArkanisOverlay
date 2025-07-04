@@ -1,0 +1,303 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.Models
+@using Origin = MudBlazor.Origin
+@inject IDialogService DialogService
+@inject IMedRunnerApiClient MedRunner
+
+<MudGrid>
+    <MudItem xs="12" md="5">
+        <MudStack AlignItems="@AlignItems.Center"
+                  Class="h-100 w-100">
+            <MudTimeline Class="w-100"
+                         Style="min-height: 100%"
+                         TimelineAlign="@TimelineAlign.Start"
+                         TimelineOrientation="@TimelineOrientation.Vertical"
+                         TimelinePosition="@TimelinePosition.Left">
+                @if (Context.Emergency is not null)
+                {
+                    <MudTimelineItem Color="@Color.Info"
+                                     Size="@Size.Medium"
+                                     Elevation="0">
+                        <ItemDot>
+                            <MudIcon
+                                Icon="@Icons.Material.Filled.EmergencyShare"
+                                Size="@Size.Medium"/>
+                        </ItemDot>
+                        <ItemContent>
+                            <MudStack Spacing="0">
+                                <MudText Typo="@Typo.body1">Request submitted</MudText>
+                                <MudText Typo="@Typo.caption" Class="text-secondary">
+                                    @Context.Emergency.CreatedAt
+                                </MudText>
+                            </MudStack>
+                        </ItemContent>
+                    </MudTimelineItem>
+                }
+                <MudTimelineItem Color="@Color.Success"
+                                 Size="@Size.Medium"
+                                 Elevation="0">
+                    <ItemDot>
+                        <MudIcon
+                            Icon="@Icons.Material.Filled.Check"
+                            Size="@Size.Medium"/>
+                    </ItemDot>
+                    <ItemContent>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.body1">Request accepted</MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                @DateTimeOffset.Now
+                            </MudText>
+                        </MudStack>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="@Color.Error"
+                                 Size="@Size.Medium"
+                                 Elevation="0">
+                    <ItemDot>
+                        <MudIcon
+                            Icon="@Icons.Material.Filled.Block"
+                            Size="@Size.Medium"/>
+                    </ItemDot>
+                    <ItemContent>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.body1">Request rejected</MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                @DateTimeOffset.Now
+                            </MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                Rejection reason..
+                            </MudText>
+                        </MudStack>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="@Color.Info"
+                                 Size="@Size.Medium"
+                                 Elevation="0">
+                    <ItemDot>
+                        <MudIcon
+                            Icon="@Icons.Material.Filled.Groups2"
+                            Size="@Size.Medium"/>
+                    </ItemDot>
+                    <ItemContent>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.body1">Response team assigned</MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                @DateTimeOffset.Now
+                            </MudText>
+                        </MudStack>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="@Color.Warning"
+                                 Size="@Size.Medium"
+                                 Elevation="0">
+                    <ItemDot>
+                        <MudIcon
+                            Icon="@Icons.Material.Filled.HourglassTop"
+                            Size="@Size.Medium"/>
+                    </ItemDot>
+                    <ItemContent>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.body1">Waiting for response</MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                Pending...
+                            </MudText>
+                            <MudMenu AnchorOrigin="@Origin.BottomCenter"
+                                     TransformOrigin="@Origin.TopCenter"
+                                     ActivationEvent="@MouseEvent.LeftClick"
+                                     Class="w-100"
+                                     Dense>
+                                <ActivatorContent>
+                                    <MudButton Variant="@Variant.Outlined"
+                                               Color="@Color.Error"
+                                               Size="@Size.Small"
+                                               Class="w-100"
+                                               StartIcon="@Icons.Material.Filled.Cancel">
+                                        Cancel response
+                                    </MudButton>
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MudText Typo="@Typo.caption" Class="text-secondary px-6">
+                                        Please provide a reason
+                                    </MudText>
+                                    @foreach (var reason in CancellationReasons)
+                                    {
+                                        <MudMenuItem OnClick="@(() => CancelAsync(reason))">
+                                            @reason.Humanize()
+                                        </MudMenuItem>
+                                    }
+                                </ChildContent>
+                            </MudMenu>
+                        </MudStack>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="@Color.Success"
+                                 Size="@Size.Medium"
+                                 Elevation="0">
+                    <ItemDot>
+                        <MudIcon
+                            Icon="@Icons.Material.Filled.CheckCircle"
+                            Size="@Size.Medium"/>
+                    </ItemDot>
+                    <ItemContent>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.body1">Operation completed</MudText>
+                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                @DateTimeOffset.Now
+                            </MudText>
+                            <MudButton Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Size="@Size.Small"
+                                       OnClick="@FinalizeAsync"
+                                       StartIcon="@Icons.Material.Filled.Check">
+                                Finalize
+                            </MudButton>
+                        </MudStack>
+                    </ItemContent>
+                </MudTimelineItem>
+            </MudTimeline>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="12" md="7" Class="pa-5 mt-5">
+        <MudStack Justify="@Justify.FlexEnd"
+                  Style="height: 30vh; overflow-y: auto">
+            <MudText Typo="@Typo.caption"
+                     Align="@Align.Center"
+                     Class="text-secondary">
+                Please wait to be connected with the emergency responders.
+            </MudText>
+            <MudText Typo="@Typo.caption"
+                     Align="@Align.Center"
+                     Class="text-secondary">
+                Dispatch team lead has been assigned.
+            </MudText>
+            <MudChat ChatPosition="@ChatBubblePosition.Start">
+                <MudAvatar Color="@Color.Error">
+                    <MudIcon
+                        Icon="@Icons.Material.Filled.Emergency"
+                        Size="@Size.Medium"/>
+                </MudAvatar>
+                <MudChatBubble>
+                    It was said that you would, destroy the Sith, not join them.
+                </MudChatBubble>
+                <MudChatBubble>
+                    It was you who would bring balance to the Force
+                </MudChatBubble>
+            </MudChat>
+
+            <MudChat ChatPosition="@ChatBubblePosition.End">
+                <MudAvatar>
+                    <MudIcon
+                        Icon="@Icons.Material.Filled.AccountCircle"
+                        Size="@Size.Medium"/>
+                </MudAvatar>
+                <MudChatBubble>
+                    Not leave it in Darkness
+                </MudChatBubble>
+            </MudChat>
+        </MudStack>
+
+        <MudTextField
+            T="string"
+            Label="Message content"
+            Placeholder="Communicate with the emergency dispatch"
+            Class="chat-input"
+            AutoGrow/>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+    private CancellationReason[] CancellationReasons { get; } =
+    [
+        CancellationReason.SuccumbedToWounds,
+        CancellationReason.ServerError,
+        CancellationReason.Respawned,
+        CancellationReason.Other,
+    ];
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsLoadingChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required EmergencyDialog.MedRunnerContext Context { get; set; }
+
+    [Parameter]
+    public EventCallback<EmergencyDialog.MedRunnerContext> ContextChanged { get; set; }
+
+    private async Task CancelAsync(CancellationReason reason)
+    {
+        if (!Context.IsEmergencyInProgress)
+        {
+            return;
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = "Are you sure?",
+            MarkupMessage = new MarkupString($"Do you really want to cancel an <u>already accepted</u> rescue mission with reason <b>{reason.Humanize().ToLowerInvariant()}</b>?"),
+            YesText = "Remove",
+            CancelText = "Cancel",
+        };
+        if (Context.Emergency.Status == MissionStatus.Accepted && await DialogService.ShowMessageBox(options) == false)
+        {
+            return;
+        }
+
+        try
+        {
+            await IsLoadingAsync();
+            Context.Emergency.CancellationReason = reason;
+#if DEBUG
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            await ContextChanged.InvokeAsync(Context);
+#else
+            var emergencyId = Context.Emergency.ClientId ?? string.Empty;
+            await MedRunner.Emergency.CancelEmergencyWithReasonAsync(emergencyId, reason);
+#endif
+        }
+        finally
+        {
+            await IsLoadingAsync(false);
+        }
+    }
+
+    private async Task FinalizeAsync()
+    {
+        if (!Context.IsEmergencyInProgress)
+        {
+            return;
+        }
+
+        try
+        {
+            await IsLoadingAsync();
+#if DEBUG
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            await ContextChanged.InvokeAsync(Context);
+#else
+            // TODO: Prompt for reason
+            var emergencyId = Context.Emergency.ClientId ?? string.Empty;
+            await MedRunner.Emergency.CancelEmergencyWithReasonAsync(emergencyId, CancellationReason.Rescued);
+#endif
+        }
+        finally
+        {
+            await IsLoadingAsync(false);
+        }
+    }
+
+    private async Task IsLoadingAsync(bool isLoading = true)
+    {
+        IsLoading = isLoading;
+        await IsLoadingChanged.InvokeAsync(IsLoading);
+    }
+
+}

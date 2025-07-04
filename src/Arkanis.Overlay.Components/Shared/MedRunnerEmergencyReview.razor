@@ -1,0 +1,103 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.Models
+@inject IMedRunnerApiClient MedRunner
+
+<MudStack Class="pa-5">
+    @if (Context.Emergency is not null)
+    {
+        <MudToggleGroup @bind-Value="@Context.Emergency.Rating"
+                        Color="@ColorByResponseRating"
+                        FixedContent
+                        CheckMark>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbUp"
+                           Value="@ResponseRating.Good">
+                Went well
+            </MudToggleItem>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbsUpDown"
+                           Value="@ResponseRating.None">
+                No rating
+            </MudToggleItem>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbDown"
+                           Value="@ResponseRating.Bad">
+                Went bad
+            </MudToggleItem>
+        </MudToggleGroup>
+        <MudTextField
+            T="string"
+            Label="Response remarks"
+            @bind-Value="@Context.Emergency.RatingRemarks"
+            Class="review"
+            Immediate
+            AutoGrow/>
+        <MudButton Variant="@(FeedbackProvided ? Variant.Outlined : Variant.Text)"
+                   Color="@Color.Success"
+                   OnClick="@SubmitReviewAsync"
+                   StartIcon="@Icons.Material.Filled.Check"
+                   Disabled="@IsLoading">
+            Submit rating
+        </MudButton>
+    }
+</MudStack>
+
+@code
+{
+
+    private bool FeedbackProvided
+        => Context.Emergency is null
+           || Context.Emergency.Rating != ResponseRating.None
+           || !string.IsNullOrWhiteSpace(Context.Emergency.RatingRemarks);
+
+    public Color ColorByResponseRating
+        => Context.Emergency?.Rating switch
+        {
+            ResponseRating.Good => Color.Success,
+            ResponseRating.None => Color.Default,
+            ResponseRating.Bad => Color.Error,
+            _ => Color.Default,
+        };
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsLoadingChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required EmergencyDialog.MedRunnerContext Context { get; set; }
+
+    [Parameter]
+    public EventCallback<EmergencyDialog.MedRunnerContext> ContextChanged { get; set; }
+
+    private async Task SubmitReviewAsync()
+    {
+        if (Context.Emergency is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await IsLoadingAsync();
+#if DEBUG
+            await Task.Delay(TimeSpan.FromMilliseconds(250));
+#else
+            var emergencyId = Context.Emergency.ClientId ?? string.Empty;
+            await MedRunner.Emergency.RateServicesAsync(emergencyId, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
+#endif
+            await ContextChanged.InvokeAsync(Context);
+        }
+        finally
+        {
+            await IsLoadingAsync(false);
+        }
+    }
+
+    private async Task IsLoadingAsync(bool isLoading = true)
+    {
+        IsLoading = isLoading;
+        await IsLoadingChanged.InvokeAsync(IsLoading);
+    }
+
+}
