@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.Models;
 /// <summary>
 ///     Represents an emergency mission in the Medrunner system.
 /// </summary>
-public class Emergency
+public class Emergency : ModelBase
 {
     /// <summary>System where the emergency occurred.</summary>
     public required string System { get; set; }
