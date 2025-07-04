@@ -34,6 +34,10 @@
             max-width: 220px;
             cursor: pointer;
             user-select: none;
+
+            img {
+                pointer-events: none;
+            }
         }
 
         [disabled="true"].scenario {
@@ -126,7 +130,8 @@
                                     </MudText>
                                     <MudImage
                                         Class="my-2"
-                                        Src="@LinkHelper.GetPathToAsset("img/medrunner-logo.png")"/>
+                                        Style="width: 120px;"
+                                        Src="@LinkHelper.GetPathToAsset("img/medrunner-logo-white.svg")"/>
                                     @if (_medRunnerClient is { Active: true })
                                     {
                                         <MudText Typo="@Typo.caption"
@@ -165,7 +170,8 @@
                             <GameEntitySelectBox
                                 Label="Closest location"
                                 EntityCategory="@GameEntityCategory.Location"
-                                @bind-Value="@_closestLocationEntity"/>
+                                @bind-Value="@_closestLocationEntity"
+                                Accept="@(location => location is not GameStarSystem)"/>
                         </MudItem>
                         <MudItem xs="12" md="4">
                             <MudSelect T="@ThreatLevel"
