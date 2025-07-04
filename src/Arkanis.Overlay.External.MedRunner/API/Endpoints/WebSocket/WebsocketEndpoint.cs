@@ -20,7 +20,7 @@ public class WebsocketEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenPr
     /// <summary>
     ///     Gets realtime updates (establishes websocket connection).
     /// </summary>
-    public async Task InitializeAsync()
+    public async Task EnsureInitializedAsync()
     {
         if (Events.IsConnected)
         {

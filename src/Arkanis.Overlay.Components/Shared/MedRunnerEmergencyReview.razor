@@ -1,7 +1,5 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
-@using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
-@inject IMedRunnerApiClient MedRunner
+@inherits MedRunnerComponentBase
 
 <MudStack Class="pa-5">
     @if (Context.Emergency is not null)
@@ -57,19 +55,6 @@
             _ => Color.Default,
         };
 
-    [Parameter]
-    public bool IsLoading { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> IsLoadingChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required EmergencyDialog.MedRunnerContext Context { get; set; }
-
-    [Parameter]
-    public EventCallback<EmergencyDialog.MedRunnerContext> ContextChanged { get; set; }
-
     private async Task SubmitReviewAsync()
     {
         if (Context.Emergency is null)
@@ -77,27 +62,16 @@
             return;
         }
 
-        try
-        {
-            await IsLoadingAsync();
+        await PerformSafeAsync(async () =>
+            {
 #if DEBUG
-            await Task.Delay(TimeSpan.FromMilliseconds(250));
+                await Task.Delay(TimeSpan.FromMilliseconds(250));
 #else
-            var emergencyId = Context.Emergency.ClientId ?? string.Empty;
-            await MedRunner.Emergency.RateServicesAsync(emergencyId, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
+                await MedRunner.Emergency.RateServicesAsync(EmergencyId, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
 #endif
-            await ContextChanged.InvokeAsync(Context);
-        }
-        finally
-        {
-            await IsLoadingAsync(false);
-        }
-    }
-
-    private async Task IsLoadingAsync(bool isLoading = true)
-    {
-        IsLoading = isLoading;
-        await IsLoadingChanged.InvokeAsync(IsLoading);
+                await ContextChanged.InvokeAsync(Context);
+            }
+        );
     }
 
 }

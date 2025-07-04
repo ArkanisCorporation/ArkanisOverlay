@@ -1,12 +1,10 @@
 @using System.Diagnostics.CodeAnalysis
 @using System.Text
-@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.External.MedRunner.API
-@using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
 @using Arkanis.Overlay.External.MedRunner.Models
-@inject IMedRunnerApiClient MedRunner
+@inherits MedRunnerComponentBase
 
 <MudGrid Class="pa-5">
     <MudItem xs="12" md="8">
@@ -56,27 +54,14 @@
     private ThreatLevel? _threatLevel;
     private IGameEntity? _closestLocationEntity;
 
-    private IGameLocation? ClosestLocation
-        => _closestLocationEntity as IGameLocation;
+    private GameLocationEntity? ClosestLocation
+        => _closestLocationEntity as GameLocationEntity;
 
     [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
     private bool SubmitDisabled
         => IsLoading
            || ClosestLocation is null
            || _threatLevel is null;
-
-    [Parameter]
-    public bool IsLoading { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> IsLoadingChanged { get; set; }
-
-    [Parameter]
-    [EditorRequired]
-    public required EmergencyDialog.MedRunnerContext Context { get; set; }
-
-    [Parameter]
-    public EventCallback<EmergencyDialog.MedRunnerContext> ContextChanged { get; set; }
 
     private async Task StartMedRunnerEmergencyAsync()
     {
@@ -85,67 +70,65 @@
             return;
         }
 
-        try
-        {
-            await IsLoadingAsync();
-            var request = new CreateEmergencyRequest
+        await PerformSafeAsync(async () =>
             {
-                Location = CreateMedRunnerLocation(ClosestLocation),
-                ThreatLevel = _threatLevel.Value,
-            };
-#if DEBUG
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
-            var emergencyResponse = new ApiResponse<Emergency>
-            {
-                Data = new Emergency
+                var request = new CreateEmergencyRequest
                 {
-                    System = request.Location.System,
-                    Subsystem = request.Location.Subsystem,
-                    ClientRsiHandle = Context.ClientInfo?.RsiHandle ?? "unknown",
-                    SubscriptionTier = "basic",
-                    RespondingTeam = new RespondingTeam
+                    Location = CreateMedRunnerLocation(ClosestLocation),
+                    ThreatLevel = _threatLevel.Value,
+                };
+#if DEBUG
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
+                var emergencyResponse = new ApiResponse<Emergency>
+                {
+                    Data = new Emergency
                     {
                         Id = Guid.NewGuid().ToString(),
-                        Name = "Flying Dutchman",
-                    },
-                    RespondingTeams =
-                    [
-                        new RespondingTeam
+                        System = request.Location.System,
+                        Subsystem = request.Location.Subsystem,
+                        ClientRsiHandle = Context.ClientInfo?.RsiHandle ?? "unknown",
+                        SubscriptionTier = "basic",
+                        RespondingTeam = new RespondingTeam
                         {
                             Id = Guid.NewGuid().ToString(),
                             Name = "Flying Dutchman",
                         },
-                    ],
-                },
-                Success = true,
-            };
+                        RespondingTeams =
+                        [
+                            new RespondingTeam
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                Name = "Flying Dutchman",
+                            },
+                        ],
+                        CreationTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                    },
+                    Success = true,
+                };
 #else
-            //var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
+                //var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
 #endif
-            if (!emergencyResponse.Success)
-            {
-                Context.Errors.Add(emergencyResponse.ErrorMessage);
-                await ContextChanged.InvokeAsync(Context);
-                return;
-            }
+                if (!emergencyResponse.Success)
+                {
+                    Context.Errors.Add(emergencyResponse.ErrorMessage);
+                    await ContextChanged.InvokeAsync(Context);
+                    return;
+                }
 
-            Context.Emergency = emergencyResponse.Data;
-            await ContextChanged.InvokeAsync(Context);
-        }
-        finally
-        {
-            await IsLoadingAsync(false);
-        }
+                Context.Emergency = emergencyResponse.Data;
+                await ContextChanged.InvokeAsync(Context);
+            }
+        );
     }
 
-    private Location CreateMedRunnerLocation(IGameLocation location)
+    private Location CreateMedRunnerLocation(GameLocationEntity location)
         => new()
         {
-            System = location.Parents.OfType<GameStarSystem>().First().Name.MainContent.FullName,
-            Subsystem = location.Parents.OfType<GamePlanet>().First().Name.MainContent.FullName,
+            System = location.CreatePathToRoot().OfType<GameStarSystem>().First().Name.MainContent.FullName,
+            Subsystem = location.CreatePathToRoot().OfType<GamePlanet>().First().Name.MainContent.FullName,
             TertiaryLocation = new StringBuilder().AppendJoin(
                     " / ",
-                    location.Parents
+                    location.CreatePathToRoot()
                         .Reverse()
                         .Where(x => x is not GameStarSystem and not GamePlanet)
                         .Select(x => x.Name.MainContent.FullName)
@@ -153,11 +136,5 @@
                 )
                 .ToString(),
         };
-
-    private async Task IsLoadingAsync(bool isLoading = true)
-    {
-        IsLoading = isLoading;
-        await IsLoadingChanged.InvokeAsync(IsLoading);
-    }
 
 }
