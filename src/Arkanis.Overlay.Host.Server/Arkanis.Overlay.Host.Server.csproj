@@ -18,10 +18,6 @@
         <Content Include="..\..\.dockerignore">
           <Link>.dockerignore</Link>
         </Content>
-        <None Include="packages.lock.json">
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>

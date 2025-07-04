@@ -22,6 +22,8 @@ public class MedRunnerApiClient(
     ILogger<MedRunnerApiClient> logger
 ) : IMedRunnerApiClient
 {
+    public IMedRunnerTokenProvider TokenProvider { get; } = tokenProvider;
+
     public EmergencyEndpoint Emergency { get; } = new(config, tokenProvider, cache, logger);
 
     public ClientEndpoint Client { get; } = new(config, tokenProvider, cache, logger);
