@@ -5,129 +5,150 @@
 @inject IUserPreferencesManager UserPreferencesManager
 @inject IAppVersionProvider VersionProvider
 
-<MudDialog>
+<MudDialog ContentStyle="padding: 0">
     <TitleContent>
         Preferences
     </TitleContent>
     <DialogContent>
-        <MudForm @ref="_form">
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudText Typo="@Typo.caption">Application</MudText>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudSwitch
-                        @bind-Value="@Preferences.TerminateOnGameExit"
-                        @bind-Value:after="@ValidateAsync"
-                        Color="@Color.Success"
-                        Label="Terminate on game exit"/>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudSwitch
-                        @bind-Value="@Preferences.AutoStartWithBoot"
-                        @bind-Value:after="@ValidateAsync"
-                        Color="@Color.Success"
-                        Label="Auto-start on system boot"/>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudSelect T="@UpdateChannel"
-                               @bind-Value="@Preferences.UpdateChannel"
-                               @bind-Value:after="@ValidateAsync"
-                               Label="Update channel"
-                               Adornment="@Adornment.Start"
-                               AdornmentIcon="@MaterialSymbols.Outlined.SystemUpdateAlt"
-                               Text="@(Preferences.UpdateChannel.Name)"
-                               Required
-                               Dense>
-                        @foreach (var channel in UpdateChannel.All)
-                        {
-                            <MudSelectItem Value="@channel" Disabled="@(!UpdateChannel.Available.Contains(channel))">
-                                <span>@channel.Name</span>
-                            </MudSelectItem>
-                        }
-                    </MudSelect>
-                    <UpdateChannelDetails Model="@Preferences.UpdateChannel"/>
-                    @if (UserPreferencesManager.CurrentPreferences.UpdateChannel != Preferences.UpdateChannel
-                         && (UserPreferencesManager.CurrentPreferences.UpdateChannel.IsUnstable
-                             || Preferences.UpdateChannel.IsUnstable))
-                    {
-                        <MudText Typo="@Typo.caption" Color="@Color.Error">
-                            Potential version downgrade will lead to <b>full wipe</b> of persistent local storage.
-                        </MudText>
-                    }
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudStack Spacing="0">
-                        <MudSwitch
-                            @bind-Value="@Preferences.DisableAnalytics"
-                            @bind-Value:after="@ValidateAsync"
-                            Color="@Color.Error"
-                            Label="Disable usage analytics"/>
-                        @if (UserPreferencesManager.CurrentPreferences.DisableAnalytics != Preferences.DisableAnalytics)
-                        {
-                            <MudText Typo="@Typo.caption" Color="@Color.Warning">
-                                App restart may be necessary to fully apply
-                            </MudText>
-                        }
-                    </MudStack>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudText Typo="@Typo.caption">Overlay</MudText>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudSwitch
-                        @bind-Value="@Preferences.BlurBackground"
-                        @bind-Value:after="@ValidateAsync"
-                        Color="@Color.Success"
-                        Label="Blur overlay background"/>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudText Typo="@Typo.caption">Locale</MudText>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudAutocomplete T="CultureInfo"
-                                     Label="Overlay language"
-                                     Adornment="@Adornment.Start"
-                                     AdornmentIcon="@MaterialSymbols.Outlined.Language"
-                                     @bind-Value="@Preferences.CustomCultureInfo"
-                                     @bind-Value:after="@ValidateAsync"
-                                     Text="@Preferences.CustomCultureInfo?.EnglishName"
-                                     HelperText="@CultureSelectHelpText"
-                                     SearchFunc="SearchCulture"
-                                     ToStringFunc="@(culture => culture?.EnglishName)"
-                                     Disabled
-                                     Clearable
-                                     Dense>
-                        <ItemTemplate Context="culture">
-                            @culture.EnglishName <code>(@culture.ThreeLetterISOLanguageName)</code>
-                        </ItemTemplate>
-                    </MudAutocomplete>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudAutocomplete T="RegionInfo"
-                                     Label="Display format region"
-                                     Adornment="@Adornment.Start"
-                                     AdornmentIcon="@MaterialSymbols.Outlined.Globe"
-                                     @bind-Value="@Preferences.CustomRegionInfo"
-                                     @bind-Value:after="@ValidateAsync"
-                                     SearchFunc="SearchRegion"
-                                     ToStringFunc="@(region => region?.EnglishName)"
-                                     Clearable
-                                     Dense>
-                        <ItemTemplate Context="region">
-                            @region.EnglishName <code>(@region.ThreeLetterISORegionName)</code>
-                        </ItemTemplate>
-                    </MudAutocomplete>
-                </MudItem>
-                <MudItem xs="12">
-                    <KeyboardShortcutInput
-                        Label="Overlay toggle shortcut"
-                        @bind-Value="@Preferences.LaunchShortcut"
-                        @bind-Value:after="@ValidateAsync"
-                        Required/>
-                </MudItem>
-            </MudGrid>
-        </MudForm>
+        <MudDivider/>
+        <MudExpansionPanels Outlined Square Dense>
+            <MudExpansionPanel Expanded Dense>
+                <TitleContent>
+                    General
+                </TitleContent>
+                <ChildContent>
+                    <MudForm @ref="_form">
+                        <MudGrid>
+                            <MudItem xs="12">
+                                <MudText Typo="@Typo.caption">Application</MudText>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudSwitch
+                                    @bind-Value="@Preferences.TerminateOnGameExit"
+                                    @bind-Value:after="@ValidateAsync"
+                                    Color="@Color.Success"
+                                    Label="Terminate on game exit"/>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudSwitch
+                                    @bind-Value="@Preferences.AutoStartWithBoot"
+                                    @bind-Value:after="@ValidateAsync"
+                                    Color="@Color.Success"
+                                    Label="Auto-start on system boot"/>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudSelect T="@UpdateChannel"
+                                           @bind-Value="@Preferences.UpdateChannel"
+                                           @bind-Value:after="@ValidateAsync"
+                                           Label="Update channel"
+                                           Adornment="@Adornment.Start"
+                                           AdornmentIcon="@MaterialSymbols.Outlined.SystemUpdateAlt"
+                                           Text="@(Preferences.UpdateChannel.Name)"
+                                           Required
+                                           Dense>
+                                    @foreach (var channel in UpdateChannel.All)
+                                    {
+                                        <MudSelectItem Value="@channel"
+                                                       Disabled="@(!UpdateChannel.Available.Contains(channel))">
+                                            <span>@channel.Name</span>
+                                        </MudSelectItem>
+                                    }
+                                </MudSelect>
+                                <UpdateChannelDetails Model="@Preferences.UpdateChannel"/>
+                                @if (UserPreferencesManager.CurrentPreferences.UpdateChannel != Preferences.UpdateChannel
+                                     && (UserPreferencesManager.CurrentPreferences.UpdateChannel.IsUnstable
+                                         || Preferences.UpdateChannel.IsUnstable))
+                                {
+                                    <MudText Typo="@Typo.caption" Color="@Color.Error">
+                                        Potential version downgrade will lead to <b>full wipe</b> of persistent local
+                                        storage.
+                                    </MudText>
+                                }
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudStack Spacing="0">
+                                    <MudSwitch
+                                        @bind-Value="@Preferences.DisableAnalytics"
+                                        @bind-Value:after="@ValidateAsync"
+                                        Color="@Color.Error"
+                                        Label="Disable usage analytics"/>
+                                    @if (UserPreferencesManager.CurrentPreferences.DisableAnalytics != Preferences.DisableAnalytics)
+                                    {
+                                        <MudText Typo="@Typo.caption" Color="@Color.Warning">
+                                            App restart may be necessary to fully apply
+                                        </MudText>
+                                    }
+                                </MudStack>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudText Typo="@Typo.caption">Overlay</MudText>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudSwitch
+                                    @bind-Value="@Preferences.BlurBackground"
+                                    @bind-Value:after="@ValidateAsync"
+                                    Color="@Color.Success"
+                                    Label="Blur overlay background"/>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudText Typo="@Typo.caption">Locale</MudText>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudAutocomplete T="CultureInfo"
+                                                 Label="Overlay language"
+                                                 Adornment="@Adornment.Start"
+                                                 AdornmentIcon="@MaterialSymbols.Outlined.Language"
+                                                 @bind-Value="@Preferences.CustomCultureInfo"
+                                                 @bind-Value:after="@ValidateAsync"
+                                                 Text="@Preferences.CustomCultureInfo?.EnglishName"
+                                                 HelperText="@CultureSelectHelpText"
+                                                 SearchFunc="SearchCulture"
+                                                 ToStringFunc="@(culture => culture?.EnglishName)"
+                                                 Disabled
+                                                 Clearable
+                                                 Dense>
+                                    <ItemTemplate Context="culture">
+                                        @culture.EnglishName <code>(@culture.ThreeLetterISOLanguageName)</code>
+                                    </ItemTemplate>
+                                </MudAutocomplete>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudAutocomplete T="RegionInfo"
+                                                 Label="Display format region"
+                                                 Adornment="@Adornment.Start"
+                                                 AdornmentIcon="@MaterialSymbols.Outlined.Globe"
+                                                 @bind-Value="@Preferences.CustomRegionInfo"
+                                                 @bind-Value:after="@ValidateAsync"
+                                                 SearchFunc="SearchRegion"
+                                                 ToStringFunc="@(region => region?.EnglishName)"
+                                                 Clearable
+                                                 Dense>
+                                    <ItemTemplate Context="region">
+                                        @region.EnglishName <code>(@region.ThreeLetterISORegionName)</code>
+                                    </ItemTemplate>
+                                </MudAutocomplete>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <KeyboardShortcutInput
+                                    Label="Overlay toggle shortcut"
+                                    @bind-Value="@Preferences.LaunchShortcut"
+                                    @bind-Value:after="@ValidateAsync"
+                                    Required/>
+                            </MudItem>
+                        </MudGrid>
+                    </MudForm>
+                </ChildContent>
+            </MudExpansionPanel>
+            <MudExpansionPanel Expanded Dense>
+                <TitleContent>
+                    Cache management
+                </TitleContent>
+                <ChildContent>
+                    <CacheManagement/>
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+        <MudDivider/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="@Cancel">Cancel</MudButton>

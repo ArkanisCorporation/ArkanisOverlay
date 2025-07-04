@@ -1,6 +1,8 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
 using Abstractions.Game;
+using Attributes;
 using Enums;
 
 public abstract class GameEntityPrice(UexApiGameEntityId id, UexApiGameEntityId ownerId)
@@ -24,6 +26,8 @@ public abstract class GameEntityTerminalPrice(UexApiGameEntityId id, UexApiGameE
         => terminal;
 }
 
+[Description("Game Purchase Price Entry")]
+[CacheEntryDescription("Game Purchase Prices")]
 public sealed class GameEntityPurchasePrice(
     UexApiGameEntityId id,
     UexApiGameEntityId ownerId,
@@ -39,6 +43,8 @@ public sealed class GameEntityPurchasePrice(
         => PurchasePrice;
 }
 
+[Description("Game Sale Price Entry")]
+[CacheEntryDescription("Game Sale Prices")]
 public sealed class GameEntitySalePrice(
     UexApiGameEntityId id,
     UexApiGameEntityId ownerId,
@@ -54,6 +60,8 @@ public sealed class GameEntitySalePrice(
         => SalePrice;
 }
 
+[Description("Game Trade Price Entry")]
+[CacheEntryDescription("Game Trade Prices")]
 public sealed class GameEntityTradePrice(
     UexApiGameEntityId id,
     UexApiGameEntityId ownerId,
@@ -74,6 +82,8 @@ public sealed class GameEntityTradePrice(
         => SalePrice;
 }
 
+[Description("Game Rental Price Entry")]
+[CacheEntryDescription("Game Rental Prices")]
 public sealed class GameEntityRentalPrice(
     UexApiGameEntityId id,
     UexApiGameEntityId ownerId,
@@ -89,6 +99,8 @@ public sealed class GameEntityRentalPrice(
         => RentalPrice;
 }
 
+[Description("External Market Price Entry")]
+[CacheEntryDescription("External Market Prices")]
 public class GameEntityMarketPrice(
     UexApiGameEntityId id,
     UexApiGameEntityId ownerId,

@@ -1,0 +1,167 @@
+@using Arkanis.Overlay.Infrastructure.Data
+@using Arkanis.Overlay.Infrastructure.Data.Entities
+@using Arkanis.Overlay.Infrastructure.Services.Abstractions
+@using Humanizer
+@using Microsoft.EntityFrameworkCore
+@implements IDisposable
+@inject IDbContextFactory<OverlayDbContext> DbContextFactory
+@inject IEnumerable<ISelfUpdatable> SelfUpdatableServices
+@inject ILogger<CacheManagement> Logger
+
+@if (_progress < 1)
+{
+    <MudProgressLinear
+        Min="0"
+        Max="1"
+        Value="@_progress"/>
+}
+
+<MudDataGrid Items="@CacheEntries"
+             Height="50vh"
+             FixedHeader
+             Dense>
+    <ToolBarContent>
+        <MudStack Justify="@Justify.FlexEnd" Class="w-100" Row>
+            <MudButton StartIcon="@Icons.Material.Filled.Refresh"
+                       Color="@Color.Error"
+                       Disabled="@IsInProgress"
+                       OnClick="@(() => ReloadAllAsync())">
+                Force Reload All
+            </MudButton>
+        </MudStack>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="@(x => x.Title)" Title="Description">
+            <CellTemplate>
+                <MudStack Spacing="0">
+                    <MudText Typo="@Typo.inherit">
+                        @context.Item.Title
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        @context.Item.Description
+                    </MudText>
+                </MudStack>
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="@(x => x.ContentSizeBytes)"
+                        Title="Size"
+                        HeaderClass="text-right flex-row-reverse pr-4"
+                        CellClass="text-right pr-4">
+            <CellTemplate>
+                @context.Item.ContentSizeBytes.Bytes()
+            </CellTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="@(x => x.CachedUntil)"
+                        Title="Expiration"
+                        HeaderClass="text-right flex-row-reverse pr-4"
+                        CellClass="text-right pr-4">
+            <CellTemplate>
+                @if (context.Item.CachedUntil - DateTimeOffset.Now is var timeSpan && timeSpan >= TimeSpan.Zero)
+                {
+                    <MudText Typo="@Typo.body2">
+                        @timeSpan.Humanize()
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="@Typo.body2" Class="text-secondary">Expired</MudText>
+                }
+            </CellTemplate>
+        </PropertyColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudIconButton
+                    Icon="@Icons.Material.Filled.Refresh"
+                    Color="@Color.Error"
+                    Size="@Size.Small"
+                    Disabled="@IsInProgress"
+                    OnClick="@(async () => await DeleteItemAsync(context.Item))"/>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+@code
+{
+
+    private Timer? _refreshTimer;
+    private double _progress = 1;
+
+    private bool IsInProgress
+        => _progress < 1;
+
+    public ExternalSourceDataCache[] CacheEntries { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _refreshTimer = new Timer(_ => InvokeAsync(StateHasChanged), null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        await using var db = await DbContextFactory.CreateDbContextAsync();
+        var entries = await db.ExternalSourceDataCache.ToArrayAsync();
+        CacheEntries = entries
+            .OrderBy(x => (x.CachedUntil - DateTimeOffset.Now).TotalSeconds)
+            .ToArray();
+    }
+
+    private async Task DeleteItemAsync(ExternalSourceDataCache? entry)
+    {
+        if (entry is null)
+        {
+            return;
+        }
+
+        await using var db = await DbContextFactory.CreateDbContextAsync();
+        db.ExternalSourceDataCache.Remove(entry);
+        await db.SaveChangesAsync();
+        await ReloadAllAsync(false);
+    }
+
+    private async Task ReloadAllAsync(bool force = true)
+    {
+        _progress = 0;
+        await InvokeAsync(StateHasChanged);
+
+        var completed = 0.0;
+        foreach (var service in SelfUpdatableServices)
+        {
+            try
+            {
+                if (force)
+                {
+                    await service.UpdateAsync(CancellationToken.None);
+                }
+                else
+                {
+                    await service.UpdateIfNecessaryAsync(CancellationToken.None);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "An error has occured while refreshing cache for {Service}", service.GetType());
+            }
+
+            completed++;
+            _progress = completed / SelfUpdatableServices.Count();
+            await Task.Delay(TimeSpan.FromMilliseconds(20));
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await RefreshDataAsync();
+        await Task.Delay(TimeSpan.FromMilliseconds(20));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+        => _refreshTimer?.Dispose();
+
+}

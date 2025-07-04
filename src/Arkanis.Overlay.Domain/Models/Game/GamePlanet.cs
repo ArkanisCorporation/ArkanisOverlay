@@ -1,7 +1,11 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Search;
 
+[Description("Game Planet Entry")]
+[CacheEntryDescription("Game Planets")]
 public sealed class GamePlanet(int id, string fullName, string codeName, GameLocationEntity location)
     : GameLocationEntity(UexApiGameEntityId.Create<GamePlanet>(id), location)
 {

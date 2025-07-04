@@ -1,7 +1,11 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Search;
 
+[Description("Game Outpost Entry")]
+[CacheEntryDescription("Game Outposts")]
 public sealed class GameOutpost(int id, string fullName, string shortName, GameLocationEntity location)
     : GameLocationEntity(UexApiGameEntityId.Create<GameOutpost>(id), location)
 {

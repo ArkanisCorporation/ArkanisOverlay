@@ -1,10 +1,14 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
 using Abstractions.Game;
+using Attributes;
 using Enums;
 using Search;
 using Trade;
 
+[Description("Game Vehicle Entry")]
+[CacheEntryDescription("Game Vehicles")]
 public abstract class GameVehicle(
     int id,
     string fullName,
@@ -45,6 +49,8 @@ public abstract class GameVehicle(
     }
 }
 
+[Description("Game Space Ship Entry")]
+[CacheEntryDescription("Game Space Ships")]
 public class GameSpaceShip(int id, string fullName, string shortName, GameCompany manufacturer) : GameVehicle(
     id,
     fullName,
@@ -53,6 +59,8 @@ public class GameSpaceShip(int id, string fullName, string shortName, GameCompan
     GameEntityCategory.SpaceShip
 );
 
+[Description("Game Ground Vehicle Entry")]
+[CacheEntryDescription("Game Ground Vehicles")]
 public class GameGroundVehicle(int id, string fullName, string shortName, GameCompany manufacturer) : GameVehicle(
     id,
     fullName,

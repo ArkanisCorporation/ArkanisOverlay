@@ -1,7 +1,11 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Search;
 
+[Description("Game Moon Entry")]
+[CacheEntryDescription("Game Moons")]
 public sealed class GameMoon(int id, string fullName, string codeName, GameLocationEntity location)
     : GameLocationEntity(UexApiGameEntityId.Create<GameMoon>(id), location)
 {

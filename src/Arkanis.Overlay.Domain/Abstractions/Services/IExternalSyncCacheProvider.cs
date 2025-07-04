@@ -4,7 +4,7 @@ using Models;
 
 public interface IExternalSyncCacheProvider
 {
-    Task StoreAsync<TSource>(TSource source, DataCached dataState, CancellationToken cancellationToken = default);
+    Task StoreAsync<TSource>(TSource source, InternalCacheProperties properties, CancellationToken cancellationToken = default);
 
     Task<SyncDataCache<TSource>> LoadAsync<TSource>(InternalDataState currentDataState, CancellationToken cancellationToken = default);
 }

@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Enums;
 using Search;
 
@@ -10,6 +12,8 @@ using Search;
 /// <param name="id">Attribute ID</param>
 /// <param name="itemId">Referenced item ID</param>
 /// <param name="fullName">Name of the trait</param>
+[Description("Game Item Trait Entry")]
+[CacheEntryDescription("Game Item Traits")]
 public class GameItemTrait(int id, int itemId, string fullName)
     : GameEntity(UexApiGameEntityId.Create<GameItemTrait>(id), GameEntityCategory.ItemTrait)
 {

@@ -22,6 +22,11 @@ public class WindowsAutoStartManager(
     /// </summary>
     public const string RegistryKeyName = ApplicationConstants.ApplicationName;
 
+    /// <summary>
+    ///     The path to the application executable.
+    /// </summary>
+    public static readonly string ExecutablePath = Application.ExecutablePath;
+
     public Task StartAsync(CancellationToken cancellationToken)
     {
         userPreferencesProvider.ApplyPreferences += OnUserApplyPreferences;
@@ -42,8 +47,7 @@ public class WindowsAutoStartManager(
             throw new InvalidOperationException("Failed to open registry key for auto-start.");
         }
 
-        var exePath = Application.ExecutablePath;
-        key.SetValue(RegistryKeyName, $"\"{exePath}\"");
+        key.SetValue(RegistryKeyName, $"\"{ExecutablePath}\"");
     }
 
     private static void DisableAutoStart()

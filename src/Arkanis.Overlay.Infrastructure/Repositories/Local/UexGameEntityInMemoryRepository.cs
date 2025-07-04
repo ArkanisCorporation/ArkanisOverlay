@@ -61,7 +61,7 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
 
         try
         {
-            DataState = loadedSyncData.DataState;
+            DataState = loadedSyncData.DataState with { RefreshRequired = false };
             Entities = await loadedSyncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
             Initialized();
             logger.LogInformation(

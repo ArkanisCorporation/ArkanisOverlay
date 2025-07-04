@@ -1,8 +1,12 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Enums;
 using Search;
 
+[Description("Game Terminal Entry")]
+[CacheEntryDescription("Game Terminals")]
 public sealed class GameTerminal(
     int id,
     string fullName,

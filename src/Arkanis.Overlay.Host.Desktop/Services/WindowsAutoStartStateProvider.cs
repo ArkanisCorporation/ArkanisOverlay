@@ -19,7 +19,7 @@ public class WindowsAutoStartStateProvider : ISystemAutoStartStateProvider
             return false;
         }
 
-        var exePath = Assembly.GetExecutingAssembly().Location;
+        var exePath = WindowsAutoStartManager.ExecutablePath;
         return value == $"\"{exePath}\"";
     }
 }

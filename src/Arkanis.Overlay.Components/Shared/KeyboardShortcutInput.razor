@@ -51,9 +51,9 @@
         _shortcutBuilder = new KeyboardShortcutBuilder(UpdatedAsync, FinalizedAsync);
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnParametersSetAsync();
+        await base.OnAfterRenderAsync(firstRender);
 
         if (_textField is not null)
         {

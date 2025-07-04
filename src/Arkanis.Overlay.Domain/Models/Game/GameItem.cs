@@ -1,11 +1,15 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
 using System.Collections;
+using System.ComponentModel;
 using Abstractions.Game;
+using Attributes;
 using Enums;
 using Search;
 using Trade;
 
+[Description("Game Item Entry")]
+[CacheEntryDescription("Game Items")]
 public class GameItem(int id, string fullName, GameCompany manufacturer, GameProductCategory category)
     : GameEntity(UexApiGameEntityId.Create<GameItem>(id), GameEntityCategory.Item), IGameManufactured, IGameTradable
 {
@@ -21,7 +25,7 @@ public class GameItem(int id, string fullName, GameCompany manufacturer, GamePro
         => new(
             GameEntityName.ReferenceTo(category),
             GameEntityName.ReferenceTo(manufacturer),
-            GameEntityName.PropertyCollection.Create(Traits),
+            GameEntityName.PropertyCollection.Create([new GameEntityName.PropertyItem("Category", category.Name.MainContent.FullName)], Traits, []),
             new GameEntityName.Name(fullName)
         );
 
@@ -41,6 +45,7 @@ public class GameItem(int id, string fullName, GameCompany manufacturer, GamePro
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);
+        yield return new SearchableName(category.Name.MainContent.FullName);
         yield return new SearchableManufacturer(manufacturer);
         foreach (var searchableAttribute in base.CollectSearchableTraits())
         {

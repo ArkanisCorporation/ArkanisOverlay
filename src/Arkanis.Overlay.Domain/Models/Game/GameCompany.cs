@@ -1,8 +1,12 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
+using System.ComponentModel;
+using Attributes;
 using Enums;
 using Search;
 
+[Description("Game Company Entry")]
+[CacheEntryDescription("Game Companies")]
 public sealed class GameCompany(int id, string fullName, string shortName)
     : GameEntity(UexApiGameEntityId.Create<GameCompany>(id), GameEntityCategory.Company)
 {

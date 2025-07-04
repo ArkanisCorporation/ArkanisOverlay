@@ -88,9 +88,20 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
             var items = traits
                 .Where(trait => !string.IsNullOrWhiteSpace(trait.Content))
                 .Select(trait => trait.ToNamePart())
+                .OrderBy(trait => trait.Key)
                 .ToArray();
 
             return new PropertyCollection(items);
+        }
+
+        public static PropertyCollection Create(IEnumerable<PropertyItem> previous, IEnumerable<GameItemTrait> traits, IEnumerable<PropertyItem> next)
+        {
+            var items = traits
+                .Where(trait => !string.IsNullOrWhiteSpace(trait.Content))
+                .Select(trait => trait.ToNamePart())
+                .OrderBy(trait => trait.Key);
+
+            return new PropertyCollection(previous.Concat(items).Concat(next).ToArray());
         }
     }
 
