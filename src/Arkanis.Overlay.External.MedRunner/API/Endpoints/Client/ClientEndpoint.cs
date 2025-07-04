@@ -41,8 +41,8 @@ public class ClientEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvi
     /// <summary>
     ///     Gets the blocklist status of the current client.
     /// </summary>
-    public async Task<ApiResponse<string>> GetBlockedStatusAsync()
-        => await GetRequestAsync<string>("/blocked");
+    public async Task<ApiResponse<ClientBlockedStatus>> GetBlockedStatusAsync()
+        => await GetRequestAsync<ClientBlockedStatus>("/blocked");
 
     /// <summary>
     ///     Links the current user to a rsiHandle.

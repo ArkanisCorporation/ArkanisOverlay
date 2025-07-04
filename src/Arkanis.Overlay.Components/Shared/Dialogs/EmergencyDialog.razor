@@ -1,9 +1,8 @@
+@using System.ComponentModel
+@using System.Diagnostics.CodeAnalysis
 @using System.Security.Claims
-@using Arkanis.Overlay.Domain.Abstractions.Game
-@using Arkanis.Overlay.Domain.Enums
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
-@using Humanizer
 @inject IMedRunnerTokenProvider TokenProvider
 @inject IMedRunnerApiClient MedRunner
 
@@ -99,8 +98,8 @@
             <ChildContent>
                 <MudStep Title="Select a scenario"
                          Class="pa-0"
-                         Completed="@_scenarioInProgress"
-                         Disabled="@_scenarioInProgress">
+                         Completed="@ScenarioInProgress"
+                         Disabled="@ScenarioInProgress">
                     <MudText Typo="@Typo.body1"
                              Align="@Align.Center"
                              Class="my-8">
@@ -113,7 +112,7 @@
                         <MudCard Elevation="4"
                                  Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
                                  @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
-                                 disabled="@(MedRunnerUnavailable.ToString())">
+                                 disabled="@(_medRunnerContext.IsDisabled.ToString())">
                             <MudCardHeader>
                                 <MudText Typo="@Typo.h6"
                                          Align="@Align.Center"
@@ -132,20 +131,20 @@
                                         Class="my-2"
                                         Style="width: 120px;"
                                         Src="@LinkHelper.GetPathToAsset("img/medrunner-logo-white.svg")"/>
-                                    @if (_medRunnerClient is { Active: true })
+                                    @if (_medRunnerContext.ClientIsActive)
                                     {
                                         <MudText Typo="@Typo.caption"
                                                  Align="@Align.Center"
                                                  Color="@Color.Success">
-                                            Subscription Active<br/>@_medRunnerUserIdentity?.Name
+                                            Subscription Active<br/>@_medRunnerContext.ClientIdentity.Name
                                         </MudText>
                                     }
-                                    @if (_medRunnerSettings is { EmergenciesEnabled: false })
+                                    @if (_medRunnerContext.IsServiceUnavailable)
                                     {
                                         <MudText Typo="@Typo.caption"
                                                  Align="@Align.Center"
                                                  Color="@Color.Error">
-                                            Services Unavailable
+                                            Currently Unavailable
                                         </MudText>
                                     }
                                 </MudStack>
@@ -155,8 +154,8 @@
                 </MudStep>
                 <MudStep Title="Provide details"
                          Class="pa-0"
-                         Completed="@_scenarioInProgress"
-                         Disabled="@_scenarioInProgress">
+                         Completed="@ScenarioInProgress"
+                         Disabled="@ScenarioInProgress">
                     <MudStack Class="px-4 my-4" Row>
                         @PreviousButton
                     </MudStack>
@@ -165,263 +164,24 @@
                              Class="my-6">
                         Please provide necessary emergency details for the alert responders.
                     </MudText>
-                    <MudGrid Class="pa-5">
-                        <MudItem xs="12" md="8">
-                            <GameEntitySelectBox
-                                Label="Closest location"
-                                EntityCategory="@GameEntityCategory.Location"
-                                @bind-Value="@_closestLocationEntity"
-                                Accept="@(location => location is not GameStarSystem)"/>
-                        </MudItem>
-                        <MudItem xs="12" md="4">
-                            <MudSelect T="@ThreatLevel"
-                                       Label="Threat level">
-                                @foreach (var threatLevel in Enum.GetValues<ThreatLevel>())
-                                {
-                                    <MudSelectItem Value="@threatLevel">
-                                        @threatLevel.Humanize()
-                                    </MudSelectItem>
-                                }
-                            </MudSelect>
-                        </MudItem>
-                        <MudItem xs="12">
-                            <MudAlert Severity="@Severity.Info">
-                                By submitting this request, you agree to the
-                                <MudLink Href="https://www.medrunner.space/terms-of-service"
-                                         Target="_blank"
-                                         Typo="@Typo.inherit">
-                                    terms and conditions
-                                </MudLink>
-                                of the service provider.
-                            </MudAlert>
-                        </MudItem>
-                        <MudItem xs="12">
-                            <MudButton Variant="@Variant.Filled"
-                                       Color="@Color.Error"
-                                       Class="w-100"
-                                       StartIcon="@Icons.Material.Filled.EmergencyShare"
-                                       OnClick="@StartMedRunnerEmergencyAsync"
-                                       Disabled="@(_isLoading || ClosestLocation is null)">
-                                Submit request
-                            </MudButton>
-                        </MudItem>
-                    </MudGrid>
+                    <MedRunnerEmergencyCreation
+                        @bind-IsLoading="@_isLoading"
+                        @bind-Context="@_medRunnerContext"
+                        @bind-Context:after="@ContinueOnEmergencyCreationAsync"/>
                 </MudStep>
                 <MudStep Title="Wait for response"
                          Class="pa-0">
-                    <MudGrid>
-                        <MudItem xs="12" md="5">
-                            <MudStack AlignItems="@AlignItems.Center"
-                                      Class="h-100 w-100">
-                                <MudTimeline Class="w-100"
-                                             Style="min-height: 100%"
-                                             TimelineAlign="@TimelineAlign.Start"
-                                             TimelineOrientation="@TimelineOrientation.Vertical"
-                                             TimelinePosition="@TimelinePosition.Left">
-                                    <MudTimelineItem Color="@Color.Info"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.EmergencyShare"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Request submitted</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    @DateTimeOffset.Now
-                                                </MudText>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                    <MudTimelineItem Color="@Color.Success"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.Check"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Request accepted</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    @DateTimeOffset.Now
-                                                </MudText>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                    <MudTimelineItem Color="@Color.Error"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.Block"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Request rejected</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    @DateTimeOffset.Now
-                                                </MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    Rejection reason..
-                                                </MudText>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                    <MudTimelineItem Color="@Color.Info"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.Groups2"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Response team assigned</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    @DateTimeOffset.Now
-                                                </MudText>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                    <MudTimelineItem Color="@Color.Warning"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.HourglassTop"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Waiting for response</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    Pending...
-                                                </MudText>
-                                                <MudButton Variant="@Variant.Outlined"
-                                                           Color="@Color.Error"
-                                                           Size="@Size.Small"
-                                                           StartIcon="@Icons.Material.Filled.Cancel">
-                                                    Cancel response
-                                                </MudButton>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                    <MudTimelineItem Color="@Color.Success"
-                                                     Size="@Size.Medium"
-                                                     Elevation="0">
-                                        <ItemDot>
-                                            <MudIcon
-                                                Icon="@Icons.Material.Filled.CheckCircle"
-                                                Size="@Size.Medium"/>
-                                        </ItemDot>
-                                        <ItemContent>
-                                            <MudStack Spacing="0">
-                                                <MudText Typo="@Typo.body1">Operation completed</MudText>
-                                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                                    @DateTimeOffset.Now
-                                                </MudText>
-                                                <MudButton Variant="@Variant.Outlined"
-                                                           Color="@Color.Success"
-                                                           Size="@Size.Small"
-                                                           OnClick="@FinalizeMedRunnerEmergencyAsync"
-                                                           StartIcon="@Icons.Material.Filled.Check">
-                                                    Finalize
-                                                </MudButton>
-                                            </MudStack>
-                                        </ItemContent>
-                                    </MudTimelineItem>
-                                </MudTimeline>
-                            </MudStack>
-                        </MudItem>
-                        <MudItem xs="12" md="7" Class="pa-5 mt-5">
-                            <MudStack Justify="@Justify.FlexEnd"
-                                      Style="height: 30vh; overflow-y: auto">
-                                <MudText Typo="@Typo.caption"
-                                         Align="@Align.Center"
-                                         Class="text-secondary">
-                                    Please wait to be connected with the emergency responders.
-                                </MudText>
-                                <MudText Typo="@Typo.caption"
-                                         Align="@Align.Center"
-                                         Class="text-secondary">
-                                    Dispatch team lead has been assigned.
-                                </MudText>
-                                <MudChat ChatPosition="@ChatBubblePosition.Start">
-                                    <MudAvatar Color="@Color.Error">
-                                        <MudIcon
-                                            Icon="@Icons.Material.Filled.Emergency"
-                                            Size="@Size.Medium"/>
-                                    </MudAvatar>
-                                    <MudChatBubble>
-                                        It was said that you would, destroy the Sith, not join them.
-                                    </MudChatBubble>
-                                    <MudChatBubble>
-                                        It was you who would bring balance to the Force
-                                    </MudChatBubble>
-                                </MudChat>
-
-                                <MudChat ChatPosition="@ChatBubblePosition.End">
-                                    <MudAvatar>
-                                        <MudIcon
-                                            Icon="@Icons.Material.Filled.AccountCircle"
-                                            Size="@Size.Medium"/>
-                                    </MudAvatar>
-                                    <MudChatBubble>
-                                        Not leave it in Darkness
-                                    </MudChatBubble>
-                                </MudChat>
-                            </MudStack>
-
-                            <MudTextField
-                                T="string"
-                                Label="Message content"
-                                Placeholder="Communicate with the emergency dispatch"
-                                Class="chat-input"
-                                AutoGrow/>
-                        </MudItem>
-                    </MudGrid>
+                    <MedRunnerEmergencyManagement
+                        @bind-IsLoading="@_isLoading"
+                        @bind-Context="@_medRunnerContext"
+                        @bind-Context:after="@ContinueOnEmergencyFinalizationAsync"/>
                 </MudStep>
             </ChildContent>
             <CompletedContent>
-                <MudStack Class="pa-5">
-                    <MudToggleGroup @bind-Value="@_responseRating"
-                                    Color="@ColorByResponseRating"
-                                    FixedContent
-                                    CheckMark>
-                        <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbUp"
-                                       Value="@ResponseRating.Good">
-                            Went well
-                        </MudToggleItem>
-                        <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbsUpDown"
-                                       Value="@ResponseRating.None">
-                            No rating
-                        </MudToggleItem>
-                        <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbDown"
-                                       Value="@ResponseRating.Bad">
-                            Went bad
-                        </MudToggleItem>
-                    </MudToggleGroup>
-                    <MudTextField
-                        T="string"
-                        Label="Response remarks"
-                        @bind-Value="@_responseRemarks"
-                        Class="review"
-                        Immediate
-                        AutoGrow/>
-                    <MudButton Variant="@(FeedbackProvided ? Variant.Outlined : Variant.Text)"
-                               Color="@Color.Success"
-                               OnClick="@SubmitMedRunnerReviewAsync"
-                               StartIcon="@Icons.Material.Filled.Check"
-                               Disabled="@_isLoading">
-                        Submit rating
-                    </MudButton>
-                </MudStack>
+                <MedRunnerEmergencyReview
+                    @bind-IsLoading="@_isLoading"
+                    @bind-Context="@_medRunnerContext"
+                    @bind-Context:after="@Close"/>
             </CompletedContent>
             <ActionContent>
                 @* Navigation is managed by controls within individual steps. *@
@@ -436,44 +196,18 @@
 @code
 {
     private bool _isLoading;
-    private Person? _medRunnerClient;
-    private ClaimsIdentity? _medRunnerUserIdentity;
-    private PublicOrgSettings? _medRunnerSettings;
-    private string? _error;
     private Scenario _selectedScenario;
-
-    private bool _scenarioInProgress;
     private MudStepper? _stepper;
 
-    private ResponseRating _responseRating;
-    private string? _responseRemarks;
-    private IGameEntity? _closestLocationEntity;
     private int _activeStepIndex;
 
-    private IGameLocation? ClosestLocation
-        => _closestLocationEntity as IGameLocation;
+    private MedRunnerContext _medRunnerContext = new();
 
-    private bool MedRunnerUnavailable
-        => MedRunnerAvailable is false;
-
-    private bool MedRunnerAvailable
-        => _medRunnerClient is { Active: true }
-           && _medRunnerSettings is { EmergenciesEnabled: true };
-
-    private bool FeedbackProvided
-        => _responseRating != ResponseRating.None || !string.IsNullOrWhiteSpace(_responseRemarks);
+    private bool ScenarioInProgress
+        => _medRunnerContext.Emergency is not null;
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }
-
-    public Color ColorByResponseRating
-        => _responseRating switch
-        {
-            ResponseRating.Good => Color.Success,
-            ResponseRating.None => Color.Default,
-            ResponseRating.Bad => Color.Error,
-            _ => Color.Default,
-        };
 
     public RenderFragment PreviousButton
         => @<MudButton StartIcon="@Icons.Material.Filled.ChevronLeft"
@@ -498,20 +232,7 @@
         try
         {
             _isLoading = true;
-            var clientResponse = await MedRunner.Client.GetAsync();
-            if (clientResponse.Success)
-            {
-                _medRunnerClient = clientResponse.Data;
-                _medRunnerUserIdentity = TokenProvider.Identity;
-            }
-            else
-            {
-                _error = clientResponse.ErrorMessage;
-                return;
-            }
-
-            var settingsResponse = await MedRunner.OrgSettings.GetPublicSettingsAsync();
-            _medRunnerSettings = settingsResponse.Data;
+            await _medRunnerContext.UpdateAsync(MedRunner);
         }
         finally
         {
@@ -539,47 +260,19 @@
         await _stepper!.NextStepAsync();
     }
 
-    private async Task StartMedRunnerEmergencyAsync()
+    private async Task ContinueOnEmergencyCreationAsync()
     {
-        try
+        if (_medRunnerContext.IsEmergencyInProgress)
         {
-            _isLoading = true;
-            await Task.Delay(TimeSpan.FromMilliseconds(250));
-            _scenarioInProgress = true;
             await _stepper!.NextStepAsync();
-        }
-        finally
-        {
-            _isLoading = false;
         }
     }
 
-    private async Task FinalizeMedRunnerEmergencyAsync()
+    private async Task ContinueOnEmergencyFinalizationAsync()
     {
-        try
+        if (_medRunnerContext.Emergency is { CompletedAt: not null })
         {
-            _isLoading = true;
-            _scenarioInProgress = true;
-            await Task.Delay(TimeSpan.FromMilliseconds(250));
             await _stepper!.NextStepAsync();
-        }
-        finally
-        {
-            _isLoading = false;
-        }
-    }
-
-    private async Task SubmitMedRunnerReviewAsync()
-    {
-        try
-        {
-            _isLoading = true;
-            await Task.Delay(TimeSpan.FromMilliseconds(250));
-            Close();
-        }
-        finally
-        {
-            _isLoading = false;
         }
     }
 
@@ -590,9 +283,109 @@
             ? $"{ScenarioBaseClasses} active"
             : ScenarioBaseClasses;
 
+    public class MedRunnerContext
+    {
+        public bool IsDisabled
+            => IsEnabled is false;
+
+        public bool IsEnabled
+            => ClientIsActive && IsServiceAvailable;
+
+        public bool IsServiceUnavailable
+            => !IsServiceAvailable;
+
+        public bool IsServiceAvailable
+            => Settings is { EmergenciesEnabled: true };
+
+        [MemberNotNullWhen(true, nameof(ClientInfo))]
+        public bool ClientIsActive
+            => ClientInfo is { Active: true }
+               && ClientStatus is { Blocked: false };
+
+        [MemberNotNullWhen(true, nameof(Emergency))]
+        public bool IsEmergencyInProgress
+            => Emergency is { CompletionTimestamp: null };
+
+        public List<string> Errors { get; init; } = [];
+
+        public Emergency? Emergency { get; set; }
+
+        public Person? ClientInfo { get; set; }
+        public ClientBlockedStatus ClientStatus { get; set; } = new();
+
+        public ClaimsIdentity ClientIdentity { get; set; } = new();
+
+        public PublicOrgSettings Settings { get; set; } = new()
+        {
+            Status = ServiceStatus.Unknown,
+            EmergenciesEnabled = false,
+            AnonymousAlertsEnabled = false,
+            RegistrationEnabled = false,
+            MessageOfTheDay = null,
+            LocationSettings = new LocationSettings
+            {
+                Locations = [],
+            },
+        };
+
+        public async Task UpdateAsync(IMedRunnerApiClient api)
+        {
+            Errors.Clear();
+
+            await api.WebSocket.InitializeAsync();
+            // api.WebSocket.Events.EmergencyCreated += (_, emergency) => Emergency = emergency;
+            // api.WebSocket.Events.EmergencyUpdated += (_, emergency) => Emergency = emergency;
+
+            var settingsResponse = await api.OrgSettings.GetPublicSettingsAsync();
+            if (settingsResponse.Success)
+            {
+                Settings = settingsResponse.Data;
+                if (api.TokenProvider.IsAuthenticated)
+                {
+                    ClientIdentity = api.TokenProvider.Identity;
+                }
+            }
+            else
+            {
+                Errors.Add(settingsResponse.ErrorMessage);
+                return;
+            }
+
+            await UpdateClientAsync(api);
+        }
+
+        private async Task UpdateClientAsync(IMedRunnerApiClient api)
+        {
+            Errors.Clear();
+
+            var clientBlockedResponse = await api.Client.GetBlockedStatusAsync();
+            if (clientBlockedResponse.Success)
+            {
+                ClientStatus = clientBlockedResponse.Data;
+            }
+            else
+            {
+                Errors.Add(clientBlockedResponse.ErrorMessage);
+                return;
+            }
+
+            var clientResponse = await api.Client.GetAsync();
+            if (clientResponse.Success)
+            {
+                ClientInfo = clientResponse.Data;
+            }
+            else
+            {
+                Errors.Add(clientResponse.ErrorMessage);
+            }
+        }
+    }
+
     public enum Scenario
     {
         Unselected,
+
+        [Description("Search & Rescue (MedRunner)")]
         MedRunnerSearchAndRescue,
     }
 }

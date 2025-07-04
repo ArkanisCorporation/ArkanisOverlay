@@ -53,11 +53,24 @@ public class Emergency
     /// <summary>Timestamp when the emergency was created.</summary>
     public long CreationTimestamp { get; set; }
 
+    public DateTimeOffset CreatedAt
+        => DateTimeOffset.FromUnixTimeSeconds(CreationTimestamp);
+
     /// <summary>Timestamp when the emergency was accepted.</summary>
     public long? AcceptedTimestamp { get; set; }
 
+    public DateTimeOffset? AcceptedAt
+        => AcceptedTimestamp is not null
+            ? DateTimeOffset.FromUnixTimeSeconds(AcceptedTimestamp.Value)
+            : null;
+
     /// <summary>Timestamp when the emergency was completed.</summary>
     public long? CompletionTimestamp { get; set; }
+
+    public DateTimeOffset? CompletedAt
+        => CompletionTimestamp is not null
+            ? DateTimeOffset.FromUnixTimeSeconds(CompletionTimestamp.Value)
+            : null;
 
     /// <summary>The rating for the emergency response.</summary>
     public ResponseRating Rating { get; set; }
