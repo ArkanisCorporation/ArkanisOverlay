@@ -1,8 +1,7 @@
 @using System.ComponentModel
-@using System.Diagnostics.CodeAnalysis
-@using System.Security.Claims
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
+@implements IDisposable
 @inject IMedRunnerTokenProvider TokenProvider
 @inject IMedRunnerApiClient MedRunner
 
@@ -201,7 +200,7 @@
 
     private int _activeStepIndex;
 
-    private MedRunnerContext _medRunnerContext = new();
+    private MedRunnerComponentBase.ContextModel _medRunnerContext = new();
 
     private bool ScenarioInProgress
         => _medRunnerContext.Emergency is not null;
@@ -221,10 +220,28 @@
     private void Close()
         => MudDialog.Close();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        MedRunner.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+    }
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         await RefreshMedRunnerDataAsync();
+    }
+
+    private void OnEmergencyUpdated(object? _, Emergency emergency)
+    {
+        if (emergency.Id != _medRunnerContext.Emergency?.Id)
+        {
+            return;
+        }
+
+        _medRunnerContext.Emergency = emergency;
+        InvokeAsync(StateHasChanged);
     }
 
     private async Task RefreshMedRunnerDataAsync()
@@ -232,6 +249,7 @@
         try
         {
             _isLoading = true;
+            await MedRunner.WebSocket.EnsureInitializedAsync();
             await _medRunnerContext.UpdateAsync(MedRunner);
         }
         finally
@@ -283,104 +301,6 @@
             ? $"{ScenarioBaseClasses} active"
             : ScenarioBaseClasses;
 
-    public class MedRunnerContext
-    {
-        public bool IsDisabled
-            => IsEnabled is false;
-
-        public bool IsEnabled
-            => ClientIsActive && IsServiceAvailable;
-
-        public bool IsServiceUnavailable
-            => !IsServiceAvailable;
-
-        public bool IsServiceAvailable
-            => Settings is { EmergenciesEnabled: true };
-
-        [MemberNotNullWhen(true, nameof(ClientInfo))]
-        public bool ClientIsActive
-            => ClientInfo is { Active: true }
-               && ClientStatus is { Blocked: false };
-
-        [MemberNotNullWhen(true, nameof(Emergency))]
-        public bool IsEmergencyInProgress
-            => Emergency is { CompletionTimestamp: null };
-
-        public List<string> Errors { get; init; } = [];
-
-        public Emergency? Emergency { get; set; }
-
-        public Person? ClientInfo { get; set; }
-        public ClientBlockedStatus ClientStatus { get; set; } = new();
-
-        public ClaimsIdentity ClientIdentity { get; set; } = new();
-
-        public PublicOrgSettings Settings { get; set; } = new()
-        {
-            Status = ServiceStatus.Unknown,
-            EmergenciesEnabled = false,
-            AnonymousAlertsEnabled = false,
-            RegistrationEnabled = false,
-            MessageOfTheDay = null,
-            LocationSettings = new LocationSettings
-            {
-                Locations = [],
-            },
-        };
-
-        public async Task UpdateAsync(IMedRunnerApiClient api)
-        {
-            Errors.Clear();
-
-            await api.WebSocket.InitializeAsync();
-            // api.WebSocket.Events.EmergencyCreated += (_, emergency) => Emergency = emergency;
-            // api.WebSocket.Events.EmergencyUpdated += (_, emergency) => Emergency = emergency;
-
-            var settingsResponse = await api.OrgSettings.GetPublicSettingsAsync();
-            if (settingsResponse.Success)
-            {
-                Settings = settingsResponse.Data;
-                if (api.TokenProvider.IsAuthenticated)
-                {
-                    ClientIdentity = api.TokenProvider.Identity;
-                }
-            }
-            else
-            {
-                Errors.Add(settingsResponse.ErrorMessage);
-                return;
-            }
-
-            await UpdateClientAsync(api);
-        }
-
-        private async Task UpdateClientAsync(IMedRunnerApiClient api)
-        {
-            Errors.Clear();
-
-            var clientBlockedResponse = await api.Client.GetBlockedStatusAsync();
-            if (clientBlockedResponse.Success)
-            {
-                ClientStatus = clientBlockedResponse.Data;
-            }
-            else
-            {
-                Errors.Add(clientBlockedResponse.ErrorMessage);
-                return;
-            }
-
-            var clientResponse = await api.Client.GetAsync();
-            if (clientResponse.Success)
-            {
-                ClientInfo = clientResponse.Data;
-            }
-            else
-            {
-                Errors.Add(clientResponse.ErrorMessage);
-            }
-        }
-    }
-
     public enum Scenario
     {
         Unselected,
@@ -388,5 +308,10 @@
         [Description("Search & Rescue (MedRunner)")]
         MedRunnerSearchAndRescue,
     }
+
+    public void Dispose()
+        => MedRunner.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
+
 }
+
 

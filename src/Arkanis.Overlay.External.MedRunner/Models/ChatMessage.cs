@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.Models;
 /// <summary>
 ///     Represents a chat message.
 /// </summary>
-public class ChatMessage
+public class ChatMessage : ModelBase
 {
     /// <summary>
     ///     The emergency associated with the chat message.
@@ -19,6 +19,9 @@ public class ChatMessage
     ///     The timestamp at which the message was sent in Unix seconds.
     /// </summary>
     public long MessageSentTimestamp { get; set; }
+
+    public DateTimeOffset SentAt
+        => DateTimeOffset.FromUnixTimeSeconds(MessageSentTimestamp);
 
     /// <summary>
     ///     The contents of the message.

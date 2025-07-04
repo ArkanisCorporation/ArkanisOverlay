@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.Models;
 /// <summary>
 ///     Represents a person in the system.
 /// </summary>
-public class Person
+public class Person : ModelBase
 {
     /// <summary>
     ///     Whether the person is delinquent.
