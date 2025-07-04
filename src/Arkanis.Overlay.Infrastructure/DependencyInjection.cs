@@ -4,6 +4,7 @@ using Common.Enums;
 using Common.Extensions;
 using Data;
 using Domain.Abstractions.Services;
+using External.MedRunner;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,7 @@ public static class DependencyInjection
             .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
             .AddAllUexApiClients()
+            .AddMedRunnerApiClient()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()

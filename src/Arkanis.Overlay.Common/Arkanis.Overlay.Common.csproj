@@ -23,6 +23,7 @@
         <PackageReference Include="morelinq"/>
         <PackageReference Include="NuGet.Versioning"/>
         <PackageReference Include="Riok.Mapperly"/>
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt"/>
     </ItemGroup>
 
 </Project>
