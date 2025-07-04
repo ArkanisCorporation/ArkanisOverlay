@@ -14,6 +14,8 @@ using Endpoints.WebSocket;
 /// </summary>
 public interface IMedRunnerApiClient
 {
+    IMedRunnerTokenProvider TokenProvider { get; }
+
     EmergencyEndpoint Emergency { get; }
     ClientEndpoint Client { get; }
     StaffEndpoint Staff { get; }

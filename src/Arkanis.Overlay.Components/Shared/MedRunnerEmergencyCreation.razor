@@ -1,0 +1,163 @@
+@using System.Diagnostics.CodeAnalysis
+@using System.Text
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.External.MedRunner.API
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
+@using Arkanis.Overlay.External.MedRunner.Models
+@inject IMedRunnerApiClient MedRunner
+
+<MudGrid Class="pa-5">
+    <MudItem xs="12" md="8">
+        <GameEntitySelectBox
+            Label="Closest location"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_closestLocationEntity"
+            Accept="@(location => location is not GameStarSystem)"/>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <MudSelect @bind-Value="@_threatLevel"
+                   Label="Threat level">
+            @foreach (var threatLevel in Enum.GetValues<ThreatLevel>())
+            {
+                <MudSelectItem T="ThreatLevel?" Value="@threatLevel">
+                    @threatLevel.Humanize()
+                </MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="12">
+        <MudAlert Severity="@Severity.Info">
+            By submitting this request, you agree to the
+            <MudLink Href="https://www.medrunner.space/terms-of-service"
+                     Target="_blank"
+                     Typo="@Typo.inherit">
+                terms and conditions
+            </MudLink>
+            of the service provider.
+        </MudAlert>
+    </MudItem>
+    <MudItem xs="12">
+        <MudButton Variant="@Variant.Filled"
+                   Color="@Color.Error"
+                   Class="w-100"
+                   StartIcon="@Icons.Material.Filled.EmergencyShare"
+                   OnClick="@StartMedRunnerEmergencyAsync"
+                   Disabled="@SubmitDisabled">
+            Submit request
+        </MudButton>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+    private ThreatLevel? _threatLevel;
+    private IGameEntity? _closestLocationEntity;
+
+    private IGameLocation? ClosestLocation
+        => _closestLocationEntity as IGameLocation;
+
+    [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
+    private bool SubmitDisabled
+        => IsLoading
+           || ClosestLocation is null
+           || _threatLevel is null;
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsLoadingChanged { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required EmergencyDialog.MedRunnerContext Context { get; set; }
+
+    [Parameter]
+    public EventCallback<EmergencyDialog.MedRunnerContext> ContextChanged { get; set; }
+
+    private async Task StartMedRunnerEmergencyAsync()
+    {
+        if (SubmitDisabled)
+        {
+            return;
+        }
+
+        try
+        {
+            await IsLoadingAsync();
+            var request = new CreateEmergencyRequest
+            {
+                Location = CreateMedRunnerLocation(ClosestLocation),
+                ThreatLevel = _threatLevel.Value,
+            };
+#if DEBUG
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            var emergencyResponse = new ApiResponse<Emergency>
+            {
+                Data = new Emergency
+                {
+                    System = request.Location.System,
+                    Subsystem = request.Location.Subsystem,
+                    ClientRsiHandle = Context.ClientInfo?.RsiHandle ?? "unknown",
+                    SubscriptionTier = "basic",
+                    RespondingTeam = new RespondingTeam
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = "Flying Dutchman",
+                    },
+                    RespondingTeams =
+                    [
+                        new RespondingTeam
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = "Flying Dutchman",
+                        },
+                    ],
+                },
+                Success = true,
+            };
+#else
+            //var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
+#endif
+            if (!emergencyResponse.Success)
+            {
+                Context.Errors.Add(emergencyResponse.ErrorMessage);
+                await ContextChanged.InvokeAsync(Context);
+                return;
+            }
+
+            Context.Emergency = emergencyResponse.Data;
+            await ContextChanged.InvokeAsync(Context);
+        }
+        finally
+        {
+            await IsLoadingAsync(false);
+        }
+    }
+
+    private Location CreateMedRunnerLocation(IGameLocation location)
+        => new()
+        {
+            System = location.Parents.OfType<GameStarSystem>().First().Name.MainContent.FullName,
+            Subsystem = location.Parents.OfType<GamePlanet>().First().Name.MainContent.FullName,
+            TertiaryLocation = new StringBuilder().AppendJoin(
+                    " / ",
+                    location.Parents
+                        .Reverse()
+                        .Where(x => x is not GameStarSystem and not GamePlanet)
+                        .Select(x => x.Name.MainContent.FullName)
+                        .Append(location.Name.MainContent.FullName)
+                )
+                .ToString(),
+        };
+
+    private async Task IsLoadingAsync(bool isLoading = true)
+    {
+        IsLoading = isLoading;
+        await IsLoadingChanged.InvokeAsync(IsLoading);
+    }
+
+}
