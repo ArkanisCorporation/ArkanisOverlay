@@ -12,6 +12,7 @@ using Domain.Abstractions.Services;
 using Domain.Services;
 using External.Backend.Options;
 using External.CitizenId;
+using External.MedRunner;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -105,6 +106,8 @@ public static class DependencyInjection
         services
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
+            .AddHostedService<InitializeServicesHostedService>()
+            .AddMedRunnerApiClient()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
