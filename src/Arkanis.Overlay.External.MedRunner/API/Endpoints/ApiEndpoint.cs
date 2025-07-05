@@ -20,21 +20,21 @@ public abstract class ApiEndpoint(
     HttpClient? httpClient = null
 )
 {
-    private static readonly Action<ILogger, string, string, Exception?> LogRequest = LoggerMessage.Define<string, string>(
+    private static readonly Action<ILogger, HttpMethod, string, Exception?> LogRequest = LoggerMessage.Define<HttpMethod, string>(
         LogLevel.Debug,
         default,
         "{Method} {Url}"
     );
 
-    private static readonly Action<ILogger, string, string, HttpStatusCode, string, Exception?> LogRequestError =
-        LoggerMessage.Define<string, string, HttpStatusCode, string>(
+    private static readonly Action<ILogger, HttpMethod, string, HttpStatusCode, string, Exception?> LogRequestError =
+        LoggerMessage.Define<HttpMethod, string, HttpStatusCode, string>(
             LogLevel.Error,
             default,
             "Received API error response for {Method} {Url}: (code {StatusCode}) {ErrorMessage}"
         );
 
-    private static readonly Action<ILogger, string, string, Exception?> LogRequestException =
-        LoggerMessage.Define<string, string>(LogLevel.Error, default, "An exception occured while handling {Method} {Url}");
+    private static readonly Action<ILogger, HttpMethod, string, Exception?> LogRequestException =
+        LoggerMessage.Define<HttpMethod, string>(LogLevel.Error, default, "An exception occured while handling {Method} {Url}");
 
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -72,12 +72,13 @@ public abstract class ApiEndpoint(
     protected virtual async Task<HttpRequestMessage> CreateRequestMessageAsync(
         HttpMethod method,
         string url,
-        bool noAuthentication = false,
-        object? body = null
+        object? body = null,
+        RequestOptions? requestOptions = null
     )
     {
+        requestOptions ??= RequestOptions.Default;
         var request = new HttpRequestMessage(method, url);
-        if (!noAuthentication)
+        if (!requestOptions.IsUnauthenticatedRequest)
         {
             var accessToken = await tokenProvider.GetAccessTokenAsync("API makeRequest");
             if (!string.IsNullOrEmpty(accessToken))
@@ -98,104 +99,145 @@ public abstract class ApiEndpoint(
     /// <summary>
     ///     Sends a GET request.
     /// </summary>
-    protected async Task<ApiResponse<T>> GetRequestAsync<T>(string endpoint, Dictionary<string, string>? queryParams = null, bool noAuthentication = false)
+    protected async Task<ApiResponse<T>> GetRequestAsync<T>(
+        string endpoint,
+        Dictionary<string, string>? queryParams = null,
+        RequestOptions? requestOptions = null
+    )
     {
         var url = BuildUrl(endpoint, queryParams);
-        var request = await CreateRequestMessageAsync(HttpMethod.Get, url, noAuthentication);
-        return await SendRequestAsync<T>(request, "GET", url);
+        var request = await CreateRequestMessageAsync(HttpMethod.Get, url, requestOptions);
+        return await SendRequestAsync<T>(request, url, requestOptions);
     }
 
     /// <summary>
     ///     Sends a POST request.
     /// </summary>
-    protected async Task<ApiResponse<T>> PostRequestAsync<T>(string endpoint, object? data = null, bool noAuthentication = false)
+    protected async Task<ApiResponse<T>> PostRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
         var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(HttpMethod.Post, url, noAuthentication, data);
-        return await SendRequestAsync<T>(request, "POST", url);
+        var request = await CreateRequestMessageAsync(HttpMethod.Post, url, data, requestOptions);
+        return await SendRequestAsync<T>(request, url, requestOptions);
     }
 
     /// <summary>
     ///     Sends a PUT request.
     /// </summary>
-    protected async Task<ApiResponse<T>> PutRequestAsync<T>(string endpoint, object? data = null, bool noAuthentication = false)
+    protected async Task<ApiResponse<T>> PutRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
         var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(HttpMethod.Put, url, noAuthentication, data);
-        return await SendRequestAsync<T>(request, "PUT", url);
+        var request = await CreateRequestMessageAsync(HttpMethod.Put, url, data, requestOptions);
+        return await SendRequestAsync<T>(request, url, requestOptions);
     }
 
     /// <summary>
     ///     Sends a PATCH request.
     /// </summary>
-    protected async Task<ApiResponse<T>> PatchRequestAsync<T>(string endpoint, object? data = null, bool noAuthentication = false)
+    protected async Task<ApiResponse<T>> PatchRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
         var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(new HttpMethod("PATCH"), url, noAuthentication, data);
-        return await SendRequestAsync<T>(request, "PATCH", url);
+        var request = await CreateRequestMessageAsync(HttpMethod.Patch, url, data, requestOptions);
+        return await SendRequestAsync<T>(request, url, requestOptions);
     }
 
     /// <summary>
     ///     Sends a DELETE request.
     /// </summary>
-    protected async Task<ApiResponse<T>> DeleteRequestAsync<T>(string endpoint, Dictionary<string, string>? queryParams = null, bool noAuthentication = false)
+    protected async Task<ApiResponse<T>> DeleteRequestAsync<T>(
+        string endpoint,
+        Dictionary<string, string>? queryParams = null,
+        RequestOptions? requestOptions = null
+    )
     {
         var url = BuildUrl(endpoint, queryParams);
-        var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, noAuthentication);
-        return await SendRequestAsync<T>(request, "DELETE", url);
+        var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, requestOptions);
+        return await SendRequestAsync<T>(request, url, requestOptions);
     }
 
     /// <summary>
     ///     Sends the HTTP request and handles the response and errors.
     /// </summary>
-    private async Task<ApiResponse<T>> SendRequestAsync<T>(HttpRequestMessage request, string method, string url)
-        => await cache.GetOrCreateAsync(
-               $"{method}-{url}",
-               async entry =>
-               {
-                   if (method == HttpMethod.Get.Method)
-                   {
-                       entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(55));
-                   }
+    private async Task<ApiResponse<T>> SendRequestAsync<T>(HttpRequestMessage request, string url, RequestOptions? requestOptions = null)
+    {
+        requestOptions ??= RequestOptions.Default;
+        ApiResponse<T>? response;
 
-                   LogRequest(logger, method, url, null);
-                   try
-                   {
-                       using var response = await _httpClient.SendAsync(request);
-                       var content = await response.Content.ReadAsStringAsync();
-                       if (response.IsSuccessStatusCode)
-                       {
-                           var data = JsonSerializer.Deserialize<T>(content, Options);
-                           return new ApiResponse<T>
-                           {
-                               Success = true,
-                               Data = data,
-                           };
-                       }
+        if (request.Method == HttpMethod.Get)
+        {
+            response = await cache.GetOrCreateAsync(
+                $"{request.Method.Method}-{url}",
+                async entry =>
+                {
+                    entry.SetAbsoluteExpiration(requestOptions.CacheDuration);
+                    var responseLive = await SendRequestAsyncCore<T>(request, url);
+                    if (!responseLive.Success)
+                    {
+                        entry.Dispose();
+                    }
 
-                       LogRequestError(logger, method, url, response.StatusCode, content, null);
-                       entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(5));
-                       return new ApiResponse<T>
-                       {
-                           Success = false,
-                           ErrorMessage = content,
-                           StatusCode = response.StatusCode,
-                       };
-                   }
-                   catch (Exception ex)
-                   {
-                       LogRequestException(logger, method, url, ex);
-                       entry.SetAbsoluteExpiration(TimeSpan.FromSeconds(15));
-                       return new ApiResponse<T>
-                       {
-                           Success = false,
-                           ErrorMessage = ex.Message,
-                       };
-                   }
-               }
-           )
-           ?? new ApiResponse<T>
-           {
-               ErrorMessage = "Could not retrieve locally-cached data",
-           };
+                    return responseLive;
+                }
+            );
+        }
+        else
+        {
+            response = await SendRequestAsyncCore<T>(request, url);
+        }
+
+        response ??= new ApiResponse<T>
+        {
+            ErrorMessage = "Could not retrieve locally-cached data",
+        };
+
+        return response;
+    }
+
+    private async Task<ApiResponse<T>> SendRequestAsyncCore<T>(HttpRequestMessage request, string url)
+    {
+        LogRequest(logger, request.Method, url, null);
+        try
+        {
+            using var response = await _httpClient.SendAsync(request);
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                var data = JsonSerializer.Deserialize<T>(content, Options);
+                return new ApiResponse<T>
+                {
+                    Success = true,
+                    Data = data,
+                };
+            }
+
+            LogRequestError(logger, request.Method, url, response.StatusCode, content, null);
+            return new ApiResponse<T>
+            {
+                Success = false,
+                ErrorMessage = content,
+                StatusCode = response.StatusCode,
+            };
+        }
+        catch (Exception ex)
+        {
+            LogRequestException(logger, request.Method, url, ex);
+            return new ApiResponse<T>
+            {
+                Success = false,
+                ErrorMessage = ex.Message,
+            };
+        }
+    }
+
+    protected class RequestOptions
+    {
+        public static readonly RequestOptions Default = new();
+
+        public static readonly RequestOptions Unauthenticated = new()
+        {
+            IsUnauthenticatedRequest = true,
+        };
+
+        public bool IsUnauthenticatedRequest { get; set; }
+        public TimeSpan CacheDuration { get; set; } = TimeSpan.FromMinutes(1);
+    }
 }
