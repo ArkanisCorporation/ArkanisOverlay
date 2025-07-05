@@ -154,6 +154,10 @@
     display: none !important;
 }
 
+.mud-card-actions.mud-stepper-actions:empty {
+    display: none;
+}
+
 .mud-tabs {
     .mud-chip.mud-chip-size-small {
         margin: 0;

@@ -2,7 +2,7 @@
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
 @implements IDisposable
-@inject IMedRunnerTokenProvider TokenProvider
+@inject IDialogService DialogService
 @inject IMedRunnerApiClient MedRunner
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
@@ -60,8 +60,7 @@
             background-color: var(--mud-palette-surface);
         }
 
-        .mud-stepper,
-        .mud-stepper-actions {
+        .mud-stepper {
             padding: 0;
         }
 
@@ -108,55 +107,108 @@
                               Justify="@Justify.Center"
                               Class="mb-8"
                               Row>
-                        <MudCard Elevation="4"
-                                 Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
-                                 @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
-                                 disabled="@(_medRunnerContext.IsDisabled.ToString())">
-                            <MudCardHeader>
-                                <MudText Typo="@Typo.h6"
-                                         Align="@Align.Center"
-                                         Class="w-100">
-                                    Search & Rescue
-                                </MudText>
-                            </MudCardHeader>
-                            <MudCardContent Class="pt-0">
-                                <MudStack AlignItems="@AlignItems.Center"
-                                          Justify="@Justify.Center">
-                                    <MudText Typo="@Typo.caption"
-                                             Align="@Align.Center">
-                                        Fast and reliable rescue operations against all odds.
+                        <MudStack>
+                            <MudCard Elevation="4"
+                                     Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
+                                     @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
+                                     disabled="@(_medRunnerContext.IsDisabled.ToString().ToLowerInvariant())">
+                                <MudCardHeader>
+                                    <MudText Typo="@Typo.h6"
+                                             Align="@Align.Center"
+                                             Class="w-100">
+                                        Search & Rescue
                                     </MudText>
-                                    <MudImage
-                                        Class="my-2"
-                                        Style="width: 120px;"
-                                        Src="@LinkHelper.GetPathToAsset("img/medrunner-logo-white.svg")"/>
-                                    @if (_medRunnerContext.ClientIsActive)
-                                    {
+                                </MudCardHeader>
+                                <MudCardContent Class="pt-0">
+                                    <MudStack AlignItems="@AlignItems.Center"
+                                              Justify="@Justify.Center">
                                         <MudText Typo="@Typo.caption"
-                                                 Align="@Align.Center"
-                                                 Color="@Color.Success">
-                                            Subscription Active<br/>@_medRunnerContext.ClientIdentity.Name
+                                                 Align="@Align.Center">
+                                            Fast and reliable rescue operations against all odds.
                                         </MudText>
-                                    }
-                                    @if (_medRunnerContext.IsServiceUnavailable)
-                                    {
-                                        <MudText Typo="@Typo.caption"
-                                                 Align="@Align.Center"
-                                                 Color="@Color.Error">
-                                            Currently Unavailable
-                                        </MudText>
-                                    }
-                                </MudStack>
-                            </MudCardContent>
-                        </MudCard>
+                                        <MedRunnerLogo
+                                            Class="my-2"
+                                            Style="width: 120px;"
+                                            WithoutLink/>
+                                        @if (_isLoading)
+                                        {
+                                            <div class="w-100">
+                                                <MudSkeleton/>
+                                                <MudSkeleton/>
+                                            </div>
+                                        }
+                                        else if (_medRunnerContext.IsClientAuthenticated)
+                                        {
+                                            @if (_medRunnerContext.ClientHasValidSubscription)
+                                            {
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Success">
+                                                    Subscription Active<br/>@_medRunnerContext.ClientIdentity.Name
+                                                </MudText>
+                                            }
+                                            else if (_medRunnerContext.ClientIsInactive)
+                                            {
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Warning">
+                                                    Subscription Inactive<br/>@_medRunnerContext.ClientIdentity.Name
+                                                </MudText>
+                                            }
+                                            else if (_medRunnerContext.ClientIsBlocked)
+                                            {
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Warning">
+                                                    Account Disabled<br/>@_medRunnerContext.ClientIdentity.Name
+                                                </MudText>
+                                            }
+
+                                            @if (_medRunnerContext.IsServiceUnavailable)
+                                            {
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Error">
+                                                    Currently Unavailable
+                                                </MudText>
+                                            }
+                                        }
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                            @if (!_isLoading && !_medRunnerContext.IsClientAuthenticated)
+                            {
+                                <MudText Typo="@Typo.caption"
+                                         Align="@Align.Center"
+                                         Class="text-secondary cursor-pointer"
+                                         @onclick="@StartMedRunnerSetupAsync">
+                                    <i>
+                                        No valid account connected
+                                    </i>
+                                </MudText>
+                            }
+                            @foreach (var error in _medRunnerContext.Errors)
+                            {
+                                <MudText Typo="@Typo.caption"
+                                         Align="@Align.Center"
+                                         Color="@Color.Error">
+                                    @error
+                                </MudText>
+                            }
+                        </MudStack>
                     </MudStack>
                 </MudStep>
                 <MudStep Title="Provide details"
                          Class="pa-0"
                          Completed="@ScenarioIsActive"
                          Disabled="@ScenarioIsActive">
-                    <MudStack Class="px-4 my-4" Row>
+                    <MudStack Class="px-4 my-4"
+                              AlignItems="@AlignItems.Center"
+                              Justify="@Justify.SpaceBetween"
+                              Row>
                         @PreviousButton
+                        <MedRunnerServiceProvidedBy
+                            ContentId="@ContentId"/>
                     </MudStack>
                     <MudText Typo="@Typo.body1"
                              Align="@Align.Center"
@@ -164,6 +216,7 @@
                         Please provide necessary emergency details for the alert responders.
                     </MudText>
                     <MedRunnerEmergencyCreation
+                        ContentId="@ContentId"
                         @bind-IsLoading="@_isLoading"
                         @bind-Context="@_medRunnerContext"
                         @bind-Context:after="@ContinueOnEmergencyCreationAsync"/>
@@ -172,6 +225,7 @@
                          SecondaryText="@EmergencyHandlingDescription"
                          Class="pa-0">
                     <MedRunnerEmergencyManagement
+                        ContentId="@ContentId"
                         @bind-IsLoading="@_isLoading"
                         @bind-Context="@_medRunnerContext"
                         @bind-Context:after="@ContinueOnEmergencyFinalizationAsync"/>
@@ -179,6 +233,7 @@
             </ChildContent>
             <CompletedContent>
                 <MedRunnerEmergencyReview
+                    ContentId="@ContentId"
                     @bind-IsLoading="@_isLoading"
                     @bind-Context="@_medRunnerContext"
                     @bind-Context:after="@Close"/>
@@ -198,6 +253,8 @@
 
 @code
 {
+    private const string ContentId = "report_emergency";
+
     private bool _isLoading;
     private Scenario _selectedScenario;
     private MudStepper? _stepper;
@@ -217,7 +274,7 @@
         {
             { ScenarioIsActive: true } => _medRunnerContext.Emergency?.Status switch
             {
-                MissionStatus.Pending => "Wait for dispatch",
+                MissionStatus.Pending => "Wait for dispatch response",
                 MissionStatus.Accepted => "Communicate with dispatch",
                 _ => "Mission concluded",
             },
@@ -251,21 +308,11 @@
         await RefreshMedRunnerDataAsync();
     }
 
-    private async Task UpdateDialogOptionsAsync()
+    private async Task StartMedRunnerSetupAsync()
     {
-        var canClose = !ScenarioInProgress;
-        await MudDialog.SetOptionsAsync(
-            MudDialog.Options with
-            {
-                BackdropClick = canClose,
-                CloseOnEscapeKey = canClose,
-                CloseButton = canClose,
-            }
-        );
+        await MedRunnerSetupDialog.ShowAsync(DialogService);
+        await RefreshMedRunnerDataAsync();
     }
-
-    private void OnExternalUpdate(object? _, EventArgs args)
-        => InvokeAsync(StateHasChanged);
 
     private async Task RefreshMedRunnerDataAsync()
     {
@@ -280,21 +327,6 @@
         {
             _isLoading = false;
         }
-    }
-
-    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
-    {
-        var dialogOptions = new DialogOptions
-        {
-            FullWidth = true,
-            MaxWidth = MaxWidth.Medium,
-            FullScreen = false,
-            BackdropClick = true,
-            CloseOnEscapeKey = true,
-            CloseButton = true,
-        };
-        var dialogRef = await dialogService.ShowAsync<EmergencyDialog>(null, dialogOptions);
-        return await dialogRef.Result ?? DialogResult.Cancel();
     }
 
     private async Task SelectScenarioAsync(Scenario scenario)
@@ -324,6 +356,22 @@
         await UpdateDialogOptionsAsync();
     }
 
+    private void OnExternalUpdate(object? _, EventArgs args)
+        => InvokeAsync(StateHasChanged);
+
+    private async Task UpdateDialogOptionsAsync()
+    {
+        var canClose = !ScenarioInProgress;
+        await MudDialog.SetOptionsAsync(
+            MudDialog.Options with
+            {
+                BackdropClick = canClose,
+                CloseOnEscapeKey = canClose,
+                CloseButton = canClose,
+            }
+        );
+    }
+
     private const string ScenarioBaseClasses = "scenario focus";
 
     public string ScenarioClassesFor(Scenario thisScenario)
@@ -335,6 +383,21 @@
     {
         _medRunnerContext.Updated -= OnExternalUpdate;
         _medRunnerContext.Dispose();
+    }
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium,
+            FullScreen = false,
+            BackdropClick = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<EmergencyDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
     }
 
     public enum Scenario

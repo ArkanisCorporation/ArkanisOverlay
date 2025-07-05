@@ -25,4 +25,16 @@ public static class ExternalLinkHelper
 
     public static string GetUexUserLink(string username, string? contentId = null)
         => AddAttributionGoogleAnalyticsTo($"https://uexcorp.space/@{username}", contentId);
+
+    public static string GetMedRunnerLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://medrunner.space/", contentId);
+
+    public static string GetMedRunnerTosLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://medrunner.space/terms-of-service", contentId);
+
+    public static string GetMedRunnerPortalLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://portal.medrunner.space/", contentId);
+
+    public static string GetMedRunnerPortalProfileLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://portal.medrunner.space/profile", contentId);
 }

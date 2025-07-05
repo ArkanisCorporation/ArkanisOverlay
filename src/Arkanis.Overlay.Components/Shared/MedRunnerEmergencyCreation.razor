@@ -4,6 +4,7 @@
 @using Arkanis.Overlay.External.MedRunner.API
 @using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
 @using Arkanis.Overlay.External.MedRunner.Models
+@using Arkanis.Overlay.Infrastructure.Helpers
 @inherits MedRunnerComponentBase
 
 <MudGrid Class="pa-5">
@@ -28,7 +29,7 @@
     <MudItem xs="12">
         <MudAlert Severity="@Severity.Info">
             By submitting this request, you agree to the
-            <MudLink Href="https://www.medrunner.space/terms-of-service"
+            <MudLink Href="@ExternalLinkHelper.GetMedRunnerTosLink(ContentId)"
                      Target="_blank"
                      Typo="@Typo.inherit">
                 terms and conditions
@@ -45,6 +46,17 @@
                    Disabled="@SubmitDisabled">
             Submit request
         </MudButton>
+        @if (Context.HasErrors)
+        {
+            <MudStack Class="mt-2">
+                @foreach (var error in Context.Errors)
+                {
+                    <MudAlert Severity="@Severity.Error">
+                        @error
+                    </MudAlert>
+                }
+            </MudStack>
+        }
     </MudItem>
 </MudGrid>
 
@@ -88,6 +100,8 @@
                         Subsystem = request.Location.Subsystem,
                         ClientRsiHandle = Context.ClientInfo?.RsiHandle ?? "unknown",
                         SubscriptionTier = "basic",
+                        Status = MissionStatus.Accepted,
+                        AcceptedTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
                         RespondingTeam = new RespondingTeam
                         {
                             Id = Guid.NewGuid().ToString(),
