@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 ///     Base class for API endpoints.
 /// </summary>
 public abstract class ApiEndpoint(
-    ApiConfig config,
+    IMedRunnerClientConfig config,
     IMedRunnerTokenProvider tokenProvider,
     IMemoryCache cache,
     ILogger logger,
@@ -43,7 +43,7 @@ public abstract class ApiEndpoint(
 
     private readonly HttpClient _httpClient = httpClient ?? new HttpClient();
 
-    protected ApiConfig Config { get; } = config;
+    protected IMedRunnerClientConfig Config { get; } = config;
 
     /// <summary>
     ///     Returns the endpoint path (to be implemented by derived classes).

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 /// <summary>
 ///     Manages websocket connections for real-time updates.
 /// </summary>
-public class SignalRManager(ApiConfig config, IMedRunnerTokenProvider tokenProvider)
+public class SignalRManager(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider)
 {
     public async Task<HubConnection> EstablishConnectionAsync()
     {
