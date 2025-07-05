@@ -1,22 +1,20 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Endpoints.Staff;
 
 using Abstractions;
+using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Response;
 
-/// <summary>
-///     Endpoints for interacting with staff.
-/// </summary>
+/// <inheritdoc cref="IStaffEndpoint" />
 public class StaffEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
-    : ApiEndpoint(config, tokenProvider, cache, logger)
+    : ApiEndpoint(config, tokenProvider, cache, logger), IStaffEndpoint
 {
+    /// <inheritdoc />
     protected override string Endpoint
         => "staff";
 
-    /// <summary>
-    ///     Gets detailed information about medals.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<List<MedalInformation>>> MedalsInformationAsync()
         => await GetRequestAsync<List<MedalInformation>>("/meta/medals");
 }

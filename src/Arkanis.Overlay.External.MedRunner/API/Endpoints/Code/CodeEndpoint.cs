@@ -1,28 +1,24 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Endpoints.Code;
 
 using Abstractions;
+using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Models;
 
-/// <summary>
-///     Endpoints for interacting with promotional codes.
-/// </summary>
+/// <inheritdoc cref="ICodeEndpoint" />
 public class CodeEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
-    : ApiEndpoint(config, tokenProvider, cache, logger)
+    : ApiEndpoint(config, tokenProvider, cache, logger), ICodeEndpoint
 {
+    /// <inheritdoc />
     protected override string Endpoint
         => "code";
 
-    /// <summary>
-    ///     Gets the redeemed codes for the current user.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<List<PromotionalCode>>> GetRedeemedCodesAsync()
         => await GetRequestAsync<List<PromotionalCode>>("/redeemed");
 
-    /// <summary>
-    ///     Redeems the specified promotional code for the current user.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<string>> RedeemAsync(string code)
         => await PostRequestAsync<string>($"/redeem/{code}");
 }
