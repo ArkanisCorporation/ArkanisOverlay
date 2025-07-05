@@ -12,6 +12,11 @@
     color: inherit;
 }
 
+.mud-paper,
+.mud-expansion-panels {
+    animation: 250ms fadeInDown;
+}
+
 .text-justify {
     text-align: justify;
 }
