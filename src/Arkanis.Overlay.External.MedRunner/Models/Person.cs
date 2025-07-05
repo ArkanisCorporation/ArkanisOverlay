@@ -35,6 +35,9 @@ public class Person : ModelBase
     /// </summary>
     public UserRoles Roles { get; set; }
 
+    public IEnumerable<UserRoles> AssignedRoles
+        => Enum.GetValues<UserRoles>().Where(role => Roles.HasFlag(role));
+
     /// <summary>
     ///     The type of person (client, staff, bot).
     /// </summary>
