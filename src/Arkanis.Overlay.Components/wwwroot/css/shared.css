@@ -6,6 +6,11 @@
     height: 100%;
 }
 
+.mud-paper,
+.mud-expansion-panels {
+    animation: 250ms fadeInDown;
+}
+
 .text-primary {
     color: var(--mud-palette-text-primary);
 }
