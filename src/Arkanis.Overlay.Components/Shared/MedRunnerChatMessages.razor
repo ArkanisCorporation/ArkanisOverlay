@@ -1,0 +1,47 @@
+@using Arkanis.Overlay.External.MedRunner.Models
+<MudChat ChatPosition="@Position">
+    <MudAvatar Color="@Color">
+        <MudIcon
+            Icon="@Icon"
+            Size="@Size.Medium"/>
+    </MudAvatar>
+    @foreach (var message in Models)
+    {
+        <MudChatBubble>
+            @message.Content
+        </MudChatBubble>
+    }
+    @if (MessageContent is not null)
+    {
+        <MudChatBubble>
+            @MessageContent
+        </MudChatBubble>
+    }
+</MudChat>
+
+@code
+{
+    private ChatBubblePosition Position
+        => FromClient
+            ? ChatBubblePosition.End
+            : ChatBubblePosition.Start;
+
+    private Color Color
+        => FromClient
+            ? Color.Info
+            : Color.Error;
+
+    private string Icon
+        => FromClient
+            ? Icons.Material.Filled.AccountCircle
+            : Icons.Material.Filled.Emergency;
+
+    [Parameter]
+    public IEnumerable<ChatMessage> Models { get; set; } = [];
+
+    [Parameter]
+    public string? MessageContent { get; set; }
+
+    [Parameter]
+    public bool FromClient { get; set; }
+}
