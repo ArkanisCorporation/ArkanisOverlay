@@ -18,5 +18,5 @@ public class ClientHistory
     /// <summary>
     ///     The timestamp when the emergency was created.
     /// </summary>
-    public required string EmergencyCreationTimestamp { get; set; }
+    public required DateTimeOffset EmergencyCreationTimestamp { get; set; }
 }

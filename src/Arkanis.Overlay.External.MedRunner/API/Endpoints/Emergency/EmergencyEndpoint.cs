@@ -17,13 +17,13 @@ public class EmergencyEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenPro
         => "emergency";
 
     /// <inheritdoc />
-    public async Task<ApiResponse<Emergency>> GetEmergencyAsync(string id)
-        => await GetRequestAsync<Emergency>($"/{id}");
+    public async Task<ApiResponse<Emergency>> GetEmergencyAsync(string emergencyId)
+        => await GetRequestAsync<Emergency>($"/{emergencyId}");
 
     /// <inheritdoc />
-    public async Task<ApiResponse<List<Emergency>>> GetEmergenciesAsync(List<string> ids)
+    public async Task<ApiResponse<List<Emergency>>> GetEmergenciesAsync(List<string> emergencyIds)
     {
-        var query = string.Join("&id=", ids);
+        var query = string.Join("&id=", emergencyIds);
         return await GetRequestAsync<List<Emergency>>($"/bulk?id={query}");
     }
 
@@ -32,24 +32,24 @@ public class EmergencyEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenPro
         => await PostRequestAsync<Emergency>("", request);
 
     /// <inheritdoc />
-    public async Task<ApiResponse<string>> CancelEmergencyWithReasonAsync(string id, CancellationReason reason)
+    public async Task<ApiResponse<string>> CancelEmergencyWithReasonAsync(string emergencyId, CancellationReason reason)
     {
         var payload = new { reason };
-        return await PostRequestAsync<string>($"/{id}/cancelWithReason", payload);
+        return await PostRequestAsync<string>($"/{emergencyId}/cancelWithReason", payload);
     }
 
     /// <inheritdoc />
-    public async Task<ApiResponse<string>> RateServicesAsync(string id, ResponseRating rating, string? remarks = null)
+    public async Task<ApiResponse<string>> RateServicesAsync(string emergencyId, ResponseRating rating, string? remarks = null)
     {
         var payload = new
         {
             rating,
             remarks,
         };
-        return await PostRequestAsync<string>($"/{id}/rate/", payload);
+        return await PostRequestAsync<string>($"/{emergencyId}/rate/", payload);
     }
 
     /// <inheritdoc />
-    public async Task<ApiResponse<TeamDetailsResponse>> TeamDetailsAsync(string id)
-        => await GetRequestAsync<TeamDetailsResponse>($"/{id}/teamDetails");
+    public async Task<ApiResponse<TeamDetailsResponse>> TeamDetailsAsync(string emergencyId)
+        => await GetRequestAsync<TeamDetailsResponse>($"/{emergencyId}/teamDetails");
 }

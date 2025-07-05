@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.Models;
 
+using System.Text.Json;
+
 /// <summary>
 ///     Represents a person in the system.
 /// </summary>
@@ -61,7 +63,7 @@ public class Person : ModelBase
     /// <summary>
     ///     The client portal preferences blob.
     /// </summary>
-    public required object ClientPortalPreferences { get; set; }
+    public required JsonDocument ClientPortalPreferences { get; set; }
 
     /// <summary>
     ///     The client portal preferences blob as a string.

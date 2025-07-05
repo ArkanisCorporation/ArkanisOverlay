@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddMockMedRunnerApiEndpoints(this IServiceCollection services)
+    internal static IServiceCollection AddMockMedRunnerApiEndpoints(this IServiceCollection services)
     {
         // Register mock endpoints
         services
