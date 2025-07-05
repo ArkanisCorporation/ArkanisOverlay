@@ -97,8 +97,8 @@
             <ChildContent>
                 <MudStep Title="Select a scenario"
                          Class="pa-0"
-                         Completed="@ScenarioInProgress"
-                         Disabled="@ScenarioInProgress">
+                         Completed="@ScenarioIsActive"
+                         Disabled="@ScenarioIsActive">
                     <MudText Typo="@Typo.body1"
                              Align="@Align.Center"
                              Class="my-8">
@@ -153,8 +153,8 @@
                 </MudStep>
                 <MudStep Title="Provide details"
                          Class="pa-0"
-                         Completed="@ScenarioInProgress"
-                         Disabled="@ScenarioInProgress">
+                         Completed="@ScenarioIsActive"
+                         Disabled="@ScenarioIsActive">
                     <MudStack Class="px-4 my-4" Row>
                         @PreviousButton
                     </MudStack>
@@ -168,7 +168,8 @@
                         @bind-Context="@_medRunnerContext"
                         @bind-Context:after="@ContinueOnEmergencyCreationAsync"/>
                 </MudStep>
-                <MudStep Title="Wait for response"
+                <MudStep Title="Handle emergency"
+                         SecondaryText="@EmergencyHandlingDescription"
                          Class="pa-0">
                     <MedRunnerEmergencyManagement
                         @bind-IsLoading="@_isLoading"
@@ -188,7 +189,10 @@
         </MudStepper>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@Cancel">Close</MudButton>
+        <MudButton OnClick="@Cancel"
+                   Disabled="@ScenarioInProgress">
+            Close
+        </MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -202,8 +206,23 @@
 
     private MedRunnerComponentBase.ContextModel _medRunnerContext = new();
 
-    private bool ScenarioInProgress
+    private bool ScenarioIsActive
         => _medRunnerContext.Emergency is not null;
+
+    private bool ScenarioInProgress
+        => _medRunnerContext.IsEmergencyInProgress;
+
+    public string EmergencyHandlingDescription
+        => this switch
+        {
+            { ScenarioIsActive: true } => _medRunnerContext.Emergency?.Status switch
+            {
+                MissionStatus.Pending => "Wait for dispatch",
+                MissionStatus.Accepted => "Communicate with dispatch",
+                _ => "Mission concluded",
+            },
+            _ => string.Empty,
+        };
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }
@@ -223,8 +242,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        MedRunner.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+        _medRunnerContext.Updated += OnExternalUpdate;
     }
 
     protected override async Task OnParametersSetAsync()
@@ -233,16 +251,21 @@
         await RefreshMedRunnerDataAsync();
     }
 
-    private void OnEmergencyUpdated(object? _, Emergency emergency)
+    private async Task UpdateDialogOptionsAsync()
     {
-        if (emergency.Id != _medRunnerContext.Emergency?.Id)
-        {
-            return;
-        }
-
-        _medRunnerContext.Emergency = emergency;
-        InvokeAsync(StateHasChanged);
+        var canClose = !ScenarioInProgress;
+        await MudDialog.SetOptionsAsync(
+            MudDialog.Options with
+            {
+                BackdropClick = canClose,
+                CloseOnEscapeKey = canClose,
+                CloseButton = canClose,
+            }
+        );
     }
+
+    private void OnExternalUpdate(object? _, EventArgs args)
+        => InvokeAsync(StateHasChanged);
 
     private async Task RefreshMedRunnerDataAsync()
     {
@@ -251,6 +274,7 @@
             _isLoading = true;
             await MedRunner.WebSocket.EnsureInitializedAsync();
             await _medRunnerContext.UpdateAsync(MedRunner);
+            await UpdateDialogOptionsAsync();
         }
         finally
         {
@@ -265,7 +289,8 @@
             FullWidth = true,
             MaxWidth = MaxWidth.Medium,
             FullScreen = false,
-            CloseOnEscapeKey = false,
+            BackdropClick = true,
+            CloseOnEscapeKey = true,
             CloseButton = true,
         };
         var dialogRef = await dialogService.ShowAsync<EmergencyDialog>(null, dialogOptions);
@@ -276,6 +301,7 @@
     {
         _selectedScenario = scenario;
         await _stepper!.NextStepAsync();
+        await UpdateDialogOptionsAsync();
     }
 
     private async Task ContinueOnEmergencyCreationAsync()
@@ -284,14 +310,18 @@
         {
             await _stepper!.NextStepAsync();
         }
+
+        await UpdateDialogOptionsAsync();
     }
 
     private async Task ContinueOnEmergencyFinalizationAsync()
     {
-        if (_medRunnerContext.Emergency is { CompletedAt: not null })
+        if (_medRunnerContext.Emergency is { Status: MissionStatus.Completed })
         {
             await _stepper!.NextStepAsync();
         }
+
+        await UpdateDialogOptionsAsync();
     }
 
     private const string ScenarioBaseClasses = "scenario focus";
@@ -301,6 +331,12 @@
             ? $"{ScenarioBaseClasses} active"
             : ScenarioBaseClasses;
 
+    public void Dispose()
+    {
+        _medRunnerContext.Updated -= OnExternalUpdate;
+        _medRunnerContext.Dispose();
+    }
+
     public enum Scenario
     {
         Unselected,
@@ -308,10 +344,7 @@
         [Description("Search & Rescue (MedRunner)")]
         MedRunnerSearchAndRescue,
     }
-
-    public void Dispose()
-        => MedRunner.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
-
 }
+
 
 

@@ -9,8 +9,19 @@ using Microsoft.AspNetCore.Components;
 
 public abstract class MedRunnerComponentBase : ComponentBase
 {
-    protected string EmergencyId
-        => Context.Emergency?.ClientId ?? string.Empty;
+    protected string? EmergencyId
+        => Emergency?.Id;
+
+    public Emergency? Emergency
+        => Context.Emergency;
+
+    [MemberNotNullWhen(true, nameof(Emergency), nameof(EmergencyId))]
+    public bool HasEmergency
+        => Emergency is not null;
+
+    [MemberNotNullWhen(true, nameof(Emergency), nameof(EmergencyId))]
+    public bool HasEmergencyInProgress
+        => Emergency is { Status: MissionStatus.Pending or MissionStatus.Accepted };
 
     [Inject]
     public required IMedRunnerApiClient MedRunner { get; set; }
@@ -47,8 +58,10 @@ public abstract class MedRunnerComponentBase : ComponentBase
         await IsLoadingChanged.InvokeAsync(IsLoading);
     }
 
-    public class ContextModel
+    public sealed class ContextModel : IDisposable
     {
+        private IMedRunnerApiClient? _api;
+
         public bool IsDisabled
             => IsEnabled is false;
 
@@ -92,21 +105,31 @@ public abstract class MedRunnerComponentBase : ComponentBase
             },
         };
 
+        public void Dispose()
+        {
+            if (_api is null)
+            {
+                return;
+            }
+
+            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+        }
+
+        public event EventHandler? Updated;
+
         public async Task UpdateAsync(IMedRunnerApiClient api)
         {
             Errors.Clear();
 
-            await api.WebSocket.EnsureInitializedAsync();
-            // api.WebSocket.Events.EmergencyCreated += (_, emergency) => Emergency = emergency;
-            // api.WebSocket.Events.EmergencyUpdated += (_, emergency) => Emergency = emergency;
+            await EnsureInitializedAsync(api);
 
-            var settingsResponse = await api.OrgSettings.GetPublicSettingsAsync();
+            var settingsResponse = await _api.OrgSettings.GetPublicSettingsAsync();
             if (settingsResponse.Success)
             {
                 Settings = settingsResponse.Data;
-                if (api.TokenProvider.IsAuthenticated)
+                if (_api.TokenProvider.IsAuthenticated)
                 {
-                    ClientIdentity = api.TokenProvider.Identity;
+                    ClientIdentity = _api.TokenProvider.Identity;
                 }
             }
             else
@@ -115,7 +138,31 @@ public abstract class MedRunnerComponentBase : ComponentBase
                 return;
             }
 
-            await UpdateClientAsync(api);
+            await UpdateClientAsync(_api);
+        }
+
+        [MemberNotNull(nameof(_api))]
+        private async Task EnsureInitializedAsync(IMedRunnerApiClient api)
+        {
+            if (_api is not null)
+            {
+                return;
+            }
+
+            _api = api;
+            await _api.WebSocket.EnsureInitializedAsync();
+            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+        }
+
+        private void OnEmergencyUpdated(object? _, Emergency emergency)
+        {
+            if (emergency.Id != Emergency?.Id)
+            {
+                return;
+            }
+
+            Emergency = emergency;
+            Updated?.Invoke(this, EventArgs.Empty);
         }
 
         private async Task UpdateClientAsync(IMedRunnerApiClient api)
