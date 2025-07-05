@@ -52,7 +52,7 @@ public static class DependencyInjection
                     };
                 }
             )
-            .AddMedRunnerApiClient()
+            .AddLiveMedRunnerApiClient()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
