@@ -53,6 +53,6 @@ public class AuthEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvide
     public async Task<ApiResponse<TokenGrant>> RequestTokenAsync(string refreshToken)
     {
         var body = new { refreshToken };
-        return await PostRequestAsync<TokenGrant>("/exchange", body, true);
+        return await PostRequestAsync<TokenGrant>("/exchange", body, RequestOptions.Unauthenticated);
     }
 }
