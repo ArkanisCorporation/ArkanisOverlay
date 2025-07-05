@@ -1,0 +1,49 @@
+@using Arkanis.Overlay.Infrastructure.Helpers
+@if (WithoutLink)
+{
+    @ImageContent
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetMedRunnerLink(ContentId)" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<MudImage
+               Class="@Class"
+               Style="@Style"
+               Src="@LinkHelper.GetPathToAsset(AssetPath)"/>;
+
+    private string AssetPath
+        => this switch
+        {
+            { Horizontal: true, TransparentVariant: true } => "img/medrunner-logo-horizontal.svg",
+            { Horizontal: true, TransparentVariant: false } => "img/medrunner-logo-horizontal-white.svg",
+            { Horizontal: false, TransparentVariant: true } => "img/medrunner-logo.svg",
+            { Horizontal: false, TransparentVariant: false } => "img/medrunner-logo-white.svg",
+        };
+
+    [Parameter]
+    public bool TransparentVariant { get; set; }
+
+    [Parameter]
+    public bool Horizontal { get; set; }
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; } = "d-block";
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+}
