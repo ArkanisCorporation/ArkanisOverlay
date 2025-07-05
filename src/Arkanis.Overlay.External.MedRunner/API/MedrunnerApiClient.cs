@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.API;
 
 using Abstractions;
+using Abstractions.Endpoints;
 using Endpoints.Auth;
 using Endpoints.ChatMessage;
 using Endpoints.Client;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
-///     An API client for basic client interactions with the Medrunner API.
+///     The MedRunner API client.
 /// </summary>
 public class MedRunnerApiClient(
     ApiConfig config,
@@ -24,19 +25,19 @@ public class MedRunnerApiClient(
 {
     public IMedRunnerTokenProvider TokenProvider { get; } = tokenProvider;
 
-    public EmergencyEndpoint Emergency { get; } = new(config, tokenProvider, cache, logger);
+    public IEmergencyEndpoint Emergency { get; } = new EmergencyEndpoint(config, tokenProvider, cache, logger);
 
-    public ClientEndpoint Client { get; } = new(config, tokenProvider, cache, logger);
+    public IClientEndpoint Client { get; } = new ClientEndpoint(config, tokenProvider, cache, logger);
 
-    public StaffEndpoint Staff { get; } = new(config, tokenProvider, cache, logger);
+    public IStaffEndpoint Staff { get; } = new StaffEndpoint(config, tokenProvider, cache, logger);
 
-    public OrgSettingsEndpoint OrgSettings { get; } = new(config, tokenProvider, cache, logger);
+    public IOrgSettingsEndpoint OrgSettings { get; } = new OrgSettingsEndpoint(config, tokenProvider, cache, logger);
 
-    public ChatMessageEndpoint ChatMessage { get; } = new(config, tokenProvider, cache, logger);
+    public IChatMessageEndpoint ChatMessage { get; } = new ChatMessageEndpoint(config, tokenProvider, cache, logger);
 
-    public CodeEndpoint Code { get; } = new(config, tokenProvider, cache, logger);
+    public ICodeEndpoint Code { get; } = new CodeEndpoint(config, tokenProvider, cache, logger);
 
-    public AuthEndpoint Auth { get; } = new(config, tokenProvider, cache, logger);
+    public IAuthEndpoint Auth { get; } = new AuthEndpoint(config, tokenProvider, cache, logger);
 
-    public WebsocketEndpoint WebSocket { get; } = new(config, tokenProvider, cache, logger);
+    public IWebsocketEndpoint WebSocket { get; } = new WebSocketEndpoint(config, tokenProvider, cache, logger);
 }

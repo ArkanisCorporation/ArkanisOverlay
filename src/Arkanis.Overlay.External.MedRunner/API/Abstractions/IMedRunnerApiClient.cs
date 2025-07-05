@@ -1,27 +1,51 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Abstractions;
 
-using Endpoints.Auth;
-using Endpoints.ChatMessage;
-using Endpoints.Client;
-using Endpoints.Code;
-using Endpoints.Emergency;
-using Endpoints.OrgSettings;
-using Endpoints.Staff;
-using Endpoints.WebSocket;
+using Endpoints;
 
 /// <summary>
-///     Interface for the Medrunner API client.
+///     The MedRunner API client interface.
 /// </summary>
 public interface IMedRunnerApiClient
 {
     IMedRunnerTokenProvider TokenProvider { get; }
 
-    EmergencyEndpoint Emergency { get; }
-    ClientEndpoint Client { get; }
-    StaffEndpoint Staff { get; }
-    OrgSettingsEndpoint OrgSettings { get; }
-    ChatMessageEndpoint ChatMessage { get; }
-    CodeEndpoint Code { get; }
-    AuthEndpoint Auth { get; }
-    WebsocketEndpoint WebSocket { get; }
+    /// <summary>
+    ///     Gets the authentication endpoint.
+    /// </summary>
+    IAuthEndpoint Auth { get; }
+
+    /// <summary>
+    ///     Gets the chat message endpoint.
+    /// </summary>
+    IChatMessageEndpoint ChatMessage { get; }
+
+    /// <summary>
+    ///     Gets the client endpoint.
+    /// </summary>
+    IClientEndpoint Client { get; }
+
+    /// <summary>
+    ///     Gets the code endpoint.
+    /// </summary>
+    ICodeEndpoint Code { get; }
+
+    /// <summary>
+    ///     Gets the emergency endpoint.
+    /// </summary>
+    IEmergencyEndpoint Emergency { get; }
+
+    /// <summary>
+    ///     Gets the organization settings endpoint.
+    /// </summary>
+    IOrgSettingsEndpoint OrgSettings { get; }
+
+    /// <summary>
+    ///     Gets the staff endpoint.
+    /// </summary>
+    IStaffEndpoint Staff { get; }
+
+    /// <summary>
+    ///     Gets the websocket endpoint.
+    /// </summary>
+    IWebsocketEndpoint WebSocket { get; }
 }
