@@ -1,54 +1,44 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency;
 
 using Abstractions;
+using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Models;
 using Request;
 using Response;
 
-/// <summary>
-///     Endpoints for interacting with emergencies.
-/// </summary>
+/// <inheritdoc cref="IEmergencyEndpoint" />
 public class EmergencyEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
-    : ApiEndpoint(config, tokenProvider, cache, logger)
+    : ApiEndpoint(config, tokenProvider, cache, logger), IEmergencyEndpoint
 {
+    /// <inheritdoc />
     protected override string Endpoint
         => "emergency";
 
-    /// <summary>
-    ///     Gets an emergency by id.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<Emergency>> GetEmergencyAsync(string id)
         => await GetRequestAsync<Emergency>($"/{id}");
 
-    /// <summary>
-    ///     Bulk fetches emergencies by id.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<List<Emergency>>> GetEmergenciesAsync(List<string> ids)
     {
         var query = string.Join("&id=", ids);
         return await GetRequestAsync<List<Emergency>>($"/bulk?id={query}");
     }
 
-    /// <summary>
-    ///     Creates a new emergency.
-    /// </summary>
-    public async Task<ApiResponse<Emergency>> CreateEmergencyAsync(CreateEmergencyRequest newEmergency)
-        => await PostRequestAsync<Emergency>("", newEmergency);
+    /// <inheritdoc />
+    public async Task<ApiResponse<Emergency>> CreateEmergencyAsync(CreateEmergencyRequest request)
+        => await PostRequestAsync<Emergency>("", request);
 
-    /// <summary>
-    ///     Cancels an existing emergency with a reason.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<string>> CancelEmergencyWithReasonAsync(string id, CancellationReason reason)
     {
         var payload = new { reason };
         return await PostRequestAsync<string>($"/{id}/cancelWithReason", payload);
     }
 
-    /// <summary>
-    ///     Allows the client to rate their emergency.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<string>> RateServicesAsync(string id, ResponseRating rating, string? remarks = null)
     {
         var payload = new
@@ -59,9 +49,7 @@ public class EmergencyEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenPr
         return await PostRequestAsync<string>($"/{id}/rate/", payload);
     }
 
-    /// <summary>
-    ///     Fetches additional details about the responding team for an alert.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<TeamDetailsResponse>> TeamDetailsAsync(string id)
         => await GetRequestAsync<TeamDetailsResponse>($"/{id}/teamDetails");
 }
