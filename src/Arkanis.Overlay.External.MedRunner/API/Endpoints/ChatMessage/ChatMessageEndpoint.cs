@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 
 /// <inheritdoc cref="IChatMessageEndpoint" />
-public class ChatMessageEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IChatMessageEndpoint
 {
     /// <inheritdoc />

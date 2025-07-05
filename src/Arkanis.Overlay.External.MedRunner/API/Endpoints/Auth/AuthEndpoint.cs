@@ -8,7 +8,7 @@ using Models;
 using Request;
 
 /// <inheritdoc cref="IAuthEndpoint" />
-public class AuthEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class AuthEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IAuthEndpoint
 {
     /// <inheritdoc />

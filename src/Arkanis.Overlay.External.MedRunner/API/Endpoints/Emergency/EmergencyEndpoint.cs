@@ -9,7 +9,7 @@ using Request;
 using Response;
 
 /// <inheritdoc cref="IEmergencyEndpoint" />
-public class EmergencyEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class EmergencyEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IEmergencyEndpoint
 {
     /// <inheritdoc />

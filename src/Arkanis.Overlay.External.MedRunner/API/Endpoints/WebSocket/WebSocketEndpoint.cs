@@ -6,7 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 /// <inheritdoc cref="IWebsocketEndpoint" />
-public class WebSocketEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class WebSocketEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IWebsocketEndpoint
 {
     private readonly SignalRManager _manager = new(config, tokenProvider);
