@@ -5,9 +5,9 @@ using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-/// <inheritdoc cref="IWebsocketEndpoint" />
+/// <inheritdoc cref="IWebSocketEndpoint" />
 public class WebSocketEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
-    : ApiEndpoint(config, tokenProvider, cache, logger), IWebsocketEndpoint
+    : ApiEndpoint(config, tokenProvider, cache, logger), IWebSocketEndpoint
 {
     private readonly SignalRManager _manager = new(config, tokenProvider);
     private readonly SignalRMessageHandler _messageHandler = new();

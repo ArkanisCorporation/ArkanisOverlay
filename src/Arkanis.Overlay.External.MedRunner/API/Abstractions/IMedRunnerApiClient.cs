@@ -47,5 +47,5 @@ public interface IMedRunnerApiClient
     /// <summary>
     ///     Gets the websocket endpoint.
     /// </summary>
-    IWebsocketEndpoint WebSocket { get; }
+    IWebSocketEndpoint WebSocket { get; }
 }

@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Abstractions.Endpoints;
 /// <summary>
 ///     Endpoints for interacting with websocket/realtime updates.
 /// </summary>
-public interface IWebsocketEndpoint
+public interface IWebSocketEndpoint
 {
     /// <summary>
     ///     Gets the WebSocket event provider for subscribing to real-time events.
