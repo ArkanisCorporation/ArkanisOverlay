@@ -2,18 +2,18 @@ namespace Arkanis.Overlay.External.MedRunner.API;
 
 using Abstractions;
 
-/// <inheritdoc cref="IMedRunnerClientConfig"/>
+/// <inheritdoc cref="IMedRunnerClientConfig" />
 public class MedRunnerClientConfig : IMedRunnerClientConfig
 {
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string BaseUrl { get; set; } = "https://api.medrunner.space";
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string? AccessToken { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public string? RefreshToken { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public bool CookieAuth { get; set; }
 }

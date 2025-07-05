@@ -15,7 +15,7 @@ public class MedRunnerApiClient(
     IChatMessageEndpoint chatMessageEndpoint,
     ICodeEndpoint codeEndpoint,
     IAuthEndpoint authEndpoint,
-    IWebsocketEndpoint webSocketEndpoint
+    IWebSocketEndpoint webSocketEndpoint
 ) : IMedRunnerApiClient
 {
     /// <inheritdoc />
@@ -43,5 +43,5 @@ public class MedRunnerApiClient(
     public IAuthEndpoint Auth { get; } = authEndpoint;
 
     /// <inheritdoc />
-    public IWebsocketEndpoint WebSocket { get; } = webSocketEndpoint;
+    public IWebSocketEndpoint WebSocket { get; } = webSocketEndpoint;
 }
