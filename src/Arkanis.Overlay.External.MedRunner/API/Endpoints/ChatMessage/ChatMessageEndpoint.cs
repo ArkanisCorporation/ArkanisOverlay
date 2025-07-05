@@ -6,6 +6,7 @@ using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Models;
+using Request;
 
 /// <inheritdoc cref="IChatMessageEndpoint" />
 public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
@@ -16,8 +17,8 @@ public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenP
         => "chatMessage";
 
     /// <inheritdoc />
-    public async Task<ApiResponse<ChatMessage>> GetMessageAsync(string id)
-        => await GetRequestAsync<ChatMessage>(id);
+    public async Task<ApiResponse<ChatMessage>> GetMessageAsync(string messageId)
+        => await GetRequestAsync<ChatMessage>(messageId);
 
     /// <inheritdoc />
     public async Task<ApiResponse<ApiPaginatedResponse<ChatMessage>>> GetMessageHistoryAsync(string emergencyId, int limit, string? paginationToken = null)
@@ -35,17 +36,17 @@ public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenP
     }
 
     /// <inheritdoc />
-    public async Task<ApiResponse<ChatMessage>> SendMessageAsync(object message)
-        => await PostRequestAsync<ChatMessage>("", message);
+    public async Task<ApiResponse<ChatMessage>> SendMessageAsync(ChatMessageRequest request)
+        => await PostRequestAsync<ChatMessage>("", request);
 
     /// <inheritdoc />
-    public async Task<ApiResponse<ChatMessage>> UpdateMessageAsync(string id, string contents)
+    public async Task<ApiResponse<ChatMessage>> UpdateMessageAsync(string messageId, string contents)
     {
         var payload = new { contents };
-        return await PutRequestAsync<ChatMessage>(id, payload);
+        return await PutRequestAsync<ChatMessage>(messageId, payload);
     }
 
     /// <inheritdoc />
-    public async Task<ApiResponse<string>> DeleteMessageAsync(string id)
-        => await DeleteRequestAsync<string>(id);
+    public async Task<ApiResponse<string>> DeleteMessageAsync(string messageId)
+        => await DeleteRequestAsync<string>(messageId);
 }

@@ -69,11 +69,7 @@
 
         await PerformSafeAsync(async () =>
             {
-#if DEBUG
-                await Task.Delay(TimeSpan.FromMilliseconds(250));
-#else
-                await MedRunner.Emergency.RateServicesAsync(EmergencyId, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
-#endif
+                await MedRunner.Emergency.RateServicesAsync(EmergencyId!, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
                 await ContextChanged.InvokeAsync(Context);
             }
         );

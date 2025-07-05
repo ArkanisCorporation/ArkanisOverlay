@@ -1,7 +1,6 @@
 @using System.Diagnostics.CodeAnalysis
 @using System.Text
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@using Arkanis.Overlay.External.MedRunner.API
 @using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
@@ -89,39 +88,8 @@
                     Location = CreateMedRunnerLocation(ClosestLocation),
                     ThreatLevel = _threatLevel.Value,
                 };
-#if DEBUG
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-                var emergencyResponse = new ApiResponse<Emergency>
-                {
-                    Data = new Emergency
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        System = request.Location.System,
-                        Subsystem = request.Location.Subsystem,
-                        ClientRsiHandle = Context.ClientInfo?.RsiHandle ?? "unknown",
-                        SubscriptionTier = "basic",
-                        Status = MissionStatus.Accepted,
-                        AcceptedTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                        RespondingTeam = new RespondingTeam
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Name = "Flying Dutchman",
-                        },
-                        RespondingTeams =
-                        [
-                            new RespondingTeam
-                            {
-                                Id = Guid.NewGuid().ToString(),
-                                Name = "Flying Dutchman",
-                            },
-                        ],
-                        CreationTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                    },
-                    Success = true,
-                };
-#else
-                //var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
-#endif
+                var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
+
                 if (!emergencyResponse.Success)
                 {
                     Context.Errors.Add(emergencyResponse.ErrorMessage);
