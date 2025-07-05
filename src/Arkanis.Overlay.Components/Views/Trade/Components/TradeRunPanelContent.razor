@@ -1,0 +1,208 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inherits TradeRunComponent
+@inject IInventoryManager InventoryManager
+@inject IDialogService DialogService
+
+<MudExpansionPanels MultiExpansion
+                    Gutters="false"
+                    Class="stages">
+    @{ var isFirstIncomplete = true; }
+    @foreach (var stage in TradeRun.Stages)
+    {
+        var isIncomplete = stage.FinalizedAt is null;
+        var isCurrentlyInProgress = isIncomplete && isFirstIncomplete;
+        if (isCurrentlyInProgress && stage.StartedAt is null)
+        {
+            stage.StartedAt = DateTimeOffset.Now;
+            _ = UpdateRunAsync();
+        }
+
+        <MudExpansionPanel @key="@stage"
+                           Tag="@stage"
+                           Gutters="false"
+                           Disabled="@isIncomplete"
+                           Expanded="@isCurrentlyInProgress"
+                           HideIcon="@isIncomplete">
+            <TitleContent>
+                <MudStack Row>
+                    @if (isCurrentlyInProgress)
+                    {
+                        <MudProgressCircular
+                            Style="animation-duration: 8s;"
+                            Color="@Color.Warning"
+                            Size="@Size.Small"
+                            Indeterminate/>
+                    }
+                    else if (isIncomplete)
+                    {
+                        <MudIcon
+                            Icon="@MaterialIcons.Filled.HourglassTop"/>
+                    }
+                    else
+                    {
+                        <MudIcon
+                            Icon="@MaterialIcons.Filled.CheckCircle"
+                            Color="@Color.Success"/>
+                    }
+                    <MudText Class="text-primary">
+                        @stage.Title
+                    </MudText>
+                </MudStack>
+            </TitleContent>
+            <ChildContent>
+                <MudDivider/>
+
+                <TradeRunStageStepper
+                    Stage="@stage"
+                    StageChanged="@UpdateRunAsync"
+                    TradeRun="@TradeRun"/>
+            </ChildContent>
+        </MudExpansionPanel>
+
+        if (isIncomplete)
+        {
+            isFirstIncomplete = false;
+        }
+    }
+
+    <MudExpansionPanel Gutters="false"
+                       Expanded="@AllStagesComplete"
+                       Disabled="@AllStagesComplete"
+                       HideIcon="@AllStagesComplete">
+        <TitleContent>
+            <MudStack Row>
+                <MudIcon
+                    Icon="@MaterialIcons.Filled.FileOpen"/>
+                <MudText Class="text-primary">
+                    Run Summary and Finalization
+                </MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider/>
+
+            <TradeRunSummary TradeRun="@TradeRun"
+                             TradeRunChanged="@UpdateRunAsync">
+                <ControlsContent>
+                    @if (!TradeRun.FinalizedAt.HasValue)
+                    {
+                        @if (TradeRun.HasUnsoldCargo)
+                        {
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunAsync"
+                                       Color="@Color.Error">
+                                Finalize - remaining cargo lost
+                            </MudButton>
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunCargoKeptAsync"
+                                       Color="@Color.Warning"
+                                       Disabled="@(IsInProgress && !TradeRun.HasUnsoldCargo)">
+                                Finalize - keep cargo in the inventory
+                            </MudButton>
+                            <MudButton Class="w-100"
+                                       OnClick="ContinueAtLastLocationAsync"
+                                       Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Disabled="@IsInProgress">
+                                Continue at the current location and wait
+                            </MudButton>
+                            <MudButton Class="w-100"
+                                       OnClick="ContinueToDifferentLocationAsync"
+                                       Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Disabled="@IsInProgress">
+                                Continue to a different destination
+                            </MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Class="w-100"
+                                       OnClick="FinalizeRunAsync"
+                                       Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Disabled="@IsInProgress">
+                                Finalize
+                            </MudButton>
+                        }
+                    }
+                </ControlsContent>
+            </TradeRunSummary>
+        </ChildContent>
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code
+{
+    private bool AllStagesComplete
+        => TradeRun.Stages.All(x => x.FinalizedAt is not null);
+
+    private bool IsInProgress
+        => !AllStagesComplete;
+
+    private async Task FinalizeRunAsync()
+    {
+        TradeRun.FinalizedAt = DateTimeOffset.Now;
+        await UpdateRunAsync();
+    }
+
+    private async Task FinalizeRunCargoKeptAsync()
+    {
+        foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
+        {
+            await InventoryManager.AddOrUpdateEntryAsync(InventoryEntry.Create(unsoldQuantity));
+        }
+
+        await FinalizeRunAsync();
+    }
+
+    private async Task ContinueAtLastLocationAsync()
+    {
+        if (TradeRun.Sales.LastOrDefault() is not TradeRun.TerminalSaleStage lastSale)
+        {
+            return;
+        }
+
+        foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
+        {
+            // TODO: potential mismatch of commodity-terminal in case of multiple commodities
+            var stage = TradeRun.TerminalSaleStage.CreateRetry(lastSale, unsoldQuantity);
+            TradeRun.Sales.Add(stage);
+        }
+
+        await UpdateRunAsync();
+    }
+
+    private async Task ContinueToDifferentLocationAsync()
+    {
+        foreach (var unsoldQuantity in TradeRun.UnsoldQuantities)
+        {
+            var selectedTradeRoute = await TradeDestinationSearchDialog.ShowAsync(
+                DialogService,
+                new TradeDestinationSearchDialog.Parameters
+                {
+                    Commodity = unsoldQuantity.Reference.Entity as GameCommodity,
+                    QuantityAmount = unsoldQuantity.Amount,
+                    Exclude = location => TradeRun.Sales.OfType<IGameLocatedAt>().Any(x => x.Location.IsOrContains(location)),
+                }
+            );
+
+            if (selectedTradeRoute is null)
+            {
+                continue;
+            }
+
+            var runContext = new TradeRun.Context
+            {
+                Version = TradeRun.Version,
+                Vehicle = TradeRun.Vehicle,
+                Quantity = unsoldQuantity,
+            };
+            var stage = TradeRun.TerminalSaleStage.Create(selectedTradeRoute, runContext);
+            TradeRun.Sales.Add(stage);
+        }
+
+        await UpdateRunAsync();
+    }
+
+}

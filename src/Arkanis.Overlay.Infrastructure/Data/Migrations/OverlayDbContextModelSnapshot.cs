@@ -126,6 +126,123 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.ToTable("InventoryLists");
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.OwnableEntityReferenceEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EntityId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("QuantityOfId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuantityOfId")
+                        .IsUnique();
+
+                    b.ToTable("OwnableEntityReferences", (string)null);
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("TradeRunStageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Unit")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TradeRunStageId")
+                        .IsUnique();
+
+                    b.ToTable("Quantities", (string)null);
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset?>("FinalizedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VehicleId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Version")
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TradeRuns");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CargoTransferFee")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CargoTransferType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset?>("FinalizedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRetry")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PricePerUnit")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("ReachedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset?>("StartedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("TradeRunId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset?>("TransferredAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TradeRunStages", (string)null);
+
+                    b.HasDiscriminator().HasValue("Stage");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalCommodityInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
@@ -166,6 +283,116 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.HasDiscriminator().HasValue("Virtual_Item");
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage");
+
+                    b.Property<DateTimeOffset?>("AcquiredAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasIndex("TradeRunId");
+
+                    b.HasDiscriminator().HasValue("AcquisitionStage");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+SaleStage", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage");
+
+                    b.Property<DateTimeOffset?>("SoldAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasIndex("TradeRunId");
+
+                    b.HasDiscriminator().HasValue("SaleStage");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage");
+
+                    b.Property<string>("TerminalId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TerminalId");
+
+                    b.ComplexProperty<Dictionary<string, object>>("UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("MaxContainerSize")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("StockStatus")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<bool>("UserConfirmed")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.ComplexProperty<Dictionary<string, object>>("Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
+                                {
+                                    b2.IsRequired();
+
+                                    b2.Property<int>("Amount")
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("INTEGER");
+
+                                    b2.Property<int>("Unit")
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("INTEGER");
+                                });
+                        });
+
+                    b.HasDiscriminator().HasValue("TerminalPurchaseStage");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+SaleStage");
+
+                    b.Property<string>("TerminalId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TerminalId");
+
+                    b.ComplexProperty<Dictionary<string, object>>("UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("MaxContainerSize")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("StockStatus")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<bool>("UserConfirmed")
+                                .ValueGeneratedOnUpdateSometimes()
+                                .HasColumnType("INTEGER");
+
+                            b1.ComplexProperty<Dictionary<string, object>>("Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
+                                {
+                                    b2.IsRequired();
+
+                                    b2.Property<int>("Amount")
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("INTEGER");
+
+                                    b2.Property<int>("Unit")
+                                        .ValueGeneratedOnUpdateSometimes()
+                                        .HasColumnType("INTEGER");
+                                });
+                        });
+
+                    b.HasDiscriminator().HasValue("TerminalSaleStage");
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", b =>
                 {
                     b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListEntity", "List")
@@ -176,9 +403,62 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.Navigation("List");
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.OwnableEntityReferenceEntity", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", null)
+                        .WithOne("Reference")
+                        .HasForeignKey("Arkanis.Overlay.Infrastructure.Data.Entities.OwnableEntityReferenceEntity", "QuantityOfId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage", null)
+                        .WithOne("Quantity")
+                        .HasForeignKey("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", "TradeRunStageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", null)
+                        .WithMany("Acquisitions")
+                        .HasForeignKey("TradeRunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+SaleStage", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", null)
+                        .WithMany("Sales")
+                        .HasForeignKey("TradeRunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListEntity", b =>
                 {
                     b.Navigation("Entries");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", b =>
+                {
+                    b.Navigation("Reference")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", b =>
+                {
+                    b.Navigation("Acquisitions");
+
+                    b.Navigation("Sales");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage", b =>
+                {
+                    b.Navigation("Quantity")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

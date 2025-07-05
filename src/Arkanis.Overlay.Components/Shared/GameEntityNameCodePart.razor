@@ -1,6 +1,7 @@
 <MudText HtmlTag="code"
+         Typo="@Typo"
          Color="@Color.Secondary"
-         Style="@CodeCss">
+         Style="@CodeStyle">
     @if (PrefixContent is not null)
     {
         <span>@PrefixContent</span>
@@ -13,10 +14,10 @@
 @code
 {
 
-    private string CodeCss
-        => $"font-family: monospace; height: 18px; {NameCss}; {Style}";
+    private string CodeStyle
+        => $"font-family: monospace; {NameStyle}; {Style}";
 
-    private string NameCss
+    private string NameStyle
         => !Embedded
             ? "font-weight: bold"
             : "font-weight: lighter";
@@ -27,6 +28,9 @@
 
     [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.body1;
 
     [Parameter]
     public string? Style { get; set; }

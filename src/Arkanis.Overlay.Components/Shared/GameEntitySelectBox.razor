@@ -1,6 +1,4 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@using Arkanis.Overlay.Domain.Enums
-@using Arkanis.Overlay.Domain.Models.Search
 @inject ISearchService SearchService
 
 <MudAutocomplete Label="@Label"
@@ -13,6 +11,7 @@
                  Clearable="@(!Required)"
                  Required="@Required"
                  CoerceText="false"
+                 PopoverClass="width-min-content"
                  SearchFunc="@FindLocationsAsync">
     <ItemTemplate>
         @if (context is not null)
@@ -51,6 +50,9 @@
     public GameEntityCategory EntityCategory { get; set; }
 
     [Parameter]
+    public GameEntityCategory[] EntityCategories { get; set; } = [];
+
+    [Parameter]
     public Func<IGameEntity, bool> Accept { get; set; } = _ => true;
 
     [Parameter]
@@ -73,6 +75,11 @@
         if (EntityCategory is not GameEntityCategory.Undefined)
         {
             queries = queries.Append(new EntityCategorySearch(EntityCategory));
+        }
+
+        foreach (var category in EntityCategories)
+        {
+            queries = queries.Append(new EntityCategorySearch(category, false));
         }
 
         if (searchText is not null)

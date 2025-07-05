@@ -15,6 +15,11 @@ public class GameCommodity(int id, string fullName, string codeName)
     public UexId<GameCommodity> StrongId
         => (Id as UexId<GameCommodity>)!;
 
+    public bool IsIllegal { get; init; }
+
+    public bool IsLegal
+        => !IsIllegal;
+
     public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode(fullName, codeName));
 
     public Bounds<PriceTag> LatestPurchasePrices { get; private set; } = new(PriceTag.Unknown, PriceTag.Unknown, PriceTag.Unknown);

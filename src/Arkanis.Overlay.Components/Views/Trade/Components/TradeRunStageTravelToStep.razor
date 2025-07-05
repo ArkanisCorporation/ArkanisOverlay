@@ -1,0 +1,109 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Infrastructure.Helpers
+@using MudBlazor.Utilities
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .image-author {
+        position: absolute;
+        bottom: .5em;
+        right: 1em;
+    }
+
+    .mud-expand-panel:not(.mud-panel-expanded) .image-author {
+        display: none;
+    }
+</style>
+
+<MudStep Title="@StepTitle"
+         Style="@_style"
+         Completed="@IsCompleted"
+         Disabled="@IsDisabled">
+    @if (Location.ImageAuthor is not null)
+    {
+        <MudText Typo="@Typo.caption"
+                 Class="image-author text-secondary">
+            Screenshot by
+            <MudLink Typo="@Typo.inherit"
+                     Href="@ExternalLinkHelper.GetUexUserLink(Location.ImageAuthor, "screenshot_attribution")"
+                     Target="_blank">
+                @Location.ImageAuthor (UEX)
+            </MudLink>
+        </MudText>
+    }
+    <MudStack AlignItems="@AlignItems.Center"
+              Justify="@Justify.Center"
+              Spacing="6">
+        <MudStack AlignItems="AlignItems.Center"
+                  Spacing="0">
+            <MudText Typo="@Typo.h5">
+                @Title
+            </MudText>
+            <MudText Typo="@Typo.body2">
+                @Description
+            </MudText>
+        </MudStack>
+        <GameEntityNameLabel
+            Model="@PreferredLocation.Name"/>
+        <MudButton StartIcon="@MaterialIcons.Filled.FlightLand"
+                   OnClick="@OnReachedClick"
+                   Color="@Color.Success"
+                   Size="@Size.Large"
+                   Disabled="@IsDisabled">
+            I am at the location
+        </MudButton>
+    </MudStack>
+</MudStep>
+
+@code
+{
+
+    private const string StyleBase = "background-size: cover; background-blend-mode: overlay; background-position: center;";
+
+    private string _style = string.Empty;
+
+    private bool IsCompleted
+        => Stage.ReachedAt is not null;
+
+    private bool IsDisabled
+        => IsCompleted || Stage.FinalizedAt is not null;
+
+    private IGameLocation PreferredLocation
+        => PreferParentLocation
+            ? Location.ParentLocation ?? Location
+            : Location;
+
+    [Parameter]
+    [EditorRequired]
+    public required IGameLocation Location { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Travel";
+
+    [Parameter]
+    public string Description { get; set; } = "Travel to the target location at";
+
+    [Parameter]
+    public string StepTitle { get; set; } = "Travel";
+
+    [Parameter]
+    public bool PreferParentLocation { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        _style = StyleBuilder.Default(StyleBase)
+            .AddStyle("background-color", "rgba(0,0,0,0.75)", Location.ImageUrl is not null)
+            .AddStyle("background-image", $"url({Location.ImageUrl})")
+            .Build();
+
+        base.OnParametersSet();
+    }
+
+    private async Task OnReachedClick()
+    {
+        Stage.ReachedAt = DateTimeOffset.Now;
+        await NextStepAsync();
+    }
+
+}

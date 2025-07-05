@@ -1,5 +1,5 @@
 @using Arkanis.Overlay.Common.Abstractions
-@using Humanizer
+@using Arkanis.Overlay.Infrastructure.Helpers
 @using Humanizer.Localisation
 @implements IDisposable
 @inject IAppVersionProvider VersionProvider
@@ -126,7 +126,7 @@
                 Arkanis Corporation is a fictional entity within the Star Citizen universe and is not associated with
                 any real-world company.
                 Partnered with
-                <a href="https://uexcorp.space/" target="_blank">UEX Corporation</a>
+                <a href="@ExternalLinkHelper.GetUexLink("about")" target="_blank">UEX Corporation</a>
                 .
             </MudText>
         </MudStack>

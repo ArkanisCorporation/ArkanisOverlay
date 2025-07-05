@@ -8,5 +8,6 @@ public static class DependencyInjection
         => services.AddSingleton<UexApiDtoMapper>();
 
     internal static IServiceCollection AddDatabaseMappers(this IServiceCollection services)
-        => services.AddSingleton<InventoryEntityMapper>();
+        => services.AddSingleton<InventoryEntityMapper>()
+            .AddSingleton<TradeRunEntityMapper>();
 }

@@ -1,4 +1,8 @@
-<GameEntityNameLabel Model="@Model.EntityName" Embedded="@Embedded"/>
+<GameEntityNameLabel
+    Model="@Model.EntityName"
+    Typo="@Typo"
+    Embedded="@Embedded"
+    PreferShort="@PreferShort"/>
 
 @code
 {
@@ -7,6 +11,12 @@
     public required GameEntityName.CompanyReference Model { get; set; }
 
     [Parameter]
+    public Typo? Typo { get; set; }
+
+    [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public bool PreferShort { get; set; }
 
 }

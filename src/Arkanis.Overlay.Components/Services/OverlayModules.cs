@@ -1,8 +1,10 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using Domain.Abstractions.Services;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
+using MudBlazor.FontIcons.MaterialSymbols;
 
 public class OverlayModules
 {
@@ -12,7 +14,7 @@ public class OverlayModules
         {
             Url = "/search",
             Name = "Search",
-            Icon = Icons.Material.Filled.Search,
+            Icon = Outlined.Search,
         },
         new()
         {
@@ -25,6 +27,52 @@ public class OverlayModules
                 return await inventoryManager.GetUnassignedCountAsync();
             },
         },
+        new()
+        {
+            Url = "/trade",
+            Name = "Trade",
+            Icon = Outlined.Storefront,
+            GetUpdateCountAsync = async serviceProvider =>
+            {
+                var inventoryManager = serviceProvider.GetRequiredService<ITradeRunManager>();
+                return await inventoryManager.GetInProgressCountAsync();
+            },
+        },
+        new()
+        {
+            Url = "/mining",
+            Name = "Mining",
+            Icon = Outlined.Deblur,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/market",
+            Name = "Market",
+            Icon = Outlined.Store,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/hangar",
+            Name = "Hangar",
+            Icon = Outlined.GarageDoor,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/org",
+            Name = "Org",
+            Icon = Icons.Material.Filled.Groups,
+            Disabled = true,
+        },
+        new()
+        {
+            Url = "/settings",
+            Name = "Settings",
+            Icon = Outlined.Settings,
+            Disabled = true,
+        },
     ];
 
     public ICollection<Entry> GetAll()
@@ -35,8 +83,12 @@ public class OverlayModules
         public required string Url { get; init; }
         public required string Name { get; init; }
 
+        public bool Disabled { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
 
         public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } = _ => ValueTask.FromResult(0);
+
+        public string GetAbsoluteUri(NavigationManager navigationManager)
+            => navigationManager.ToAbsoluteUri(Url).ToString();
     }
 }

@@ -1,0 +1,26 @@
+@using System.Globalization
+@GameValue.ToString(Format, CultureInfo)<span class="@SuffixClass">@Suffix</span>
+
+@code
+{
+
+    private DateTimeOffset GameValue
+        => Model.AddYears(ApplicationConstants.GameTimeYearOffset);
+
+    [Parameter]
+    [EditorRequired]
+    public DateTimeOffset Model { get; set; }
+
+    [Parameter]
+    public string? Suffix { get; set; } = ", Earth, Sol System";
+
+    [Parameter]
+    public string? SuffixClass { get; set; }
+
+    [Parameter]
+    public string Format { get; set; } = "F";
+
+    [Parameter]
+    public CultureInfo CultureInfo { get; set; } = CultureInfo.CurrentUICulture;
+
+}

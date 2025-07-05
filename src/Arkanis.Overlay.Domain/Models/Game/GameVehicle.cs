@@ -1,9 +1,11 @@
 namespace Arkanis.Overlay.Domain.Models.Game;
 
 using System.ComponentModel;
+using System.Globalization;
 using Abstractions.Game;
 using Attributes;
 using Enums;
+using Humanizer;
 using Search;
 using Trade;
 
@@ -17,13 +19,30 @@ public abstract class GameVehicle(
     GameEntityCategory vehicleCategory
 ) : GameEntity(UexApiGameEntityId.Create<GameVehicle>(id), vehicleCategory), IGameManufactured, IGamePurchasable, IGameRentable
 {
+    private GameEntityName? _name;
+
+    public int CargoCapacity { get; init; }
+
+    public GameContainerSize MaxContainerSize { get; init; }
+
+    public GamePadSize PadSize { get; init; }
+
+    public bool SupportsDocking { get; init; }
+    public bool SupportsCargoDeck { get; init; }
+
     public GameCompany Manufacturer
         => manufacturer;
 
-    public override GameEntityName Name { get; } = new(
-        new GameEntityName.CompanyReference(manufacturer),
-        new GameEntityName.NameWithShortVariant(fullName, shortName)
-    );
+    public override GameEntityName Name
+        => _name ??= new GameEntityName(
+            new GameEntityName.NameWithShortVariant(fullName, shortName),
+            new GameEntityName.CompanyReference(manufacturer),
+            new GameEntityName.PropertyCollection(
+                new GameEntityName.PropertyItem("Capacity (SCU)", CargoCapacity.ToString(CultureInfo.CurrentCulture)),
+                new GameEntityName.PropertyItem("Max. Container", MaxContainerSize.Humanize()),
+                new GameEntityName.PropertyItem("Pad Size", PadSize.Humanize())
+            )
+        );
 
     public GameTerminalType TerminalType
         => GameTerminalType.Item;

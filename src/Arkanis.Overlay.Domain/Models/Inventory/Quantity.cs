@@ -17,6 +17,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         Count,
     }
 
+    public static Quantity Zero
+        => new(0, UnitType.Count);
+
     public static Quantity Default
         => new(1, UnitType.Count);
 
@@ -47,6 +50,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
             : Amount.CompareTo(other.Amount);
     }
 
+    public static Quantity FromScu(int amountScu)
+        => new(amountScu, UnitType.StandardCargoUnit);
+
     public static IEnumerable<Quantity> Aggregate(IEnumerable<Quantity> quantities)
         => quantities.GroupBy(x => x.Unit)
             .Select(group => new Quantity(group.Sum(quantity => quantity.Amount), group.Key));
@@ -76,4 +82,45 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         => ReferenceEquals(left, null)
             ? ReferenceEquals(right, null)
             : left.CompareTo(right) >= 0;
+
+
+    public static Quantity operator +(Quantity left, Quantity right)
+    {
+        if (ReferenceEquals(left, null))
+        {
+            return right;
+        }
+
+        if (ReferenceEquals(right, null))
+        {
+            return left;
+        }
+
+        if (left.Unit != right.Unit)
+        {
+            throw new ArgumentException($"Quantity units do not match: {left} != {right}", nameof(right));
+        }
+
+        return new Quantity(left.Amount + right.Amount, left.Unit);
+    }
+
+    public static Quantity operator -(Quantity left, Quantity right)
+    {
+        if (ReferenceEquals(left, null))
+        {
+            throw new ArgumentNullException(nameof(left), "Cannot subtract from null");
+        }
+
+        if (ReferenceEquals(right, null))
+        {
+            return left;
+        }
+
+        if (left.Unit != right.Unit)
+        {
+            throw new ArgumentException($"Quantity units do not match: {left} - {right}", nameof(right));
+        }
+
+        return new Quantity(left.Amount - right.Amount, left.Unit);
+    }
 }

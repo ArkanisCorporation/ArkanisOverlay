@@ -1,0 +1,231 @@
+@using Arkanis.Overlay.Components.Views.Trade.Components
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject ITradeRunManager TradeRunManager
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-paper,
+    .mud-expansion-panels {
+        animation: 250ms fadeInDown;
+    }
+
+    .trade-runs {
+        min-width: 60vw;
+        border-radius: var(--mud-default-borderradius) !important;
+
+        .mud-datagrid-group-button {
+            display: none;
+        }
+
+        .mud-table-child-content {
+            padding: 0 !important;
+        }
+
+        .game-entity-name {
+            height: fit-content;
+
+            > .d-flex {
+                height: fit-content;
+            }
+        }
+    }
+</style>
+
+<MudPaper>
+    <MudDataGrid Items="@TradeRuns"
+                 Class="trade-runs bg-gray"
+                 Groupable
+                 GroupExpanded
+                 Dense>
+        <Columns>
+            <PropertyColumn Title="Date"
+                            Property="@(x => x.CreatedAt)"
+                            GroupBy="@(x => x.CreatedAt.Date)"
+                            Grouping>
+                <GroupTemplate>
+                    @{ var key = (DateTime)context.Grouping.Key!; }
+                    <MudStack AlignItems="@AlignItems.Start"
+                              Spacing="0"
+                              Class="w-100 py-2">
+                        <MudText Typo="@Typo.h5">
+                            <GameTimeLabel
+                                Model="@key"
+                                SuffixClass="text-secondary"
+                                Format="D"/>
+                        </MudText>
+                        <span class="text-secondary">
+                        @((DateTimeOffset.Now - key).Humanize())
+                            ago
+                    </span>
+                    </MudStack>
+                </GroupTemplate>
+                <CellTemplate>
+                    <GameTimeLabel
+                        Model="@context.Item.CreatedAt"
+                        SuffixClass="text-secondary"
+                        Format="f"/>
+                </CellTemplate>
+            </PropertyColumn>
+            <TemplateColumn Title="Description"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())">
+                <CellTemplate>
+                    <TradeRunLabel
+                        Model="@context.Item"/>
+                </CellTemplate>
+                <AggregateTemplate>
+                    <MudStack Spacing="0">
+                    <span>
+                        @context.SelectMany(x => x.Acquisitions).Select(x => x.Quantity.Reference.EntityId).Distinct().Count()
+                        <span style="font-weight: normal">
+                            commodities
+                        </span>
+                    </span>
+                        <span>
+                        @context.SelectMany(x => x.Stages.OfType<IGameLocatedAt>()).Select(x => x.Location.Id).Distinct().Count()
+                            <span style="font-weight: normal">
+                            locations
+                        </span>
+                    </span>
+                    </MudStack>
+                </AggregateTemplate>
+            </TemplateColumn>
+            <TemplateColumn Title="Vehicle"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())">
+                <CellTemplate>
+                    @if (context.Item.Vehicle?.Name is { } vehicleName)
+                    {
+                        <GameEntityNameLabel
+                            Model="@vehicleName"
+                            Typo="@Typo.inherit"
+                            Style="height: fit-content"
+                            Embedded
+                            PreferShort/>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">N/A</span>
+                    }
+                </CellTemplate>
+                <AggregateTemplate>
+                <span>
+                    @context.Where(x => x.Vehicle != null).Select(x => x.Vehicle).Distinct().Count()
+                    <span style="font-weight: normal">
+                        vehicles
+                    </span>
+                </span>
+                </AggregateTemplate>
+            </TemplateColumn>
+            <PropertyColumn Title="Length"
+                            Property="@(x => x.Length)"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())"
+                            HeaderClass="text-right flex-row-reverse pr-4"
+                            CellClass="text-right pr-4"
+                            FooterClass="text-right pr-4">
+                <CellTemplate>
+                    @if (context.Item.FinalizedAt.HasValue)
+                    {
+                        @context.Item.Length.Humanize()
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.inherit"
+                                 Color="Color.Warning">
+                            In Progress
+                        </MudText>
+                    }
+                </CellTemplate>
+                <AggregateTemplate>
+                    @context.Aggregate(TimeSpan.Zero, (a, b) => a + b.Length).Humanize()
+                </AggregateTemplate>
+            </PropertyColumn>
+            <PropertyColumn Title="Acquired"
+                            Property="@(x => x.AcquiredQuantities)"
+                            SortBy="@(x => Quantity.Aggregate(x.AcquiredQuantities).FirstOrDefault(Quantity.Zero))"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())"
+                            HeaderClass="text-right flex-row-reverse pr-4"
+                            CellClass="text-right pr-4"
+                            FooterClass="text-right pr-4">
+                <CellTemplate>
+                    <QuantityAggregateLabel
+                        Models="@context.Item.AcquiredQuantities"/>
+                </CellTemplate>
+                <AggregateTemplate>
+                    <QuantityAggregateLabel
+                        Models="@context.SelectMany(x => x.AcquiredQuantities)"/>
+                </AggregateTemplate>
+            </PropertyColumn>
+            <PropertyColumn Title="Sold"
+                            Property="@(x => x.SoldQuantities)"
+                            SortBy="@(x => Quantity.Aggregate(x.SoldQuantities).FirstOrDefault(Quantity.Zero))"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())"
+                            HeaderClass="text-right flex-row-reverse pr-4"
+                            CellClass="text-right pr-4"
+                            FooterClass="text-right pr-4">
+                <CellTemplate>
+                    <QuantityAggregateLabel
+                        Models="@context.Item.SoldQuantities"/>
+                </CellTemplate>
+                <AggregateTemplate>
+                    <QuantityAggregateLabel
+                        Models="@context.SelectMany(x => x.SoldQuantities)"/>
+                </AggregateTemplate>
+            </PropertyColumn>
+            <PropertyColumn Title="Profit"
+                            Property="@(x => x.CurrentProfit)"
+                            AggregateDefinition="@(new AggregateDefinition<TradeRun>())"
+                            SortBy="@(x => x.CurrentProfit.Amount)"
+                            HeaderClass="text-right flex-row-reverse pr-4"
+                            CellClass="text-right pr-4"
+                            FooterClass="text-right pr-4">
+                <CellTemplate>
+                    <GameCurrencyLabel
+                        Model="@context.Item.CurrentProfit"
+                        UseColour/>
+                </CellTemplate>
+                <AggregateTemplate>
+                    <GameCurrencyLabel
+                        Model="@context.Aggregate(GameCurrency.Zero, (a, b) => a + b.CurrentProfit)"
+                        UseColour/>
+                </AggregateTemplate>
+            </PropertyColumn>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudToggleIconButton
+                        Size="@Size.Small"
+                        Icon="@Icons.Material.Filled.ExpandMore"
+                        ToggledIcon="@Icons.Material.Filled.ExpandLess"
+                        @bind-Toggled="@TradeRunExpanded[context.Item!.Id]"/>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+        <ChildRowContent>
+            @if (TradeRunExpanded[context.Item.Id])
+            {
+                <TradeRunSummary TradeRun="@context.Item"/>
+            }
+        </ChildRowContent>
+        <NoRecordsContent>
+            <MudText Class="text-secondary" Align="Align.Center">
+                The trade ledger is currently empty.
+            </MudText>
+        </NoRecordsContent>
+    </MudDataGrid>
+</MudPaper>
+
+@code
+{
+
+    private Dictionary<TradeRunId, bool> TradeRunExpanded { get; } = [];
+
+    private List<TradeRun> TradeRuns { get; set; } = [];
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        var runs = await TradeRunManager.GetAllRunsAsync();
+        runs.ForEach(run => TradeRunExpanded[run.Id] = false);
+        TradeRuns = runs.OrderByDescending(x => x.CreatedAt).ToList();
+    }
+
+}

@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Domain.Models.Inventory;
 using Abstractions;
 using Abstractions.Game;
 using Game;
+using Trade;
 
 public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
 {
@@ -12,6 +13,14 @@ public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
 
 public static class InventoryEntry
 {
+    public static InventoryEntryBase Create(QuantityOf quantityOf, InventoryEntryList? list = null)
+        => quantityOf.Reference switch
+        {
+            OwnableEntityReference.Commodity reference => Create(reference.Entity, quantityOf, list),
+            OwnableEntityReference.Item reference => Create(reference.Entity, quantityOf, list),
+            _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {quantityOf.Reference}"),
+        };
+
     public static VirtualItemInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
         => new()
         {

@@ -1,0 +1,33 @@
+<MudTooltip Placement="@Placement">
+    <TooltipContent>
+        @if (TooltipContent is null)
+        {
+            <span>@Text</span>
+        }
+        else
+        {
+            @TooltipContent
+        }
+    </TooltipContent>
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+</MudTooltip>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? TooltipContent { get; set; }
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public Placement Placement { get; set; } = Placement.Top;
+
+}

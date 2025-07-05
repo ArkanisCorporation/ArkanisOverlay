@@ -1,0 +1,57 @@
+@implements IDisposable
+
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <div style="height: 33vh; overflow: auto">
+            <MudTimeline TimelinePosition="@TimelinePosition.Left"
+                         Style="min-height: 100%">
+                @foreach (var playerEvent in Events.OrderBy(x => x.OccuredAt))
+                {
+                    <TradeRunPlayerEventTimelineItem
+                        Model="@playerEvent"/>
+                }
+            </MudTimeline>
+        </div>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        @ChildContent
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+    private Timer? _timer;
+
+    protected override bool ShouldRender()
+        => true;
+
+    [Parameter]
+    [EditorRequired]
+    public required IEnumerable<TradeRun.PlayerEvent> Events { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _timer = new Timer(OnTimerTick, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
+    }
+
+    private async void OnTimerTick(object? _)
+    {
+        try
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    public void Dispose()
+        => _timer?.Dispose();
+}

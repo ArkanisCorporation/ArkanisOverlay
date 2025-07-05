@@ -17,7 +17,6 @@ public static class DependencyInjection
     {
         services
             .AddUexApiMappers()
-            .AddSingleton<UexServiceStateProvider>()
             .AddSingleton<GameEntityRepositoryDependencyResolver>()
             .Scan(scan => scan
                 .FromAssembliesOf(ReferenceSourceType)
@@ -30,6 +29,10 @@ public static class DependencyInjection
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime()
             );
+
+        services
+            .AddSingleton<UexServiceStateProvider>()
+            .Alias<IExternalServiceStateProvider, UexServiceStateProvider>();
 
         var syncServiceManagerType = typeof(GameEntityRepositorySyncManager<>);
         foreach (var gameEntityType in GameEntityConstants.GameEntityTypes)

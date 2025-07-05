@@ -1,0 +1,48 @@
+@using Arkanis.Overlay.Domain.Enums
+@using Humanizer
+<span class="no-wrap" style="@($"color: {GetColor()};")">
+    @Model.Humanize()
+</span>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TerminalInventoryStatus Model { get; set; }
+
+    [Parameter]
+    public bool IsPurchase { get; set; }
+
+    [Parameter]
+    public bool IsSale { get; set; }
+
+    public string GetColor()
+        => this switch
+        {
+            { IsPurchase: true } => Model switch
+            {
+                TerminalInventoryStatus.OutOfStock => "var(--mud-palette-error)",
+                TerminalInventoryStatus.VeryLow => Colors.Red.Lighten3,
+                TerminalInventoryStatus.Low => "var(--mud-palette-warning)",
+                TerminalInventoryStatus.Medium => Colors.Amber.Default,
+                TerminalInventoryStatus.High => Colors.Green.Lighten3,
+                TerminalInventoryStatus.VeryHigh => Colors.Green.Lighten1,
+                TerminalInventoryStatus.Maximum => "var(--mud-palette-success)",
+                _ => "var(--mud-palette-text-secondary)",
+            },
+            { IsSale: true } => Model switch
+            {
+                TerminalInventoryStatus.OutOfStock => "var(--mud-palette-success)",
+                TerminalInventoryStatus.VeryLow => Colors.Green.Lighten1,
+                TerminalInventoryStatus.Low => Colors.Green.Lighten3,
+                TerminalInventoryStatus.Medium => Colors.Amber.Default,
+                TerminalInventoryStatus.High => "var(--mud-palette-warning)",
+                TerminalInventoryStatus.VeryHigh => Colors.Red.Lighten3,
+                TerminalInventoryStatus.Maximum => "var(--mud-palette-error)",
+                _ => "var(--mud-palette-text-secondary)",
+            },
+            _ => "var(--mud-palette-text-secondary)",
+        };
+
+}

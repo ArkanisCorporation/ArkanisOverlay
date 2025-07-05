@@ -1,48 +1,90 @@
 @using System.Collections.Concurrent
-@using Arkanis.Overlay.Domain.Models.Keyboard
 @using Microsoft.AspNetCore.Components.Routing
-@using MoreLinq
 @implements IDisposable
 @inject IServiceProvider ServiceProvider
 @inject NavigationManager NavigationManager
 @inject OverlayModules OverlayModules
 
-<MudStack Class="@Class" Style="@Style" Row="@Horizontal">
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .navigation-tabs {
+        .mud-tab.mud-tab-panel {
+            min-width: initial !important;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .mud-chip {
+            margin: 0;
+            height: 20px;
+        }
+    }
+</style>
+
+<MudTabs Class="with-badges navigation-tabs"
+         ActivePanelIndex="@ActiveModuleIndex">
     @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
         var moduleShortcut = GetKeyForIndex(moduleIndex);
         var isModuleActive = IsActive(module);
+        var isShortcutAvailable = !isModuleActive && !module.Disabled;
         var updateCount = GetUpdateCount(module);
-        <KeyboardShortcutBadge @key="@module.Name"
-                               Key="@moduleShortcut"
-                               IsActive="@(!isModuleActive)"
-                               OnKeyPress="@GetActivationCallbackFor(module)"
-                               Origin="@KeybindsOrigin"
-                               Elevation="4"
-                               DoNotOverlap="@DoNotOverlapKeybinds">
-            <MudBadge Content="@updateCount"
-                      Max="999"
-                      Color="@Color.Warning"
-                      Origin="@UpdatesOrigin"
-                      Overlap="@(!DoNotOverlapUpdates)"
-                      Visible="@(updateCount > 0)">
-                <MudButton Variant="@Variant.Filled"
-                           Color="@Color.Primary"
-                           StartIcon="@module.Icon"
-                           OnClick="@GetActivationCallbackFor(module)"
-                           Disabled="@isModuleActive">
+
+        <MudTabPanel @key="@module.Url"
+                     Icon="@module.Icon"
+                     OnClick="@GetActivationCallbackFor(module)"
+                     Disabled="@module.Disabled">
+            <TabWrapperContent>
+                <KeyboardShortcutBadge @key="@module.Name"
+                                       Key="@moduleShortcut"
+                                       IsActive="@isShortcutAvailable"
+                                       OnKeyPress="@GetActivationCallbackFor(module)"
+                                       Origin="@KeybindsOrigin"
+                                       Elevation="4"
+                                       DoNotOverlap="@DoNotOverlapKeybinds">
+                    @context
+                </KeyboardShortcutBadge>
+            </TabWrapperContent>
+            <TabContent>
+                <MudStack AlignItems="@AlignItems.Center"
+                          Spacing="3"
+                          Row>
+                    <MudIcon
+                        Icon="@module.Icon"/>
                     @module.Name
-                </MudButton>
-            </MudBadge>
-        </KeyboardShortcutBadge>
+                    @if (updateCount > 0)
+                    {
+                        <MudChip
+                            Size="@Size.Small"
+                            Value="@updateCount"
+                            Color="@Color.Warning"/>
+                    }
+                </MudStack>
+            </TabContent>
+        </MudTabPanel>
     }
-</MudStack>
+</MudTabs>
 
 @code
 {
 
     private Timer? _timer;
     private readonly ConcurrentDictionary<string, int> _moduleUpdates = [];
+    private string? _currentUri;
+
+    private string CurrentUri
+    {
+        get => _currentUri ?? NavigationManager.Uri;
+        set => _currentUri = value;
+    }
+
+    private int ActiveModuleIndex
+        => OverlayModules.GetAll()
+            .Index()
+            .Where(x => IsActive(x.Value))
+            .Select(x => x.Key)
+            .First();
 
     [Parameter]
     public string Class { get; set; } = string.Empty;
@@ -66,7 +108,7 @@
     public bool DoNotOverlapUpdates { get; set; }
 
     private bool IsActive(OverlayModules.Entry module)
-        => NavigationManager.Uri.StartsWith(NavigationManager.ToAbsoluteUri(module.Url).ToString());
+        => CurrentUri.StartsWith(module.GetAbsoluteUri(NavigationManager));
 
     protected override void OnInitialized()
     {
@@ -88,20 +130,23 @@
             }
 
             var updateTasks = OverlayModules.GetAll().Select(LoadAsync);
-            var changes = await Task.WhenAll(updateTasks);
-            if (changes.Any())
-            {
-                await InvokeAsync(StateHasChanged);
-            }
+            await Task.WhenAll(updateTasks);
         }
         catch (Exception)
         {
             // ignore
         }
+        finally
+        {
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private void OnLocationChangedAsync(object? _, LocationChangedEventArgs e)
-        => UpdateDataAsync(null);
+    {
+        CurrentUri = e.Location;
+        UpdateDataAsync(null);
+    }
 
     private KeyboardKey GetKeyForIndex(int index)
         => index < 12
@@ -112,7 +157,10 @@
         => EventCallback.Factory.Create(this, () => Activate(module));
 
     private void Activate(OverlayModules.Entry module)
-        => NavigationManager.NavigateTo(module.Url);
+    {
+        CurrentUri = module.GetAbsoluteUri(NavigationManager);
+        NavigationManager.NavigateTo(module.Url);
+    }
 
     private int GetUpdateCount(OverlayModules.Entry module)
         => _moduleUpdates.GetValueOrDefault(module.Name);

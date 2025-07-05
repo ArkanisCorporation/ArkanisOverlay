@@ -43,6 +43,7 @@ public static class DependencyInjection
             .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()
             .AddLocalInventoryManagementServices()
+            .AddLocalTradeRunManagementServices()
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();

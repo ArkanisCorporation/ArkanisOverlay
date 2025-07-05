@@ -92,14 +92,16 @@ public sealed record LocationSearch(IGameLocation Location) : SearchQuery
         };
 }
 
-public sealed record EntityCategorySearch(GameEntityCategory Category) : SearchQuery
+public sealed record EntityCategorySearch(GameEntityCategory Category, bool ExcludeOnMismatch = true) : SearchQuery
 {
     public override IEnumerable<SearchMatch> Match(SearchableTrait trait, int depth = 0)
         => trait switch
         {
             SearchableEntityCategory data => data.Category == Category
                 ? [new SoftMatch(trait, this)]
-                : [new ExcludeMatch(trait, this)],
+                : ExcludeOnMismatch
+                    ? [new ExcludeMatch(trait, this)]
+                    : [new NoMatch(trait, this)],
             _ => [new NoMatch(trait, this)],
         };
 }

@@ -218,8 +218,10 @@ internal class LocalDatabaseInventoryManager(
 
     private async Task TriggerChangeAsync()
     {
-        await _changeSource.CancelAsync();
+        var previousChangeSource = _changeSource;
         _changeSource = new CancellationTokenSource();
+        memoryCache.Remove(CacheId.UnassignedCountQuery);
+        await previousChangeSource.CancelAsync();
     }
 
     /// <summary>

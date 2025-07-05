@@ -1,0 +1,88 @@
+@inherits TradeRunComponent
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+<MudStack AlignItems="@AlignItems.Center"
+          Class="mr-4"
+          Row>
+    <MudChip T="string">
+        <QuantityAggregateLabel
+            Models="@(TradeRun.Acquisitions.Select(x => x.Quantity))"/>
+    </MudChip>
+    <MudStack Spacing="0" Class="overflow-hidden">
+        <TradeRunLabel
+            Model="@TradeRun"
+            Typo="@Typo.h5"
+            Spacing="2"/>
+        @if (TradeRun.StageInProgress is { } stage)
+        {
+            <MudText Typo="@Typo.body2" Class="text-secondary">
+                @stage.CurrentStepTitle
+            </MudText>
+        }
+        else
+        {
+            <MudText Typo="@Typo.body2" Class="text-secondary">
+                Finalize the trade run
+            </MudText>
+        }
+    </MudStack>
+    @if (!TradeRun.AcquiredQuantities.Any() && TradeRun.FinalizedAt is null)
+    {
+        <MudIconButton
+            Class="visible-on-parent-hover"
+            Color="@Color.Error"
+            OnClick="DeleteForeverAsync"
+            Icon="@Icons.Material.Filled.DeleteForever"/>
+    }
+    <MudSpacer/>
+    <MudStack AlignItems="@AlignItems.End" Spacing="0"
+              Class="h-100 hidden-on-parent-hover">
+        <MudText Class="mb-n3">
+            <GameCurrencyLabel
+                Model="@(TradeRun.Investment)"
+                Typo="@Typo.h6"
+                UseColour/>
+        </MudText>
+        <GameCurrencyLabel
+            Model="@(TradeRun.Revenue)"
+            Typo="@Typo.h6"
+            UseColour/>
+    </MudStack>
+    <MudStack AlignItems="@AlignItems.End" Spacing="0"
+              Class="h-100 visible-on-parent-hover">
+        <GameCurrencyLabel
+            Model="@(TradeRun.Profit)"
+            Typo="@Typo.h6"
+            UseColour/>
+    </MudStack>
+</MudStack>
+
+@code
+{
+
+    private async Task DeleteForeverAsync()
+    {
+        var options = new MessageBoxOptions
+        {
+            Title = "Are you sure?",
+            MarkupMessage = new MarkupString("Do you really want to permanently remove this trade run?"),
+            YesText = "Remove",
+            CancelText = "Cancel",
+        };
+        if (await DialogService.ShowMessageBox(options) == true)
+        {
+            foreach (var stage in TradeRun.Stages)
+            {
+                stage.FinalizedAt = DateTimeOffset.UtcNow;
+            }
+
+            TradeRun.FinalizedAt = DateTimeOffset.UtcNow;
+            await UpdateRunAsync();
+
+            await TradeRunManager.DeleteRunAsync(TradeRun.Id, CancellationToken.None);
+            NavigationManager.Refresh();
+        }
+    }
+
+}

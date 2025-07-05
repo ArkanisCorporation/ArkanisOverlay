@@ -26,6 +26,9 @@ public static class DependencyInjection
     public static IServiceCollection AddLocalInventoryManagementServices(this IServiceCollection services)
         => services.AddScoped<IInventoryManager, LocalDatabaseInventoryManager>();
 
+    public static IServiceCollection AddLocalTradeRunManagementServices(this IServiceCollection services)
+        => services.AddScoped<ITradeRunManager, LocalDatabaseTradeRunManager>();
+
     public static IServiceCollection AddServicesForUserPreferencesFromJsonFile(this IServiceCollection services)
         => services.AddUserPreferencesServices<UserPreferencesJsonFileManager>();
 

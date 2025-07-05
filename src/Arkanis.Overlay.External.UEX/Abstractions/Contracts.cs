@@ -8154,6 +8154,15 @@ namespace Arkanis.Overlay.External.UEX.Abstractions
         [System.Text.Json.Serialization.JsonPropertyName("contact_url")]
         public object? Contact_url { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("screenshot")]
+        public string? Screenshot { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("screenshot_full")]
+        public string? Screenshot_full { get; set; } = default!;
+
+        [System.Text.Json.Serialization.JsonPropertyName("screenshot_author")]
+        public string? Screenshot_author { get; set; } = default!;
+
         [System.Text.Json.Serialization.JsonPropertyName("date_added")]
         public double? Date_added { get; set; } = default!;
 

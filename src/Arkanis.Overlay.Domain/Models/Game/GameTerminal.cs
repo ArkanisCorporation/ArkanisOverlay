@@ -22,6 +22,18 @@ public sealed class GameTerminal(
 
     public required GameTerminalType Type { get; init; }
 
+    public bool IsInSpace
+        => Parent is GameSpaceStation;
+
+    public bool IsOnGround
+        => Parent is not GameSpaceStation;
+
+    public bool IsAvailable { get; init; }
+    public bool IsIllegal { get; init; }
+    public bool HasAutoLoad { get; init; }
+    public bool HasCargoDeck { get; set; }
+    public int? MaxContainerSize { get; init; }
+
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);

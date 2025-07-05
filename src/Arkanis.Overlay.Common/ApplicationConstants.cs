@@ -18,7 +18,7 @@ public static class ApplicationConstants
     public const string CurrencyAbbr = "aUEC";
     public const string CurrencySymbol = "\u00A4";
 
-    public static readonly TimeSpan GameTimeOffset = TimeSpan.FromTicks(TimeSpan.TicksPerDay * (long)(365.25 * 930));
+    public static readonly int GameTimeYearOffset = 930;
 
     private static readonly string ApplicationDirectoryPath = Path.Join(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),

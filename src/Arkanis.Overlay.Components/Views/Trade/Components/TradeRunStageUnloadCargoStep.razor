@@ -1,0 +1,151 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inherits TradeRunStageComponent<TradeRun.SaleStage>
+
+<MudStep Title="@Title"
+         Completed="@IsCompleted"
+         Disabled="@IsDisabled">
+    <MudStack AlignItems="@AlignItems.Center"
+              Justify="@Justify.Center"
+              Spacing="6">
+        <MudStack AlignItems="AlignItems.Center"
+                  Spacing="0">
+            <MudText Typo="@Typo.h5">
+                @StepTitle
+            </MudText>
+            <MudText Typo="@Typo.body2">
+                @Description
+            </MudText>
+        </MudStack>
+        <GameEntityNameLabel
+            Model="@PreferredLocation.Name"/>
+        @if (IsPostTrade)
+        {
+            if (Stage.CargoTransferType is GameCargoTransferType.AutoLoad)
+            {
+                <MudNumericField
+                    Label="Transfer fee"
+                    Format="N0"
+                    @bind-Value="@Stage.CargoTransferFee.Amount"
+                    @bind-Value:after="@UpdateStageAsync"
+                    Min="0"
+                    Adornment="@Adornment.Start"
+                    AdornmentText="@GameCurrency.Symbol"
+                    Class="flex-grow-0"
+                    Immediate/>
+            }
+
+            <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
+                       OnClick="@OnTransferredClick"
+                       Color="@Color.Success"
+                       Size="@Size.Large"
+                       Disabled="@IsConfirmDisabled">
+                The cargo transfer has finished
+            </MudButton>
+        }
+        else
+        {
+            <MudSelect Label="Cargo transfer type"
+                       @bind-Value="@Stage.CargoTransferType"
+                       @bind-Value:after="@UpdateStageAsync"
+                       Style="min-width: 240px">
+                @foreach (var status in Enum.GetValues<GameCargoTransferType>().Where(x => x is not GameCargoTransferType.Unknown))
+                {
+                    <MudSelectItem Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+            @if (Stage.CargoTransferType is GameCargoTransferType.AutoLoad)
+            {
+                <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
+                           OnClick="@OnTransferredClick"
+                           Color="@Color.Success"
+                           Size="@Size.Large"
+                           Disabled="@IsDisabled">
+                    I have the ship stored
+                </MudButton>
+            }
+            else if (Stage.CargoTransferType is GameCargoTransferType.CargoDeck)
+            {
+                <MudButton StartIcon="@MaterialSymbols.Outlined.GarageDoor"
+                           OnClick="@OnTransferredClick"
+                           Color="@Color.Success"
+                           Size="@Size.Large"
+                           Disabled="@IsDisabled">
+                    I am at the cargo deck
+                </MudButton>
+            }
+            else if (Stage.CargoTransferType is GameCargoTransferType.Manual)
+            {
+                <MudButton StartIcon="@MaterialIcons.Filled.Forklift"
+                           OnClick="@OnTransferredClick"
+                           Color="@Color.Success"
+                           Size="@Size.Large"
+                           Disabled="@IsConfirmDisabled">
+                    I have unloaded the cargo
+                </MudButton>
+            }
+        }
+    </MudStack>
+</MudStep>
+
+@code
+{
+
+    private bool IsCompleted
+        => Stage.TransferredAt is not null;
+
+    private bool IsDisabled
+        => IsCompleted
+           || (Stage.CargoTransferType is GameCargoTransferType.Manual && IsPostTrade)
+           || Stage.FinalizedAt is not null;
+
+    private bool IsConfirmDisabled
+        => IsDisabled
+           || Stage is { CargoTransferType: GameCargoTransferType.AutoLoad, CargoTransferFee.Amount: 0 };
+
+    private IGameLocation PreferredLocation
+        => PreferParentLocation
+            ? Location.ParentLocation ?? Location
+            : Location;
+
+    [Parameter]
+    [EditorRequired]
+    public required IGameLocation Location { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Load cargo";
+
+    [Parameter]
+    public string Description { get; set; } = "Load purchased cargo to your ship at";
+
+    [Parameter]
+    public string StepTitle { get; set; } = "Load";
+
+    [Parameter]
+    public bool IsPostTrade { get; set; }
+
+    [Parameter]
+    public bool PreferParentLocation { get; set; }
+
+    protected override Task UpdateStageAsync()
+    {
+        if (Stage.CargoTransferType is not GameCargoTransferType.AutoLoad)
+        {
+            Stage.CargoTransferFee.Amount = 0;
+        }
+
+        return base.UpdateStageAsync();
+    }
+
+    private async Task OnTransferredClick()
+    {
+        if (Stage.CargoTransferType is GameCargoTransferType.Manual || IsPostTrade)
+        {
+            Stage.TransferredAt = DateTimeOffset.Now;
+        }
+
+        await NextStepAsync();
+    }
+
+}

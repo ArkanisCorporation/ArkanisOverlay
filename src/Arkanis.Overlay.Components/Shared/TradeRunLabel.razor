@@ -1,0 +1,78 @@
+<MudText Typo="@Typo">
+    <MudStack AlignItems="@AlignItems.Baseline"
+              Spacing="@Spacing"
+              Wrap="@Wrap.Wrap"
+              Row>
+        @foreach (var (entityIndex, entity) in Model.Acquisitions
+                          .Select(x => x.Quantity.Reference.Entity)
+                          .Distinct()
+                          .Index())
+        {
+            if (entityIndex > 0)
+            {
+                @Separator
+            }
+
+            <GameEntityNamePart
+                Model="@entity.Name.MainContent"
+                Typo="@Typo.inherit"
+                PreferCode/>
+        }
+        <span class="text-secondary">
+            from
+        </span>
+        @foreach (var (terminalIndex, terminal) in Model.Acquisitions
+                          .OfType<TradeRun.TerminalPurchaseStage>()
+                          .Select(x => x.Terminal)
+                          .Distinct()
+                          .Index())
+        {
+            if (terminalIndex > 0)
+            {
+                @Separator
+            }
+
+            <span class="flex-truncate">
+                @terminal.Name.Location?.Location.Name.MainContent.FullName
+            </span>
+        }
+        <span class="text-secondary">
+            to
+        </span>
+        @foreach (var (terminalIndex, terminal) in Model.Sales
+                          .OfType<TradeRun.TerminalSaleStage>()
+                          .Select(x => x.Terminal)
+                          .Distinct()
+                          .Index())
+        {
+            if (terminalIndex > 0)
+            {
+                @Separator
+            }
+
+            <span class="flex-truncate">
+                @terminal.Name.Location?.Location.Name.MainContent.FullName
+            </span>
+        }
+    </MudStack>
+</MudText>
+
+@code
+{
+
+    private RenderFragment Separator
+        => @<span class="@SeparatorClass">,</span>;
+
+    private string SeparatorClass
+        => $"text-secondary ml-n{Spacing}";
+
+    [Parameter]
+    public required TradeRun Model { get; set; }
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.inherit;
+
+    [Parameter]
+    public int Spacing { get; set; } = 1;
+
+}

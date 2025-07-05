@@ -57,6 +57,14 @@
     z-index: 100;
 }
 
+.mud-paper:not(.mud-paper-square) .mud-table-root:first-child tr:last-of-type > :first-child {
+    border-top-left-radius: var(--mud-default-borderradius) !important;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root:first-child tr:last-of-type > :last-child {
+    border-top-right-radius: var(--mud-default-borderradius) !important;
+}
+
 .mud-paper:not(.mud-paper-square) .mud-table-root tr:last-of-type > :first-child,
 .mud-expansion-panels:not(.mud-expansion-panels-square) .mud-table-root tr:last-of-type > :first-child {
     border-bottom-left-radius: var(--mud-default-borderradius) !important;
@@ -120,6 +128,87 @@
     background-color: var(--mud-palette-background);
 }
 
+.bg-gray .mud-timeline-item-dot {
+    background-color: var(--mud-palette-background-gray);
+}
+
 .mud-data-grid .flex-row-reverse > .column-header {
     flex-direction: row-reverse;
+}
+
+:not(:hover) * .visible-on-parent-hover {
+    display: none !important;
+}
+
+.hover-parent:hover .visible-on-parent-hover {
+    display: initial !important;
+}
+
+.hover-parent:hover .hidden-on-parent-hover {
+    display: none !important;
+}
+
+.mud-tabs {
+    .mud-chip.mud-chip-size-small {
+        margin: 0;
+        height: 20px;
+    }
+}
+
+.mud-tabs.with-badges {
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-tabs-tabbar-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    .mud-tabs-tabbar-wrapper .mud-badge-root {
+        width: 100%;
+    }
+
+    .mud-tabs-tabbar-wrapper > * {
+        flex: 1;
+    }
+}
+
+.mud-expand-panel.mud-panel-expanded.mud-disabled {
+    .mud-icon-root,
+    .mud-svg-icon,
+    .mud-icon-default {
+        color: inherit;
+    }
+}
+
+.game-entity-name {
+    .header {
+        height: 16px;
+    }
+
+    .footer {
+        height: 18px;
+        max-width: 50vw;
+        overflow: hidden;
+    }
+
+    .primary .code {
+        height: 18px;
+    }
+
+    .primary {
+        height: 56px;
+    }
+
+    .primary:not(:last-child),
+    .primary:not(:first-child) {
+        height: 40px;
+    }
+}
+
+.width-min-content {
+    max-width: min-content !important;
+    width: min-content !important;
 }
