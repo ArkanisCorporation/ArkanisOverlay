@@ -2,28 +2,24 @@ namespace Arkanis.Overlay.External.MedRunner.API.Endpoints.Client;
 
 using System.Globalization;
 using Abstractions;
+using Abstractions.Endpoints;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Models;
 
-/// <summary>
-///     Endpoints for interacting with clients.
-/// </summary>
+/// <inheritdoc cref="IClientEndpoint" />
 public class ClientEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
-    : ApiEndpoint(config, tokenProvider, cache, logger)
+    : ApiEndpoint(config, tokenProvider, cache, logger), IClientEndpoint
 {
+    /// <inheritdoc />
     protected override string Endpoint
         => "client";
 
-    /// <summary>
-    ///     Gets the current client.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<Person>> GetAsync()
         => await GetRequestAsync<Person>("");
 
-    /// <summary>
-    ///     Gets the specified amount of emergencies the client has created.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<ApiPaginatedResponse<ClientHistory>>> GetHistoryAsync(int limit, string? paginationToken = null)
     {
         var queryParams = new Dictionary<string, string>
@@ -38,33 +34,25 @@ public class ClientEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvi
         return await GetRequestAsync<ApiPaginatedResponse<ClientHistory>>("/history", queryParams);
     }
 
-    /// <summary>
-    ///     Gets the blocklist status of the current client.
-    /// </summary>
-    public async Task<ApiResponse<ClientBlockedStatus>> GetBlockedStatusAsync()
-        => await GetRequestAsync<ClientBlockedStatus>("/blocked");
-
-    /// <summary>
-    ///     Links the current user to a rsiHandle.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<Person>> LinkClientAsync(string rsiHandle)
     {
         var payload = new { rsiHandle };
         return await PostRequestAsync<Person>("/link", payload);
     }
 
-    /// <summary>
-    ///     Updates the settings of the current user for the Client Portal.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<string>> SetUserSettingsAsync(string settings)
     {
         var payload = new { settingsBlob = settings };
         return await PutRequestAsync<string>("/settings/clientPortal", payload);
     }
 
-    /// <summary>
-    ///     Deactivate the current client.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<ApiResponse<string>> DeactivateAsync()
         => await DeleteRequestAsync<string>("");
+
+    /// <inheritdoc />
+    public async Task<ApiResponse<ClientBlockedStatus>> GetBlockedStatusAsync()
+        => await GetRequestAsync<ClientBlockedStatus>("/blocked");
 }
