@@ -1,0 +1,288 @@
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.Models
+@using Arkanis.Overlay.Infrastructure.Helpers
+@inject IMedRunnerApiClient MedRunner
+
+<MudDialog Gutters="false"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        <MedRunnerLogo
+            Style="height: 32px"
+            ContentId="@ContentId"
+            Horizontal/>
+    </TitleContent>
+    <DialogContent>
+        <MudStepper @ref="_stepper">
+            <ChildContent>
+                <MudStep Title="Sign in">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText>
+                            This tutorial will help you connect your
+                            <MudLink Href="@ExternalLinkHelper.GetMedRunnerLink(ContentId)" Target="_blank">
+                                MedRunner
+                            </MudLink>
+                            account to the Arkanis Overlay.
+                        </MudText>
+                        <MudText>
+                            Visit the
+                            <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalLink(ContentId)"
+                                     Target="_blank">
+                                MedRunner Portal
+                            </MudLink>
+                            and create a new account or log in to an existing one using your Discord account.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/medrunner-01-Portal-Login.svg")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 60%"/>
+                        <MudButton EndIcon="@Icons.Material.Filled.ChevronRight"
+                                   OnClick="@NextStepAsync">
+                            Continue
+                        </MudButton>
+                    </MudStack>
+                </MudStep>
+                <MudStep Title="Open settings">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText>
+                            Navigate to the MedRunner profile overview page by clicking
+                            <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalProfileLink(ContentId)"
+                                     Target="_blank">
+                                this link
+                            </MudLink>
+                            or the user icon in the top right corner.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/medrunner-02-Portal-Dashboard.svg")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 90%"/>
+                        <MudText>
+                            Locate the <b>API TOKENS</b> section and click the <b>Create Token</b> button as shown
+                            below.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/medrunner-03-Portal-Profile.svg")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 90%"/>
+                        <MudButton EndIcon="@Icons.Material.Filled.ChevronRight"
+                                   OnClick="@NextStepAsync">
+                            Continue
+                        </MudButton>
+                    </MudStack>
+                </MudStep>
+                <MudStep Title="Create a token" HasError="@HasError">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText Align="@Align.Center">
+                            Provide a name for the token (we suggest "Arkanis Overlay") and click the <b>Create
+                                Token</b> button as shown below.
+                            For improved security, you can optionally set an expiration date for the token.
+                            You can also revoke the token at any time manually.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/medrunner-04-Portal-Profile-CreateToken.svg")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 60%"/>
+                        <MudText>
+                            Once you have created the token, copy and paste it into the input field below.
+                        </MudText>
+                        <div style="width: 60%">
+                            <MudTextField
+                                Label="MedRunner API Token"
+                                @bind-Value="_token"
+                                @bind-Value:after="CheckTokenAsync"
+                                Error="@HasError"
+                                ErrorText="@_validationError"
+                                InputType="@InputType.Password"
+                                FullWidth
+                                Immediate
+                                Required/>
+
+                            @if (_isLoading)
+                            {
+                                <MudProgressLinear
+                                    Indeterminate/>
+                            }
+                        </div>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/medrunner-05-Portal-Profile-CopyToken.svg")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 60%"/>
+                    </MudStack>
+                </MudStep>
+            </ChildContent>
+            <CompletedContent>
+                <MudGrid Class="py-4">
+                    <MudItem xs="12" sm="2">
+                        <MudStack Class="h-100"
+                                  AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center">
+                            <MedRunnerLogo
+                                Class="d-none d-sm-block w-100"
+                                ContentId="@ContentId"/>
+                            <MedRunnerLogo
+                                Class="d-block d-sm-none w-100"
+                                ContentId="@ContentId"
+                                Horizontal/>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="10">
+                        <MudStack Class="h-100"
+                                  AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center">
+                            @if (_medRunnerContext.IsClientAuthenticated)
+                            {
+                                <MudStack AlignItems="@AlignItems.Center"
+                                          Spacing="0"
+                                          Row>
+                                    <MudText>
+                                        Logged in as
+                                        <b>@_medRunnerContext.ClientIdentity.Name</b>
+                                    </MudText>
+                                    @if (_medRunnerContext.ClientInfo?.AssignedRoles is { } roles)
+                                    {
+                                        <MudChipSet T="UserRoles"
+                                                    Size="@Size.Small"
+                                                    Class="cursor-default">
+                                            @foreach (var role in roles)
+                                            {
+                                                <MudChip Value="@role" Text="@role.Humanize()"/>
+                                            }
+                                        </MudChipSet>
+                                    }
+                                </MudStack>
+                            }
+                            @if (_medRunnerContext.ClientHasValidSubscription)
+                            {
+                                <MudAlert Severity="@Severity.Success">
+                                    <b>Success!</b>
+                                    Your MedRunner account has been successfully connected to the Arkanis Overlay.
+                                </MudAlert>
+                            }
+                            else
+                            {
+                                <MudAlert Severity="@Severity.Info">
+                                    Your MedRunner account has been successfully connected to the Arkanis Overlay.
+                                    However, your access to the MedRunner services may be limited.
+                                </MudAlert>
+                            }
+                            @if (_medRunnerContext.ClientInfo is { Overdue: true })
+                            {
+                                <MudAlert Severity="@Severity.Warning">
+                                    <b>Overdue for payment!</b>
+                                    Your access to the MedRunner services may be limited.
+                                </MudAlert>
+                            }
+                            @if (_medRunnerContext.ClientIsInactive)
+                            {
+                                <MudAlert Severity="@Severity.Warning">
+                                    <b>Valid subscription missing!</b>
+                                    Your MedRunner subscription is currently inactive.
+                                    You will not be able to use the MedRunner services reactivate your subscription.
+                                </MudAlert>
+                            }
+                            @if (_medRunnerContext.ClientIsBlocked)
+                            {
+                                <MudAlert Severity="@Severity.Error">
+                                    <b>Account blocked!</b>
+                                    This account has been blocked.
+                                    You will not be able to use the MedRunner services with this account.
+                                </MudAlert>
+                            }
+                            @if (!_medRunnerContext.ClientHasValidSubscription)
+                            {
+                                <MudButton Color="@Color.Warning"
+                                           Variant="@Variant.Outlined"
+                                           StartIcon="@Icons.Material.Filled.ChevronLeft"
+                                           OnClick="@PreviousStepAsync">
+                                    Provide different API token
+                                </MudButton>
+                            }
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </CompletedContent>
+            <ActionContent>
+                @* Navigation is managed by controls within individual steps. *@
+            </ActionContent>
+        </MudStepper>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    private const string ContentId = "connect_dialog";
+
+    private MudStepper? _stepper;
+
+    private string? _token;
+    private string? _validationError;
+    private bool _isLoading;
+
+    private bool HasError
+        => _validationError is not null;
+
+    private MedRunnerComponentBase.ContextModel _medRunnerContext = new();
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    private async Task NextStepAsync()
+        => await _stepper!.NextStepAsync();
+
+    private async Task PreviousStepAsync()
+        => await _stepper!.PreviousStepAsync();
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<MedRunnerSetupDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    private async Task CheckTokenAsync()
+    {
+        _validationError = _token switch
+        {
+            { Length: < 80 } => "This is not a valid API token",
+            _ => null,
+        };
+        if (_validationError is not null)
+        {
+            return;
+        }
+
+        _isLoading = true;
+        try
+        {
+            await _medRunnerContext.UpdateAsync(MedRunner);
+            if (_medRunnerContext.Errors.FirstOrDefault() is { } error)
+            {
+                _validationError = error;
+            }
+
+            if (_medRunnerContext.IsClientAuthenticated)
+            {
+                await _stepper!.NextStepAsync();
+            }
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}

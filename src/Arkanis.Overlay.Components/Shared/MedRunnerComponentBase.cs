@@ -39,6 +39,9 @@ public abstract class MedRunnerComponentBase : ComponentBase
     [Parameter]
     public EventCallback<ContextModel> ContextChanged { get; set; }
 
+    [Parameter]
+    public string? ContentId { get; set; }
+
     protected async Task PerformSafeAsync(Func<Task> asyncAction)
     {
         try
@@ -66,7 +69,7 @@ public abstract class MedRunnerComponentBase : ComponentBase
             => IsEnabled is false;
 
         public bool IsEnabled
-            => ClientIsActive && IsServiceAvailable;
+            => ClientHasValidSubscription && IsServiceAvailable;
 
         public bool IsServiceUnavailable
             => !IsServiceAvailable;
@@ -74,14 +77,26 @@ public abstract class MedRunnerComponentBase : ComponentBase
         public bool IsServiceAvailable
             => Settings is { EmergenciesEnabled: true };
 
+        public bool IsClientAuthenticated
+            => _api?.TokenProvider.IsAuthenticated ?? false;
+
         [MemberNotNullWhen(true, nameof(ClientInfo))]
-        public bool ClientIsActive
+        public bool ClientHasValidSubscription
             => ClientInfo is { Active: true }
                && ClientStatus is { Blocked: false };
+
+        public bool ClientIsInactive
+            => ClientInfo is { Active: false };
+
+        public bool ClientIsBlocked
+            => ClientStatus is { Blocked: true };
 
         [MemberNotNullWhen(true, nameof(Emergency))]
         public bool IsEmergencyInProgress
             => Emergency is { CompletionTimestamp: null };
+
+        public bool HasErrors
+            => Errors is { Count: > 0 };
 
         public List<string> Errors { get; init; } = [];
 

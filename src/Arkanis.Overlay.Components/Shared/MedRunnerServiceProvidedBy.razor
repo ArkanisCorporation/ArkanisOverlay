@@ -1,0 +1,18 @@
+<MudStack AlignItems="@AlignItems.Center"
+          Justify="@Justify.FlexEnd"
+          Class="text-secondary flex-grow-1"
+          Row>
+    Service provided by
+    <MedRunnerLogo
+        Style="height: 32px;"
+        ContentId="@ContentId"
+        Horizontal/>
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    public string? ContentId { get; set; }
+
+}

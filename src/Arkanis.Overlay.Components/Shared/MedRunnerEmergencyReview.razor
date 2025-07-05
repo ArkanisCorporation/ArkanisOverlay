@@ -4,6 +4,9 @@
 <MudStack Class="pa-5">
     @if (Context.Emergency is not null)
     {
+        <MedRunnerServiceProvidedBy
+            ContentId="@ContentId"/>
+
         <MudToggleGroup @bind-Value="@Context.Emergency.Rating"
                         Color="@ColorByResponseRating"
                         FixedContent
@@ -21,6 +24,7 @@
                 Went bad
             </MudToggleItem>
         </MudToggleGroup>
+
         <MudTextField
             T="string"
             Label="Response remarks"
@@ -28,6 +32,7 @@
             Class="review"
             Immediate
             AutoGrow/>
+
         <MudButton Variant="@(FeedbackProvided ? Variant.Outlined : Variant.Text)"
                    Color="@Color.Success"
                    OnClick="@SubmitReviewAsync"
