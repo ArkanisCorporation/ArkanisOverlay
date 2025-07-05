@@ -1,0 +1,109 @@
+@using Arkanis.Overlay.Common.Extensions
+<MudTimelineItem Color="@ColorContent"
+                 Size="@Size.Medium"
+                 Elevation="0">
+    <ItemDot>
+        <MudIcon
+            Icon="@IconContent"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            @if (!IsLoading)
+            {
+                <MudText Typo="@Typo.body1">@TitleContent</MudText>
+                <MudText Typo="@Typo.caption" Class="text-secondary">
+                    @if (CreatedAt is not null)
+                    {
+                        <span>
+                            @CreatedAt.Value.ToRelativeString() ago
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            Pending...
+                        </span>
+                    }
+                </MudText>
+                @ChildContent
+            }
+            else
+            {
+                <MudSkeleton/>
+                <MudSkeleton/>
+            }
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+
+@code
+{
+
+    private Color ColorContent
+        => ColorOverride
+           ?? Type switch
+           {
+               EventType.Accepted
+                   or EventType.Completed => Color.Success,
+               EventType.ResponsePending => Color.Warning,
+               EventType.Cancelled => Color.Error,
+               _ => Color.Info,
+           };
+
+    private string IconContent
+        => Icon
+           ?? Type switch
+           {
+               EventType.ResponsePending => Icons.Material.Filled.HourglassTop,
+               EventType.Submitted => Icons.Material.Filled.EmergencyShare,
+               EventType.Accepted => Icons.Material.Filled.Check,
+               EventType.Cancelled => Icons.Material.Filled.Block,
+               EventType.Completed => Icons.Material.Filled.CheckCircle,
+               _ => Icons.Material.Outlined.Square,
+           };
+
+    private string TitleContent
+        => Title
+           ?? Type switch
+           {
+               EventType.ResponsePending => "Waiting for dispatch response",
+               EventType.Submitted => "Request submitted",
+               EventType.Accepted => "Rescue team dispatched",
+               EventType.Cancelled => "Mission cancelled",
+               EventType.Completed => "Mission completed",
+               _ => "Unknown event",
+           };
+
+    [Parameter]
+    public EventType Type { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public Color? ColorOverride { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public DateTimeOffset? CreatedAt { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public enum EventType
+    {
+        Unspecified,
+        Submitted,
+        ResponsePending,
+        Accepted,
+        Completed,
+        Cancelled,
+    }
+
+}

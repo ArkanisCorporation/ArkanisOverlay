@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Components.Extensions
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Microsoft.JSInterop
@@ -19,114 +18,40 @@
                          TimelinePosition="@TimelinePosition.Left">
                 @if (Context.Emergency is not null)
                 {
-                    <MudTimelineItem Color="@Color.Info"
-                                     Size="@Size.Medium"
-                                     Elevation="0">
-                        <ItemDot>
-                            <MudIcon
-                                Icon="@Icons.Material.Filled.EmergencyShare"
-                                Size="@Size.Medium"/>
-                        </ItemDot>
-                        <ItemContent>
-                            <MudStack Spacing="0">
-                                <MudText Typo="@Typo.body1">Request submitted</MudText>
-                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                    @Context.Emergency.CreatedAt.ToRelativeString() ago
-                                </MudText>
-                            </MudStack>
-                        </ItemContent>
-                    </MudTimelineItem>
+                    <MedRunnerTimelineItem
+                        Type="@MedRunnerTimelineItem.EventType.Submitted"
+                        CreatedAt="@Context.Emergency.CreatedAt"/>
                 }
                 @if (Context.Emergency?.Status is MissionStatus.Pending)
                 {
-                    <MudTimelineItem Color="@Color.Warning"
-                                     Size="@Size.Medium"
-                                     Elevation="0">
-                        <ItemDot>
-                            <MudIcon
-                                Icon="@Icons.Material.Filled.HourglassTop"
-                                Size="@Size.Medium"/>
-                        </ItemDot>
-                        <ItemContent>
-                            <MudStack Spacing="0">
-                                <MudText Typo="@Typo.body1">Waiting for response</MudText>
-                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                    Pending...
-                                </MudText>
-                                @CancelButton
-                            </MudStack>
-                        </ItemContent>
-                    </MudTimelineItem>
+                    <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending">
+                        @CancelButton
+                    </MedRunnerTimelineItem>
                 }
                 @if (Context.Emergency?.AcceptedAt is { } acceptedAt)
                 {
-                    var color = Context.Emergency.Status switch
-                    {
-                        MissionStatus.Cancelled => Color.Error,
-                        _ => Color.Success,
-                    };
-                    var icon = Context.Emergency.Status switch
-                    {
-                        MissionStatus.Cancelled => Icons.Material.Filled.Block,
-                        _ => Icons.Material.Filled.Check,
-                    };
-                    var status = Context.Emergency.Status switch
-                    {
-                        MissionStatus.Cancelled => "Request rejected",
-                        _ => "Request accepted",
-                    };
-                    <MudTimelineItem Color="@color"
-                                     Size="@Size.Medium"
-                                     Elevation="0">
-                        <ItemDot>
-                            <MudIcon
-                                Icon="@icon"
-                                Size="@Size.Medium"/>
-                        </ItemDot>
-                        <ItemContent>
-                            <MudStack Spacing="0">
-                                <MudText Typo="@Typo.body1">
-                                    @status
-                                </MudText>
-                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                    @acceptedAt.ToRelativeString() ago
-                                </MudText>
-                                @if (Context.Emergency.RefusalReason is { Length: > 0 } reason)
-                                {
-                                    <MudText Typo="@Typo.caption" Class="text-secondary">
-                                        @reason
-                                    </MudText>
-                                }
-                            </MudStack>
-                        </ItemContent>
-                    </MudTimelineItem>
+                    <MedRunnerTimelineItem
+                        Type="@MedRunnerTimelineItem.EventType.Accepted"
+                        CreatedAt="@acceptedAt"/>
                 }
                 @if (Context.Emergency?.CompletedAt is { } completedAt)
                 {
-                    <MudTimelineItem Color="@Color.Success"
-                                     Size="@Size.Medium"
-                                     Elevation="0">
-                        <ItemDot>
-                            <MudIcon
-                                Icon="@Icons.Material.Filled.CheckCircle"
-                                Size="@Size.Medium"/>
-                        </ItemDot>
-                        <ItemContent>
-                            <MudStack Spacing="0">
-                                <MudText Typo="@Typo.body1">Operation completed</MudText>
-                                <MudText Typo="@Typo.caption" Class="text-secondary">
-                                    @completedAt.ToRelativeString() ago
-                                </MudText>
-                                <MudButton Variant="@Variant.Outlined"
-                                           Color="@Color.Success"
-                                           Size="@Size.Small"
-                                           OnClick="@FinalizeAsync"
-                                           StartIcon="@Icons.Material.Filled.Check">
-                                    Finalize
-                                </MudButton>
-                            </MudStack>
-                        </ItemContent>
-                    </MudTimelineItem>
+                    var type = Context.Emergency.Status is MissionStatus.Completed
+                        ? MedRunnerTimelineItem.EventType.Completed
+                        : MedRunnerTimelineItem.EventType.Cancelled;
+                    <MedRunnerTimelineItem Type="type"
+                                           CreatedAt="@completedAt">
+                        @if (HasEmergencyInProgress)
+                        {
+                            <MudButton Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Size="@Size.Small"
+                                       OnClick="@FinalizeAsync"
+                                       StartIcon="@Icons.Material.Filled.Check">
+                                Finalize
+                            </MudButton>
+                        }
+                    </MedRunnerTimelineItem>
                 }
             </MudTimeline>
         </MudStack>
@@ -139,22 +64,22 @@
                       Class="pb-3">
                 @if (_chatMessages.Count == 0)
                 {
-                    if (Context.Emergency?.Status is MissionStatus.Pending)
-                    {
-                        <MudText Typo="@Typo.caption"
-                                 Align="@Align.Center"
-                                 Class="text-secondary">
-                            Please wait to be connected with the emergency responders.
-                        </MudText>
-                    }
-                    else
-                    {
-                        <MudText Typo="@Typo.caption"
-                                 Align="@Align.Center"
-                                 Class="text-secondary">
-                            Your request has been accepted and the dispatch team lead has been assigned.
-                        </MudText>
-                    }
+                    <MudText Typo="@Typo.caption"
+                             Align="@Align.Center"
+                             Class="text-secondary">
+                        @if (Context.Emergency?.Status is MissionStatus.Pending)
+                        {
+                            <span>Please wait to be connected with the emergency responders.</span>
+                        }
+                        else if (Context.Emergency?.Status is MissionStatus.Accepted)
+                        {
+                            <span>Your request has been accepted and the dispatch team lead has been assigned.</span>
+                        }
+                        else if (Context.Emergency?.Status is MissionStatus.Cancelled)
+                        {
+                            <span>Your request has been cancelled.</span>
+                        }
+                    </MudText>
                 }
                 @for (var messageIndex = 0; messageIndex < _chatMessages.Count; messageIndex++)
                 {
@@ -180,28 +105,14 @@
                         continue;
                     }
 
-                    var position = isClientMessage
-                        ? ChatBubblePosition.End
-                        : ChatBubblePosition.Start;
-                    var color = isClientMessage
-                        ? Color.Info
-                        : Color.Error;
-                    var icon = isClientMessage
-                        ? Icons.Material.Filled.AccountCircle
-                        : Icons.Material.Filled.Emergency;
-                    <MudChat ChatPosition="@position">
-                        <MudAvatar Color="@color">
-                            <MudIcon
-                                Icon="@icon"
-                                Size="@Size.Medium"/>
-                        </MudAvatar>
-                        @foreach (var message in messages)
-                        {
-                            <MudChatBubble>
-                                @message.Content
-                            </MudChatBubble>
-                        }
-                    </MudChat>
+                    <MedRunnerChatMessages
+                        Models="@messages"
+                        FromClient="@isClientMessage"/>
+                }
+                @if (Context.Emergency?.RefusalReason is { Length: > 0 } reason)
+                {
+                    <MedRunnerChatMessages
+                        MessageContent="@reason"/>
                 }
             </MudStack>
         </div>
@@ -213,6 +124,7 @@
             @bind-Value="@_messageContent"
             OnKeyUp="@TrySendChatMessageAsync"
             Class="chat-input"
+            Disabled="@IsChatDisabled"
             Immediate
             AutoGrow/>
     </MudItem>
@@ -234,6 +146,16 @@
         CancellationReason.Respawned,
         CancellationReason.Other,
     ];
+
+    private bool IsChatDisabled
+        => !HasEmergencyInProgress
+           || Context.Emergency?.Status is MissionStatus.Pending;
+
+    [Parameter]
+    public string? StatusTitle { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> StatusTitleChanged { get; set; }
 
     private RenderFragment CancelButton
         => @<MudMenu AnchorOrigin="@Origin.BottomCenter"
@@ -275,7 +197,7 @@
             {
                 await MedRunner.WebSocket.EnsureInitializedAsync();
 
-                if (Context.IsEmergencyInProgress)
+                if (HasEmergency)
                 {
                     var messagesResponse = await MedRunner.ChatMessage.GetMessageHistoryAsync(EmergencyId, 50);
                     if (messagesResponse.Success)
@@ -337,6 +259,7 @@
                 Context.Emergency.CancellationReason = reason;
 #if DEBUG
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
+                Context.Emergency.Status = MissionStatus.Cancelled;
                 Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
                 await ContextChanged.InvokeAsync(Context);
 #else
@@ -357,6 +280,7 @@
             {
 #if DEBUG
                 await Task.Delay(TimeSpan.FromMilliseconds(100));
+                Context.Emergency.Status = MissionStatus.Completed;
                 Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
                 await ContextChanged.InvokeAsync(Context);
 #else
@@ -377,8 +301,9 @@
         _messageContent = string.Empty;
         await _messageContentInput!.BlurAsync();
 
-        if (!Context.IsEmergencyInProgress)
+        if (!HasEmergencyInProgress || !IsChatDisabled)
         {
+            await _messageContentInput!.FocusAsync();
             return;
         }
 
@@ -391,13 +316,14 @@
                     {
                         Id = Guid.NewGuid().ToString(),
                         EmergencyId = EmergencyId,
-                        SenderId = Context.ClientInfo?.Id ?? Context.Emergency.ClientId ?? string.Empty,
+                        SenderId = Context.ClientInfo?.Id ?? Emergency.ClientId ?? string.Empty,
                         Content = content,
                     }
                 );
 #else
                 await MedRunner.ChatMessage.SendMessageAsync();
 #endif
+                await _messageContentInput!.FocusAsync();
             }
         );
     }
@@ -408,5 +334,4 @@
         MedRunner.WebSocket.Events.ChatMessageCreated -= OnChatMessageCreated;
         MedRunner.WebSocket.Events.ChatMessageUpdated -= OnChatMessageUpdated;
     }
-
 }
