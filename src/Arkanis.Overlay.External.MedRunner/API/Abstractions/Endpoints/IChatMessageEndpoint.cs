@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Abstractions.Endpoints;
 
+using API.Endpoints.ChatMessage.Request;
 using Models;
 
 /// <summary>
@@ -10,9 +11,9 @@ public interface IChatMessageEndpoint
     /// <summary>
     ///     Fetch a chat message by id.
     /// </summary>
-    /// <param name="id">The unique identifier of the chat message.</param>
+    /// <param name="messageId">The unique identifier of the chat message.</param>
     /// <returns>An API response containing the chat message.</returns>
-    Task<ApiResponse<ChatMessage>> GetMessageAsync(string id);
+    Task<ApiResponse<ChatMessage>> GetMessageAsync(string messageId);
 
     /// <summary>
     ///     Gets the specified amount of chat messages for a given emergency.
@@ -26,22 +27,22 @@ public interface IChatMessageEndpoint
     /// <summary>
     ///     Sends a new chat message.
     /// </summary>
-    /// <param name="message">The message object containing the chat message details.</param>
+    /// <param name="request">The message request containing the chat message details.</param>
     /// <returns>An API response containing the sent chat message.</returns>
-    Task<ApiResponse<ChatMessage>> SendMessageAsync(object message);
+    Task<ApiResponse<ChatMessage>> SendMessageAsync(ChatMessageRequest request);
 
     /// <summary>
     ///     Update a chat message.
     /// </summary>
-    /// <param name="id">The ID of the message to update.</param>
+    /// <param name="messageId">The ID of the message to update.</param>
     /// <param name="contents">The new contents of the message.</param>
     /// <returns>An API response containing the updated chat message.</returns>
-    Task<ApiResponse<ChatMessage>> UpdateMessageAsync(string id, string contents);
+    Task<ApiResponse<ChatMessage>> UpdateMessageAsync(string messageId, string contents);
 
     /// <summary>
     ///     Delete a chat message.
     /// </summary>
-    /// <param name="id">The ID of the message to delete.</param>
+    /// <param name="messageId">The ID of the message to delete.</param>
     /// <returns>An API response indicating success or failure.</returns>
-    Task<ApiResponse<string>> DeleteMessageAsync(string id);
+    Task<ApiResponse<string>> DeleteMessageAsync(string messageId);
 }

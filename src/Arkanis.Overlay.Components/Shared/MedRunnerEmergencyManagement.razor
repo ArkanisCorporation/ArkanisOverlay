@@ -1,4 +1,5 @@
 @using Arkanis.Overlay.Components.Extensions
+@using Arkanis.Overlay.External.MedRunner.API.Endpoints.ChatMessage.Request
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Microsoft.JSInterop
 @using Origin = MudBlazor.Origin
@@ -249,7 +250,13 @@
     {
         try
         {
+            if (chatMessage.EmergencyId != EmergencyId)
+            {
+                return;
+            }
+
             _chatMessages.Add(chatMessage);
+            await InvokeAsync(StateHasChanged);
             await Task.Delay(TimeSpan.FromMilliseconds(50));
             await _elementInterop.ScrollToBottomAsync(_chatContainer);
         }
@@ -292,14 +299,8 @@
         await PerformSafeAsync(async () =>
             {
                 Context.Emergency.CancellationReason = reason;
-#if DEBUG
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-                Context.Emergency.Status = MissionStatus.Cancelled;
-                Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, reason);
                 await ContextChanged.InvokeAsync(Context);
-#else
-                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId, reason);
-#endif
             }
         );
     }
@@ -313,14 +314,9 @@
 
         await PerformSafeAsync(async () =>
             {
-#if DEBUG
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-                Context.Emergency.Status = MissionStatus.Completed;
-                Context.Emergency.CompletionTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+                Context.Emergency.CancellationReason = CancellationReason.Rescued;
+                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, CancellationReason.Rescued);
                 await ContextChanged.InvokeAsync(Context);
-#else
-                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId, CancellationReason.Rescued);
-#endif
             }
         );
     }
@@ -344,24 +340,16 @@
 
         await PerformSafeAsync(async () =>
             {
-#if DEBUG
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-                _chatMessages.Add(
-                    new ChatMessage
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        EmergencyId = EmergencyId,
-                        SenderId = Context.ClientInfo?.Id ?? Emergency.ClientId ?? string.Empty,
-                        Content = content,
-                    }
-                );
+                var messageRequest = new ChatMessageRequest
+                {
+                    EmergencyId = EmergencyId,
+                    Contents = content,
+                };
+                await MedRunner.ChatMessage.SendMessageAsync(messageRequest);
 
+                await _messageContentInput!.FocusAsync();
                 await Task.Delay(TimeSpan.FromMilliseconds(50));
                 await _elementInterop.ScrollToBottomAsync(_chatContainer);
-#else
-                await MedRunner.ChatMessage.SendMessageAsync();
-#endif
-                await _messageContentInput!.FocusAsync();
             }
         );
     }
