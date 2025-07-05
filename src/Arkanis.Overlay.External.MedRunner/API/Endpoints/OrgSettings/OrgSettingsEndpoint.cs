@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 
 /// <inheritdoc cref="IOrgSettingsEndpoint" />
-public class OrgSettingsEndpoint(ApiConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class OrgSettingsEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IOrgSettingsEndpoint
 {
     /// <inheritdoc />

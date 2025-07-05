@@ -40,7 +40,7 @@ public static class DependencyInjection
             .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
             .AddAllUexApiClients()
-            .AddMedRunnerApiClient()
+            .AddLiveMedRunnerApiClient()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()

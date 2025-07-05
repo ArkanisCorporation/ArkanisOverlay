@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
-public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, ApiConfig config, ILogger<ApiKeySourcedTokenProvider> logger)
+public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRunnerClientConfig config, ILogger<ApiKeySourcedTokenProvider> logger)
     : IMedRunnerTokenProvider
 {
     private readonly JsonWebTokenHandler _tokenHandler = new();
