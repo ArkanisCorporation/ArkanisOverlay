@@ -1,7 +1,8 @@
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
-@inject IMedRunnerServiceContext MedRunnerServiceContext
+@inject IMedRunnerClientConfig ClientConfig
+@inject IMedRunnerServiceContext ServiceContext
 
 <MudDialog Gutters="false"
            ContentClass="ma-0"
@@ -267,17 +268,21 @@
         }
 
         _isLoading = true;
+        ClientConfig.SetApiToken(_token!);
+
         try
         {
-            await _medRunnerContext.UpdateAsync(MedRunnerServiceContext);
-            if (_medRunnerContext.Errors.FirstOrDefault() is { } error)
+            var clientResponse = await ServiceContext.ApiClient.Client.GetAsync();
+            if (clientResponse.Success)
             {
-                _validationError = error;
-            }
-
-            if (_medRunnerContext.IsClientAuthenticated)
-            {
+                // TODO: Persist in user preferences
+                await ServiceContext.RefreshAsync(CancellationToken.None);
+                await _medRunnerContext.UpdateAsync(ServiceContext);
                 await _stepper!.NextStepAsync();
+            }
+            else
+            {
+                _validationError = clientResponse.ErrorMessage;
             }
         }
         finally
