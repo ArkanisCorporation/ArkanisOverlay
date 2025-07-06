@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.External.MedRunner.API;
 
+using System.Security.Claims;
 using Abstractions;
 using Common.Services;
 using Domain;
@@ -33,7 +34,10 @@ public sealed class MedRunnerServiceContext : SelfInitializableServiceBase, IMed
 
     public Person? ClientInfo { get; set; }
 
-    public ClientBlockedStatus ClientStatus { get; set; } = new();
+    public ClientBlockedStatus? ClientStatus { get; set; }
+
+    public ClaimsIdentity? ClientIdentity
+        => ApiClient.TokenProvider.Identity;
 
     public PublicOrgSettings PublicSettings { get; set; } = new()
     {
