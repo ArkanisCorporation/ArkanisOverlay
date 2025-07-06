@@ -57,10 +57,10 @@
                    Disabled="@SubmitDisabled">
             Submit request
         </MudButton>
-        @if (Context.HasErrors)
+        @if (EmergencyContext.HasErrors)
         {
             <MudStack Class="mt-2">
-                @foreach (var error in Context.Errors)
+                @foreach (var error in EmergencyContext.Errors)
                 {
                     <MudAlert Severity="@Severity.Error">
                         @error
@@ -104,13 +104,13 @@
 
                 if (!emergencyResponse.Success)
                 {
-                    Context.Errors.Add(emergencyResponse.ErrorMessage);
-                    await ContextChanged.InvokeAsync(Context);
+                    EmergencyContext.Errors.Add(emergencyResponse.ErrorMessage);
+                    await EmergencyContextChanged.InvokeAsync(EmergencyContext);
                     return;
                 }
 
-                Context.Emergency = emergencyResponse.Data;
-                await ContextChanged.InvokeAsync(Context);
+                EmergencyContext.Emergency = emergencyResponse.Data;
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
     }

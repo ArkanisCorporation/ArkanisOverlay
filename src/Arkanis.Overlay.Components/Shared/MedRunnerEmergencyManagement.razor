@@ -93,7 +93,7 @@
                             </MudText>
                         }
 
-                        if (Context.Emergency?.Status is MissionStatus.Cancelled)
+                        if (EmergencyContext.Emergency?.Status is MissionStatus.Cancelled)
                         {
                             <MudText Typo="@Typo.caption"
                                      Align="@Align.Center"
@@ -105,7 +105,7 @@
                     @for (var messageIndex = 0; messageIndex < _chatMessages.Count; /* incremented below */)
                     {
                         var firstMessage = _chatMessages[messageIndex];
-                        var isClientMessage = firstMessage.SenderId == Context.Emergency?.ClientId;
+                        var isClientMessage = firstMessage.SenderId == EmergencyContext.Emergency?.ClientId;
                         var messages = _chatMessages
                             .Skip(messageIndex)
                             .TakeWhile(x => x.SenderId == firstMessage.SenderId)
@@ -185,7 +185,7 @@
 
     private bool IsChatDisabled
         => !HasEmergencyInProgress
-           || Context.Emergency?.Status is MissionStatus.Pending;
+           || EmergencyContext.Emergency?.Status is MissionStatus.Pending;
 
     [Parameter]
     public string? StatusTitle { get; set; }
@@ -305,7 +305,7 @@
 
     private async Task CancelAsync(CancellationReason reason)
     {
-        if (!Context.IsEmergencyInProgress)
+        if (!EmergencyContext.IsEmergencyInProgress)
         {
             return;
         }
@@ -317,16 +317,16 @@
             YesText = "Abandon rescue",
             CancelText = "Cancel",
         };
-        if (Context.Emergency.Status == MissionStatus.Accepted && await DialogService.ShowMessageBox(options) == false)
+        if (EmergencyContext.Emergency.Status == MissionStatus.Accepted && await DialogService.ShowMessageBox(options) == false)
         {
             return;
         }
 
         await PerformSafeAsync(async () =>
             {
-                Context.Emergency.CancellationReason = reason;
+                EmergencyContext.Emergency.CancellationReason = reason;
                 await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, reason);
-                await ContextChanged.InvokeAsync(Context);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
     }
@@ -337,7 +337,7 @@
             {
                 // Context.Emergency.CancellationReason = CancellationReason.Rescued;
                 // await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, CancellationReason.Rescued);
-                await ContextChanged.InvokeAsync(Context);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
     }
