@@ -23,8 +23,11 @@ public abstract class MedRunnerComponentBase : ComponentBase
     public bool HasEmergencyInProgress
         => Emergency is { Status: MissionStatus.Pending or MissionStatus.Accepted };
 
+    public IMedRunnerApiClient MedRunner
+        => ServiceContext.ApiClient;
+
     [Inject]
-    public required IMedRunnerApiClient MedRunner { get; set; }
+    public required IMedRunnerServiceContext ServiceContext { get; set; }
 
     [Parameter]
     public bool IsLoading { get; set; }
@@ -64,6 +67,7 @@ public abstract class MedRunnerComponentBase : ComponentBase
     public sealed class ContextModel : IDisposable
     {
         private IMedRunnerApiClient? _api;
+        private IMedRunnerServiceContext? _serviceContext;
 
         public bool IsDisabled
             => IsEnabled is false;
@@ -102,23 +106,17 @@ public abstract class MedRunnerComponentBase : ComponentBase
 
         public Emergency? Emergency { get; set; }
 
-        public Person? ClientInfo { get; set; }
-        public ClientBlockedStatus ClientStatus { get; set; } = new();
+        public Person? ClientInfo
+            => _serviceContext?.ClientInfo;
 
-        public ClaimsIdentity ClientIdentity { get; set; } = new();
+        public ClientBlockedStatus? ClientStatus
+            => _serviceContext?.ClientStatus;
 
-        public PublicOrgSettings Settings { get; set; } = new()
-        {
-            Status = ServiceStatus.Unknown,
-            EmergenciesEnabled = false,
-            AnonymousAlertsEnabled = false,
-            RegistrationEnabled = false,
-            MessageOfTheDay = null,
-            LocationSettings = new LocationSettings
-            {
-                Locations = [],
-            },
-        };
+        public ClaimsIdentity ClientIdentity
+            => _serviceContext?.ApiClient.TokenProvider.Identity ?? new ClaimsIdentity();
+
+        public PublicOrgSettings? Settings
+            => _serviceContext?.PublicSettings;
 
         public void Dispose()
         {
@@ -128,71 +126,30 @@ public abstract class MedRunnerComponentBase : ComponentBase
             }
 
             _api.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
+            _api = null;
         }
 
         public event EventHandler? Updated;
 
-        public async Task UpdateAsync(IMedRunnerApiClient api)
+        public async Task UpdateAsync(IMedRunnerServiceContext serviceContext)
         {
             Errors.Clear();
 
-            await EnsureInitializedAsync(api);
-
-            var settingsResponse = await _api.OrgSettings.GetPublicSettingsAsync();
-            if (settingsResponse.Success)
-            {
-                Settings = settingsResponse.Data;
-                if (_api.TokenProvider.IsAuthenticated)
-                {
-                    ClientIdentity = _api.TokenProvider.Identity;
-                }
-            }
-            else
-            {
-                Errors.Add(settingsResponse.ErrorMessage);
-                return;
-            }
-
-            await UpdateClientAsync(_api);
-        }
-
-        private async Task UpdateClientAsync(IMedRunnerApiClient api)
-        {
-            Errors.Clear();
-
-            var clientBlockedResponse = await api.Client.GetBlockedStatusAsync();
-            if (clientBlockedResponse.Success)
-            {
-                ClientStatus = clientBlockedResponse.Data;
-            }
-            else
-            {
-                Errors.Add(clientBlockedResponse.ErrorMessage);
-                return;
-            }
-
-            var clientResponse = await api.Client.GetAsync();
-            if (clientResponse.Success)
-            {
-                ClientInfo = clientResponse.Data;
-            }
-            else
-            {
-                Errors.Add(clientResponse.ErrorMessage);
-            }
+            await EnsureInitializedAsync(serviceContext);
         }
 
         [MemberNotNull(nameof(_api))]
-        private async Task EnsureInitializedAsync(IMedRunnerApiClient api)
+        private async Task EnsureInitializedAsync(IMedRunnerServiceContext serviceContext)
         {
             if (_api is not null)
             {
                 return;
             }
 
-            _api = api;
-            await _api.WebSocket.EnsureInitializedAsync();
+            _serviceContext = serviceContext;
+            _api = serviceContext.ApiClient;
             _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+            await Task.CompletedTask;
         }
 
         private void OnEmergencyUpdated(object? _, Emergency emergency)

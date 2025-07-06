@@ -233,8 +233,6 @@
 
         await PerformSafeAsync(async () =>
             {
-                await MedRunner.WebSocket.EnsureInitializedAsync();
-
                 if (HasEmergency)
                 {
                     var messagesResponse = await MedRunner.ChatMessage.GetMessageHistoryAsync(EmergencyId, 50);

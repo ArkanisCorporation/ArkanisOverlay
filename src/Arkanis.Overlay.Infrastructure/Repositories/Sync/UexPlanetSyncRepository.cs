@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
+using Common.Abstractions.Services;
 using Data.Mappers;
-using Domain.Abstractions;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
@@ -18,11 +18,11 @@ internal class UexPlanetSyncRepository(
     ILogger<UexPlanetSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<UniversePlanetDTO, GamePlanet>(stateProvider, cacheProvider, mapper, logger)
 {
-    protected override IDependable GetDependencies()
-        => dependencyResolver.DependsOn<GameStarSystem>(this);
-
     protected override double CacheTimeFactor
         => 7;
+
+    protected override IDependable GetDependencies()
+        => dependencyResolver.DependsOn<GameStarSystem>(this);
 
     protected override async Task<UexApiResponse<ICollection<UniversePlanetDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
     {

@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
 using Abstractions;
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;

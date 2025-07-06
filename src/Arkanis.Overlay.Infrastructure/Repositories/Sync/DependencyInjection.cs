@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
+using Common.Abstractions.Services;
 using Common.Extensions;
 using Data.Mappers;
 using Domain.Abstractions.Services;

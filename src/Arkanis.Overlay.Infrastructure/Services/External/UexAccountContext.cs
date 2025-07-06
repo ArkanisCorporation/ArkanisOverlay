@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using Common.Services;
 using Domain;
 using Domain.Abstractions.Services;
 using Domain.Options;

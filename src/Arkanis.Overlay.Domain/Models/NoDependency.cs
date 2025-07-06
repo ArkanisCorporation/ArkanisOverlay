@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Domain.Models;
 
-using Abstractions;
+using Common.Abstractions.Services;
 
 public sealed record NoDependency : IDependable
 {
