@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Repositories.Sync.Cached;
 
+using System.Threading;
+using System.Threading.Tasks;
 using Domain.Models.Game;
 
 [Trait(nameof(TestConstants.Traits.DataSource), TestConstants.Traits.DataSource.ExternalApi)]

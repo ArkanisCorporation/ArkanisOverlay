@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Host.Server.UnitTests;
 
+using System.Threading.Tasks;
 using Infrastructure.Data;
 using Infrastructure.Data.Extensions;
 using Shouldly;
