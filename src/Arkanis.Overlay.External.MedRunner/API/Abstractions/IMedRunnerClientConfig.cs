@@ -11,8 +11,8 @@ public interface IMedRunnerClientConfig
     string BaseUrl { get; set; }
 
     /// <summary>
-    ///     Your API token retrieved after logging in. If none is provided, the refresh token will be used to retrieve an
-    ///     access token.
+    ///     Your API token retrieved after logging in.
+    ///     If none is provided, the refresh token will be used to retrieve an access token.
     /// </summary>
     string? AccessToken { get; set; }
 
@@ -27,4 +27,9 @@ public interface IMedRunnerClientConfig
     ///     Use cookie based auth instead of tokens - defaults to false
     /// </summary>
     bool CookieAuth { get; set; }
+
+    /// <summary>
+    ///     Use mock data instead of the real API - defaults to false
+    /// </summary>
+    public bool IsMock { get; internal set; }
 }

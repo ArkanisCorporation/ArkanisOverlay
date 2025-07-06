@@ -52,8 +52,6 @@ public static class DependencyInjection
                     };
                 }
             )
-            // .AddLiveMedRunnerApiClient()
-            .AddMockMedRunnerApiClient()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -66,11 +64,14 @@ public static class DependencyInjection
 
         if (options.HostingMode is HostingMode.Server)
         {
-            services.AddServicesForInMemoryUserPreferences();
+            services.AddServicesForInMemoryUserPreferences()
+                .AddMockMedRunnerApiClient();
         }
         else
         {
-            services.AddServicesForUserPreferencesFromJsonFile();
+            services
+                .AddServicesForUserPreferencesFromJsonFile()
+                .AddLiveMedRunnerApiClient();
         }
 
         return services;
