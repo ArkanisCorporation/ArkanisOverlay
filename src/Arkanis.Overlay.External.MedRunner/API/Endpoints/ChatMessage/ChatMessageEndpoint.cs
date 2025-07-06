@@ -9,7 +9,7 @@ using Models;
 using Request;
 
 /// <inheritdoc cref="IChatMessageEndpoint" />
-public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger<ChatMessageEndpoint> logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IChatMessageEndpoint
 {
     /// <inheritdoc />
