@@ -36,8 +36,6 @@ public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider,
 
     private IMedRunnerApiClient? _apiClient;
 
-    private TokenGrant? _tokenGrant;
-
     private IMedRunnerApiClient ApiClient
         => _apiClient ??= serviceProvider.GetRequiredService<IMedRunnerApiClient>();
 
@@ -48,7 +46,7 @@ public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider,
 
     [MemberNotNullWhen(true, nameof(Identity))]
     public bool IsAuthenticated
-        => this is { _tokenGrant: not null, Identity: not null };
+        => Identity is not null && config.AccessToken is not null;
 
     public Task<string?> GetAccessTokenAsync()
         => GetAccessTokenAsync("unknown");
@@ -89,21 +87,17 @@ public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider,
 
     private async Task<string?> ValidateTokenAsync(TokenGrant? tokenGrant = null)
     {
-        tokenGrant ??= _tokenGrant;
-        if (tokenGrant is null)
-        {
-            return null;
-        }
-
-        var accessToken = tokenGrant.AccessToken;
+        var accessToken = config.AccessToken ?? tokenGrant?.AccessToken;
+        var refreshToken = config.RefreshToken ?? tokenGrant?.RefreshToken;
         var validationResult = await _tokenHandler.ValidateTokenAsync(accessToken, _tokenValidationParameters);
         if (!validationResult.IsValid)
         {
             logger.LogWarning(validationResult.Exception, "Access token validation failed");
-            return null;
+            return config.AccessToken = null;
         }
 
-        _tokenGrant = tokenGrant;
+        config.AccessToken = accessToken;
+        config.RefreshToken = refreshToken;
         Identity = validationResult.ClaimsIdentity;
 
         logger.LogDebug("Access token currently valid for {IdentityName}", Identity.Name);

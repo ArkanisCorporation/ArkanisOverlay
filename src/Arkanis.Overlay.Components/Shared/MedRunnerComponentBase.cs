@@ -66,6 +66,7 @@ public abstract class MedRunnerComponentBase : ComponentBase
 
     public sealed class ContextModel : IDisposable
     {
+        // TODO: remove in favour of IMedRunnerServiceContext
         private IMedRunnerApiClient? _api;
         private IMedRunnerServiceContext? _serviceContext;
 
