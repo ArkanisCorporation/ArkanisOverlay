@@ -8,10 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddMockMedRunnerApiClient(this IServiceCollection services)
+    public static IServiceCollection AddMockMedRunnerApiClient(
+        this IServiceCollection services,
+        Func<IServiceProvider, IMedRunnerClientConfig>? createOptions = null
+    )
         => services
+            .AddSingleton(createOptions ?? (_ => new MedRunnerClientConfig()))
             .AddMockMedRunnerApiEndpoints()
-            .AddSingleton<IMedRunnerTokenProvider, MockTokenProvider>()
+            .AddSingleton<IMedRunnerTokenProvider, ApiKeySourcedTokenProvider>()
             .AddSingleton<IMedRunnerApiClient, MedRunnerApiClient>();
 
     public static IServiceCollection AddLiveMedRunnerApiClient(

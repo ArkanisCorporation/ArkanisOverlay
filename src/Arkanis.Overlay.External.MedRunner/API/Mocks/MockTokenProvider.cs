@@ -2,7 +2,6 @@ namespace Arkanis.Overlay.External.MedRunner.API.Mocks;
 
 using System.Security.Claims;
 using Abstractions;
-using Models;
 
 public class MockTokenProvider : IMedRunnerTokenProvider
 {
@@ -15,16 +14,4 @@ public class MockTokenProvider : IMedRunnerTokenProvider
 
     public Task<string?> GetAccessTokenAsync(string source)
         => Task.FromResult<string?>(null);
-
-    public Task<string?> GetRefreshTokenAsync()
-        => Task.FromResult<string?>(null);
-
-    public Task SetTokensAsync(TokenGrant tokens)
-        => Task.CompletedTask;
-
-    public Task ClearTokensAsync()
-        => Task.CompletedTask;
-
-    public Task<bool> HasValidTokensAsync()
-        => Task.FromResult(false);
 }
