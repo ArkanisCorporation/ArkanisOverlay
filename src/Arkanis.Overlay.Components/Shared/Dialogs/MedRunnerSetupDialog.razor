@@ -1,7 +1,7 @@
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
-@inject IMedRunnerApiClient MedRunner
+@inject IMedRunnerServiceContext MedRunnerServiceContext
 
 <MudDialog Gutters="false"
            ContentClass="ma-0"
@@ -269,7 +269,7 @@
         _isLoading = true;
         try
         {
-            await _medRunnerContext.UpdateAsync(MedRunner);
+            await _medRunnerContext.UpdateAsync(MedRunnerServiceContext);
             if (_medRunnerContext.Errors.FirstOrDefault() is { } error)
             {
                 _validationError = error;

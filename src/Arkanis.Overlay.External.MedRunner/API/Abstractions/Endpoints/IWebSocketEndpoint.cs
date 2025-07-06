@@ -14,6 +14,7 @@ public interface IWebSocketEndpoint
     ///     Ensures the WebSocket connection is initialized and connected.
     ///     If not already connected, establishes a new WebSocket connection.
     /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    Task EnsureInitializedAsync();
+    Task EnsureInitializedAsync(CancellationToken cancellationToken);
 }

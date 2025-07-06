@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.SignalR.Client;
 /// </summary>
 public class SignalRManager(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider)
 {
-    public async Task<HubConnection> EstablishConnectionAsync()
+    public async Task<HubConnection> EstablishConnectionAsync(CancellationToken cancellationToken)
     {
         var connection = new HubConnectionBuilder()
             .WithAutomaticReconnect()
             .WithUrl($"{config.BaseUrl}/hub/emergency", options => options.AccessTokenProvider = tokenProvider.GetAccessTokenAsync)
             .Build();
 
-        await connection.StartAsync();
+        await connection.StartAsync(cancellationToken);
         return connection;
     }
 }

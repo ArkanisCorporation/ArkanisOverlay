@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;

@@ -8,6 +8,6 @@ public class MockWebSocketEndpoint(IWebSocketEventProvider eventProvider, IMedRu
 {
     public IWebSocketEventProvider Events { get; } = eventProvider;
 
-    public Task EnsureInitializedAsync()
+    public Task EnsureInitializedAsync(CancellationToken cancellationToken)
         => Task.CompletedTask;
 }

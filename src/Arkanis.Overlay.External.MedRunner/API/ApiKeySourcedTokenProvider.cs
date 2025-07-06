@@ -10,9 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
-public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRunnerClientConfig config, ILogger<ApiKeySourcedTokenProvider> logger)
-    : IMedRunnerTokenProvider
+public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRunnerClientConfig config, ILogger<ApiKeySourcedTokenProvider> logger)
+    : IMedRunnerTokenProvider, IDisposable
 {
+    private readonly SemaphoreSlim _accessTokenRequestSemaphore = new(1, 1);
     private readonly JsonWebTokenHandler _tokenHandler = new();
 
     private readonly TokenValidationParameters _tokenValidationParameters = new()
@@ -40,6 +41,9 @@ public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRu
     private IMedRunnerApiClient ApiClient
         => _apiClient ??= serviceProvider.GetRequiredService<IMedRunnerApiClient>();
 
+    public void Dispose()
+        => _accessTokenRequestSemaphore.Dispose();
+
     public ClaimsIdentity? Identity { get; private set; }
 
     [MemberNotNullWhen(true, nameof(Identity))]
@@ -51,20 +55,36 @@ public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRu
 
     public async Task<string?> GetAccessTokenAsync(string source)
     {
+        // fast asynchronous token check
         if (await ValidateTokenAsync() is { Length: > 0 } accessToken)
         {
             return accessToken;
         }
 
         logger.LogDebug("Token validation unsuccessful, requesting a new token");
-        var result = await ApiClient.Auth.RequestTokenAsync(config.RefreshToken ?? string.Empty);
-        if (result.Success)
-        {
-            return await ValidateTokenAsync(result.Data);
-        }
+        await _accessTokenRequestSemaphore.WaitAsync();
 
-        logger.LogError("Failed to receive new access token: (status {StatusCode}) {Error}", result.StatusCode, result.ErrorMessage);
-        return null;
+        try
+        {
+            // synchronous token check (may have already been updated by a concurrent request)
+            if (await ValidateTokenAsync() is { Length: > 0 } newAccessToken)
+            {
+                return newAccessToken;
+            }
+
+            var result = await ApiClient.Auth.RequestTokenAsync(config.RefreshToken ?? string.Empty);
+            if (result.Success)
+            {
+                return await ValidateTokenAsync(result.Data);
+            }
+
+            logger.LogError("Failed to receive new access token: (status {StatusCode}) {Error}", result.StatusCode, result.ErrorMessage);
+            return null;
+        }
+        finally
+        {
+            _accessTokenRequestSemaphore.Release();
+        }
     }
 
     private async Task<string?> ValidateTokenAsync(TokenGrant? tokenGrant = null)

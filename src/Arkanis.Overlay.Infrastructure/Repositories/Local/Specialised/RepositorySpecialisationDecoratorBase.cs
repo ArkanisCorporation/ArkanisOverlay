@@ -1,10 +1,10 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local.Specialised;
 
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
-using Services;
 
 /// <summary>
 ///     A base class for all repository decorators.

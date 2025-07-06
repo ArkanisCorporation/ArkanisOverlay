@@ -21,14 +21,14 @@ public class SignalREndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvi
         => _messageHandler;
 
     /// <inheritdoc />
-    public async Task EnsureInitializedAsync()
+    public async Task EnsureInitializedAsync(CancellationToken cancellationToken)
     {
         if (_messageHandler.IsConnected)
         {
             return;
         }
 
-        var connection = await _manager.EstablishConnectionAsync();
+        var connection = await _manager.EstablishConnectionAsync(cancellationToken);
         _messageHandler.Connect(connection);
     }
 }

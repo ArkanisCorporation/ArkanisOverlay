@@ -3,7 +3,7 @@
 @using Arkanis.Overlay.External.MedRunner.Models
 @implements IDisposable
 @inject IDialogService DialogService
-@inject IMedRunnerApiClient MedRunner
+@inject IMedRunnerServiceContext MedRunnerServiceContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -319,8 +319,7 @@
         try
         {
             _isLoading = true;
-            await MedRunner.WebSocket.EnsureInitializedAsync();
-            await _medRunnerContext.UpdateAsync(MedRunner);
+            await _medRunnerContext.UpdateAsync(MedRunnerServiceContext);
             await UpdateDialogOptionsAsync();
         }
         finally
