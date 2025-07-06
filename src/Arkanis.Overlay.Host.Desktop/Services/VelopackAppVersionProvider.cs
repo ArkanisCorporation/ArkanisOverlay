@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
-using Common.Abstractions;
+using Common.Abstractions.Services;
 using NuGet.Versioning;
 using Workers;
 

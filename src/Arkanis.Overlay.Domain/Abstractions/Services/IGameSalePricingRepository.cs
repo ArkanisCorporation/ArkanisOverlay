@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
+using Common.Abstractions.Services;
 using Game;
 
 public interface IGameSalePricingRepository : IDependable

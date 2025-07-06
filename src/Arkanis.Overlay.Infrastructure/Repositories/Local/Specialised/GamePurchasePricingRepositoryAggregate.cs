@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local.Specialised;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
