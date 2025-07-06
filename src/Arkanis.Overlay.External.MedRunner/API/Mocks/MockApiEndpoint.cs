@@ -13,7 +13,7 @@ public abstract class MockApiEndpoint(IMedRunnerTokenProvider tokenProvider)
 
     protected async Task<ApiResponse<T>> OkResponseAsync<T>(T data, ApiEndpoint.RequestOptions? requestOptions = null)
         where T : class
-        => await WithAuthAsync<T>(
+        => await WithAuthAsync(
             requestOptions,
             async () =>
             {
@@ -52,7 +52,7 @@ public abstract class MockApiEndpoint(IMedRunnerTokenProvider tokenProvider)
         }
 
         var accessToken = await tokenProvider.GetAccessTokenAsync("API makeRequest");
-        if (string.IsNullOrEmpty(accessToken))
+        if (string.IsNullOrWhiteSpace(accessToken))
         {
             return await ErrorResponseAsync<T>("Access token not found.", HttpStatusCode.Unauthorized);
         }

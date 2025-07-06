@@ -35,6 +35,11 @@ public interface IMedRunnerClientConfig
 
     public void SetApiToken(string apiToken)
     {
+        if (apiToken == RefreshToken)
+        {
+            return;
+        }
+
         AccessToken = null;
         RefreshToken = apiToken;
     }
