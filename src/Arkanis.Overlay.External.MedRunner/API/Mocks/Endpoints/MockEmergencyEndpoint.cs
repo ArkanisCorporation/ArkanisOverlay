@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 
 using System.Net;
+using Abstractions;
 using Abstractions.Endpoints;
 using API.Endpoints.ChatMessage.Request;
 using API.Endpoints.Emergency.Request;
@@ -10,8 +11,9 @@ using Models;
 public class MockEmergencyEndpoint(
     MockClientEndpoint clientEndpoint,
     MockChatMessageEndpoint chatMessageEndpoint,
-    MockWebSocketEventProvider eventProvider
-) : MockApiEndpoint, IEmergencyEndpoint
+    MockWebSocketEventProvider eventProvider,
+    IMedRunnerTokenProvider tokenProvider
+) : MockApiEndpoint(tokenProvider), IEmergencyEndpoint
 {
     public Dictionary<string, Emergency> Emergencies { get; } = [];
 
@@ -131,6 +133,11 @@ public class MockEmergencyEndpoint(
 
         for (var i = 0; i < 3; i++)
         {
+            if (emergency.Status is not MissionStatus.Accepted)
+            {
+                return;
+            }
+
             await TaskUpdateAsync(() => chatMessageEndpoint.SendInternalMessageAsync(
                     new ChatMessageRequest
                     {

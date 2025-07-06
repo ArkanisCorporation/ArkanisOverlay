@@ -1,11 +1,14 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 
 using System.Text.Json;
+using Abstractions;
 using Abstractions.Endpoints;
 using Models;
 
-public class MockClientEndpoint : MockApiEndpoint, IClientEndpoint
+public class MockClientEndpoint(IMedRunnerTokenProvider tokenProvider) : MockApiEndpoint(tokenProvider), IClientEndpoint
 {
+    private List<ClientHistory>? _history;
+
     public Person Person { get; set; } = new()
     {
         Active = true,
@@ -20,15 +23,11 @@ public class MockClientEndpoint : MockApiEndpoint, IClientEndpoint
 
     public ClientBlockedStatus BlockedStatus { get; set; } = new();
 
-    public List<ClientHistory> History { get; set; } =
-    [
-        new()
-        {
-            EmergencyId = "f7d95029-8bd5-44d9-a400-34b0f41ce209",
-            ClientId = "330e45a6-94b5-499f-96ee-00d32f6db404",
-            EmergencyCreationTimestamp = DateTimeOffset.UtcNow,
-        },
-    ];
+    public List<ClientHistory> History
+    {
+        get => _history ??= CreateHistory();
+        set => _history = value;
+    }
 
     public Task<ApiResponse<Person>> GetAsync()
         => OkResponseAsync(Person);
@@ -47,4 +46,15 @@ public class MockClientEndpoint : MockApiEndpoint, IClientEndpoint
 
     public Task<ApiResponse<string>> DeactivateAsync()
         => Task.FromResult(NotSupportedResponse<string>(nameof(MockClientEndpoint), nameof(DeactivateAsync)));
+
+    private List<ClientHistory> CreateHistory()
+        =>
+        [
+            new()
+            {
+                EmergencyId = "f7d95029-8bd5-44d9-a400-34b0f41ce209",
+                ClientId = Person.Id,
+                EmergencyCreationTimestamp = DateTimeOffset.UtcNow,
+            },
+        ];
 }
