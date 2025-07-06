@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Entities;
 
+using System.Collections.Generic;
 using Domain.Models.Inventory;
 
 public static class DomainInventoryEntriesFixture

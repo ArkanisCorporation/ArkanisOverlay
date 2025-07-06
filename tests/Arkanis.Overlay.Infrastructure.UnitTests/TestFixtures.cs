@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests;
 
+using System;
 using Domain.Models;
 
 public static class TestFixtures
