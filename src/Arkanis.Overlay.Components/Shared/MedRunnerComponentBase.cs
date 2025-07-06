@@ -7,7 +7,7 @@ using External.MedRunner.API.Abstractions;
 using External.MedRunner.Models;
 using Microsoft.AspNetCore.Components;
 
-public abstract class MedRunnerComponentBase : ComponentBase
+public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 {
     protected string? EmergencyId
         => Emergency?.Id;
@@ -44,6 +44,21 @@ public abstract class MedRunnerComponentBase : ComponentBase
 
     [Parameter]
     public string? ContentId { get; set; }
+
+    public virtual void Dispose()
+    {
+        ServiceContext.Updated -= OnExternalUpdate;
+        GC.SuppressFinalize(this);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ServiceContext.Updated += OnExternalUpdate;
+    }
+
+    private void OnExternalUpdate(object? _, EventArgs e)
+        => InvokeAsync(StateHasChanged);
 
     protected async Task PerformSafeAsync(Func<Task> asyncAction)
     {

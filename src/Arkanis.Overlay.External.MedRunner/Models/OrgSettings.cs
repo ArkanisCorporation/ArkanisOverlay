@@ -34,6 +34,10 @@ public class DateRange
 {
     public required DateTimeOffset StartDate { get; set; }
     public required DateTimeOffset EndDate { get; set; }
+
+    public bool IsInRange()
+        => StartDate <= DateTimeOffset.UtcNow
+           && DateTimeOffset.UtcNow <= EndDate;
 }
 
 public class LocationSettings

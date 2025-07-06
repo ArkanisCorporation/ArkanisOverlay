@@ -1,0 +1,137 @@
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@implements IDisposable
+@inject IMedRunnerServiceContext ServiceContext
+
+<MudStack AlignItems="@Align"
+          Justify="@Justify"
+          Spacing="@Spacing"
+          Reverse="@Reverse"
+          Row="@Row">
+    @if (ServiceContext.IsClientAuthenticated)
+    {
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Spacing="1"
+                  Row>
+            <MudText Class="text-secondary no-wrap">
+                Logged in as
+            </MudText>
+            <MudText>
+                <b>@ServiceContext.ApiClient.TokenProvider.Identity?.Name</b>
+            </MudText>
+            @if (ServiceContext.ClientInfo?.AssignedRoles is { } roles)
+            {
+                <div>
+                    @foreach (var role in roles)
+                    {
+                        <MudChip
+                            Value="@role"
+                            Text="@role.Humanize()"
+                            Size="@Size.Small"/>
+                    }
+                </div>
+            }
+        </MudStack>
+    }
+    else
+    {
+        <MudText Class="text-secondary">
+            Account not connected
+        </MudText>
+    }
+    <div>
+        @if (ServiceContext.CanClientUseServices)
+        {
+            <MudChip
+                T="string"
+                Color="@Color.Success"
+                Size="@Size.Small"
+                Text="Access"
+                Icon="@Icons.Material.Filled.Check"/>
+        }
+        else if (ServiceContext.CanClientUseServices)
+        {
+            <MudChip
+                T="string"
+                Color="@Color.Error"
+                Size="@Size.Small"
+                Text="Access"
+                Icon="@Icons.Material.Filled.Close"/>
+        }
+        @if (!Brief)
+        {
+            if (ServiceContext.ClientInfo is { Delinquent: false })
+            {
+                <MudChip
+                    T="string"
+                    Color="@Color.Success"
+                    Size="@Size.Small"
+                    Text="Account Standing"
+                    Icon="@Icons.Material.Filled.ThumbUp"/>
+            }
+            else if (ServiceContext.ClientInfo is { Delinquent: true })
+            {
+                <MudChip
+                    T="string"
+                    Color="@Color.Error"
+                    Size="@Size.Small"
+                    Text="Account Standing"
+                    Icon="@Icons.Material.Filled.ThumbDown"/>
+            }
+
+            if (ServiceContext.ClientInfo is { Overdue: true })
+            {
+                <MudChip
+                    T="string"
+                    Color="@Color.Warning"
+                    Size="@Size.Small"
+                    Text="Payment Overdue"
+                    Icon="@Icons.Material.Filled.Warning"/>
+            }
+
+            if (ServiceContext.IsClientBlocked)
+            {
+                <MudChip
+                    T="string"
+                    Color="@Color.Error"
+                    Size="@Size.Small"
+                    Text="Account Blocked"
+                    Icon="@Icons.Material.Filled.Block"/>
+            }
+        }
+    </div>
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.Center;
+
+    [Parameter]
+    public AlignItems Align { get; set; } = AlignItems.Center;
+
+    [Parameter]
+    public int Spacing { get; set; } = 2;
+
+    [Parameter]
+    public bool Brief { get; set; }
+
+    [Parameter]
+    public bool Row { get; set; }
+
+    [Parameter]
+    public bool Reverse { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ServiceContext.Updated += OnExternalUpdate;
+    }
+
+    private void OnExternalUpdate(object? _, EventArgs e)
+        => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+        => ServiceContext.Updated -= OnExternalUpdate;
+}
