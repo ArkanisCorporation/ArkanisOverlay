@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.External.MedRunner.Models
 <MudChat ChatPosition="@Position">
     <MudAvatar Color="@Color">
@@ -17,6 +18,18 @@
             @MessageContent
         </MudChatBubble>
     }
+    <MudChatFooter>
+        @if (FooterContent is not null)
+        {
+            @FooterContent
+        }
+        else
+        {
+            <MudText Typo="@Typo.caption">
+                @Models.Last().SentAt.ToRelativeString() ago
+            </MudText>
+        }
+    </MudChatFooter>
 </MudChat>
 
 @code
@@ -40,7 +53,10 @@
     public IEnumerable<ChatMessage> Models { get; set; } = [];
 
     [Parameter]
-    public string? MessageContent { get; set; }
+    public RenderFragment? MessageContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? FooterContent { get; set; }
 
     [Parameter]
     public bool FromClient { get; set; }
