@@ -228,7 +228,7 @@ public abstract class ApiEndpoint(
         }
     }
 
-    protected class RequestOptions
+    public class RequestOptions
     {
         public static readonly RequestOptions Default = new();
 

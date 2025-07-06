@@ -25,7 +25,7 @@ public static class DependencyInjection
             .AddSingleton<EmergencyEndpoint>()
             .AddSingleton<OrgSettingsEndpoint>()
             .AddSingleton<StaffEndpoint>()
-            .AddSingleton<WebSocketEndpoint>();
+            .AddSingleton<SignalREndpoint>();
 
         // Register interface aliases
         services
@@ -36,7 +36,7 @@ public static class DependencyInjection
             .Alias<IEmergencyEndpoint, EmergencyEndpoint>()
             .Alias<IOrgSettingsEndpoint, OrgSettingsEndpoint>()
             .Alias<IStaffEndpoint, StaffEndpoint>()
-            .Alias<IWebSocketEndpoint, WebSocketEndpoint>();
+            .Alias<IWebSocketEndpoint, SignalREndpoint>();
 
         return services;
     }
