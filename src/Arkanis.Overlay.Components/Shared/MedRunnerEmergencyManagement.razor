@@ -17,32 +17,32 @@
                          TimelineAlign="@TimelineAlign.Start"
                          TimelineOrientation="@TimelineOrientation.Vertical"
                          TimelinePosition="@TimelinePosition.Left">
-                @if (Context.Emergency is not null)
+                @if (Emergency is not null)
                 {
                     <MedRunnerTimelineItem
                         Type="@MedRunnerTimelineItem.EventType.Submitted"
-                        CreatedAt="@Context.Emergency.CreatedAt"/>
+                        CreatedAt="@Emergency.CreatedAt"/>
                 }
-                @if (Context.Emergency?.Status is MissionStatus.Pending)
+                @if (Emergency is { Status: MissionStatus.Pending })
                 {
                     <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending">
                         @CancelButton
                     </MedRunnerTimelineItem>
                 }
-                @if (Context.Emergency?.AcceptedAt is { } acceptedAt)
+                @if (Emergency?.AcceptedAt is { } acceptedAt)
                 {
                     <MedRunnerTimelineItem
                         Type="@MedRunnerTimelineItem.EventType.Accepted"
                         CreatedAt="@acceptedAt"/>
                 }
-                @if (Context.Emergency?.CompletedAt is { } completedAt)
+                @if (Emergency?.CompletedAt is { } completedAt)
                 {
-                    var type = Context.Emergency.Status is MissionStatus.Completed
+                    var type = Emergency.Status is MissionStatus.Completed
                         ? MedRunnerTimelineItem.EventType.Completed
                         : MedRunnerTimelineItem.EventType.Cancelled;
                     <MedRunnerTimelineItem Type="type"
                                            CreatedAt="@completedAt">
-                        @if (HasEmergencyInProgress)
+                        @if (Emergency.Status is MissionStatus.Completed)
                         {
                             <MudButton Variant="@Variant.Outlined"
                                        Color="@Color.Success"
@@ -54,7 +54,7 @@
                         }
                     </MedRunnerTimelineItem>
                 }
-                else
+                else if (Emergency is { Status: not MissionStatus.Pending })
                 {
                     <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending"
                                            Title="Communicate and wait for rescue">
@@ -76,7 +76,7 @@
                           Class="pb-3">
                     @if (_chatMessages.Count == 0)
                     {
-                        if (Context.Emergency?.Status is MissionStatus.Pending)
+                        if (Emergency is { Status: MissionStatus.Pending })
                         {
                             <MudText Typo="@Typo.caption"
                                      Align="@Align.Center"
@@ -85,7 +85,7 @@
                             </MudText>
                         }
 
-                        if (Context.Emergency?.Status is MissionStatus.Accepted || Context.Emergency?.AcceptedAt is not null)
+                        if (Emergency is { Status: MissionStatus.Accepted } or { AcceptedAt: not null })
                         {
                             <MudText Typo="@Typo.caption"
                                      Align="@Align.Center"
@@ -103,10 +103,10 @@
                             </MudText>
                         }
                     }
-                    @for (var messageIndex = 0; messageIndex < _chatMessages.Count; messageIndex++)
+                    @for (var messageIndex = 0; messageIndex < _chatMessages.Count; /* incremented below */)
                     {
                         var firstMessage = _chatMessages[messageIndex];
-                        var isClientMessage = firstMessage.SenderId != Context.Emergency?.ClientId;
+                        var isClientMessage = firstMessage.SenderId == Context.Emergency?.ClientId;
                         var messages = _chatMessages
                             .Skip(messageIndex)
                             .TakeWhile(x => x.SenderId == firstMessage.SenderId)
@@ -131,10 +131,23 @@
                             Models="@messages"
                             FromClient="@isClientMessage"/>
                     }
-                    @if (Context.Emergency?.RefusalReason is { Length: > 0 } reason)
+
+                    @if (Emergency is { RefusalReason.Length: > 0 } reason)
                     {
-                        <MedRunnerChatMessages
-                            MessageContent="@reason"/>
+                        <MedRunnerChatMessages>
+                            <MessageContent>
+                                @reason
+                            </MessageContent>
+                        </MedRunnerChatMessages>
+                    }
+
+                    @if (IsChatDisabled && Emergency is not { Status: MissionStatus.Pending })
+                    {
+                        <MudText Typo="@Typo.caption"
+                                 Align="@Align.Center"
+                                 Class="text-secondary">
+                            The emergency has already been concluded.
+                        </MudText>
                     }
                 </MudStack>
             </div>
@@ -234,6 +247,16 @@
         );
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!IsChatDisabled && _messageContentInput is not null)
+        {
+            await UpdateChatDisplayAsync();
+        }
+    }
+
     private async void OnTimerTick(object? _)
     {
         try
@@ -257,13 +280,19 @@
 
             _chatMessages.Add(chatMessage);
             await InvokeAsync(StateHasChanged);
-            await Task.Delay(TimeSpan.FromMilliseconds(50));
-            await _elementInterop.ScrollToBottomAsync(_chatContainer);
+            await UpdateChatDisplayAsync();
         }
         catch
         {
             // ignore
         }
+    }
+
+    private async Task UpdateChatDisplayAsync()
+    {
+        await Task.Delay(TimeSpan.FromMilliseconds(50));
+        await _elementInterop.ScrollToBottomAsync(_chatContainer);
+        await _messageContentInput!.FocusAsync();
     }
 
     private void OnChatMessageUpdated(object? _, ChatMessage chatMessage)
@@ -307,15 +336,10 @@
 
     private async Task FinalizeAsync()
     {
-        if (!Context.IsEmergencyInProgress)
-        {
-            return;
-        }
-
         await PerformSafeAsync(async () =>
             {
-                Context.Emergency.CancellationReason = CancellationReason.Rescued;
-                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, CancellationReason.Rescued);
+                // Context.Emergency.CancellationReason = CancellationReason.Rescued;
+                // await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, CancellationReason.Rescued);
                 await ContextChanged.InvokeAsync(Context);
             }
         );
@@ -346,10 +370,7 @@
                     Contents = content,
                 };
                 await MedRunner.ChatMessage.SendMessageAsync(messageRequest);
-
-                await _messageContentInput!.FocusAsync();
-                await Task.Delay(TimeSpan.FromMilliseconds(50));
-                await _elementInterop.ScrollToBottomAsync(_chatContainer);
+                await UpdateChatDisplayAsync();
             }
         );
     }

@@ -357,7 +357,10 @@
     }
 
     private void OnExternalUpdate(object? _, EventArgs args)
-        => InvokeAsync(StateHasChanged);
+    {
+        InvokeAsync(StateHasChanged);
+        InvokeAsync(UpdateDialogOptionsAsync);
+    }
 
     private async Task UpdateDialogOptionsAsync()
     {
