@@ -3,7 +3,8 @@ namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 using Abstractions;
 using Abstractions.Endpoints;
 
-public class MockWebSocketEndpoint(IWebSocketEventProvider eventProvider) : MockApiEndpoint, IWebSocketEndpoint
+public class MockWebSocketEndpoint(IWebSocketEventProvider eventProvider, IMedRunnerTokenProvider tokenProvider)
+    : MockApiEndpoint(tokenProvider), IWebSocketEndpoint
 {
     public IWebSocketEventProvider Events { get; } = eventProvider;
 

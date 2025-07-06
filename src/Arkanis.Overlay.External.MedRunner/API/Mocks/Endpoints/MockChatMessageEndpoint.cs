@@ -1,11 +1,13 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 
 using System.Net;
+using Abstractions;
 using Abstractions.Endpoints;
 using API.Endpoints.ChatMessage.Request;
 using Models;
 
-public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebSocketEventProvider eventProvider) : MockApiEndpoint, IChatMessageEndpoint
+public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebSocketEventProvider eventProvider, IMedRunnerTokenProvider tokenProvider)
+    : MockApiEndpoint(tokenProvider), IChatMessageEndpoint
 {
     public Dictionary<string, List<ChatMessage>> ChatMessages { get; set; } = [];
 

@@ -1,14 +1,18 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 
+using Abstractions;
 using Abstractions.Endpoints;
+using API.Endpoints;
 using API.Endpoints.Auth.Request;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 
-public class MockAuthEndpoint : MockApiEndpoint, IAuthEndpoint
+public class MockAuthEndpoint(IMedRunnerTokenProvider tokenProvider) : MockApiEndpoint(tokenProvider), IAuthEndpoint
 {
     private const string Issuer = "medrunner.space";
+
+    private const string Audience = "api.medrunner.space";
 
     private readonly JsonWebTokenHandler _tokenHandler = new();
 
@@ -29,12 +33,17 @@ public class MockAuthEndpoint : MockApiEndpoint, IAuthEndpoint
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = Issuer,
-            Expires = DateTime.UtcNow.AddMinutes(10),
+            Audience = Audience,
+            IssuedAt = DateTime.UtcNow,
             NotBefore = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddMinutes(10),
             Claims = new Dictionary<string, object>
             {
-                [JwtRegisteredClaimNames.UniqueName] = "TheKronnY",
-                ["role"] = "client",
+                [JwtRegisteredClaimNames.UniqueName] = "KronnY",
+                [JwtRegisteredClaimNames.NameId] = "edaf20a8-69a7-423f-af29-7a35b01d67a6",
+                ["discordId"] = "224580858432978944",
+                ["role"] = "member",
+                ["version"] = "1",
             },
         };
         return OkResponseAsync(
@@ -43,7 +52,8 @@ public class MockAuthEndpoint : MockApiEndpoint, IAuthEndpoint
                 AccessToken = _tokenHandler.CreateToken(tokenDescriptor),
                 RefreshToken = refreshToken,
                 AccessTokenExpiration = tokenDescriptor.Expires.Value,
-            }
+            },
+            ApiEndpoint.RequestOptions.Unauthenticated
         );
     }
 }

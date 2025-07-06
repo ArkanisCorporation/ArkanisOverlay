@@ -85,6 +85,8 @@ public class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRu
 
         _tokenGrant = tokenGrant;
         Identity = validationResult.ClaimsIdentity;
+
+        logger.LogDebug("Access token currently valid for {IdentityName}", Identity.Name);
         return accessToken;
     }
 }
