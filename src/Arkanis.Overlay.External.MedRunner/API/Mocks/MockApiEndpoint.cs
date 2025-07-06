@@ -1,27 +1,33 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Mocks;
 
 using System.Net;
+using Abstractions;
+using API.Endpoints;
 
 /// <summary>
 ///     Base class for all mock endpoints that returns non-successful responses.
 /// </summary>
-public abstract class MockApiEndpoint
+public abstract class MockApiEndpoint(IMedRunnerTokenProvider tokenProvider)
 {
     private static readonly Random Random = new();
 
-    protected static async Task<ApiResponse<T>> OkResponseAsync<T>(T data)
+    protected async Task<ApiResponse<T>> OkResponseAsync<T>(T data, ApiEndpoint.RequestOptions? requestOptions = null)
         where T : class
-    {
-        await Task.Delay(TimeSpan.FromMilliseconds(Random.Next(50, 400)));
-        return new ApiResponse<T>
-        {
-            Success = true,
-            Data = data,
-            StatusCode = HttpStatusCode.OK,
-        };
-    }
+        => await WithAuthAsync<T>(
+            requestOptions,
+            async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(Random.Next(50, 400)));
+                return new ApiResponse<T>
+                {
+                    Success = true,
+                    Data = data,
+                    StatusCode = HttpStatusCode.OK,
+                };
+            }
+        );
 
-    protected static async Task<ApiResponse<ApiPaginatedResponse<T>>> OkPaginatedResponseAsync<T>(IEnumerable<T> data)
+    protected async Task<ApiResponse<ApiPaginatedResponse<T>>> OkPaginatedResponseAsync<T>(IEnumerable<T> data)
         where T : class
     {
         await Task.Delay(TimeSpan.FromMilliseconds(Random.Next(50, 1_000)));
@@ -35,6 +41,23 @@ public abstract class MockApiEndpoint
             },
             StatusCode = HttpStatusCode.OK,
         };
+    }
+
+    private async Task<ApiResponse<T>> WithAuthAsync<T>(ApiEndpoint.RequestOptions? requestOptions, Func<Task<ApiResponse<T>>> getDataAsync) where T : class
+    {
+        requestOptions ??= ApiEndpoint.RequestOptions.Default;
+        if (requestOptions.IsUnauthenticatedRequest)
+        {
+            return await getDataAsync();
+        }
+
+        var accessToken = await tokenProvider.GetAccessTokenAsync("API makeRequest");
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            return await ErrorResponseAsync<T>("Access token not found.", HttpStatusCode.Unauthorized);
+        }
+
+        return await getDataAsync();
     }
 
     protected static Task<ApiResponse<T>> ErrorResponseAsync<T>(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
