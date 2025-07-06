@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 
 /// <inheritdoc cref="IClientEndpoint" />
-public class ClientEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class ClientEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger<ClientEndpoint> logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IClientEndpoint
 {
     /// <inheritdoc />
