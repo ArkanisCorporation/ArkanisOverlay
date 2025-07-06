@@ -69,7 +69,6 @@ public static class DependencyInjection
         }
         else
         {
-            // TODO: Load MedRunner config from user preferences
             services
                 .AddServicesForUserPreferencesFromJsonFile()
                 .AddLiveMedRunnerApiClient();
