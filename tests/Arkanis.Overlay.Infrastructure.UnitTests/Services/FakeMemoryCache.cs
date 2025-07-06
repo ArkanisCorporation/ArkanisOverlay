@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Services;
 
+using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 

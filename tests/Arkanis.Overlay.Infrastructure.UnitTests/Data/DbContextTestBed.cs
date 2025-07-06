@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data;
 
+using System.Threading.Tasks;
 using Common.UnitTests.Abstractions;
 using Common.UnitTests.Extensions;
 using Microsoft.EntityFrameworkCore;

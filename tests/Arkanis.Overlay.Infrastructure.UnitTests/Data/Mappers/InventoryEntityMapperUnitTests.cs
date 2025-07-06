@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Mappers;
 
+using System.Collections.Generic;
 using Domain.Models.Inventory;
 using Entities;
 using Infrastructure.Data.Entities;
@@ -7,6 +8,7 @@ using Infrastructure.Data.Mappers;
 using MoreLinq;
 using Services;
 using Shouldly;
+using Xunit;
 
 public class InventoryEntityMapperUnitTests
 {
