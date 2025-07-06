@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 
-public class MockAuthEndpoint : MockEndpointBase, IAuthEndpoint
+public class MockAuthEndpoint : MockApiEndpoint, IAuthEndpoint
 {
     private const string Issuer = "medrunner.space";
 

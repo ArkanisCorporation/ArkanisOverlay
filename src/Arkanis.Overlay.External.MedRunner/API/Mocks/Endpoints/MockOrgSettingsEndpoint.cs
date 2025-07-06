@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 using Abstractions.Endpoints;
 using Models;
 
-public class MockOrgSettingsEndpoint : MockEndpointBase, IOrgSettingsEndpoint
+public class MockOrgSettingsEndpoint : MockApiEndpoint, IOrgSettingsEndpoint
 {
     public PublicOrgSettings PublicSettings { get; set; } = new()
     {

@@ -4,7 +4,7 @@ using System.Text.Json;
 using Abstractions.Endpoints;
 using Models;
 
-public class MockClientEndpoint : MockEndpointBase, IClientEndpoint
+public class MockClientEndpoint : MockApiEndpoint, IClientEndpoint
 {
     public Person Person { get; set; } = new()
     {
