@@ -1,6 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.Services.Abstractions;
-
-using Domain.Abstractions;
+namespace Arkanis.Overlay.Common.Abstractions.Services;
 
 /// <summary>
 ///     This service requires initialization before it can be used.

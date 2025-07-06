@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Exceptions;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 
 public class DependencyErroredException(IDependable dependency, Exception? innerException = null)
     : Exception($"A dependency has failed to initialize: {dependency}", innerException)
