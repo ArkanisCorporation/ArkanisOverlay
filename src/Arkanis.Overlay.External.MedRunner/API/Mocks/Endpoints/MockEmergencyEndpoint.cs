@@ -11,7 +11,7 @@ public class MockEmergencyEndpoint(
     MockClientEndpoint clientEndpoint,
     MockChatMessageEndpoint chatMessageEndpoint,
     MockWebSocketEventProvider eventProvider
-) : MockEndpointBase, IEmergencyEndpoint
+) : MockApiEndpoint, IEmergencyEndpoint
 {
     public Dictionary<string, Emergency> Emergencies { get; } = [];
 

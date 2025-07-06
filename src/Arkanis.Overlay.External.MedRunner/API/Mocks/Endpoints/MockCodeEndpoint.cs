@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Mocks.Endpoints;
 using Abstractions.Endpoints;
 using Models;
 
-public class MockCodeEndpoint : MockEndpointBase, ICodeEndpoint
+public class MockCodeEndpoint : MockApiEndpoint, ICodeEndpoint
 {
     public Task<ApiResponse<List<PromotionalCode>>> GetRedeemedCodesAsync()
         => Task.FromResult(NotSupportedResponse<List<PromotionalCode>>(nameof(MockCodeEndpoint), nameof(GetRedeemedCodesAsync)));
