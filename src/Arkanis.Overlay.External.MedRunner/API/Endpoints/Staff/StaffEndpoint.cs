@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Response;
 
 /// <inheritdoc cref="IStaffEndpoint" />
-public class StaffEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger logger)
+public class StaffEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvider tokenProvider, IMemoryCache cache, ILogger<StaffEndpoint> logger)
     : ApiEndpoint(config, tokenProvider, cache, logger), IStaffEndpoint
 {
     /// <inheritdoc />

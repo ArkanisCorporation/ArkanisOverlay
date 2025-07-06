@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using Abstractions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -10,8 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 using Models;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
-public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider, IMedRunnerClientConfig config, ILogger<ApiKeySourcedTokenProvider> logger)
-    : IMedRunnerTokenProvider, IDisposable
+public sealed class ApiKeySourcedTokenProvider(
+    IServiceProvider serviceProvider,
+    IMedRunnerClientConfig config,
+    IMemoryCache memoryCache,
+    ILogger<ApiKeySourcedTokenProvider> logger
+) : IMedRunnerTokenProvider, IDisposable
 {
     private readonly SemaphoreSlim _accessTokenRequestSemaphore = new(1, 1);
     private readonly JsonWebTokenHandler _tokenHandler = new();
@@ -64,20 +69,39 @@ public sealed class ApiKeySourcedTokenProvider(IServiceProvider serviceProvider,
 
         try
         {
-            // synchronous token check (may have already been updated by a concurrent request)
-            if (await ValidateTokenAsync() is { Length: > 0 } newAccessToken)
-            {
-                return newAccessToken;
-            }
+            var cacheKey = $"{nameof(ApiKeySourcedTokenProvider)}-{nameof(GetAccessTokenAsync)}-{config.RefreshToken}";
+            return await memoryCache.GetOrCreateAsync(
+                cacheKey,
+                async entry =>
+                {
+                    // synchronous token check (may have already been updated by a concurrent request)
+                    if (await ValidateTokenAsync() is { Length: > 0 } newAccessToken)
+                    {
+                        return newAccessToken;
+                    }
 
-            var result = await ApiClient.Auth.RequestTokenAsync(config.RefreshToken ?? string.Empty);
-            if (result.Success)
-            {
-                return await ValidateTokenAsync(result.Data);
-            }
+                    if (string.IsNullOrWhiteSpace(config.RefreshToken))
+                    {
+                        entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                        return null;
+                    }
 
-            logger.LogError("Failed to receive new access token: (status {StatusCode}) {Error}", result.StatusCode, result.ErrorMessage);
-            return null;
+                    var result = await ApiClient.Auth.RequestTokenAsync(config.RefreshToken);
+                    if (result.Success)
+                    {
+                        var expirationTime = result.Data.AccessTokenExpiration - DateTimeOffset.Now is { TotalSeconds: > 0 } timeSpan
+                            ? timeSpan
+                            : TimeSpan.FromSeconds(1);
+
+                        entry.SetAbsoluteExpiration(expirationTime);
+                        return await ValidateTokenAsync(result.Data);
+                    }
+
+                    entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
+                    logger.LogError("Failed to receive new access token: (status {StatusCode}) {Error}", result.StatusCode, result.ErrorMessage);
+                    return null;
+                }
+            );
         }
         finally
         {

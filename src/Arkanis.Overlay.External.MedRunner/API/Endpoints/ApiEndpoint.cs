@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Endpoints;
 
 using System.Net;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 using System.Text;
 using System.Text.Json;
 using Abstractions;
@@ -85,6 +86,8 @@ public abstract class ApiEndpoint(
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             }
+
+            throw new AuthenticationException("Endpoint requires authentication but no access token could be found.");
         }
 
         if (body != null)
@@ -105,9 +108,16 @@ public abstract class ApiEndpoint(
         RequestOptions? requestOptions = null
     )
     {
-        var url = BuildUrl(endpoint, queryParams);
-        var request = await CreateRequestMessageAsync(HttpMethod.Get, url, requestOptions);
-        return await SendRequestAsync<T>(request, url, requestOptions);
+        try
+        {
+            var url = BuildUrl(endpoint, queryParams);
+            var request = await CreateRequestMessageAsync(HttpMethod.Get, url, requestOptions);
+            return await SendRequestAsync<T>(request, url, requestOptions);
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<T>(e);
+        }
     }
 
     /// <summary>
@@ -115,9 +125,16 @@ public abstract class ApiEndpoint(
     /// </summary>
     protected async Task<ApiResponse<T>> PostRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
-        var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(HttpMethod.Post, url, data, requestOptions);
-        return await SendRequestAsync<T>(request, url, requestOptions);
+        try
+        {
+            var url = BuildUrl(endpoint);
+            var request = await CreateRequestMessageAsync(HttpMethod.Post, url, data, requestOptions);
+            return await SendRequestAsync<T>(request, url, requestOptions);
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<T>(e);
+        }
     }
 
     /// <summary>
@@ -125,9 +142,16 @@ public abstract class ApiEndpoint(
     /// </summary>
     protected async Task<ApiResponse<T>> PutRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
-        var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(HttpMethod.Put, url, data, requestOptions);
-        return await SendRequestAsync<T>(request, url, requestOptions);
+        try
+        {
+            var url = BuildUrl(endpoint);
+            var request = await CreateRequestMessageAsync(HttpMethod.Put, url, data, requestOptions);
+            return await SendRequestAsync<T>(request, url, requestOptions);
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<T>(e);
+        }
     }
 
     /// <summary>
@@ -135,9 +159,16 @@ public abstract class ApiEndpoint(
     /// </summary>
     protected async Task<ApiResponse<T>> PatchRequestAsync<T>(string endpoint, object? data = null, RequestOptions? requestOptions = null)
     {
-        var url = BuildUrl(endpoint);
-        var request = await CreateRequestMessageAsync(HttpMethod.Patch, url, data, requestOptions);
-        return await SendRequestAsync<T>(request, url, requestOptions);
+        try
+        {
+            var url = BuildUrl(endpoint);
+            var request = await CreateRequestMessageAsync(HttpMethod.Patch, url, data, requestOptions);
+            return await SendRequestAsync<T>(request, url, requestOptions);
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<T>(e);
+        }
     }
 
     /// <summary>
@@ -149,9 +180,16 @@ public abstract class ApiEndpoint(
         RequestOptions? requestOptions = null
     )
     {
-        var url = BuildUrl(endpoint, queryParams);
-        var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, requestOptions);
-        return await SendRequestAsync<T>(request, url, requestOptions);
+        try
+        {
+            var url = BuildUrl(endpoint, queryParams);
+            var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, requestOptions);
+            return await SendRequestAsync<T>(request, url, requestOptions);
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<T>(e);
+        }
     }
 
     /// <summary>
@@ -202,11 +240,7 @@ public abstract class ApiEndpoint(
             if (response.IsSuccessStatusCode)
             {
                 var data = JsonSerializer.Deserialize<T>(content, Options);
-                return new ApiResponse<T>
-                {
-                    Success = true,
-                    Data = data,
-                };
+                return new ApiResponse<T>(data);
             }
 
             LogRequestError(logger, request.Method, url, response.StatusCode, content, null);
@@ -220,11 +254,7 @@ public abstract class ApiEndpoint(
         catch (Exception ex)
         {
             LogRequestException(logger, request.Method, url, ex);
-            return new ApiResponse<T>
-            {
-                Success = false,
-                ErrorMessage = ex.Message,
-            };
+            return new ApiResponse<T>(ex);
         }
     }
 
