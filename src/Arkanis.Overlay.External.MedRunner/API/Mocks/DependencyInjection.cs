@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Mocks;
 
 using Abstractions;
 using Abstractions.Endpoints;
+using Common.Extensions;
 using Endpoints;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,15 +24,15 @@ public static class DependencyInjection
 
         // Register mock endpoints
         services
-            .AddSingleton<IAuthEndpoint, MockAuthEndpoint>()
-            .AddSingleton<IChatMessageEndpoint, MockChatMessageEndpoint>()
-            .AddSingleton<IClientEndpoint, MockClientEndpoint>()
-            .AddSingleton<ICodeEndpoint, MockCodeEndpoint>()
-            .AddSingleton<IEmergencyEndpoint, MockEmergencyEndpoint>()
-            .AddSingleton<IOrgSettingsEndpoint, MockOrgSettingsEndpoint>()
-            .AddSingleton<IStaffEndpoint, MockStaffEndpoint>()
-            .AddSingleton<IWebSocketEndpoint, MockWebSocketEndpoint>()
-            .AddSingleton<IWebSocketEventProvider, MockWebSocketEventProvider>();
+            .Alias<IAuthEndpoint, MockAuthEndpoint>()
+            .Alias<IChatMessageEndpoint, MockChatMessageEndpoint>()
+            .Alias<IClientEndpoint, MockClientEndpoint>()
+            .Alias<ICodeEndpoint, MockCodeEndpoint>()
+            .Alias<IEmergencyEndpoint, MockEmergencyEndpoint>()
+            .Alias<IOrgSettingsEndpoint, MockOrgSettingsEndpoint>()
+            .Alias<IStaffEndpoint, MockStaffEndpoint>()
+            .Alias<IWebSocketEndpoint, MockWebSocketEndpoint>()
+            .Alias<IWebSocketEventProvider, MockWebSocketEventProvider>();
 
         return services;
     }
