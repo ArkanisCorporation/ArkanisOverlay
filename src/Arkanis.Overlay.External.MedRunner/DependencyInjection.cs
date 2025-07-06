@@ -13,7 +13,13 @@ public static class DependencyInjection
         Func<IServiceProvider, IMedRunnerClientConfig>? createOptions = null
     )
         => services
-            .AddSingleton(createOptions ?? (_ => new MedRunnerClientConfig()))
+            .AddSingleton(serviceProvider =>
+                {
+                    var config = createOptions?.Invoke(serviceProvider) ?? new MedRunnerClientConfig();
+                    config.IsMock = true;
+                    return config;
+                }
+            )
             .AddMockMedRunnerApiEndpoints()
             .AddSingleton<IMedRunnerTokenProvider, ApiKeySourcedTokenProvider>()
             .AddSingleton<IMedRunnerApiClient, MedRunnerApiClient>();
@@ -23,7 +29,13 @@ public static class DependencyInjection
         Func<IServiceProvider, IMedRunnerClientConfig>? createOptions = null
     )
         => services
-            .AddSingleton(createOptions ?? (_ => new MedRunnerClientConfig()))
+            .AddSingleton(serviceProvider =>
+                {
+                    var config = createOptions?.Invoke(serviceProvider) ?? new MedRunnerClientConfig();
+                    config.IsMock = false;
+                    return config;
+                }
+            )
             .AddLiveMedRunnerApiEndpoints()
             .AddSingleton<IMedRunnerTokenProvider, ApiKeySourcedTokenProvider>()
             .AddSingleton<IMedRunnerApiClient, MedRunnerApiClient>();

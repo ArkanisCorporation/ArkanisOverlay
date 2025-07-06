@@ -40,8 +40,6 @@ public static class DependencyInjection
             .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
             .AddAllUexApiClients()
-            // .AddLiveMedRunnerApiClient()
-            .AddMockMedRunnerApiClient()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
             .AddInMemorySearchServices()
@@ -53,11 +51,14 @@ public static class DependencyInjection
 
         if (options.HostingMode is HostingMode.Server)
         {
-            services.AddServicesForInMemoryUserPreferences();
+            services.AddServicesForInMemoryUserPreferences()
+                .AddMockMedRunnerApiClient();
         }
         else
         {
-            services.AddServicesForUserPreferencesFromJsonFile();
+            services
+                .AddServicesForUserPreferencesFromJsonFile()
+                .AddLiveMedRunnerApiClient();
         }
 
         return services;
