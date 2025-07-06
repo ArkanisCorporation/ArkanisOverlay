@@ -111,7 +111,7 @@
                             <MudCard Elevation="4"
                                      Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
                                      @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
-                                     disabled="@(_medRunnerContext.IsDisabled.ToString().ToLowerInvariant())">
+                                     disabled="@(MedRunnerServiceContext.IsDisabled.ToString().ToLowerInvariant())">
                                 <MudCardHeader>
                                     <MudText Typo="@Typo.h6"
                                              Align="@Align.Center"
@@ -137,34 +137,36 @@
                                                 <MudSkeleton/>
                                             </div>
                                         }
-                                        else if (_medRunnerContext.IsClientAuthenticated)
+                                        else if (MedRunnerServiceContext.IsClientAuthenticated)
                                         {
-                                            @if (_medRunnerContext.ClientHasValidSubscription)
+                                            @if (MedRunnerServiceContext.CanClientUseServices)
                                             {
                                                 <MudText Typo="@Typo.caption"
                                                          Align="@Align.Center"
                                                          Color="@Color.Success">
-                                                    Subscription Active<br/>@_medRunnerContext.ClientIdentity.Name
+                                                    Subscription
+                                                    Active<br/>@MedRunnerServiceContext.ClientIdentity.Name
                                                 </MudText>
                                             }
-                                            else if (_medRunnerContext.ClientIsInactive)
+                                            else if (MedRunnerServiceContext.IsClientInactive)
                                             {
                                                 <MudText Typo="@Typo.caption"
                                                          Align="@Align.Center"
                                                          Color="@Color.Warning">
-                                                    Subscription Inactive<br/>@_medRunnerContext.ClientIdentity.Name
+                                                    Subscription
+                                                    Inactive<br/>@MedRunnerServiceContext.ClientIdentity.Name
                                                 </MudText>
                                             }
-                                            else if (_medRunnerContext.ClientIsBlocked)
+                                            else if (MedRunnerServiceContext.IsClientBlocked)
                                             {
                                                 <MudText Typo="@Typo.caption"
                                                          Align="@Align.Center"
                                                          Color="@Color.Warning">
-                                                    Account Disabled<br/>@_medRunnerContext.ClientIdentity.Name
+                                                    Account Disabled<br/>@MedRunnerServiceContext.ClientIdentity.Name
                                                 </MudText>
                                             }
 
-                                            @if (_medRunnerContext.IsServiceUnavailable)
+                                            @if (MedRunnerServiceContext.IsServiceUnavailable)
                                             {
                                                 <MudText Typo="@Typo.caption"
                                                          Align="@Align.Center"
@@ -176,7 +178,7 @@
                                     </MudStack>
                                 </MudCardContent>
                             </MudCard>
-                            @if (!_isLoading && !_medRunnerContext.IsClientAuthenticated)
+                            @if (!_isLoading && !MedRunnerServiceContext.IsClientAuthenticated)
                             {
                                 <MudText Typo="@Typo.caption"
                                          Align="@Align.Center"
@@ -187,7 +189,7 @@
                                     </i>
                                 </MudText>
                             }
-                            @foreach (var error in _medRunnerContext.Errors)
+                            @foreach (var error in _medRunnerEmergencyContext.Errors)
                             {
                                 <MudText Typo="@Typo.caption"
                                          Align="@Align.Center"
@@ -218,8 +220,8 @@
                     <MedRunnerEmergencyCreation
                         ContentId="@ContentId"
                         @bind-IsLoading="@_isLoading"
-                        @bind-Context="@_medRunnerContext"
-                        @bind-Context:after="@ContinueOnEmergencyCreationAsync"/>
+                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                        @bind-EmergencyContext:after="@ContinueOnEmergencyCreationAsync"/>
                 </MudStep>
                 <MudStep Title="Handle emergency"
                          SecondaryText="@EmergencyHandlingDescription"
@@ -227,16 +229,16 @@
                     <MedRunnerEmergencyManagement
                         ContentId="@ContentId"
                         @bind-IsLoading="@_isLoading"
-                        @bind-Context="@_medRunnerContext"
-                        @bind-Context:after="@ContinueOnEmergencyFinalizationAsync"/>
+                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                        @bind-EmergencyContext:after="@ContinueOnEmergencyFinalizationAsync"/>
                 </MudStep>
             </ChildContent>
             <CompletedContent>
                 <MedRunnerEmergencyReview
                     ContentId="@ContentId"
                     @bind-IsLoading="@_isLoading"
-                    @bind-Context="@_medRunnerContext"
-                    @bind-Context:after="@Close"/>
+                    @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                    @bind-EmergencyContext:after="@Close"/>
             </CompletedContent>
             <ActionContent>
                 @* Navigation is managed by controls within individual steps. *@
@@ -261,18 +263,18 @@
 
     private int _activeStepIndex;
 
-    private MedRunnerComponentBase.ContextModel _medRunnerContext = new();
+    private MedRunnerComponentBase.EmergencyContextModel _medRunnerEmergencyContext = new();
 
     private bool ScenarioIsActive
-        => _medRunnerContext.Emergency is not null;
+        => _medRunnerEmergencyContext.Emergency is not null;
 
     private bool ScenarioInProgress
-        => _medRunnerContext.IsEmergencyInProgress;
+        => _medRunnerEmergencyContext.IsEmergencyInProgress;
 
     public string EmergencyHandlingDescription
         => this switch
         {
-            { ScenarioIsActive: true } => _medRunnerContext.Emergency?.Status switch
+            { ScenarioIsActive: true } => _medRunnerEmergencyContext.Emergency?.Status switch
             {
                 MissionStatus.Pending => "Wait for dispatch response",
                 MissionStatus.Accepted => "Communicate with dispatch",
@@ -299,34 +301,18 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        _medRunnerContext.Updated += OnExternalUpdate;
+        MedRunnerServiceContext.Updated += OnExternalUpdate;
+        var updateCallback = EventCallback.Factory.Create<MedRunnerComponentBase.EmergencyContextModel>(this, OnMedRunnerUpdate);
+        await _medRunnerEmergencyContext.EnsureInitializedAsync(MedRunnerServiceContext, updateCallback);
     }
 
-    protected override async Task OnParametersSetAsync()
+    private async Task OnMedRunnerUpdate(MedRunnerComponentBase.EmergencyContextModel obj)
     {
-        await base.OnParametersSetAsync();
-        await RefreshMedRunnerDataAsync();
+        await UpdateAsync();
     }
 
     private async Task StartMedRunnerSetupAsync()
-    {
-        await MedRunnerSetupDialog.ShowAsync(DialogService);
-        await RefreshMedRunnerDataAsync();
-    }
-
-    private async Task RefreshMedRunnerDataAsync()
-    {
-        try
-        {
-            _isLoading = true;
-            await _medRunnerContext.UpdateAsync(MedRunnerServiceContext);
-            await UpdateDialogOptionsAsync();
-        }
-        finally
-        {
-            _isLoading = false;
-        }
-    }
+        => await MedRunnerSetupDialog.ShowAsync(DialogService);
 
     private async Task SelectScenarioAsync(Scenario scenario)
     {
@@ -337,7 +323,7 @@
 
     private async Task ContinueOnEmergencyCreationAsync()
     {
-        if (_medRunnerContext.IsEmergencyInProgress)
+        if (_medRunnerEmergencyContext.IsEmergencyInProgress)
         {
             await _stepper!.NextStepAsync();
         }
@@ -347,7 +333,7 @@
 
     private async Task ContinueOnEmergencyFinalizationAsync()
     {
-        if (_medRunnerContext.Emergency is { Status: MissionStatus.Completed })
+        if (_medRunnerEmergencyContext.Emergency is { Status: MissionStatus.Completed })
         {
             await _stepper!.NextStepAsync();
         }
@@ -356,9 +342,12 @@
     }
 
     private void OnExternalUpdate(object? _, EventArgs args)
+        => InvokeAsync(UpdateAsync);
+
+    private async Task UpdateAsync()
     {
-        InvokeAsync(StateHasChanged);
-        InvokeAsync(UpdateDialogOptionsAsync);
+        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(UpdateDialogOptionsAsync);
     }
 
     private async Task UpdateDialogOptionsAsync()
@@ -383,8 +372,8 @@
 
     public void Dispose()
     {
-        _medRunnerContext.Updated -= OnExternalUpdate;
-        _medRunnerContext.Dispose();
+        MedRunnerServiceContext.Updated -= OnExternalUpdate;
+        _medRunnerEmergencyContext.Dispose();
     }
 
     public static async Task<DialogResult> ShowAsync(IDialogService dialogService)

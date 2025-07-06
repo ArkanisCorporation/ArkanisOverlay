@@ -143,7 +143,7 @@
                                   AlignItems="@AlignItems.Center"
                                   Justify="@Justify.Center">
                             <MedRunnerAccountInfo/>
-                            @if (_medRunnerContext.ClientHasValidSubscription)
+                            @if (ServiceContext.CanClientUseServices)
                             {
                                 <MudAlert Severity="@Severity.Success">
                                     <b>Success!</b>
@@ -158,7 +158,7 @@
                                 </MudAlert>
                             }
                             <MedRunnerAccountNotices/>
-                            @if (!_medRunnerContext.ClientHasValidSubscription)
+                            @if (!ServiceContext.CanClientUseServices)
                             {
                                 <MudButton Color="@Color.Warning"
                                            Variant="@Variant.Outlined"
@@ -194,7 +194,7 @@
     private bool HasError
         => _validationError is not null;
 
-    private MedRunnerComponentBase.ContextModel _medRunnerContext = new();
+    private MedRunnerComponentBase.EmergencyContextModel _medRunnerEmergencyContext = new();
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }
@@ -225,10 +225,10 @@
     {
         _validationError = _token switch
         {
-            { Length: < 80 } => "This is not a valid API token",
+            { Length: < 80 } => "Provided API token is not valid.",
             _ => null,
         };
-        if (_validationError is not null)
+        if (_validationError is not null || _token is null)
         {
             return;
         }
@@ -241,11 +241,10 @@
             var clientResponse = await ServiceContext.ApiClient.Client.GetAsync();
             if (clientResponse.Success)
             {
-                UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner).SecretToken = _token!;
+                UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner).SecretToken = _token;
                 await UserPreferences.SaveAndApplyUserPreferencesAsync(UserPreferences.CurrentPreferences);
 
                 await ServiceContext.RefreshAsync(CancellationToken.None);
-                await _medRunnerContext.UpdateAsync(ServiceContext);
                 await _stepper!.NextStepAsync();
             }
             else
