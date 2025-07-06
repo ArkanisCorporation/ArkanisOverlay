@@ -969,7 +969,7 @@
       "arkanis.overlay.external.medrunner": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Microsoft.AspNetCore.SignalR.Client": "[8.0.17, )",
           "Microsoft.AspNetCore.WebUtilities": "[2.3.0, )",
           "Microsoft.Extensions.Caching.Abstractions": "[8.0.0, )",

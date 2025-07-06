@@ -30,6 +30,11 @@ public class MockAuthEndpoint(IMedRunnerTokenProvider tokenProvider) : MockApiEn
 
     public Task<ApiResponse<TokenGrant>> RequestTokenAsync(string refreshToken)
     {
+        if (string.IsNullOrWhiteSpace(refreshToken))
+        {
+            return ErrorResponseAsync<TokenGrant>("No refresh token provided.");
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = Issuer,

@@ -3,7 +3,6 @@
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Microsoft.JSInterop
 @using Origin = MudBlazor.Origin
-@implements IDisposable
 @inherits MedRunnerComponentBase
 @inject IDialogService DialogService
 @inject IJSRuntime JsRuntime
@@ -373,10 +372,11 @@
         );
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
         _timer?.Dispose();
         MedRunner.WebSocket.Events.ChatMessageCreated -= OnChatMessageCreated;
         MedRunner.WebSocket.Events.ChatMessageUpdated -= OnChatMessageUpdated;
+        base.Dispose();
     }
 }

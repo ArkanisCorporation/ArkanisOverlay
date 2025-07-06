@@ -1,10 +1,18 @@
+@using Arkanis.Overlay.Domain
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
-@using Arkanis.Overlay.External.MedRunner.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
 @inject IMedRunnerClientConfig ClientConfig
+@inject IUserPreferencesManager UserPreferences
 @inject IMedRunnerServiceContext ServiceContext
 
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .medrunner-setup {
+    }
+</style>
+
 <MudDialog Gutters="false"
+           Class="medrunner-setup"
            ContentClass="ma-0"
            ContentStyle="background: var(--mud-palette-background);">
     <TitleContent>
@@ -97,6 +105,7 @@
                                 Error="@HasError"
                                 ErrorText="@_validationError"
                                 InputType="@InputType.Password"
+                                Disabled="@_isLoading"
                                 FullWidth
                                 Immediate
                                 Required/>
@@ -133,28 +142,7 @@
                         <MudStack Class="h-100"
                                   AlignItems="@AlignItems.Center"
                                   Justify="@Justify.Center">
-                            @if (_medRunnerContext.IsClientAuthenticated)
-                            {
-                                <MudStack AlignItems="@AlignItems.Center"
-                                          Spacing="0"
-                                          Row>
-                                    <MudText>
-                                        Logged in as
-                                        <b>@_medRunnerContext.ClientIdentity.Name</b>
-                                    </MudText>
-                                    @if (_medRunnerContext.ClientInfo?.AssignedRoles is { } roles)
-                                    {
-                                        <MudChipSet T="UserRoles"
-                                                    Size="@Size.Small"
-                                                    Class="cursor-default">
-                                            @foreach (var role in roles)
-                                            {
-                                                <MudChip Value="@role" Text="@role.Humanize()"/>
-                                            }
-                                        </MudChipSet>
-                                    }
-                                </MudStack>
-                            }
+                            <MedRunnerAccountInfo/>
                             @if (_medRunnerContext.ClientHasValidSubscription)
                             {
                                 <MudAlert Severity="@Severity.Success">
@@ -169,29 +157,7 @@
                                     However, your access to the MedRunner services may be limited.
                                 </MudAlert>
                             }
-                            @if (_medRunnerContext.ClientInfo is { Overdue: true })
-                            {
-                                <MudAlert Severity="@Severity.Warning">
-                                    <b>Overdue for payment!</b>
-                                    Your access to the MedRunner services may be limited.
-                                </MudAlert>
-                            }
-                            @if (_medRunnerContext.ClientIsInactive)
-                            {
-                                <MudAlert Severity="@Severity.Warning">
-                                    <b>Valid subscription missing!</b>
-                                    Your MedRunner subscription is currently inactive.
-                                    You will not be able to use the MedRunner services reactivate your subscription.
-                                </MudAlert>
-                            }
-                            @if (_medRunnerContext.ClientIsBlocked)
-                            {
-                                <MudAlert Severity="@Severity.Error">
-                                    <b>Account blocked!</b>
-                                    This account has been blocked.
-                                    You will not be able to use the MedRunner services with this account.
-                                </MudAlert>
-                            }
+                            <MedRunnerAccountNotices/>
                             @if (!_medRunnerContext.ClientHasValidSubscription)
                             {
                                 <MudButton Color="@Color.Warning"
@@ -275,7 +241,9 @@
             var clientResponse = await ServiceContext.ApiClient.Client.GetAsync();
             if (clientResponse.Success)
             {
-                // TODO: Persist in user preferences
+                UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner).SecretToken = _token!;
+                await UserPreferences.SaveAndApplyUserPreferencesAsync(UserPreferences.CurrentPreferences);
+
                 await ServiceContext.RefreshAsync(CancellationToken.None);
                 await _medRunnerContext.UpdateAsync(ServiceContext);
                 await _stepper!.NextStepAsync();
@@ -290,4 +258,5 @@
             _isLoading = false;
         }
     }
+
 }
