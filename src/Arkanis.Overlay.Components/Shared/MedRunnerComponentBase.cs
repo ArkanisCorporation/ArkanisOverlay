@@ -127,7 +127,7 @@ public abstract class MedRunnerComponentBase : ComponentBase
                 return;
             }
 
-            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+            _api.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
         }
 
         public event EventHandler? Updated;
@@ -156,30 +156,6 @@ public abstract class MedRunnerComponentBase : ComponentBase
             await UpdateClientAsync(_api);
         }
 
-        [MemberNotNull(nameof(_api))]
-        private async Task EnsureInitializedAsync(IMedRunnerApiClient api)
-        {
-            if (_api is not null)
-            {
-                return;
-            }
-
-            _api = api;
-            await _api.WebSocket.EnsureInitializedAsync();
-            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
-        }
-
-        private void OnEmergencyUpdated(object? _, Emergency emergency)
-        {
-            if (emergency.Id != Emergency?.Id)
-            {
-                return;
-            }
-
-            Emergency = emergency;
-            Updated?.Invoke(this, EventArgs.Empty);
-        }
-
         private async Task UpdateClientAsync(IMedRunnerApiClient api)
         {
             Errors.Clear();
@@ -204,6 +180,30 @@ public abstract class MedRunnerComponentBase : ComponentBase
             {
                 Errors.Add(clientResponse.ErrorMessage);
             }
+        }
+
+        [MemberNotNull(nameof(_api))]
+        private async Task EnsureInitializedAsync(IMedRunnerApiClient api)
+        {
+            if (_api is not null)
+            {
+                return;
+            }
+
+            _api = api;
+            await _api.WebSocket.EnsureInitializedAsync();
+            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+        }
+
+        private void OnEmergencyUpdated(object? _, Emergency emergency)
+        {
+            if (emergency.Id != Emergency?.Id)
+            {
+                return;
+            }
+
+            Emergency = emergency;
+            Updated?.Invoke(this, EventArgs.Empty);
         }
     }
 }
