@@ -16,4 +16,7 @@ public class MedRunnerClientConfig : IMedRunnerClientConfig
 
     /// <inheritdoc />
     public bool CookieAuth { get; set; }
+
+    /// <inheritdoc />
+    public bool IsMock { get; set; }
 }
