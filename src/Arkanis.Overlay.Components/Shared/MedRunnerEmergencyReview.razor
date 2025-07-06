@@ -2,12 +2,12 @@
 @inherits MedRunnerComponentBase
 
 <MudStack Class="pa-5">
-    @if (Context.Emergency is not null)
+    @if (EmergencyContext.Emergency is not null)
     {
         <MedRunnerServiceProvidedBy
             ContentId="@ContentId"/>
 
-        <MudToggleGroup @bind-Value="@Context.Emergency.Rating"
+        <MudToggleGroup @bind-Value="@EmergencyContext.Emergency.Rating"
                         Color="@ColorByResponseRating"
                         FixedContent
                         CheckMark>
@@ -28,7 +28,7 @@
         <MudTextField
             T="string"
             Label="Response remarks"
-            @bind-Value="@Context.Emergency.RatingRemarks"
+            @bind-Value="@EmergencyContext.Emergency.RatingRemarks"
             Class="review"
             Immediate
             AutoGrow/>
@@ -47,12 +47,12 @@
 {
 
     private bool FeedbackProvided
-        => Context.Emergency is null
-           || Context.Emergency.Rating != ResponseRating.None
-           || !string.IsNullOrWhiteSpace(Context.Emergency.RatingRemarks);
+        => EmergencyContext.Emergency is null
+           || EmergencyContext.Emergency.Rating != ResponseRating.None
+           || !string.IsNullOrWhiteSpace(EmergencyContext.Emergency.RatingRemarks);
 
     public Color ColorByResponseRating
-        => Context.Emergency?.Rating switch
+        => EmergencyContext.Emergency?.Rating switch
         {
             ResponseRating.Good => Color.Success,
             ResponseRating.None => Color.Default,
@@ -62,15 +62,15 @@
 
     private async Task SubmitReviewAsync()
     {
-        if (Context.Emergency is null)
+        if (EmergencyContext.Emergency is null)
         {
             return;
         }
 
         await PerformSafeAsync(async () =>
             {
-                await MedRunner.Emergency.RateServicesAsync(EmergencyId!, Context.Emergency.Rating, Context.Emergency.RatingRemarks);
-                await ContextChanged.InvokeAsync(Context);
+                await MedRunner.Emergency.RateServicesAsync(EmergencyId!, EmergencyContext.Emergency.Rating, EmergencyContext.Emergency.RatingRemarks);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
     }

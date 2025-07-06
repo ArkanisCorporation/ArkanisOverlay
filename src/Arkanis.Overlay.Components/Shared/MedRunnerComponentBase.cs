@@ -2,8 +2,8 @@
 namespace Arkanis.Overlay.Components.Shared;
 #pragma warning restore CA1716
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Claims;
 using External.MedRunner.API.Abstractions;
+using External.MedRunner.API.Endpoints.Emergency.Response;
 using External.MedRunner.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -13,7 +13,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         => Emergency?.Id;
 
     public Emergency? Emergency
-        => Context.Emergency;
+        => EmergencyContext.Emergency;
 
     [MemberNotNullWhen(true, nameof(Emergency), nameof(EmergencyId))]
     public bool HasEmergency
@@ -37,10 +37,10 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 
     [Parameter]
     [EditorRequired]
-    public required ContextModel Context { get; set; }
+    public required EmergencyContextModel EmergencyContext { get; set; }
 
     [Parameter]
-    public EventCallback<ContextModel> ContextChanged { get; set; }
+    public EventCallback<EmergencyContextModel> EmergencyContextChanged { get; set; }
 
     [Parameter]
     public string? ContentId { get; set; }
@@ -79,37 +79,10 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         await IsLoadingChanged.InvokeAsync(IsLoading);
     }
 
-    public sealed class ContextModel : IDisposable
+    public sealed class EmergencyContextModel : IDisposable
     {
-        // TODO: remove in favour of IMedRunnerServiceContext
-        private IMedRunnerApiClient? _api;
+        private EventCallback<EmergencyContextModel> _callback;
         private IMedRunnerServiceContext? _serviceContext;
-
-        public bool IsDisabled
-            => IsEnabled is false;
-
-        public bool IsEnabled
-            => ClientHasValidSubscription && IsServiceAvailable;
-
-        public bool IsServiceUnavailable
-            => !IsServiceAvailable;
-
-        public bool IsServiceAvailable
-            => Settings is { EmergenciesEnabled: true };
-
-        public bool IsClientAuthenticated
-            => _api?.TokenProvider.IsAuthenticated ?? false;
-
-        [MemberNotNullWhen(true, nameof(ClientInfo))]
-        public bool ClientHasValidSubscription
-            => ClientInfo is { Active: true }
-               && ClientStatus is { Blocked: false };
-
-        public bool ClientIsInactive
-            => ClientInfo is { Active: false };
-
-        public bool ClientIsBlocked
-            => ClientStatus is { Blocked: true };
 
         [MemberNotNullWhen(true, nameof(Emergency))]
         public bool IsEmergencyInProgress
@@ -118,54 +91,43 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         public bool HasErrors
             => Errors is { Count: > 0 };
 
-        public List<string> Errors { get; init; } = [];
-
         public Emergency? Emergency { get; set; }
+        public TeamDetailsResponse? RespondingTeam { get; set; }
 
-        public Person? ClientInfo
-            => _serviceContext?.ClientInfo;
-
-        public ClientBlockedStatus? ClientStatus
-            => _serviceContext?.ClientStatus;
-
-        public ClaimsIdentity ClientIdentity
-            => _serviceContext?.ApiClient.TokenProvider.Identity ?? new ClaimsIdentity();
-
-        public PublicOrgSettings? Settings
-            => _serviceContext?.PublicSettings;
+        public List<string> Errors { get; init; } = [];
 
         public void Dispose()
         {
-            if (_api is null)
+            if (_serviceContext is null)
             {
                 return;
             }
 
-            _api.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
-            _api = null;
+            _serviceContext.ApiClient.WebSocket.Events.EmergencyCreated -= OnEmergencyCreated;
+            _serviceContext.ApiClient.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
+            _serviceContext = null;
         }
 
-        public event EventHandler? Updated;
-
-        public async Task UpdateAsync(IMedRunnerServiceContext serviceContext)
+        public async Task EnsureInitializedAsync(
+            IMedRunnerServiceContext serviceContext,
+            EventCallback<EmergencyContextModel> callback
+        )
         {
-            Errors.Clear();
-
-            await EnsureInitializedAsync(serviceContext);
-        }
-
-        [MemberNotNull(nameof(_api))]
-        private async Task EnsureInitializedAsync(IMedRunnerServiceContext serviceContext)
-        {
-            if (_api is not null)
+            if (_serviceContext is not null)
             {
                 return;
             }
 
+            _callback = callback;
             _serviceContext = serviceContext;
-            _api = serviceContext.ApiClient;
-            _api.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+            _serviceContext.ApiClient.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
             await Task.CompletedTask;
+        }
+
+        private void OnEmergencyCreated(object? _, Emergency emergency)
+        {
+            Emergency = emergency;
+            SendUpdate();
         }
 
         private void OnEmergencyUpdated(object? _, Emergency emergency)
@@ -176,7 +138,10 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
             }
 
             Emergency = emergency;
-            Updated?.Invoke(this, EventArgs.Empty);
+            SendUpdate();
         }
+
+        private void SendUpdate()
+            => _callback.InvokeAsync();
     }
 }
