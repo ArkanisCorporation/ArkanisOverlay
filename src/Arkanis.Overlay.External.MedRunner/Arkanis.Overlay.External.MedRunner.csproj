@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

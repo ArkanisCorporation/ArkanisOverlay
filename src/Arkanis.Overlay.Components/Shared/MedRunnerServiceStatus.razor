@@ -1,0 +1,77 @@
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.Models
+@implements IDisposable
+@inject IMedRunnerServiceContext ServiceContext
+
+<MudStack>
+    @if (ServiceContext.PublicSettings.MessageOfTheDay is { } motd && motd.DateRange?.IsInRange() != false)
+    {
+        <MudText Align="@Align.Center"
+                 Class="text-secondary">
+            @motd.Message
+        </MudText>
+    }
+    <MudStack Justify="@Justify.SpaceBetween" Row>
+        <MudText>
+            Service Status
+        </MudText>
+        <MudText Color="@ColorFor(ServiceContext.PublicSettings.Status)">
+            <b>@ServiceContext.PublicSettings.Status.Humanize()</b>
+        </MudText>
+    </MudStack>
+    <MudStack Justify="@Justify.Center"
+              Wrap="@Wrap.Wrap"
+              Row>
+        <MudChip
+            Text="New Emergencies"
+            Value="@ServiceContext.PublicSettings.EmergenciesEnabled"
+            Icon="@IconFor(ServiceContext.PublicSettings.EmergenciesEnabled)"
+            Color="@ColorFor(ServiceContext.PublicSettings.EmergenciesEnabled)"/>
+        <MudChip
+            Text="New Registrations"
+            Value="@ServiceContext.PublicSettings.RegistrationEnabled"
+            Icon="@IconFor(ServiceContext.PublicSettings.RegistrationEnabled)"
+            Color="@ColorFor(ServiceContext.PublicSettings.RegistrationEnabled)"/>
+    </MudStack>
+</MudStack>
+
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ServiceContext.Updated += OnExternalUpdate;
+    }
+
+    private void OnExternalUpdate(object? _, EventArgs e)
+        => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+        => ServiceContext.Updated -= OnExternalUpdate;
+
+    private string IconFor(bool value)
+        => value switch
+        {
+            true => Icons.Material.Filled.Check,
+            false => Icons.Material.Filled.Close,
+        };
+
+    private Color ColorFor(ServiceStatus status)
+        => status switch
+        {
+            ServiceStatus.Healthy => Color.Success,
+            ServiceStatus.SlightlyDegraded => Color.Warning,
+            ServiceStatus.HeavilyDegraded => Color.Warning,
+            ServiceStatus.Offline => Color.Error,
+            _ => Color.Default,
+        };
+
+    private Color ColorFor(bool value)
+        => value switch
+        {
+            true => Color.Success,
+            false => Color.Error,
+        };
+
+}

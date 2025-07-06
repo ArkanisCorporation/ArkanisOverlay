@@ -116,6 +116,11 @@
     }
 }
 
+img {
+    pointer-events: none;
+    user-select: none;
+}
+
 @keyframes fadeInDown {
     0% {
         transform: translateY(-50%);

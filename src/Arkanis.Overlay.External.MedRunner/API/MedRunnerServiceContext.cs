@@ -2,30 +2,42 @@ namespace Arkanis.Overlay.External.MedRunner.API;
 
 using Abstractions;
 using Common.Services;
-using Models;
+using Domain;
+using Domain.Abstractions.Services;
+using Domain.Options;
 using Microsoft.Extensions.Logging;
+using Models;
 
-public sealed class MedRunnerServiceContext(IMedRunnerApiClient apiClient, ILogger<MedRunnerServiceContext> logger)
-    : SelfInitializableServiceBase, IMedRunnerServiceContext
+public sealed class MedRunnerServiceContext : SelfInitializableServiceBase, IMedRunnerServiceContext
 {
-    public List<string> Errors { get; set; } = [];
+    private readonly IMedRunnerClientConfig _clientConfig;
+    private readonly ILogger<MedRunnerServiceContext> _logger;
+    private readonly IUserPreferencesManager _userPreferences;
 
-    public bool HasErrors
-        => Errors is { Count: > 0 };
+    public MedRunnerServiceContext(
+        IMedRunnerApiClient apiClient,
+        IMedRunnerClientConfig clientConfig,
+        IUserPreferencesManager userPreferences,
+        ILogger<MedRunnerServiceContext> logger
+    )
+    {
+        ApiClient = apiClient;
+        _clientConfig = clientConfig;
+        _userPreferences = userPreferences;
+        _logger = logger;
+
+        _userPreferences.UpdatePreferences += OnUpdatePreferences;
+    }
+
+    public List<string> Errors { get; set; } = [];
 
     public Person? ClientInfo { get; set; }
 
     public ClientBlockedStatus ClientStatus { get; set; } = new();
 
-    public bool IsServiceUnavailable
-        => !IsServiceAvailable;
-
-    public bool IsServiceAvailable
-        => PublicSettings is { EmergenciesEnabled: true, Status: not ServiceStatus.Offline };
-
     public PublicOrgSettings PublicSettings { get; set; } = new()
     {
-        Status = ServiceStatus.Offline,
+        Status = ServiceStatus.Unknown,
         EmergenciesEnabled = false,
         AnonymousAlertsEnabled = false,
         RegistrationEnabled = false,
@@ -41,10 +53,11 @@ public sealed class MedRunnerServiceContext(IMedRunnerApiClient apiClient, ILogg
 
     public event EventHandler? Updated;
 
-    public IMedRunnerApiClient ApiClient { get; } = apiClient;
+    public IMedRunnerApiClient ApiClient { get; }
 
     public async Task RefreshAsync(CancellationToken cancellationToken)
-        => await Task.WhenAll(
+    {
+        await Task.WhenAll(
             ApiClient.OrgSettings.GetPublicSettingsAsync()
                 .ContinueWith(
                     task =>
@@ -76,10 +89,24 @@ public sealed class MedRunnerServiceContext(IMedRunnerApiClient apiClient, ILogg
             RefreshClientStatusAsync()
         );
 
+        Updated?.Invoke(this, EventArgs.Empty);
+    }
+
     public void Dispose()
     {
+        _userPreferences.UpdatePreferences -= OnUpdatePreferences;
         ApiClient.WebSocket.Events.PersonUpdated -= OnPersonUpdated;
         ApiClient.WebSocket.Events.OrgSettingsUpdated -= OnOrgSettingsUpdated;
+    }
+
+    private async void OnUpdatePreferences(object? sender, UserPreferences currentPreferences)
+    {
+        var credentials = currentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner);
+        if (credentials.SecretToken is { Length: > 0 } token)
+        {
+            _clientConfig.SetApiToken(token);
+            await RefreshAsync(CancellationToken.None);
+        }
     }
 
     private async Task RefreshClientStatusAsync()
@@ -111,7 +138,7 @@ public sealed class MedRunnerServiceContext(IMedRunnerApiClient apiClient, ILogg
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to process settings update");
+            _logger.LogError(ex, "Failed to process settings update");
         }
     }
 
@@ -125,7 +152,7 @@ public sealed class MedRunnerServiceContext(IMedRunnerApiClient apiClient, ILogg
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to process client info update");
+            _logger.LogError(ex, "Failed to process client info update");
         }
     }
 }

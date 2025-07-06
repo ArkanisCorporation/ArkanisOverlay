@@ -17,6 +17,7 @@ public class MockClientEndpoint(IMedRunnerTokenProvider tokenProvider) : MockApi
         {
             Missions = new EmergencyStats(),
         },
+        Roles = UserRoles.Client | UserRoles.Developer,
         ClientPortalPreferences = JsonDocument.Parse("{}"),
         Id = "330e45a6-94b5-499f-96ee-00d32f6db404",
     };
