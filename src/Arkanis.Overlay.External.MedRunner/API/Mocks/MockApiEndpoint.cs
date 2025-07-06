@@ -5,24 +5,27 @@ using System.Net;
 /// <summary>
 ///     Base class for all mock endpoints that returns non-successful responses.
 /// </summary>
-public abstract class MockEndpointBase
+public abstract class MockApiEndpoint
 {
-    protected static Task<ApiResponse<T>> OkResponseAsync<T>(T data)
+    private static readonly Random Random = new();
+
+    protected static async Task<ApiResponse<T>> OkResponseAsync<T>(T data)
         where T : class
     {
-        ApiResponse<T> response = new()
+        await Task.Delay(TimeSpan.FromMilliseconds(Random.Next(50, 400)));
+        return new ApiResponse<T>
         {
             Success = true,
             Data = data,
             StatusCode = HttpStatusCode.OK,
         };
-        return Task.FromResult(response);
     }
 
-    protected static Task<ApiResponse<ApiPaginatedResponse<T>>> OkPaginatedResponseAsync<T>(IEnumerable<T> data)
+    protected static async Task<ApiResponse<ApiPaginatedResponse<T>>> OkPaginatedResponseAsync<T>(IEnumerable<T> data)
         where T : class
     {
-        ApiResponse<ApiPaginatedResponse<T>> response = new()
+        await Task.Delay(TimeSpan.FromMilliseconds(Random.Next(50, 1_000)));
+        return new ApiResponse<ApiPaginatedResponse<T>>
         {
             Success = true,
             Data = new ApiPaginatedResponse<T>
@@ -32,7 +35,6 @@ public abstract class MockEndpointBase
             },
             StatusCode = HttpStatusCode.OK,
         };
-        return Task.FromResult(response);
     }
 
     protected static Task<ApiResponse<T>> ErrorResponseAsync<T>(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)

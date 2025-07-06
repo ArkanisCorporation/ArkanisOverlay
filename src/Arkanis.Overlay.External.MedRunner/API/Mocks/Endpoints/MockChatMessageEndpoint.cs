@@ -5,7 +5,7 @@ using Abstractions.Endpoints;
 using API.Endpoints.ChatMessage.Request;
 using Models;
 
-public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebSocketEventProvider eventProvider) : MockEndpointBase, IChatMessageEndpoint
+public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebSocketEventProvider eventProvider) : MockApiEndpoint, IChatMessageEndpoint
 {
     public Dictionary<string, List<ChatMessage>> ChatMessages { get; set; } = [];
 
@@ -20,19 +20,6 @@ public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebS
         return OkPaginatedResponseAsync(messages);
     }
 
-    internal Task<ApiResponse<ChatMessage>> SendInternalMessageAsync(ChatMessageRequest request)
-    {
-        var chatMessage = new ChatMessage
-        {
-            Id = Guid.NewGuid().ToString(),
-            EmergencyId = request.EmergencyId,
-            SenderId = "144e3d04-e80f-40b1-9038-92b60bf27652",
-            Content = request.Contents,
-            MessageSentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-        };
-        return HandleSendMessageAsync(request, chatMessage);
-    }
-
     public Task<ApiResponse<ChatMessage>> SendMessageAsync(ChatMessageRequest request)
     {
         var chatMessage = new ChatMessage
@@ -44,15 +31,6 @@ public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebS
             MessageSentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
         };
         return HandleSendMessageAsync(request, chatMessage);
-    }
-
-    private Task<ApiResponse<ChatMessage>> HandleSendMessageAsync(ChatMessageRequest request, ChatMessage chatMessage)
-    {
-        var messages = GetOrCreateMessagesFor(request.EmergencyId);
-        messages.Add(chatMessage);
-        eventProvider.SendNewChatMessage(chatMessage);
-
-        return OkResponseAsync(chatMessage);
     }
 
     public Task<ApiResponse<ChatMessage>> UpdateMessageAsync(string messageId, string contents)
@@ -87,6 +65,28 @@ public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebS
         }
 
         return MessageNotFoundResponseAsync<string>(messageId);
+    }
+
+    internal Task<ApiResponse<ChatMessage>> SendInternalMessageAsync(ChatMessageRequest request)
+    {
+        var chatMessage = new ChatMessage
+        {
+            Id = Guid.NewGuid().ToString(),
+            EmergencyId = request.EmergencyId,
+            SenderId = "144e3d04-e80f-40b1-9038-92b60bf27652",
+            Content = request.Contents,
+            MessageSentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+        };
+        return HandleSendMessageAsync(request, chatMessage);
+    }
+
+    private Task<ApiResponse<ChatMessage>> HandleSendMessageAsync(ChatMessageRequest request, ChatMessage chatMessage)
+    {
+        var messages = GetOrCreateMessagesFor(request.EmergencyId);
+        messages.Add(chatMessage);
+        eventProvider.SendNewChatMessage(chatMessage);
+
+        return OkResponseAsync(chatMessage);
     }
 
     private List<ChatMessage> GetOrCreateMessagesFor(string emergencyId)
