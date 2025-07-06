@@ -98,7 +98,6 @@ public static class DependencyInjection
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
-            .AddMedRunnerApiClient()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -108,6 +107,18 @@ public static class DependencyInjection
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();
+
+        if (options.HostingMode is HostingMode.Server)
+        {
+            services.AddServicesForInMemoryUserPreferences()
+                .AddMockMedRunnerApiClient();
+        }
+        else
+        {
+            services
+                .AddServicesForUserPreferencesFromJsonFile()
+                .AddLiveMedRunnerApiClient();
+        }
 
         services.AddHostedService<InitializeServicesHostedService>();
 

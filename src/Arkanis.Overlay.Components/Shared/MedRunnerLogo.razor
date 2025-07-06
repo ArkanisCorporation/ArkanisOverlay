@@ -1,4 +1,30 @@
+@using System.Text
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.Infrastructure.Helpers
+@inject IMedRunnerClientConfig MedRunnerClientConfig
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .medrunner-logo {
+        position: relative;
+        display: block;
+    }
+
+    .medrunner-logo.is-mocked:before {
+        content: "LOCAL MODE";
+        font-size: small;
+        font-weight: bold;
+        text-align: right;
+        opacity: .75;
+        color: yellow;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
 @if (WithoutLink)
 {
     @ImageContent
@@ -14,10 +40,12 @@ else
 {
 
     private RenderFragment ImageContent
-        => @<MudImage
-               Class="@Class"
-               Style="@Style"
-               Src="@LinkHelper.GetPathToAsset(AssetPath)"/>;
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="MedRunner"/>
+           </picture>;
 
     private string AssetPath
         => this switch
@@ -28,7 +56,26 @@ else
             { Horizontal: false, TransparentVariant: false } => "img/medrunner-logo-white.svg",
         };
 
-    [Parameter]
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("medrunner-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            if (MedRunnerClientConfig.IsMock)
+            {
+                builder.Append(" is-mocked");
+            }
+
+            return builder.ToString();
+        }
+    }
+
     public bool TransparentVariant { get; set; }
 
     [Parameter]
@@ -38,7 +85,7 @@ else
     public bool WithoutLink { get; set; }
 
     [Parameter]
-    public string? Class { get; set; } = "d-block";
+    public string? Class { get; set; }
 
     [Parameter]
     public string? Style { get; set; }
