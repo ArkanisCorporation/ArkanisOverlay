@@ -18,7 +18,7 @@ public record UserPreferences
 
     public UpdateChannel UpdateChannel { get; set; } = UpdateChannel.Default;
 
-    public bool AutoStartWithBoot { get; set; }
+    public bool AutoStartWithBoot { get; set; } = true;
 
     public bool TerminateOnGameExit { get; set; }
 
