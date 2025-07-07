@@ -71,7 +71,6 @@ public class OverlayModules
             Url = "/settings",
             Name = "Settings",
             Icon = Outlined.Settings,
-            Disabled = true,
         },
     ];
 

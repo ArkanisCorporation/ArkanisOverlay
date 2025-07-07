@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services.Abstractions;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 
 /// <summary>
 ///     A generic interface for hydration services that act as they can hydrate objects of any type.

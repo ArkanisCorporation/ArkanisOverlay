@@ -1,0 +1,119 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@inject IDialogService DialogService
+@inject IMedRunnerClientConfig MedRunnerClientConfig
+
+<MudMainContent Class="pb-8 px-2">
+    <MudPaper>
+        <div class="py-4 px-6">
+            <MudText Typo="@Typo.h5">
+                External Services
+            </MudText>
+            <MudText Typo="@Typo.body1">
+                asdasda
+            </MudText>
+        </div>
+        <MudDivider/>
+        <MudExpansionPanels>
+            <MudExpansionPanel Disabled>
+                <TitleContent>
+                    <MudStack AlignItems="@AlignItems.Center"
+                              Spacing="6"
+                              Row>
+                        <UexLogo
+                            Style="height: 32px;"
+                            ContentId="@ContentId"/>
+                        <MudText Class="text-secondary">
+                            Account connection not supported yet
+                        </MudText>
+                    </MudStack>
+                </TitleContent>
+                <ChildContent>
+                </ChildContent>
+            </MudExpansionPanel>
+
+            <MudExpansionPanel>
+                <TitleContent>
+                    <MudStack AlignItems="@AlignItems.Center"
+                              Spacing="6"
+                              Row>
+                        <MedRunnerLogo
+                            Style="height: 32px;"
+                            ContentId="@ContentId"
+                            Horizontal/>
+                        <MedRunnerAccountInfo
+                            Spacing="6"
+                            Brief
+                            Reverse
+                            Row/>
+                    </MudStack>
+                </TitleContent>
+                <ChildContent>
+                    <MudGrid>
+                        <MudItem xs="12" sm="4">
+                            <MudStack Justify="@Justify.Center"
+                                      Class="h-100">
+                                <MedRunnerServiceStatus/>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem xs="12" sm="8">
+                            <MudStack Class="h-100"
+                                      AlignItems="@AlignItems.Center"
+                                      Justify="@Justify.Center">
+                                <MedRunnerAccountInfo/>
+                                <MedRunnerAccountNotices/>
+                                <MudButton Color="@Color.Default"
+                                           Size="@Size.Large"
+                                           Class="w-100"
+                                           OnClick="@ConnectAccountAsync">
+                                    @if (MedRunnerClientConfig.RefreshToken is null)
+                                    {
+                                        <MudStack AlignItems="@AlignItems.Center"
+                                                  Spacing="2"
+                                                  Row>
+                                            Connect
+                                            your
+                                            <MedRunnerLogo
+                                                Style="height: 32px;"
+                                                WithoutLink
+                                                Horizontal/>
+                                            Account
+                                        </MudStack>
+                                    }
+                                    else
+                                    {
+                                        <MudStack AlignItems="@AlignItems.Center"
+                                                  Spacing="2"
+                                                  Row>
+                                            Connect
+                                            different
+                                            <MedRunnerLogo
+                                                Style="height: 32px;"
+                                                WithoutLink
+                                                Horizontal/>
+                                            Account
+                                        </MudStack>
+                                    }
+                                </MudButton>
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+
+    </MudPaper>
+</MudMainContent>
+
+@code
+{
+
+    private const string ContentId = "settings";
+
+    private async Task ConnectAccountAsync()
+    {
+        await MedRunnerSetupDialog.ShowAsync(DialogService);
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

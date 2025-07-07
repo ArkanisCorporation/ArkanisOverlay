@@ -4,6 +4,7 @@ using Common.Enums;
 using Common.Extensions;
 using Data;
 using Domain.Abstractions.Services;
+using External.MedRunner;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,11 +51,14 @@ public static class DependencyInjection
 
         if (options.HostingMode is HostingMode.Server)
         {
-            services.AddServicesForInMemoryUserPreferences();
+            services.AddServicesForInMemoryUserPreferences()
+                .AddMockMedRunnerApiClient();
         }
         else
         {
-            services.AddServicesForUserPreferencesFromJsonFile();
+            services
+                .AddServicesForUserPreferencesFromJsonFile()
+                .AddLiveMedRunnerApiClient();
         }
 
         return services;
