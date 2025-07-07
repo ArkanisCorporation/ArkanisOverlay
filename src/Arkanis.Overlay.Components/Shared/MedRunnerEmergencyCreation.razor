@@ -9,16 +9,37 @@
 @inject IMedRunnerClientConfig MedRunnerClientConfig
 
 <MudGrid Class="pa-5">
+    <MudItem xs="12" sm="6">
+        <GameEntitySelectBox
+            Label="System"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_selectedSystemEntity"
+            Accept="@(location => location is GameStarSystem)"
+            Required/>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <GameEntitySelectBox
+            Label="Planet / Orbit"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_selectedPlanetEntity"
+            Accept="@(location => location is GamePlanet planet && SelectedSystem?.Contains(planet) == true)"
+            Disabled="@(SelectedSystem is null)"
+            Required/>
+    </MudItem>
     <MudItem xs="12" md="8">
         <GameEntitySelectBox
             Label="Closest location"
+            HelperText="Not required, only provide if you know the exact location closest to you"
             EntityCategory="@GameEntityCategory.Location"
-            @bind-Value="@_closestLocationEntity"
-            Accept="@(location => location is not GameStarSystem)"/>
+            @bind-Value="@_selectedLocationEntity"
+            Disabled="@(SelectedPlanet is null)"
+            Accept="@(location => location is IGameLocation gameLocation and not GameStarSystem and not GamePlanet
+                                  && SelectedPlanet?.Contains(gameLocation) == true)"/>
     </MudItem>
     <MudItem xs="12" md="4">
         <MudSelect @bind-Value="@_threatLevel"
-                   Label="Threat level">
+                   Label="Threat level"
+                   Required>
             @foreach (var threatLevel in Enum.GetValues<ThreatLevel>())
             {
                 <MudSelectItem T="ThreatLevel?" Value="@threatLevel">
@@ -75,10 +96,19 @@
 {
 
     private ThreatLevel? _threatLevel;
-    private IGameEntity? _closestLocationEntity;
+    private IGameEntity? _selectedLocationEntity;
+    private IGameEntity? _selectedSystemEntity;
+    private IGameEntity? _selectedPlanetEntity;
+
+    private IGameLocation? SelectedSystem
+        => _selectedSystemEntity as IGameLocation;
+
+    private IGameLocation? SelectedPlanet
+        => _selectedPlanetEntity as IGameLocation;
 
     private GameLocationEntity? ClosestLocation
-        => _closestLocationEntity as GameLocationEntity;
+        => _selectedLocationEntity as GameLocationEntity
+           ?? SelectedPlanet as GameLocationEntity;
 
     [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
     private bool SubmitDisabled
