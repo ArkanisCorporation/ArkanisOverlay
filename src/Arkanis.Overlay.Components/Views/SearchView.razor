@@ -45,11 +45,11 @@
 
         .mud-input,
         .mud-input-control > .mud-input-control-input-container > .mud-input-label-inputcontrol {
-            font-size: 2vh; /* 1 rem is default */
+            font-size: max(2.5vh, 1.5rem); /* 1 rem is default */
         }
 
         .mud-icon-size-medium {
-            font-size: 2.5vh;
+            font-size: max(2.5vh, 1.5rem); /* 1 rem is default */;
         }
     }
 
@@ -82,7 +82,7 @@
             }
             else if (SearchResults.GameEntities.Count > 0)
             {
-                <MudChip T="string" Variant="@Variant.Text">
+                <MudChip T="string" Variant="@Variant.Filled" Color="@Color.Surface">
                     Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
                 </MudChip>
 
