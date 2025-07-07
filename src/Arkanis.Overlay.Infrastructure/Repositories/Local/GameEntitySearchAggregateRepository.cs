@@ -18,7 +18,13 @@ internal class GameEntitySearchAggregateRepository(
     IEnumerable<IGameEntityRepository> gameEntityRepositories
 ) : IGameEntityAggregateRepository
 {
-    private readonly Type[] _excludedEntityTypes = [typeof(GameEntityPrice), typeof(GameItemTrait), typeof(GameProductCategory)];
+    private readonly Type[] _excludedEntityTypes =
+    [
+        typeof(GameEntityPrice),
+        typeof(GameItemTrait),
+        typeof(GameProductCategory),
+        typeof(GameTradeRoute),
+    ];
 
     public async IAsyncEnumerable<IGameEntity> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
