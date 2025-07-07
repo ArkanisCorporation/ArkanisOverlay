@@ -25,7 +25,7 @@
 <MudPaper Style="position: sticky; top: 0; z-index: 10;"
           Elevation="4"
           Class="py-2 px-4 mx-3">
-    <MudGrid>
+    <MudGrid Spacing="2">
         <MudItem xs="12" md="4">
             <GameEntitySelectBox
                 Label="Commodity"
@@ -40,7 +40,8 @@
                 InputType="@InputType.Number"
                 DebounceInterval="200"
                 OnDebounceIntervalElapsed="RefreshDataAsync"
-                Label="Stock amount (SCU)"
+                Label="Stock amount"
+                HelperText="in SCUs"
                 Placeholder="Cargo amount"
                 Clearable/>
         </MudItem>

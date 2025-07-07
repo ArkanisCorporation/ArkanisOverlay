@@ -27,7 +27,7 @@
 <MudPaper Style="position: sticky; top: 0; z-index: 10;"
           Elevation="4"
           Class="py-2 px-4 mx-3">
-    <MudGrid>
+    <MudGrid Spacing="2">
         <MudItem xs="12" md="3">
             <GameEntitySelectBox
                 Label="Transport vehicle"
@@ -42,7 +42,8 @@
                 InputType="@InputType.Number"
                 DebounceInterval="200"
                 OnDebounceIntervalElapsed="RefreshDataAsync"
-                Label="Capacity (SCU)"
+                Label="Capacity"
+                HelperText="in SCUs"
                 Placeholder="Cargo capacity"
                 Clearable/>
         </MudItem>
