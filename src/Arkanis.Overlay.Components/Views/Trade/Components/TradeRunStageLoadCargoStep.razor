@@ -18,17 +18,19 @@
         </MudStack>
         <GameEntityNameLabel
             Model="@Location.Name"/>
-        <MudSelect Label="Cargo transfer type"
-                   @bind-Value="@Stage.CargoTransferType"
-                   @bind-Value:after="@UpdateStageAsync"
-                   Style="min-width: 240px">
-            @foreach (var status in Enum.GetValues<GameCargoTransferType>().Where(x => x is not GameCargoTransferType.Unknown))
-            {
-                <MudSelectItem Value="@status">
-                    @status.Humanize()
-                </MudSelectItem>
-            }
-        </MudSelect>
+        <div>
+            <MudSelect Label="Cargo transfer type"
+                       @bind-Value="@Stage.CargoTransferType"
+                       @bind-Value:after="@UpdateStageAsync"
+                       Style="min-width: 240px">
+                @foreach (var status in Enum.GetValues<GameCargoTransferType>().Where(x => x is not GameCargoTransferType.Unknown))
+                {
+                    <MudSelectItem Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </div>
         @if (Stage.CargoTransferType is GameCargoTransferType.AutoLoad)
         {
             <MudNumericField
