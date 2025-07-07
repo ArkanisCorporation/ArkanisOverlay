@@ -31,10 +31,10 @@
         <MudItem xs="12" md="3">
             <GameEntitySelectBox
                 Label="Transport vehicle"
-                @bind-Value="@SelectedVehicleEntity"
-                @bind-Value:after="@RefreshDataAsync"
                 EntityCategories="@( [GameEntityCategory.GroundVehicle, GameEntityCategory.SpaceShip])"
-                Accept="@(x => x is GameVehicle { CargoCapacity: > 0 })"/>
+                Accept="@(x => x is GameVehicle { CargoCapacity: > 0 })"
+                @bind-Value="@SelectedVehicleEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
         <MudItem xs="12" md="1">
             <MudTextField
@@ -50,7 +50,7 @@
             <GameEntitySelectBox
                 Label="Commodity"
                 EntityCategory="@GameEntityCategory.Commodity"
-                Accept="@(commodity => ApplicableCommodities.Contains(commodity))"
+                Only="@ApplicableCommodities"
                 @bind-Value="@SelectedCommodityEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
@@ -58,7 +58,7 @@
             <GameEntitySelectBox
                 Label="Origin location"
                 EntityCategory="@GameEntityCategory.Location"
-                Accept="@(location => ApplicableOriginLocations.Contains(location))"
+                Only="@ApplicableOriginLocations"
                 @bind-Value="@SelectedOriginLocationEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
@@ -66,7 +66,7 @@
             <GameEntitySelectBox
                 Label="Destination location"
                 EntityCategory="@GameEntityCategory.Location"
-                Accept="@(location => ApplicableDestinationLocations.Contains(location))"
+                Only="@ApplicableDestinationLocations"
                 @bind-Value="@SelectedDestinationLocationEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
@@ -257,8 +257,8 @@
         => SelectedDestinationLocationEntity as IGameLocation;
 
     private ICollection<IGameLocation> AllLocations { get; set; } = [];
-    private ICollection<IGameLocation> ApplicableOriginLocations { get; set; } = [];
-    private ICollection<IGameLocation> ApplicableDestinationLocations { get; set; } = [];
+    private IGameLocation[] ApplicableOriginLocations { get; set; } = [];
+    private IGameLocation[] ApplicableDestinationLocations { get; set; } = [];
 
     private GameCommodity[] ApplicableCommodities { get; set; } = [];
 

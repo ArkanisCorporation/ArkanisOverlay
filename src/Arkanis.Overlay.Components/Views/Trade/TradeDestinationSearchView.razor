@@ -30,7 +30,7 @@
             <GameEntitySelectBox
                 Label="Commodity"
                 EntityCategory="@GameEntityCategory.Commodity"
-                Accept="@(commodity => ApplicableCommodities.Contains(commodity))"
+                Only="@ApplicableCommodities"
                 @bind-Value="@SelectedCommodityEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
@@ -48,7 +48,7 @@
             <GameEntitySelectBox
                 Label="Destination location"
                 EntityCategory="@GameEntityCategory.Location"
-                Accept="@(location => ApplicableDestinationLocations.Contains(location))"
+                Only="@ApplicableDestinationLocations"
                 @bind-Value="@SelectedDestinationLocationEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
