@@ -32,6 +32,8 @@ public sealed class GameTerminal(
     public bool IsIllegal { get; init; }
     public bool HasAutoLoad { get; init; }
     public bool HasCargoDeck { get; set; }
+    public bool HasFreightElevator { get; set; }
+    public bool HasDockingPort { get; set; }
     public int? MaxContainerSize { get; init; }
 
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
