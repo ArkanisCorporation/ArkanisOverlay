@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Components.Helpers;
 
+using Domain.Models.Inventory;
 using Domain.Models.Trade;
 using Microsoft.AspNetCore.Http;
 using Views;
@@ -20,4 +21,9 @@ public static class LinkHelper
 
         return $"/trade/{TradeView.Tab.Ledger:G}{queryString}";
     }
+
+    public static string Hangar(InventoryEntryId? entryId)
+        => entryId is not null
+            ? $"/hangar/{entryId.Identity.ToString()}"
+            : "/hangar";
 }

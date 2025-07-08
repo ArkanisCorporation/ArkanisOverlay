@@ -39,6 +39,10 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
             _ => base.ToString(),
         };
 
+    public T ReferenceAs<T>()
+        where T : GameEntity
+        => Reference.As<T>();
+
     public override string ToString()
         => ToString(null, null);
 

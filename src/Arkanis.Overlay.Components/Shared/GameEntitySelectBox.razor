@@ -67,6 +67,9 @@
     public IEnumerable<IGameEntity> Except { get; set; } = [];
 
     [Parameter]
+    public IEnumerable<IGameEntity> Include { get; set; } = [];
+
+    [Parameter]
     public IEnumerable<IGameEntity>? Only { get; set; }
 
     [Parameter]
@@ -109,11 +112,13 @@
         }
 
         var results = await SearchService.SearchAsync(queries, ct);
-        return results.GameEntities
+        var filteredResults = results.GameEntities
             .Select(x => x.Subject)
             .Where(x => _except.Contains(x) == false)
             .Where(x => _only is null || _only.Contains(x))
             .Where(Accept);
+
+        return Include.Concat(filteredResults);
     }
 
     private string? GetText(IGameEntity? value)

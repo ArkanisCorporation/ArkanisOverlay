@@ -1,0 +1,158 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@inject IGameEntityRepository<GameItem> GameItemRepository
+@inject IGameEntityRepository<GameSpaceShip> GameSpaceShipRepository
+@inject IGameEntityRepository<GameSpaceStation> GameSpaceStationRepository
+@inject IInventoryManager InventoryManager
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .game-entity-name {
+        .primary {
+            max-width: 100%;
+        }
+
+        .footer {
+            max-width: 100%;
+        }
+    }
+
+    .mud-tabs-tabbar-content .mud-badge.mud-badge-top.center.mud-badge-overlap {
+        bottom: calc(100% - 8px);
+    }
+
+    .mud-tabs-tabbar .mud-tabs-scroll-button {
+        display: none;
+    }
+</style>
+
+<div>
+    <MudMainContent Class="pb-8">
+        @if (AllEntries.FirstOrDefault(x => x.Id == SelectedEntryId) is { } entry)
+        {
+            <HangarEntryDetailView
+                Entry="@entry"/>
+        }
+        else
+        {
+            <HangarInventoryEntriesView
+                Entries="@AllEntries"
+                Locations="@AllLocations"/>
+        }
+    </MudMainContent>
+</div>
+
+@code
+{
+    public HangarInventoryEntry[] AllEntries { get; set; } = [];
+    public IGameLocation[] AllLocations { get; set; } = [];
+
+    [Parameter]
+    public InventoryEntryId? SelectedEntryId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        var entries = await InventoryManager.GetAllEntriesAsync();
+        AllEntries = entries.OfType<HangarInventoryEntry>()
+            .Append(
+                new HangarInventoryEntry
+                {
+                    Id = new InventoryEntryId(Guid.Parse("d1a0a286-85d4-4806-9f57-b1d58840c50c")),
+                    Location = await GameSpaceStationRepository.GetAsync(UexApiGameEntityId.Create<GameSpaceStation>(27)) ?? GameLocationEntity.Unknown,
+                    Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(109)) ?? throw new ApplicationException(), Quantity.Default),
+                    Modules =
+                    [
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(1)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(2)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(3)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(124)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(125)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(126)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(67)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(68)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleModuleEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(69)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                    ],
+                    Inventory =
+                    [
+                        new VehicleInventoryEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(109)) ?? throw new ApplicationException(), Quantity.Default),
+                        },
+                        new VehicleInventoryEntry
+                        {
+                            Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(27)) ?? throw new ApplicationException(), Quantity.Default with { Unit = Quantity.UnitType.StandardCargoUnit }),
+                        },
+                    ],
+                    NameTag = "The Liskov Principle",
+                    IsPledged = true,
+                }
+            )
+            .Append(
+                new HangarInventoryEntry
+                {
+                    Location = await GameSpaceStationRepository.GetAsync(UexApiGameEntityId.Create<GameSpaceStation>(27)) ?? GameLocationEntity.Unknown,
+                    Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(152)) ?? throw new ApplicationException(), Quantity.Default),
+                }
+            )
+            .Append(
+                new HangarInventoryEntry
+                {
+                    Location = await GameSpaceStationRepository.GetAsync(UexApiGameEntityId.Create<GameSpaceStation>(10)) ?? GameLocationEntity.Unknown,
+                    Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(188)) ?? throw new ApplicationException(), Quantity.Default),
+                    IsPledged = true,
+                }
+            )
+            .Append(
+                new HangarInventoryEntry
+                {
+                    Location = GameLocationEntity.Unknown,
+                    Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(1)) ?? throw new ApplicationException(), Quantity.Default),
+                    IsLoaner = true,
+                }
+            )
+            .ToArray();
+
+        AllLocations = GetUniqueLocations(AllEntries);
+    }
+
+    private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
+        => entries.OfType<IGameLocatedAt>()
+            .SelectMany<IGameLocatedAt, IGameLocation>(x => [x.Location, ..x.Location.Parents])
+            .Distinct()
+            .OrderBy(x => x.Name.MainContent.FullName)
+            .ToArray();
+
+}
