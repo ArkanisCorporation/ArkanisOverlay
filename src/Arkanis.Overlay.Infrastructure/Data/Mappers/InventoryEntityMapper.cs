@@ -1,23 +1,27 @@
 namespace Arkanis.Overlay.Infrastructure.Data.Mappers;
 
-using Domain.Abstractions.Game;
-using Domain.Models.Game;
 using Domain.Models.Inventory;
 using Entities;
 using Riok.Mapperly.Abstractions;
 using Riok.Mapperly.Abstractions.ReferenceHandling;
 
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target, UseReferenceHandling = true)]
-internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
+internal partial class InventoryEntityMapper(
+    EntityReferenceMapper entityReferenceMapper,
+    TradeRunEntityMapper tradeRunEntityMapper,
+    UexApiDtoMapper uexMapper
+) : TradeRunEntityMapper.ICapabilities,
+    UexApiDtoMapper.ICapabilities,
+    EntityReferenceMapper.ICapabilities
 {
-    private GameItem ResolveItem(UexId<GameItem> itemId)
-        => uexMapper.ResolveCachedGameEntity(itemId);
+    UexApiDtoMapper IMapperWith<UexApiDtoMapper>.Reference
+        => uexMapper;
 
-    private GameCommodity ResolveCommodity(UexId<GameCommodity> commodityId)
-        => uexMapper.ResolveCachedGameEntity(commodityId);
+    TradeRunEntityMapper IMapperWith<TradeRunEntityMapper>.Reference
+        => tradeRunEntityMapper;
 
-    private IGameLocation ResolveLocation(UexApiGameEntityId locationId)
-        => uexMapper.ResolveCachedGameEntity<IGameLocation>(locationId);
+    EntityReferenceMapper IMapperWith<EntityReferenceMapper>.Reference
+        => entityReferenceMapper;
 
     #region (To Database) Inventory List Mapping
 
@@ -111,27 +115,27 @@ internal partial class InventoryEntityMapper(UexApiDtoMapper uexMapper)
         };
     }
 
-    [MapProperty(nameof(ItemInventoryEntryEntityBase.ItemId), nameof(VirtualItemInventoryEntry.Item), Use = nameof(ResolveItem))]
+    [MapProperty(nameof(ItemInventoryEntryEntityBase.ItemId), nameof(VirtualItemInventoryEntry.Item))]
     private partial VirtualItemInventoryEntry Map(
         VirtualItemInventoryEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler
     );
 
-    [MapProperty(nameof(ItemInventoryEntryEntityBase.ItemId), nameof(PhysicalItemInventoryEntry.Item), Use = nameof(ResolveItem))]
-    [MapProperty(nameof(PhysicalItemInventoryEntryEntity.LocationId), nameof(PhysicalItemInventoryEntry.Location), Use = nameof(ResolveLocation))]
+    [MapProperty(nameof(ItemInventoryEntryEntityBase.ItemId), nameof(PhysicalItemInventoryEntry.Item))]
+    [MapProperty(nameof(PhysicalItemInventoryEntryEntity.LocationId), nameof(PhysicalItemInventoryEntry.Location))]
     private partial PhysicalItemInventoryEntry Map(
         PhysicalItemInventoryEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler
     );
 
-    [MapProperty(nameof(CommodityInventoryEntryEntityBase.CommodityId), nameof(VirtualCommodityInventoryEntry.Commodity), Use = nameof(ResolveCommodity))]
+    [MapProperty(nameof(CommodityInventoryEntryEntityBase.CommodityId), nameof(VirtualCommodityInventoryEntry.Commodity))]
     private partial VirtualCommodityInventoryEntry Map(
         VirtualCommodityInventoryEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler
     );
 
-    [MapProperty(nameof(CommodityInventoryEntryEntityBase.CommodityId), nameof(PhysicalCommodityInventoryEntry.Commodity), Use = nameof(ResolveCommodity))]
-    [MapProperty(nameof(PhysicalCommodityInventoryEntryEntity.LocationId), nameof(PhysicalCommodityInventoryEntry.Location), Use = nameof(ResolveLocation))]
+    [MapProperty(nameof(CommodityInventoryEntryEntityBase.CommodityId), nameof(PhysicalCommodityInventoryEntry.Commodity))]
+    [MapProperty(nameof(PhysicalCommodityInventoryEntryEntity.LocationId), nameof(PhysicalCommodityInventoryEntry.Location))]
     private partial PhysicalCommodityInventoryEntry Map(
         PhysicalCommodityInventoryEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler

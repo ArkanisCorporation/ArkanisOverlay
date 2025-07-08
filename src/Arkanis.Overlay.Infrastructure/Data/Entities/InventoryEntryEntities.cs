@@ -7,6 +7,7 @@ using Converters;
 using Domain.Enums;
 using Domain.Models.Game;
 using Domain.Models.Inventory;
+using Domain.Models.Trade;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,6 +23,8 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
 
     public InventoryEntryBase.EntryType EntryType { get; private init; } = entryType;
 
+    public QuantityOfEntity? QuantityReference { get; set; }
+
     public required Quantity Quantity { get; set; }
 
     //? maximum length determined automatically by convention
@@ -31,6 +34,10 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
         get => _discriminator ?? CreateDiscriminatorValueFor(GameEntityCategory, EntryType);
         private init => _discriminator = value;
     }
+
+    public TradeRunId? TradeRunId { get; set; }
+
+    public TradeRunEntity? TradeRun { get; set; }
 
     public InventoryEntryListId? ListId { get; set; }
 
@@ -52,11 +59,24 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
             builder.Property(x => x.ListId)
                 .HasConversion<GuidDomainIdConverter<InventoryEntryListId>>();
 
+            builder.Property(x => x.TradeRunId)
+                .HasConversion<GuidDomainIdConverter<TradeRunId>>();
+
             builder.Property(x => x.GameEntityId)
                 .HasConversion<UexApiDomainIdConverter>();
 
             builder.Navigation(x => x.List)
                 .AutoInclude();
+
+            builder.HasOne(x => x.QuantityReference)
+                .WithOne()
+                .HasForeignKey<QuantityOfEntity>(x => x.InventoryEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.TradeRun)
+                .WithMany()
+                .HasForeignKey(x => x.TradeRunId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // explicit value must be defined for manual discriminator property in this case
             builder.HasDiscriminator(x => x.Discriminator)
