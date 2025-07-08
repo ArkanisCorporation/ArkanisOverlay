@@ -96,6 +96,7 @@ internal sealed class VirtualInventoryEntryEntity() : InventoryEntryEntityBase(I
     }
 }
 
+[Index(nameof(LocationId))]
 internal sealed class LocationInventoryEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.Location), IDatabaseEntityWithLocation
 {
     [Column(nameof(LocationId))]
