@@ -17,9 +17,11 @@ public class InventoryEntityMapperUnitTests
     internal void Correctly_Maps_Base_Properties_For_All_Database_Types(InventoryEntryEntityBase sourceObject)
     {
         var uexMapper = new UexApiDtoMapper(new NoHydrationMockService());
+        var ownableEntityRefMapper = new EntityReferenceMapper(uexMapper);
+        var tradeRunEntityMapper = new TradeRunEntityMapper(ownableEntityRefMapper, uexMapper);
         GameEntityFixture.AllEntities.ForEach(uexMapper.CacheGameEntity);
 
-        var mapper = new InventoryEntityMapper(uexMapper);
+        var mapper = new InventoryEntityMapper(ownableEntityRefMapper, tradeRunEntityMapper, uexMapper);
 
         var result = mapper.Map(sourceObject);
 
@@ -40,7 +42,9 @@ public class InventoryEntityMapperUnitTests
     internal void Correctly_Maps_Base_Properties_For_All_Domain_Types(InventoryEntryBase sourceObject)
     {
         var uexMapper = new UexApiDtoMapper(new NoHydrationMockService());
-        var mapper = new InventoryEntityMapper(uexMapper);
+        var ownableEntityRefMapper = new EntityReferenceMapper(uexMapper);
+        var tradeRunEntityMapper = new TradeRunEntityMapper(ownableEntityRefMapper, uexMapper);
+        var mapper = new InventoryEntityMapper(ownableEntityRefMapper, tradeRunEntityMapper, uexMapper);
 
         var result = mapper.Map(sourceObject);
 
