@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Riok.Mapperly.Abstractions;
 
+[Index(nameof(EntityId))]
 [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
 public class OwnableEntityReferenceEntity
 {
