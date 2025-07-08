@@ -1,5 +1,7 @@
 <MudStack Spacing="0"
-          Class="game-entity-name">
+          AlignItems="@Align"
+          Justify="@Justify"
+          Class="@($"game-entity-name {Class}")">
     @if (Model.Location is { } locationReference && !Embedded)
     {
         <div class="header location">
@@ -32,7 +34,7 @@
     {
         <MudStack Class="footer properties mt-n2 no-wrap"
                   Row>
-            @foreach (var property in properties)
+            @foreach (var property in properties.Where(PropertyFilter).Take(PropertyLimit))
             {
                 <MudStack Spacing="2" Row>
                     <span style="font-weight: lighter">@property.Key</span>
@@ -56,7 +58,22 @@
     public string? Style { get; set; }
 
     [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public int PropertyLimit { get; set; } = 10;
+
+    [Parameter]
+    public Func<GameEntityName.PropertyItem, bool> PropertyFilter { get; set; } = _ => true;
+
+    [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public AlignItems Align { get; set; } = AlignItems.Start;
+
+    [Parameter]
+    public Justify Justify { get; set; } = Justify.FlexStart;
 
     [Parameter]
     public bool PreferCode { get; set; }

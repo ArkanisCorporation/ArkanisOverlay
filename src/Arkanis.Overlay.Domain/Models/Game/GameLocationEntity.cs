@@ -52,6 +52,6 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
     {
         public static GameLocationEntity Instance { get; } = new UnknownLocation();
 
-        public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode("Unknown Location", "UNK?"));
+        public override GameEntityName Name { get; } = new(new GameEntityName.Name("Unknown Location"));
     }
 }

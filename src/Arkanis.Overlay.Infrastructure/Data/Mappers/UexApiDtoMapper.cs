@@ -384,6 +384,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(VehicleDTO.Is_docking), nameof(GameVehicle.SupportsDocking))]
     [MapProperty(nameof(VehicleDTO.Is_loading_dock), nameof(GameVehicle.SupportsCargoDeck))]
     [MapProperty(nameof(VehicleDTO.Container_sizes), nameof(GameVehicle.MaxContainerSize), Use = nameof(MapMaxContainerSizeFromList))]
+    [MapProperty(nameof(VehicleDTO.Url_photo), nameof(GameVehicle.ImageUrl))]
     [MapPropertyFromSource("manufacturer", Use = nameof(GetCompanyForVehicle))]
     private partial GameSpaceShip MapInternalSpaceShip(VehicleDTO source);
 
@@ -395,6 +396,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(VehicleDTO.Is_docking), nameof(GameVehicle.SupportsDocking))]
     [MapProperty(nameof(VehicleDTO.Is_loading_dock), nameof(GameVehicle.SupportsCargoDeck))]
     [MapProperty(nameof(VehicleDTO.Container_sizes), nameof(GameVehicle.MaxContainerSize), Use = nameof(MapMaxContainerSizeFromList))]
+    [MapProperty(nameof(VehicleDTO.Url_photo), nameof(GameVehicle.ImageUrl))]
     [MapPropertyFromSource("manufacturer", Use = nameof(GetCompanyForVehicle))]
     private partial GameGroundVehicle MapInternalGroundVehicle(VehicleDTO source);
 

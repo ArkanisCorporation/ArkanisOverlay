@@ -1,0 +1,378 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+
+<SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
+    <div class="pa-4">
+        <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
+                               OnKeyPress="@CreateNewEntryAsync"
+                               Origin="@Origin.CenterLeft"
+                               IsActive>
+            <MudFab
+                Color="@Color.Primary"
+                StartIcon="@Icons.Material.Filled.Add"
+                OnClick="@CreateNewEntryAsync"/>
+        </KeyboardShortcutBadge>
+    </div>
+</SectionContent>
+
+<MudContainer>
+    <MudStack Spacing="6">
+        <MudPaper Style="position: sticky; top: 0; z-index: 100"
+                  Elevation="4"
+                  Class="py-2 px-4">
+            <MudGrid Spacing="2">
+                <MudItem xs="12" md="3">
+                    <MudTextField
+                        @bind-Value="@_searchText"
+                        DebounceInterval="200"
+                        OnDebounceIntervalElapsed="@UpdateFilters"
+                        Label="Search"
+                        Placeholder="Vehicle name"
+                        Clearable/>
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <GameEntitySelectBox
+                        Label="Location"
+                        EntityCategory="@GameEntityCategory.Location"
+                        Only="@FilteredLocations"
+                        Include="@( [GameLocationEntity.Unknown])"
+                        @bind-Value="@_selectedLocationEntity"
+                        @bind-Value:after="@UpdateFilters"/>
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudStack AlignItems="@AlignItems.Center"
+                              Justify="@Justify.Center"
+                              Class="h-100">
+                        <MudSwitch
+                            Label="@(_isGalleryView ? "Gallery view" : "Table view")"
+                            @bind-Value="@_isGalleryView"
+                            Color="@Color.Info"
+                            ThumbIcon="@(_isGalleryView ? Icons.Material.Filled.Image : Icons.Material.Filled.TableView)"
+                            ThumbIconColor="@Color.Dark"/>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="12" md="3">
+                    <MudStack AlignItems="@AlignItems.Center"
+                              Justify="@Justify.FlexEnd"
+                              Row>
+                        <MudTooltip Text="Bulk transfer"
+                                    Placement="@Placement.Top">
+                            <MudBadge Content="@SelectedEntries.Count"
+                                      Color="@Color.Info"
+                                      Origin="@Origin.BottomCenter"
+                                      Max="999"
+                                      Visible="@(SelectedEntries.Count > 0)">
+                                <MudIconButton
+                                    Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                    Color="@Color.Info"
+                                    OnClick="@TransferSelectedAsync"
+                                    Disabled="@(SelectedEntries.Count == 0)"/>
+                            </MudBadge>
+                        </MudTooltip>
+                        <MudTooltip Text="Bulk remove"
+                                    Placement="@Placement.Top">
+                            <MudBadge Content="@SelectedEntries.Count"
+                                      Color="@Color.Error"
+                                      Origin="@Origin.BottomCenter"
+                                      Max="999"
+                                      Visible="@(SelectedEntries.Count > 0)">
+                                <MudIconButton
+                                    Icon="@Icons.Material.Filled.DeleteForever"
+                                    Color="@Color.Error"
+                                    OnClick="@DeleteSelectedForeverAsync"
+                                    Disabled="@(SelectedEntries.Count == 0)"/>
+                            </MudBadge>
+                        </MudTooltip>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+
+        @if (_isGalleryView)
+        {
+            <MudGrid>
+                @foreach (var entry in FilteredEntries)
+                {
+                    <MudItem xs="12" sm="6" md="4">
+                        <HangarInventoryEntryCard Model="@entry"
+                                                  OnClick="@(() => NavigationManager.NavigateTo(LinkHelper.Hangar(entry.Id)))">
+                            <ControlsContent>
+                                <MudIconButton
+                                    Size="@Size.Small"
+                                    Color="@Color.Warning"
+                                    Icon="@Icons.Material.Filled.Edit"
+                                    OnClick="@(() => EditEntryAsync(entry))"/>
+                                <MudIconButton
+                                    Size="@Size.Small"
+                                    Color="@Color.Error"
+                                    Icon="@Icons.Material.Filled.DeleteForever"
+                                    OnClick="@(() => EditEntryAsync(entry))"
+                                    Disabled/>
+                            </ControlsContent>
+                        </HangarInventoryEntryCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+        else
+        {
+            <MudPaper>
+                <MudTabs Class="with-badges"
+                         @bind-ActivePanelIndex="@_activePanelIndex"
+                         AlwaysShowScrollButtons="false"
+                         Rounded>
+                    <MudTabPanel>
+                        <TabWrapperContent>
+                            <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyQ])"
+                                                   OnKeyPress="@(() => _activePanelIndex -= 1)"
+                                                   IsActive="@(IsPanelInactive(Panel.ByStorage))"
+                                                   Origin="@Origin.CenterLeft">
+                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyS])"
+                                                       OnKeyPress="@(() => SetActivePanel(Panel.ByStorage))"
+                                                       IsActive="@(IsPanelInactive(Panel.ByStorage))"
+                                                       Origin="@Origin.TopCenter">
+                                    @context
+                                </KeyboardShortcutBadge>
+                            </KeyboardShortcutBadge>
+                        </TabWrapperContent>
+                        <TabContent>
+                            <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                <MudChip T="string" Size="@Size.Small">
+                                    @FilteredLocations.Length locations
+                                </MudChip>
+                                <MudText Typo="@Typo.inherit">
+                                    By Hangar
+                                </MudText>
+                            </MudStack>
+                        </TabContent>
+                        <ChildContent>
+                            <MudDivider/>
+                            <InventoryEntryDataGrid Models="@FilteredEntries"
+                                                    @bind-SelectedModels="@SelectedEntries"
+                                                    Groupings="@( [InventoryEntryDataGrid.Column.Location])"
+                                                    ExpandAll="FiltersActive"
+                                                    IsHangar>
+                                @* <ListActionsContent> *@
+                                @*     @ListActions(context) *@
+                                @* </ListActionsContent> *@
+                                @* <EntryActionsContent> *@
+                                @*     @EntryCellActions(context) *@
+                                @* </EntryActionsContent> *@
+                            </InventoryEntryDataGrid>
+                        </ChildContent>
+                    </MudTabPanel>
+
+                    <MudTabPanel>
+                        <TabWrapperContent>
+                            <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyN])"
+                                                   OnKeyPress="@(() => SetActivePanel(Panel.ByCompany))"
+                                                   IsActive="@(IsPanelInactive(Panel.ByCompany))"
+                                                   Origin="@Origin.TopCenter">
+                                @context
+                            </KeyboardShortcutBadge>
+                        </TabWrapperContent>
+                        <TabContent>
+                            <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                <MudChip T="string" Size="@Size.Small">
+                                    @* @FilteredEntities.Length entities *@
+                                </MudChip>
+                                <MudText Typo="@Typo.inherit">
+                                    By Manufacturer
+                                </MudText>
+                            </MudStack>
+                        </TabContent>
+                        <ChildContent>
+                            <MudDivider/>
+                            <InventoryEntryDataGrid Models="@FilteredEntries"
+                                                    @bind-SelectedModels="@SelectedEntries"
+                                                    Groupings="@( [InventoryEntryDataGrid.Column.Manufacturer])"
+                                                    ExpandAll="FiltersActive"
+                                                    IsHangar>
+                                @* <ListActionsContent> *@
+                                @*     @ListActions(context) *@
+                                @* </ListActionsContent> *@
+                                @* <EntryActionsContent> *@
+                                @*     @EntryCellActions(context) *@
+                                @* </EntryActionsContent> *@
+                            </InventoryEntryDataGrid>
+                        </ChildContent>
+                    </MudTabPanel>
+
+                    <MudTabPanel>
+                        <TabWrapperContent>
+                            <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyM])"
+                                                   OnKeyPress="@(() => SetActivePanel(Panel.OnlyMatching))"
+                                                   IsActive="@(IsPanelInactive(Panel.OnlyMatching))"
+                                                   Origin="@Origin.TopCenter">
+                                @context
+                            </KeyboardShortcutBadge>
+                        </TabWrapperContent>
+                        <TabContent>
+                            <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                <MudChip T="string" Size="@Size.Small">
+                                    @FilteredEntries.Length entries
+                                </MudChip>
+                                <MudText Typo="@Typo.inherit">
+                                    Matching
+                                </MudText>
+                            </MudStack>
+                        </TabContent>
+                        <ChildContent>
+                            <MudDivider/>
+                            <InventoryEntryDataGrid Models="@FilteredEntries"
+                                                    @bind-SelectedModels="@SelectedEntries"
+                                                    IsHangar>
+                                @* <ListActionsContent> *@
+                                @*     @ListActions(context) *@
+                                @* </ListActionsContent> *@
+                                @* <EntryActionsContent> *@
+                                @*     @EntryCellActions(context) *@
+                                @* </EntryActionsContent> *@
+                            </InventoryEntryDataGrid>
+                        </ChildContent>
+                    </MudTabPanel>
+
+                    <MudTabPanel>
+                        <TabWrapperContent>
+                            <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyE])"
+                                                   OnKeyPress="@(() => _activePanelIndex += 1)"
+                                                   IsActive="@(IsPanelInactive(Panel.AllInventory))"
+                                                   Origin="@Origin.CenterRight">
+                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyA])"
+                                                       OnKeyPress="@(() => SetActivePanel(Panel.AllInventory))"
+                                                       IsActive="@(IsPanelInactive(Panel.AllInventory))"
+                                                       Origin="@Origin.TopCenter">
+                                    @context
+                                </KeyboardShortcutBadge>
+                            </KeyboardShortcutBadge>
+                        </TabWrapperContent>
+                        <TabContent>
+                            <MudStack AlignItems="@AlignItems.Center" Spacing="0">
+                                <MudChip T="string" Size="@Size.Small">
+                                    @Entries.Count entries
+                                </MudChip>
+                                <MudText Typo="@Typo.inherit">
+                                    All Inventory
+                                </MudText>
+                            </MudStack>
+                        </TabContent>
+                        <ChildContent>
+                            <MudDivider/>
+                            <InventoryEntryDataGrid Models="@(Entries.OfType<InventoryEntryBase>().ToArray())"
+                                                    @bind-SelectedModels="@SelectedEntries"
+                                                    IsHangar>
+                                @* <ListActionsContent> *@
+                                @*     @ListActions(context) *@
+                                @* </ListActionsContent> *@
+                                @* <EntryActionsContent> *@
+                                @*     @EntryCellActions(context) *@
+                                @* </EntryActionsContent> *@
+                            </InventoryEntryDataGrid>
+                        </ChildContent>
+                    </MudTabPanel>
+                </MudTabs>
+            </MudPaper>
+        }
+
+    </MudStack>
+</MudContainer>
+
+@code
+{
+
+    private int _activePanelIndex;
+
+    private string? _searchText;
+    private IGameEntity? _selectedLocationEntity;
+    private bool _isGalleryView = true;
+
+    private bool FiltersActive
+        => this is { _searchText: not null } or { SelectedLocation: not null };
+
+    private IGameLocation? SelectedLocation
+        => _selectedLocationEntity as IGameLocation;
+
+    public IGameLocation[] FilteredLocations { get; set; } = [];
+    public HangarInventoryEntry[] FilteredEntries { get; set; } = [];
+
+    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = new(IIdentifiable.EqualityComparer.Default);
+
+    [Parameter]
+    public ICollection<HangarInventoryEntry> Entries { get; set; } = [];
+
+    [Parameter]
+    public ICollection<IGameLocation> Locations { get; set; } = [];
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateFilters();
+    }
+
+    private async Task CreateNewEntryAsync()
+    {
+        if (await HangarEntryCreateDialog.ShowAsync(DialogService) is not null)
+        {
+            // TODO: Update event callback
+            // await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task EditEntryAsync(HangarInventoryEntry entry)
+    {
+        if (await HangarEntryUpdateDialog.ShowAsync(DialogService, entry) is not null)
+        {
+            // TODO: Update event callback
+            // await RefreshDataAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void UpdateFilters()
+    {
+        FilteredEntries = Entries
+            .Where(x => _searchText is null
+                        || x.Entity.Name.MainContent.FullName.Contains(_searchText, StringComparison.OrdinalIgnoreCase)
+                        || x.NameTag?.Contains(_searchText, StringComparison.OrdinalIgnoreCase) == true
+            )
+            .Where(x => SelectedLocation is null || (x is IGameLocatedAt locatedAt && locatedAt.Location == SelectedLocation))
+            .ToArray();
+
+        FilteredLocations = GetUniqueLocations(FilteredEntries);
+    }
+
+    private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
+        => entries.OfType<IGameLocatedAt>()
+            .SelectMany<IGameLocatedAt, IGameLocation>(x => [x.Location, ..x.Location.Parents])
+            .Distinct()
+            .OrderBy(x => x.Name.MainContent.FullName)
+            .ToArray();
+
+    private Task TransferSelectedAsync()
+        => Task.CompletedTask;
+
+    private Task DeleteSelectedForeverAsync()
+        => Task.CompletedTask;
+
+    private Task OnEntryClick(HangarInventoryEntry entry)
+        => Task.CompletedTask;
+
+    private enum Panel
+    {
+        ByStorage,
+        ByCompany,
+        OnlyMatching,
+        AllInventory,
+    }
+
+    private void SetActivePanel(Panel panel)
+        => _activePanelIndex = (int)panel;
+
+    private bool IsPanelInactive(Panel panel)
+        => _activePanelIndex != (int)panel;
+
+}

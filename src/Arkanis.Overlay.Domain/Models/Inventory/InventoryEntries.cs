@@ -77,6 +77,9 @@ public abstract class InventoryEntryBase : IIdentifiable
         Undefined,
         Virtual,
         Location,
+        Hangar,
+        VehicleModule,
+        VehicleInventory,
     }
 
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
@@ -127,4 +130,64 @@ public sealed class LocationInventoryEntry : InventoryEntryBase, IGameLocatedAt
         Location = location;
         return this;
     }
+}
+
+public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
+{
+    public override EntryType Type
+        => EntryType.Hangar;
+
+    public GameVehicle VehicleReference
+        => Quantity.ReferenceAs<GameVehicle>();
+
+    public UexHangarEntryId? UexHangarEntryId { get; set; }
+
+    public string? NameTag { get; set; }
+    public bool IsPledged { get; set; }
+    public bool IsLoaner { get; set; }
+
+    public List<VehicleModuleEntry> Modules { get; set; } = [];
+    public List<VehicleInventoryEntry> Inventory { get; set; } = [];
+
+    public required IGameLocation Location { get; set; }
+
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+    {
+        Location = location;
+        return this;
+    }
+}
+
+public sealed class VehicleModuleEntry : InventoryEntryBase
+{
+    public override EntryType Type
+        => EntryType.VehicleModule;
+
+    public string CategoryName
+        => Quantity.ReferenceAs<GameItem>().Name.OfType<GameEntityName.ItemCategoryReference>().FirstOrDefault()?.Category.Name.MainContent.FullName
+           ?? "Unknown";
+
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+        => new LocationInventoryEntry
+        {
+            Id = Id,
+            Quantity = Quantity,
+            Location = location,
+            List = List,
+        };
+}
+
+public sealed class VehicleInventoryEntry : InventoryEntryBase
+{
+    public override EntryType Type
+        => EntryType.VehicleInventory;
+
+    public override InventoryEntryBase SetLocation(IGameLocation location)
+        => new LocationInventoryEntry
+        {
+            Id = Id,
+            Quantity = Quantity,
+            Location = location,
+            List = List,
+        };
 }

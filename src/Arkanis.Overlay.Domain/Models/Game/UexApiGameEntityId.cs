@@ -14,6 +14,8 @@ public abstract record UexApiGameEntityId(int Identity) : TypedDomainId<int>(Ide
         => new((int)identity);
 }
 
+public sealed record UexHangarEntryId(int Identity) : UexApiGameEntityId(Identity);
+
 public sealed record UexId<T>(int Identity) : UexApiGameEntityId(Identity) where T : IGameEntity
 {
     public override bool Equals(IDomainId? other)

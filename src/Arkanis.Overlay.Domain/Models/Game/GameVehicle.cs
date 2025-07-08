@@ -30,6 +30,8 @@ public abstract class GameVehicle(
     public bool SupportsDocking { get; init; }
     public bool SupportsCargoDeck { get; init; }
 
+    public string? ImageUrl { get; set; }
+
     public GameCompany Manufacturer
         => manufacturer;
 

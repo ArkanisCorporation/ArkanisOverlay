@@ -1,0 +1,105 @@
+<!--suppress CssUnresolvedCustomProperty -->
+<MudContainer Class="mb-12">
+    <MudStack Spacing="6">
+        <HangarInventoryEntryCard
+            Model="@Entry"
+            Static/>
+
+        <MudPaper Class="px-4 py-3"
+                  Style="background: var(--mud-palette-background);"
+                  @onclick="AddModulesAsync">
+            <MudStack Justify="@Justify.Center" Row>
+                <MudIcon
+                    Size="@Size.Large"
+                    Color="@Color.Info"
+                    Icon="@Icons.Material.Filled.Add"/>
+
+                <MudDivider Vertical/>
+
+                <MudText Typo="@Typo.h6" Style="font-weight: normal">
+                    Click here to add equipped vehicle modules.
+                </MudText>
+            </MudStack>
+        </MudPaper>
+
+        <MudGrid>
+            @foreach (var moduleGroup in Entry.Modules.GroupBy(m => m.CategoryName))
+            {
+                <MudItem xs="12" sm="12" md="6">
+                    <MudPaper Class="overflow-hidden hover-parent">
+                        <MudStack Spacing="2"
+                                  AlignItems="@AlignItems.Center"
+                                  Style="height: 64px"
+                                  Class="pa-4 flex-truncate"
+                                  Row>
+                            <QuantityCountBadge
+                                Models="@moduleGroup.Select(x => x.Quantity)"/>
+                            <MudText Typo="@Typo.h5">
+                                @moduleGroup.Key
+                            </MudText>
+                            <MudSpacer/>
+                            <MudStack Class="visible-on-parent-hover" Row>
+                                <MudIconButton
+                                    Color="@Color.Success"
+                                    Icon="@Icons.Material.Filled.Add"/>
+                            </MudStack>
+                        </MudStack>
+                        <MudDivider/>
+                        <MudStack Spacing="0">
+                            @foreach (var module in moduleGroup)
+                            {
+                                <MudStack Class="px-4 py-0 w-100"
+                                          Style="background: var(--mud-palette-background);"
+                                          AlignItems="@AlignItems.Center"
+                                          Row>
+                                    <MudChip T="string"
+                                             Variant="@Variant.Outlined"
+                                             Color="@Color.Default"
+                                             Size="@Size.Small"
+                                             Class="ma-0">
+                                        <QuantityLabel
+                                            Model="@module.Quantity"/>
+                                    </MudChip>
+                                    <GameEntityNameLabel
+                                        Model="@(module.Quantity.ReferenceAs<GameItem>().Name)"
+                                        PropertyFilter="@(prop => prop.Key is not GameItem.CategoryPropertyName)"
+                                        PropertyLimit="4"
+                                        Class="mb-2 flex-truncate"
+                                        Typo="@Typo.h6"/>
+                                    <MudSpacer/>
+                                    <div class="visible-on-parent-hover">
+                                        <MudTooltip Text="Transfer"
+                                                    Placement="@Placement.Top">
+                                            <MudIconButton
+                                                Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                                Size="@Size.Medium"
+                                                Color="@Color.Info"/>
+                                        </MudTooltip>
+                                    </div>
+                                </MudStack>
+                                <MudDivider/>
+                            }
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MudStack>
+</MudContainer>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required HangarInventoryEntry Entry { get; set; }
+
+    private void AddModulesAsync()
+    {
+    }
+
+    private void EditModulesAsync()
+    {
+    }
+
+}

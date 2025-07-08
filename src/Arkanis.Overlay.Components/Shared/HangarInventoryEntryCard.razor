@@ -1,0 +1,210 @@
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .hangar-entry {
+        transition: all 100ms ease-in-out;
+        z-index: 1;
+        position: relative;
+        height: 180px;
+
+        &[data-clickable="true"] {
+            cursor: pointer;
+        }
+
+        &:not(.static-header):hover {
+            transform: scale(1.05);
+            box-shadow: var(--mud-elevation-8);
+
+            .background-image {
+                background-color: rgba(0, 0, 0, 0.45);
+                background-size: 100%;
+            }
+
+            .subtle {
+                opacity: 1;
+            }
+        }
+
+        .content {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .background-image {
+            transition: background-size 100ms ease-in-out;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            border-radius: var(--mud-default-borderradius);
+            background-size: 105%;
+            background-color: rgba(0, 0, 0, 0.66);
+            background-blend-mode: darken;
+            background-position: center center;
+        }
+
+        .game-entity-name {
+            .primary {
+                height: initial;
+            }
+        }
+
+        .mud-chip {
+            height: initial;
+            min-height: 24px;
+        }
+
+        &:not(.static-header) {
+            .subtle {
+                opacity: .66;
+            }
+        }
+    }
+</style>
+
+<MudPaper Elevation="2"
+          Class="@Class"
+          data-clickable="@(OnClick.HasDelegate.ToString().ToLowerInvariant())"
+          @onclick="@(() => OnClick.InvokeAsync(Model))">
+    <MudStack Class="content py-2 px-3">
+        <MudStack Class="w-100"
+                  AlignItems="@AlignItems.Start"
+                  Justify="@Justify.SpaceBetween"
+                  Row>
+            <MudStack Spacing="1">
+                @if (ModuleQuantities.Length > 0)
+                {
+                    <MudTooltip Text="Equipped modules"
+                                Placement="@Placement.Top">
+                        <MudChip T="string"
+                                 Variant="@Variant.Outlined"
+                                 Color="@Color.Info"
+                                 Size="@Size.Small"
+                                 Class="ma-0 subtle">
+                            <MudIcon
+                                Icon="@Icons.Material.Filled.Build"
+                                Style="font-size: 14px"
+                                Class="mr-1"/>
+                            <QuantityAggregateLabel Models="@ModuleQuantities"/>
+                        </MudChip>
+                    </MudTooltip>
+                }
+                @if (InventoryQuantities.Length > 0)
+                {
+                    <MudTooltip Text="Inventory entries"
+                                Placement="@Placement.Top">
+                        <MudChip T="string"
+                                 Variant="@Variant.Outlined"
+                                 Color="@Color.Warning"
+                                 Size="@Size.Small"
+                                 Class="ma-0 subtle">
+                            <MudIcon
+                                Icon="@Icons.Material.Filled.Warehouse"
+                                Style="font-size: 14px"
+                                Class="mr-1"/>
+                            <QuantityAggregateLabel Models="@InventoryQuantities"/>
+                        </MudChip>
+                    </MudTooltip>
+                }
+            </MudStack>
+            <MudSpacer/>
+            @if (Model.Location != GameLocationEntity.Unknown)
+            {
+                <GameEntityNameLabel
+                    Model="@Model.Location.Name"
+                    Align="@AlignItems.End"
+                    Class="subtle"
+                    PreferCode/>
+            }
+        </MudStack>
+        <MudSpacer/>
+        <MudStack Class="w-100"
+                  AlignItems="@AlignItems.End"
+                  Justify="@Justify.SpaceBetween"
+                  Row>
+            @if (Model.NameTag is { Length: > 0 } nameTag)
+            {
+                <MudStack Spacing="0"
+                          Class="flex-truncate">
+                    <GameEntityNameLabel
+                        Model="@Model.VehicleReference.Name"
+                        Typo="@Typo.inherit"
+                        Embedded/>
+                    <MudText Typo="@Typo.h5">
+                        @nameTag
+                    </MudText>
+                </MudStack>
+            }
+            else
+            {
+                <GameEntityNameLabel
+                    Model="@Model.VehicleReference.Name"
+                    Typo="@Typo.h5"
+                    Embedded/>
+            }
+            <MudSpacer/>
+            <MudStack Spacing="1"
+                      AlignItems="@AlignItems.End"
+                      Class="pa-1 hidden-on-parent-hover">
+                @if (Model.IsLoaner)
+                {
+                    <MudChip T="string"
+                             Variant="@Variant.Outlined"
+                             Text="Loaner"
+                             Color="@Color.Info"
+                             Size="@Size.Small"
+                             Class="ma-0"/>
+                }
+                @if (Model.IsPledged)
+                {
+                    <MudChip T="string"
+                             Variant="@Variant.Outlined"
+                             Text="Pledged"
+                             Color="@Color.Success"
+                             Size="@Size.Small"
+                             Class="ma-0"/>
+                }
+            </MudStack>
+            <MudStack AlignItems="@AlignItems.Center"
+                      Class="visible-on-parent-hover"
+                      Row>
+                @ControlsContent
+            </MudStack>
+        </MudStack>
+    </MudStack>
+    @if (Model.VehicleReference.ImageUrl is { } imageUrl)
+    {
+        var style = $"background-image: url({imageUrl});";
+        <div class="background-image" style="@style"></div>
+    }
+</MudPaper>
+
+@code
+{
+
+    private string Class
+        => $"hangar-entry hover-parent {(Static ? "static-header" : "")}";
+
+    private QuantityOf[] ModuleQuantities
+        => QuantityOf.Aggregate(Model.Modules.Select(x => x.Quantity)).ToArray();
+
+    private QuantityOf[] InventoryQuantities
+        => QuantityOf.Aggregate(Model.Inventory.Select(x => x.Quantity)).ToArray();
+
+    [Parameter]
+    [EditorRequired]
+    public required HangarInventoryEntry Model { get; set; }
+
+    [Parameter]
+    public EventCallback<HangarInventoryEntry> OnClick { get; set; }
+
+    [Parameter]
+    public RenderFragment? ControlsContent { get; set; }
+
+    [Parameter]
+    public bool Static { get; set; }
+
+}

@@ -5,31 +5,37 @@
 
 <MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
     <TitleContent>
-        New Inventory Entry
+        New Hangar Entry
     </TitleContent>
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
                 <GameEntitySelectBox
-                    Label="Item or commodity"
-                    Accept="@(entity => entity is GameItem or GameCommodity)"
-                    @bind-Value="TargetEntity"
+                    Label="Vehicle"
+                    EntityCategories="@( [GameEntityCategory.GroundVehicle, GameEntityCategory.SpaceShip])"
+                    @bind-Value="@TargetEntity"
                     Required/>
             </MudItem>
             <MudItem xs="12">
-                <QuantityField @bind-Value="@TargetQuantity"/>
-            </MudItem>
-            <MudItem xs="12">
                 <GameEntitySelectBox
-                    Label="Location"
+                    Label="Hangar Location"
                     Placeholder="Search for a game location"
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
                     @bind-Value="TargetLocationEntity"/>
             </MudItem>
             <MudItem xs="12">
-                <InventoryListSelect
-                    @bind-Value="@TargetList"/>
+                <MudTextField
+                    Label="Custom name"
+                    @bind-Value="@_nameTag"
+                    Clearable/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudCheckBox
+                    Label="Is a pledged vehicle"
+                    @bind-Value="@_isPledged"
+                    Color="@Color.Success"
+                    UncheckedColor="@Color.Default"/>
             </MudItem>
         </MudGrid>
     </DialogContent>
@@ -46,14 +52,14 @@
 @code
 {
 
+    private string? _nameTag;
+    private bool _isPledged;
+
     private bool CanSubmit
-        => TargetEntity is not null && TargetQuantity.Amount > 0;
+        => TargetEntity is not null;
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }
-
-    [Parameter]
-    public Quantity TargetQuantity { get; set; } = Quantity.Default;
 
     [Parameter]
     public IGameEntity? TargetEntity { get; set; }
@@ -61,20 +67,26 @@
     [Parameter]
     public IGameEntity? TargetLocationEntity { get; set; }
 
-    [Parameter]
-    public InventoryEntryList? TargetList { get; set; }
+    public GameVehicle? TargetVehicle
+        => TargetEntity as GameVehicle;
 
     public IGameLocation? TargetLocation
         => TargetLocationEntity as IGameLocation;
 
     private async Task SubmitAsync()
     {
-        if (TargetEntity is null)
+        if (TargetVehicle is null)
         {
             return;
         }
 
-        var inventoryEntry = InventoryEntry.Create(TargetEntity, TargetQuantity, TargetLocation, TargetList);
+        var inventoryEntry = new HangarInventoryEntry
+        {
+            Location = TargetLocation ?? GameLocationEntity.Unknown,
+            Quantity = QuantityOf.Create(TargetVehicle, Quantity.Default),
+            NameTag = _nameTag,
+            IsPledged = false,
+        };
         await InventoryManager.AddOrUpdateEntryAsync(inventoryEntry);
         await EventReporter.TrackEventAsync(InventoryEvents.AddItem());
         MudDialog.Close(DialogResult.Ok(inventoryEntry));
@@ -83,7 +95,7 @@
     private void Cancel()
         => MudDialog.Cancel();
 
-    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
+    public static async Task<HangarInventoryEntry?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
     {
         var dialogParameters = new DialogParameters<InventoryEntryCreateDialog>
         {
@@ -98,8 +110,8 @@
             CloseButton = true,
         };
 
-        var dialogRef = await dialogService.ShowAsync<InventoryEntryCreateDialog>(null, dialogParameters, dialogOptions);
-        return await dialogRef.GetReturnValueAsync<InventoryEntryBase>();
+        var dialogRef = await dialogService.ShowAsync<HangarEntryCreateDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<HangarInventoryEntry>();
     }
 
 }

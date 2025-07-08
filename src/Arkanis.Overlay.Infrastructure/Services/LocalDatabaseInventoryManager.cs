@@ -234,6 +234,12 @@ internal class LocalDatabaseInventoryManager(
     /// <param name="cancellationToken">Cancellation token.</param>
     private async Task CompactifyEntitiesAsync(InventoryEntryEntityBase current, CancellationToken cancellationToken)
     {
+        if (current.EntryType is InventoryEntryBase.EntryType.Hangar)
+        {
+            // do not compact hangar entries
+            return;
+        }
+
         await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         var otherExistingEntities = await dbContext.InventoryEntries
             .Where(x => x.Id != current.Id)

@@ -13,6 +13,8 @@ using Trade;
 public class GameItem(int id, string fullName, GameCompany manufacturer, GameProductCategory category)
     : GameEntity(UexApiGameEntityId.Create<GameItem>(id), GameEntityCategory.Item), IGameManufactured, IGameTradable
 {
+    public const string CategoryPropertyName = "Category";
+
     public UexId<GameItem> StrongId
         => (Id as UexId<GameItem>)!;
 
@@ -25,7 +27,7 @@ public class GameItem(int id, string fullName, GameCompany manufacturer, GamePro
         => new(
             GameEntityName.ReferenceTo(category),
             GameEntityName.ReferenceTo(manufacturer),
-            GameEntityName.PropertyCollection.Create([new GameEntityName.PropertyItem("Category", category.Name.MainContent.FullName)], Traits, []),
+            GameEntityName.PropertyCollection.Create([new GameEntityName.PropertyItem(CategoryPropertyName, category.Name.MainContent.FullName)], Traits, []),
             new GameEntityName.Name(fullName)
         );
 
