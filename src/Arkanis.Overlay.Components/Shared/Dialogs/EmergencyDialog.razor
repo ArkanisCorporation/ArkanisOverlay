@@ -232,14 +232,15 @@
                         @bind-EmergencyContext="@_medRunnerEmergencyContext"
                         @bind-EmergencyContext:after="@ContinueOnEmergencyFinalizationAsync"/>
                 </MudStep>
+                <MudStep Title="Finalize"
+                         Class="pa-0">
+                    <MedRunnerEmergencyReview
+                        ContentId="@ContentId"
+                        @bind-IsLoading="@_isLoading"
+                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                        @bind-EmergencyContext:after="@Close"/>
+                </MudStep>
             </ChildContent>
-            <CompletedContent>
-                <MedRunnerEmergencyReview
-                    ContentId="@ContentId"
-                    @bind-IsLoading="@_isLoading"
-                    @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                    @bind-EmergencyContext:after="@Close"/>
-            </CompletedContent>
             <ActionContent>
                 @* Navigation is managed by controls within individual steps. *@
             </ActionContent>
@@ -356,6 +357,16 @@
         await MudDialog.SetOptionsAsync(
             MudDialog.Options with
             {
+                FullWidth = (Steps)_activeStepIndex switch
+                {
+                    Steps.Finalization => false,
+                    _ => true,
+                },
+                MaxWidth = (Steps)_activeStepIndex switch
+                {
+                    Steps.Handling => MaxWidth.Large,
+                    _ => MaxWidth.Medium,
+                },
                 BackdropClick = canClose,
                 CloseOnEscapeKey = canClose,
                 CloseButton = canClose,
@@ -397,6 +408,14 @@
 
         [Description("Search & Rescue (MedRunner)")]
         MedRunnerSearchAndRescue,
+    }
+
+    public enum Steps
+    {
+        ScenarioSelection,
+        Setup,
+        Handling,
+        Finalization,
     }
 }
 

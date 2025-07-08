@@ -289,7 +289,6 @@
     {
         await Task.Delay(TimeSpan.FromMilliseconds(50));
         await _elementInterop.ScrollToBottomAsync(_chatContainer);
-        await _messageContentInput!.FocusAsync();
     }
 
     private void OnChatMessageUpdated(object? _, ChatMessage chatMessage)
@@ -368,6 +367,7 @@
                 };
                 await MedRunner.ChatMessage.SendMessageAsync(messageRequest);
                 await UpdateChatDisplayAsync();
+                await _messageContentInput!.FocusAsync();
             }
         );
     }
