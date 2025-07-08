@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abstractions;
 using Converters;
-using Domain.Enums;
 using Domain.Models.Game;
 using Domain.Models.Inventory;
 using Domain.Models.Trade;
@@ -12,26 +11,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-[Index(nameof(GameEntityId))]
-internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCategory, InventoryEntryBase.EntryType entryType) : IDatabaseEntity<InventoryEntryId>
+internal abstract class InventoryEntryEntityBase(InventoryEntryBase.EntryType entryType) : IDatabaseEntity<InventoryEntryId>
 {
     private readonly string? _discriminator;
 
-    public abstract UexApiGameEntityId GameEntityId { get; set; }
-
-    public GameEntityCategory GameEntityCategory { get; private init; } = entityCategory;
-
     public InventoryEntryBase.EntryType EntryType { get; private init; } = entryType;
 
-    public QuantityOfEntity? QuantityReference { get; set; }
-
-    public required Quantity Quantity { get; set; }
+    public required QuantityOfEntity Quantity { get; set; }
 
     //? maximum length determined automatically by convention
     //   ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Discriminator
     {
-        get => _discriminator ?? CreateDiscriminatorValueFor(GameEntityCategory, EntryType);
+        get => _discriminator ?? CreateDiscriminatorValueFor(EntryType);
         private init => _discriminator = value;
     }
 
@@ -46,8 +38,8 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
     [Key]
     public required InventoryEntryId Id { get; init; }
 
-    protected static string CreateDiscriminatorValueFor(GameEntityCategory entityCategory, InventoryEntryBase.EntryType entryType)
-        => $"{entryType}_{entityCategory}";
+    protected static string CreateDiscriminatorValueFor(InventoryEntryBase.EntryType entryType)
+        => entryType.ToString();
 
     internal class Configuration : IEntityTypeConfiguration<InventoryEntryEntityBase>
     {
@@ -62,25 +54,28 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
             builder.Property(x => x.TradeRunId)
                 .HasConversion<GuidDomainIdConverter<TradeRunId>>();
 
-            builder.Property(x => x.GameEntityId)
-                .HasConversion<UexApiDomainIdConverter>();
-
             builder.Navigation(x => x.List)
                 .AutoInclude();
 
-            builder.HasOne(x => x.QuantityReference)
+            builder.HasOne(x => x.Quantity)
                 .WithOne()
                 .HasForeignKey<QuantityOfEntity>(x => x.InventoryEntryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Navigation(x => x.Quantity)
+                .AutoInclude();
 
             builder.HasOne(x => x.TradeRun)
                 .WithMany()
                 .HasForeignKey(x => x.TradeRunId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Navigation(x => x.TradeRun)
+                .AutoInclude();
+
             // explicit value must be defined for manual discriminator property in this case
             builder.HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Undefined, InventoryEntryBase.EntryType.Undefined));
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.Undefined));
 
             // allows entities to mutate types on Update
             // see: https://github.com/dotnet/efcore/issues/3786#issuecomment-161063981
@@ -90,87 +85,29 @@ internal abstract class InventoryEntryEntityBase(GameEntityCategory entityCatego
     }
 }
 
-internal abstract class ItemInventoryEntryEntityBase(InventoryEntryBase.EntryType entryType) : InventoryEntryEntityBase(GameEntityCategory.Item, entryType)
+internal sealed class VirtualInventoryEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.Virtual)
 {
-    [NotMapped]
-    public required UexId<GameItem> ItemId { get; set; }
-
-    public override UexApiGameEntityId GameEntityId
+    internal new class Configuration : IEntityTypeConfiguration<VirtualInventoryEntryEntity>
     {
-        get => ItemId;
-        set => ItemId = value as UexId<GameItem> ?? throw new InvalidOperationException($"Tried assigning incompatible entity ID to {GetType()}: {value}");
-    }
-}
-
-internal sealed class VirtualItemInventoryEntryEntity() : ItemInventoryEntryEntityBase(InventoryEntryBase.EntryType.Virtual)
-{
-    internal new class Configuration : IEntityTypeConfiguration<VirtualItemInventoryEntryEntity>
-    {
-        public void Configure(EntityTypeBuilder<VirtualItemInventoryEntryEntity> builder)
+        public void Configure(EntityTypeBuilder<VirtualInventoryEntryEntity> builder)
             => builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, InventoryEntryBase.EntryType.Virtual));
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.Virtual));
     }
 }
 
-internal sealed class PhysicalItemInventoryEntryEntity() : ItemInventoryEntryEntityBase(InventoryEntryBase.EntryType.Physical), IDatabaseEntityWithLocation
+internal sealed class LocationInventoryEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.Location), IDatabaseEntityWithLocation
 {
     [Column(nameof(LocationId))]
     public required UexApiGameEntityId LocationId { get; set; }
 
-    internal new class Configuration : IEntityTypeConfiguration<PhysicalItemInventoryEntryEntity>
+    internal new class Configuration : IEntityTypeConfiguration<LocationInventoryEntryEntity>
     {
-        public void Configure(EntityTypeBuilder<PhysicalItemInventoryEntryEntity> builder)
+        public void Configure(EntityTypeBuilder<LocationInventoryEntryEntity> builder)
         {
             builder.HasBaseType<InventoryEntryEntityBase>()
                 .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Item, InventoryEntryBase.EntryType.Physical));
-
-            builder.Property(x => x.LocationId)
-                .HasConversion<UexApiDomainIdConverter>();
-        }
-    }
-}
-
-internal abstract class CommodityInventoryEntryEntityBase(InventoryEntryBase.EntryType entryType)
-    : InventoryEntryEntityBase(GameEntityCategory.Commodity, entryType)
-{
-    [NotMapped]
-    public required UexId<GameCommodity> CommodityId { get; set; }
-
-    public override UexApiGameEntityId GameEntityId
-    {
-        get => CommodityId;
-        set
-            => CommodityId = value as UexId<GameCommodity>
-                             ?? throw new InvalidOperationException($"Tried assigning incompatible entity ID to {GetType()}: {value}");
-    }
-}
-
-internal sealed class VirtualCommodityInventoryEntryEntity() : CommodityInventoryEntryEntityBase(InventoryEntryBase.EntryType.Virtual)
-{
-    internal new class Configuration : IEntityTypeConfiguration<VirtualCommodityInventoryEntryEntity>
-    {
-        public void Configure(EntityTypeBuilder<VirtualCommodityInventoryEntryEntity> builder)
-            => builder.HasBaseType<InventoryEntryEntityBase>()
-                .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, InventoryEntryBase.EntryType.Virtual));
-    }
-}
-
-internal sealed class PhysicalCommodityInventoryEntryEntity()
-    : CommodityInventoryEntryEntityBase(InventoryEntryBase.EntryType.Physical), IDatabaseEntityWithLocation
-{
-    [Column(nameof(LocationId))]
-    public required UexApiGameEntityId LocationId { get; set; }
-
-    internal new class Configuration : IEntityTypeConfiguration<PhysicalCommodityInventoryEntryEntity>
-    {
-        public void Configure(EntityTypeBuilder<PhysicalCommodityInventoryEntryEntity> builder)
-        {
-            builder.HasBaseType<InventoryEntryEntityBase>()
-                .HasDiscriminator(x => x.Discriminator)
-                .HasValue(CreateDiscriminatorValueFor(GameEntityCategory.Commodity, InventoryEntryBase.EntryType.Physical));
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.Location));
 
             builder.Property(x => x.LocationId)
                 .HasConversion<UexApiDomainIdConverter>();

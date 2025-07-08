@@ -34,7 +34,7 @@ public class InventoryEntryEntityUnitTests(ITestOutputHelper testOutputHelper, O
     internal static IEnumerable<InventoryEntryEntityBase[]> DatabaseInventoryEntities()
         =>
         [
-            [DatabaseInventoryEntitiesFixture.PhysicalItem1],
+            [DatabaseInventoryEntitiesFixture.LocationItem1],
             //
             [DatabaseInventoryEntitiesFixture.PhysicalCommodity1],
         ];
