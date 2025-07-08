@@ -98,7 +98,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var sourceList = new InventoryEntryList
         {
             Name = nameof(Can_Insert_List),
-            Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
+            Entries = [DomainInventoryEntriesFixture.LocationCommodity1],
         };
 
         await inventoryManager.AddOrUpdateListAsync(sourceList);
@@ -117,13 +117,13 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var sourceList = new InventoryEntryList
         {
             Name = nameof(Can_Update_List_Remove_Entries),
-            Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
+            Entries = [DomainInventoryEntriesFixture.LocationCommodity1],
         };
 
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
         await inventoryManager.AddOrUpdateListAsync(sourceList);
 
-        sourceList.Entries.Add(DomainInventoryEntriesFixture.PhysicalItem1);
+        sourceList.Entries.Add(DomainInventoryEntriesFixture.LocationItem1);
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
         await inventoryManager.AddOrUpdateListAsync(sourceList);
 
@@ -143,18 +143,18 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
             Name = nameof(Can_Update_List_Remove_Entries),
             Entries =
             [
-                DomainInventoryEntriesFixture.PhysicalCommodity1,
-                DomainInventoryEntriesFixture.PhysicalItem1,
-                DomainInventoryEntriesFixture.PhysicalItem2,
-                DomainInventoryEntriesFixture.PhysicalItem3,
+                DomainInventoryEntriesFixture.LocationCommodity1,
+                DomainInventoryEntriesFixture.LocationItem1,
+                DomainInventoryEntriesFixture.LocationItem2,
+                DomainInventoryEntriesFixture.LocationItem3,
             ],
         };
 
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
         await inventoryManager.AddOrUpdateListAsync(sourceList);
 
-        sourceList.Entries.Remove(DomainInventoryEntriesFixture.PhysicalItem1);
-        sourceList.Entries.Remove(DomainInventoryEntriesFixture.PhysicalItem2);
+        sourceList.Entries.Remove(DomainInventoryEntriesFixture.LocationItem1);
+        sourceList.Entries.Remove(DomainInventoryEntriesFixture.LocationItem2);
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
         await inventoryManager.AddOrUpdateListAsync(sourceList);
 
@@ -172,7 +172,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var sourceList = new InventoryEntryList
         {
             Name = nameof(Can_Update_List),
-            Entries = [DomainInventoryEntriesFixture.PhysicalCommodity1],
+            Entries = [DomainInventoryEntriesFixture.LocationCommodity1],
         };
 
         await inventoryManager.AddOrUpdateListAsync(sourceList);
@@ -195,15 +195,18 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         await inventoryManager.AddOrUpdateEntryAsync(source);
 
-        source.Quantity = new Quantity(5, Quantity.UnitType.Count);
+        source.Quantity = source.Quantity with
+        {
+            Amount = 6,
+        };
         await inventoryManager.AddOrUpdateEntryAsync(source);
 
         var dbEntry = (await inventoryManager.GetAllEntriesAsync()).Single(x => x.Id == source.Id);
-        dbEntry.Quantity.ShouldBe(source.Quantity);
+        dbEntry.Quantity.ShouldBeEquivalentTo(source.Quantity);
     }
 
     [Fact]
-    public async Task Can_Change_Physical_Entry_Location()
+    public async Task Can_Change_Location_Entry_Location()
     {
         await SetUp();
 
