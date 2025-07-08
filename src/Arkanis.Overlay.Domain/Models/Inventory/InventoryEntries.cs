@@ -96,11 +96,17 @@ public abstract class InventoryEntryBase : IIdentifiable
 
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
 
+    public bool IsManagedInternally
+        => TradeRun is not null;
+
+    public TradeRun? TradeRun { get; set; }
     public InventoryEntryList? List { get; set; }
 
     public abstract IGameEntity Entity { get; }
 
     public abstract EntryType Type { get; }
+
+    public QuantityOf? QuantityReference { get; set; }
 
     public required Quantity Quantity { get; set; }
 
