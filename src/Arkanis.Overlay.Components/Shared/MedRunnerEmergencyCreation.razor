@@ -19,10 +19,10 @@
     </MudItem>
     <MudItem xs="12" sm="6">
         <GameEntitySelectBox
-            Label="Planet / Orbit"
+            Label="Orbit / Planet / Moon"
             EntityCategory="@GameEntityCategory.Location"
-            @bind-Value="@_selectedPlanetEntity"
-            Accept="@(location => location is GamePlanet planet && SelectedSystem?.Contains(planet) == true)"
+            @bind-Value="@_selectedPlanetOrMoonEntity"
+            Accept="@(location => location is IGameLocation gameLocation and (GamePlanet or GameMoon) && SelectedSystem?.Contains(gameLocation) == true)"
             Disabled="@(SelectedSystem is null)"
             Required/>
     </MudItem>
@@ -33,8 +33,8 @@
             EntityCategory="@GameEntityCategory.Location"
             @bind-Value="@_selectedLocationEntity"
             Disabled="@(SelectedPlanet is null)"
-            Accept="@(location => location is IGameLocation gameLocation and not GameStarSystem and not GamePlanet
-                                  && SelectedPlanet?.Contains(gameLocation) == true)"/>
+            Accept="@(location => location is IGameLocation gameLocation and (GameCity or GameOutpost or GameTerminal)
+                                  && SelectedPlanetOrMoon?.Contains(gameLocation) == true)"/>
     </MudItem>
     <MudItem xs="12" md="4">
         <MudSelect @bind-Value="@_threatLevel"
@@ -98,13 +98,18 @@
     private ThreatLevel? _threatLevel;
     private IGameEntity? _selectedLocationEntity;
     private IGameEntity? _selectedSystemEntity;
-    private IGameEntity? _selectedPlanetEntity;
+    private IGameEntity? _selectedPlanetOrMoonEntity;
 
     private IGameLocation? SelectedSystem
         => _selectedSystemEntity as IGameLocation;
 
     private IGameLocation? SelectedPlanet
-        => _selectedPlanetEntity as IGameLocation;
+        => _selectedPlanetOrMoonEntity is GameMoon moon
+            ? moon.Parent
+            : _selectedPlanetOrMoonEntity as IGameLocation;
+
+    private IGameLocation? SelectedPlanetOrMoon
+        => _selectedPlanetOrMoonEntity as IGameLocation;
 
     private GameLocationEntity? ClosestLocation
         => _selectedLocationEntity as GameLocationEntity
