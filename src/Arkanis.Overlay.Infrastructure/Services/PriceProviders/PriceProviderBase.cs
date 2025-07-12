@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services.PriceProviders;
 
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Models;
 using Domain.Models.Game;

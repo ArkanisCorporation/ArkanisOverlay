@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services.PriceProviders;
 
-using Abstractions;
+using Common.Abstractions.Services;
 using Common.Extensions;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;

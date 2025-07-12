@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Common.Services;
 
 using System.Reflection;
 using Abstractions;
+using Abstractions.Services;
 using NuGet.Versioning;
 
 public sealed class AssemblyAppVersionProvider : IAppVersionProvider

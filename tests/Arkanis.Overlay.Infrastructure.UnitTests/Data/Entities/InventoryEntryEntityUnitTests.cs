@@ -1,9 +1,12 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Entities;
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Infrastructure.Data;
 using Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
+using Xunit;
 using Xunit.Abstractions;
 
 [Collection(TestConstants.Collections.DbContext)]
@@ -31,7 +34,7 @@ public class InventoryEntryEntityUnitTests(ITestOutputHelper testOutputHelper, O
     internal static IEnumerable<InventoryEntryEntityBase[]> DatabaseInventoryEntities()
         =>
         [
-            [DatabaseInventoryEntitiesFixture.PhysicalItem1],
+            [DatabaseInventoryEntitiesFixture.LocationItem1],
             //
             [DatabaseInventoryEntitiesFixture.PhysicalCommodity1],
         ];

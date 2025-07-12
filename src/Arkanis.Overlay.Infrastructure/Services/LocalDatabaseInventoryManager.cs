@@ -56,7 +56,7 @@ internal class LocalDatabaseInventoryManager(
 
                    await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
                    var entities = await dbContext.InventoryEntries
-                       .Where(x => x.GameEntityId == uexId)
+                       .Where(x => x.Quantity.Reference.EntityId == uexId)
                        .Where(x => x.EntryType == entryType)
                        .ToArrayAsync(cancellationToken);
 
@@ -82,7 +82,7 @@ internal class LocalDatabaseInventoryManager(
 
                    await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
                    var entities = await dbContext.InventoryEntries
-                       .Where(x => x.GameEntityId == uexId)
+                       .Where(x => x.Quantity.Reference.EntityId == uexId)
                        .ToArrayAsync(cancellationToken);
 
                    return entities
@@ -110,9 +110,19 @@ internal class LocalDatabaseInventoryManager(
     public async Task AddOrUpdateEntryAsync(InventoryEntryBase entry, CancellationToken cancellationToken = default)
     {
         var entity = mapper.Map(entry);
-        await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-        await dbContext.InventoryEntries.AddOrUpdateAsync(entity, cancellationToken);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        await using (var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken))
+        {
+            //! cannot simply delete this entity using ExecuteDeleteAsync: https://github.com/dotnet/efcore/issues/32823
+            // await dbContext.InventoryEntries.Where(x => x.Id == entry.Id).ExecuteDeleteAsync(cancellationToken);
+            var existing = await dbContext.InventoryEntries.FindAsync([entry.Id], cancellationToken);
+            if (existing is not null)
+            {
+                dbContext.Remove(existing);
+            }
+
+            await dbContext.InventoryEntries.AddAsync(entity, cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
+        }
 
         await CompactifyEntitiesAsync(entity, cancellationToken);
         await TriggerChangeAsync();
@@ -228,7 +238,7 @@ internal class LocalDatabaseInventoryManager(
         var otherExistingEntities = await dbContext.InventoryEntries
             .Where(x => x.Id != current.Id)
             .Where(x => x.ListId == current.ListId)
-            .Where(x => x.GameEntityId == current.GameEntityId)
+            .Where(x => x.Quantity.Reference.EntityId == current.Quantity.Reference.EntityId)
             .Where(x => x.Quantity.Unit == current.Quantity.Unit)
             .Where(x => x.Discriminator == current.Discriminator)
             .AsNoTracking()
