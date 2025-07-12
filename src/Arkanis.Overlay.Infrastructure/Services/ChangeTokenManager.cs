@@ -8,17 +8,6 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
     private readonly Dictionary<Type, CancellationTokenSource> _changeProviders = [];
     private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-    public void Dispose()
-    {
-        foreach (var cancellationTokenSource in _changeProviders.Values)
-        {
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
-        }
-
-        _changeProviders.Clear();
-    }
-
     public async ValueTask DisposeAsync()
     {
         foreach (var cancellationTokenSource in _changeProviders.Values)
@@ -30,11 +19,18 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
         _changeProviders.Clear();
     }
 
-    public IChangeToken GetChangeTokenFor<T>()
+    public void Dispose()
     {
-        var changeProvider = GetOrCreateChangeProvider(typeof(T));
-        return new CancellationChangeToken(changeProvider.Token);
+        foreach (var cancellationTokenSource in _changeProviders.Values)
+        {
+            cancellationTokenSource.Dispose();
+        }
+
+        _changeProviders.Clear();
     }
+
+    public IChangeToken GetChangeTokenFor<T>()
+        => GetChangeTokenFor(typeof(T));
 
     public async Task<IChangeToken> ResetChangeTokenFor<T>()
     {
@@ -43,14 +39,20 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
             await _semaphore.WaitAsync();
             var targetType = typeof(T);
 
-            if (_changeProviders.TryGetValue(targetType, out var changeProvider))
+            if (!_changeProviders.TryGetValue(targetType, out var changeProvider))
             {
-                await changeProvider.CancelAsync();
-                changeProvider.Dispose();
+                return GetChangeTokenFor(targetType);
             }
 
-            changeProvider = GetOrCreateChangeProvider(targetType, true);
-            return new CancellationChangeToken(changeProvider.Token);
+            //! new change token must be created BEFORE announcing the change, the update handler may contain logic to refresh the change token
+            //! not doing so may lead to stack overflows or deadlocks
+            GetOrCreateChangeProvider(targetType, true);
+
+            // announce the change
+            await changeProvider.CancelAsync();
+            changeProvider.Dispose();
+
+            return GetChangeTokenFor(targetType);
         }
         finally
         {
@@ -61,12 +63,27 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
     public async Task TriggerChangeForAsync<T>()
         => await ResetChangeTokenFor<T>();
 
+    private CancellationChangeToken GetChangeTokenFor(Type type)
+    {
+        var changeProvider = GetOrCreateChangeProvider(type);
+        return new CancellationChangeToken(changeProvider.Token);
+    }
+
     private CancellationTokenSource GetOrCreateChangeProvider(Type targetType, bool recreate = false)
     {
-        CancellationTokenSource? changeProvider = null;
-        if (recreate || !_changeProviders.TryGetValue(targetType, out changeProvider))
+        CancellationTokenSource? changeProvider;
+        if (recreate)
         {
-            _changeProviders[targetType] = changeProvider ??= new CancellationTokenSource();
+            changeProvider = _changeProviders[targetType] = new CancellationTokenSource();
+        }
+        else if (!_changeProviders.TryGetValue(targetType, out changeProvider))
+        {
+            changeProvider = new CancellationTokenSource();
+            if (!_changeProviders.TryAdd(targetType, changeProvider))
+            {
+                // there is already an existing change provider
+                changeProvider = _changeProviders[targetType];
+            }
         }
 
         return changeProvider;

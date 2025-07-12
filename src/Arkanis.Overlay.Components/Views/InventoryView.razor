@@ -1,6 +1,7 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@implements IDisposable
 @inject IDialogService DialogService
 @inject IAnalyticsEventReporter EventReporter
 @inject IInventoryManager InventoryManager
@@ -413,6 +414,7 @@
     private IGameLocation? _selectedLocation;
     private InventoryEntryList? _selectedList;
     private int _activePanelIndex;
+    private IDisposable? _changeRegistration;
 
     private bool FiltersActive
         => this is { _searchText: not null } or { _selectedLocation: not null } or { _selectedList: not null };
@@ -437,6 +439,15 @@
     {
         await base.OnParametersSetAsync();
         await RefreshDataAsync();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var registration = new ChangeTokenRegistration(() => InventoryManager.ChangeToken);
+        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
+        _changeRegistration = registration;
     }
 
     private async Task RefreshDataAsync()
@@ -757,4 +768,8 @@
 
     private bool IsPanelInactive(Panel panel)
         => _activePanelIndex != (int)panel;
+
+    public void Dispose()
+        => _changeRegistration?.Dispose();
 }
+

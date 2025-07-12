@@ -22,11 +22,12 @@
     }
 </style>
 
-<MudTabs Class="with-badges navigation-tabs"
+<MudTabs @ref="@_tabs"
+         Class="with-badges navigation-tabs"
          ActivePanelIndex="@ActiveModuleIndex">
     @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
-        var moduleShortcut = GetKeyForIndex(moduleIndex);
+        var moduleShortcut = GetKeyFor(moduleIndex, module);
         var isModuleActive = IsActive(module);
         var isShortcutAvailable = !isModuleActive && !module.Disabled;
         var updateCount = GetUpdateCount(module);
@@ -69,8 +70,9 @@
 @code
 {
 
-    private Timer? _timer;
-    private readonly ConcurrentDictionary<string, int> _moduleUpdates = [];
+    private MudTabs? _tabs;
+    private readonly ConcurrentDictionary<int, int> _moduleUpdates = [];
+    private readonly ConcurrentDictionary<int, IDisposable> _moduleChangeRegistrations = [];
     private string? _currentUri;
 
     private string CurrentUri
@@ -113,31 +115,43 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        _timer = new Timer(UpdateDataAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
         NavigationManager.LocationChanged += OnLocationChangedAsync;
     }
 
-    private async void UpdateDataAsync(object? state)
+    protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            async Task<bool> LoadAsync(OverlayModules.Entry entry)
-            {
-                var previousValue = GetUpdateCount(entry);
-                var currentValue = await entry.GetUpdateCountAsync(ServiceProvider);
-                _moduleUpdates[entry.Name] = currentValue;
-                return previousValue != currentValue;
-            }
+        await base.OnInitializedAsync();
+        OverlayModules.GetAll().ForEach(RegisterForChanges);
+    }
 
-            var updateTasks = OverlayModules.GetAll().Select(LoadAsync);
-            await Task.WhenAll(updateTasks);
-        }
-        catch (Exception)
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private void RegisterForChanges(OverlayModules.Entry entry)
+    {
+        var registration = new ChangeTokenRegistration(() => entry.GetChangeToken(ServiceProvider));
+        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
+        _moduleChangeRegistrations[entry.GetHashCode()] = registration;
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        async Task<bool> LoadAsync(OverlayModules.Entry entry)
         {
-            // ignore
+            var previousValue = GetUpdateCount(entry);
+            var currentValue = await entry.GetUpdateCountAsync(ServiceProvider);
+            _moduleUpdates[entry.GetHashCode()] = currentValue;
+            return previousValue != currentValue;
         }
-        finally
+
+        var updateTasks = OverlayModules.GetAll().Select(LoadAsync);
+        var changes = await Task.WhenAll(updateTasks);
+        if (changes.Any())
         {
+            _tabs?.ActivatePanel(ActiveModuleIndex);
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -145,13 +159,14 @@
     private void OnLocationChangedAsync(object? _, LocationChangedEventArgs e)
     {
         CurrentUri = e.Location;
-        UpdateDataAsync(null);
+        InvokeAsync(StateHasChanged);
     }
 
-    private KeyboardKey GetKeyForIndex(int index)
-        => index < 12
-            ? KeyboardKey.F1 + index
-            : KeyboardKey.Unknown;
+    private KeyboardKey GetKeyFor(int index, OverlayModules.Entry module)
+        => module.ShortcutOverride
+           ?? (index < 12
+               ? KeyboardKey.F1 + index
+               : KeyboardKey.Unknown);
 
     private EventCallback GetActivationCallbackFor(OverlayModules.Entry module)
         => EventCallback.Factory.Create(this, () => Activate(module));
@@ -163,11 +178,11 @@
     }
 
     private int GetUpdateCount(OverlayModules.Entry module)
-        => _moduleUpdates.GetValueOrDefault(module.Name);
+        => _moduleUpdates.GetValueOrDefault(module.GetHashCode());
 
     public void Dispose()
     {
-        _timer?.Dispose();
+        _moduleChangeRegistrations.Values.ForEach(x => x.Dispose());
         NavigationManager.LocationChanged -= OnLocationChangedAsync;
     }
 

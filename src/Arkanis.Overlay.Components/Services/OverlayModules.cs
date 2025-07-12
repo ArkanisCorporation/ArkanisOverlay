@@ -1,8 +1,11 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using Domain.Abstractions.Services;
+using Domain.Models.Keyboard;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Primitives;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
 
@@ -21,6 +24,7 @@ public class OverlayModules
             Url = "/inventory",
             Name = "Inventory",
             Icon = Icons.Material.Filled.Warehouse,
+            GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<IInventoryManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
             {
                 var inventoryManager = serviceProvider.GetRequiredService<IInventoryManager>();
@@ -32,6 +36,7 @@ public class OverlayModules
             Url = "/trade",
             Name = "Trade",
             Icon = Outlined.Storefront,
+            GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<ITradeRunManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
             {
                 var inventoryManager = serviceProvider.GetRequiredService<ITradeRunManager>();
@@ -71,6 +76,7 @@ public class OverlayModules
             Url = "/settings",
             Name = "Settings",
             Icon = Outlined.Settings,
+            ShortcutOverride = KeyboardKey.F12,
             Disabled = true,
         },
     ];
@@ -85,8 +91,13 @@ public class OverlayModules
 
         public bool Disabled { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
+        public KeyboardKey? ShortcutOverride { get; init; }
 
-        public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } = _ => ValueTask.FromResult(0);
+        public Func<IServiceProvider, IChangeToken> GetChangeToken { get; set; } =
+            _ => NullChangeToken.Singleton;
+
+        public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } =
+            _ => ValueTask.FromResult(0);
 
         public string GetAbsoluteUri(NavigationManager navigationManager)
             => navigationManager.ToAbsoluteUri(Url).ToString();
