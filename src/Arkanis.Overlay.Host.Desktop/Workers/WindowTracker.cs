@@ -74,6 +74,8 @@ public sealed class WindowTracker : IHostedService, IDisposable
         ProcessExited += OnProcessExited;
     }
 
+    internal HWND CurrentWindowHWnd => _currentWindowHWnd;
+
     public Size CurrentWindowSize { get; private set; }
     public Point CurrentWindowPosition { get; private set; }
 

@@ -16,14 +16,15 @@
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=BlazorWebView}"
         xmlns:icon="https://github.com/nullsoftware/TrayIcon"
-        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI">
+        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI"
+        Loaded="OverlayWindow_OnLoaded">
     <Window.Background>
         <SolidColorBrush Color="#010000" Opacity="0.05" />
     </Window.Background>
     <Grid>
         <blazor:BlazorWebView HostPage="wwwroot\index.html"
                               x:Name="BlazorWebView"
-                              Loaded="MainWindow_Loaded"
+                              Loaded="BlazorWebView_OnLoaded"
                               Panel.ZIndex="99"
                               Focusable="True"
                               Services="{DynamicResource services}"
