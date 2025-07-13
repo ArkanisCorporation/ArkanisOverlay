@@ -1,6 +1,7 @@
 @using System.ComponentModel
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
+@using Arkanis.Overlay.Infrastructure.Helpers
 @implements IDisposable
 @inject IDialogService DialogService
 @inject IMedRunnerServiceContext MedRunnerServiceContext
@@ -243,6 +244,44 @@
             </ChildContent>
             <ActionContent>
                 @* Navigation is managed by controls within individual steps. *@
+                @if (_selectedScenario is not Scenario.Unselected)
+                {
+                    <MudAlert Severity="@Severity.Info">
+                        This is an integration of an external service which is maintained by the Arkanis team.
+                        In case you encounter any issues, please report them to us directly — not the service provider.
+                        You can do so
+                        <MudLink Href="@ExternalLinkHelper.GetArkanisGitHubReportBugLink(ContentId)"
+                                 Typo="@Typo.inherit"
+                                 Target="_blank">
+                            <MudStack Spacing="1"
+                                      AlignItems="@AlignItems.Center"
+                                      Style="display: inline-flex !important;"
+                                      Row>
+                                on
+                                GitHub
+                                <MudIcon
+                                    Icon="@Icons.Custom.Brands.GitHub"
+                                    Size="@Size.Small"/>
+                            </MudStack>
+                        </MudLink>
+                        or
+                        <MudLink Href="https://join.arkanis.cc"
+                                 Typo="@Typo.inherit"
+                                 Target="_blank">
+                            <MudStack Spacing="1"
+                                      AlignItems="@AlignItems.Center"
+                                      Style="display: inline-flex !important;"
+                                      Row>
+                                our
+                                Discord
+                                <MudIcon
+                                    Icon="@Icons.Custom.Brands.Discord"
+                                    Size="@Size.Small"/>
+                            </MudStack>
+                        </MudLink>
+                        .
+                    </MudAlert>
+                }
             </ActionContent>
         </MudStepper>
     </DialogContent>
