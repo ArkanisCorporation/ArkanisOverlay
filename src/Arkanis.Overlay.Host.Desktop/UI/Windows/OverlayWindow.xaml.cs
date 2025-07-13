@@ -4,6 +4,7 @@ namespace Arkanis.Overlay.Host.Desktop.UI.Windows;
 
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -33,6 +34,7 @@ public sealed partial class OverlayWindow : IDisposable
     private readonly WindowTracker _windowTracker;
 
     private HWND _currentWindowHWnd = HWND.Null;
+    private HWND _currentGameHWnd = HWND.Null;
 
     public OverlayWindow(
         ILogger<OverlayWindow> logger,
@@ -55,6 +57,9 @@ public sealed partial class OverlayWindow : IDisposable
         SetupWorkerEventListeners();
         InitializeComponent();
 
+        // fallback in case the window was already found
+        _currentWindowHWnd = _windowTracker.CurrentWindowHWnd;
+
         Height = _windowTracker.CurrentWindowSize.Height;
         Width = _windowTracker.CurrentWindowSize.Width;
 
@@ -64,6 +69,7 @@ public sealed partial class OverlayWindow : IDisposable
         BlazorWebView.BlazorWebViewInitializing += BlazorWebView_Initializing;
         _preferencesProvider.ApplyPreferences += ApplyUserPreferences;
     }
+
 
     public static OverlayWindow? Instance { get; private set; }
 
@@ -81,7 +87,7 @@ public sealed partial class OverlayWindow : IDisposable
 
     private void ShowOverlay()
     {
-        ForceFocus();
+        ForceFocusSelf();
 
         // only works when window is visible
         _blurHelper.SetBlurEnabled(_preferencesProvider.CurrentPreferences.BlurBackground);
@@ -92,26 +98,86 @@ public sealed partial class OverlayWindow : IDisposable
         BlazorWebView.WebView.Focus();
     }
 
-    private void ForceFocus()
+    private void ForceFocus(HWND targetHWnd)
     {
-        var mainWindowHandle = (HWND)new WindowInteropHelper(this).Handle;
-        var windowThreadProcessId = GetWindowThreadProcessId(GetForegroundWindow(), out _);
-        var currentThreadId = GetCurrentThreadId();
-        AttachThreadInput(windowThreadProcessId, currentThreadId, true);
-        BringWindowToTop(mainWindowHandle);
-        Show();
-        AttachThreadInput(windowThreadProcessId, currentThreadId, false);
+        Dispatcher.Invoke(() =>
+            {
+                _logger.LogDebug("Overlay: ForceFocus: {TargetHWnd}", targetHWnd);
+                var foregroundWindowHWnd = GetForegroundWindow();
+                if (foregroundWindowHWnd == targetHWnd)
+                {
+                    // already focused
+                    return;
+                }
+
+                var currentThreadId = GetCurrentThreadId();
+
+                var sourceThreadId = IsActive ? currentThreadId : GetWindowThreadProcessId(foregroundWindowHWnd, out _);
+                var targetThreadId = targetHWnd == _currentWindowHWnd ? currentThreadId : GetWindowThreadProcessId(targetHWnd, out _);
+
+                var threadsToAttach = new List<uint>();
+                if (sourceThreadId != currentThreadId)
+                {
+                    threadsToAttach.Add(sourceThreadId);
+                }
+
+                if (targetThreadId != currentThreadId)
+                {
+                    threadsToAttach.Add(targetThreadId);
+                }
+
+                SetThreadInputAttached(threadsToAttach, currentThreadId, true);
+
+                var success = BringWindowToTop(targetHWnd);
+                if (!success)
+                {
+                    var code = Marshal.GetLastWin32Error();
+                    var reason = Marshal.GetLastPInvokeErrorMessage();
+                    _logger.LogWarning("Failed to bring window to top: {Code} - {Reason}", code, reason);
+                }
+
+                SetThreadInputAttached(threadsToAttach, currentThreadId, false);
+
+            }
+        );
+        return;
+
+        void SetThreadInputAttached(List<uint> threadsToAttach, uint threadToAttachTo, bool attached)
+        {
+            foreach (var threadId in threadsToAttach)
+            {
+                _logger.LogDebug("Overlay: SetThreadInputAttached: {ThreadId} - {ThreadToAttachTo} - {Attached}", threadId, threadToAttachTo, attached);
+                var success = AttachThreadInput(threadId, threadToAttachTo, attached);
+                if (success)
+                {
+                    continue;
+                }
+
+                var code = Marshal.GetLastWin32Error();
+                var reason = Marshal.GetLastPInvokeErrorMessage();
+                _logger.LogWarning("Failed to attach thread input: {Code} - {Reason}", code, reason);
+            }
+        }
     }
+
+    private void ForceFocusSelf()
+    {
+        ForceFocus(_currentWindowHWnd);
+        Show();
+    }
+
+    private void ForceFocusGame()
+        => ForceFocus(_currentGameHWnd);
 
 
     private void SetupWorkerEventListeners()
     {
         _windowTracker.WindowFound +=
-            (_, hWnd) => Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
+            (_, hWnd) => Dispatcher.Invoke(() => { _currentGameHWnd = hWnd; });
         _windowTracker.ProcessExited +=
             (_, _) => Dispatcher.Invoke(() =>
                 {
-                    _currentWindowHWnd = HWND.Null;
+                    _currentGameHWnd = HWND.Null;
                     HideOverlay();
                 }
             );
@@ -185,7 +251,7 @@ public sealed partial class OverlayWindow : IDisposable
         _ = SetWindowLong((HWND)wndHelper.Handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, exStyle);
     }
 
-    private void MainWindow_Loaded(object? sender, RoutedEventArgs e)
+    private void BlazorWebView_OnLoaded(object? sender, RoutedEventArgs e)
     {
         SetExtendedWindowStyle();
 
@@ -231,12 +297,12 @@ public sealed partial class OverlayWindow : IDisposable
         // we switch focus back to Star Citizen because
         // otherwise the previously active window will
         // receive focus instead for some reason
-        if (_currentWindowHWnd == HWND.Null)
+        if (_currentGameHWnd == HWND.Null)
         {
             return;
         }
 
-        SetForegroundWindow(_currentWindowHWnd);
+        ForceFocusGame();
     }
 
     private void OnPreferenceCommand(object sender, RoutedEventArgs e)
@@ -264,4 +330,7 @@ public sealed partial class OverlayWindow : IDisposable
             _ = BlazorWebView.DisposeAsync().AsTask();
         }
     }
+
+    private void OverlayWindow_OnLoaded(object sender, RoutedEventArgs e)
+        => _currentWindowHWnd = (HWND)new WindowInteropHelper(this).Handle;
 }
