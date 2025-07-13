@@ -12,6 +12,7 @@
     <MudItem xs="12" sm="6">
         <GameEntitySelectBox
             Label="System"
+            Placeholder="Select the current start system"
             EntityCategory="@GameEntityCategory.Location"
             @bind-Value="@_selectedSystemEntity"
             Accept="@(location => location is GameStarSystem)"
@@ -20,6 +21,7 @@
     <MudItem xs="12" sm="6">
         <GameEntitySelectBox
             Label="Orbit / Planet / Moon"
+            Placeholder="Search for the closest planet or moon"
             EntityCategory="@GameEntityCategory.Location"
             @bind-Value="@_selectedPlanetOrMoonEntity"
             Accept="@(location => location is IGameLocation gameLocation and (GamePlanet or GameMoon) && SelectedSystem?.Contains(gameLocation) == true)"
@@ -29,11 +31,12 @@
     <MudItem xs="12" md="8">
         <GameEntitySelectBox
             Label="Closest location"
+            Placeholder="Search for a closest game location"
             HelperText="Not required, only provide if you know the exact location closest to you"
             EntityCategory="@GameEntityCategory.Location"
             @bind-Value="@_selectedLocationEntity"
             Disabled="@(SelectedPlanet is null)"
-            Accept="@(location => location is IGameLocation gameLocation and (GameCity or GameOutpost or GameTerminal)
+            Accept="@(location => location is IGameLocation gameLocation and (GameCity or GameOutpost or GameTerminal or GamePointOfInterest)
                                   && SelectedPlanetOrMoon?.Contains(gameLocation) == true)"/>
     </MudItem>
     <MudItem xs="12" md="4">
