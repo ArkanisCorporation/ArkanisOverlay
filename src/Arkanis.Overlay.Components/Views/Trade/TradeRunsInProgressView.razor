@@ -42,7 +42,7 @@
                       Row>
                 <MudChip
                     T="int"
-                    Value="@TradeRuns.Count"
+                    Value="@TradeRunsInProgress.Count"
                     Color="@Color.Info"/>
                 <MudText Typo="@Typo.h4">
                     Trade Runs In Progress
@@ -62,15 +62,17 @@
         <MudExpansionPanels Gutters="false"
                             Class="trade-runs">
             @{ var panelIndex = 0; }
-            @foreach (var tradeRun in TradeRuns)
+            @foreach (var tradeRun in TradeRunsInProgress)
             {
-                <MudExpansionPanel Gutters="false"
+                <MudExpansionPanel @key="@tradeRun.Id.Identity"
+                                   Gutters="false"
                                    Expanded="@(panelIndex++ == 0)"
                                    HeaderClass="hover-parent">
                     <TitleContent>
                         <TradeRunPanelTitle
                             TradeRun="tradeRun"
-                            TradeRunChanged="@OnTradeRunChanged"/>
+                            TradeRunChanged="@OnTradeRunChanged"
+                            OnChange="@PropagateChanges"/>
                     </TitleContent>
                     <ChildContent>
                         <MudDivider/>
@@ -87,20 +89,34 @@
 @code
 {
 
-    private List<TradeRun> TradeRuns { get; set; } = [];
+    private List<TradeRun> TradeRunsInProgress { get; set; } = [];
+
+    [Parameter]
+    public EventCallback OnChange { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
 
+    private async Task RefreshDataAsync()
+    {
         var runs = await TradeRunManager.GetAllRunsAsync();
-        TradeRuns = runs.Where(x => x.FinalizedAt is null).ToList();
+        TradeRunsInProgress = runs.Where(x => x.FinalizedAt is null).ToList();
     }
 
     private async Task OnTradeRunChanged(TradeRun tradeRun)
     {
         await TradeRunManager.AddOrUpdateEntryAsync(tradeRun, CancellationToken.None);
+        await PropagateChanges();
+    }
+
+    private async Task PropagateChanges()
+    {
+        await RefreshDataAsync();
         await InvokeAsync(StateHasChanged);
+        await OnChange.InvokeAsync();
     }
 
 }
