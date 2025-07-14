@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services.Hosted;
 
 using Abstractions;
+using Common.Abstractions.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

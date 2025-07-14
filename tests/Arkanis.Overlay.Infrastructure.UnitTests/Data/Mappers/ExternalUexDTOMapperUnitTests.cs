@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Mappers;
 
+using System.Threading.Tasks;
 using Domain.Enums;
 using Domain.Models.Game;
 using Entities;
@@ -9,6 +10,7 @@ using Infrastructure.Services.Abstractions;
 using MoreLinq;
 using Services;
 using Shouldly;
+using Xunit;
 using static ExternalUexDTOFixture;
 
 public class ExternalUexDTOMapperUnitTests

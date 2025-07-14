@@ -66,42 +66,27 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(21)
+                        .HasMaxLength(13)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EntryType")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("GameEntityCategory")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("GameEntityId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("ListId")
                         .HasColumnType("TEXT");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Quantity", "Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase.Quantity#Quantity", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<int>("Amount")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("Unit")
-                                .HasColumnType("INTEGER");
-                        });
+                    b.Property<Guid?>("TradeRunId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameEntityId");
-
                     b.HasIndex("ListId");
+
+                    b.HasIndex("TradeRunId");
 
                     b.ToTable("InventoryEntries");
 
-                    b.HasDiscriminator().HasValue("Undefined_Undefined");
+                    b.HasDiscriminator().HasValue("Undefined");
 
                     b.UseTphMappingStrategy();
                 });
@@ -141,6 +126,8 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EntityId");
+
                     b.HasIndex("QuantityOfId")
                         .IsUnique();
 
@@ -156,6 +143,9 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("InventoryEntryId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("TradeRunStageId")
                         .HasColumnType("INTEGER");
 
@@ -163,6 +153,9 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InventoryEntryId")
+                        .IsUnique();
 
                     b.HasIndex("TradeRunStageId")
                         .IsUnique();
@@ -192,6 +185,10 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.HasIndex("Version");
 
                     b.ToTable("TradeRuns");
                 });
@@ -236,6 +233,8 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CargoTransferType");
+
                     b.ToTable("TradeRunStages", (string)null);
 
                     b.HasDiscriminator().HasValue("Stage");
@@ -243,44 +242,25 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalCommodityInventoryEntryEntity", b =>
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.LocationInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
                     b.Property<string>("LocationId")
                         .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
 
-                    b.HasDiscriminator().HasValue("Physical_Commodity");
+                    b.HasIndex("LocationId");
+
+                    b.HasDiscriminator().HasValue("Location");
                 });
 
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalItemInventoryEntryEntity", b =>
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
-                    b.Property<string>("LocationId")
-                        .IsRequired()
-                        .ValueGeneratedOnUpdateSometimes()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("LocationId");
-
-                    b.HasDiscriminator().HasValue("Physical_Item");
-                });
-
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualCommodityInventoryEntryEntity", b =>
-                {
-                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
-
-                    b.HasDiscriminator().HasValue("Virtual_Commodity");
-                });
-
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualItemInventoryEntryEntity", b =>
-                {
-                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
-
-                    b.HasDiscriminator().HasValue("Virtual_Item");
+                    b.HasDiscriminator().HasValue("Virtual");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage", b =>
@@ -347,6 +327,8 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 });
                         });
 
+                    b.HasIndex("TerminalId");
+
                     b.HasDiscriminator().HasValue("TerminalPurchaseStage");
                 });
 
@@ -390,6 +372,8 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 });
                         });
 
+                    b.HasIndex("TerminalId");
+
                     b.HasDiscriminator().HasValue("TerminalSaleStage");
                 });
 
@@ -400,7 +384,14 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", "TradeRun")
+                        .WithMany()
+                        .HasForeignKey("TradeRunId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("List");
+
+                    b.Navigation("TradeRun");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.OwnableEntityReferenceEntity", b =>
@@ -413,6 +404,11 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", b =>
                 {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", null)
+                        .WithOne("Quantity")
+                        .HasForeignKey("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", "InventoryEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage", null)
                         .WithOne("Quantity")
                         .HasForeignKey("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", "TradeRunStageId")
@@ -434,6 +430,12 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .WithMany("Sales")
                         .HasForeignKey("TradeRunId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", b =>
+                {
+                    b.Navigation("Quantity")
                         .IsRequired();
                 });
 

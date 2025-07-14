@@ -6,6 +6,11 @@
     height: 100%;
 }
 
+.mud-paper,
+.mud-expansion-panels {
+    animation: 250ms fadeInDown;
+}
+
 .text-primary {
     color: var(--mud-palette-text-primary);
 }
@@ -34,6 +39,7 @@
     white-space: nowrap;
 }
 
+.focus.active,
 .focus:focus,
 .focus:focus-within {
     outline: 2px solid var(--mud-palette-primary);
@@ -83,6 +89,11 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
 }
 
 @keyframes fadeInDown {
@@ -146,6 +157,10 @@
 
 .hover-parent:hover .hidden-on-parent-hover {
     display: none !important;
+}
+
+.mud-card-actions.mud-stepper-actions:empty {
+    display: none;
 }
 
 .mud-tabs {

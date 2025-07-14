@@ -2,8 +2,8 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using System.Collections.Concurrent;
 using System.Globalization;
+using Common.Abstractions.Services;
 using Data.Mappers;
-using Domain.Abstractions;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;

@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.CacheDecorators;
 
+using System.Threading;
+using System.Threading.Tasks;
 using External.UEX.Abstractions;
 using Microsoft.Extensions.Logging;
 
