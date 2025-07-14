@@ -80,7 +80,7 @@
         {
             Tab.Default when TradeRunsInProgress > 0 => Tab.RunsInProgress,
             Tab.Default => Tab.RouteSearch,
-            Tab.RunsInProgress when TradeRunsInProgress == 0 => Tab.Ledger,
+            Tab.RunsInProgress when TradeRunsInProgress == 0 => Tab.RouteSearch,
             _ => ActiveTab,
         };
 
@@ -93,15 +93,6 @@
     {
         await RefreshDataAsync();
 
-        if (ActiveTab is not Tab.Default)
-        {
-            // switch to the tab requested by parent component when new parameters are set
-            _currentPanelIndex = (int)(RequestedTab - 1);
-        }
-
-        // update the active panel
-        _tabs?.ActivatePanel(_currentPanelIndex);
-
         RegisterForChanges();
 
         await base.OnParametersSetAsync();
@@ -113,15 +104,14 @@
         if (newCount != TradeRunsInProgress)
         {
             TradeRunsInProgress = newCount;
-            // force page re-render
-            _tabs?.ActivatePanel(_currentPanelIndex);
+            await InvokeAsync(StateHasChanged);
         }
 
-        if (ActiveTab is Tab.Default)
-        {
-            // change the current panel only if the requested tab is default
-            _currentPanelIndex = (int)(RequestedTab - 1);
-        }
+        // update navigation (current panel) depending on current state
+        _currentPanelIndex = (int)(RequestedTab - 1);
+
+        // force page re-render
+        _tabs?.ActivatePanel(_currentPanelIndex);
     }
 
     private void RegisterForChanges()
