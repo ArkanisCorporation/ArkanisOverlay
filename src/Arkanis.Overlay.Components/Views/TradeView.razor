@@ -8,9 +8,11 @@
               AlignItems="@AlignItems.Center">
 
         <MudPaper>
-            <MudTabs @ref="_tabs" ActivePanelIndex="ActivePanelIndex" Rounded>
-                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RunsInProgress))"
-                             Disabled="@(TradeRunsInProgress == 0)">
+            <MudTabs @ref="@_tabs"
+                     @bind-ActivePanelIndex="@_currentPanelIndex"
+                     @bind-ActivePanelIndex:after="@UpdateCurrentTabAsync"
+                     Rounded>
+                <MudTabPanel Disabled="@(TradeRunsInProgress == 0)">
                     <TabContent>
                         <MudStack Spacing="3" Row>
                             <MudText Typo="@Typo.inherit">
@@ -27,13 +29,13 @@
                     </TabContent>
                 </MudTabPanel>
 
-                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.RouteSearch))">
+                <MudTabPanel>
                     <TabContent>
                         Route Search
                     </TabContent>
                 </MudTabPanel>
 
-                <MudTabPanel OnClick="@(() => ActivateTabAsync(Tab.Ledger))">
+                <MudTabPanel>
                     <TabContent>
                         Ledger
                     </TabContent>
@@ -41,17 +43,18 @@
             </MudTabs>
         </MudPaper>
 
-        @if (ActiveTab is Tab.RunsInProgress)
+        @if (CurrentTab is Tab.RunsInProgress)
         {
-            <TradeRunsInProgressView/>
+            <TradeRunsInProgressView
+                OnChange="@RefreshDataAsync"/>
         }
 
-        @if (ActiveTab is Tab.RouteSearch)
+        @if (CurrentTab is Tab.RouteSearch)
         {
             <TradeRouteSearchView/>
         }
 
-        @if (ActiveTab is Tab.Ledger)
+        @if (CurrentTab is Tab.Ledger)
         {
             <TradeLedgerView/>
         }
@@ -64,17 +67,93 @@
 
     private IDisposable? _changeRegistration;
     private MudTabs? _tabs;
+    private int _currentPanelIndex;
 
     [Parameter]
     public Tab ActiveTab { get; set; }
 
     [Parameter]
-    public EventCallback<Tab> ActiveTabChanged { get; set; }
+    public EventCallback<Tab>? ActiveTabChanged { get; set; }
 
-    public int ActivePanelIndex
-        => (int)ActiveTab - 1;
+    public Tab RequestedTab
+        => ActiveTab switch
+        {
+            Tab.Default when TradeRunsInProgress > 0 => Tab.RunsInProgress,
+            Tab.Default => Tab.RouteSearch,
+            Tab.RunsInProgress when TradeRunsInProgress == 0 => Tab.Ledger,
+            _ => ActiveTab,
+        };
+
+    public Tab CurrentTab
+        => (Tab)(_currentPanelIndex + 1);
 
     public int TradeRunsInProgress { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await RefreshDataAsync();
+
+        if (ActiveTab is not Tab.Default)
+        {
+            // switch to the tab requested by parent component when new parameters are set
+            _currentPanelIndex = (int)(RequestedTab - 1);
+        }
+
+        // update the active panel
+        _tabs?.ActivatePanel(_currentPanelIndex);
+
+        RegisterForChanges();
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        var newCount = await TradeRunManager.GetInProgressCountAsync(CancellationToken.None);
+        if (newCount != TradeRunsInProgress)
+        {
+            TradeRunsInProgress = newCount;
+            // force page re-render
+            _tabs?.ActivatePanel(_currentPanelIndex);
+        }
+
+        if (ActiveTab is Tab.Default)
+        {
+            // change the current panel only if the requested tab is default
+            _currentPanelIndex = (int)(RequestedTab - 1);
+        }
+    }
+
+    private void RegisterForChanges()
+    {
+        _changeRegistration?.Dispose();
+        var registration = new ChangeTokenRegistration(() => TradeRunManager.ChangeToken);
+        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
+        _changeRegistration = registration;
+    }
+
+    private async Task UpdateCurrentTabAsync()
+    {
+        var currentTab = CurrentTab;
+        if (currentTab == ActiveTab)
+        {
+            return;
+        }
+
+        if (ActiveTabChanged is not null)
+        {
+            // update via parent component
+            await ActiveTabChanged.Value.InvokeAsync(currentTab);
+        }
+        else
+        {
+            // update locally
+            ActiveTab = currentTab;
+        }
+    }
+
+    public void Dispose()
+        => _changeRegistration?.Dispose();
 
     public enum Tab
     {
@@ -84,55 +163,4 @@
         Ledger,
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        await RefreshDataAsync();
-        await UpdateActiveTabAsync();
-
-        RegisterForChanges();
-
-        await base.OnParametersSetAsync();
-    }
-
-    private async Task UpdateActiveTabAsync()
-    {
-        if (ActiveTab == Tab.Default)
-        {
-            await ActivateTabAsync(
-                TradeRunsInProgress > 0
-                    ? Tab.RunsInProgress
-                    : Tab.RouteSearch
-            );
-        }
-        else if (ActiveTab == Tab.RunsInProgress && TradeRunsInProgress == 0)
-        {
-            await ActivateTabAsync(Tab.RouteSearch);
-        }
-    }
-
-    private async Task RefreshDataAsync()
-    {
-        var newCount = await TradeRunManager.GetInProgressCountAsync(CancellationToken.None);
-        if (newCount != TradeRunsInProgress)
-        {
-            TradeRunsInProgress = newCount;
-            _tabs?.ActivatePanel(ActivePanelIndex);
-        }
-    }
-
-    private void RegisterForChanges()
-    {
-        var registration = new ChangeTokenRegistration(() => TradeRunManager.ChangeToken);
-        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
-        _changeRegistration = registration;
-    }
-
-    private async Task ActivateTabAsync(Tab activeTab)
-    {
-        ActiveTab = activeTab;
-        await ActiveTabChanged.InvokeAsync(activeTab);
-    }
-
-    public void Dispose()
-        => _changeRegistration?.Dispose();
 }
