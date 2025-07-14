@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Common.UnitTests;
 
+using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 

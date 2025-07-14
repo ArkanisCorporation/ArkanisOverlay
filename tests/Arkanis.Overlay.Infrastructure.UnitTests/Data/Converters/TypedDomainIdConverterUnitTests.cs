@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Converters;
 using Domain.Models.Game;
 using Infrastructure.Data.Converters;
 using Shouldly;
+using Xunit;
 using Xunit.Abstractions;
 
 public class UexApiDomainIdConverterUnitTests(ITestOutputHelper outputHelper)

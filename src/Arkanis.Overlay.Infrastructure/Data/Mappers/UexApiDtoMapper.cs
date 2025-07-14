@@ -33,6 +33,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             UniverseCityDTO city => ToGameEntity(city),
             UniverseOutpostDTO outpost => ToGameEntity(outpost),
             UniverseTerminalDTO terminal => ToGameEntity(terminal),
+            PointOfInterestDTO poi => ToGameEntity(poi),
             CommodityDTO commodity => ToGameEntity(commodity),
             ItemDTO item => ToGameEntity(item),
             ItemAttributeDTO itemAttribute => ToGameEntity(itemAttribute),
@@ -62,6 +63,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
             UniverseCityDTO => UexApiGameEntityId.Create<GameCity>(getSourceId(source) ?? 0),
             UniverseOutpostDTO => UexApiGameEntityId.Create<GameOutpost>(getSourceId(source) ?? 0),
             UniverseTerminalDTO => UexApiGameEntityId.Create<GameTerminal>(getSourceId(source) ?? 0),
+            PointOfInterestDTO => UexApiGameEntityId.Create<GamePointOfInterest>(getSourceId(source) ?? 0),
             CommodityDTO => UexApiGameEntityId.Create<GameCommodity>(getSourceId(source) ?? 0),
             ItemDTO => UexApiGameEntityId.Create<GameItem>(getSourceId(source) ?? 0),
             ItemAttributeDTO => UexApiGameEntityId.Create<GameItemTrait>(getSourceId(source) ?? 0),
@@ -129,6 +131,14 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
 
     [UserMapping(Default = true)]
     private GameTerminal ToGameEntity(UniverseTerminalDTO source)
+    {
+        var result = MapInternal(source);
+        CacheGameEntity(result);
+        return result;
+    }
+
+    [UserMapping(Default = true)]
+    private GamePointOfInterest ToGameEntity(PointOfInterestDTO source)
     {
         var result = MapInternal(source);
         CacheGameEntity(result);
@@ -324,6 +334,14 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(UniverseTerminalDTO.Max_container_size), nameof(GameTerminal.MaxContainerSize))]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForTerminal))]
     private partial GameTerminal MapInternal(UniverseTerminalDTO source);
+
+    [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
+    [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
+    [MapProperty(nameof(PointOfInterestDTO.Name), "fullName")]
+    [MapProperty(nameof(PointOfInterestDTO.Nickname), "shortName")]
+    [MapPropertyFromSource("location", Use = nameof(GetGameLocationForPointOfInterest))]
+    private partial GamePointOfInterest MapInternal(PointOfInterestDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
     [MapperIgnoreTarget(nameof(GameCommodity.IsLegal))]
@@ -553,6 +571,12 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
            ?? ResolveCachedGameEntity<GameSpaceStation>(terminal.Id_space_station) as GameLocationEntity
            ?? ResolveCachedGameEntity<GameStarSystem>(terminal.Id_star_system)
            ?? ThrowMissingMappingException<GameLocationEntity, UniverseTerminalDTO>(terminal.Id);
+
+    private GameLocationEntity GetGameLocationForPointOfInterest(PointOfInterestDTO poi)
+        => ResolveCachedGameEntity<GamePlanet>(poi.Id_planet) as GameLocationEntity
+           ?? ResolveCachedGameEntity<GameMoon>(poi.Id_moon)
+           ?? ResolveCachedGameEntity<GameStarSystem>(poi.Id_star_system)
+           ?? ThrowMissingMappingException<GameLocationEntity, UniverseTerminalDTO>(poi.Id);
 
     private GameTerminal GetTerminalForCommodityPrice(CommodityPriceBriefDTO commodityPrice)
         => ResolveCachedGameEntity<GameTerminal>(commodityPrice.Id_terminal, false)

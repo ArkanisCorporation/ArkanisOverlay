@@ -1,0 +1,23 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Models.Keyboard
+@inject IDialogService DialogService
+
+<div class="pa-4">
+    <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.F1])"
+                           OnKeyPress="OpenEmergencyDialogAsync"
+                           IsActive
+                           Origin="@Origin.BottomCenter">
+        <MudFab
+            Color="@Color.Error"
+            OnClick="OpenEmergencyDialogAsync"
+            StartIcon="@Icons.Material.Filled.Emergency"/>
+    </KeyboardShortcutBadge>
+</div>
+
+@code
+{
+
+    private async Task OpenEmergencyDialogAsync()
+        => await EmergencyDialog.ShowAsync(DialogService);
+
+}

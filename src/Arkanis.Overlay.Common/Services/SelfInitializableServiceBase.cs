@@ -1,6 +1,6 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.Common.Services;
 
-using Abstractions;
+using Abstractions.Services;
 
 public abstract class SelfInitializableServiceBase : InitializableBase, ISelfInitializable
 {
