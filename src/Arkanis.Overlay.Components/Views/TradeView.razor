@@ -10,9 +10,9 @@
         <MudPaper>
             <MudTabs @ref="@_tabs"
                      @bind-ActivePanelIndex="@_currentPanelIndex"
-                     @bind-ActivePanelIndex:after="@UpdateCurrentTabAsync"
                      Rounded>
-                <MudTabPanel Disabled="@(TradeRunsInProgress == 0)">
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync"
+                             Disabled="@(TradeRunsInProgress == 0)">
                     <TabContent>
                         <MudStack Spacing="3" Row>
                             <MudText Typo="@Typo.inherit">
@@ -29,13 +29,13 @@
                     </TabContent>
                 </MudTabPanel>
 
-                <MudTabPanel>
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync">
                     <TabContent>
                         Route Search
                     </TabContent>
                 </MudTabPanel>
 
-                <MudTabPanel>
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync">
                     <TabContent>
                         Ledger
                     </TabContent>
@@ -122,11 +122,12 @@
         _changeRegistration = registration;
     }
 
-    private async Task UpdateCurrentTabAsync()
+    private async Task UpdateCurrentTabAsync(MouseEventArgs? e)
     {
         var currentTab = CurrentTab;
-        if (currentTab == ActiveTab)
+        if (currentTab == ActiveTab || e is null)
         {
+            // event args are null when invoked programmatically by the component
             return;
         }
 
