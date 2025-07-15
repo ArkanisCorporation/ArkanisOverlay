@@ -33,7 +33,7 @@
           Elevation="4"
           Class="py-2 px-4 mx-3">
     <MudGrid Spacing="2">
-        <MudItem xs="12" md="3">
+        <MudItem xs="12" sm="9" md="5" lg="3">
             <GameEntitySelectBox
                 Label="Transport vehicle"
                 Placeholder="Search for a game vehicle"
@@ -42,7 +42,7 @@
                 @bind-Value="@SelectedVehicleEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
-        <MudItem xs="12" md="1">
+        <MudItem xs="12" sm="3" md="2" lg="1">
             <MudNumericField
                 @bind-Value="@_context.CargoCapacity"
                 Min="0"
@@ -53,7 +53,7 @@
                 Placeholder="Cargo capacity"
                 Clearable/>
         </MudItem>
-        <MudItem xs="12" md="2">
+        <MudItem xs="12" md="5" lg="2">
             <GameEntitySelectBox
                 Label="Commodity"
                 Placeholder="Search for a game commodity"
@@ -62,7 +62,7 @@
                 @bind-Value="@SelectedCommodityEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
-        <MudItem xs="12" md="3">
+        <MudItem xs="12" sm="6" lg="3">
             <GameEntitySelectBox
                 Label="Origin location"
                 Placeholder="Search for a game location"
@@ -71,7 +71,7 @@
                 @bind-Value="@SelectedOriginLocationEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
-        <MudItem xs="12" md="3">
+        <MudItem xs="12" sm="6" lg="3">
             <GameEntitySelectBox
                 Label="Destination location"
                 Placeholder="Search for a game location"
@@ -80,30 +80,64 @@
                 @bind-Value="@SelectedDestinationLocationEntity"
                 @bind-Value:after="@RefreshDataAsync"/>
         </MudItem>
+        <MudItem lg="6" Class="d-none d-lg-block"/>
+        <MudItem xs="12" sm="6" lg="3">
+            <MudSelect Label="Minimum origin stock"
+                       Placeholder="Any stock status"
+                       @bind-Value="@_originInventoryStatus"
+                       @bind-Value:after="@RefreshDataAsync"
+                       Clearable>
+                @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown).Reverse())
+                {
+                    <MudSelectItem T="TerminalInventoryStatus?" Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="3">
+            <MudSelect Label="Maximum destination stock"
+                       Placeholder="Any stock status"
+                       @bind-Value="@_destinationInventoryStatus"
+                       @bind-Value:after="@RefreshDataAsync"
+                       Clearable>
+                @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
+                {
+                    <MudSelectItem T="TerminalInventoryStatus?" Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
         <MudItem xs="12" md="7">
             <TradeRouteFilterControls
                 @bind-Context="@_filterContext"
                 @bind-Context:after="@RefreshDataAsync"/>
         </MudItem>
-        <MudItem xs="12" md="5">
-            <SortButton TargetField="@SortField.Profit"
-                        @bind-ActiveField="@_sortBy"
-                        @bind-Direction="@_sortDirection"
-                        OnChange="@RefreshDataAsync">
-                Profit
-            </SortButton>
-            <SortButton TargetField="@SortField.Margin"
-                        @bind-ActiveField="@_sortBy"
-                        @bind-Direction="@_sortDirection"
-                        OnChange="@RefreshDataAsync">
-                Margin
-            </SortButton>
-            <SortButton TargetField="@SortField.Distance"
-                        @bind-ActiveField="@_sortBy"
-                        @bind-Direction="@_sortDirection"
-                        OnChange="@RefreshDataAsync">
-                Distance
-            </SortButton>
+        <MudItem xs="12" md="5" Class="object-md-right">
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.FlexEnd"
+                      Class="h-100"
+                      Row>
+                <SortButton TargetField="@SortField.Profit"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Profit
+                </SortButton>
+                <SortButton TargetField="@SortField.Margin"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Margin
+                </SortButton>
+                <SortButton TargetField="@SortField.Distance"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Distance
+                </SortButton>
+            </MudStack>
         </MudItem>
     </MudGrid>
 </MudPaper>
@@ -139,6 +173,10 @@
 
     private SortField _sortBy;
     private SortButton<SortField>.SortDirection _sortDirection;
+
+    private TerminalInventoryStatus? _originInventoryStatus;
+    private TerminalInventoryStatus? _destinationInventoryStatus;
+
     private TradeRouteFilterControls.ContextModel _filterContext = new();
 
     private GameVehicle? SelectedVehicle
@@ -211,7 +249,9 @@
 
         ApplicableCommodities = AllRoutes
             .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
             .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
             .Where(_filterContext.Filter)
             .Select(x => x.Commodity)
             .Distinct()
@@ -219,6 +259,7 @@
 
         ApplicableOriginLocations = AllRoutes
             .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
             .Where(FilterByCommodity)
             .Where(_filterContext.Filter)
             .Select(x => x.Origin.Terminal)
@@ -229,6 +270,7 @@
 
         ApplicableDestinationLocations = AllRoutes
             .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
             .Where(FilterByCommodity)
             .Where(_filterContext.Filter)
             .Select(x => x.Destination.Terminal)
@@ -243,7 +285,9 @@
 
         FilteredRoutes = AllRoutes
             .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
             .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
             .Where(FilterByCommodity)
             .Where(_filterContext.Filter)
             .OrderBy(Order, orderByDirection)
@@ -262,8 +306,14 @@
     bool FilterByOrigin(GameTradeRoute x)
         => SelectedOriginLocation is null || SelectedOriginLocation.IsOrContains(x.Origin.Terminal);
 
+    bool FilterByOriginInventory(GameTradeRoute x)
+        => _originInventoryStatus is null || x.Origin.InventoryStatus >= _originInventoryStatus.Value;
+
     bool FilterByDestination(GameTradeRoute x)
         => SelectedDestinationLocation is null || SelectedDestinationLocation.IsOrContains(x.Destination.Terminal);
+
+    bool FilterByDestinationInventory(GameTradeRoute x)
+        => _destinationInventoryStatus is null || x.Destination.InventoryStatus <= _destinationInventoryStatus.Value;
 
     bool FilterByCommodity(GameTradeRoute x)
         => SelectedCommodityEntity is null || x.Commodity == SelectedCommodityEntity;
