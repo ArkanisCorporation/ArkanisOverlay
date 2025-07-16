@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Domain.Models.Search;
 using Abstractions;
 using Abstractions.Game;
 using Enums;
+using Game;
 
 /// <summary>
 ///     A prototype for any search query.
@@ -98,6 +99,20 @@ public sealed record EntityCategorySearch(GameEntityCategory Category, bool Excl
         => trait switch
         {
             SearchableEntityCategory data => data.Category == Category
+                ? [new SoftMatch(trait, this)]
+                : ExcludeOnMismatch
+                    ? [new ExcludeMatch(trait, this)]
+                    : [new NoMatch(trait, this)],
+            _ => [new NoMatch(trait, this)],
+        };
+}
+
+public sealed record ProductCategorySearch(GameProductCategory Category, bool ExcludeOnMismatch = true) : SearchQuery
+{
+    public override IEnumerable<SearchMatch> Match(SearchableTrait trait, int depth = 0)
+        => trait switch
+        {
+            SearchableProductCategory data => data.Category == Category
                 ? [new SoftMatch(trait, this)]
                 : ExcludeOnMismatch
                     ? [new ExcludeMatch(trait, this)]

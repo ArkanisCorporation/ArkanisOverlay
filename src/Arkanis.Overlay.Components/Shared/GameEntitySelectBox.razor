@@ -2,18 +2,24 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @inject ISearchService SearchService
 
-<MudAutocomplete Label="@Label"
+<MudAutocomplete T="@(IGameEntity?)"
+                 Label="@Label"
                  Placeholder="@Placeholder"
                  Value="@Value"
-                 ValueChanged="@ValueChanged"
+                 ValueChanged="@OnValueChanged"
+                 OnBlur="StateHasChanged"
                  Text="@GetText(Value)"
                  HelperText="@HelperText"
+                 Error="@HasError"
+                 ErrorText="@ErrorText"
                  Disabled="@Disabled"
                  Clearable="@(!Required)"
                  Required="@Required"
-                 CoerceText="false"
+                 CoerceText="@false"
+                 CoerceValue="@false"
                  PopoverClass="width-min-content"
-                 SearchFunc="@FindLocationsAsync">
+                 ItemDisabledFunc="@(item => Value == item)"
+                 SearchFunc="@FindEntitiesAsync">
     <ItemTemplate>
         @if (context is not null)
         {
@@ -28,6 +34,14 @@
             </MudText>
         }
     </ItemTemplate>
+    <NoItemsTemplate>
+        <MudSelectItem T="@(IGameEntity?)"
+                       Value="@null"
+                       Class="no-wrap"
+                       Disabled>
+            No matching game entities
+        </MudSelectItem>
+    </NoItemsTemplate>
 </MudAutocomplete>
 
 @code
@@ -55,6 +69,12 @@
     public bool Required { get; set; }
 
     [Parameter]
+    public GameProductCategory? ProductCategory { get; set; }
+
+    [Parameter]
+    public GameProductCategory[] ProductCategories { get; set; } = [];
+
+    [Parameter]
     public GameEntityCategory EntityCategory { get; set; }
 
     [Parameter]
@@ -71,6 +91,12 @@
 
     [Parameter]
     public IEnumerable<IGameEntity>? Only { get; set; }
+
+    [Parameter]
+    public bool HasError { get; set; }
+
+    [Parameter]
+    public string? ErrorText { get; set; }
 
     [Parameter]
     public string? HelperText { get; set; }
@@ -93,7 +119,7 @@
         }
     }
 
-    private async Task<IEnumerable<IGameEntity?>> FindLocationsAsync(string? searchText, CancellationToken ct)
+    private async Task<IEnumerable<IGameEntity?>> FindEntitiesAsync(string? searchText, CancellationToken ct)
     {
         IEnumerable<SearchQuery> queries = [];
         if (EntityCategory is not GameEntityCategory.Undefined)
@@ -104,6 +130,16 @@
         foreach (var category in EntityCategories)
         {
             queries = queries.Append(new EntityCategorySearch(category, false));
+        }
+
+        if (ProductCategory is not null)
+        {
+            queries = queries.Append(new ProductCategorySearch(ProductCategory));
+        }
+
+        foreach (var category in ProductCategories)
+        {
+            queries = queries.Append(new ProductCategorySearch(category, false));
         }
 
         if (searchText is not null)
@@ -124,4 +160,10 @@
     private string? GetText(IGameEntity? value)
         => value?.Name.MainContent.FullName;
 
+    private async Task OnValueChanged(IGameEntity? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+        await InvokeAsync(StateHasChanged);
+    }
 }

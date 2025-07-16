@@ -570,6 +570,7 @@
 
     private async Task TransferSelectedAsync()
     {
+        // TODO: Allow selection of vehicle as well
         if ((SelectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is not { } location)
         {
             return;
@@ -579,7 +580,7 @@
         {
             PerformOperation = async entry =>
             {
-                await InventoryManager.AddOrUpdateEntryAsync(entry.SetLocation(location));
+                await InventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
                 await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
             },
             Description = @<div>

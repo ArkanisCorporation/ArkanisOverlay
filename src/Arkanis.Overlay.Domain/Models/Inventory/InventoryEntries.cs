@@ -28,11 +28,38 @@ public static class InventoryEntry
             List = list,
         };
 
+    public static HangarInventoryEntry CreateInHangar(QuantityOf quantityOf, IGameLocation location, InventoryEntryList? list = null)
+        => new()
+        {
+            Quantity = quantityOf,
+            Location = location,
+            List = list,
+        };
+
+    public static VehicleInventoryEntry CreateVehicleCargo(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+        => new()
+        {
+            Quantity = quantityOf,
+            HangarEntry = hangarEntry,
+            List = list,
+        };
+
+    public static VehicleModuleEntry CreateVehicleModule(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+        => new()
+        {
+            Quantity = quantityOf,
+            HangarEntry = hangarEntry,
+            List = list,
+        };
+
     public static VirtualInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
         => Create(QuantityOf.Create(item, quantity), list);
 
     public static VirtualInventoryEntry Create(GameCommodity item, Quantity quantity, InventoryEntryList? list = null)
         => Create(QuantityOf.Create(item, quantity), list);
+
+    public static HangarInventoryEntry Create(GameVehicle vehicle, InventoryEntryList? list = null)
+        => CreateAt(vehicle, GameLocationEntity.Unknown, list);
 
     public static LocationInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
         => Create(QuantityOf.Create(item, quantity), location, list);
@@ -40,15 +67,43 @@ public static class InventoryEntry
     public static LocationInventoryEntry CreateAt(GameCommodity item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
         => Create(QuantityOf.Create(item, quantity), location, list);
 
-    public static InventoryEntryBase Create(IGameEntity source, Quantity quantity, IGameLocation? location = null, InventoryEntryList? list = null)
+    public static HangarInventoryEntry CreateAt(GameVehicle vehicle, IGameLocation location, InventoryEntryList? list = null)
+        => CreateInHangar(QuantityOf.Create(vehicle, Quantity.Default), location, list);
+
+    public static VehicleInventoryEntry CreateCargo(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+        => CreateVehicleCargo(QuantityOf.Create(item, quantity), hangarEntry, list);
+
+    public static VehicleInventoryEntry CreateCargo(
+        GameCommodity commodity,
+        Quantity quantity,
+        HangarInventoryEntry hangarEntry,
+        InventoryEntryList? list = null
+    )
+        => CreateVehicleCargo(QuantityOf.Create(commodity, quantity), hangarEntry, list);
+
+    public static VehicleModuleEntry CreateModule(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+        => CreateVehicleModule(QuantityOf.Create(item, quantity), hangarEntry, list);
+
+    public static InventoryEntryBase Create(IGameEntity source, Quantity quantity, Context? context = null)
         => source switch
         {
-            GameItem item => location is not null
-                ? CreateAt(item, quantity, location, list)
-                : Create(item, quantity, list),
-            GameCommodity commodity => location is not null
-                ? CreateAt(commodity, quantity, location, list)
-                : Create(commodity, quantity, list),
+            GameItem item => context switch
+            {
+                { HangarEntry: not null } => CreateCargo(item, quantity, context.HangarEntry, context.List),
+                { Location: not null } => CreateAt(item, quantity, context.Location, context.List),
+                _ => Create(item, quantity, context?.List),
+            },
+            GameCommodity commodity => context switch
+            {
+                { HangarEntry: not null } => CreateCargo(commodity, quantity, context.HangarEntry, context.List),
+                { Location: not null } => CreateAt(commodity, quantity, context.Location, context.List),
+                _ => Create(commodity, quantity, context?.List),
+            },
+            GameVehicle vehicle => context switch
+            {
+                { Location: not null } => CreateAt(vehicle, context.Location ?? GameLocationEntity.Unknown, context.List),
+                _ => Create(vehicle, context?.List),
+            },
             _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {source}"),
         };
 
@@ -56,6 +111,7 @@ public static class InventoryEntry
         InventoryEntryBase source,
         Quantity? quantity = null,
         IGameLocation? location = null,
+        HangarInventoryEntry? hangarEntry = null,
         InventoryEntryList? list = null
     )
     {
@@ -66,7 +122,23 @@ public static class InventoryEntry
             location ??= locatedAt.Location;
         }
 
-        return Create(source.Quantity.Reference.Entity, quantity, location, list);
+        return Create(
+            source.Quantity.Reference.Entity,
+            quantity,
+            new Context
+            {
+                Location = location,
+                HangarEntry = hangarEntry,
+                List = list,
+            }
+        );
+    }
+
+    public class Context
+    {
+        public IGameLocation? Location { get; set; }
+        public HangarInventoryEntry? HangarEntry { get; set; }
+        public InventoryEntryList? List { get; set; }
     }
 }
 
@@ -100,7 +172,7 @@ public abstract class InventoryEntryBase : IIdentifiable
     IDomainId IIdentifiable.Id
         => Id;
 
-    public abstract InventoryEntryBase SetLocation(IGameLocation location);
+    public abstract InventoryEntryBase TransferTo(IGameLocation location);
 }
 
 public sealed class VirtualInventoryEntry : InventoryEntryBase
@@ -108,7 +180,7 @@ public sealed class VirtualInventoryEntry : InventoryEntryBase
     public override EntryType Type
         => EntryType.Virtual;
 
-    public override InventoryEntryBase SetLocation(IGameLocation location)
+    public override InventoryEntryBase TransferTo(IGameLocation location)
         => new LocationInventoryEntry
         {
             Id = Id,
@@ -125,7 +197,7 @@ public sealed class LocationInventoryEntry : InventoryEntryBase, IGameLocatedAt
 
     public required IGameLocation Location { get; set; }
 
-    public override InventoryEntryBase SetLocation(IGameLocation location)
+    public override InventoryEntryBase TransferTo(IGameLocation location)
     {
         Location = location;
         return this;
@@ -151,7 +223,7 @@ public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
 
     public required IGameLocation Location { get; set; }
 
-    public override InventoryEntryBase SetLocation(IGameLocation location)
+    public override InventoryEntryBase TransferTo(IGameLocation location)
     {
         Location = location;
         return this;
@@ -163,11 +235,15 @@ public sealed class VehicleModuleEntry : InventoryEntryBase
     public override EntryType Type
         => EntryType.VehicleModule;
 
-    public string CategoryName
-        => Quantity.ReferenceAs<GameItem>().Name.OfType<GameEntityName.ItemCategoryReference>().FirstOrDefault()?.Category.Name.MainContent.FullName
-           ?? "Unknown";
+    public GameItem ItemReference
+        => Quantity.ReferenceAs<GameItem>();
 
-    public override InventoryEntryBase SetLocation(IGameLocation location)
+    public GameProductCategory Category
+        => ItemReference.Category;
+
+    public required HangarInventoryEntry HangarEntry { get; set; }
+
+    public override InventoryEntryBase TransferTo(IGameLocation location)
         => new LocationInventoryEntry
         {
             Id = Id,
@@ -182,7 +258,9 @@ public sealed class VehicleInventoryEntry : InventoryEntryBase
     public override EntryType Type
         => EntryType.VehicleInventory;
 
-    public override InventoryEntryBase SetLocation(IGameLocation location)
+    public required HangarInventoryEntry HangarEntry { get; set; }
+
+    public override InventoryEntryBase TransferTo(IGameLocation location)
         => new LocationInventoryEntry
         {
             Id = Id,

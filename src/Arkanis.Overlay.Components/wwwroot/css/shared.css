@@ -83,6 +83,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    & *:not(.mud-ripple):hover {
+        overflow: visible;
+    }
 }
 
 @keyframes fadeInDown {

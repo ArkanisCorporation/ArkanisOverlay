@@ -22,6 +22,9 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
     public PropertyCollection? Properties
         => _parts.OfType<PropertyCollection>().FirstOrDefault();
 
+    public ItemCategoryReference? ItemCategory
+        => _parts.OfType<ItemCategoryReference>().FirstOrDefault();
+
     public IEnumerator<Part> GetEnumerator()
         => Parts.GetEnumerator();
 
