@@ -74,7 +74,15 @@
             return;
         }
 
-        var inventoryEntry = InventoryEntry.Create(TargetEntity, TargetQuantity, TargetLocation, TargetList);
+        var inventoryEntry = InventoryEntry.Create(
+            TargetEntity,
+            TargetQuantity,
+            new InventoryEntry.Context
+            {
+                Location = TargetLocation,
+                List = TargetList,
+            }
+        );
         await InventoryManager.AddOrUpdateEntryAsync(inventoryEntry);
         await EventReporter.TrackEventAsync(InventoryEvents.AddItem());
         MudDialog.Close(DialogResult.Ok(inventoryEntry));

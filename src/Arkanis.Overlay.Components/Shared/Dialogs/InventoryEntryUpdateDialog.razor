@@ -5,44 +5,81 @@
 
 <MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
     <TitleContent>
-        @if (IsTransferMode)
-        {
-            <span>Inventory Transfer</span>
-        }
-        else
-        {
-            <span>Inventory Modification</span>
-        }
+        <MudText Typo="@Typo.h6">
+            @if (IsTransferMode)
+            {
+                <span>Inventory Transfer</span>
+            }
+            else
+            {
+                <span>Inventory Modification</span>
+            }
+        </MudText>
     </TitleContent>
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
-                <GameEntitySelectBox
+                <InventoryEntrySelectBox
+                    T="@(InventoryEntryBase?)"
                     Label="Inventory Entity"
-                    Value="@SourceModel.Entity"
-                    Disabled/>
+                    @bind-Value="@SourceModel"
+                    @bind-Value:after="@ConfigureDefaults"
+                    Accept="InventoryAccept"
+                    Disabled="@SourceModelProvided"
+                    Required/>
             </MudItem>
             <MudItem xs="12">
                 <QuantityField
                     AmountHelperText="@AmountHelperText"
                     @bind-Value="@TargetQuantity"
-                    Max="@(IsTransferMode ? SourceModel.Quantity.Amount : int.MaxValue)"
+                    Max="@(IsTransferMode && SourceModel is not null ? SourceModel.Quantity.Amount : int.MaxValue)"
                     DisabledUnitChange="@IsTransferMode"/>
+            </MudItem>
+            <MudItem xs="12">
+                <InventoryListSelect
+                    HelperText="@ListHelperText"
+                    @bind-Value="@TargetList"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="@Typo.body1">
+                    Entry Placement
+                </MudText>
             </MudItem>
             <MudItem xs="12">
                 <GameEntitySelectBox
                     Label="Location"
                     Placeholder="Search for a game location"
                     HelperText="@LocationHelperText"
+                    HasError="@(LocationErrorText is not null)"
+                    ErrorText="@LocationErrorText"
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@Location"
                     @bind-Value="TargetLocationEntity"
-                    Required="@(IsTransferMode || SourceModel is IGameLocatedAt)"/>
+                    Disabled="@(TargetHangarEntry is not null || LocationLocked)"/>
             </MudItem>
             <MudItem xs="12">
-                <InventoryListSelect
-                    HelperText="@ListHelperText"
-                    @bind-Value="@TargetList"/>
+                <div class="pt-2 pb-1 relative">
+                    <MudDivider/>
+                    <MudStack Justify="@Justify.Center"
+                              Class="absolute w-100"
+                              style="top: -1px;"
+                              Row>
+                        <div class="px-3" style="background: var(--mud-palette-surface);">
+                            or
+                        </div>
+                    </MudStack>
+                </div>
+            </MudItem>
+            <MudItem xs="12">
+                <InventoryEntrySelectBox
+                    T="@HangarInventoryEntry"
+                    Label="Vehicle"
+                    Placeholder="Search for a hangar vehicle"
+                    @bind-Value="@TargetHangarEntry"
+                    HelperText="@HangarHelperText"
+                    HasError="@(LocationErrorText is not null)"
+                    ErrorText="@LocationErrorText"
+                    Disabled="@(TargetLocationEntity is not null || LocationLocked)"/>
             </MudItem>
         </MudGrid>
     </DialogContent>
@@ -59,15 +96,23 @@
 @code
 {
 
+    private string? LocationErrorText
+        => IsTransferMode
+            ? this is { TargetLocation: null, TargetHangarEntry: null }
+                ? "A target location is required"
+                : null
+            : null;
+
     private bool CanSubmit
         => TargetQuantity.Amount > 0
-           && (IsEditMode || TargetLocation is not null);
+           && SourceModel is not null
+           && (IsEditMode || TargetLocation is not null || TargetHangarEntry is not null);
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public required InventoryEntryBase SourceModel { get; set; }
+    public InventoryEntryBase? SourceModel { get; set; }
 
     [Parameter]
     public Quantity TargetQuantity { get; set; } = Quantity.Default;
@@ -76,26 +121,45 @@
     public IGameEntity? TargetLocationEntity { get; set; }
 
     [Parameter]
+    public HangarInventoryEntry? TargetHangarEntry { get; set; }
+
+    [Parameter]
     public InventoryEntryList? TargetList { get; set; }
+
+    [Parameter]
+    public Func<InventoryEntryBase, bool>? InventoryAccept { get; set; }
 
     [Parameter]
     public ModeType Mode { get; set; }
 
+    [Parameter]
+    public bool SourceModelProvided { get; set; }
+
+    [Parameter]
+    public bool LocationLocked { get; set; }
+
     private string AmountHelperText
-        => IsTransferMode
+        => IsTransferMode && SourceModelProvided && SourceModel is not null
             ? $"Up to {SourceModel.Quantity} available"
             : string.Empty;
 
     private string LocationHelperText
-        => IsTransferMode
+        => IsTransferMode && SourceModelProvided
             ? SourceModel is IGameLocatedAt locatedAt
                 ? $"Previously at {locatedAt.Location.Name.MainContent.FullName}"
                 : "Previously unassigned"
             : string.Empty;
 
+    private string HangarHelperText
+        => IsTransferMode && SourceModelProvided
+            ? SourceModel is HangarInventoryEntry hangarInventory
+                ? $"Previously in {hangarInventory.VehicleReference.Name.MainContent.FullName} at {hangarInventory.Location.Name.MainContent.FullName}"
+                : "Previously unassigned"
+            : string.Empty;
+
     private string ListHelperText
-        => IsTransferMode
-            ? SourceModel.List is { } list
+        => IsTransferMode && SourceModelProvided
+            ? SourceModel?.List is { } list
                 ? $"Previously in {list.Name}"
                 : "Previously unassigned"
             : string.Empty;
@@ -111,7 +175,7 @@
 
     private async Task SubmitAsync()
     {
-        if (!CanSubmit)
+        if (!CanSubmit || SourceModel is null)
         {
             return;
         }
@@ -133,14 +197,14 @@
             SourceModel.Quantity.Unit = TargetQuantity.Unit;
             SourceModel.List = TargetList;
             var updatedModel = TargetLocation is not null
-                ? SourceModel.SetLocation(TargetLocation)
+                ? SourceModel.TransferTo(TargetLocation)
                 : SourceModel;
 
             await InventoryManager.AddOrUpdateEntryAsync(updatedModel);
         }
         else
         {
-            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetList);
+            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetHangarEntry, TargetList);
             await InventoryManager.AddOrUpdateEntryAsync(transferModel);
 
             SourceModel.Quantity.Amount -= TargetQuantity.Amount;
@@ -153,35 +217,100 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        ConfigureDefaults();
+    }
 
+    private void ConfigureDefaults()
+    {
         if (SourceModel is IGameLocatedAt locatedAt)
         {
             TargetLocationEntity ??= locatedAt.Location;
         }
 
-        TargetList ??= SourceModel.List;
-        TargetQuantity = new Quantity(SourceModel.Quantity.Amount, SourceModel.Quantity.Unit);
+        TargetHangarEntry ??= SourceModel switch
+        {
+            VehicleModuleEntry entry => entry.HangarEntry,
+            VehicleInventoryEntry entry => entry.HangarEntry,
+            _ => null,
+        };
+
+        TargetList ??= SourceModel?.List;
+        TargetQuantity = SourceModel is not null
+            ? new Quantity(SourceModel.Quantity.Amount, SourceModel.Quantity.Unit)
+            : Quantity.Default;
     }
 
     private void Cancel()
         => MudDialog.Cancel();
 
     public static async Task<InventoryEntryBase?> ShowEditAsync(IDialogService dialogService, IGameEntity gameEntity, IGameLocation? location = null)
-        => await ShowAsync(dialogService, ModeType.Edit, InventoryEntry.Create(gameEntity, Quantity.Default), location);
+        => await ShowAsync(
+            dialogService,
+            new Parameters(ModeType.Edit)
+            {
+                Mode = ModeType.Edit,
+                Model = InventoryEntry.Create(gameEntity, Quantity.Default),
+                Location = location,
+            }
+        );
 
     public static async Task<InventoryEntryBase?> ShowEditAsync(IDialogService dialogService, InventoryEntryBase model, IGameLocation? location = null)
-        => await ShowAsync(dialogService, ModeType.Edit, model, location);
+        => await ShowAsync(
+            dialogService,
+            new Parameters(ModeType.Edit)
+            {
+                Model = model,
+                Location = location,
+            }
+        );
 
     public static async Task<InventoryEntryBase?> ShowTransferAsync(IDialogService dialogService, InventoryEntryBase model, IGameLocation? location = null)
-        => await ShowAsync(dialogService, ModeType.Transfer, model, location);
+        => await ShowAsync(
+            dialogService,
+            new Parameters(ModeType.Transfer)
+            {
+                Model = model,
+                Location = location,
+            }
+        );
 
-    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, ModeType mode, InventoryEntryBase model, IGameLocation? location = null)
+    public static async Task<InventoryEntryBase?> ShowTransferCargoToAsync(IDialogService dialogService, HangarInventoryEntry hangarEntry)
+        => await ShowAsync(
+            dialogService,
+            new Parameters(ModeType.Transfer)
+            {
+                HangarEntry = hangarEntry,
+                LocationLocked = true,
+            }
+        );
+
+    public static async Task<InventoryEntryBase?> ShowTransferModuleToAsync(IDialogService dialogService, HangarInventoryEntry hangarEntry, GameProductCategory? itemCategory = null)
+        => await ShowAsync(
+            dialogService,
+            new Parameters(ModeType.Transfer)
+            {
+                HangarEntry = hangarEntry,
+                LocationLocked = true,
+                InventoryAccept = entry
+                    => entry.Quantity.Reference.Entity is GameItem gameItem
+                       && (itemCategory is null || gameItem.Category == itemCategory),
+            }
+        );
+
+    private static async Task<InventoryEntryBase?> ShowAsync(
+        IDialogService dialogService,
+        Parameters parameters
+    )
     {
         var dialogParameters = new DialogParameters<InventoryEntryUpdateDialog>
         {
-            [nameof(Mode)] = mode,
-            [nameof(SourceModel)] = model,
-            [nameof(TargetLocationEntity)] = location,
+            [nameof(Mode)] = parameters.Mode,
+            [nameof(SourceModel)] = parameters.Model,
+            [nameof(SourceModelProvided)] = parameters.Model is not null,
+            [nameof(TargetLocationEntity)] = parameters.Location,
+            [nameof(LocationLocked)] = parameters.LocationLocked,
+            [nameof(TargetHangarEntry)] = parameters.HangarEntry,
+            [nameof(InventoryAccept)] = parameters.InventoryAccept,
         };
         var dialogOptions = new DialogOptions
         {
@@ -201,5 +330,15 @@
     {
         Edit,
         Transfer,
+    }
+
+    public class Parameters(ModeType mode)
+    {
+        public ModeType Mode { get; init; } = mode;
+        public InventoryEntryBase? Model { get; init; }
+        public IGameLocation? Location { get; init; }
+        public bool LocationLocked { get; init; }
+        public HangarInventoryEntry? HangarEntry { get; init; }
+        public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; }
     }
 }

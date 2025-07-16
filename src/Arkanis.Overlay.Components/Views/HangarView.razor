@@ -71,38 +71,47 @@
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(1)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(2)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(3)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(124)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(125)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(126)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(67)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(68)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleModuleEntry
                         {
                             Quantity = QuantityOf.Create(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(69)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                     ],
                     Inventory =
@@ -110,10 +119,12 @@
                         new VehicleInventoryEntry
                         {
                             Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(109)) ?? throw new ApplicationException(), Quantity.Default),
+                            HangarEntry = null!,
                         },
                         new VehicleInventoryEntry
                         {
                             Quantity = QuantityOf.Create(await GameSpaceShipRepository.GetAsync(UexApiGameEntityId.Create<GameVehicle>(27)) ?? throw new ApplicationException(), Quantity.Default with { Unit = Quantity.UnitType.StandardCargoUnit }),
+                            HangarEntry = null!,
                         },
                     ],
                     NameTag = "The Liskov Principle",

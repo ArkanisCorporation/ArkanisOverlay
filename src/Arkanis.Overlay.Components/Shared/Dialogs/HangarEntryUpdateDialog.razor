@@ -86,7 +86,7 @@
             // await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
         }
 
-        var updatedModel = SourceModel.SetLocation(TargetLocation ?? GameLocationEntity.Unknown);
+        var updatedModel = SourceModel.TransferTo(TargetLocation ?? GameLocationEntity.Unknown);
         if (updatedModel is not HangarInventoryEntry hangarEntry)
         {
             // TODO: cannot happen now

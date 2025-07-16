@@ -80,13 +80,10 @@
             return;
         }
 
-        var inventoryEntry = new HangarInventoryEntry
-        {
-            Location = TargetLocation ?? GameLocationEntity.Unknown,
-            Quantity = QuantityOf.Create(TargetVehicle, Quantity.Default),
-            NameTag = _nameTag,
-            IsPledged = false,
-        };
+        var inventoryEntry = InventoryEntry.CreateAt(TargetVehicle, TargetLocation ?? GameLocationEntity.Unknown);
+        inventoryEntry.NameTag = _nameTag;
+        inventoryEntry.IsPledged = _isPledged;
+
         await InventoryManager.AddOrUpdateEntryAsync(inventoryEntry);
         await EventReporter.TrackEventAsync(InventoryEvents.AddItem());
         MudDialog.Close(DialogResult.Ok(inventoryEntry));

@@ -1,0 +1,127 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@typeparam T where T : InventoryEntryBase
+@inject IInventoryManager InventoryManager
+
+<MudAutocomplete T="@(T?)"
+                 Label="@Label"
+                 Placeholder="@Placeholder"
+                 Value="@Value"
+                 ValueChanged="@OnValueChanged"
+                 OnBlur="StateHasChanged"
+                 Text="@GetText(Value)"
+                 HelperText="@HelperText"
+                 Error="@DisplayError"
+                 ErrorText="@ErrorText"
+                 Disabled="@Disabled"
+                 Clearable="@(!Required)"
+                 Required="@Required"
+                 CoerceText="@false"
+                 CoerceValue="@false"
+                 PopoverClass="width-min-content"
+                 ItemDisabledFunc="@(item => Value == item)"
+                 SearchFunc="@FindLocationsAsync">
+    <ItemTemplate>
+        @if (context is not null)
+        {
+            <div class="my-n2">
+                <GameEntityNameLabel
+                    Model="@context.Entity.Name"/>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="@Typo.inherit" Class="text-secondary">
+                Unknown
+            </MudText>
+        }
+    </ItemTemplate>
+    <NoItemsTemplate>
+        <MudSelectItem T="@(T?)"
+                       Value="@null"
+                       Class="no-wrap"
+                       Disabled>
+            No matching inventory entries
+        </MudSelectItem>
+    </NoItemsTemplate>
+</MudAutocomplete>
+
+@code
+{
+
+    private bool DisplayError
+        => HasError || (Value is null && Required);
+
+    [Parameter]
+    public string? Label { get; set; } = "Inventory entry";
+
+    [Parameter]
+    public string? Placeholder { get; set; } = "Search for an inventory entry";
+
+    [Parameter]
+    public T? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<T?> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public Func<T, bool> Accept { get; set; } = _ => true;
+
+    [Parameter]
+    public bool HasError { get; set; }
+
+    [Parameter]
+    public string? ErrorText { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // force render to update initially coerced display text for default values
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task<IEnumerable<T?>> FindLocationsAsync(string? searchText, CancellationToken ct)
+    {
+        var entries = await InventoryManager.GetAllEntriesAsync(ct);
+        return entries
+            .OfType<T>()
+            .Where(Accept)
+            .Where(x => searchText is null || x.Entity.Name.MainContent.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private string? GetText(T? value)
+    {
+        var entityName = value switch
+        {
+            HangarInventoryEntry hangarEntry => $"{hangarEntry.NameTag} ({value?.Entity.Name.MainContent.FullName})",
+            _ => value?.Entity.Name.MainContent.FullName,
+        };
+        return value is IGameLocatedAt locatedAt
+            ? $"{entityName} at {locatedAt.Location.Name.MainContent.FullName}"
+            : entityName;
+    }
+
+    private async Task OnValueChanged(T? value)
+    {
+        if (Value != value)
+        {
+            Value = value;
+            await ValueChanged.InvokeAsync(value);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+}
