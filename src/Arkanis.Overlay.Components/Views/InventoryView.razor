@@ -70,12 +70,16 @@
         <MudContainer>
 
             <MudStack Spacing="6">
-                <InventoryEntryFilters
-                    @bind-CurrentContext="@_filtersContext"
-                    @bind-CurrentContext:after="@UpdateFilters"
-                    SelectedEntries="@SelectedEntries"
-                    FilteredLocations="@FilteredLocations"
-                    OnChange="@RefreshDataAsync"/>
+                <MudPaper Style="position: sticky; top: 0; z-index: 100"
+                          Elevation="4"
+                          Class="py-2 px-4">
+                    <InventoryEntryFilters
+                        @bind-CurrentContext="@_filtersContext"
+                        @bind-CurrentContext:after="@UpdateFilters"
+                        SelectedEntries="@SelectedEntries"
+                        FilteredLocations="@FilteredLocations"
+                        OnChange="@RefreshDataAsync"/>
+                </MudPaper>
 
                 <MudExpansionPanels Gutters="false">
                     @{ var panelIndex = 0; }
