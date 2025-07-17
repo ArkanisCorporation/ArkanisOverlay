@@ -24,7 +24,7 @@
                     Label="Inventory Entity"
                     @bind-Value="@SourceModel"
                     @bind-Value:after="@ConfigureDefaults"
-                    Accept="InventoryAccept"
+                    Accept="@InventoryAccept"
                     Disabled="@SourceModelProvided"
                     Required/>
             </MudItem>
@@ -55,7 +55,7 @@
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@Location"
                     @bind-Value="TargetLocationEntity"
-                    Disabled="@(TargetHangarEntry is not null || LocationLocked)"/>
+                    Disabled="@(TargetHangarEntry is not null || IsTargetLocationLocked)"/>
             </MudItem>
             <MudItem xs="12">
                 <div class="pt-2 pb-1 relative">
@@ -79,7 +79,7 @@
                     HelperText="@HangarHelperText"
                     HasError="@(LocationErrorText is not null)"
                     ErrorText="@LocationErrorText"
-                    Disabled="@(TargetLocationEntity is not null || LocationLocked)"/>
+                    Disabled="@(TargetLocationEntity is not null || IsTargetLocationLocked)"/>
             </MudItem>
         </MudGrid>
     </DialogContent>
@@ -135,30 +135,30 @@
     [Parameter]
     public bool SourceModelProvided { get; set; }
 
-    [Parameter]
-    public bool LocationLocked { get; set; }
+    private bool IsTargetLocationLocked
+        => IsTransferToMode;
 
     private string AmountHelperText
-        => IsTransferMode && (SourceModelProvided || LocationLocked) && SourceModel is not null
+        => IsTransferMode && (SourceModelProvided || IsTargetLocationLocked) && SourceModel is not null
             ? $"Up to {SourceModel.Quantity} available"
             : string.Empty;
 
     private string LocationHelperText
-        => IsTransferMode && (SourceModelProvided || LocationLocked)
+        => IsTransferMode && (SourceModelProvided || IsTargetLocationLocked)
             ? SourceModel is IGameLocatedAt locatedAt
                 ? $"Previously at {locatedAt.Location.Name.MainContent.FullName}"
                 : "Previously unassigned"
             : string.Empty;
 
     private string HangarHelperText
-        => IsTransferMode && (SourceModelProvided || LocationLocked)
+        => IsTransferMode && (SourceModelProvided || IsTargetLocationLocked)
             ? SourceModel is HangarInventoryEntry hangarInventory
                 ? $"Previously in {hangarInventory.VehicleReference.Name.MainContent.FullName} at {hangarInventory.Location.Name.MainContent.FullName}"
                 : "Previously unassigned"
             : string.Empty;
 
     private string ListHelperText
-        => IsTransferMode && (SourceModelProvided || LocationLocked)
+        => IsTransferMode && (SourceModelProvided || IsTargetLocationLocked)
             ? SourceModel?.List is { } list
                 ? $"Previously in {list.Name}"
                 : "Previously unassigned"
@@ -168,7 +168,11 @@
         => Mode is ModeType.Edit;
 
     private bool IsTransferMode
-        => Mode is ModeType.Transfer;
+        => Mode is ModeType.Transfer
+            or ModeType.TransferTo;
+
+    private bool IsTransferToMode
+        => Mode is ModeType.TransferTo;
 
     public IGameLocation? TargetLocation
         => TargetLocationEntity as IGameLocation;
@@ -222,8 +226,10 @@
 
     private void ConfigureDefaults()
     {
-        if (!LocationLocked)
+        if (!IsTargetLocationLocked)
         {
+            // only configure defaults if the target location is not locked
+
             if (TargetHangarEntry is null)
             {
                 TargetLocationEntity ??= SourceModel switch
@@ -287,20 +293,18 @@
     public static async Task<InventoryEntryBase?> ShowTransferCargoToAsync(IDialogService dialogService, HangarInventoryEntry hangarEntry)
         => await ShowAsync(
             dialogService,
-            new Parameters(ModeType.Transfer)
+            new Parameters(ModeType.TransferTo)
             {
                 HangarEntry = hangarEntry,
-                LocationLocked = true,
             }
         );
 
     public static async Task<InventoryEntryBase?> ShowTransferModuleToAsync(IDialogService dialogService, HangarInventoryEntry hangarEntry, GameProductCategory? itemCategory = null)
         => await ShowAsync(
             dialogService,
-            new Parameters(ModeType.Transfer)
+            new Parameters(ModeType.TransferTo)
             {
                 HangarEntry = hangarEntry,
-                LocationLocked = true,
                 InventoryAccept = entry
                     => entry.Quantity.Reference.Entity is GameItem gameItem
                        && (itemCategory is null || gameItem.Category == itemCategory),
@@ -318,7 +322,6 @@
             [nameof(SourceModel)] = parameters.Model,
             [nameof(SourceModelProvided)] = parameters.Model is not null,
             [nameof(TargetLocationEntity)] = parameters.Location,
-            [nameof(LocationLocked)] = parameters.LocationLocked,
             [nameof(TargetHangarEntry)] = parameters.HangarEntry,
             [nameof(InventoryAccept)] = parameters.InventoryAccept,
         };
@@ -340,6 +343,7 @@
     {
         Edit,
         Transfer,
+        TransferTo,
     }
 
     public class Parameters(ModeType mode)
@@ -347,7 +351,6 @@
         public ModeType Mode { get; init; } = mode;
         public InventoryEntryBase? Model { get; init; }
         public IGameLocation? Location { get; init; }
-        public bool LocationLocked { get; init; }
         public HangarInventoryEntry? HangarEntry { get; init; }
         public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; }
     }
