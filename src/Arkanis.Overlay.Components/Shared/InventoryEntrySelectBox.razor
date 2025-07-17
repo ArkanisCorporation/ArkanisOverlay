@@ -105,12 +105,29 @@
     {
         var entityName = value switch
         {
-            HangarInventoryEntry hangarEntry => $"{hangarEntry.NameTag} ({value?.Entity.Name.MainContent.FullName})",
+            HangarInventoryEntry vehicle => GetName(vehicle),
+            VehicleModuleEntry module => $"{GetFullName(module.ItemReference)} from {GetName(module.HangarEntry)}",
+            VehicleInventoryEntry cargo => $"{GetFullName(cargo.Quantity.Reference.Entity)} from {GetName(cargo.HangarEntry)}",
             _ => value?.Entity.Name.MainContent.FullName,
         };
-        return value is IGameLocatedAt locatedAt
-            ? $"{entityName} at {locatedAt.Location.Name.MainContent.FullName}"
-            : entityName;
+
+        return value switch
+        {
+            IGameLocatedAt locatedAt => $"{entityName} at {GetFullName(locatedAt.Location)}",
+            VehicleModuleEntry module => $"{entityName} at {GetFullName(module.HangarEntry.Location)}",
+            VehicleInventoryEntry cargo => $"{entityName} at {GetFullName(cargo.HangarEntry.Location)}",
+            _ => entityName,
+        };
+
+        string GetName(HangarInventoryEntry vehicle)
+            => vehicle switch
+            {
+                { NameTag: { Length: > 0 } nameTag } => $"{nameTag} ({GetFullName(vehicle.VehicleReference)})",
+                _ => GetFullName(vehicle.VehicleReference),
+            };
+
+        string GetFullName(IGameEntity gameEntity)
+            => gameEntity.Name.MainContent.FullName;
     }
 
     private async Task OnValueChanged(T? value)
