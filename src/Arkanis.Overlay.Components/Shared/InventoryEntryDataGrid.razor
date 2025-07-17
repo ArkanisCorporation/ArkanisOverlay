@@ -170,11 +170,11 @@
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn Title="Location"
-                        GroupBy="@(x => (x as IGameLocatedAt)?.Location)"
-                        Grouping="@Groupings.Contains(Column.Location)"
-                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Location)"
+                        GroupBy="@(x => (x as IInventoryPlacement)?.LocationId)"
+                        Grouping="@Groupings.Contains(Column.LocationOrVehicle)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.LocationOrVehicle)"
                         GroupExpanded="@ExpandAll"
-                        Hidden="@Groupings.Contains(Column.Location)">
+                        Hidden="@Groupings.Contains(Column.LocationOrVehicle)">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -185,9 +185,16 @@
                             Models="@context.Grouping.Select(x => x.Quantity)"/>
                     </div>
 
-                    @if (context.Grouping.Key is IGameLocation location)
+                    @{ var item = context.Grouping.First(); }
+                    @if (item is ILocationInventory locatedAt)
                     {
-                        <GameEntityNameLabel Model="@location.Name"/>
+                        <GameEntityNameLabel Model="@locatedAt.Location.Name"/>
+                    }
+                    else if (item is IVehicleInventory hangarEntry)
+                    {
+                        <GameEntityNameLabel Model="@hangarEntry.HangarEntry.VehicleReference.Name"/>
+                        <span>at</span>
+                        <GameEntityNameLabel Model="@hangarEntry.HangarEntry.Location.Name"/>
                     }
                     else
                     {
@@ -361,7 +368,7 @@
         var sortColumn = groupings.First();
         models = sortColumn switch
         {
-            Column.Location => OrderBy(x => (x as IGameLocatedAt)?.Location.Name.MainContent.FullName),
+            Column.LocationOrVehicle => OrderBy(x => (x as IGameLocatedAt)?.Location.Name.MainContent.FullName),
             Column.Manufacturer => OrderBy(x => (x.Entity as IGameManufactured)?.Manufacturer.Name.MainContent.FullName),
             Column.EntryType => OrderBy(x => x.Type),
             Column.List => OrderBy(x => x.List?.Name),
@@ -394,7 +401,7 @@
 
     public enum Column
     {
-        Location,
+        LocationOrVehicle,
         Manufacturer,
         EntryType,
         List,

@@ -152,7 +152,7 @@
                             <MudDivider/>
                             <InventoryEntryDataGrid Models="@FilteredEntries"
                                                     @bind-SelectedModels="@SelectedEntries"
-                                                    Groupings="@( [InventoryEntryDataGrid.Column.Location])"
+                                                    Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                     ExpandAll="FiltersActive"
                                                     IsHangar>
                                 @* <ListActionsContent> *@

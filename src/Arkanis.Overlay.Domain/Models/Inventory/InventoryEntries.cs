@@ -143,7 +143,7 @@ public static class InventoryEntry
     }
 }
 
-public abstract class InventoryEntryBase : IIdentifiable
+public abstract class InventoryEntryBase : IIdentifiable, IInventoryPlacement
 {
     public enum EntryType
     {
@@ -211,7 +211,7 @@ public sealed class VirtualInventoryEntry : InventoryEntryBase
         };
 }
 
-public sealed class LocationInventoryEntry : InventoryEntryBase, IGameLocatedAt
+public sealed class LocationInventoryEntry : InventoryEntryBase, ILocationInventory
 {
     public override EntryType Type
         => EntryType.Location;
@@ -225,7 +225,7 @@ public sealed class LocationInventoryEntry : InventoryEntryBase, IGameLocatedAt
     }
 }
 
-public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
+public sealed class HangarInventoryEntry : InventoryEntryBase, ILocationInventory
 {
     public override EntryType Type
         => EntryType.Hangar;
@@ -256,7 +256,7 @@ public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
         => this;
 }
 
-public sealed class VehicleModuleEntry : InventoryEntryBase
+public sealed class VehicleModuleEntry : InventoryEntryBase, IVehicleInventory
 {
     public override EntryType Type
         => EntryType.VehicleModule;
@@ -290,7 +290,7 @@ public sealed class VehicleModuleEntry : InventoryEntryBase
     }
 }
 
-public sealed class VehicleInventoryEntry : InventoryEntryBase
+public sealed class VehicleInventoryEntry : InventoryEntryBase, IVehicleInventory
 {
     public override EntryType Type
         => EntryType.VehicleInventory;
@@ -316,6 +316,26 @@ public sealed class VehicleInventoryEntry : InventoryEntryBase
         HangarEntry = hangarEntry;
         return this;
     }
+}
+
+public interface IInventoryPlacement
+{
+    IDomainId? LocationId
+        => null;
+}
+
+public interface ILocationInventory : IInventoryPlacement, IGameLocatedAt
+{
+    IDomainId IInventoryPlacement.LocationId
+        => Location.Id;
+}
+
+public interface IVehicleInventory : IInventoryPlacement
+{
+    HangarInventoryEntry HangarEntry { get; }
+
+    IDomainId IInventoryPlacement.LocationId
+        => HangarEntry.Id;
 }
 
 public enum VehicleInventoryType
