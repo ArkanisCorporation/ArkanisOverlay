@@ -355,6 +355,6 @@
         public IGameLocation? Location { get; init; }
         public HangarInventoryEntry? HangarEntry { get; init; }
         public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; } = _ => true;
-        public VehicleInventoryType VehicleInventoryType { get; init; }
+        public VehicleInventoryType VehicleInventoryType { get; init; } = VehicleInventoryType.Cargo;
     }
 }
