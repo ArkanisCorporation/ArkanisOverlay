@@ -114,8 +114,7 @@
         return value switch
         {
             IGameLocatedAt locatedAt => $"{entityName} at {GetFullName(locatedAt.Location)}",
-            VehicleModuleEntry module => $"{entityName} at {GetFullName(module.HangarEntry.Location)}",
-            VehicleInventoryEntry cargo => $"{entityName} at {GetFullName(cargo.HangarEntry.Location)}",
+            IVehicleInventory entry => $"{entityName} at {GetFullName(entry.HangarEntry.Location)}",
             _ => entityName,
         };
 

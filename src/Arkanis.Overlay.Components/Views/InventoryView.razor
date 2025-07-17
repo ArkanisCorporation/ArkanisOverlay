@@ -167,7 +167,7 @@
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
-                                                        Groupings="@( [InventoryEntryDataGrid.Column.Location])"
+                                                        Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         @ListActions(context)
