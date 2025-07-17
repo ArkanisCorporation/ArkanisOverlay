@@ -139,26 +139,26 @@
     public bool LocationLocked { get; set; }
 
     private string AmountHelperText
-        => IsTransferMode && SourceModelProvided && SourceModel is not null
+        => IsTransferMode && (SourceModelProvided || LocationLocked) && SourceModel is not null
             ? $"Up to {SourceModel.Quantity} available"
             : string.Empty;
 
     private string LocationHelperText
-        => IsTransferMode && SourceModelProvided
+        => IsTransferMode && (SourceModelProvided || LocationLocked)
             ? SourceModel is IGameLocatedAt locatedAt
                 ? $"Previously at {locatedAt.Location.Name.MainContent.FullName}"
                 : "Previously unassigned"
             : string.Empty;
 
     private string HangarHelperText
-        => IsTransferMode && SourceModelProvided
+        => IsTransferMode && (SourceModelProvided || LocationLocked)
             ? SourceModel is HangarInventoryEntry hangarInventory
                 ? $"Previously in {hangarInventory.VehicleReference.Name.MainContent.FullName} at {hangarInventory.Location.Name.MainContent.FullName}"
                 : "Previously unassigned"
             : string.Empty;
 
     private string ListHelperText
-        => IsTransferMode && SourceModelProvided
+        => IsTransferMode && (SourceModelProvided || LocationLocked)
             ? SourceModel?.List is { } list
                 ? $"Previously in {list.Name}"
                 : "Previously unassigned"
@@ -222,17 +222,27 @@
 
     private void ConfigureDefaults()
     {
-        if (SourceModel is IGameLocatedAt locatedAt)
+        if (!LocationLocked)
         {
-            TargetLocationEntity ??= locatedAt.Location;
-        }
+            if (TargetHangarEntry is null)
+            {
+                TargetLocationEntity ??= SourceModel switch
+                {
+                    IGameLocatedAt locatedAt => locatedAt.Location,
+                    _ => null,
+                };
+            }
 
-        TargetHangarEntry ??= SourceModel switch
-        {
-            VehicleModuleEntry entry => entry.HangarEntry,
-            VehicleInventoryEntry entry => entry.HangarEntry,
-            _ => null,
-        };
+            if (TargetLocationEntity is null)
+            {
+                TargetHangarEntry ??= SourceModel switch
+                {
+                    VehicleModuleEntry entry => entry.HangarEntry,
+                    VehicleInventoryEntry entry => entry.HangarEntry,
+                    _ => null,
+                };
+            }
+        }
 
         TargetList ??= SourceModel?.List;
         TargetQuantity = SourceModel is not null
