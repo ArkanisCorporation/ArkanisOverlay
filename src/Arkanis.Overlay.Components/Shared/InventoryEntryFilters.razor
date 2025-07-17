@@ -1,0 +1,249 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IDialogService DialogService
+@inject IAnalyticsEventReporter EventReporter
+@inject IInventoryManager InventoryManager
+
+<MudPaper Style="position: sticky; top: 0; z-index: 100"
+          Elevation="4"
+          Class="py-2 px-4">
+    <MudGrid Spacing="2">
+        @if (WithoutText == false)
+        {
+            <MudItem xs="12" md="3">
+                <MudTextField
+                    @bind-Value="@CurrentContext.Text"
+                    DebounceInterval="200"
+                    OnDebounceIntervalElapsed="@UpdateFilters"
+                    Label="Search"
+                    Placeholder="Item or commodity name"
+                    Clearable/>
+            </MudItem>
+        }
+        @if (WithoutLocation == false)
+        {
+            <MudItem xs="12" md="3">
+                <GameEntitySelectBox
+                    Label="Location"
+                    Placeholder="Search for a game location"
+                    EntityCategory="@GameEntityCategory.Location"
+                    Only="@FilteredLocations"
+                    @bind-Value="@CurrentContext.LocationEntity"
+                    @bind-Value:after="@UpdateFilters"/>
+            </MudItem>
+        }
+        @if (WithoutList == false)
+        {
+            <MudItem xs="12" md="3">
+                <InventoryListSelect
+                    @bind-Value="@CurrentContext.InventoryList"
+                    @bind-Value:after="@UpdateFilters"/>
+            </MudItem>
+        }
+        @if (WithoutBulkOperations == false)
+        {
+            <MudItem xs="12" md="3">
+                <MudStack AlignItems="@AlignItems.Center"
+                          Justify="@Justify.FlexEnd"
+                          Row>
+                    <MudTooltip Text="Bulk assign list"
+                                Placement="@Placement.Top">
+                        <MudBadge Content="@SelectedEntries.Count"
+                                  Color="@Color.Info"
+                                  Origin="@Origin.BottomCenter"
+                                  Max="999"
+                                  Visible="@(SelectedEntries.Count > 0)">
+                            <MudIconButton
+                                Icon="@Icons.Material.Filled.PlaylistAdd"
+                                Color="@Color.Info"
+                                OnClick="@AssignListToSelectedAsync"
+                                Disabled="@(SelectedEntries.Count == 0)"/>
+                        </MudBadge>
+                    </MudTooltip>
+                    <MudTooltip Text="Bulk transfer"
+                                Placement="@Placement.Top">
+                        <MudBadge Content="@SelectedEntries.Count"
+                                  Color="@Color.Info"
+                                  Origin="@Origin.BottomCenter"
+                                  Max="999"
+                                  Visible="@(SelectedEntries.Count > 0)">
+                            <MudIconButton
+                                Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                Color="@Color.Info"
+                                OnClick="@TransferSelectedAsync"
+                                Disabled="@(SelectedEntries.Count == 0)"/>
+                        </MudBadge>
+                    </MudTooltip>
+                    <MudTooltip Text="Bulk remove"
+                                Placement="@Placement.Top">
+                        <MudBadge Content="@SelectedEntries.Count"
+                                  Color="@Color.Error"
+                                  Origin="@Origin.BottomCenter"
+                                  Max="999"
+                                  Visible="@(SelectedEntries.Count > 0)">
+                            <MudIconButton
+                                Icon="@Icons.Material.Filled.DeleteForever"
+                                Color="@Color.Error"
+                                OnClick="@DeleteSelectedForeverAsync"
+                                Disabled="@(SelectedEntries.Count == 0)"/>
+                        </MudBadge>
+                    </MudTooltip>
+                </MudStack>
+            </MudItem>
+        }
+    </MudGrid>
+</MudPaper>
+
+@code
+{
+
+    [Parameter]
+    public Context CurrentContext { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Context> CurrentContextChanged { get; set; }
+
+    [Parameter]
+    public IEnumerable<IGameLocation> FilteredLocations { get; set; } = [];
+
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    [Parameter]
+    public bool WithoutText { get; set; }
+
+    [Parameter]
+    public bool WithoutLocation { get; set; }
+
+    [Parameter]
+    public bool WithoutList { get; set; }
+
+    [Parameter]
+    public bool WithoutBulkOperations { get; set; }
+
+    public class Context
+    {
+        public string? Text;
+        public IGameEntity? LocationEntity;
+        public InventoryEntryList? InventoryList;
+
+        public IGameLocation? Location
+            => LocationEntity as IGameLocation;
+
+        public bool HasActiveFilters
+            => this is { Text: not null } or { Location: not null } or { InventoryList: not null };
+
+        public IEnumerable<InventoryEntryBase> Filter(IEnumerable<InventoryEntryBase> entries)
+            => entries
+                .Where(x => Text is null || x.Entity.Name.MainContent.FullName.Contains(Text, StringComparison.OrdinalIgnoreCase))
+                .Where(x => Location is null || (x is IGameLocatedAt locatedAt && Location.IsOrContains(locatedAt.Location)))
+                .Where(x => InventoryList is null || x.List?.Id == InventoryList.Id);
+    }
+
+    [Parameter]
+    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = [];
+
+    private async Task UpdateFilters()
+        => await CurrentContextChanged.InvokeAsync(CurrentContext);
+
+    private async Task TransferSelectedAsync()
+    {
+        // TODO: Allow selection of vehicle as well
+        if ((CurrentContext.Location ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is not { } location)
+        {
+            return;
+        }
+
+        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
+        {
+            PerformOperation = async entry =>
+            {
+                await InventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
+                await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
+            },
+            Description = @<div>
+                <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
+                <div class="pl-4">
+                    <GameEntityNameLabel Model="@location.Name"/>
+                </div>
+                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
+                <InventoryEntrySimpleList
+                    Grouping="@InventoryEntrySimpleList.GroupBy.Location"
+                    Models="@SelectedEntries"/>
+            </div>,
+        };
+        var options = new BulkOperationDialog<InventoryEntryBase>.Options
+        {
+            SubmitColor = Color.Success,
+            SubmitLabel = "Transfer",
+        };
+
+        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
+        await OnChange.InvokeAsync();
+    }
+
+    private async Task AssignListToSelectedAsync()
+    {
+        if ((CurrentContext.InventoryList ?? await SelectInventoryListDialog.ShowAsync(DialogService)) is not { } list)
+        {
+            return;
+        }
+
+        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
+        {
+            PerformOperation = async entry =>
+            {
+                entry.List = list;
+                await InventoryManager.AddOrUpdateEntryAsync(entry);
+                await EventReporter.TrackEventAsync(InventoryEvents.AssignList());
+            },
+            Description = @<div>
+                <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
+                <div class="pl-4">
+                    <MudText Typo="@Typo.h6">
+                        @list.Name
+                    </MudText>
+                </div>
+                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
+                <InventoryEntrySimpleList
+                    Grouping="@InventoryEntrySimpleList.GroupBy.List"
+                    Models="@SelectedEntries"/>
+            </div>,
+        };
+        var options = new BulkOperationDialog<InventoryEntryBase>.Options
+        {
+            SubmitColor = Color.Success,
+            SubmitLabel = "Assign",
+        };
+
+        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
+        await OnChange.InvokeAsync();
+    }
+
+    private async Task DeleteSelectedForeverAsync()
+    {
+        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
+        {
+            PerformOperation = async entry =>
+            {
+                await InventoryManager.DeleteEntryAsync(entry.Id);
+                await EventReporter.TrackEventAsync(InventoryEvents.RemoveItem());
+            },
+            Description = @<div>
+                <MudText Typo="@Typo.inherit">
+                    Please confirm <u>permanent removal</u> of the following inventory entries:
+                </MudText>
+                <InventoryEntrySimpleList
+                    Models="@SelectedEntries"/>
+            </div>,
+        };
+        var options = new BulkOperationDialog<InventoryEntryBase>.Options
+        {
+            SubmitColor = Color.Error,
+            SubmitLabel = "Permanently Remove",
+        };
+
+        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
+        await OnChange.InvokeAsync();
+    }
+}

@@ -70,83 +70,12 @@
         <MudContainer>
 
             <MudStack Spacing="6">
-                <MudPaper Style="position: sticky; top: 0; z-index: 100"
-                          Elevation="4"
-                          Class="py-2 px-4">
-                    <MudGrid Spacing="2">
-                        <MudItem xs="12" md="3">
-                            <MudTextField
-                                @bind-Value="@_searchText"
-                                DebounceInterval="200"
-                                OnDebounceIntervalElapsed="@UpdateFilters"
-                                Label="Search"
-                                Placeholder="Item or commodity name"
-                                Clearable/>
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <GameEntitySelectBox
-                                Label="Location"
-                                Placeholder="Search for a game location"
-                                EntityCategory="@GameEntityCategory.Location"
-                                Only="@FilteredLocations"
-                                @bind-Value="@_selectedLocationEntity"
-                                @bind-Value:after="@UpdateFilters"/>
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <InventoryListSelect
-                                @bind-Value="@_selectedList"
-                                @bind-Value:after="@UpdateFilters"/>
-                        </MudItem>
-                        <MudItem xs="12" md="3">
-                            <MudStack AlignItems="@AlignItems.Center"
-                                      Justify="@Justify.FlexEnd"
-                                      Row>
-                                <MudTooltip Text="Bulk assign list"
-                                            Placement="@Placement.Top">
-                                    <MudBadge Content="@SelectedEntries.Count"
-                                              Color="@Color.Info"
-                                              Origin="@Origin.BottomCenter"
-                                              Max="999"
-                                              Visible="@(SelectedEntries.Count > 0)">
-                                        <MudIconButton
-                                            Icon="@Icons.Material.Filled.PlaylistAdd"
-                                            Color="@Color.Info"
-                                            OnClick="@AssignListToSelectedAsync"
-                                            Disabled="@(SelectedEntries.Count == 0)"/>
-                                    </MudBadge>
-                                </MudTooltip>
-                                <MudTooltip Text="Bulk transfer"
-                                            Placement="@Placement.Top">
-                                    <MudBadge Content="@SelectedEntries.Count"
-                                              Color="@Color.Info"
-                                              Origin="@Origin.BottomCenter"
-                                              Max="999"
-                                              Visible="@(SelectedEntries.Count > 0)">
-                                        <MudIconButton
-                                            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
-                                            Color="@Color.Info"
-                                            OnClick="@TransferSelectedAsync"
-                                            Disabled="@(SelectedEntries.Count == 0)"/>
-                                    </MudBadge>
-                                </MudTooltip>
-                                <MudTooltip Text="Bulk remove"
-                                            Placement="@Placement.Top">
-                                    <MudBadge Content="@SelectedEntries.Count"
-                                              Color="@Color.Error"
-                                              Origin="@Origin.BottomCenter"
-                                              Max="999"
-                                              Visible="@(SelectedEntries.Count > 0)">
-                                        <MudIconButton
-                                            Icon="@Icons.Material.Filled.DeleteForever"
-                                            Color="@Color.Error"
-                                            OnClick="@DeleteSelectedForeverAsync"
-                                            Disabled="@(SelectedEntries.Count == 0)"/>
-                                    </MudBadge>
-                                </MudTooltip>
-                            </MudStack>
-                        </MudItem>
-                    </MudGrid>
-                </MudPaper>
+                <InventoryEntryFilters
+                    @bind-CurrentContext="@_filtersContext"
+                    @bind-CurrentContext:after="@UpdateFilters"
+                    SelectedEntries="@SelectedEntries"
+                    FilteredLocations="@FilteredLocations"
+                    OnChange="@RefreshDataAsync"/>
 
                 <MudExpansionPanels Gutters="false">
                     @{ var panelIndex = 0; }
@@ -191,7 +120,7 @@
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -235,13 +164,13 @@
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.Location])"
-                                                        ExpandAll="FiltersActive">
+                                                        ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         @ListActions(context)
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -273,13 +202,13 @@
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.List])"
-                                                        ExpandAll="FiltersActive">
+                                                        ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         @ListActions(context)
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -311,13 +240,13 @@
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
                                                         Groupings="@( [InventoryEntryDataGrid.Column.Entity])"
-                                                        ExpandAll="FiltersActive">
+                                                        ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         @ListActions(context)
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -353,7 +282,7 @@
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -394,7 +323,7 @@
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
-                                            SelectedLocation="@SelectedLocation"
+                                            SelectedLocation="@_filtersContext.Location"
                                             @bind-Model="@context.Item"/>
                                     </EntryActionsContent>
                                 </InventoryEntryDataGrid>
@@ -411,17 +340,10 @@
 @code
 {
     private bool _fabMenuOpen;
-    private string? _searchText;
-    private IGameEntity? _selectedLocationEntity;
-    private InventoryEntryList? _selectedList;
     private int _activePanelIndex;
     private IDisposable? _changeRegistration;
 
-    private IGameLocation? SelectedLocation
-        => _selectedLocationEntity as IGameLocation;
-
-    private bool FiltersActive
-        => this is { _searchText: not null } or { SelectedLocation: not null } or { _selectedList: not null };
+    private InventoryEntryFilters.Context _filtersContext = new();
 
     private ICollection<InventoryEntryBase> FilteredEntries { get; set; } = [];
 
@@ -465,10 +387,7 @@
 
     private void UpdateFilters()
     {
-        FilteredEntries = AllEntries
-            .Where(x => _searchText is null || x.Entity.Name.MainContent.FullName.Contains(_searchText, StringComparison.OrdinalIgnoreCase))
-            .Where(x => SelectedLocation is null || (x is IGameLocatedAt locatedAt && SelectedLocation.IsOrContains(locatedAt.Location)))
-            .Where(x => _selectedList is null || x.List?.Id == _selectedList.Id)
+        FilteredEntries = _filtersContext.Filter(AllEntries)
             .ToArray();
 
         FilteredLocations = GetUniqueLocations(FilteredEntries);
@@ -552,109 +471,6 @@
         }
     }
 
-    private async Task TransferSelectedAsync()
-    {
-        // TODO: Allow selection of vehicle as well
-        if ((SelectedLocation ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is not { } location)
-        {
-            return;
-        }
-
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                await InventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
-                await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
-                <div class="pl-4">
-                    <GameEntityNameLabel Model="@location.Name"/>
-                </div>
-                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
-                <InventoryEntrySimpleList
-                    Grouping="@InventoryEntrySimpleList.GroupBy.Location"
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Success,
-            SubmitLabel = "Transfer",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await RefreshDataAsync();
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private async Task AssignListToSelectedAsync()
-    {
-        if ((_selectedList ?? await SelectInventoryListDialog.ShowAsync(DialogService)) is not { } list)
-        {
-            return;
-        }
-
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                entry.List = list;
-                await InventoryManager.AddOrUpdateEntryAsync(entry);
-                await EventReporter.TrackEventAsync(InventoryEvents.AssignList());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
-                <div class="pl-4">
-                    <MudText Typo="@Typo.h6">
-                        @list.Name
-                    </MudText>
-                </div>
-                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
-                <InventoryEntrySimpleList
-                    Grouping="@InventoryEntrySimpleList.GroupBy.List"
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Success,
-            SubmitLabel = "Assign",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await RefreshDataAsync();
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private async Task DeleteSelectedForeverAsync()
-    {
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                await InventoryManager.DeleteEntryAsync(entry.Id);
-                await EventReporter.TrackEventAsync(InventoryEvents.RemoveItem());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">
-                    Please confirm <u>permanent removal</u> of the following inventory entries:
-                </MudText>
-                <InventoryEntrySimpleList
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Error,
-            SubmitLabel = "Permanently Remove",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await RefreshDataAsync();
-        await InvokeAsync(StateHasChanged);
-    }
 
     private async Task DeleteForeverAsync(InventoryEntryList contextItem)
     {
@@ -669,18 +485,6 @@
         {
             await InventoryManager.DeleteListAsync(contextItem.Id);
             await EventReporter.TrackEventAsync(InventoryEvents.RemoveList());
-            await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
-    private async Task AddToListAsync(InventoryEntryBase contextItem)
-    {
-        var inventoryEntryList = _selectedList ?? await SelectInventoryListDialog.ShowAsync(DialogService);
-        if (inventoryEntryList is not null)
-        {
-            contextItem.List = inventoryEntryList;
-            await InventoryManager.AddOrUpdateEntryAsync(contextItem);
             await RefreshDataAsync();
             await InvokeAsync(StateHasChanged);
         }
