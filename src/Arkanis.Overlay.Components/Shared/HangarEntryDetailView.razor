@@ -85,6 +85,29 @@
                 </MudItem>
             }
         </MudGrid>
+
+        <MudPaper>
+            <MudStack Spacing="2"
+                      AlignItems="@AlignItems.Center"
+                      Style="height: 64px"
+                      Class="pa-4 flex-truncate"
+                      Row>
+                <QuantityCountBadge
+                    Models="@Entry.Inventory.Select(x => x.Quantity)"/>
+                <MudText Typo="@Typo.h5">
+                    Vehicle Inventory
+                </MudText>
+                <MudSpacer/>
+                <MudStack Class="visible-on-parent-hover" Row>
+                </MudStack>
+            </MudStack>
+            <InventoryEntryDataGrid Models="@Entry.Inventory.ToArray()">
+                <EntryActionsContent>
+                    <DefaultInventoryEntryCellActions
+                        @bind-Model="@context.Item"/>
+                </EntryActionsContent>
+            </InventoryEntryDataGrid>
+        </MudPaper>
     </MudStack>
 </MudContainer>
 

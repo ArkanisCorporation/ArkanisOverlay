@@ -4,10 +4,12 @@
 <style>
     .mud-data-grid tbody tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
         content: "Local";
+        float: left;
     }
 
     .mud-data-grid tfoot tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
         content: "Global";
+        float: left;
     }
 </style>
 
@@ -22,7 +24,10 @@
              Dense
              Hover>
     <Columns>
-        <SelectColumn/>
+        @if (SelectedModelsChanged.HasDelegate)
+        {
+            <SelectColumn/>
+        }
         <PropertyColumn Property="@(x => x.Quantity.Amount)"
                         AggregateDefinition="@(new AggregateDefinition<InventoryEntryBase>())"
                         Groupable="false"
