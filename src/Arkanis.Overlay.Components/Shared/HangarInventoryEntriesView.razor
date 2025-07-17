@@ -306,9 +306,18 @@
     [Parameter]
     public ICollection<IGameLocation> Locations { get; set; } = [];
 
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        UpdateFilters();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        await OnChange.InvokeAsync();
         UpdateFilters();
     }
 
@@ -316,9 +325,7 @@
     {
         if (await HangarEntryCreateDialog.ShowAsync(DialogService) is not null)
         {
-            // TODO: Update event callback
-            // await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
+            await RefreshDataAsync();
         }
     }
 
@@ -326,9 +333,7 @@
     {
         if (await HangarEntryUpdateDialog.ShowAsync(DialogService, entry) is not null)
         {
-            // TODO: Update event callback
-            // await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
+            await RefreshDataAsync();
         }
     }
 

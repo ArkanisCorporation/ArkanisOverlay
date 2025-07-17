@@ -31,13 +31,15 @@
         @if (AllEntries.FirstOrDefault(x => x.Id == SelectedEntryId) is { } entry)
         {
             <HangarEntryDetailView
-                Entry="@entry"/>
+                Entry="@entry"
+                OnChange="@RefreshDataAsync"/>
         }
         else
         {
             <HangarInventoryEntriesView
                 Entries="@AllEntries"
-                Locations="@AllLocations"/>
+                Locations="@AllLocations"
+                OnChange="@RefreshDataAsync"/>
         }
     </MudMainContent>
 </div>
