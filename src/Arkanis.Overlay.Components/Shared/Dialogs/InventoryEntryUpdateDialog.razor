@@ -133,6 +133,9 @@
     public ModeType Mode { get; set; }
 
     [Parameter]
+    public VehicleInventoryType VehicleInventoryType { get; set; }
+
+    [Parameter]
     public bool SourceModelProvided { get; set; }
 
     private bool IsTargetLocationLocked
@@ -194,15 +197,18 @@
             await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
         }
 
-        if (IsEditMode || TargetQuantity == SourceModel.Quantity)
+        if (IsEditMode || SourceModel.Quantity.HasSameAmountAs(SourceModel.Quantity))
         {
             // the entry is updated as a whole
             SourceModel.Quantity.Amount = TargetQuantity.Amount;
             SourceModel.Quantity.Unit = TargetQuantity.Unit;
             SourceModel.List = TargetList;
-            var updatedModel = TargetLocation is not null
-                ? SourceModel.TransferTo(TargetLocation)
-                : SourceModel;
+            var updatedModel = this switch
+            {
+                { TargetHangarEntry: not null } => SourceModel.TransferTo(TargetHangarEntry, VehicleInventoryType),
+                { TargetLocation: not null } => SourceModel.TransferTo(TargetLocation),
+                _ => SourceModel,
+            };
 
             await InventoryManager.AddOrUpdateEntryAsync(updatedModel);
         }
@@ -296,6 +302,7 @@
             new Parameters(ModeType.TransferTo)
             {
                 HangarEntry = hangarEntry,
+                VehicleInventoryType = VehicleInventoryType.Cargo,
             }
         );
 
@@ -305,8 +312,11 @@
             new Parameters(ModeType.TransferTo)
             {
                 HangarEntry = hangarEntry,
+                VehicleInventoryType = VehicleInventoryType.Module,
                 InventoryAccept = entry
-                    => entry.Quantity.Reference.Entity is GameItem gameItem
+                    => entry is not VehicleModuleEntry
+                       && entry is not VehicleInventoryEntry
+                       && entry.Quantity.Reference.Entity is GameItem gameItem
                        && (itemCategory is null || gameItem.Category == itemCategory),
             }
         );
@@ -321,6 +331,7 @@
             [nameof(Mode)] = parameters.Mode,
             [nameof(SourceModel)] = parameters.Model,
             [nameof(SourceModelProvided)] = parameters.Model is not null,
+            [nameof(VehicleInventoryType)] = parameters.VehicleInventoryType,
             [nameof(TargetLocationEntity)] = parameters.Location,
             [nameof(TargetHangarEntry)] = parameters.HangarEntry,
             [nameof(InventoryAccept)] = parameters.InventoryAccept,
@@ -353,5 +364,6 @@
         public IGameLocation? Location { get; init; }
         public HangarInventoryEntry? HangarEntry { get; init; }
         public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; }
+        public VehicleInventoryType VehicleInventoryType { get; init; }
     }
 }

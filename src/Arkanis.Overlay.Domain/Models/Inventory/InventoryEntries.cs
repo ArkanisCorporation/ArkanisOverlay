@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Domain.Models.Inventory;
 using Abstractions;
 using Abstractions.Game;
 using Game;
+using Riok.Mapperly.Abstractions;
 using Trade;
 
 public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
@@ -173,6 +174,26 @@ public abstract class InventoryEntryBase : IIdentifiable
         => Id;
 
     public abstract InventoryEntryBase TransferTo(IGameLocation location);
+
+    public virtual InventoryEntryBase TransferTo(HangarInventoryEntry hangarEntry, VehicleInventoryType inventoryType)
+        => inventoryType switch
+        {
+            VehicleInventoryType.Cargo => new VehicleInventoryEntry
+            {
+                Id = Id,
+                HangarEntry = hangarEntry,
+                Quantity = Quantity,
+                List = List,
+            },
+            VehicleInventoryType.Module => new VehicleModuleEntry
+            {
+                Id = Id,
+                HangarEntry = hangarEntry,
+                Quantity = Quantity,
+                List = List,
+            },
+            _ => this,
+        };
 }
 
 public sealed class VirtualInventoryEntry : InventoryEntryBase
@@ -216,6 +237,8 @@ public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
 
     public string? NameTag { get; set; }
     public bool IsPledged { get; set; }
+
+    [MapperIgnore]
     public bool IsLoaner { get; set; }
 
     public List<VehicleModuleEntry> Modules { get; set; } = [];
@@ -228,6 +251,9 @@ public sealed class HangarInventoryEntry : InventoryEntryBase, IGameLocatedAt
         Location = location;
         return this;
     }
+
+    public override InventoryEntryBase TransferTo(HangarInventoryEntry hangarEntry, VehicleInventoryType inventoryType)
+        => this;
 }
 
 public sealed class VehicleModuleEntry : InventoryEntryBase
@@ -251,6 +277,17 @@ public sealed class VehicleModuleEntry : InventoryEntryBase
             Location = location,
             List = List,
         };
+
+    public override InventoryEntryBase TransferTo(HangarInventoryEntry hangarEntry, VehicleInventoryType inventoryType)
+    {
+        if (inventoryType is not VehicleInventoryType.Module)
+        {
+            return base.TransferTo(hangarEntry, inventoryType);
+        }
+
+        HangarEntry = hangarEntry;
+        return this;
+    }
 }
 
 public sealed class VehicleInventoryEntry : InventoryEntryBase
@@ -268,4 +305,22 @@ public sealed class VehicleInventoryEntry : InventoryEntryBase
             Location = location,
             List = List,
         };
+
+    public override InventoryEntryBase TransferTo(HangarInventoryEntry hangarEntry, VehicleInventoryType inventoryType)
+    {
+        if (inventoryType is not VehicleInventoryType.Cargo)
+        {
+            return base.TransferTo(hangarEntry, inventoryType);
+        }
+
+        HangarEntry = hangarEntry;
+        return this;
+    }
+}
+
+public enum VehicleInventoryType
+{
+    Undefined,
+    Cargo,
+    Module,
 }

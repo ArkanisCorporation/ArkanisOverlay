@@ -139,6 +139,9 @@
     [EditorRequired]
     public required HangarInventoryEntry Entry { get; set; }
 
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -147,8 +150,7 @@
 
     private async Task RefreshDataAsync()
     {
-        // TODO: Update data
-        await Task.CompletedTask;
+        await OnChange.InvokeAsync();
         UpdateFilters();
     }
 

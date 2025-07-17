@@ -13,6 +13,7 @@
                 <GameEntitySelectBox
                     Label="Vehicle"
                     EntityCategories="@( [GameEntityCategory.GroundVehicle, GameEntityCategory.SpaceShip])"
+                    Accept="@(x => x is GameVehicle)"
                     @bind-Value="@TargetEntity"
                     Required/>
             </MudItem>

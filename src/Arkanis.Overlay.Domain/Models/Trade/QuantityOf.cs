@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.Domain.Models.Trade;
 using Game;
 using Inventory;
 
-public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.UnitType Unit) : Quantity(Amount, Unit), IFormattable
+public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.UnitType Unit) : Quantity(Amount, Unit), IFormattable, IEquatable<Quantity>
 {
     public const string FormatWithReferenceName = nameof(FormatWithReferenceName);
 
@@ -45,6 +45,11 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
 
     public override string ToString()
         => ToString(null, null);
+
+    public bool HasSameAmountAs(Quantity? other)
+        => other is not null
+           && Amount == other.Amount
+           && Unit == other.Unit;
 
     public static QuantityOf Create(GameItem item, Quantity quantity)
         => new(new OwnableEntityReference.Item(item), quantity);
