@@ -1,0 +1,82 @@
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IDialogService DialogService
+@inject IAnalyticsEventReporter EventReporter
+@inject IInventoryManager InventoryManager
+
+<div>
+    <MudTooltip Text="Transfer"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+            Size="@Size.Small"
+            Color="@Color.Info"
+            OnClick="@(() => TransferAsync(Model))"/>
+    </MudTooltip>
+    <MudTooltip Text="Modify"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.Edit"
+            Size="@Size.Small"
+            Color="@Color.Warning"
+            OnClick="@(() => UpdateAsync(Model))"/>
+    </MudTooltip>
+    <MudTooltip Text="Remove"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.DeleteForever"
+            Size="@Size.Small"
+            Color="@Color.Error"
+            OnClick="@(() => DeleteForeverAsync(Model))"/>
+    </MudTooltip>
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required InventoryEntryBase Model { get; set; }
+
+    [Parameter]
+    public EventCallback<InventoryEntryBase?> ModelChanged { get; set; }
+
+    [Parameter]
+    public IGameLocation? SelectedLocation { get; set; }
+
+    private async Task DeleteForeverAsync(InventoryEntryBase contextItem)
+    {
+        var atLocationPart = contextItem is IGameLocatedAt locatedAt
+            ? $" stored at <b>{locatedAt.Location.Name.MainContent.FullName}</b>"
+            : null;
+        var options = new MessageBoxOptions
+        {
+            Title = "Are you sure?",
+            MarkupMessage = new MarkupString($"Do you really want to permanently remove {contextItem.Quantity} <b>{contextItem.Entity.Name.MainContent.FullName}</b>{atLocationPart} from your inventory?"),
+            YesText = "Remove",
+            CancelText = "Cancel",
+        };
+        if (await DialogService.ShowMessageBox(options) == true)
+        {
+            await InventoryManager.DeleteEntryAsync(contextItem.Id);
+            await EventReporter.TrackEventAsync(InventoryEvents.RemoveItem());
+            await ModelChanged.InvokeAsync(null);
+        }
+    }
+
+    private async Task UpdateAsync(InventoryEntryBase contextItem)
+    {
+        if (await InventoryEntryUpdateDialog.ShowEditAsync(DialogService, contextItem, SelectedLocation) is not null)
+        {
+            await ModelChanged.InvokeAsync(contextItem);
+        }
+    }
+
+    private async Task TransferAsync(InventoryEntryBase contextItem)
+    {
+        if (await InventoryEntryUpdateDialog.ShowTransferAsync(DialogService, contextItem, SelectedLocation) is not null)
+        {
+            await ModelChanged.InvokeAsync(contextItem);
+        }
+    }
+}
