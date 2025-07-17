@@ -28,6 +28,7 @@
             Model="@Model.MainContent"
             PreferCode="@PreferCode"
             Embedded="@Embedded"
+            Bold="@Bold"
             PreferShort="@(PreferShort || Model.Company is not null)"/>
     </MudStack>
     @if (Model.Properties is { Count: > 0 } properties && !Embedded)
@@ -68,6 +69,9 @@
 
     [Parameter]
     public bool Embedded { get; set; }
+
+    [Parameter]
+    public bool Bold { get; set; }
 
     [Parameter]
     public AlignItems Align { get; set; } = AlignItems.Start;
