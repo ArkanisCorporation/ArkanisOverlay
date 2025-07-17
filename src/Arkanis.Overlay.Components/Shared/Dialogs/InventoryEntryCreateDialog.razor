@@ -122,12 +122,13 @@
     private void Cancel()
         => MudDialog.Cancel();
 
-    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
+    public static async Task<InventoryEntryBase?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null, HangarInventoryEntry? hangarEntry = null)
     {
         var dialogParameters = new DialogParameters<InventoryEntryCreateDialog>
         {
             [nameof(TargetEntity)] = entity,
             [nameof(TargetLocationEntity)] = location,
+            [nameof(TargetHangarEntry)] = hangarEntry,
         };
         var dialogOptions = new DialogOptions
         {

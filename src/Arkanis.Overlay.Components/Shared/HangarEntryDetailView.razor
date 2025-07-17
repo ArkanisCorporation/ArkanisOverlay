@@ -6,13 +6,52 @@
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
     <div class="pa-4">
         <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
-                               OnKeyPress="@AddModulesAsync"
-                               Origin="@Origin.CenterLeft"
-                               IsActive>
-            <MudFab
-                Color="@Color.Primary"
-                StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@AddModulesAsync"/>
+                               OnKeyPress="@(() => _fabMenuOpen = true)"
+                               IsActive="@(!_fabMenuOpen)"
+                               Origin="@Origin.CenterLeft">
+            <MudMenu ActivationEvent="@MouseEvent.MouseOver"
+                     AnchorOrigin="@Origin.CenterCenter"
+                     TransformOrigin="@Origin.BottomRight"
+                     Class="overflow-visible"
+                     @bind-Open="_fabMenuOpen">
+                <ActivatorContent>
+                    <MudFab
+                        Color="@Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Add"/>
+                </ActivatorContent>
+                <ChildContent>
+                    <KeyboardShortcutBadge Key="@KeyboardKey.KeyM"
+                                           OnKeyPress="@TransferModulesAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Build"
+                                     OnClick="@TransferModulesAsync">
+                            Equip module
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                    <KeyboardShortcutBadge Key="@KeyboardKey.KeyN"
+                                           OnKeyPress="@TransferCargoAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                     OnClick="@TransferCargoAsync">
+                            Transfer existing cargo
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                    <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyN])"
+                                           OnKeyPress="@CreateCargoAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Add"
+                                     OnClick="@CreateCargoAsync">
+                            Add new cargo
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                </ChildContent>
+            </MudMenu>
         </KeyboardShortcutBadge>
     </div>
 </SectionContent>
@@ -41,7 +80,7 @@
                             <MudSpacer/>
                             <MudStack Class="visible-on-parent-hover" Row>
                                 <MudIconButton
-                                    OnClick="@(() => AddModulesAsync(moduleGroup.Key))"
+                                    OnClick="@(() => TransferModulesAsync(moduleGroup.Key))"
                                     Icon="@Icons.Material.Filled.Add"
                                     Color="@Color.Success"/>
                             </MudStack>
@@ -129,6 +168,7 @@
 
 @code
 {
+    private bool _fabMenuOpen;
     private InventoryEntryFilters.Context _filtersContext = new();
 
     private HashSet<InventoryEntryBase> _selectedEntries = new(IIdentifiable.EqualityComparer.Default);
@@ -160,12 +200,28 @@
             .ToArray();
     }
 
-    private async Task AddModulesAsync()
-        => await AddModulesAsync(null);
+    private async Task TransferModulesAsync()
+        => await TransferModulesAsync(null);
 
-    private async Task AddModulesAsync(GameProductCategory? category)
+    private async Task TransferModulesAsync(GameProductCategory? category)
     {
         if (await InventoryEntryUpdateDialog.ShowTransferModuleToAsync(DialogService, Entry, category) is not null)
+        {
+            await RefreshDataAsync();
+        }
+    }
+
+    private async Task TransferCargoAsync()
+    {
+        if (await InventoryEntryUpdateDialog.ShowTransferCargoToAsync(DialogService, Entry) is not null)
+        {
+            await RefreshDataAsync();
+        }
+    }
+
+    private async Task CreateCargoAsync()
+    {
+        if (await InventoryEntryCreateDialog.ShowAsync(DialogService, hangarEntry: Entry) is not null)
         {
             await RefreshDataAsync();
         }
