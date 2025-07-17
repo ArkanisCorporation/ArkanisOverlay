@@ -13,11 +13,21 @@
                 <GameEntitySelectBox
                     Label="Item or commodity"
                     Accept="@(entity => entity is GameItem or GameCommodity)"
-                    @bind-Value="TargetEntity"
+                    @bind-Value="@TargetEntity"
+                    @bind-Value:after="UpdateDefaults"
                     Required/>
             </MudItem>
             <MudItem xs="12">
                 <QuantityField @bind-Value="@TargetQuantity"/>
+            </MudItem>
+            <MudItem xs="12">
+                <InventoryListSelect
+                    @bind-Value="@TargetList"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="@Typo.body1">
+                    Entry Placement
+                </MudText>
             </MudItem>
             <MudItem xs="12">
                 <GameEntitySelectBox
@@ -25,11 +35,19 @@
                     Placeholder="Search for a game location"
                     EntityCategory="@GameEntityCategory.Location"
                     Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
-                    @bind-Value="TargetLocationEntity"/>
+                    @bind-Value="TargetLocationEntity"
+                    Disabled="@(TargetHangarEntry is not null)"/>
             </MudItem>
             <MudItem xs="12">
-                <InventoryListSelect
-                    @bind-Value="@TargetList"/>
+                <HorizontalDivider Text="or"/>
+            </MudItem>
+            <MudItem xs="12">
+                <InventoryEntrySelectBox
+                    T="@HangarInventoryEntry"
+                    Label="Vehicle"
+                    Placeholder="Search for a hangar vehicle"
+                    @bind-Value="@TargetHangarEntry"
+                    Disabled="@(TargetLocationEntity is not null)"/>
             </MudItem>
         </MudGrid>
     </DialogContent>
@@ -62,10 +80,22 @@
     public IGameEntity? TargetLocationEntity { get; set; }
 
     [Parameter]
+    public HangarInventoryEntry? TargetHangarEntry { get; set; }
+
+    [Parameter]
     public InventoryEntryList? TargetList { get; set; }
 
     public IGameLocation? TargetLocation
         => TargetLocationEntity as IGameLocation;
+
+    private void UpdateDefaults()
+    {
+        TargetQuantity.Unit = TargetEntity switch
+        {
+            GameCommodity => Quantity.UnitType.StandardCargoUnit,
+            _ => Quantity.UnitType.Count,
+        };
+    }
 
     private async Task SubmitAsync()
     {
@@ -79,6 +109,7 @@
             TargetQuantity,
             new InventoryEntry.Context
             {
+                HangarEntry = TargetHangarEntry,
                 Location = TargetLocation,
                 List = TargetList,
             }

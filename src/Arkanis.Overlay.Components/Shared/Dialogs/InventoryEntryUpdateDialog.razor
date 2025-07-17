@@ -58,17 +58,7 @@
                     Disabled="@(TargetHangarEntry is not null || IsTargetLocationLocked)"/>
             </MudItem>
             <MudItem xs="12">
-                <div class="pt-2 pb-1 relative">
-                    <MudDivider/>
-                    <MudStack Justify="@Justify.Center"
-                              Class="absolute w-100"
-                              style="top: -1px;"
-                              Row>
-                        <div class="px-3" style="background: var(--mud-palette-surface);">
-                            or
-                        </div>
-                    </MudStack>
-                </div>
+                <HorizontalDivider Text="or"/>
             </MudItem>
             <MudItem xs="12">
                 <InventoryEntrySelectBox
@@ -232,7 +222,7 @@
 
     private void ConfigureDefaults()
     {
-        if (!IsTargetLocationLocked)
+        if (IsEditMode)
         {
             // only configure defaults if the target location is not locked
 
