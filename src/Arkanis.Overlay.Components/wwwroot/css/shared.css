@@ -120,7 +120,8 @@
     background-color: var(--mud-palette-surface);
 }
 
-.mud-table.bg-gray .mud-table-row .mud-table-cell:not(.mud-datagrid-group) {
+.mud-table.bg-gray .mud-table-row .mud-table-cell:not(.mud-datagrid-group),
+.mud-table.bg-gray .mud-table-empty-row {
     background-color: var(--mud-palette-background-gray);
 }
 
