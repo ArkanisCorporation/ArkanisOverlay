@@ -117,7 +117,7 @@
     public InventoryEntryList? TargetList { get; set; }
 
     [Parameter]
-    public Func<InventoryEntryBase, bool>? InventoryAccept { get; set; }
+    public Func<InventoryEntryBase, bool> InventoryAccept { get; set; } = _ => true;
 
     [Parameter]
     public ModeType Mode { get; set; }
@@ -293,6 +293,7 @@
             {
                 HangarEntry = hangarEntry,
                 VehicleInventoryType = VehicleInventoryType.Cargo,
+                InventoryAccept = entry => entry.Quantity.Reference.Entity is GameItem or GameCommodity,
             }
         );
 
@@ -353,7 +354,7 @@
         public InventoryEntryBase? Model { get; init; }
         public IGameLocation? Location { get; init; }
         public HangarInventoryEntry? HangarEntry { get; init; }
-        public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; }
+        public Func<InventoryEntryBase, bool>? InventoryAccept { get; init; } = _ => true;
         public VehicleInventoryType VehicleInventoryType { get; init; }
     }
 }
