@@ -1,4 +1,6 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Domain.Abstractions
+@using Arkanis.Overlay.Domain.Abstractions.Game
 @inject IDialogService DialogService
 
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
@@ -87,24 +89,38 @@
         </MudGrid>
 
         <MudPaper>
-            <MudStack Spacing="2"
-                      AlignItems="@AlignItems.Center"
-                      Style="height: 64px"
-                      Class="pa-4 flex-truncate"
-                      Row>
-                <QuantityCountBadge
-                    Models="@Entry.Inventory.Select(x => x.Quantity)"/>
-                <MudText Typo="@Typo.h5">
-                    Vehicle Inventory
-                </MudText>
-                <MudSpacer/>
-                <MudStack Class="visible-on-parent-hover" Row>
+            <MudStack Spacing="0">
+                <MudStack Spacing="2"
+                          AlignItems="@AlignItems.Center"
+                          Style="height: 64px"
+                          Class="pa-4 flex-truncate"
+                          Row>
+                    <QuantityCountBadge
+                        Models="@Entry.Inventory.Select(x => x.Quantity)"/>
+                    <MudText Typo="@Typo.h5">
+                        Vehicle Inventory
+                    </MudText>
+                    <MudSpacer/>
+                    <MudStack Class="visible-on-parent-hover" Row>
+                    </MudStack>
                 </MudStack>
+                <MudDivider/>
+                <div class="px-4 py-3">
+                    <InventoryEntryFilters
+                        @bind-CurrentContext="@_filtersContext"
+                        @bind-CurrentContext:after="@UpdateFilters"
+                        SelectedEntries="@_selectedEntries"
+                        FilteredLocations="@_filteredLocations"
+                        OnChange="@RefreshDataAsync"
+                        WithoutLocation/>
+                </div>
             </MudStack>
-            <InventoryEntryDataGrid Models="@Entry.Inventory.ToArray()">
+            <InventoryEntryDataGrid Models="@_filteredEntries"
+                                    @bind-SelectedModels="@_selectedEntries">
                 <EntryActionsContent>
                     <DefaultInventoryEntryCellActions
-                        @bind-Model="@context.Item"/>
+                        @bind-Model="@context.Item"
+                        @bind-Model:after="@RefreshDataAsync"/>
                 </EntryActionsContent>
             </InventoryEntryDataGrid>
         </MudPaper>
@@ -113,10 +129,34 @@
 
 @code
 {
+    private InventoryEntryFilters.Context _filtersContext = new();
+
+    private HashSet<InventoryEntryBase> _selectedEntries = new(IIdentifiable.EqualityComparer.Default);
+    private ICollection<InventoryEntryBase> _filteredEntries = [];
+    private readonly IGameLocation[] _filteredLocations = [];
 
     [Parameter]
     [EditorRequired]
     public required HangarInventoryEntry Entry { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateFilters();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        // TODO: Update data
+        await Task.CompletedTask;
+        UpdateFilters();
+    }
+
+    private void UpdateFilters()
+    {
+        _filteredEntries = _filtersContext.Filter(Entry.Inventory)
+            .ToArray();
+    }
 
     private async Task AddModulesAsync()
         => await AddModulesAsync(null);
@@ -125,9 +165,7 @@
     {
         if (await InventoryEntryUpdateDialog.ShowTransferModuleToAsync(DialogService, Entry, category) is not null)
         {
-            // TODO: Propagate change
-            // await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
+            await RefreshDataAsync();
         }
     }
 
@@ -135,9 +173,7 @@
     {
         if (await InventoryEntryUpdateDialog.ShowTransferAsync(DialogService, moduleEntry) is not null)
         {
-            // TODO: Propagate change
-            // await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
+            await RefreshDataAsync();
         }
     }
 }
