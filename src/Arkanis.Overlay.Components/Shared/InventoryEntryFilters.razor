@@ -4,95 +4,92 @@
 @inject IAnalyticsEventReporter EventReporter
 @inject IInventoryManager InventoryManager
 
-<MudPaper Style="position: sticky; top: 0; z-index: 100"
-          Elevation="4"
-          Class="py-2 px-4">
-    <MudGrid Spacing="2">
-        @if (WithoutText == false)
-        {
-            <MudItem xs="12" md="3">
-                <MudTextField
-                    @bind-Value="@CurrentContext.Text"
-                    DebounceInterval="200"
-                    OnDebounceIntervalElapsed="@UpdateFilters"
-                    Label="Search"
-                    Placeholder="Item or commodity name"
-                    Clearable/>
-            </MudItem>
-        }
-        @if (WithoutLocation == false)
-        {
-            <MudItem xs="12" md="3">
-                <GameEntitySelectBox
-                    Label="Location"
-                    Placeholder="Search for a game location"
-                    EntityCategory="@GameEntityCategory.Location"
-                    Only="@FilteredLocations"
-                    @bind-Value="@CurrentContext.LocationEntity"
-                    @bind-Value:after="@UpdateFilters"/>
-            </MudItem>
-        }
-        @if (WithoutList == false)
-        {
-            <MudItem xs="12" md="3">
-                <InventoryListSelect
-                    @bind-Value="@CurrentContext.InventoryList"
-                    @bind-Value:after="@UpdateFilters"/>
-            </MudItem>
-        }
-        @if (WithoutBulkOperations == false)
-        {
-            <MudItem xs="12" md="3">
-                <MudStack AlignItems="@AlignItems.Center"
-                          Justify="@Justify.FlexEnd"
-                          Row>
-                    <MudTooltip Text="Bulk assign list"
-                                Placement="@Placement.Top">
-                        <MudBadge Content="@SelectedEntries.Count"
-                                  Color="@Color.Info"
-                                  Origin="@Origin.BottomCenter"
-                                  Max="999"
-                                  Visible="@(SelectedEntries.Count > 0)">
-                            <MudIconButton
-                                Icon="@Icons.Material.Filled.PlaylistAdd"
-                                Color="@Color.Info"
-                                OnClick="@AssignListToSelectedAsync"
-                                Disabled="@(SelectedEntries.Count == 0)"/>
-                        </MudBadge>
-                    </MudTooltip>
-                    <MudTooltip Text="Bulk transfer"
-                                Placement="@Placement.Top">
-                        <MudBadge Content="@SelectedEntries.Count"
-                                  Color="@Color.Info"
-                                  Origin="@Origin.BottomCenter"
-                                  Max="999"
-                                  Visible="@(SelectedEntries.Count > 0)">
-                            <MudIconButton
-                                Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
-                                Color="@Color.Info"
-                                OnClick="@TransferSelectedAsync"
-                                Disabled="@(SelectedEntries.Count == 0)"/>
-                        </MudBadge>
-                    </MudTooltip>
-                    <MudTooltip Text="Bulk remove"
-                                Placement="@Placement.Top">
-                        <MudBadge Content="@SelectedEntries.Count"
-                                  Color="@Color.Error"
-                                  Origin="@Origin.BottomCenter"
-                                  Max="999"
-                                  Visible="@(SelectedEntries.Count > 0)">
-                            <MudIconButton
-                                Icon="@Icons.Material.Filled.DeleteForever"
-                                Color="@Color.Error"
-                                OnClick="@DeleteSelectedForeverAsync"
-                                Disabled="@(SelectedEntries.Count == 0)"/>
-                        </MudBadge>
-                    </MudTooltip>
-                </MudStack>
-            </MudItem>
-        }
-    </MudGrid>
-</MudPaper>
+<MudGrid Spacing="2">
+    @if (WithoutText == false)
+    {
+        <MudItem xs="12" md="3">
+            <MudTextField
+                @bind-Value="@CurrentContext.Text"
+                DebounceInterval="200"
+                OnDebounceIntervalElapsed="@UpdateFilters"
+                Label="Search"
+                Placeholder="Item or commodity name"
+                Clearable/>
+        </MudItem>
+    }
+    @if (WithoutLocation == false)
+    {
+        <MudItem xs="12" md="3">
+            <GameEntitySelectBox
+                Label="Location"
+                Placeholder="Search for a game location"
+                EntityCategory="@GameEntityCategory.Location"
+                Only="@FilteredLocations"
+                @bind-Value="@CurrentContext.LocationEntity"
+                @bind-Value:after="@UpdateFilters"/>
+        </MudItem>
+    }
+    @if (WithoutList == false)
+    {
+        <MudItem xs="12" md="3">
+            <InventoryListSelect
+                @bind-Value="@CurrentContext.InventoryList"
+                @bind-Value:after="@UpdateFilters"/>
+        </MudItem>
+    }
+    <MudSpacer/>
+    @if (WithoutBulkOperations == false)
+    {
+        <MudItem xs="12" md="3">
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.FlexEnd"
+                      Row>
+                <MudTooltip Text="Bulk assign list"
+                            Placement="@Placement.Top">
+                    <MudBadge Content="@SelectedEntries.Count"
+                              Color="@Color.Info"
+                              Origin="@Origin.BottomCenter"
+                              Max="999"
+                              Visible="@(SelectedEntries.Count > 0)">
+                        <MudIconButton
+                            Icon="@Icons.Material.Filled.PlaylistAdd"
+                            Color="@Color.Info"
+                            OnClick="@AssignListToSelectedAsync"
+                            Disabled="@(SelectedEntries.Count == 0)"/>
+                    </MudBadge>
+                </MudTooltip>
+                <MudTooltip Text="Bulk transfer"
+                            Placement="@Placement.Top">
+                    <MudBadge Content="@SelectedEntries.Count"
+                              Color="@Color.Info"
+                              Origin="@Origin.BottomCenter"
+                              Max="999"
+                              Visible="@(SelectedEntries.Count > 0)">
+                        <MudIconButton
+                            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                            Color="@Color.Info"
+                            OnClick="@TransferSelectedAsync"
+                            Disabled="@(SelectedEntries.Count == 0)"/>
+                    </MudBadge>
+                </MudTooltip>
+                <MudTooltip Text="Bulk remove"
+                            Placement="@Placement.Top">
+                    <MudBadge Content="@SelectedEntries.Count"
+                              Color="@Color.Error"
+                              Origin="@Origin.BottomCenter"
+                              Max="999"
+                              Visible="@(SelectedEntries.Count > 0)">
+                        <MudIconButton
+                            Icon="@Icons.Material.Filled.DeleteForever"
+                            Color="@Color.Error"
+                            OnClick="@DeleteSelectedForeverAsync"
+                            Disabled="@(SelectedEntries.Count == 0)"/>
+                    </MudBadge>
+                </MudTooltip>
+            </MudStack>
+        </MudItem>
+    }
+</MudGrid>
 
 @code
 {
