@@ -1,11 +1,12 @@
 <MudStack AlignItems="@AlignItems.Center"
+          Spacing="@Spacing"
           Class="@Class"
           Row>
     @if (Model is HangarInventoryEntry hangarEntry)
     {
         if (!string.IsNullOrWhiteSpace(hangarEntry.NameTag))
         {
-            <MudText Typo="@Typo.h6"
+            <MudText Typo="@Typo"
                      Class="no-wrap">
                 "@hangarEntry.NameTag"
             </MudText>
@@ -13,34 +14,20 @@
 
         <GameEntityNameLabel
             Model="@Model.Entity.Name"
-            Typo="@Typo.h6"
+            Typo="@Typo"
             Embedded/>
     }
     else
     {
         <GameEntityNameLabel
             Model="@Model.Entity.Name"
-            Typo="@Typo.h6"/>
+            Typo="@Typo"/>
     }
     @if (!WithoutLocation)
     {
-        @if (Model is ILocationInventory locationInventory)
-        {
-            <MudText Typo="@Typo.body1" Class="text-secondary">
-                at
-            </MudText>
-            <GameEntityNameLabel
-                Model="@locationInventory.Location.Name"/>
-        }
-        else if (Model is IVehicleInventory vehicleInventory)
-        {
-            <MudText Typo="@Typo.body1" Class="text-secondary">
-                from
-            </MudText>
-            <InventoryEntryLabel
-                Model="@vehicleInventory.HangarEntry"
-                WithoutLocation/>
-        }
+        <InventoryEntryPlacementLabel
+            Model="@Model"
+            Typo="@Typo"/>
     }
 </MudStack>
 
@@ -50,6 +37,12 @@
     [Parameter]
     [EditorRequired]
     public required InventoryEntryBase Model { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; } = 1;
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.h6;
 
     [Parameter]
     public string? Class { get; set; }
