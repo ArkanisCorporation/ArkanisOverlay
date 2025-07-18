@@ -2,7 +2,8 @@
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IDisposable
-@inject InventoryViewModel ViewModel
+@inject InventoryViewModel InventoryViewModel
+@inject HangarViewModel HangarViewModel
 @inject NavigationManager NavigationManager
 @inject IDialogService DialogService
 
@@ -99,21 +100,10 @@
                 @foreach (var entry in FilteredEntries)
                 {
                     <MudItem xs="12" sm="6" md="4">
-                        <HangarInventoryEntryCard Model="@entry"
-                                                  OnClick="@(() => NavigationManager.NavigateTo(LinkHelper.Hangar(entry.Id)))">
-                            <ControlsContent>
-                                <MudIconButton
-                                    Size="@Size.Small"
-                                    Color="@Color.Warning"
-                                    Icon="@Icons.Material.Filled.Edit"
-                                    OnClick="@(() => EditAsync(entry))"/>
-                                <MudIconButton
-                                    Size="@Size.Small"
-                                    Color="@Color.Error"
-                                    Icon="@Icons.Material.Filled.DeleteForever"
-                                    OnClick="@(() => DeleteForeverAsync(entry))"/>
-                            </ControlsContent>
-                        </HangarInventoryEntryCard>
+                        <HangarInventoryEntryCard
+                            Model="@entry"
+                            ModelChanged="@RefreshDataAsync"
+                            OnClick="@(() => NavigationManager.NavigateTo(LinkHelper.Hangar(entry.Id)))"/>
                     </MudItem>
                 }
             </MudGrid>
@@ -313,7 +303,8 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        ViewModel.OnChange += PropagateChange;
+        HangarViewModel.OnChange += PropagateChange;
+        InventoryViewModel.OnChange += PropagateChange;
     }
 
     protected override void OnParametersSet()
@@ -323,7 +314,10 @@
     }
 
     public void Dispose()
-        => ViewModel.OnChange -= PropagateChange;
+    {
+        HangarViewModel.OnChange -= PropagateChange;
+        InventoryViewModel.OnChange -= PropagateChange;
+    }
 
     private void PropagateChange(object? _, EventArgs e)
         => InvokeAsync(RefreshDataAsync);
@@ -335,29 +329,13 @@
     }
 
     private async Task CreateNewAsync()
-    {
-        if (await HangarEntryCreateDialog.ShowAsync(DialogService) is not null)
-        {
-            await RefreshDataAsync();
-        }
-    }
-
-    private async Task EditAsync(HangarInventoryEntry entry)
-    {
-        if (await HangarEntryUpdateDialog.ShowAsync(DialogService, entry) is not null)
-        {
-            await RefreshDataAsync();
-        }
-    }
-
-    private Task DeleteForeverAsync(HangarInventoryEntry entry)
-        => ViewModel.DeleteForeverAsync(entry);
+        => await HangarViewModel.CreateNewAsync();
 
     private Task TransferSelectedAsync()
-        => ViewModel.TransferAsync(SelectedEntries);
+        => InventoryViewModel.TransferAsync(SelectedEntries);
 
     private Task DeleteSelectedForeverAsync()
-        => ViewModel.DeleteForeverAsync(SelectedEntries);
+        => InventoryViewModel.DeleteForeverAsync(SelectedEntries);
 
     private void UpdateFilters()
     {

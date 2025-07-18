@@ -22,7 +22,7 @@ public static class LinkHelper
         return $"/trade/{TradeView.Tab.Ledger:G}{queryString}";
     }
 
-    public static string Hangar(InventoryEntryId? entryId)
+    public static string Hangar(InventoryEntryId? entryId = null)
         => entryId is not null
             ? $"/hangar/{entryId.Identity.ToString()}"
             : "/hangar";

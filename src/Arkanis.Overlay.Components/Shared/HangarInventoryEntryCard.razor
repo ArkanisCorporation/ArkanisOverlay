@@ -1,3 +1,6 @@
+@implements IDisposable
+@inject HangarViewModel ViewModel
+
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .hangar-entry {
@@ -171,7 +174,23 @@
             <MudStack AlignItems="@AlignItems.Center"
                       Class="visible-on-parent-hover"
                       Row>
-                @ControlsContent
+                @if (ControlsContent is not null)
+                {
+                    @ControlsContent
+                }
+                else
+                {
+                    <MudIconButton
+                        Size="@Size.Small"
+                        Color="@Color.Warning"
+                        Icon="@Icons.Material.Filled.Edit"
+                        OnClick="@EditAsync"/>
+                    <MudIconButton
+                        Size="@Size.Small"
+                        Color="@Color.Error"
+                        Icon="@Icons.Material.Filled.DeleteForever"
+                        OnClick="@DeleteForeverAsync"/>
+                }
             </MudStack>
         </MudStack>
     </MudStack>
@@ -199,6 +218,9 @@
     public required HangarInventoryEntry Model { get; set; }
 
     [Parameter]
+    public EventCallback<HangarInventoryEntry> ModelChanged { get; set; }
+
+    [Parameter]
     public EventCallback<HangarInventoryEntry> OnClick { get; set; }
 
     [Parameter]
@@ -206,5 +228,23 @@
 
     [Parameter]
     public bool Static { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => ModelChanged.InvokeAsync(Model));
+
+    private async Task EditAsync()
+        => await ViewModel.EditAsync(Model);
+
+    private async Task DeleteForeverAsync()
+        => await ViewModel.DeleteForeverAsync(Model);
 
 }

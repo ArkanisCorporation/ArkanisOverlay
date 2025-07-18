@@ -5,5 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 public static class DependencyInjection
 {
     public static IServiceCollection AddComponentViewModels(this IServiceCollection services)
-        => services.AddTransient<InventoryViewModel>();
+        => services
+            .AddTransient<InventoryViewModel>()
+            .AddTransient<HangarViewModel>();
 }
