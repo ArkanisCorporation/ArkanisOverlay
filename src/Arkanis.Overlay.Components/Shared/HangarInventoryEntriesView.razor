@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IDisposable
@@ -347,15 +346,8 @@
             .Where(x => SelectedLocation is null || (x is IGameLocatedAt locatedAt && locatedAt.Location == SelectedLocation))
             .ToArray();
 
-        FilteredLocations = GetUniqueLocations(FilteredEntries);
+        FilteredLocations = GameLocationHelper.CollectUniqueLocations(FilteredEntries);
     }
-
-    private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
-        => entries.OfType<IGameLocatedAt>()
-            .SelectMany<IGameLocatedAt, IGameLocation>(x => [x.Location, ..x.Location.Parents])
-            .Distinct()
-            .OrderBy(x => x.Name.MainContent.FullName)
-            .ToArray();
 
     private enum Panel
     {

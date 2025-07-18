@@ -398,7 +398,7 @@
     {
         AllEntries = await InventoryManager.GetAllEntriesAsync();
         AllLists = await InventoryManager.GetAllListsAsync();
-        AllLocations = GetUniqueLocations(AllEntries);
+        AllLocations = GameLocationHelper.CollectUniqueLocations(AllEntries);
 
         UpdateFilters();
     }
@@ -408,7 +408,7 @@
         FilteredEntries = _filtersContext.Filter(AllEntries)
             .ToArray();
 
-        FilteredLocations = GetUniqueLocations(FilteredEntries);
+        FilteredLocations = GameLocationHelper.CollectUniqueLocations(FilteredEntries);
 
         FilteredEntities = FilteredEntries
             .Select(x => x.Entity)
@@ -429,13 +429,6 @@
         var entryIds = AllEntries.Select(x => x.Id).ToHashSet();
         SelectedEntries.RemoveWhere(entry => !entryIds.Contains(entry.Id));
     }
-
-    private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
-        => entries.OfType<IGameLocatedAt>()
-            .SelectMany<IGameLocatedAt, IGameLocation>(x => [x.Location, ..x.Location.Parents])
-            .Distinct()
-            .OrderBy(x => x.Name.MainContent.FullName)
-            .ToArray();
 
     public enum Action
     {
