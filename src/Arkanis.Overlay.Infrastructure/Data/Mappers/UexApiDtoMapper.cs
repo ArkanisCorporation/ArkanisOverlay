@@ -20,7 +20,11 @@ using Services.Abstractions;
 [SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance")]
 internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationService)
 {
-    private readonly ConcurrentDictionary<UexApiGameEntityId, IGameEntity> _cachedGameEntities = [];
+    private readonly ConcurrentDictionary<UexApiGameEntityId, IGameEntity> _cachedGameEntities = new(new Dictionary<UexApiGameEntityId, IGameEntity>
+    {
+        [GameCompany.Unknown.Id] = GameCompany.Unknown,
+        [GameLocationEntity.Unknown.Id] = GameLocationEntity.Unknown,
+    });
 
     public async ValueTask<IGameEntity> ToGameEntityAsync<TSource>(TSource source) where TSource : class
     {
