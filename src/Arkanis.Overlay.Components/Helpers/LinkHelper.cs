@@ -9,7 +9,7 @@ public static class LinkHelper
     public static string GetPathToAsset(string relativeAssetPath)
         => $"_content/{AssemblyName}/assets/{relativeAssetPath}";
 
-    public static string Hangar(InventoryEntryId? entryId)
+    public static string Hangar(InventoryEntryId? entryId = null)
         => entryId is not null
             ? $"/hangar/{entryId.Identity.ToString()}"
             : "/hangar";

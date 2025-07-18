@@ -14,7 +14,7 @@ public class InventoryViewModel(
     IDialogService dialogService,
     IInventoryManager inventoryManager,
     IAnalyticsEventReporter eventReporter
-) : ComponentBase
+)
 {
     public event EventHandler? OnChange;
 

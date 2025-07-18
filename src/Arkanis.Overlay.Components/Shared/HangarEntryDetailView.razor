@@ -231,7 +231,7 @@
     private async Task DeleteForeverAsync()
     {
         await ViewModel.DeleteForeverAsync(Entry);
-        NavigationManager.NavigateTo("/hangar");
+        NavigationManager.NavigateTo(LinkHelper.Hangar());
     }
 
 }
