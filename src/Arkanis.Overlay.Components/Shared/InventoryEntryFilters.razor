@@ -23,7 +23,7 @@
                 Label="Location"
                 Placeholder="Search for a game location"
                 EntityCategory="@GameEntityCategory.Location"
-                Only="@FilteredLocations"
+                Only="@_locationsWithParents"
                 @bind-Value="@CurrentContext.LocationEntity"
                 @bind-Value:after="@UpdateFilters"/>
         </MudItem>
@@ -92,6 +92,7 @@
 
 @code
 {
+    private IGameLocation[] _locationsWithParents = [];
 
     [Parameter]
     public Context CurrentContext { get; set; } = new();
@@ -124,6 +125,13 @@
     {
         base.OnInitialized();
         ViewModel.OnChange += PropagateChange;
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _locationsWithParents = GameLocationHelper.CollectUniqueLocationsWithParents(FilteredLocations);
+
     }
 
     public void Dispose()

@@ -65,14 +65,7 @@
         AllEntries = entries.OfType<HangarInventoryEntry>()
             .ToArray();
 
-        AllLocations = GetUniqueLocations(AllEntries);
+        AllLocations = GameLocationHelper.CollectUniqueLocations(AllEntries);
     }
-
-    private IGameLocation[] GetUniqueLocations(IEnumerable<InventoryEntryBase> entries)
-        => entries.OfType<IGameLocatedAt>()
-            .SelectMany<IGameLocatedAt, IGameLocation>(x => [x.Location, ..x.Location.Parents])
-            .Distinct()
-            .OrderBy(x => x.Name.MainContent.FullName)
-            .ToArray();
 
 }
