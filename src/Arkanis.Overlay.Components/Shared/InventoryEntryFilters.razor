@@ -1,8 +1,7 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@inject IDialogService DialogService
-@inject IAnalyticsEventReporter EventReporter
-@inject IInventoryManager InventoryManager
+@implements IDisposable
+@inject InventoryViewModel ViewModel
 
 <MudGrid Spacing="2">
     @if (WithoutText == false)
@@ -101,6 +100,9 @@
     public EventCallback<Context> CurrentContextChanged { get; set; }
 
     [Parameter]
+    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = [];
+
+    [Parameter]
     public IEnumerable<IGameLocation> FilteredLocations { get; set; } = [];
 
     [Parameter]
@@ -117,6 +119,30 @@
 
     [Parameter]
     public bool WithoutBulkOperations { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => OnChange.InvokeAsync());
+
+    private async Task UpdateFilters()
+        => await CurrentContextChanged.InvokeAsync(CurrentContext);
+
+    private async Task TransferSelectedAsync()
+        => await ViewModel.TransferAsync(SelectedEntries, CurrentContext);
+
+    private async Task AssignListToSelectedAsync()
+        => await ViewModel.AssignToListAsync(SelectedEntries, CurrentContext);
+
+    private async Task DeleteSelectedForeverAsync()
+        => await ViewModel.DeleteForeverAsync(SelectedEntries);
 
     public class Context
     {
@@ -137,110 +163,4 @@
                 .Where(x => InventoryList is null || x.List?.Id == InventoryList.Id);
     }
 
-    [Parameter]
-    public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = [];
-
-    private async Task UpdateFilters()
-        => await CurrentContextChanged.InvokeAsync(CurrentContext);
-
-    private async Task TransferSelectedAsync()
-    {
-        // TODO: Allow selection of vehicle as well
-        if ((CurrentContext.Location ?? await SelectGameLocationDialog.ShowAsync(DialogService)) is not { } location)
-        {
-            return;
-        }
-
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                await InventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
-                await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
-                <div class="pl-4">
-                    <GameEntityNameLabel Model="@location.Name"/>
-                </div>
-                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
-                <InventoryEntrySimpleList
-                    Grouping="@InventoryEntrySimpleList.GroupBy.Location"
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Success,
-            SubmitLabel = "Transfer",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await OnChange.InvokeAsync();
-    }
-
-    private async Task AssignListToSelectedAsync()
-    {
-        if ((CurrentContext.InventoryList ?? await SelectInventoryListDialog.ShowAsync(DialogService)) is not { } list)
-        {
-            return;
-        }
-
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                entry.List = list;
-                await InventoryManager.AddOrUpdateEntryAsync(entry);
-                await EventReporter.TrackEventAsync(InventoryEvents.AssignList());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
-                <div class="pl-4">
-                    <MudText Typo="@Typo.h6">
-                        @list.Name
-                    </MudText>
-                </div>
-                <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
-                <InventoryEntrySimpleList
-                    Grouping="@InventoryEntrySimpleList.GroupBy.List"
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Success,
-            SubmitLabel = "Assign",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await OnChange.InvokeAsync();
-    }
-
-    private async Task DeleteSelectedForeverAsync()
-    {
-        var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
-        {
-            PerformOperation = async entry =>
-            {
-                await InventoryManager.DeleteEntryAsync(entry.Id);
-                await EventReporter.TrackEventAsync(InventoryEvents.RemoveItem());
-            },
-            Description = @<div>
-                <MudText Typo="@Typo.inherit">
-                    Please confirm <u>permanent removal</u> of the following inventory entries:
-                </MudText>
-                <InventoryEntrySimpleList
-                    Models="@SelectedEntries"/>
-            </div>,
-        };
-        var options = new BulkOperationDialog<InventoryEntryBase>.Options
-        {
-            SubmitColor = Color.Error,
-            SubmitLabel = "Permanently Remove",
-        };
-
-        await BulkOperationDialog<InventoryEntryBase>.ShowAsync(DialogService, SelectedEntries, configuration, options);
-        await OnChange.InvokeAsync();
-    }
 }

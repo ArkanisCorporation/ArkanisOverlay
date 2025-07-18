@@ -1,0 +1,41 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+
+@code
+{
+
+    public static RenderFragment TransferEntryDescription(ICollection<InventoryEntryBase> selectedEntries, IGameLocation location)
+        => @<div>
+            <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
+            <div class="pl-4">
+                <GameEntityNameLabel Model="@location.Name"/>
+            </div>
+            <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
+            <InventoryEntrySimpleList
+                Grouping="@InventoryEntrySimpleList.GroupBy.Location"
+                Models="@selectedEntries"/>
+        </div>;
+
+    public static RenderFragment AssignToListDescription(ICollection<InventoryEntryBase> selectedEntries, InventoryEntryList list)
+        => @<div>
+            <MudText Typo="@Typo.inherit">Please confirm list (re-)assignment to:</MudText>
+            <div class="pl-4">
+                <MudText Typo="@Typo.h6">
+                    @list.Name
+                </MudText>
+            </div>
+            <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
+            <InventoryEntrySimpleList
+                Grouping="@InventoryEntrySimpleList.GroupBy.List"
+                Models="@selectedEntries"/>
+        </div>;
+
+    public static RenderFragment DeleteForeverDescription(ICollection<InventoryEntryBase> selectedEntries)
+        => @<div>
+            <MudText Typo="@Typo.inherit">
+                Please confirm <u>permanent removal</u> of the following inventory entries:
+            </MudText>
+            <InventoryEntrySimpleList
+                Models="@selectedEntries"/>
+        </div>;
+
+}

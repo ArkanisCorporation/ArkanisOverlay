@@ -1,11 +1,13 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@inject InventoryViewModel ViewModel
+
 @if (Grouping is GroupBy.None)
 {
     <ul class="@Class">
         @foreach (var entry in Models)
         {
             <li>
-                @entry.Entity.Name.MainContent.FullName <span class="text-secondary">(@entry.Quantity)</span>
+                @ViewModel.GetDisplayName(entry, false) <span class="text-secondary">(@entry.Quantity)</span>
             </li>
         }
     </ul>
@@ -15,6 +17,7 @@ else
     <ul class="@Class">
         @if (Grouping is GroupBy.Location)
         {
+            // TODO: Group by vehicle
             @foreach (var entriesByLocation in ModelsByLocation)
             {
                 <li class="mt-2">
