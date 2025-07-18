@@ -212,16 +212,9 @@
                 </MudStack>
             </GroupTemplate>
             <CellTemplate>
-                @if (context.Item is IGameLocatedAt locatedAt)
-                {
-                    @locatedAt.Location.Name.MainContent.FullName
-                }
-                else
-                {
-                    <MudText Typo="@Typo.inherit" Class="text-secondary">
-                        N/A
-                    </MudText>
-                }
+                <InventoryEntryPlacementLabel
+                    Model="@context.Item"
+                    WithoutPreposition/>
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn Title="List"
