@@ -100,7 +100,25 @@
         return entries
             .OfType<T>()
             .Where(Accept)
-            .Where(x => searchText is null || x.Entity.Name.MainContent.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+            .Where(x => searchText is null || Matches(x, searchText));
+
+        bool Matches(T entry, string content)
+        {
+            if (entry.Entity.Name.MainContent.FullName.Contains(content, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (entry is HangarInventoryEntry hangarEntry)
+            {
+                if (hangarEntry.NameTag?.Contains(content, StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     private async Task OnValueChanged(T? value)
