@@ -23,10 +23,9 @@
     <ItemTemplate>
         @if (context is not null)
         {
-            <div class="my-n2">
-                <GameEntityNameLabel
-                    Model="@context.Entity.Name"/>
-            </div>
+            <InventoryEntryLabel
+                Model="@context"
+                Class="mb-n2 mt-n3"/>
         }
         else
         {

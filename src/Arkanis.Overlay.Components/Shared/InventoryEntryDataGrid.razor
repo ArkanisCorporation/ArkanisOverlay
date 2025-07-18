@@ -53,6 +53,7 @@
         <PropertyColumn Property="@(x => x.Quantity.Unit)"
                         AggregateDefinition="@(new AggregateDefinition<InventoryEntryBase>())"
                         CellClass="pl-1"
+                        HeaderClass="pl-1"
                         FooterClass="pl-1"
                         Hidden="@IsHangar">
             <CellTemplate>
@@ -192,9 +193,7 @@
                     }
                     else if (item is IVehicleInventory hangarEntry)
                     {
-                        <GameEntityNameLabel Model="@hangarEntry.HangarEntry.VehicleReference.Name"/>
-                        <span>at</span>
-                        <GameEntityNameLabel Model="@hangarEntry.HangarEntry.Location.Name"/>
+                        <InventoryEntryLabel Model="@hangarEntry.HangarEntry"/>
                     }
                     else
                     {
