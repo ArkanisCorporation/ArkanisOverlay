@@ -1,0 +1,49 @@
+@implements IDisposable
+@inject InventoryViewModel ViewModel
+
+<div>
+    <Tooltip Text="">
+        <MudIconButton
+            Class="visible-on-parent-hover"
+            Color="@Color.Warning"
+            Icon="@Icons.Material.Filled.Edit"
+            OnClick="@EditListAsync"/>
+    </Tooltip>
+    <Tooltip Text="">
+        <MudIconButton
+            Class="visible-on-parent-hover"
+            Color="@Color.Error"
+            Icon="@Icons.Material.Filled.DeleteForever"
+            OnClick="@DeleteForeverAsync"/>
+    </Tooltip>
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required InventoryEntryList Model { get; set; }
+
+    [Parameter]
+    public EventCallback<InventoryEntryList?> ModelChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => ModelChanged.InvokeAsync(Model));
+
+    private async Task EditListAsync()
+        => await ViewModel.EditListAsync(Model);
+
+    private async Task DeleteForeverAsync()
+        => await ViewModel.DeleteForeverAsync(Model);
+
+}

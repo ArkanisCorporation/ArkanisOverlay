@@ -1,6 +1,6 @@
-@using Arkanis.Overlay.Domain.Abstractions.Game
 @typeparam T where T : InventoryEntryBase
 @inject IInventoryManager InventoryManager
+@inject InventoryViewModel ViewModel
 
 <MudAutocomplete T="@(T?)"
                  Label="@Label"
@@ -8,7 +8,7 @@
                  Value="@Value"
                  ValueChanged="@OnValueChanged"
                  OnBlur="StateHasChanged"
-                 Text="@GetText(Value)"
+                 Text="@Text"
                  HelperText="@HelperText"
                  Error="@DisplayError"
                  ErrorText="@ErrorText"
@@ -50,6 +50,9 @@
 
     private bool DisplayError
         => HasError || (Value is null && Required);
+
+    private string? Text
+        => ViewModel.GetDisplayName(Value);
 
     [Parameter]
     public string? Label { get; set; } = "Inventory entry";
@@ -99,34 +102,6 @@
             .OfType<T>()
             .Where(Accept)
             .Where(x => searchText is null || x.Entity.Name.MainContent.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase));
-    }
-
-    private string? GetText(T? value)
-    {
-        var entityName = value switch
-        {
-            HangarInventoryEntry vehicle => GetName(vehicle),
-            VehicleModuleEntry module => $"{GetFullName(module.ItemReference)} from {GetName(module.HangarEntry)}",
-            VehicleInventoryEntry cargo => $"{GetFullName(cargo.Quantity.Reference.Entity)} from {GetName(cargo.HangarEntry)}",
-            _ => value?.Entity.Name.MainContent.FullName,
-        };
-
-        return value switch
-        {
-            IGameLocatedAt locatedAt => $"{entityName} at {GetFullName(locatedAt.Location)}",
-            IVehicleInventory entry => $"{entityName} at {GetFullName(entry.HangarEntry.Location)}",
-            _ => entityName,
-        };
-
-        string GetName(HangarInventoryEntry vehicle)
-            => vehicle switch
-            {
-                { NameTag: { Length: > 0 } nameTag } => $"{nameTag} ({GetFullName(vehicle.VehicleReference)})",
-                _ => GetFullName(vehicle.VehicleReference),
-            };
-
-        string GetFullName(IGameEntity gameEntity)
-            => gameEntity.Name.MainContent.FullName;
     }
 
     private async Task OnValueChanged(T? value)

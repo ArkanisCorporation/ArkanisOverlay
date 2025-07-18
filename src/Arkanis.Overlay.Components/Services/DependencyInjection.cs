@@ -7,6 +7,7 @@ using Blazor.Analytics.GoogleAnalytics;
 using Domain.Abstractions.Services;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using ViewModels;
 
 public static class DependencyInjection
 {
@@ -25,5 +26,6 @@ public static class DependencyInjection
         => services.AddSingleton<IGlobalAnalyticsReporter, FakeAnalyticsReporter>();
 
     public static IServiceCollection AddSharedComponentServices(this IServiceCollection services)
-        => services.AddSingleton<OverlayModules>();
+        => services.AddSingleton<OverlayModules>()
+            .AddComponentViewModels();
 }

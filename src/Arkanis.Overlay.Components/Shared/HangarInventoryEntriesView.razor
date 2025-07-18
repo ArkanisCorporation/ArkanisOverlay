@@ -1,19 +1,21 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@implements IDisposable
+@inject InventoryViewModel ViewModel
 @inject NavigationManager NavigationManager
 @inject IDialogService DialogService
 
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
     <div class="pa-4">
         <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
-                               OnKeyPress="@CreateNewEntryAsync"
+                               OnKeyPress="@CreateNewAsync"
                                Origin="@Origin.CenterLeft"
                                IsActive>
             <MudFab
                 Color="@Color.Primary"
                 StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@CreateNewEntryAsync"/>
+                OnClick="@CreateNewAsync"/>
         </KeyboardShortcutBadge>
     </div>
 </SectionContent>
@@ -104,13 +106,12 @@
                                     Size="@Size.Small"
                                     Color="@Color.Warning"
                                     Icon="@Icons.Material.Filled.Edit"
-                                    OnClick="@(() => EditEntryAsync(entry))"/>
+                                    OnClick="@(() => EditAsync(entry))"/>
                                 <MudIconButton
                                     Size="@Size.Small"
                                     Color="@Color.Error"
                                     Icon="@Icons.Material.Filled.DeleteForever"
-                                    OnClick="@(() => EditEntryAsync(entry))"
-                                    Disabled/>
+                                    OnClick="@(() => DeleteForeverAsync(entry))"/>
                             </ControlsContent>
                         </HangarInventoryEntryCard>
                     </MudItem>
@@ -309,11 +310,23 @@
     [Parameter]
     public EventCallback OnChange { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         UpdateFilters();
     }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(RefreshDataAsync);
 
     private async Task RefreshDataAsync()
     {
@@ -321,7 +334,7 @@
         UpdateFilters();
     }
 
-    private async Task CreateNewEntryAsync()
+    private async Task CreateNewAsync()
     {
         if (await HangarEntryCreateDialog.ShowAsync(DialogService) is not null)
         {
@@ -329,13 +342,22 @@
         }
     }
 
-    private async Task EditEntryAsync(HangarInventoryEntry entry)
+    private async Task EditAsync(HangarInventoryEntry entry)
     {
         if (await HangarEntryUpdateDialog.ShowAsync(DialogService, entry) is not null)
         {
             await RefreshDataAsync();
         }
     }
+
+    private Task DeleteForeverAsync(HangarInventoryEntry entry)
+        => ViewModel.DeleteForeverAsync(entry);
+
+    private Task TransferSelectedAsync()
+        => ViewModel.TransferAsync(SelectedEntries);
+
+    private Task DeleteSelectedForeverAsync()
+        => ViewModel.DeleteForeverAsync(SelectedEntries);
 
     private void UpdateFilters()
     {
@@ -356,15 +378,6 @@
             .Distinct()
             .OrderBy(x => x.Name.MainContent.FullName)
             .ToArray();
-
-    private Task TransferSelectedAsync()
-        => Task.CompletedTask;
-
-    private Task DeleteSelectedForeverAsync()
-        => Task.CompletedTask;
-
-    private Task OnEntryClick(HangarInventoryEntry entry)
-        => Task.CompletedTask;
 
     private enum Panel
     {

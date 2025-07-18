@@ -1,7 +1,8 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@inject IDialogService DialogService
+@implements IDisposable
+@inject InventoryViewModel ViewModel
+@inject NavigationManager NavigationManager
 
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
     <div class="pa-4">
@@ -182,11 +183,23 @@
     [Parameter]
     public EventCallback OnChange { get; set; }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
         UpdateFilters();
     }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => OnChange.InvokeAsync());
 
     private async Task RefreshDataAsync()
     {
@@ -204,34 +217,21 @@
         => await TransferModulesAsync(null);
 
     private async Task TransferModulesAsync(GameProductCategory? category)
-    {
-        if (await InventoryEntryUpdateDialog.ShowTransferModuleToAsync(DialogService, Entry, category) is not null)
-        {
-            await RefreshDataAsync();
-        }
-    }
+        => await ViewModel.TransferModuleToAsync(Entry, category);
 
     private async Task TransferCargoAsync()
-    {
-        if (await InventoryEntryUpdateDialog.ShowTransferCargoToAsync(DialogService, Entry) is not null)
-        {
-            await RefreshDataAsync();
-        }
-    }
+        => await ViewModel.TransferCargoToAsync(Entry);
 
     private async Task CreateCargoAsync()
-    {
-        if (await InventoryEntryCreateDialog.ShowAsync(DialogService, hangarEntry: Entry) is not null)
-        {
-            await RefreshDataAsync();
-        }
-    }
+        => await ViewModel.CreateNewEntryAsync(hangarEntry: Entry);
 
     private async Task TransferAsync(VehicleModuleEntry moduleEntry)
+        => await ViewModel.TransferAsync(moduleEntry, null);
+
+    private async Task DeleteForeverAsync()
     {
-        if (await InventoryEntryUpdateDialog.ShowTransferAsync(DialogService, moduleEntry) is not null)
-        {
-            await RefreshDataAsync();
-        }
+        await ViewModel.DeleteForeverAsync(Entry);
+        NavigationManager.NavigateTo("/hangar");
     }
+
 }

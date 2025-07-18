@@ -1,10 +1,8 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IDisposable
-@inject IDialogService DialogService
-@inject IAnalyticsEventReporter EventReporter
 @inject IInventoryManager InventoryManager
+@inject InventoryViewModel ViewModel
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -120,7 +118,8 @@
                                                         Class="mb-n2 bg-gray"
                                                         ExpandAll="true">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -170,7 +169,8 @@
                                                         Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -208,7 +208,8 @@
                                                         Groupings="@( [InventoryEntryDataGrid.Column.List])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -246,7 +247,8 @@
                                                         Groupings="@( [InventoryEntryDataGrid.Column.Entity])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -282,7 +284,8 @@
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -323,7 +326,8 @@
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists">
                                     <ListActionsContent>
-                                        @ListActions(context)
+                                        <DefaultInventoryListEntryCellActions
+                                            @bind-Model="@context"/>
                                     </ListActionsContent>
                                     <EntryActionsContent>
                                         <DefaultInventoryEntryCellActions
@@ -375,10 +379,20 @@
     {
         base.OnInitialized();
 
+        ViewModel.OnChange += PropagateChange;
         var registration = new ChangeTokenRegistration(() => InventoryManager.ChangeToken);
         registration.OnChange += () => InvokeAsync(RefreshDataAsync);
         _changeRegistration = registration;
     }
+
+    public void Dispose()
+    {
+        ViewModel.OnChange -= PropagateChange;
+        _changeRegistration?.Dispose();
+    }
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(RefreshDataAsync);
 
     private async Task RefreshDataAsync()
     {
@@ -432,73 +446,17 @@
         AssignLocation,
     }
 
-    private RenderFragment<InventoryEntryList> ListActions
-        => context => @<div>
-                          <MudIconButton
-                              Class="visible-on-parent-hover"
-                              Color="@Color.Warning"
-                              Icon="@Icons.Material.Filled.Edit"
-                              OnClick="@(() => EditListAsync(context))"/>
-                          <MudIconButton
-                              Class="visible-on-parent-hover"
-                              Color="@Color.Error"
-                              Icon="@Icons.Material.Filled.DeleteForever"
-                              OnClick="@(() => DeleteForeverAsync(context))"/>
-                      </div>;
-
     private async Task CreateNewEntryAsync()
     {
         _fabMenuOpen = false;
-        if (await InventoryEntryCreateDialog.ShowAsync(DialogService) is not null)
-        {
-            await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
-        }
+        await ViewModel.CreateNewEntryAsync();
     }
 
     private async Task CreateNewListAsync()
     {
         _fabMenuOpen = false;
-        if (await InventoryListDialog.ShowAsync(DialogService) is not null)
-        {
-            await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
-        }
+        await ViewModel.CreateNewListAsync();
     }
-
-    private async Task EditListAsync(InventoryEntryList list)
-    {
-        if (await InventoryListDialog.ShowAsync(DialogService, list) is not null)
-        {
-            await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
-
-    private async Task DeleteForeverAsync(InventoryEntryList contextItem)
-    {
-        var options = new MessageBoxOptions
-        {
-            Title = "Are you sure?",
-            MarkupMessage = new MarkupString($"Do you really want to permanently remove inventory list <b>{contextItem.Name}</b>? Assigned items themselves will <u>not</u> be removed."),
-            YesText = "Remove",
-            CancelText = "Cancel",
-        };
-        if (await DialogService.ShowMessageBox(options) == true)
-        {
-            await InventoryManager.DeleteListAsync(contextItem.Id);
-            await EventReporter.TrackEventAsync(InventoryEvents.RemoveList());
-            await RefreshDataAsync();
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
-    public static bool AcceptLocation(IGameEntity entity)
-        => entity is IGameLocation location && AcceptLocation(location);
-
-    public static bool AcceptLocation(IGameLocation location)
-        => location is GameSpaceStation or GameCity or GameOutpost;
 
     private enum Panel
     {
@@ -515,7 +473,5 @@
     private bool IsPanelInactive(Panel panel)
         => _activePanelIndex != (int)panel;
 
-    public void Dispose()
-        => _changeRegistration?.Dispose();
 }
 
