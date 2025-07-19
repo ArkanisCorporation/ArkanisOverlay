@@ -167,7 +167,7 @@
                         <TabContent>
                             <MudStack AlignItems="@AlignItems.Center" Spacing="0">
                                 <MudChip T="string" Size="@Size.Small">
-                                    @* @FilteredEntities.Length entities *@
+                                    @FilteredCompanies.Length companies
                                 </MudChip>
                                 <MudText Typo="@Typo.inherit">
                                     By Manufacturer
@@ -285,8 +285,9 @@
     private IGameLocation? SelectedLocation
         => _selectedLocationEntity as IGameLocation;
 
-    public IGameLocation[] FilteredLocations { get; set; } = [];
     public HangarInventoryEntry[] FilteredEntries { get; set; } = [];
+    public IGameLocation[] FilteredLocations { get; set; } = [];
+    public GameCompany[] FilteredCompanies { get; set; } = [];
 
     public HashSet<InventoryEntryBase> SelectedEntries { get; set; } = new(IIdentifiable.EqualityComparer.Default);
 
@@ -347,6 +348,10 @@
             .ToArray();
 
         FilteredLocations = GameLocationHelper.CollectUniqueLocations(FilteredEntries);
+        FilteredCompanies = FilteredEntries
+            .Select(x => x.VehicleReference.Manufacturer)
+            .Distinct()
+            .ToArray();
     }
 
     private enum Panel
