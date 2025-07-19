@@ -20,7 +20,7 @@
             @Model.FullName
         </MudText>
     }
-    @if ((!Embedded || PreferCode) && CodeModel is not null)
+    @if ((!Embedded || PreferCode) && !PreferShort && CodeModel is not null)
     {
         <GameEntityNameCodePart
             Model="@CodeModel"
