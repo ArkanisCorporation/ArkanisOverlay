@@ -1091,6 +1091,15 @@
           "MoreAsyncLINQ": "[0.8.0, )",
           "NuGet.Versioning": "[6.14.0, )",
           "Riok.Mapperly": "[4.2.1, )",
+          "Serilog": "[4.3.0, )",
+          "Serilog.Expressions": "[5.1.0-dev-02301, )",
+          "Serilog.Extensions.Hosting": "[8.0.0, )",
+          "Serilog.Formatting.Compact": "[3.0.0, )",
+          "Serilog.Settings.Configuration": "[8.0.4, )",
+          "Serilog.Sinks.Async": "[2.1.0, )",
+          "Serilog.Sinks.Console": "[6.0.0, )",
+          "Serilog.Sinks.File": "[7.0.0, )",
+          "Serilog.Sinks.Seq": "[9.0.0, )",
           "morelinq": "[4.4.0, )"
         }
       },
@@ -1160,12 +1169,6 @@
           "Microsoft.Extensions.Options.DataAnnotations": "[8.0.0, )",
           "Microsoft.Toolkit.Uwp.Notifications": "[7.1.3, )",
           "Microsoft.Win32.Registry": "[5.0.0, )",
-          "Serilog": "[4.3.0, )",
-          "Serilog.Expressions": "[5.1.0-dev-02301, )",
-          "Serilog.Extensions.Hosting": "[8.0.0, )",
-          "Serilog.Settings.Configuration": "[8.0.4, )",
-          "Serilog.Sinks.Console": "[6.0.0, )",
-          "Serilog.Sinks.File": "[7.0.0, )",
           "SingleInstanceCore": "[2.2.2, )",
           "Velopack": "[0.0.1251, )"
         }
@@ -1711,6 +1714,15 @@
           "Serilog.Extensions.Logging": "8.0.0"
         }
       },
+      "Serilog.Formatting.Compact": {
+        "type": "CentralTransitive",
+        "requested": "[3.0.0, )",
+        "resolved": "3.0.0",
+        "contentHash": "wQsv14w9cqlfB5FX2MZpNsTawckN4a8dryuNGbebB/3Nh1pXnROHZov3swtu3Nj5oNG7Ba+xdu7Et/ulAUPanQ==",
+        "dependencies": {
+          "Serilog": "4.0.0"
+        }
+      },
       "Serilog.Settings.Configuration": {
         "type": "CentralTransitive",
         "requested": "[8.0.4, )",
@@ -1720,6 +1732,15 @@
           "Microsoft.Extensions.Configuration.Binder": "8.0.0",
           "Microsoft.Extensions.DependencyModel": "8.0.2",
           "Serilog": "3.1.1"
+        }
+      },
+      "Serilog.Sinks.Async": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "SnmRknWsSMgyo9wDXeZZCqSp48kkQYy44taSM6vcpxfiRICzSf09oLKEmVr0RCwQnfd8mJQ2WNN6nvhqf0RowQ==",
+        "dependencies": {
+          "Serilog": "4.1.0"
         }
       },
       "Serilog.Sinks.Console": {
@@ -1738,6 +1759,16 @@
         "contentHash": "fKL7mXv7qaiNBUC71ssvn/dU0k9t0o45+qm2XgKAlSt19xF+ijjxyA3R6HmCgfKEKwfcfkwWjayuQtRueZFkYw==",
         "dependencies": {
           "Serilog": "4.2.0"
+        }
+      },
+      "Serilog.Sinks.Seq": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "aNU8A0K322q7+voPNmp1/qNPH+9QK8xvM1p72sMmCG0wGlshFzmtDW9QnVSoSYCj0MgQKcMOlgooovtBhRlNHw==",
+        "dependencies": {
+          "Serilog": "4.2.0",
+          "Serilog.Sinks.File": "6.0.0"
         }
       },
       "SingleInstanceCore": {

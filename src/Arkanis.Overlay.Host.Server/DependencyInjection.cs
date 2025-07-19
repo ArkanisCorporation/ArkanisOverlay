@@ -20,20 +20,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddAllServerHostServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSerilog(loggerConfig => loggerConfig
-            .WriteTo.Console(
-                new ExpressionTemplate(
-                    "[{@t:HH:mm:ss} {@l:u3}] [{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}] {@m}\n{@x}",
-                    CultureInfo.InvariantCulture,
-                    applyThemeWhenOutputIsRedirected: true,
-                    theme: TemplateTheme.Literate
-                )
-            )
-            .Enrich.FromLogContext()
-            .ReadFrom.Configuration(configuration)
-        );
-
-        services.AddLogging();
         services.AddHttpClient();
         services.AddHealthChecks();
 

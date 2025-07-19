@@ -1,9 +1,7 @@
 namespace Arkanis.Overlay.Host.Desktop;
 
 using System.Globalization;
-using System.IO;
 using Windows.Win32;
-using Common;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
@@ -25,8 +23,6 @@ using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 using Quartz;
 using Serilog;
-using Serilog.Templates;
-using Serilog.Templates.Themes;
 using Services;
 using Services.Factories;
 using UI;
@@ -47,7 +43,6 @@ public static class Program
         // This is safe to use even if there is no parent console or process - it just won't have any effect.
         PInvoke.AttachConsole(PInvoke.ATTACH_PARENT_PROCESS);
 
-
         Log.Logger = new LoggerConfiguration()
             .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
             .CreateBootstrapLogger();
@@ -55,12 +50,18 @@ public static class Program
         await HandleInstallationBehaviourAsync(args);
 
         var hostBuilder = Host.CreateDefaultBuilder(args)
+            .UseCommonServices((context, options) =>
+                {
+                    options.UseFileLogging = true;
+                    options.UseSeqLogging = context.IsDevelopment();
+                }
+            )
             .ConfigureSingleInstance(options =>
                 {
                     options.MutexId = $"{{{Constants.InstanceId}}}";
                     options.WhenNotFirstInstance = (environment, logger) =>
                     {
-                        logger.LogInformation("{AppName} is already running", environment.ApplicationName);
+                        logger.LogCritical("{AppName} is already running", environment.ApplicationName);
                     };
                 }
             )
@@ -93,8 +94,13 @@ public static class Program
     private static async Task HandleInstallationBehaviourAsync(string[] args)
     {
         var launchHostBuilder = Host.CreateDefaultBuilder(args)
-            .ConfigureServices((context, services) => services
-                .AddLoggerServices(context.Configuration)
+            .UseCommonServices((context, options) =>
+                {
+                    options.UseFileLogging = true;
+                    options.UseSeqLogging = context.IsDevelopment();
+                }
+            )
+            .ConfigureServices((_, services) => services
                 .AddVelopackServices()
                 .AddFakeAnalyticsServices()
                 .AddSingleton<IStorageManager, StorageManager>()
@@ -134,8 +140,6 @@ public static class Program
 
     internal static IServiceCollection AddAllDesktopHostServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddLoggerServices(configuration);
-
         services.AddInfrastructureConfiguration(configuration);
 
         services.AddWpfBlazorWebView();
@@ -204,26 +208,4 @@ public static class Program
             .AddTransient<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
             .AddTransient<IAppVersionProvider, VelopackAppVersionProvider>()
             .AddHostedService<UpdateProcess.CheckForUpdatesJob.SelfScheduleService>();
-
-    internal static IServiceCollection AddLoggerServices(this IServiceCollection services, IConfiguration configuration)
-        => services.AddSerilog(loggerConfig => loggerConfig
-            .WriteTo.Console(
-                new ExpressionTemplate(
-                    "[{@t:HH:mm:ss} {@l:u3}] [{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}] {@m}\n{@x}",
-                    CultureInfo.InvariantCulture,
-                    applyThemeWhenOutputIsRedirected: true,
-                    theme: TemplateTheme.Literate
-                )
-            )
-            .WriteTo.File(
-                Path.Join(ApplicationConstants.ApplicationLogsDirectory.FullName, "app.log"),
-                outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] ({SourceContext}) {Message:lj}{NewLine}{Exception}",
-                buffered: true,
-                rollingInterval: RollingInterval.Day,
-                retainedFileCountLimit: 7,
-                formatProvider: CultureInfo.InvariantCulture
-            )
-            .Enrich.FromLogContext()
-            .ReadFrom.Configuration(configuration)
-        );
 }

@@ -33,3 +33,10 @@
 - [Programming reference for the Win32 API](https://learn.microsoft.com/en-us/windows/win32/api/)
 - [Setup Dependency Injection](https://medium.com/@shalahuddinshanto/dependency-injection-in-wpf-a-complete-implementation-guide-468abcf95337)
 - [Setup Window Blur](https://github.com/riverar/sample-win32-acrylicblur)
+
+## Tools
+
+- [seq](https://datalust.co/docs/getting-started)
+- [seqcli](https://datalust.co/docs/command-line-client)
+  - Install: `dotnet tool install -g seqcli`
+  - Import log file: `seqcli ingest -i <path/to/log.log> --json` (not working for me right now, weird errors)
