@@ -109,6 +109,7 @@
         }
         else
         {
+            // TODO: Refactor and extract to a shared component
             <MudPaper>
                 <MudTabs Class="with-badges"
                          @bind-ActivePanelIndex="@_activePanelIndex"
@@ -145,6 +146,7 @@
                                                     Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                     ExpandAll="FiltersActive"
                                                     IsHangar>
+                                @* TODO: Add hangar entry actions *@
                                 @* <ListActionsContent> *@
                                 @*     @ListActions(context) *@
                                 @* </ListActionsContent> *@
