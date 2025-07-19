@@ -406,6 +406,7 @@
     private void UpdateFilters()
     {
         FilteredEntries = _filtersContext.Filter(AllEntries)
+            .Where(x => x is not HangarInventoryEntry) // exclude all hangar entries (vehicles) these are handled separately
             .ToArray();
 
         FilteredLocations = GameLocationHelper.CollectUniqueLocations(FilteredEntries);
