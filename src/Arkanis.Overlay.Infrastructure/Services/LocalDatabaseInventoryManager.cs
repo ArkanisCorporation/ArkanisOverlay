@@ -112,16 +112,28 @@ internal class LocalDatabaseInventoryManager(
         var entity = mapper.Map(entry);
         await using (var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken))
         {
-            //! cannot simply delete this entity using ExecuteDeleteAsync: https://github.com/dotnet/efcore/issues/32823
-            // await dbContext.InventoryEntries.Where(x => x.Id == entry.Id).ExecuteDeleteAsync(cancellationToken);
-            var existing = await dbContext.InventoryEntries.FindAsync([entry.Id], cancellationToken);
-            if (existing is not null)
+            try
             {
-                dbContext.Remove(existing);
-            }
+                await dbContext.Database.BeginTransactionAsync(cancellationToken);
 
-            await dbContext.InventoryEntries.AddAsync(entity, cancellationToken);
-            await dbContext.SaveChangesAsync(cancellationToken);
+                //! cannot simply delete this entity using ExecuteDeleteAsync: https://github.com/dotnet/efcore/issues/32823
+                // await dbContext.InventoryEntries.Where(x => x.Id == entry.Id).ExecuteDeleteAsync(cancellationToken);
+                var existing = await dbContext.InventoryEntries.FindAsync([entry.Id], cancellationToken);
+                if (existing is not null)
+                {
+                    dbContext.Remove(existing);
+                    await dbContext.SaveChangesAsync(cancellationToken);
+                }
+
+                await dbContext.InventoryEntries.AddAsync(entity, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
+                await dbContext.Database.CommitTransactionAsync(cancellationToken);
+            }
+            catch
+            {
+                await dbContext.Database.RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
         }
 
         await CompactifyEntitiesAsync(entity, cancellationToken);
