@@ -17,6 +17,7 @@
              Items="@SortedModels"
              SelectedItems="@SelectedModels"
              SelectedItemsChanged="@SelectedModelsChanged"
+             SelectOnRowClick="@SelectedModelsChanged.HasDelegate"
              Class="@Class"
              RowClassFunc="GetRowClass"
              Groupable="true"
@@ -24,6 +25,7 @@
              Dense
              Hover>
     <Columns>
+        @* TODO: Add hangar entry name column *@
         @if (SelectedModelsChanged.HasDelegate)
         {
             <SelectColumn/>
