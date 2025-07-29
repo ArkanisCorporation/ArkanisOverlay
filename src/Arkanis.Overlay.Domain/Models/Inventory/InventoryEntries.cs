@@ -90,6 +90,7 @@ public static class InventoryEntry
         {
             GameItem item => context switch
             {
+                { HangarEntry: not null, VehicleInventoryType: VehicleInventoryType.Module } => CreateModule(item, quantity, context.HangarEntry, context.List),
                 { HangarEntry: not null } => CreateCargo(item, quantity, context.HangarEntry, context.List),
                 { Location: not null } => CreateAt(item, quantity, context.Location, context.List),
                 _ => Create(item, quantity, context?.List),
@@ -113,6 +114,7 @@ public static class InventoryEntry
         Quantity? quantity = null,
         IGameLocation? location = null,
         HangarInventoryEntry? hangarEntry = null,
+        VehicleInventoryType? vehicleInventoryType = null,
         InventoryEntryList? list = null
     )
     {
@@ -130,6 +132,7 @@ public static class InventoryEntry
             {
                 Location = location,
                 HangarEntry = hangarEntry,
+                VehicleInventoryType = vehicleInventoryType ?? VehicleInventoryType.Cargo,
                 List = list,
             }
         );
@@ -139,6 +142,7 @@ public static class InventoryEntry
     {
         public IGameLocation? Location { get; set; }
         public HangarInventoryEntry? HangarEntry { get; set; }
+        public VehicleInventoryType VehicleInventoryType { get; set; }
         public InventoryEntryList? List { get; set; }
     }
 }

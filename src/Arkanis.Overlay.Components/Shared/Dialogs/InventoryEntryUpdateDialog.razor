@@ -204,7 +204,7 @@
         }
         else
         {
-            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetHangarEntry, TargetList);
+            var transferModel = InventoryEntry.CreateFrom(SourceModel, TargetQuantity, TargetLocation, TargetHangarEntry, VehicleInventoryType, TargetList);
             await InventoryManager.AddOrUpdateEntryAsync(transferModel);
 
             SourceModel.Quantity.Amount -= TargetQuantity.Amount;
