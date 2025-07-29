@@ -78,7 +78,7 @@
                         Grouping="@Groupings.Contains(Column.Entity)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.Entity)"
                         GroupExpanded="@ExpandAll"
-                        Hidden="@Groupings.Contains(Column.Entity)">
+                        Hidden="@(Groupings.Contains(Column.Entity) || Hidden.Contains(Column.Entity))">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -167,7 +167,7 @@
                         Grouping="@Groupings.Contains(Column.EntryType)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.EntryType)"
                         GroupExpanded="@ExpandAll"
-                        Hidden="@Groupings.Contains(Column.EntryType)">
+                        Hidden="@(Groupings.Contains(Column.EntryType) || Hidden.Contains(Column.EntryType))">
             <CellTemplate>
                 @GetEntryType(context.Item)
             </CellTemplate>
@@ -177,7 +177,7 @@
                         Grouping="@Groupings.Contains(Column.LocationOrVehicle)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.LocationOrVehicle)"
                         GroupExpanded="@ExpandAll"
-                        Hidden="@Groupings.Contains(Column.LocationOrVehicle)">
+                        Hidden="@(Groupings.Contains(Column.LocationOrVehicle) || Hidden.Contains(Column.LocationOrVehicle))">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -224,7 +224,7 @@
                         Grouping="@Groupings.Contains(Column.List)"
                         GroupByOrder="@Groupings.IndexOfOrDefault(Column.List)"
                         GroupExpanded="@ExpandAll"
-                        Hidden="@(Groupings.Contains(Column.List) || IsHangar)">
+                        Hidden="@(Groupings.Contains(Column.List) || Hidden.Contains(Column.List) || IsHangar)">
             <GroupTemplate>
                 <MudStack Class="my-n4 mr-4 w-100"
                           AlignItems="@AlignItems.Center"
@@ -336,6 +336,9 @@
     public bool ExpandAll { get; set; }
 
     [Parameter]
+    public Column[] Hidden { get; set; } = [];
+
+    [Parameter]
     public Column[] Groupings { get; set; } = [];
 
     private InventoryEntryBase[] SortedModels { get; set; } = [];
@@ -384,14 +387,24 @@
             : string.Empty;
 
     private string GetEntryType(InventoryEntryBase contextItem)
-        => contextItem.Entity switch
+    {
+        var suffix = contextItem.Type switch
         {
-            GameItem => "Item",
-            GameCommodity => "Commodity",
+            InventoryEntryBase.EntryType.VehicleInventory => "(Cargo)",
+            InventoryEntryBase.EntryType.VehicleModule => "(Module)",
+            _ => string.Empty,
+        };
+        var result = contextItem.Entity switch
+        {
+            GameItem => $"Item {suffix}",
+            GameCommodity => $"Commodity {suffix}",
             GameSpaceShip => "Space Ship",
             GameGroundVehicle => "Ground Vehicle",
             _ => "unknown",
         };
+
+        return result.Trim();
+    }
 
     public enum Column
     {

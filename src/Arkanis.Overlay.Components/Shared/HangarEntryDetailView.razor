@@ -156,7 +156,8 @@
                 </div>
             </MudStack>
             <InventoryEntryDataGrid Models="@_filteredEntries"
-                                    @bind-SelectedModels="@_selectedEntries">
+                                    @bind-SelectedModels="@_selectedEntries"
+                                    Hidden="@([InventoryEntryDataGrid.Column.LocationOrVehicle])">
                 <EntryActionsContent>
                     <DefaultInventoryEntryCellActions
                         @bind-Model="@context.Item"
