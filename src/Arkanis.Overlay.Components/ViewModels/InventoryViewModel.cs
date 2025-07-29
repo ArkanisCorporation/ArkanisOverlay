@@ -66,11 +66,19 @@ public class InventoryViewModel(
 
     public async Task TransferAsync(InventoryEntryBase entry, IGameLocation? targetLocation)
     {
+        if (await InventoryEntryUpdateDialog.ShowTransferAsync(dialogService, entry, targetLocation) is not null)
+        {
+            await UpdateAsync();
+        }
+    }
+
+    public async Task TransferAsync(HangarInventoryEntry entry, IGameLocation? targetLocation)
+    {
         var parameters = new SelectInventoryPlacementDialog.Parameters
         {
-            AllowVehicleDestination = entry is not HangarInventoryEntry,
+            AllowVehicleDestination = false,
             DefaultLocation = targetLocation,
-            AcceptLocation = gameLocation => entry is not HangarInventoryEntry || AcceptLocationForHangarInventoryEntry(gameLocation),
+            AcceptLocation = AcceptLocationForHangarInventoryEntry,
         };
         if (await SelectInventoryPlacementDialog.ShowAsync(dialogService, parameters) is not { } location)
         {
@@ -79,6 +87,7 @@ public class InventoryViewModel(
 
         var transferAsync = CreateTransferAction(location);
         await transferAsync(entry);
+        await UpdateAsync();
     }
 
     public async Task DeleteForeverAsync(InventoryEntryBase entry)
