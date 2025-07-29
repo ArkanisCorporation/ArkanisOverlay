@@ -21,7 +21,7 @@
                     Placeholder="Search for a game location"
                     HelperText="@LocationHelperText"
                     EntityCategory="@GameEntityCategory.Location"
-                    Accept="@Location"
+                    Accept="@InventoryViewModel.AcceptLocationForHangarInventoryEntry"
                     @bind-Value="TargetLocationEntity"/>
             </MudItem>
             <MudItem xs="12">
@@ -131,8 +131,5 @@
         var dialogRef = await dialogService.ShowAsync<HangarEntryUpdateDialog>(null, dialogParameters, dialogOptions);
         return await dialogRef.GetReturnValueAsync<HangarInventoryEntry>();
     }
-
-    private bool Location(IGameEntity entity)
-        => entity is GameSpaceStation or GameCity or GameOutpost;
 
 }

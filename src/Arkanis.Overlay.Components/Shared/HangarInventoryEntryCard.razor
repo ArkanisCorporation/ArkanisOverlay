@@ -1,5 +1,6 @@
 @implements IDisposable
 @inject HangarViewModel ViewModel
+@inject InventoryViewModel InventoryViewModel
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -179,16 +180,29 @@
                 }
                 else
                 {
-                    <MudIconButton
-                        Size="@Size.Small"
-                        Color="@Color.Warning"
-                        Icon="@Icons.Material.Filled.Edit"
-                        OnClick="@EditAsync"/>
-                    <MudIconButton
-                        Size="@Size.Small"
-                        Color="@Color.Error"
-                        Icon="@Icons.Material.Filled.DeleteForever"
-                        OnClick="@DeleteForeverAsync"/>
+                    <Tooltip Text="Change hangar">
+                        <MudIconButton
+                            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                            Size="@Size.Small"
+                            Color="@Color.Info"
+                            OnClick="@TransferAsync"/>
+                    </Tooltip>
+
+                    <Tooltip Text="Edit">
+                        <MudIconButton
+                            Size="@Size.Small"
+                            Color="@Color.Warning"
+                            Icon="@Icons.Material.Filled.Edit"
+                            OnClick="@EditAsync"/>
+                    </Tooltip>
+
+                    <Tooltip Text="Permanently remove">
+                        <MudIconButton
+                            Size="@Size.Small"
+                            Color="@Color.Error"
+                            Icon="@Icons.Material.Filled.DeleteForever"
+                            OnClick="@DeleteForeverAsync"/>
+                    </Tooltip>
                 }
             </MudStack>
         </MudStack>
@@ -239,6 +253,9 @@
 
     private void PropagateChange(object? _, EventArgs e)
         => InvokeAsync(() => ModelChanged.InvokeAsync(Model));
+
+    private async Task TransferAsync()
+        => await InventoryViewModel.TransferAsync(Model, null);
 
     private async Task EditAsync()
         => await ViewModel.EditAsync(Model);

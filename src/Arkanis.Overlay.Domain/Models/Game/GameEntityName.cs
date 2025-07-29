@@ -25,11 +25,11 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
     public ItemCategoryReference? ItemCategory
         => _parts.OfType<ItemCategoryReference>().FirstOrDefault();
 
-    public IEnumerator<Part> GetEnumerator()
-        => Parts.GetEnumerator();
-
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
+
+    public IEnumerator<Part> GetEnumerator()
+        => Parts.GetEnumerator();
 
     public static Reference ReferenceTo(GameEntity entity)
         => Reference.Create(entity);
@@ -80,11 +80,11 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
         public int Count
             => Items.Length;
 
-        public IEnumerator<PropertyItem> GetEnumerator()
-            => Items.AsEnumerable().GetEnumerator();
-
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        public IEnumerator<PropertyItem> GetEnumerator()
+            => Items.AsEnumerable().GetEnumerator();
 
         public static PropertyCollection Create(IEnumerable<GameItemTrait> traits)
         {

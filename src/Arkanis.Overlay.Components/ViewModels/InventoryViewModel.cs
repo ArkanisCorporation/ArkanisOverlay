@@ -70,6 +70,7 @@ public class InventoryViewModel(
         {
             AllowVehicleDestination = entry is not HangarInventoryEntry,
             DefaultLocation = targetLocation,
+            AcceptLocation = gameLocation => entry is not HangarInventoryEntry || AcceptLocationForHangarInventoryEntry(gameLocation),
         };
         if (await SelectInventoryPlacementDialog.ShowAsync(dialogService, parameters) is not { } location)
         {
@@ -108,10 +109,12 @@ public class InventoryViewModel(
 
     public async Task TransferAsync(ICollection<InventoryEntryBase> selectedEntries, InventoryEntryFilters.Context? currentContext = null)
     {
+        var isNotVehicleTransfer = selectedEntries.OfType<HangarInventoryEntry>().Any() == false;
         var parameters = new SelectInventoryPlacementDialog.Parameters
         {
-            AllowVehicleDestination = selectedEntries.OfType<HangarInventoryEntry>().Any() == false,
+            AllowVehicleDestination = isNotVehicleTransfer,
             DefaultLocation = currentContext?.Location,
+            AcceptLocation = gameLocation => isNotVehicleTransfer || AcceptLocationForHangarInventoryEntry(gameLocation),
         };
         if (await SelectInventoryPlacementDialog.ShowAsync(dialogService, parameters) is not { } placement)
         {
@@ -280,6 +283,12 @@ public class InventoryViewModel(
 
     public static bool AcceptLocationForInventoryEntry(IGameLocation location)
         => location is GameSpaceStation or GameCity or GameOutpost;
+
+    public static bool AcceptLocationForHangarInventoryEntry(IGameEntity entity)
+        => entity is IGameLocation location && AcceptLocationForHangarInventoryEntry(location);
+
+    public static bool AcceptLocationForHangarInventoryEntry(IGameLocation location)
+        => location is GameLocationEntity { HasHangar: true };
 
     #endregion
 }
