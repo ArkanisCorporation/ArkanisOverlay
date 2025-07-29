@@ -17,15 +17,22 @@ else
     <ul class="@Class">
         @if (Grouping is GroupBy.Location)
         {
-            // TODO: Group by vehicle
-            @foreach (var entriesByLocation in ModelsByLocation)
+            @foreach (var entriesByLocation in ModelsByPlacementId)
             {
                 <li class="mt-2">
                     @if (entriesByLocation.Key is not null)
                     {
-                        <span>
-                            from <b>@entriesByLocation.Key?.Name.MainContent.FullName</b>
-                        </span>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Spacing="1"
+                                  Row>
+                            <span class="text-secondary">
+                                from
+                            </span>
+                            <InventoryEntryPlacementLabel
+                                Model="@entriesByLocation.First()"
+                                Spacing="1"
+                                WithoutPreposition/>
+                        </MudStack>
                     }
                     else
                     {
@@ -87,11 +94,10 @@ else
     [Parameter]
     public GroupBy Grouping { get; set; }
 
-    private IOrderedEnumerable<IGrouping<IGameLocation?, InventoryEntryBase>> ModelsByLocation
-        => Models.GroupBy(entry => (entry as IGameLocatedAt)?.Location)
-            .OrderBy(group => group.Key?.Name.MainContent.FullName);
+    private IEnumerable<IGrouping<IDomainId?, InventoryEntryBase>> ModelsByPlacementId
+        => Models.GroupBy(entry => (entry as IInventoryPlacement).LocationId);
 
-    private IOrderedEnumerable<IGrouping<InventoryEntryList?, InventoryEntryBase>> ModelsByList
+    private IEnumerable<IGrouping<InventoryEntryList?, InventoryEntryBase>> ModelsByList
         => Models.GroupBy(entry => entry.List)
             .OrderBy(group => group.Key?.Name);
 
