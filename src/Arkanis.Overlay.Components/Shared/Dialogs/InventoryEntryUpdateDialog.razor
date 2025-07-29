@@ -187,7 +187,7 @@
             await EventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
         }
 
-        if (IsEditMode || SourceModel.Quantity.HasSameAmountAs(SourceModel.Quantity))
+        if (IsEditMode || SourceModel.Quantity.HasSameAmountAs(TargetQuantity))
         {
             // the entry is updated as a whole
             SourceModel.Quantity.Amount = TargetQuantity.Amount;
