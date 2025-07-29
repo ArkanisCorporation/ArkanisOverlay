@@ -330,6 +330,8 @@ public interface ILocationInventory : IInventoryPlacement, IGameLocatedAt
         => Location.Id;
 }
 
+public sealed record InventoryPlacementLocation(IGameLocation Location) : ILocationInventory;
+
 public interface IVehicleInventory : IInventoryPlacement
 {
     HangarInventoryEntry HangarEntry { get; }
@@ -337,6 +339,8 @@ public interface IVehicleInventory : IInventoryPlacement
     IDomainId IInventoryPlacement.LocationId
         => HangarEntry.Id;
 }
+
+public sealed record InventoryPlacementVehicle(HangarInventoryEntry HangarEntry) : IVehicleInventory;
 
 public enum VehicleInventoryType
 {

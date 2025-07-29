@@ -24,6 +24,28 @@ public class InventoryViewModel(
         await Task.CompletedTask;
     }
 
+    private Func<InventoryEntryBase, Task> CreateTransferAction(IInventoryPlacement placement)
+        => placement switch
+        {
+            IVehicleInventory vehicle => CreateTransferAction(vehicle.HangarEntry),
+            ILocationInventory location => CreateTransferAction(location.Location),
+            _ => throw new NotSupportedException($"Unsupported inventory placement type: {placement}"),
+        };
+
+    private Func<InventoryEntryBase, Task> CreateTransferAction(IGameLocation location)
+        => async entry =>
+        {
+            await inventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
+            await eventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
+        };
+
+    private Func<InventoryEntryBase, Task> CreateTransferAction(HangarInventoryEntry hangarEntry)
+        => async entry =>
+        {
+            await inventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(hangarEntry, VehicleInventoryType.Cargo));
+            await eventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
+        };
+
     #region Entries
 
     public async Task CreateNewEntryAsync(IGameEntity? entity = null, IGameLocation? location = null, HangarInventoryEntry? hangarEntry = null)
@@ -44,10 +66,18 @@ public class InventoryViewModel(
 
     public async Task TransferAsync(InventoryEntryBase entry, IGameLocation? targetLocation)
     {
-        if (await InventoryEntryUpdateDialog.ShowTransferAsync(dialogService, entry, targetLocation) is not null)
+        var parameters = new SelectInventoryPlacementDialog.Parameters
         {
-            await UpdateAsync();
+            AllowVehicleDestination = entry is not HangarInventoryEntry,
+            DefaultLocation = targetLocation,
+        };
+        if (await SelectInventoryPlacementDialog.ShowAsync(dialogService, parameters) is not { } location)
+        {
+            return;
         }
+
+        var transferAsync = CreateTransferAction(location);
+        await transferAsync(entry);
     }
 
     public async Task DeleteForeverAsync(InventoryEntryBase entry)
@@ -78,20 +108,20 @@ public class InventoryViewModel(
 
     public async Task TransferAsync(ICollection<InventoryEntryBase> selectedEntries, InventoryEntryFilters.Context? currentContext = null)
     {
-        // TODO: Allow selection of vehicle as well
-        if ((currentContext?.Location ?? await SelectGameLocationDialog.ShowAsync(dialogService)) is not { } location)
+        var parameters = new SelectInventoryPlacementDialog.Parameters
+        {
+            AllowVehicleDestination = selectedEntries.OfType<HangarInventoryEntry>().Any() == false,
+            DefaultLocation = currentContext?.Location,
+        };
+        if (await SelectInventoryPlacementDialog.ShowAsync(dialogService, parameters) is not { } placement)
         {
             return;
         }
 
         var configuration = new BulkOperationDialog<InventoryEntryBase>.Configuration
         {
-            PerformOperation = async entry =>
-            {
-                await inventoryManager.AddOrUpdateEntryAsync(entry.TransferTo(location));
-                await eventReporter.TrackEventAsync(InventoryEvents.AssignLocation());
-            },
-            Description = InventoryViewModelRendering.TransferEntryDescription(selectedEntries, location),
+            PerformOperation = CreateTransferAction(placement),
+            Description = InventoryViewModelRendering.TransferEntryDescription(selectedEntries, placement),
         };
         var options = new BulkOperationDialog<InventoryEntryBase>.Options
         {
@@ -237,10 +267,10 @@ public class InventoryViewModel(
 
     public string? GetDisplayName(HangarInventoryEntry vehicle)
         => vehicle switch
-           {
-               { NameTag: { Length: > 0 } nameTag } => $"\"{nameTag}\" ({GetDisplayName(vehicle.VehicleReference)})",
-               _ => GetDisplayName(vehicle.VehicleReference),
-           };
+        {
+            { NameTag: { Length: > 0 } nameTag } => $"\"{nameTag}\" ({GetDisplayName(vehicle.VehicleReference)})",
+            _ => GetDisplayName(vehicle.VehicleReference),
+        };
 
     public string? GetDisplayName(IGameEntity? gameEntity)
         => gameEntity?.Name.MainContent.FullName;

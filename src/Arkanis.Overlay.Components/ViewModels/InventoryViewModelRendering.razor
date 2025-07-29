@@ -1,13 +1,18 @@
-@using Arkanis.Overlay.Domain.Abstractions.Game
-
 @code
 {
 
-    public static RenderFragment TransferEntryDescription(ICollection<InventoryEntryBase> selectedEntries, IGameLocation location)
+    public static RenderFragment TransferEntryDescription(ICollection<InventoryEntryBase> selectedEntries, IInventoryPlacement placement)
         => @<div>
             <MudText Typo="@Typo.inherit">Please confirm inventory transfer to:</MudText>
             <div class="pl-4">
-                <GameEntityNameLabel Model="@location.Name"/>
+                @if (placement is ILocationInventory locationInventory)
+                {
+                    <GameEntityNameLabel Model="@locationInventory.Location.Name"/>
+                }
+                else if (placement is IVehicleInventory vehicleInventory)
+                {
+                    <InventoryEntryLabel Model="@vehicleInventory.HangarEntry"/>
+                }
             </div>
             <MudText Typo="@Typo.inherit">of the following inventory entries:</MudText>
             <InventoryEntrySimpleList
