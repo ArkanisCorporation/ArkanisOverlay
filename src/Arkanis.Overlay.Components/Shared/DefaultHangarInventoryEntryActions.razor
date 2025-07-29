@@ -1,34 +1,32 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IDisposable
-@inject InventoryViewModel ViewModel
+@inject InventoryViewModel InventoryViewModel
+@inject HangarViewModel ViewModel
 
 <div>
-    <MudTooltip Text="Transfer"
-                Placement="@Placement.Top">
+    <Tooltip Text="Change Hangar">
         <MudIconButton
             Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
             Size="@Size.Small"
             Color="@Color.Info"
             OnClick="@TransferAsync"/>
-    </MudTooltip>
+    </Tooltip>
 
-    <MudTooltip Text="Modify"
-                Placement="@Placement.Top">
+    <Tooltip Text="Modify">
         <MudIconButton
-            Icon="@Icons.Material.Filled.Edit"
             Size="@Size.Small"
             Color="@Color.Warning"
+            Icon="@Icons.Material.Filled.Edit"
             OnClick="@UpdateAsync"/>
-    </MudTooltip>
+    </Tooltip>
 
-    <MudTooltip Text="Remove"
-                Placement="@Placement.Top">
+    <Tooltip Text="Remove">
         <MudIconButton
-            Icon="@Icons.Material.Filled.DeleteForever"
             Size="@Size.Small"
             Color="@Color.Error"
+            Icon="@Icons.Material.Filled.DeleteForever"
             OnClick="@DeleteForeverAsync"/>
-    </MudTooltip>
+    </Tooltip>
 </div>
 
 @code
@@ -36,10 +34,10 @@
 
     [Parameter]
     [EditorRequired]
-    public required InventoryEntryBase Model { get; set; }
+    public required HangarInventoryEntry Model { get; set; }
 
     [Parameter]
-    public EventCallback<InventoryEntryBase?> ModelChanged { get; set; }
+    public EventCallback<HangarInventoryEntry?> ModelChanged { get; set; }
 
     [Parameter]
     public IGameLocation? SelectedLocation { get; set; }
@@ -48,19 +46,23 @@
     {
         base.OnInitialized();
         ViewModel.OnChange += PropagateChange;
+        InventoryViewModel.OnChange += PropagateChange;
     }
 
     public void Dispose()
-        => ViewModel.OnChange -= PropagateChange;
+    {
+        ViewModel.OnChange -= PropagateChange;
+        InventoryViewModel.OnChange -= PropagateChange;
+    }
 
     private void PropagateChange(object? _, EventArgs e)
         => InvokeAsync(() => ModelChanged.InvokeAsync(Model));
 
     private async Task TransferAsync()
-        => await ViewModel.TransferAsync(Model, SelectedLocation);
+        => await InventoryViewModel.TransferAsync(Model, SelectedLocation);
 
     private async Task UpdateAsync()
-        => await ViewModel.UpdateAsync(Model, SelectedLocation);
+        => await ViewModel.EditAsync(Model);
 
     private async Task DeleteForeverAsync()
         => await ViewModel.DeleteForeverAsync(Model);

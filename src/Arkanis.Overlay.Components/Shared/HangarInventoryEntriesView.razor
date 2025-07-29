@@ -146,13 +146,13 @@
                                                     Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                     ExpandAll="FiltersActive"
                                                     IsHangar>
-                                @* TODO: Add hangar entry actions *@
-                                @* <ListActionsContent> *@
-                                @*     @ListActions(context) *@
-                                @* </ListActionsContent> *@
-                                @* <EntryActionsContent> *@
-                                @*     @EntryCellActions(context) *@
-                                @* </EntryActionsContent> *@
+                                <EntryActionsContent>
+                                    @if (context.Item is HangarInventoryEntry hangarEntry)
+                                    {
+                                        <DefaultHangarInventoryEntryActions
+                                            @bind-Model="@hangarEntry"/>
+                                    }
+                                </EntryActionsContent>
                             </InventoryEntryDataGrid>
                         </ChildContent>
                     </MudTabPanel>
@@ -183,12 +183,13 @@
                                                     Groupings="@( [InventoryEntryDataGrid.Column.Manufacturer])"
                                                     ExpandAll="FiltersActive"
                                                     IsHangar>
-                                @* <ListActionsContent> *@
-                                @*     @ListActions(context) *@
-                                @* </ListActionsContent> *@
-                                @* <EntryActionsContent> *@
-                                @*     @EntryCellActions(context) *@
-                                @* </EntryActionsContent> *@
+                                <EntryActionsContent>
+                                    @if (context.Item is HangarInventoryEntry hangarEntry)
+                                    {
+                                        <DefaultHangarInventoryEntryActions
+                                            @bind-Model="@hangarEntry"/>
+                                    }
+                                </EntryActionsContent>
                             </InventoryEntryDataGrid>
                         </ChildContent>
                     </MudTabPanel>
@@ -217,12 +218,13 @@
                             <InventoryEntryDataGrid Models="@FilteredEntries"
                                                     @bind-SelectedModels="@SelectedEntries"
                                                     IsHangar>
-                                @* <ListActionsContent> *@
-                                @*     @ListActions(context) *@
-                                @* </ListActionsContent> *@
-                                @* <EntryActionsContent> *@
-                                @*     @EntryCellActions(context) *@
-                                @* </EntryActionsContent> *@
+                                <EntryActionsContent>
+                                    @if (context.Item is HangarInventoryEntry hangarEntry)
+                                    {
+                                        <DefaultHangarInventoryEntryActions
+                                            @bind-Model="@hangarEntry"/>
+                                    }
+                                </EntryActionsContent>
                             </InventoryEntryDataGrid>
                         </ChildContent>
                     </MudTabPanel>
@@ -256,12 +258,13 @@
                             <InventoryEntryDataGrid Models="@(Entries.OfType<InventoryEntryBase>().ToArray())"
                                                     @bind-SelectedModels="@SelectedEntries"
                                                     IsHangar>
-                                @* <ListActionsContent> *@
-                                @*     @ListActions(context) *@
-                                @* </ListActionsContent> *@
-                                @* <EntryActionsContent> *@
-                                @*     @EntryCellActions(context) *@
-                                @* </EntryActionsContent> *@
+                                <EntryActionsContent>
+                                    @if (context.Item is HangarInventoryEntry hangarEntry)
+                                    {
+                                        <DefaultHangarInventoryEntryActions
+                                            @bind-Model="@hangarEntry"/>
+                                    }
+                                </EntryActionsContent>
                             </InventoryEntryDataGrid>
                         </ChildContent>
                     </MudTabPanel>

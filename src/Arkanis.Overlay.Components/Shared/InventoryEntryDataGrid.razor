@@ -1,5 +1,7 @@
 @using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@inject InventoryViewModel ViewModel
+
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .mud-data-grid tbody tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
@@ -110,7 +112,7 @@
                 </MudStack>
             </GroupTemplate>
             <CellTemplate>
-                @context.Item.Entity.Name.MainContent.FullName
+                @ViewModel.GetDisplayName(context.Item, false)
             </CellTemplate>
         </PropertyColumn>
         <TemplateColumn Title="Manufacturer"
