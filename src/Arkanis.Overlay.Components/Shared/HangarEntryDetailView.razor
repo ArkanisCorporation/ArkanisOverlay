@@ -60,6 +60,13 @@
 <!--suppress CssUnresolvedCustomProperty -->
 <MudContainer Class="mb-12">
     <MudStack Spacing="6">
+        <MudButton Variant="@Variant.Filled"
+                   Color="@Color.Dark"
+                   StartIcon="@Icons.Material.Filled.ChevronLeft"
+                   Href="/hangar">
+            Back to hangar
+        </MudButton>
+
         <HangarInventoryEntryCard
             Model="@Entry"
             Static/>
@@ -157,7 +164,7 @@
             </MudStack>
             <InventoryEntryDataGrid Models="@_filteredEntries"
                                     @bind-SelectedModels="@_selectedEntries"
-                                    Hidden="@([InventoryEntryDataGrid.Column.LocationOrVehicle])">
+                                    Hidden="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])">
                 <EntryActionsContent>
                     <DefaultInventoryEntryCellActions
                         @bind-Model="@context.Item"
