@@ -1,3 +1,5 @@
+@inject IDialogService DialogService
+
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .external-service-config {
@@ -6,6 +8,7 @@
                 display: grid;
                 grid-template-columns: minmax(min-content, 1fr) 4fr;
                 gap: 8px;
+                padding-right: 16px;
 
                 > div {
                     grid-column: auto;
@@ -47,16 +50,18 @@
                                 ContentId="@ContentId"/>
                         </MudStack>
                         <MudStack AlignItems="@AlignItems.Center" Row>
+                            @* TODO: Properly detect currect account connection state *@
                             <MudChip T="string" Color="@Color.Default">
                                 Inactive
                             </MudChip>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
+                            <MudSpacer/>
+                            <MudButton Variant="@Variant.Outlined"
+                                       Color="@Color.Info"
+                                       OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
+                                Connect account
+                            </MudButton>
                         </MudStack>
                     </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
                 </MudExpansionPanel>
 
                 <MudExpansionPanel Class="external-service-config" Disabled>
@@ -71,6 +76,7 @@
                             <MudChip T="string" Color="@Color.Default">
                                 Inactive
                             </MudChip>
+                            <MudSpacer/>
                             <MudText Class="text-secondary">
                                 Account connection not supported yet
                             </MudText>
@@ -92,6 +98,7 @@
                             <MudChip T="string" Color="@Color.Default">
                                 Inactive
                             </MudChip>
+                            <MudSpacer/>
                             <MudText Class="text-secondary">
                                 Account connection not supported yet
                             </MudText>
@@ -114,6 +121,7 @@
                             <MudChip T="string" Color="@Color.Default">
                                 Inactive
                             </MudChip>
+                            <MudSpacer/>
                             <MudText Class="text-secondary">
                                 Account connection not supported yet
                             </MudText>

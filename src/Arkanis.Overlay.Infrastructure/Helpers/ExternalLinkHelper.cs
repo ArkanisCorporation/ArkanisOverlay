@@ -36,6 +36,9 @@ public static class ExternalLinkHelper
     public static string GetUexLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://uexcorp.space/", contentId);
 
+    public static string GetUexAccountSettingsLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://uexcorp.space/account/home/tab/account_main/", contentId);
+
     public static string GetUexUserLink(string username, string? contentId = null)
         => AddAttributionGoogleAnalyticsTo($"https://uexcorp.space/@{username}", contentId);
 
