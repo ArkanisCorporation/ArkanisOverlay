@@ -24282,6 +24282,12 @@ paths:
   /user/:
     get:
       operationId: GetUser
+      parameters:
+      - in: query
+        name: username
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           content:
