@@ -1,0 +1,114 @@
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .external-service-config {
+        .mud-expand-panel-header {
+            .mud-expand-panel-text {
+                display: grid;
+                grid-template-columns: minmax(min-content, 1fr) 4fr;
+                gap: 8px;
+
+                > div {
+                    grid-column: auto;
+                }
+
+                .mud-chip {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+</style>
+
+<SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
+    @* Prevent displaying default content. *@
+</SectionContent>
+
+<MudMainContent Class="pb-8 px-2">
+    <MudContainer>
+        <MudPaper>
+            <div class="py-4 px-6">
+                <MudText Typo="@Typo.h5">
+                    External Services
+                </MudText>
+                <MudText Typo="@Typo.body1">
+                    Link your account to supported external services to enable additional or enhanced features.
+                </MudText>
+            </div>
+
+            <MudDivider/>
+
+            <MudExpansionPanels>
+                <MudExpansionPanel Class="external-service-config" Disabled>
+                    <TitleContent>
+                        <MudStack Justify="Justify.Center" Row>
+                            <UexLogo
+                                Style="height: 32px;"
+                                ContentId="@ContentId"/>
+                        </MudStack>
+                        <MudStack AlignItems="@AlignItems.Center" Row>
+                            <MudChip T="string" Color="@Color.Default">
+                                Inactive
+                            </MudChip>
+                            <MudText Class="text-secondary">
+                                Account connection not supported yet
+                            </MudText>
+                        </MudStack>
+                    </TitleContent>
+                    <ChildContent>
+                    </ChildContent>
+                </MudExpansionPanel>
+
+                <MudExpansionPanel Class="external-service-config" Disabled>
+                    <TitleContent>
+                        <MudStack Justify="Justify.Center" Row>
+                            <RegolithLogo
+                                Style="height: 40px;"
+                                Class="my-n1"
+                                ContentId="@ContentId"/>
+                        </MudStack>
+                        <MudStack AlignItems="@AlignItems.Center" Row>
+                            <MudChip T="string" Color="@Color.Default">
+                                Inactive
+                            </MudChip>
+                            <MudText Class="text-secondary">
+                                Account connection not supported yet
+                            </MudText>
+                        </MudStack>
+                    </TitleContent>
+                    <ChildContent>
+                    </ChildContent>
+                </MudExpansionPanel>
+
+                <MudExpansionPanel Class="external-service-config" Disabled>
+                    <TitleContent>
+                        <MudStack Justify="Justify.Center" Row>
+                            <MedRunnerLogo
+                                Style="height: 40px;"
+                                Class="my-n1"
+                                OrientationVariant="@MedRunnerLogo.Orientation.Horizontal"
+                                ContentId="@ContentId"/>
+                        </MudStack>
+                        <MudStack AlignItems="@AlignItems.Center" Row>
+                            <MudChip T="string" Color="@Color.Default">
+                                Inactive
+                            </MudChip>
+                            <MudText Class="text-secondary">
+                                Account connection not supported yet
+                            </MudText>
+                        </MudStack>
+                    </TitleContent>
+                    <ChildContent>
+                    </ChildContent>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+        </MudPaper>
+    </MudContainer>
+</MudMainContent>
+
+@code
+{
+
+    private const string ContentId = "settings";
+
+}
