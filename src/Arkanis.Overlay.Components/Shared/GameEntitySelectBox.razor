@@ -7,16 +7,17 @@
                  Placeholder="@Placeholder"
                  Value="@Value"
                  ValueChanged="@OnValueChanged"
-                 OnBlur="StateHasChanged"
-                 Text="@GetText(Value)"
+                 OnBlur="@StateHasChanged"
+                 Text="@Text"
                  HelperText="@HelperText"
-                 Error="@HasError"
+                 Error="@DisplayError"
                  ErrorText="@ErrorText"
                  Disabled="@Disabled"
                  Clearable="@(!Required)"
                  Required="@Required"
                  CoerceText="@false"
                  CoerceValue="@false"
+                 TextUpdateSuppression="@false"
                  PopoverClass="width-min-content"
                  ItemDisabledFunc="@(item => Value == item)"
                  SearchFunc="@FindEntitiesAsync">
@@ -49,6 +50,12 @@
 
     private HashSet<IGameEntity> _except = [];
     private HashSet<IGameEntity>? _only;
+
+    private bool DisplayError
+        => HasError || (Value is null && Required);
+
+    private string? Text
+        => GetText(Value);
 
     [Parameter]
     public string? Label { get; set; } = "Game entity";
