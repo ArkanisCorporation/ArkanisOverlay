@@ -77,7 +77,6 @@ public class OverlayModules
             Name = "Settings",
             Icon = Outlined.Settings,
             ShortcutOverride = KeyboardKey.F12,
-            Disabled = true,
         },
     ];
 
