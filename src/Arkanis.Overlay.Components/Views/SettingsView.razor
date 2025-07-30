@@ -83,6 +83,27 @@
                 <MudExpansionPanel Class="external-service-config" Disabled>
                     <TitleContent>
                         <MudStack Justify="Justify.Center" Row>
+                            <ErkulLogo
+                                Style="height: 40px;"
+                                Class="my-n1"
+                                ContentId="@ContentId"/>
+                        </MudStack>
+                        <MudStack AlignItems="@AlignItems.Center" Row>
+                            <MudChip T="string" Color="@Color.Default">
+                                Inactive
+                            </MudChip>
+                            <MudText Class="text-secondary">
+                                Account connection not supported yet
+                            </MudText>
+                        </MudStack>
+                    </TitleContent>
+                    <ChildContent>
+                    </ChildContent>
+                </MudExpansionPanel>
+
+                <MudExpansionPanel Class="external-service-config" Disabled>
+                    <TitleContent>
+                        <MudStack Justify="Justify.Center" Row>
                             <MedRunnerLogo
                                 Style="height: 40px;"
                                 Class="my-n1"

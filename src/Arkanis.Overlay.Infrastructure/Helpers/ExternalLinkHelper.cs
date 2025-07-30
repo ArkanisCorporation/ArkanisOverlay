@@ -39,6 +39,9 @@ public static class ExternalLinkHelper
     public static string GetUexUserLink(string username, string? contentId = null)
         => AddAttributionGoogleAnalyticsTo($"https://uexcorp.space/@{username}", contentId);
 
+    public static string GetErkulLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://www.erkul.games/", contentId);
+
     public static string GetRegolithLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://regolith.rocks/", contentId);
 
