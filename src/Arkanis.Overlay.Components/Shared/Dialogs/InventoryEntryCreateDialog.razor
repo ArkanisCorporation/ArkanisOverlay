@@ -12,7 +12,7 @@
             <MudItem xs="12">
                 <GameEntitySelectBox
                     Label="Item or commodity"
-                    Accept="@(entity => entity is GameItem or GameCommodity)"
+                    EntityCategories="@( [GameEntityCategory.Item, GameEntityCategory.Commodity])"
                     @bind-Value="@TargetEntity"
                     @bind-Value:after="UpdateDefaults"
                     Required/>
