@@ -4,7 +4,6 @@
 @inject InventoryViewModel InventoryViewModel
 @inject HangarViewModel HangarViewModel
 @inject NavigationManager NavigationManager
-@inject IDialogService DialogService
 
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
     <div class="pa-4">
@@ -95,6 +94,18 @@
 
         @if (_isGalleryView)
         {
+            if (!FilteredEntries.Any())
+            {
+                <MudAlert Severity="@Severity.Info" Variant="@Variant.Filled">
+                    <MudText Typo="@Typo.inherit">
+                        Currently there are no tracked vehicles in the hangar.
+                    </MudText>
+                    <MudText Typo="@Typo.inherit" Style="font-weight: normal">
+                        You can add new ones using the button in the bottom right corner.
+                    </MudText>
+                </MudAlert>
+            }
+
             <MudGrid>
                 @foreach (var entry in FilteredEntries)
                 {
