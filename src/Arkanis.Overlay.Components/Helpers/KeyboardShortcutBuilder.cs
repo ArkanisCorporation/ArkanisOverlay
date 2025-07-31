@@ -56,7 +56,7 @@ public sealed class KeyboardShortcutBuilder : IDisposable
         Value = KeyboardShortcut.None;
     }
 
-    public void AddKey(KeyboardEventArgs eventArgs)
+    public void KeyPressed(KeyboardEventArgs eventArgs)
     {
         var keyboardKey = eventArgs.GetKey();
         AddKey(keyboardKey);
@@ -89,7 +89,7 @@ public sealed class KeyboardShortcutBuilder : IDisposable
         }
     }
 
-    public void RemoveKey(KeyboardEventArgs eventArgs)
+    public void KeyReleased(KeyboardEventArgs eventArgs)
     {
         var keyboardKey = eventArgs.GetKey();
         RemoveKey(keyboardKey);
