@@ -47,6 +47,18 @@ public static class KeyboardKeyUtils
         KeyboardKey.F10,
         KeyboardKey.F11,
         KeyboardKey.F12,
+        KeyboardKey.F13,
+        KeyboardKey.F14,
+        KeyboardKey.F15,
+        KeyboardKey.F16,
+        KeyboardKey.F17,
+        KeyboardKey.F18,
+        KeyboardKey.F19,
+        KeyboardKey.F20,
+        KeyboardKey.F21,
+        KeyboardKey.F22,
+        KeyboardKey.F23,
+        KeyboardKey.F24,
     ];
 
     private static readonly HashSet<KeyboardKey> AlphanumericKeys =
@@ -285,11 +297,11 @@ public static class KeyboardKeyUtils
             KeyboardKeyCategory.Lock => LockKeys,
             KeyboardKeyCategory.Navigation => NavigationKeys,
             KeyboardKeyCategory.Editing => EditingKeys,
-            KeyboardKeyCategory.Function => FunctionKeys,
+            KeyboardKeyCategory.Function => FunctionKeys, // standalone
             KeyboardKeyCategory.Alphanumeric => AlphanumericKeys,
             KeyboardKeyCategory.Numpad => NumpadKeys,
             KeyboardKeyCategory.Symbol => SymbolKeys,
-            KeyboardKeyCategory.Media => MediaKeys,
+            KeyboardKeyCategory.Media => MediaKeys, // standalone
             KeyboardKeyCategory.Whitespace => WhitespaceKeys,
             _ => [],
         };
