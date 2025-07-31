@@ -73,8 +73,11 @@
         await UpdateValueAsync(_shortcutBuilder.Value);
     }
 
-    private void OnKeyUp(KeyboardEventArgs eventArgs)
-        => _shortcutBuilder!.RemoveKey(eventArgs.GetKey());
+    private async Task OnKeyUp(KeyboardEventArgs eventArgs)
+    {
+        _shortcutBuilder!.RemoveKey(eventArgs.GetKey());
+        await UpdateValueAsync(_shortcutBuilder.Value);
+    }
 
     private async Task UpdatedAsync(KeyboardShortcut shortcut)
         => await InvokeAsync(() => UpdateValueAsync(shortcut));
