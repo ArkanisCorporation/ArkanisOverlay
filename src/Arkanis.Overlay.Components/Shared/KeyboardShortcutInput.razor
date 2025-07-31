@@ -69,7 +69,7 @@
 
     private async Task OnKeyDown(KeyboardEventArgs eventArgs)
     {
-        _shortcutBuilder!.AddKey(eventArgs);
+        _shortcutBuilder!.KeyPressed(eventArgs);
         await UpdateValueAsync(_shortcutBuilder.Value);
     }
 
