@@ -23,7 +23,7 @@ public sealed class KeyboardShortcutBuilder : IDisposable
 
     public KeyboardShortcut Value { get; private set; } = KeyboardShortcut.None;
 
-    public TimeSpan FinalizationTimeout { get; set; } = TimeSpan.FromMilliseconds(200);
+    public TimeSpan FinalizationTimeout { get; set; } = TimeSpan.Zero;
 
     public void Dispose()
         => _finalizeTimer?.Dispose();
@@ -66,7 +66,7 @@ public sealed class KeyboardShortcutBuilder : IDisposable
             // WORKAROUND:
             // key release event is not reported for keys pressed together with a shift/meta modifier key
             // by marking the key as released, we can ensure that the shortcut is properly finalized
-            RemoveKey(keyboardKey);
+            // RemoveKey(keyboardKey);
         }
     }
 
@@ -97,10 +97,22 @@ public sealed class KeyboardShortcutBuilder : IDisposable
 
     public void RemoveKey(KeyboardKey keyboardKey)
     {
-        // a key has been released
-        lock (_releasedKeys)
+        if (KeyboardKeyUtils.IsKeyInCategory(keyboardKey, KeyboardKeyCategory.Modifier))
         {
-            _releasedKeys.Add(keyboardKey);
+            // a key has been released
+            lock (_releasedKeys)
+            {
+                _releasedKeys.Add(keyboardKey);
+            }
+
+            ClearReleasedKeysFromKeyPress();
+            return;
+        }
+
+        if (FinalizationTimeout == TimeSpan.Zero)
+        {
+            FinalizeAsync(null);
+            return;
         }
 
         // start a timer to remove the key
@@ -115,7 +127,6 @@ public sealed class KeyboardShortcutBuilder : IDisposable
         {
             ClearReleasedKeysFromKeyPress();
             await _timeoutCallback.Invoke(Value);
-            return;
         }
 
         lock (_releasedKeys)
