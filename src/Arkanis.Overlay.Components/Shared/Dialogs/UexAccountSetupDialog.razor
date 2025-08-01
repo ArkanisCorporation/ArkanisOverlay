@@ -1,11 +1,8 @@
-@using System.Net
 @using Arkanis.Overlay.Domain
-@using Arkanis.Overlay.External.UEX
-@using Arkanis.Overlay.External.UEX.Abstractions
+@using Arkanis.Overlay.Infrastructure.Exceptions
 @using Arkanis.Overlay.Infrastructure.Helpers
-@inject IUserPreferencesManager UserPreferences
-@inject UexApiOptions UexApiOptions
-@inject IUexUserApi UexUserApi
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject UexAccountContext UexAccountContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -214,7 +211,7 @@
     {
         _tokenError = _token switch
         {
-            { Length: not 40 } => "Provided API token is not valid.",
+            { Length: not 40 } => "Provided secret key is not valid.",
             _ => null,
         };
         if (_tokenError is not null || _token is null || _username is null)
@@ -224,35 +221,24 @@
 
         _isLoading = true;
         _usernameError = null;
-        UexApiOptions.UserToken = _token;
 
         try
         {
-            var user = await UexUserApi.GetUserAsync(_username);
-            if (user.Result.Data is { Discord_username.Length: > 0 } or { Email.Length: > 0 })
+            var credentials = new UserPreferences.Credentials(ExternalService.UnitedExpress)
             {
-                var credentials = UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.UnitedExpress);
-                credentials.UserIdentifier = _username;
-                credentials.SecretToken = _token;
-                await UserPreferences.SaveAndApplyUserPreferencesAsync(UserPreferences.CurrentPreferences);
-
-                await _stepper!.NextStepAsync();
-            }
-            else
-            {
-                _usernameError = "Provided secret key is not valid or does not belong to the specified account.";
-            }
+                UserIdentifier = _username,
+                SecretToken = _token,
+            };
+            await UexAccountContext.ConfigureAsync(credentials, CancellationToken.None);
+            await _stepper!.NextStepAsync();
         }
-        catch (UexApiException exception)
+        catch (ExternalLinkAccountNotFoundException exception)
         {
-            if (exception.StatusCode == (int)HttpStatusCode.NotFound)
-            {
-                _usernameError = "Account with the provided username does not exist.";
-            }
-            else
-            {
-                _tokenError = "Provided API token is not valid.";
-            }
+            _usernameError = exception.Message;
+        }
+        catch (ExternalLinkException exception)
+        {
+            _tokenError = exception.Message;
         }
         catch (Exception exception)
         {

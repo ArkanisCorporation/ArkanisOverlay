@@ -1,4 +1,6 @@
+@using Arkanis.Overlay.Infrastructure.Services.External
 @inject IDialogService DialogService
+@inject UexAccountContext UexAccountContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -42,31 +44,157 @@
             <MudDivider/>
 
             <MudExpansionPanels>
-                <MudExpansionPanel Class="external-service-config" Disabled>
+                <MudExpansionPanel Class="external-service-config" Disabled="@(!UexAccountContext.IsLinked)">
                     <TitleContent>
-                        <MudStack Justify="Justify.Center" Row>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center"
+                                  Row>
                             <UexLogo
                                 Style="height: 32px;"
                                 ContentId="@ContentId"/>
                         </MudStack>
                         <MudStack AlignItems="@AlignItems.Center" Row>
-                            @* TODO: Properly detect currect account connection state *@
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
+                            @if (UexAccountContext.LinkError is { } uexLinkError)
+                            {
+                                <MudChip T="string" Color="@Color.Error">
+                                    Failed
+                                </MudChip>
+                                <MudText Class="text-secondary">
+                                    @uexLinkError.Message
+                                </MudText>
+                            }
+                            else if (UexAccountContext.IsLinked)
+                            {
+                                <MudChip T="string" Color="@Color.Success">
+                                    Linked
+                                </MudChip>
+                                <MudAvatar Style="height: 32px; width: 32px;">
+                                    <MudImage
+                                        Src="@UexAccountContext.CurrentUser.Avatar"
+                                        Alt="Avatar"/>
+                                </MudAvatar>
+                                <MudText>
+                                    @UexAccountContext.CurrentUser.Name
+                                </MudText>
+                            }
+                            else
+                            {
+                                <MudChip T="string" Color="@Color.Default">
+                                    Inactive
+                                </MudChip>
+                            }
                             <MudSpacer/>
-                            <MudButton Variant="@Variant.Outlined"
-                                       Color="@Color.Info"
-                                       OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
-                                Connect account
-                            </MudButton>
+                            @if (UexAccountContext.IsLinked)
+                            {
+                                <MudButton Variant="@Variant.Outlined"
+                                           Color="@Color.Default"
+                                           OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
+                                    Connect different account
+                                </MudButton>
+                            }
+                            else
+                            {
+                                <MudButton Variant="@Variant.Outlined"
+                                           Color="@Color.Info"
+                                           OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
+                                    Connect account
+                                </MudButton>
+                            }
                         </MudStack>
                     </TitleContent>
+                    <ChildContent>
+                        <MudGrid Class="px-4 mb-1">
+                            <MudItem xs="12">
+                                <MudAlert Severity="@Severity.Warning">
+                                    Options that are greyed out and cannot be enabled are <b>not supported yet</b>.
+                                </MudAlert>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <MudSwitch
+                                    T="bool"
+                                    Color="@Color.Success">
+                                    <MudText Typo="@Typo.h6">
+                                        Synchronization
+                                    </MudText>
+                                </MudSwitch>
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <MudStack Spacing="0">
+                                            <MudSwitch
+                                                T="bool"
+                                                Label="Trade run wallet updates"
+                                                LabelPlacement="@Placement.End"
+                                                Color="@Color.Success"
+                                                Disabled/>
+                                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                                Automatically update your UEX wallet when purchases or sales are made
+                                                during a trade run
+                                            </MudText>
+                                        </MudStack>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudStack Spacing="0">
+                                            <MudSwitch
+                                                T="bool"
+                                                Label="Hangar synchronization"
+                                                LabelPlacement="@Placement.End"
+                                                Color="@Color.Success"
+                                                Disabled/>
+                                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                                Synchronize (both ways) your hangar entries with your UEX account
+                                            </MudText>
+                                        </MudStack>
+                                    </MudItem>
+                                    <MudItem xs="12" md="6">
+                                        <MudStack Spacing="0">
+                                            <MudSwitch
+                                                T="bool"
+                                                Label="Refinery synchronization"
+                                                LabelPlacement="@Placement.End"
+                                                Color="@Color.Success"
+                                                Disabled/>
+                                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                                Synchronize (both ways) your current and previous refinery jobs
+                                            </MudText>
+                                        </MudStack>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <MudSwitch
+                                    T="bool"
+                                    Color="@Color.Success">
+                                    <MudText Typo="@Typo.h6">
+                                        Notifications
+                                    </MudText>
+                                </MudSwitch>
+                                <MudGrid>
+                                    <MudItem xs="12" md="6">
+                                        <MudStack Spacing="0">
+                                            <MudSwitch
+                                                T="bool"
+                                                Label="Trade negotiation updates"
+                                                LabelPlacement="@Placement.End"
+                                                Color="@Color.Success"
+                                                Disabled/>
+                                            <MudText Typo="@Typo.caption" Class="text-secondary">
+                                                Get a push notification when a trade negotiation is created, updated or
+                                                concluded
+                                            </MudText>
+                                        </MudStack>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudItem>
+                        </MudGrid>
+                    </ChildContent>
                 </MudExpansionPanel>
 
                 <MudExpansionPanel Class="external-service-config" Disabled>
                     <TitleContent>
-                        <MudStack Justify="Justify.Center" Row>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center"
+                                  Row>
                             <RegolithLogo
                                 Style="height: 40px;"
                                 Class="my-n1"
@@ -88,7 +216,9 @@
 
                 <MudExpansionPanel Class="external-service-config" Disabled>
                     <TitleContent>
-                        <MudStack Justify="Justify.Center" Row>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center"
+                                  Row>
                             <ErkulLogo
                                 Style="height: 40px;"
                                 Class="my-n1"
@@ -110,7 +240,9 @@
 
                 <MudExpansionPanel Class="external-service-config" Disabled>
                     <TitleContent>
-                        <MudStack Justify="Justify.Center" Row>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.Center"
+                                  Row>
                             <MedRunnerLogo
                                 Style="height: 40px;"
                                 Class="my-n1"
