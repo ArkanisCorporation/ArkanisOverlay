@@ -1,0 +1,127 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+<MudDialog DefaultFocus="@DefaultFocus.FirstChild" ContentClass="py-2">
+    <TitleContent>
+        @Title
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Label="Location"
+                    Placeholder="Search for a game location"
+                    EntityCategory="@GameEntityCategory.Location"
+                    Accept="@AcceptEntity"
+                    @bind-Value="@TargetLocation"
+                    Disabled="@(TargetVehicle is not null)"/>
+            </MudItem>
+            @if (AllowVehicleDestination)
+            {
+                <MudItem xs="12">
+                    <HorizontalDivider Text="or"/>
+                </MudItem>
+                <MudItem xs="12">
+                    <InventoryEntrySelectBox
+                        T="@HangarInventoryEntry"
+                        Label="Vehicle"
+                        Placeholder="Search for a hangar vehicle"
+                        Accept="@AcceptVehicle"
+                        @bind-Value="@TargetVehicle"
+                        Disabled="@(TargetLocation is not null)"/>
+                </MudItem>
+            }
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@Submit"
+                   Disabled="@(TargetLocation is null && TargetVehicle is null)">
+            @SubmitLabel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public IGameEntity? TargetLocation { get; set; }
+
+    [Parameter]
+    public HangarInventoryEntry? TargetVehicle { get; set; }
+
+    [Parameter]
+    public required Func<IGameLocation, bool> AcceptLocation { get; set; }
+
+    [Parameter]
+    public required Func<HangarInventoryEntry, bool> AcceptVehicle { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Select Destination";
+
+    [Parameter]
+    public string SubmitLabel { get; set; } = "Continue";
+
+    [Parameter]
+    public bool AllowVehicleDestination { get; set; } = true;
+
+    private bool AcceptEntity(IGameEntity entity)
+        => entity is IGameLocation location && AcceptLocation(location);
+
+    private void Submit()
+    {
+        var result = this switch
+        {
+            { TargetVehicle: not null } => DialogResult.Ok(new InventoryPlacementVehicle(TargetVehicle)),
+            { TargetLocation: IGameLocation targetLocation } => DialogResult.Ok(new InventoryPlacementLocation(targetLocation)),
+            _ => DialogResult.Cancel(),
+        };
+        MudDialog.Close(result);
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<IInventoryPlacement?> ShowAsync(
+        IDialogService dialogService,
+        Parameters? parameters = null
+    )
+    {
+        parameters ??= Parameters.Default;
+        var dialogParameters = new DialogParameters<SelectInventoryPlacementDialog>
+        {
+            [nameof(TargetLocation)] = parameters.DefaultLocation,
+            [nameof(TargetVehicle)] = parameters.DefaultVehicle,
+            [nameof(AcceptLocation)] = parameters.AcceptLocation,
+            [nameof(AcceptVehicle)] = parameters.AcceptVehicle,
+            [nameof(AllowVehicleDestination)] = parameters.AllowVehicleDestination,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<SelectInventoryPlacementDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<IInventoryPlacement>();
+    }
+
+    public class Parameters
+    {
+        public static readonly Parameters Default = new();
+
+        public bool AllowVehicleDestination { get; set; } = true;
+
+        public IGameLocation? DefaultLocation { get; set; } = null;
+        public HangarInventoryEntry? DefaultVehicle { get; set; } = null;
+
+        public Func<IGameLocation, bool>? AcceptLocation { get; set; } = _ => true;
+        public Func<HangarInventoryEntry, bool>? AcceptVehicle { get; set; } = _ => true;
+    }
+
+}

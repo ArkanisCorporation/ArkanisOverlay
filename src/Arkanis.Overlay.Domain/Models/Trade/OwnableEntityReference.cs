@@ -8,6 +8,9 @@ public abstract class OwnableEntityReference(GameEntity entity)
 
     public GameEntity Entity { get; private set; } = entity;
 
+    public T As<T>() where T : GameEntity
+        => (T)Entity;
+
     public sealed class Item(GameItem entity) : OwnableEntityReference(entity)
     {
         public new UexId<GameItem> EntityId

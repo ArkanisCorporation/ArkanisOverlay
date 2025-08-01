@@ -20,7 +20,13 @@ using Services.Abstractions;
 [SuppressMessage("Performance", "CA1859:Use concrete types when possible for improved performance")]
 internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationService)
 {
-    private readonly ConcurrentDictionary<UexApiGameEntityId, IGameEntity> _cachedGameEntities = [];
+    private readonly ConcurrentDictionary<UexApiGameEntityId, IGameEntity> _cachedGameEntities = new(
+        new Dictionary<UexApiGameEntityId, IGameEntity>
+        {
+            [GameCompany.Unknown.Id] = GameCompany.Unknown,
+            [GameLocationEntity.Unknown.Id] = GameLocationEntity.Unknown,
+        }
+    );
 
     public async ValueTask<IGameEntity> ToGameEntityAsync<TSource>(TSource source) where TSource : class
     {
@@ -263,6 +269,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     }
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseStarSystemDTO.Name), "fullName")]
@@ -270,6 +277,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameStarSystem MapInternal(UniverseStarSystemDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniversePlanetDTO.Name), "fullName")]
@@ -278,6 +286,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GamePlanet MapInternal(UniversePlanetDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseMoonDTO.Name), "fullName")]
@@ -286,6 +295,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameMoon MapInternal(UniverseMoonDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), true)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseSpaceStationDTO.Name), "fullName")]
@@ -294,6 +304,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameSpaceStation MapInternal(UniverseSpaceStationDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), true)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseCityDTO.Name), "fullName")]
@@ -302,6 +313,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameCity MapInternal(UniverseCityDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapValue(nameof(GameLocationEntity.ImageUrl), null)]
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(UniverseOutpostDTO.Name), "fullName")]
@@ -310,6 +322,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private partial GameOutpost MapInternal(UniverseOutpostDTO source);
 
     [MapperIgnoreTarget(nameof(GameEntity.Name))]
+    [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapProperty(nameof(UniverseTerminalDTO.Name), "fullName")]
     [MapProperty(nameof(UniverseTerminalDTO.Nickname), "shortName")]
     [MapProperty(nameof(UniverseTerminalDTO.Code), "codeName")]
@@ -366,6 +379,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(VehicleDTO.Is_docking), nameof(GameVehicle.SupportsDocking))]
     [MapProperty(nameof(VehicleDTO.Is_loading_dock), nameof(GameVehicle.SupportsCargoDeck))]
     [MapProperty(nameof(VehicleDTO.Container_sizes), nameof(GameVehicle.MaxContainerSize), Use = nameof(MapMaxContainerSizeFromList))]
+    [MapProperty(nameof(VehicleDTO.Url_photo), nameof(GameVehicle.ImageUrl))]
     [MapPropertyFromSource("manufacturer", Use = nameof(GetCompanyForVehicle))]
     private partial GameSpaceShip MapInternalSpaceShip(VehicleDTO source);
 
@@ -377,6 +391,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapProperty(nameof(VehicleDTO.Is_docking), nameof(GameVehicle.SupportsDocking))]
     [MapProperty(nameof(VehicleDTO.Is_loading_dock), nameof(GameVehicle.SupportsCargoDeck))]
     [MapProperty(nameof(VehicleDTO.Container_sizes), nameof(GameVehicle.MaxContainerSize), Use = nameof(MapMaxContainerSizeFromList))]
+    [MapProperty(nameof(VehicleDTO.Url_photo), nameof(GameVehicle.ImageUrl))]
     [MapPropertyFromSource("manufacturer", Use = nameof(GetCompanyForVehicle))]
     private partial GameGroundVehicle MapInternalGroundVehicle(VehicleDTO source);
 

@@ -1,0 +1,115 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IInventoryManager InventoryManager
+@inject IAnalyticsEventReporter EventReporter
+@inject ILogger<InventoryEntryCreateDialog> Logger
+
+<MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
+    <TitleContent>
+        New Hangar Entry
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Label="Vehicle"
+                    EntityCategories="@( [GameEntityCategory.GroundVehicle, GameEntityCategory.SpaceShip])"
+                    Accept="@(x => x is GameVehicle)"
+                    @bind-Value="@TargetEntity"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12">
+                <GameEntitySelectBox
+                    Label="Hangar Location"
+                    Placeholder="Search for a game location"
+                    EntityCategory="@GameEntityCategory.Location"
+                    Accept="@(location => location is GameSpaceStation or GameCity or GameOutpost)"
+                    @bind-Value="TargetLocationEntity"/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField
+                    Label="Custom name"
+                    @bind-Value="@_nameTag"
+                    Clearable/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudCheckBox
+                    Label="Is a pledged vehicle"
+                    @bind-Value="@_isPledged"
+                    Color="@Color.Success"
+                    UncheckedColor="@Color.Default"/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@SubmitAsync"
+                   Disabled="@(!CanSubmit)">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private string? _nameTag;
+    private bool _isPledged;
+
+    private bool CanSubmit
+        => TargetEntity is not null;
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public IGameEntity? TargetEntity { get; set; }
+
+    [Parameter]
+    public IGameEntity? TargetLocationEntity { get; set; }
+
+    public GameVehicle? TargetVehicle
+        => TargetEntity as GameVehicle;
+
+    public IGameLocation? TargetLocation
+        => TargetLocationEntity as IGameLocation;
+
+    private async Task SubmitAsync()
+    {
+        if (TargetVehicle is null)
+        {
+            return;
+        }
+
+        var inventoryEntry = InventoryEntry.CreateAt(TargetVehicle, TargetLocation ?? GameLocationEntity.Unknown);
+        inventoryEntry.NameTag = _nameTag;
+        inventoryEntry.IsPledged = _isPledged;
+
+        await InventoryManager.AddOrUpdateEntryAsync(inventoryEntry);
+        await EventReporter.TrackEventAsync(InventoryEvents.AddItem());
+        MudDialog.Close(DialogResult.Ok(inventoryEntry));
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<HangarInventoryEntry?> ShowAsync(IDialogService dialogService, IGameEntity? entity = null, IGameLocation? location = null)
+    {
+        var dialogParameters = new DialogParameters<InventoryEntryCreateDialog>
+        {
+            [nameof(TargetEntity)] = entity,
+            [nameof(TargetLocationEntity)] = location,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<HangarEntryCreateDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<HangarInventoryEntry>();
+    }
+
+}

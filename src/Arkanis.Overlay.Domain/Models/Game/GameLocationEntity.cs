@@ -11,6 +11,8 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
 
     public GameLocationEntity? Parent { get; } = parent;
 
+    public bool HasHangar { get; set; }
+
     public string? ImageUrl { get; set; }
     public string? ImageAuthor { get; set; }
 
@@ -25,6 +27,16 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
     IGameLocation? IGameLocation.ParentLocation
         => Parent;
 
+    public IEnumerable<GameLocationEntity> CreatePathToRoot()
+    {
+        foreach (var parent in Parent?.CreatePathToRoot() ?? [])
+        {
+            yield return parent;
+        }
+
+        yield return this;
+    }
+
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         if (Parent is not null)
@@ -38,20 +50,10 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
         }
     }
 
-    public IEnumerable<GameLocationEntity> CreatePathToRoot()
-    {
-        foreach (var parent in Parent?.CreatePathToRoot() ?? [])
-        {
-            yield return parent;
-        }
-
-        yield return this;
-    }
-
     private sealed class UnknownLocation() : GameLocationEntity(UexApiGameEntityId.Create<GameLocationEntity>(0), null)
     {
         public static GameLocationEntity Instance { get; } = new UnknownLocation();
 
-        public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode("Unknown Location", "UNK?"));
+        public override GameEntityName Name { get; } = new(new GameEntityName.Name("Unknown Location"));
     }
 }

@@ -1,0 +1,59 @@
+<MudStack AlignItems="@AlignItems.Center"
+          Spacing="@Spacing"
+          Class="@Class"
+          Row>
+    @if (Model is ILocationInventory locationInventory)
+    {
+        @if (!WithoutPreposition)
+        {
+            <MudText Typo="@Typo" Class="text-secondary">
+                at
+            </MudText>
+        }
+
+        <GameEntityNamePart
+            Model="@locationInventory.Location.Name.MainContent"
+            Typo="@Typo"/>
+    }
+    else if (Model is IVehicleInventory vehicleInventory)
+    {
+        @if (!WithoutPreposition)
+        {
+            <MudText Typo="@Typo" Class="text-secondary">
+                from
+            </MudText>
+        }
+
+        <InventoryEntryLabel
+            Model="@vehicleInventory.HangarEntry"
+            Typo="@Typo"
+            WithoutLocation/>
+    }
+    else
+    {
+        <MudText Typo="@Typo" Class="text-secondary">
+            N/A
+        </MudText>
+    }
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required IInventoryPlacement Model { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; } = 1;
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.inherit;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public bool WithoutPreposition { get; set; }
+
+}
