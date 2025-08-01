@@ -450,7 +450,7 @@ namespace Arkanis.Overlay.External.UEX.Abstractions
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="UexApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<UexApiResponse<GetUserOkResponse>> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<UexApiResponse<GetUserOkResponse>> GetUserAsync(string username, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>

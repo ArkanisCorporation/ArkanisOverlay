@@ -175,6 +175,26 @@
     }
 }
 
+.mud-paper .mud-expansion-panels {
+    .mud-expand-panel.mud-panel-expanded {
+        margin-bottom: 0;
+    }
+
+    .mud-expand-panel-content {
+        margin-top: 24px;
+    }
+
+    .mud-collapse-container.mud-collapse-entering,
+    .mud-collapse-container.mud-collapse-entered {
+        border-top: 1px solid var(--mud-palette-lines-default);
+        border-bottom: 1px solid var(--mud-palette-lines-default);
+    }
+
+    .mud-collapse-container.mud-collapse-exiting {
+        border-top: 1px solid var(--mud-palette-lines-default);
+    }
+}
+
 .mud-expand-panel.mud-panel-expanded.mud-disabled {
     .mud-icon-root,
     .mud-svg-icon,
