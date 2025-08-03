@@ -62,7 +62,6 @@ public class OverlayModules
             Url = "/hangar",
             Name = "Hangar",
             Icon = Outlined.GarageDoor,
-            Disabled = true,
         },
         new()
         {

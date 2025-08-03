@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 internal abstract class InventoryEntryEntityBase(InventoryEntryBase.EntryType entryType) : IDatabaseEntity<InventoryEntryId>
 {
+    public const string UexReferenceIdColumnName = "UexReferenceId";
+
     private readonly string? _discriminator;
 
     public InventoryEntryBase.EntryType EntryType { get; private init; } = entryType;
@@ -112,6 +114,90 @@ internal sealed class LocationInventoryEntryEntity() : InventoryEntryEntityBase(
 
             builder.Property(x => x.LocationId)
                 .HasConversion<UexApiDomainIdConverter>();
+        }
+    }
+}
+
+[Index(nameof(LocationId))]
+internal sealed class HangarInventoryEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.Hangar), IDatabaseEntityWithLocation
+{
+    public string? NameTag { get; set; }
+    public bool IsPledged { get; set; }
+
+    public List<VehicleModuleEntryEntity> Modules { get; set; } = [];
+    public List<VehicleInventoryEntryEntity> Inventory { get; set; } = [];
+
+    [Column(UexReferenceIdColumnName)]
+    public UexApiGameEntityId? UexHangarEntryId { get; set; }
+
+    [Column(nameof(LocationId))]
+    public required UexApiGameEntityId LocationId { get; set; }
+
+    internal new class Configuration : IEntityTypeConfiguration<HangarInventoryEntryEntity>
+    {
+        public void Configure(EntityTypeBuilder<HangarInventoryEntryEntity> builder)
+        {
+            builder.HasBaseType<InventoryEntryEntityBase>()
+                .HasDiscriminator(x => x.Discriminator)
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.Hangar));
+
+            builder.Property(x => x.LocationId)
+                .HasConversion<UexApiDomainIdConverter>();
+
+            builder.Property(x => x.UexHangarEntryId)
+                .HasConversion<UexApiDomainIdConverter>();
+        }
+    }
+}
+
+internal sealed class VehicleModuleEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.VehicleModule)
+{
+    [Column(nameof(HangarEntryId))]
+    public required InventoryEntryId HangarEntryId { get; set; }
+
+    public HangarInventoryEntryEntity? HangarEntry { get; set; }
+
+    internal new class Configuration : IEntityTypeConfiguration<VehicleModuleEntryEntity>
+    {
+        public void Configure(EntityTypeBuilder<VehicleModuleEntryEntity> builder)
+        {
+            builder.HasBaseType<InventoryEntryEntityBase>()
+                .HasDiscriminator(x => x.Discriminator)
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.VehicleModule));
+
+            builder.Property(x => x.HangarEntryId)
+                .HasConversion<GuidDomainIdConverter<InventoryEntryId>>();
+
+            builder.HasOne(x => x.HangarEntry)
+                .WithMany(x => x.Modules)
+                .HasForeignKey(x => x.HangarEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}
+
+internal sealed class VehicleInventoryEntryEntity() : InventoryEntryEntityBase(InventoryEntryBase.EntryType.VehicleInventory)
+{
+    [Column(nameof(HangarEntryId))]
+    public required InventoryEntryId HangarEntryId { get; set; }
+
+    public HangarInventoryEntryEntity? HangarEntry { get; set; }
+
+    internal new class Configuration : IEntityTypeConfiguration<VehicleInventoryEntryEntity>
+    {
+        public void Configure(EntityTypeBuilder<VehicleInventoryEntryEntity> builder)
+        {
+            builder.HasBaseType<InventoryEntryEntityBase>()
+                .HasDiscriminator(x => x.Discriminator)
+                .HasValue(CreateDiscriminatorValueFor(InventoryEntryBase.EntryType.VehicleInventory));
+
+            builder.Property(x => x.HangarEntryId)
+                .HasConversion<GuidDomainIdConverter<InventoryEntryId>>();
+
+            builder.HasOne(x => x.HangarEntry)
+                .WithMany(x => x.Inventory)
+                .HasForeignKey(x => x.HangarEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
