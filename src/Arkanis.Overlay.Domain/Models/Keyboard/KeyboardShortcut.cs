@@ -17,17 +17,19 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
     public bool IsEmpty
         => PressedKeys.Count == 0;
 
+    private bool HasStandaloneKey
+        => PressedKeys.Intersect(KeyboardKeyUtils.GetKeys(KeyboardKeyCategory.ValidStandalone)).Any();
+
+    private bool HasModifierKey
+        => PressedKeys.Select(KeyboardKeyUtils.GetCategory).Any(category => category == KeyboardKeyCategory.Modifier);
+
+    private bool HasNonModifierKey
+        => PressedKeys.Select(KeyboardKeyUtils.GetCategory).Any(category => category != KeyboardKeyCategory.Modifier);
+
     public bool IsValid
-    {
-        get
-        {
-            var categoryCounts = PressedKeys.Select(KeyboardKeyUtils.GetCategory).GroupBy(key => key).ToDictionary(x => x.Key, x => x.Count());
-            var modifierKeyCount = categoryCounts.GetValueOrDefault(KeyboardKeyCategory.Modifier, 0);
-            return IsEmpty
-                   || modifierKeyCount >= 2
-                   || (modifierKeyCount == 1 && categoryCounts.Count >= 2 && categoryCounts.Values.Sum() == 2);
-        }
-    }
+        => IsEmpty
+           || HasStandaloneKey
+           || (HasModifierKey && HasNonModifierKey);
 
     public string Description
         => new StringBuilder().AppendJoin(' ', FormatParts).ToString();

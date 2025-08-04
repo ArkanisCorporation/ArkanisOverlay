@@ -289,7 +289,12 @@ public static class KeyboardKeyUtils
         [KeyboardKey.Unknown] = KeyboardKeyCategory.Unknown,
     };
 
-    private static HashSet<KeyboardKey> GetKeys(KeyboardKeyCategory category)
+    private static readonly HashSet<KeyboardKey> ValidStandalone =
+        FunctionKeys
+            .Union(MediaKeys)
+            .ToHashSet();
+
+    public static HashSet<KeyboardKey> GetKeys(KeyboardKeyCategory category)
         => category switch
         {
             KeyboardKeyCategory.Unknown => OtherKeys,
@@ -297,12 +302,13 @@ public static class KeyboardKeyUtils
             KeyboardKeyCategory.Lock => LockKeys,
             KeyboardKeyCategory.Navigation => NavigationKeys,
             KeyboardKeyCategory.Editing => EditingKeys,
-            KeyboardKeyCategory.Function => FunctionKeys, // standalone
+            KeyboardKeyCategory.Function => FunctionKeys,
             KeyboardKeyCategory.Alphanumeric => AlphanumericKeys,
             KeyboardKeyCategory.Numpad => NumpadKeys,
             KeyboardKeyCategory.Symbol => SymbolKeys,
-            KeyboardKeyCategory.Media => MediaKeys, // standalone
+            KeyboardKeyCategory.Media => MediaKeys,
             KeyboardKeyCategory.Whitespace => WhitespaceKeys,
+            KeyboardKeyCategory.ValidStandalone => ValidStandalone,
             _ => [],
         };
 
