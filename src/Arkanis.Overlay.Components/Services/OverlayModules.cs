@@ -37,7 +37,7 @@ public class OverlayModules(IOverlayControls overlayControls)
             Name = "Close",
             Icon = Outlined.Close,
             Color = Color.Error,
-            Action = async (activationType, cancellationToken) =>
+            Action = async (activationType, _) =>
             {
                 // let the global keybindings close the overlay when invoked via hotkey
                 if (activationType == ActivationType.Hotkey)
