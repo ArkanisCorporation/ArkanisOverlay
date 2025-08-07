@@ -148,7 +148,7 @@ public sealed partial class OverlayWindow : IDisposable
                     return;
                 }
 
-                if (!_windowTracker.IsWindowFocused())
+                if (!_windowTracker.IsWindowFocused)
                 {
                     return;
                 }
