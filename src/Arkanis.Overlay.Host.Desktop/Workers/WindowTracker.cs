@@ -77,6 +77,8 @@ public sealed class WindowTracker : IHostedService, IDisposable
     public Size CurrentWindowSize { get; private set; }
     public Point CurrentWindowPosition { get; private set; }
 
+    public bool IsWindowFocused { get; private set; }
+
     public void Dispose()
     {
         StopProcessExitWatcher();
@@ -305,13 +307,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
         return dpiX / DefaultDpi;
     }
 
-    private bool IsWindowFocussed()
-    {
-        var activeWindowHWnd = PInvoke.GetForegroundWindow();
-
-        return activeWindowHWnd == _currentWindowHWnd && activeWindowHWnd != HWND.Null;
-    }
-
     private void EmitInitialState()
     {
         _logger.LogDebug("Emitting initial window state");
@@ -324,8 +319,9 @@ public sealed class WindowTracker : IHostedService, IDisposable
         CurrentWindowPosition = windowPosition;
         WindowPositionChanged?.Invoke(this, windowPosition);
 
-        var windowFocussed = IsWindowFocussed();
-        WindowFocusChanged?.Invoke(this, windowFocussed);
+        var windowFocused = GetWindowFocus();
+        IsWindowFocused = windowFocused;
+        WindowFocusChanged?.Invoke(this, windowFocused);
     }
 
     private void StartWindowStateTracking()
@@ -596,7 +592,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
         }
     }
 
-    public bool IsWindowFocused()
+    private bool GetWindowFocus()
     {
         var hWnd = PInvoke.GetForegroundWindow();
         var isFocused = _currentWindowHWnd != HWND.Null && hWnd == _currentWindowHWnd;
@@ -646,6 +642,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
             (IntPtr)_currentWindowHWnd,
             (IntPtr)currentForegroundWindowHWnd
         );
+        IsWindowFocused = isFocused;
         WindowFocusChanged?.Invoke(this, isFocused);
     }
 }
