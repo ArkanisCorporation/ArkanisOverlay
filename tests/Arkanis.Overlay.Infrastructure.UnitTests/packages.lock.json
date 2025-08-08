@@ -499,6 +499,11 @@
           "Humanizer.Core": "[2.14.1]"
         }
       },
+      "JetBrains.Annotations": {
+        "type": "Transitive",
+        "resolved": "2025.2.0",
+        "contentHash": "2BvMkOSW+50EbQFhWFIPWTqmcDLiyyjwkMN7lN386bhP2vN/7ts5t59qu11HtenmHFxqDzaD8J1fFoh+QTOzVA=="
+      },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
         "resolved": "8.0.16",
@@ -917,6 +922,7 @@
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
+          "JetBrains.Annotations": "[2025.2.0, )",
           "Microsoft.AspNetCore.Http.Extensions": "[2.3.0, )",
           "Microsoft.Data.Sqlite": "[8.0.16, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.16, )",
