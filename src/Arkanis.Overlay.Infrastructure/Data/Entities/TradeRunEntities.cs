@@ -134,6 +134,7 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
 
     public abstract class SaleStage : Stage
     {
+        public DateTimeOffset? VehicleStoredAt { get; set; }
         public DateTimeOffset? SoldAt { get; set; }
 
         internal new class Configuration : IEntityTypeConfiguration<SaleStage>

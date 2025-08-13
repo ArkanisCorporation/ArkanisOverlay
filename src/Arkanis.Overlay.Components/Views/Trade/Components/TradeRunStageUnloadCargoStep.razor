@@ -95,7 +95,9 @@
 {
 
     private bool IsCompleted
-        => Stage.TransferredAt is not null;
+        => Stage.CargoTransferType is GameCargoTransferType.Manual || IsPostTrade
+            ? Stage.TransferredAt is not null
+            : Stage.VehicleStoredAt is not null;
 
     private bool IsDisabled
         => IsCompleted
@@ -145,6 +147,10 @@
         if (Stage.CargoTransferType is GameCargoTransferType.Manual || IsPostTrade)
         {
             Stage.TransferredAt = DateTimeOffset.Now;
+        }
+        else
+        {
+            Stage.VehicleStoredAt = DateTimeOffset.Now;
         }
 
         await NextStepAsync();

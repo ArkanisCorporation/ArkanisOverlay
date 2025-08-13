@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Arkanis.Overlay.Infrastructure.Data.Migrations
+namespace Arkanis.Overlay.Infrastructure.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    partial class OverlayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250719195903_AddMissingVehicleStorageStep")]
+    partial class AddMissingVehicleStorageStep
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");

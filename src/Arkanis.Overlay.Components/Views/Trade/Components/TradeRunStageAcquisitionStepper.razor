@@ -1,7 +1,7 @@
 @inherits TradeRunStageComponent<TradeRun.AcquisitionStage>
 @inject IAnalyticsEventReporter EventReporter
 
-<MudStepper>
+<MudStepper Class="trade-run-steps">
     <ChildContent>
         @if (Stage is TradeRun.TerminalPurchaseStage terminalPurchase)
         {

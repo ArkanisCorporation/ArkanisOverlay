@@ -1,7 +1,6 @@
 @inherits TradeRunComponent
 @inject IDialogService DialogService
 @inject IAnalyticsEventReporter EventReporter
-@inject NavigationManager NavigationManager
 
 <MudStack AlignItems="@AlignItems.Center"
           Class="mr-4"
@@ -62,6 +61,12 @@
 @code
 {
 
+    /// <summary>
+    ///     Allows propagation of changes not resulting in trade run database update.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
     private async Task DeleteForeverAsync()
     {
         var options = new MessageBoxOptions
@@ -83,7 +88,7 @@
 
             await TradeRunManager.DeleteRunAsync(TradeRun.Id, CancellationToken.None);
             await EventReporter.TrackEventAsync(TradeRunEvents.AbandonTradeRun());
-            NavigationManager.Refresh();
+            await OnChange.InvokeAsync();
         }
     }
 

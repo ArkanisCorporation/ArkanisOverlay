@@ -72,7 +72,7 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
                     currentServiceState
                 );
             }
-            else if (currentDataState is DataProcessingErrored)
+            else if (currentDataState is DataProcessingErrored or DataMissing { FastTrackedInitialization: true })
             {
                 logger.LogWarning(
                     "Permitting use of expired cache for {Type} entities due to the current internal data state: {DataState}",
@@ -90,29 +90,26 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
         var cachedServiceState = cacheRecord.DataAvailableState;
         var cachedDataState = new DataCached(cachedServiceState, cachedServiceState.UpdatedAt, cacheRecord.CachedUntil);
 
-        if (currentDataState is DataLoaded loadedData)
-        {
-            if (currentServiceState is ServiceAvailableState availableState)
-            {
-                if (loadedData.SourcedState.Version != availableState.Version)
-                {
-                    // the repository already has some data, but the sourced game version does not match
-                    return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
-                }
-
-                // the repository already has some data, cache did not expire yet and the sourced game version matches
-                return new AlreadyUpToDateWithCache<TSource>(cachedDataState);
-            }
-        }
-
         if (cacheRecord.Content.Deserialize<TSource>() is not { } cachedData)
         {
             // the cached data is not valid
             return new UnprocessableDataCache<TSource>();
         }
 
-        // the cached data is needed
-        return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
+        if (currentDataState is not DataLoaded loadedData
+            || currentServiceState is not ServiceAvailableState availableState)
+        {
+            return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
+        }
+
+        if (loadedData.SourcedState.Version != availableState.Version)
+        {
+            // the repository already has some data, but the sourced game version does not match
+            return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
+        }
+
+        // the repository already has some data, cache did not expire yet and the sourced game version matches
+        return new AlreadyUpToDateWithCache<TSource>(cachedData, cachedDataState);
     }
 
     private string CreateKey<TSource>()

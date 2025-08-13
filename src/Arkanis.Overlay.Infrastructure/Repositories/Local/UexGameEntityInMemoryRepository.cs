@@ -17,7 +17,8 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
     where T : class, IGameEntity
 {
     internal Dictionary<UexApiGameEntityId, T> Entities { get; set; } = [];
-    public InternalDataState DataState { get; private set; } = DataMissing.Instance;
+
+    public InternalDataState DataState { get; private set; } = DataMissing.Initial;
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {

@@ -15,6 +15,18 @@ public abstract record GameEntitySyncData<T> where T : class, IGameEntity
                     loaded.GameEntities.Union(otherLoaded.GameEntities),
                     loaded.DataState // TODO: Merge / Select of the two
                 ),
+                SyncDataUpToDate<T> otherUpToDate => new LoadedSyncData<T>(
+                    loaded.GameEntities.Union(otherUpToDate.GameEntities),
+                    loaded.DataState // TODO: Merge / Select of the two
+                ),
+                _ => this,
+            },
+            SyncDataUpToDate<T> upToDate => other switch
+            {
+                LoadedSyncData<T> otherLoaded => otherLoaded.MergeWith(upToDate),
+                SyncDataUpToDate<T> otherUpToDate => new SyncDataUpToDate<T>(
+                    otherUpToDate.GameEntities.Union(otherUpToDate.GameEntities)
+                ),
                 _ => this,
             },
             _ => other switch
@@ -26,7 +38,7 @@ public abstract record GameEntitySyncData<T> where T : class, IGameEntity
         };
 }
 
-public sealed record SyncDataUpToDate<T> : GameEntitySyncData<T> where T : class, IGameEntity;
+public sealed record SyncDataUpToDate<T>(IAsyncEnumerable<T> GameEntities) : GameEntitySyncData<T> where T : class, IGameEntity;
 
 public sealed record MissingSyncData<T> : GameEntitySyncData<T> where T : class, IGameEntity
 {

@@ -1,4 +1,5 @@
 using System.Globalization;
+using Arkanis.Overlay.Common.Extensions;
 using Arkanis.Overlay.Host.Server;
 using Arkanis.Overlay.Host.Server.Components;
 using Arkanis.Overlay.Infrastructure.Data;
@@ -11,6 +12,7 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.UseCommonServices((environment, options) => options.UseSeqLogging = environment.IsDevelopment());
 builder.Services.AddAllServerHostServices(builder.Configuration);
 
 var app = builder.Build();

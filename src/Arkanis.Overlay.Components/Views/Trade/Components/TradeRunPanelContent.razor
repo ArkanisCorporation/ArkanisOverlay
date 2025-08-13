@@ -1,6 +1,7 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @inherits TradeRunComponent
+@inject NavigationManager NavigationManager
 @inject IInventoryManager InventoryManager
 @inject IAnalyticsEventReporter EventReporter
 @inject IDialogService DialogService
@@ -19,8 +20,7 @@
             _ = UpdateRunAsync();
         }
 
-        <MudExpansionPanel @key="@stage"
-                           Tag="@stage"
+        <MudExpansionPanel Tag="@stage"
                            Gutters="false"
                            Disabled="@isIncomplete"
                            Expanded="@isCurrentlyInProgress"
@@ -152,6 +152,7 @@
         TradeRun.FinalizedAt = DateTimeOffset.Now;
         await UpdateRunAsync();
         await EventReporter.TrackEventAsync(TradeRunEvents.FinalizeTradeRun());
+        NavigationManager.NavigateTo(LinkHelper.ToTradeLedger(TradeRun.Id));
     }
 
     private async Task FinalizeRunCargoKeptAsync()

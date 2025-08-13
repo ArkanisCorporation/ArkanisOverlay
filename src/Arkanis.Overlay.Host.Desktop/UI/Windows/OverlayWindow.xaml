@@ -15,8 +15,9 @@
         Focusable="True"
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=BlazorWebView}"
-        xmlns:icon="https://github.com/nullsoftware/TrayIcon"
-        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI">
+        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI"
+        xmlns:chapter="clr-namespace:Chapter.Net.WPF.SystemTray;assembly=Chapter.Net.WPF.SystemTray"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <Window.Background>
         <SolidColorBrush Color="#010000" Opacity="0.05" />
     </Window.Background>
@@ -33,22 +34,20 @@
             </blazor:BlazorWebView.RootComponents>
         </blazor:BlazorWebView>
     </Grid>
-    <icon:TrayIconHandlers.TrayIcons>
-        <icon:TrayIcon
-            Title="Arkanis Overlay"
-            IconSource="../../Resources/favicon.ico"
-            NotificationServiceMemberPath="NotificationService"
-            ContextMenuVariation="ContextMenuStrip">
+    <chapter:Tray.TrayIcon>
 
-            <icon:TrayIcon.ContextMenu>
+        <chapter:TrayIcon Icon="{x:Static sys:Environment.ProcessPath}"
+                          OpenWindowOnClick="False"
+                          HideIfWindowShown="False"
+                          ToolTip="ArkanisOverlay">
+            <chapter:TrayIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="About" Click="OnAboutCommand" />
                     <MenuItem Header="Preferences" Click="OnPreferenceCommand" />
                     <Separator />
                     <MenuItem Header="Exit" Click="OnExitCommand" />
                 </ContextMenu>
-            </icon:TrayIcon.ContextMenu>
-        </icon:TrayIcon>
-
-    </icon:TrayIconHandlers.TrayIcons>
+            </chapter:TrayIcon.ContextMenu>
+        </chapter:TrayIcon>
+    </chapter:Tray.TrayIcon>
 </Window>

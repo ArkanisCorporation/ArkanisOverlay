@@ -10,5 +10,5 @@ public class UexApiOptions
     public string? ApplicationToken { get; set; }
 
     public string? UserToken { get; set; }
-    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(6);
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(15);
 }

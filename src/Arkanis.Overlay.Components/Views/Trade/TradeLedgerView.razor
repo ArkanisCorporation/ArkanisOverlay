@@ -28,6 +28,14 @@
                 height: fit-content;
             }
         }
+
+        tbody tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
+            content: "Day Total";
+        }
+
+        tfoot tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
+            content: "Total";
+        }
     }
 </style>
 
@@ -215,6 +223,9 @@
 @code
 {
 
+    [SupplyParameterFromQuery]
+    public Guid? TradeRunId { get; set; }
+
     private Dictionary<TradeRunId, bool> TradeRunExpanded { get; } = [];
 
     private List<TradeRun> TradeRuns { get; set; } = [];
@@ -226,6 +237,11 @@
         var runs = await TradeRunManager.GetAllRunsAsync();
         runs.ForEach(run => TradeRunExpanded[run.Id] = false);
         TradeRuns = runs.OrderByDescending(x => x.CreatedAt).ToList();
+
+        if (TradeRunId is not null)
+        {
+            TradeRunExpanded[new TradeRunId(TradeRunId.Value)] = true;
+        }
     }
 
 }

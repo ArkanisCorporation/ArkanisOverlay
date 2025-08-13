@@ -17,6 +17,8 @@ public interface IGameLocation : IGameEntity, ISearchableRecursively
     ISearchableRecursively? ISearchableRecursively.Parent
         => ParentLocation;
 
+    IEnumerable<GameLocationEntity> CreatePathToRoot();
+
     bool IsOrContains(IGameLocation location)
         => Id == location.Id || Contains(location);
 

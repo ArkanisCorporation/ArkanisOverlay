@@ -69,6 +69,10 @@ public sealed class JsComponentInterop<T>(IJSRuntime jsRuntime, T component) : I
                 await _module.DisposeAsync();
             }
         }
+        catch (JSException)
+        {
+            // JS interop error (target object may have already been disposed on page reload)
+        }
         catch (JSDisconnectedException)
         {
             // JS no longer available

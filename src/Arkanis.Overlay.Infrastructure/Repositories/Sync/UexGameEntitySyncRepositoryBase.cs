@@ -117,10 +117,10 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             return CreateSyncData(loadedData.Data, loadedData.State.SourcedState);
         }
 
-        if (cachedData is AlreadyUpToDateWithCache<UexApiResponse<ICollection<TSource>>>)
+        if (cachedData is AlreadyUpToDateWithCache<UexApiResponse<ICollection<TSource>>> currentData)
         {
             Logger.LogDebug("Loaded data for {Type} are already up to date: {@CachedData}", DomainType.Name, cachedData);
-            return new SyncDataUpToDate<TDomain>();
+            return CreateSyncData(currentData.Data, currentData.State.SourcedState);
         }
 
         Logger.LogWarning("Could not load cached {Type} entities: {@CachedData}", DomainType.Name, cachedData);

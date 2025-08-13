@@ -6,9 +6,21 @@
     {
         <span>@PrefixContent</span>
     }
-    <MudTooltip Text="@TooltipContent" Placement="@Placement.Top">
-        <span>@Model.Code</span>
-    </MudTooltip>
+    <Tooltip>
+        <TooltipContent>
+            @if (TooltipContent is not null)
+            {
+                @TooltipContent
+            }
+            else
+            {
+                @DefaultTooltipText
+            }
+        </TooltipContent>
+        <ChildContent>
+            <span>@Model.Code</span>
+        </ChildContent>
+    </Tooltip>
 </MudText>
 
 @code
@@ -38,7 +50,10 @@
     [Parameter]
     public RenderFragment? PrefixContent { get; set; }
 
-    public string TooltipContent
+    [Parameter]
+    public RenderFragment? TooltipContent { get; set; }
+
+    public string DefaultTooltipText
         => Model is GameEntityName.Name name
             ? name.FullName
             : Model.Code;

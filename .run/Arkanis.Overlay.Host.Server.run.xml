@@ -15,14 +15,14 @@
     </method>
   </configuration>
   <configuration default="false" name="Arkanis.Overlay.Host.Server" type="DotNetProject" factoryName=".NET Project">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Server/debug/Arkanis.Overlay.Host.Server.exe" />
+    <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Server/release/Arkanis.Overlay.Host.Server.exe" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Server" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <envs>
       <env name="DOTNET_ENVIRONMENT" value="Development" />
     </envs>
-    <option name="USE_EXTERNAL_CONSOLE" value="1" />
+    <option name="USE_EXTERNAL_CONSOLE" value="0" />
     <option name="ENV_FILE_PATHS" value="" />
     <option name="REDIRECT_INPUT_PATH" value="" />
     <option name="PTY_MODE" value="Auto" />
@@ -36,7 +36,9 @@
     <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
     <option name="PROJECT_KIND" value="DotNetCore" />
     <option name="PROJECT_TFM" value="net8.0" />
+    <browser url="http://localhost:5341/#/events?deletionEnabled&amp;tail" start="true" />
     <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seq Log Viewer" run_configuration_type="docker-deploy" />
       <option name="Build" />
     </method>
   </configuration>

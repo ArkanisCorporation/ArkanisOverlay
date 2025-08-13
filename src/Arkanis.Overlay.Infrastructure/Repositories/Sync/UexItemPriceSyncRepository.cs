@@ -13,9 +13,9 @@ internal class UexItemPriceSyncRepository(
     GameEntityRepositoryDependencyResolver dependencyResolver,
     IUexItemsApi itemsApi,
     UexServiceStateProvider stateProvider,
-    IExternalSyncCacheProvider<UexCommodityPriceSyncRepository> cacheProvider,
+    IExternalSyncCacheProvider<UexItemPriceSyncRepository> cacheProvider,
     UexApiDtoMapper mapper,
-    ILogger<UexCommodityPriceSyncRepository> logger
+    ILogger<UexItemPriceSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<ItemPriceBriefDTO, GameEntityTradePrice>(stateProvider, cacheProvider, mapper, logger)
 {
     protected override double CacheTimeFactor

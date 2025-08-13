@@ -5,4 +5,5 @@ public static class PageUrls
     public const string Index = "/";
     public const string Overlay = "/search";
     public const string Inventory = "/inventory";
+    public const string Trade = "/trade";
 }

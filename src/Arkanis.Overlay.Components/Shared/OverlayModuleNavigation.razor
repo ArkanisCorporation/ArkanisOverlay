@@ -24,7 +24,8 @@
 
 <MudTabs @ref="@_tabs"
          Class="with-badges navigation-tabs"
-         ActivePanelIndex="@ActiveModuleIndex">
+         @bind-ActivePanelIndex:get="@ActiveModuleIndex"
+         @bind-ActivePanelIndex:set="@ActivateModuleByIndex">
     @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
         var moduleShortcut = GetKeyFor(moduleIndex, module);
@@ -34,13 +35,12 @@
 
         <MudTabPanel @key="@module.Url"
                      Icon="@module.Icon"
-                     OnClick="@GetActivationCallbackFor(module)"
                      Disabled="@module.Disabled">
             <TabWrapperContent>
                 <KeyboardShortcutBadge @key="@module.Name"
                                        Key="@moduleShortcut"
                                        IsActive="@isShortcutAvailable"
-                                       OnKeyPress="@GetActivationCallbackFor(module)"
+                                       OnKeyPress="@(() => ActivateModuleByIndex(moduleIndex))"
                                        Origin="@KeybindsOrigin"
                                        Elevation="4"
                                        DoNotOverlap="@DoNotOverlapKeybinds">
@@ -71,6 +71,7 @@
 {
 
     private MudTabs? _tabs;
+    private OverlayModules.Entry[] _modules = [];
     private readonly ConcurrentDictionary<int, int> _moduleUpdates = [];
     private readonly ConcurrentDictionary<int, IDisposable> _moduleChangeRegistrations = [];
     private string? _currentUri;
@@ -121,7 +122,8 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        OverlayModules.GetAll().ForEach(RegisterForChanges);
+        _modules = OverlayModules.GetAll().ToArray();
+        _modules.ForEach(RegisterForChanges);
     }
 
     protected override async Task OnParametersSetAsync()
@@ -168,11 +170,9 @@
                ? KeyboardKey.F1 + index
                : KeyboardKey.Unknown);
 
-    private EventCallback GetActivationCallbackFor(OverlayModules.Entry module)
-        => EventCallback.Factory.Create(this, () => Activate(module));
-
-    private void Activate(OverlayModules.Entry module)
+    private void ActivateModuleByIndex(int moduleIndex)
     {
+        var module = _modules[moduleIndex];
         CurrentUri = module.GetAbsoluteUri(NavigationManager);
         NavigationManager.NavigateTo(module.Url);
     }

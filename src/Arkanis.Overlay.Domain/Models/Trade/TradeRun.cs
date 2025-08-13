@@ -386,6 +386,7 @@ public class TradeRun
 
     public abstract class SaleStage : Stage
     {
+        public DateTimeOffset? VehicleStoredAt { get; set; }
         public DateTimeOffset? SoldAt { get; set; }
 
         public override GameCurrency Balance

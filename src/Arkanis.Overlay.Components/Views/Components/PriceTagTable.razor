@@ -43,7 +43,35 @@
                 <MudTd>
                     @if (priceTag is KnownPriceTagWithLocation priceTagWithLocation)
                     {
-                        <GameLocationLabel Model="@priceTagWithLocation.Location"/>
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.SpaceBetween"
+                                  Spacing="1"
+                                  Row>
+                            <GameLocationLabel Model="@priceTagWithLocation.Location"/>
+                            @if (SearchContext?.CurrentLocation is { } location)
+                            {
+                                if (location.IsOrContains(priceTagWithLocation.Location))
+                                {
+                                    <Tooltip Text="Within filtered location"
+                                             Style="height: 20px">
+                                        <MudIcon
+                                            Size="@Size.Small"
+                                            Icon="@Icons.Material.Filled.LocationOn"
+                                            Color="@Color.Success"/>
+                                    </Tooltip>
+                                }
+                                else
+                                {
+                                    <Tooltip Text="Not within filtered location"
+                                             Style="height: 20px">
+                                        <MudIcon
+                                            Size="@Size.Small"
+                                            Icon="@Icons.Material.Filled.LocationOff"
+                                            Color="@Color.Default"/>
+                                    </Tooltip>
+                                }
+                            }
+                        </MudStack>
                     }
                     else
                     {
@@ -82,6 +110,9 @@
 
 @code
 {
+
+    [CascadingParameter]
+    public OverlaySearchContext? SearchContext { get; set; }
 
     [Parameter]
     [EditorRequired]

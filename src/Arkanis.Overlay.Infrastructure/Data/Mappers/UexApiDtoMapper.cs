@@ -463,6 +463,12 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetEntityForMarketPrice))]
     private partial GameEntityMarketSalePrice MapInternalSalePrice(MarketplaceListingDTO source);
 
+    [UserMapping(Default = true)]
+    private GamePadSize MapPadSize(string? source)
+        => !string.IsNullOrWhiteSpace(source)
+            ? Enum.Parse<GamePadSize>(source, true)
+            : GamePadSize.Unknown;
+
     private GameContainerSize MapMaxContainerSizeFromList(string? source)
         => !string.IsNullOrEmpty(source)
             ? source.Split(',').Select(Enum.Parse<GameContainerSize>).Max()

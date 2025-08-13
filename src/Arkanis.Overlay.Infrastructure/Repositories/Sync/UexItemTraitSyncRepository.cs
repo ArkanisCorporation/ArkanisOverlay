@@ -59,6 +59,9 @@ internal class UexItemTraitSyncRepository(
         }
     }
 
+    protected override bool IncludeSourceModel(ItemAttributeDTO sourceModel)
+        => sourceModel is { Value: not null };
+
     protected override UexApiGameEntityId? GetSourceApiId(ItemAttributeDTO source)
         => source.Id is not null
             ? Mapper.CreateGameEntityId(source, x => x.Id)
