@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Arkanis.Overlay.Host.Desktop" type="DotNetProject" factoryName=".NET Project">
-    <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Desktop/release/ArkanisOverlay.exe" />
+    <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Desktop/debug/ArkanisOverlay.exe" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Desktop" />
     <option name="PASS_PARENT_ENVS" value="1" />
