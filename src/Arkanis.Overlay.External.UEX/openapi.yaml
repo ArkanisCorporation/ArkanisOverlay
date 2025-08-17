@@ -3588,6 +3588,8 @@ components:
           type: string
         url_hotsite:
           type: string
+        url_photo:
+          type: string
         url_photos:
           type: string
         url_store:

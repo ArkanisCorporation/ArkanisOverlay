@@ -37,4 +37,6 @@ public sealed record SearchableLocation(IGameLocation Location) : SearchableTrai
 
 public sealed record SearchableManufacturer(GameCompany Manufacturer) : SearchableTrait;
 
+public sealed record SearchableProductCategory(GameProductCategory Category) : SearchableTrait;
+
 public sealed record SearchableEntityCategory(GameEntityCategory Category) : SearchableTrait;

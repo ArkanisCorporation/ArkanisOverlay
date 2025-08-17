@@ -8507,6 +8507,9 @@ namespace Arkanis.Overlay.External.UEX.Abstractions
         [System.Text.Json.Serialization.JsonPropertyName("url_hotsite")]
         public string? Url_hotsite { get; set; } = default!;
 
+        [System.Text.Json.Serialization.JsonPropertyName("url_photo")]
+        public string? Url_photo { get; set; } = default!;
+
         [System.Text.Json.Serialization.JsonPropertyName("url_photos")]
         public string? Url_photos { get; set; } = default!;
 

@@ -4,6 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <NoWarn>
+            $(NoWarn);
+            CS8669; <!-- CS8669: The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. -->
+        </NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
