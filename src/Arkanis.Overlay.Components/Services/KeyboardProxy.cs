@@ -77,10 +77,10 @@ public class KeyboardProxy : IDisposable, IKeyboardProxy
 
     private void ExtendShortcut(KeyboardEventArgs keyboardEvent)
     {
-        ShortcutBuilder.AddKey(keyboardEvent);
+        ShortcutBuilder.KeyPressed(keyboardEvent);
         RegisterKeyboardShortcut(ShortcutBuilder.Value.Copy());
     }
 
     private void StripShortcut(KeyboardEventArgs keyboardEvent)
-        => ShortcutBuilder.RemoveKey(keyboardEvent);
+        => ShortcutBuilder.KeyReleased(keyboardEvent);
 }

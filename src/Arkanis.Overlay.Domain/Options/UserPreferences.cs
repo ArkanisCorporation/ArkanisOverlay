@@ -30,5 +30,5 @@ public record UserPreferences
 
     public RegionInfo? CustomRegionInfo { get; set; }
 
-    public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyS]);
+    public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.F3]);
 }
