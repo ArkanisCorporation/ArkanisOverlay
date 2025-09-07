@@ -1183,6 +1183,7 @@
           "Microsoft.Data.Sqlite": "[8.0.16, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.16, )",
           "Microsoft.Extensions.Http": "[8.0.1, )",
+          "MudBlazor": "[8.6.0, )",
           "Quartz": "[3.14.0, )",
           "Quartz.Extensions.DependencyInjection": "[3.14.0, )",
           "Quartz.Extensions.Hosting": "[3.14.0, )",

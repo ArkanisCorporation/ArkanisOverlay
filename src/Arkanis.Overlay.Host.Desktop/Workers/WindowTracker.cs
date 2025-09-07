@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Host.Desktop.Workers;
 
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -11,6 +12,7 @@ using Windows.Win32.UI.HiDpi;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Timer = System.Threading.Timer;
 
 // /// <summary>
 // /// Represents the current state of the window, e.g. if it is minimized, maximized, normal, closed, or lost from tracking.
@@ -30,35 +32,43 @@ using Microsoft.Extensions.Logging;
 /// </summary>
 public sealed class WindowTracker : IHostedService, IDisposable
 {
-    private const uint WmInvokeAction = PInvoke.WM_USER + 100;
-    private const double DefaultDpi = 96.0; // This is official and fixed by Windows logic
+    public Size CurrentWindowSize { get; private set; }
+    public Point CurrentWindowPosition { get; private set; }
+    public bool IsWindowFocused { get; private set; }
 
-
-    private const string WindowClass = Constants.WindowClass;
-    private const string WindowName = Constants.WindowName;
-    private static Dictionary<HWINEVENTHOOK, WINEVENTPROC> _registeredHooksDictionary = new();
-    private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = new();
-
-    private readonly ConcurrentQueue<Action> _actionQueue = new();
-    private readonly IHostApplicationLifetime _applicationLifetime;
-
-    private readonly ILogger _logger;
-    private readonly IUserPreferencesProvider _userPreferencesProvider;
-
-    private HWND _currentWindowHWnd;
-    private uint _currentWindowProcessId;
-    private uint _currentWindowThreadId;
-
-    private CancellationTokenSource _processExitWatcherCts = new();
-
+    public event EventHandler? WindowMinimized;
+    public event EventHandler? WindowRestored;
+    public event EventHandler? ProcessExited;
 
     /// <summary>
-    ///     The self-launched thread this class runs on.
-    ///     This is needed to be able to stop the thread.
+    ///     Raised when the window focus was changed.
+    ///     Reports true if the window is focused, false otherwise.
     /// </summary>
-    private Thread? _thread;
+    public event EventHandler<bool>? WindowFocusChanged;
 
-    private uint _threadId;
+    /// <summary>
+    ///     Raised when the window position changed.
+    ///     Reports the new position of the window.
+    /// </summary>
+    public event EventHandler<Point>? WindowPositionChanged;
+
+    /// <summary>
+    ///     Raised when the window size changed.
+    ///     Reports the new size of the window.
+    /// </summary>
+    public event EventHandler<Size>? WindowSizeChanged;
+
+    /// <summary>
+    ///     Raised when the window size or position change has started.
+    ///     Use this event to hide the Overlay while the window is being moved or resized.
+    /// </summary>
+    public event EventHandler? WindowSizeOrPositionChangeStart;
+
+    /// <summary>
+    ///     Raised when the window size or position change has ended.
+    ///     Use this event to restore the Overlay after the window has finished being moved or resized.
+    /// </summary>
+    public event EventHandler? WindowSizeOrPositionChangeEnd;
 
     public WindowTracker(
         IHostApplicationLifetime applicationLifetime,
@@ -68,16 +78,51 @@ public sealed class WindowTracker : IHostedService, IDisposable
     {
         _applicationLifetime = applicationLifetime;
         _userPreferencesProvider = userPreferencesProvider;
+        _windowSizeAndPositionDebounceTimer = new Timer(OnDebounceTimer_UpdatedWindowSizeAndPosition);
         _logger = logger;
 
-        WindowFound += OnWindowFound;
         ProcessExited += OnProcessExited;
+        WindowFound += OnWindowFound;
     }
 
-    public Size CurrentWindowSize { get; private set; }
-    public Point CurrentWindowPosition { get; private set; }
+    /// <summary>
+    ///     Raised when the Star Citizen game window was found.
+    /// </summary>
+    internal event EventHandler<HWND>? WindowFound;
 
-    public bool IsWindowFocused { get; private set; }
+    private static Dictionary<HWINEVENTHOOK, WINEVENTPROC> _registeredHooksDictionary = new();
+    private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = new();
+
+    private const uint WmInvokeAction = PInvoke.WM_USER + 100;
+    private const double DefaultDpi = 96.0; // This is official and fixed by Windows logic
+
+    private const string WindowClass = Constants.WindowClass;
+    private const string WindowName = Constants.WindowName;
+
+    private const uint WindowSizeAndPositionDebounceMs = 120;
+
+    private readonly ILogger _logger;
+    private readonly IHostApplicationLifetime _applicationLifetime;
+    private readonly IUserPreferencesProvider _userPreferencesProvider;
+
+    private readonly Timer _windowSizeAndPositionDebounceTimer;
+
+    private readonly ConcurrentQueue<Action> _actionQueue = new();
+    private CancellationTokenSource _processExitWatcherCts = new();
+
+    private HWND _currentWindowHWnd;
+    private uint _currentWindowProcessId;
+    private uint _currentWindowThreadId;
+    private bool _isWindowSizeAndPositionDebounceTimerRunning;
+
+    /// <summary>
+    ///     The self-launched thread this class runs on.
+    ///     This is needed to be able to stop the thread.
+    /// </summary>
+    private Thread? _thread;
+
+    private uint _threadId;
+
 
     public void Dispose()
     {
@@ -111,33 +156,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
     // ///     By default, we do not know the current window state, so we have "lost" track of it
     // /// </remarks>
     // private ExtendedWindowState _currentWindowState = ExtendedWindowState.Lost;
-
-    /// <summary>
-    ///     Raised when the Star Citizen game window was found.
-    /// </summary>
-    internal event EventHandler<HWND>? WindowFound;
-
-    public event EventHandler? WindowMinimized;
-    public event EventHandler? WindowRestored;
-    public event EventHandler? ProcessExited;
-
-    /// <summary>
-    ///     Raised when the window focus was changed.
-    ///     Reports true if the window is focused, false otherwise.
-    /// </summary>
-    public event EventHandler<bool>? WindowFocusChanged;
-
-    /// <summary>
-    ///     Raised when the window position changed.
-    ///     Reports the new position of the window.
-    /// </summary>
-    public event EventHandler<Point>? WindowPositionChanged;
-
-    /// <summary>
-    ///     Raised when the window size changed.
-    ///     Reports the new size of the window.
-    /// </summary>
-    public event EventHandler<Size>? WindowSizeChanged;
 
     /**
      * Entry method for Thread.
@@ -311,17 +329,10 @@ public sealed class WindowTracker : IHostedService, IDisposable
     {
         _logger.LogDebug("Emitting initial window state");
 
-        var windowSize = GetWindowSize();
-        CurrentWindowSize = windowSize;
-        WindowSizeChanged?.Invoke(this, windowSize);
+        UpdateWindowSizeAndPosition();
 
-        var windowPosition = GetWindowPosition();
-        CurrentWindowPosition = windowPosition;
-        WindowPositionChanged?.Invoke(this, windowPosition);
-
-        var windowFocused = GetWindowFocus();
-        IsWindowFocused = windowFocused;
-        WindowFocusChanged?.Invoke(this, windowFocused);
+        IsWindowFocused = GetWindowFocus();
+        WindowFocusChanged?.Invoke(this, IsWindowFocused);
     }
 
     private void StartWindowStateTracking()
@@ -363,8 +374,27 @@ public sealed class WindowTracker : IHostedService, IDisposable
             Handler_WindowFocused,
             0, // not needed, we need to know if our window has been unfocused
             0, // not needed, we need to know if our window has been unfocused
+            PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
+            // PInvoke.WINEVENT_OUTOFCONTEXT
+        );
+
+        RegisterWinEventHook(
+            PInvoke.EVENT_SYSTEM_SWITCHSTART,
+            PInvoke.EVENT_SYSTEM_SWITCHEND,
+            Handler_WindowSwitching,
+            0, // not needed
+            0, // not needed
             // PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
             PInvoke.WINEVENT_OUTOFCONTEXT
+        );
+
+        RegisterWinEventHook(
+            PInvoke.EVENT_OBJECT_REORDER,
+            PInvoke.EVENT_OBJECT_REORDER,
+            Handler_ObjectsReordered,
+            _currentWindowProcessId,
+            _currentWindowThreadId,
+            PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
         );
     }
 
@@ -431,122 +461,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
         _applicationLifetime.StopApplication();
     }
 
-    private void Handler_WindowCreated(
-        HWINEVENTHOOK hWinEventHook,
-        uint @event,
-        HWND hWnd,
-        int idObject,
-        int idChild,
-        uint idEventThread,
-        uint dwmsEventTime
-    )
-    {
-        if (hWnd == 0)
-        {
-            _logger.LogWarning(
-                "Received window created event but window hWnd is 0: {HWinEventHook}",
-                hWinEventHook
-            );
-            return;
-        }
-
-        var windowClass = PInvoke.GetClassName(hWnd);
-        var windowTitle = PInvoke.GetWindowText(hWnd);
-        var windowProcessName = PInvoke.GetWindowProcessName(hWnd);
-        var isTopLevelWindow = PInvoke.IsTopLevelWindow(hWnd);
-
-        var isStarCitizen = windowProcessName?
-                                .EndsWith(Constants.GameExecutableName, StringComparison.InvariantCulture)
-                            ?? false;
-
-        if (!isStarCitizen) { return; }
-
-        _logger.LogDebug(
-            "New Window created - IsTopLevelWindow: {IsTopLevelWindow} - Class: {WindowClass} - Title: {WindowTitle} - IsStarCitizen: {IsStarCitizen}",
-            isTopLevelWindow,
-            windowClass,
-            windowTitle,
-            isStarCitizen
-        );
-
-
-        if (windowClass != WindowClass) { return; }
-
-        if (windowTitle != WindowName.Trim()) { return; }
-
-        if (!isTopLevelWindow)
-        {
-            _logger.LogDebug("Window found but it's not a top-level window! WTF");
-        }
-
-        // update current window handle - other functions implicitly rely on this!
-        _currentWindowHWnd = hWnd;
-
-        // stop listening for WindowCreated events
-        UnhookWinEvent(hWinEventHook);
-
-        WindowFound?.Invoke(this, hWnd);
-    }
-
-    private void Handler_WindowMovedOrResized(
-        HWINEVENTHOOK hWinEventHook,
-        uint @event,
-        HWND hWnd,
-        int idObject,
-        int idChild,
-        uint idEventThread,
-        uint dwmsEventTime
-    )
-    {
-        // safety precaution
-        if (hWnd == HWND.Null)
-        {
-            return;
-        }
-
-        CurrentWindowPosition = GetWindowPosition();
-        CurrentWindowSize = GetWindowSize();
-
-        WindowPositionChanged?.Invoke(this, CurrentWindowPosition);
-        WindowSizeChanged?.Invoke(this, CurrentWindowSize);
-    }
-
-    private void Handler_WindowMinimized(
-        HWINEVENTHOOK hWinEventHook,
-        uint @event,
-        HWND hWnd,
-        int idObject,
-        int idChild,
-        uint idEventThread,
-        uint dwmsEventTime
-    )
-    {
-        if (hWnd == HWND.Null)
-        {
-            return;
-        }
-
-        WindowMinimized?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void Handler_WindowRestored(
-        HWINEVENTHOOK hWinEventHook,
-        uint @event,
-        HWND hWnd,
-        int idObject,
-        int idChild,
-        uint idEventThread,
-        uint dwmsEventTime
-    )
-    {
-        if (hWnd == HWND.Null)
-        {
-            return;
-        }
-
-        WindowRestored?.Invoke(this, EventArgs.Empty);
-    }
-
     private void StartProcessExitWatcher()
     {
         _processExitWatcherCts.Cancel();
@@ -610,6 +524,185 @@ public sealed class WindowTracker : IHostedService, IDisposable
         return isFocused;
     }
 
+    private void OnDebounceTimer_UpdatedWindowSizeAndPosition(object? state)
+    {
+        _logger.LogDebug("Debounce timer triggered, updating window size and position");
+        // reset flag
+        _isWindowSizeAndPositionDebounceTimerRunning = false;
+
+        DispatchFast(() =>
+            {
+                UpdateWindowSizeAndPosition();
+
+                WindowSizeOrPositionChangeEnd?.Invoke(null, EventArgs.Empty);
+            }
+        );
+    }
+
+    private void UpdateWindowSizeAndPosition()
+    {
+        var windowPosition = GetWindowPosition();
+        var windowSize = GetWindowSize();
+
+        //? this is okay because it does by-value comparison internally
+        if (windowPosition != CurrentWindowPosition)
+        {
+            CurrentWindowPosition = windowPosition;
+            WindowPositionChanged?.Invoke(null, windowPosition);
+        }
+
+        //? this is okay because it does by-value comparison internally
+        if (windowSize != CurrentWindowSize)
+        {
+            CurrentWindowSize = windowSize;
+            WindowSizeChanged?.Invoke(null, windowSize);
+        }
+    }
+
+    private void Handler_WindowCreated(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+    {
+        if (hWnd == 0)
+        {
+            DispatchFast(() =>
+                _logger.LogWarning(
+                    "Received window created event but window hWnd is 0: {HWinEventHook}",
+                    hWinEventHook
+                )
+            );
+            return;
+        }
+
+        var windowClass = PInvoke.GetClassName(hWnd);
+        var windowTitle = PInvoke.GetWindowText(hWnd);
+        var windowProcessName = PInvoke.GetWindowProcessName(hWnd);
+        var isTopLevelWindow = PInvoke.IsTopLevelWindow(hWnd);
+
+        var isStarCitizen = windowProcessName?
+                                .EndsWith(Constants.GameExecutableName, StringComparison.InvariantCulture)
+                            ?? false;
+
+        if (!isStarCitizen) { return; }
+
+        DispatchFast(() =>
+            _logger.LogDebug(
+                "New Window created - IsTopLevelWindow: {IsTopLevelWindow} - Class: {WindowClass} - Title: {WindowTitle} - IsStarCitizen: {IsStarCitizen}",
+                isTopLevelWindow,
+                windowClass,
+                windowTitle,
+                isStarCitizen
+            )
+        );
+
+
+        if (windowClass != WindowClass) { return; }
+
+        if (windowTitle != WindowName.Trim()) { return; }
+
+        if (!isTopLevelWindow)
+        {
+            DispatchFast(() =>
+                _logger.LogDebug("Window found but it's not a top-level window! WTF")
+            );
+            return;
+        }
+
+        // update current window handle - other functions implicitly rely on this!
+        _currentWindowHWnd = hWnd;
+
+        // stop listening for WindowCreated events
+        UnhookWinEvent(hWinEventHook);
+
+        WindowFound?.Invoke(this, hWnd);
+    }
+
+    private void Handler_WindowMovedOrResized(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+    {
+        var startTicks = HookTiming.NowTicks();
+
+        // safety precaution
+        if (hWnd == HWND.Null)
+        {
+            return;
+        }
+
+        if (!_isWindowSizeAndPositionDebounceTimerRunning)
+        {
+            DispatchFast(() => WindowSizeOrPositionChangeStart?.Invoke(null, EventArgs.Empty));
+        }
+
+        if (_windowSizeAndPositionDebounceTimer.Change(WindowSizeAndPositionDebounceMs, Timeout.Infinite))
+        {
+            _isWindowSizeAndPositionDebounceTimerRunning = true;
+            DispatchFast(() => _logger.LogDebug(
+                    "WindowMovedOrResized: Updated debounce timer to run in {DebounceMs}ms",
+                    WindowSizeAndPositionDebounceMs
+                )
+            );
+        }
+        else
+        {
+            DispatchFast(() => _logger.LogDebug("WindowMovedOrResized: Failed to change debounce timer"));
+        }
+
+        DispatchFast(() => _logger.LogDebug(
+                "WindowMovedOrResized: Elapsed: {ElapsedUs} us",
+                HookTiming.ElapsedUs(startTicks)
+            )
+        );
+    }
+
+    private void Handler_WindowMinimized(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+    {
+        if (hWnd == HWND.Null)
+        {
+            return;
+        }
+
+        DispatchFast(() => WindowMinimized?.Invoke(null, EventArgs.Empty));
+    }
+
+    private void Handler_WindowRestored(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+    {
+        if (hWnd == HWND.Null)
+        {
+            return;
+        }
+
+        DispatchFast(() => WindowRestored?.Invoke(null, EventArgs.Empty));
+    }
+
     private void Handler_WindowFocused(
         HWINEVENTHOOK hWinEventHook,
         uint @event,
@@ -620,14 +713,17 @@ public sealed class WindowTracker : IHostedService, IDisposable
         uint dwmsEventTime
     )
     {
+        var startTicks = HookTiming.NowTicks();
+
         // safety precaution
         // if (hWnd == HWND.Null) return;
 
         // var isFocused = hWnd == _currentWindowHWnd;
-        // sometimes there is an eroneous detected focus change
+        // sometimes there is an erroneously detected focus change
         // if the above check is used, the below check works 100% of the time
         var currentForegroundWindowHWnd = PInvoke.GetForegroundWindow();
         var isFocused = currentForegroundWindowHWnd == _currentWindowHWnd;
+
 
 #if DEBUG && !DEBUG
         var windowTitle = PInvoke.GetWindowText(hWnd);
@@ -636,13 +732,71 @@ public sealed class WindowTracker : IHostedService, IDisposable
         isFocused |= Debugger.IsAttached && (windowTitle?.StartsWith("DevTools", StringComparison.InvariantCulture) ?? false);
 #endif
 
-        _logger.LogDebug(
-            "Window focus changed: {IsFocused} => Current hWnd: {HWnd} - Focused hWnd: {CurrentForegroundWindowHWnd}",
-            isFocused,
-            (IntPtr)_currentWindowHWnd,
-            (IntPtr)currentForegroundWindowHWnd
+        // only dispatch if the state has changed
+        // if (isFocused != IsWindowFocused)
+        if (!_isSwitchingWindows)
+        {
+            IsWindowFocused = isFocused;
+            WindowFocusChanged?.Invoke(null, isFocused);
+            // DispatchFast(() => WindowFocusChanged?.Invoke(null, isFocused));
+        }
+
+        DispatchFast(() =>
+            _logger.LogDebug("WindowFocused: {IsFocused} - Elapsed: {ElapsedUs} us", isFocused, HookTiming.ElapsedUs(startTicks))
         );
-        IsWindowFocused = isFocused;
-        WindowFocusChanged?.Invoke(this, isFocused);
+    }
+
+
+    private bool _isSwitchingWindows;
+
+    private void Handler_WindowSwitching(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+        => _isSwitchingWindows = @event == PInvoke.EVENT_SYSTEM_SWITCHSTART;
+
+    private void Handler_ObjectsReordered(
+        HWINEVENTHOOK hWinEventHook,
+        uint @event,
+        HWND hWnd,
+        int idObject,
+        int idChild,
+        uint idEventThread,
+        uint dwmsEventTime
+    )
+        => DispatchFast(UpdateWindowSizeAndPosition);
+
+    private static void DispatchFast(Action action)
+        => ThreadPool.UnsafeQueueUserWorkItem(
+            delegate
+            {
+                try
+                {
+                    action();
+                }
+                catch
+                {
+                    // ignored
+                }
+            },
+            null
+        );
+
+    internal static class HookTiming
+    {
+        public static readonly double TicksToUs = 1_000_000.0 / Stopwatch.Frequency;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long NowTicks()
+            => Stopwatch.GetTimestamp();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ElapsedUs(long startTicks)
+            => (int)((Stopwatch.GetTimestamp() - startTicks) * TicksToUs);
     }
 }

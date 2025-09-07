@@ -16,6 +16,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
         <PackageReference Include="Microsoft.Extensions.Http"/>
+        <PackageReference Include="MudBlazor" />
         <PackageReference Include="Quartz"/>
         <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
         <PackageReference Include="Quartz.Extensions.Hosting"/>

@@ -60,7 +60,7 @@ public static class DependencyInjection
                 {
                     a.Console(
                         new ExpressionTemplate(
-                            $"[{{@t:HH:mm:ss}} {{@l:u3}}] [{{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}}]{{@m}}{Environment.NewLine}{{@x}}",
+                            $"[{{@t:HH:mm:ss}} {{@l:u3}}] [{{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}}] {{@m}}{Environment.NewLine}{{@x}}",
                             CultureInfo.InvariantCulture,
                             applyThemeWhenOutputIsRedirected: true,
                             theme: TemplateTheme.Literate

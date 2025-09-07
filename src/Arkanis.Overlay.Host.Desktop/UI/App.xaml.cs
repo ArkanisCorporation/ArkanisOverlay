@@ -48,12 +48,15 @@ public partial class App
         Resources.Add("services", _serviceProvider);
 
         var overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
+        var hudWindow = _serviceProvider.GetRequiredService<HudWindow>();
+
         Current.MainWindow = overlayWindow;
 
         // needs to be started manually because of DI
         // would normally be specified as `StartupUri` in
         // `App.xaml`
         overlayWindow.Show();
+        hudWindow.Show();
     }
 
     protected override void OnExit(ExitEventArgs e)
