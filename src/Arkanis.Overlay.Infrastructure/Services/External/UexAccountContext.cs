@@ -99,7 +99,7 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
     }
 
     private bool IsLinkedUserValid(UexApiResponse<GetUserOkResponse> userResponse)
-        => userResponse.Result.Data is not { Discord_username.Length: > 0 } or { Email.Length: > 0 };
+        => userResponse.Result.Data is { Discord_username.Length: > 0 } or { Email.Length: > 0 };
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
         => await UpdateAsync(cancellationToken);
