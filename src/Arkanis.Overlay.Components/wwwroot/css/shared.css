@@ -247,3 +247,8 @@ img {
     max-width: min-content !important;
     width: min-content !important;
 }
+
+.mud-card-actions:empty,
+.mud-stepper-actions:empty {
+    padding: 0;
+}
