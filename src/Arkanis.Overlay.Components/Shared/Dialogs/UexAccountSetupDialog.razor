@@ -1,0 +1,226 @@
+@using Arkanis.Overlay.Domain
+@using Arkanis.Overlay.Infrastructure.Exceptions
+@using Arkanis.Overlay.Infrastructure.Helpers
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject UexAccountContext UexAccountContext
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .uex-account-setup {
+    }
+</style>
+
+<MudDialog Gutters="false"
+           Class="uex-account-setup"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        <UexLogo
+            Style="height: 32px"
+            ContentId="@ContentId"/>
+    </TitleContent>
+    <DialogContent>
+        <MudStepper @ref="_stepper">
+            <ChildContent>
+                <MudStep Title="Sign in">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText>
+                            This tutorial will help you connect your
+                            <MudLink Href="@ExternalLinkHelper.GetUexLink(ContentId)" Target="_blank">
+                                United Express
+                            </MudLink>
+                            account to the Arkanis Overlay.
+                        </MudText>
+                        <MudText>
+                            Visit the
+                            <MudLink Href="@ExternalLinkHelper.GetUexAccountSettingsLink(ContentId)"
+                                     Target="_blank">
+                                United Express
+                            </MudLink>
+                            and create a new account or log in to an existing one using your Discord or email account.
+                        </MudText>
+                        <MudStack Justify="@Justify.SpaceEvenly"
+                                  Class="w-100"
+                                  Row>
+                            <MudImage
+                                Src="@LinkHelper.GetPathToAsset("img/uex-01-login.png")"
+                                Class="border border-dashed pa-2"
+                                Style="max-width: 33%"/>
+
+                            <MudImage
+                                Src="@LinkHelper.GetPathToAsset("img/uex-01-signup.png")"
+                                Class="border border-dashed pa-2"
+                                Style="max-width: 33%"/>
+                        </MudStack>
+                        <MudButton EndIcon="@Icons.Material.Filled.ChevronRight"
+                                   OnClick="@NextStepAsync">
+                            Continue
+                        </MudButton>
+                    </MudStack>
+                </MudStep>
+                <MudStep Title="Open settings">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText>
+                            Navigate to the United Express account settings page by clicking
+                            <MudLink Href="@ExternalLinkHelper.GetUexAccountSettingsLink(ContentId)"
+                                     Target="_blank">
+                                this link
+                            </MudLink>
+                            or the user avatar in the top right corner.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/uex-02-navigation.png")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 90%"/>
+                        <MudText>
+                            Locate the <b>Secret Key</b> section and click on the section header to expand it.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/uex-03-settings.png")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 90%"/>
+                        <MudButton EndIcon="@Icons.Material.Filled.ChevronRight"
+                                   OnClick="@NextStepAsync">
+                            Continue
+                        </MudButton>
+                    </MudStack>
+                </MudStep>
+                <MudStep Title="Create a token" HasError="@TokenHasError">
+                    <MudStack Class="py-4"
+                              AlignItems="@AlignItems.Center">
+                        <MudText Align="@Align.Center">
+                            Copy the <b>Secret Key</b> and paste it into the corresponding input field below.
+                        </MudText>
+                        <MudImage
+                            Src="@LinkHelper.GetPathToAsset("img/uex-04-key.png")"
+                            Class="border border-dashed pa-2"
+                            Style="max-width: 90%"/>
+                        <div style="width: 60%">
+                            <MudStack Justify="@Justify.Center"
+                                      Class="w-100">
+                                <MudTextField
+                                    Label="Secret Key"
+                                    @bind-Value="_token"
+                                    @bind-Value:after="CheckTokenAsync"
+                                    Error="@TokenHasError"
+                                    ErrorText="@_tokenError"
+                                    InputType="@InputType.Password"
+                                    Disabled="@(_isLoading)"
+                                    FullWidth
+                                    Immediate
+                                    Required/>
+
+                                @if (_isLoading)
+                                {
+                                    <MudProgressLinear
+                                        Indeterminate/>
+                                }
+                                else if (TokenHasError)
+                                {
+                                    <MudButton Variant="@Variant.Filled"
+                                               OnClick="@CheckTokenAsync"
+                                               StartIcon="@Icons.Material.Filled.Refresh">
+                                        Retry
+                                    </MudButton>
+                                }
+                            </MudStack>
+                        </div>
+                    </MudStack>
+                </MudStep>
+            </ChildContent>
+            <CompletedContent>
+                <MudAlert Severity="@Severity.Success">
+                    <b>Success!</b>
+                    Your United Express account has been successfully connected to the Arkanis Overlay.
+                </MudAlert>
+            </CompletedContent>
+            <ActionContent>
+                @* Navigation is managed by controls within individual steps. *@
+            </ActionContent>
+        </MudStepper>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    private const string ContentId = "connect_dialog";
+
+    private MudStepper? _stepper;
+
+    private string? _token;
+    private string? _tokenError;
+    private bool _isLoading;
+
+    private bool TokenHasError
+        => _tokenError is not null;
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    private async Task NextStepAsync()
+        => await _stepper!.NextStepAsync();
+
+    private async Task PreviousStepAsync()
+        => await _stepper!.PreviousStepAsync();
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<UexAccountSetupDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    private async Task CheckTokenAsync()
+    {
+        _tokenError = _token switch
+        {
+            { Length: not 40 } => $"Provided secret key is not valid.",
+            _ => null,
+        };
+        if (_tokenError is not null || _token is null)
+        {
+            return;
+        }
+
+        _isLoading = true;
+
+        try
+        {
+            var credentials = new UserPreferences.Credentials(ExternalService.UnitedExpress)
+            {
+                UserIdentifier = null,
+                SecretToken = _token,
+            };
+            await UexAccountContext.ConfigureAsync(credentials, CancellationToken.None);
+            await _stepper!.NextStepAsync();
+        }
+        catch (ExternalLinkException exception)
+        {
+            _tokenError = exception.Message;
+        }
+        catch (Exception exception)
+        {
+            _tokenError = exception.Message;
+        }
+        finally
+        {
+            _isLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+}

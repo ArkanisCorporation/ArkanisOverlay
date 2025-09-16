@@ -4522,7 +4522,7 @@ namespace Arkanis.Overlay.External.UEX
         /// </summary>
         /// <returns>OK</returns>
         /// <exception cref="UexApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<UexApiResponse<GetUserOkResponse>> GetUserAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public virtual async System.Threading.Tasks.Task<UexApiResponse<GetUserOkResponse>> GetUserAsync(string? username = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var client_ = await CreateHttpClientAsync(cancellationToken).ConfigureAwait(false);
             var disposeClient_ = true;
@@ -4537,6 +4537,12 @@ namespace Arkanis.Overlay.External.UEX
                     if (!string.IsNullOrEmpty(_baseUrl)) urlBuilder_.Append(_baseUrl);
                     // Operation Path: "user/"
                     urlBuilder_.Append("user/");
+                    urlBuilder_.Append('?');
+                    if (username != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("username")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(username, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
