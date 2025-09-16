@@ -1,6 +1,8 @@
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.Infrastructure.Services.External
 @inject IDialogService DialogService
 @inject UexAccountContext UexAccountContext
+@inject IMedRunnerServiceContext MedRunnerServiceContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -157,7 +159,7 @@
                     </ChildContent>
                 </MudExpansionPanel>
 
-                <MudExpansionPanel Class="external-service-config" Disabled>
+                <MudExpansionPanel Class="external-service-config" Disabled="@(!MedRunnerServiceContext.IsClientAuthenticated)">
                     <TitleContent>
                         <MudStack AlignItems="@AlignItems.Center"
                                   Justify="@Justify.Center"
@@ -168,17 +170,67 @@
                                 OrientationVariant="@MedRunnerLogo.Orientation.Horizontal"
                                 ContentId="@ContentId"/>
                         </MudStack>
+
                         <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
+                            @if (MedRunnerServiceContext.IsClientAuthenticated)
+                            {
+                                @if (MedRunnerServiceContext.IsClientBlocked)
+                                {
+                                    <MudChip T="string" Color="@Color.Error">
+                                        Blocked
+                                    </MudChip>
+                                }
+                                else
+                                {
+                                    <MudChip T="string" Color="@Color.Success">
+                                        Linked
+                                    </MudChip>
+                                }
+                                <MudText>
+                                    @MedRunnerServiceContext.ClientIdentity.Name
+                                </MudText>
+                            }
+                            else
+                            {
+                                <MudChip T="string" Color="@Color.Default">
+                                    Inactive
+                                </MudChip>
+                            }
                             <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
+                            <div class="my-n2">
+                                @if (MedRunnerServiceContext.IsClientAuthenticated)
+                                {
+                                    <MudButton Variant="@Variant.Outlined"
+                                               Color="@Color.Default"
+                                               OnClick="@(() => MedRunnerSetupDialog.ShowAsync(DialogService))">
+                                        Connect different account
+                                    </MudButton>
+                                }
+                                else
+                                {
+                                    <MudButton Variant="@Variant.Outlined"
+                                               Color="@Color.Info"
+                                               OnClick="@(() => MedRunnerSetupDialog.ShowAsync(DialogService))">
+                                        Connect account
+                                    </MudButton>
+                                }
+                            </div>
                         </MudStack>
                     </TitleContent>
                     <ChildContent>
+                        <MudGrid>
+                            <MudItem xs="12" md="4">
+                                <MedRunnerServiceStatus/>
+                            </MudItem>
+                            <MudItem xs="12" md="8">
+                                <MudStack Class="h-100"
+                                          AlignItems="@AlignItems.Center"
+                                          Justify="@Justify.Center">
+                                    <MedRunnerAccountInfo/>
+                                    <MedRunnerAccountNotices/>
+                                </MudStack>
+                            </MudItem>
+                        </MudGrid>
                     </ChildContent>
                 </MudExpansionPanel>
             </MudExpansionPanels>

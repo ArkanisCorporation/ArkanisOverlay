@@ -34,9 +34,12 @@ public record UserPreferences
 
     public List<Credentials> ExternalServiceCredentials { get; set; } = [];
 
+    public Credentials? GetCredentialsFor(string serviceId)
+        => ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId);
+
     public Credentials GetOrCreateCredentialsFor(string serviceId)
     {
-        if (ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId) is not { } credentials)
+        if (GetCredentialsFor(serviceId) is not { } credentials)
         {
             ExternalServiceCredentials.Add(credentials = new Credentials(serviceId));
         }

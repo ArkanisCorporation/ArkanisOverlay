@@ -19,9 +19,10 @@
         <MedRunnerLogo
             Style="height: 32px"
             ContentId="@ContentId"
-            Horizontal/>
+            OrientationVariant="@MedRunnerLogo.Orientation.Horizontal"/>
     </TitleContent>
     <DialogContent>
+        <MudDivider/>
         <MudStepper @ref="_stepper">
             <ChildContent>
                 <MudStep Title="Sign in">
@@ -85,7 +86,8 @@
                     <MudStack Class="py-4"
                               AlignItems="@AlignItems.Center">
                         <MudText Align="@Align.Center">
-                            Provide a name for the token (we suggest "Arkanis Overlay") and click the <b>Create
+                            Provide a name for the token (we suggest "Arkanis Overlay") and click the
+                            <b>Create
                                 Token</b> button as shown below.
                             For improved security, you can optionally set an expiration date for the token.
                             You can also revoke the token at any time manually.
@@ -135,7 +137,7 @@
                             <MedRunnerLogo
                                 Class="d-block d-sm-none w-100"
                                 ContentId="@ContentId"
-                                Horizontal/>
+                                OrientationVariant="@MedRunnerLogo.Orientation.Horizontal"/>
                         </MudStack>
                     </MudItem>
                     <MudItem xs="12" sm="10">
@@ -175,6 +177,7 @@
                 @* Navigation is managed by controls within individual steps. *@
             </ActionContent>
         </MudStepper>
+        <MudDivider/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="@Cancel">Close</MudButton>
@@ -225,7 +228,7 @@
     {
         _validationError = _token switch
         {
-            { Length: < 80 } => "Provided API token is not valid.",
+            { Length: < 70 } => "Provided API token is not valid.",
             _ => null,
         };
         if (_validationError is not null || _token is null)
@@ -241,7 +244,9 @@
             var clientResponse = await ServiceContext.ApiClient.Client.GetAsync();
             if (clientResponse.Success)
             {
-                UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner).SecretToken = _token;
+                var persistedCredentials = UserPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner);
+                persistedCredentials.UserIdentifier = clientResponse.Data.Id;
+                persistedCredentials.SecretToken = _token;
                 await UserPreferences.SaveAndApplyUserPreferencesAsync(UserPreferences.CurrentPreferences);
 
                 await ServiceContext.RefreshAsync(CancellationToken.None);
