@@ -1,0 +1,108 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .regolith-logo-wrapper {
+        display: flex;
+        width: fit-content;
+    }
+
+    .regolith-logo {
+        position: relative;
+    }
+
+    .regolith-logo > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    @ImageContent
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetRegolithLink(ContentId)" Class="regolith-logo-wrapper" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="Regolith Co."/>
+           </picture>;
+
+    private string AssetPath
+        => WithoutName switch
+        {
+            true => $"img/regolith-icon-{ColorIdentifier}-{ThemeIdentifier}.svg",
+            false => $"img/regolith-logo-{ColorIdentifier}-{ThemeIdentifier}.svg",
+        };
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("regolith-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string ColorIdentifier
+        => ColorVariant switch
+        {
+            Color.Monochromatic => "mono",
+            _ => "color",
+        };
+
+    private string ThemeIdentifier
+        => ThemeVariant.ToString("G").ToLowerInvariant();
+
+    [Parameter]
+    public Color ColorVariant { get; set; } = Color.Default;
+
+    [Parameter]
+    public Theme ThemeVariant { get; set; } = Theme.Light;
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public bool WithoutName { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    public enum Color
+    {
+        Default,
+        Monochromatic,
+    }
+
+    public enum Theme
+    {
+        Light,
+        Dark,
+    }
+
+}

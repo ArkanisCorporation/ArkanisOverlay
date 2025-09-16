@@ -1,0 +1,120 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .medrunner-logo-wrapper {
+        display: flex;
+        width: fit-content;
+    }
+
+    .medrunner-logo {
+        position: relative;
+    }
+
+    .medrunner-logo > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .medrunner-logo.is-mocked:before {
+        content: "LOCAL MODE";
+        font-size: small;
+        font-weight: bold;
+        text-align: right;
+        opacity: .75;
+        color: yellow;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    @ImageContent
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetMedRunnerLink(ContentId)" Class="medrunner-logo-wrapper" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="MedRunner"/>
+           </picture>;
+
+    private string AssetPath
+        => $"img/medrunner-logo-{OrientationIdentifier}-{ColorIdentifier}.svg";
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("medrunner-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            if (IsMock)
+            {
+                builder.Append(" is-mocked");
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string ColorIdentifier
+        => ColorVariant.ToString("G").ToLowerInvariant();
+
+    private string OrientationIdentifier
+        => OrientationVariant.ToString("G").ToLowerInvariant();
+
+    private bool IsMock { get; set; }
+
+    [Parameter]
+    public Color ColorVariant { get; set; } = Color.Default;
+
+    [Parameter]
+    public Orientation OrientationVariant { get; set; } = Orientation.Vertical;
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    public enum Color
+    {
+        Default,
+        Transparent,
+        White,
+        Minimal,
+    }
+
+    public enum Orientation
+    {
+        Vertical,
+        Horizontal,
+    }
+
+}

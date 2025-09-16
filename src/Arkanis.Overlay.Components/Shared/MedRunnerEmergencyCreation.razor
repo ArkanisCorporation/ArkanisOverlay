@@ -1,0 +1,172 @@
+@using System.Diagnostics.CodeAnalysis
+@using System.Text
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
+@using Arkanis.Overlay.External.MedRunner.Models
+@using Arkanis.Overlay.Infrastructure.Helpers
+@inherits MedRunnerComponentBase
+@inject IMedRunnerClientConfig MedRunnerClientConfig
+
+<MudGrid Class="pa-5">
+    <MudItem xs="12" sm="6">
+        <GameEntitySelectBox
+            Label="System"
+            Placeholder="Select the current start system"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_selectedSystemEntity"
+            Accept="@(location => location is GameStarSystem)"
+            Required/>
+    </MudItem>
+    <MudItem xs="12" sm="6">
+        <GameEntitySelectBox
+            Label="Orbit / Planet / Moon"
+            Placeholder="Search for the closest planet or moon"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_selectedPlanetOrMoonEntity"
+            Accept="@(location => location is IGameLocation gameLocation and (GamePlanet or GameMoon) && SelectedSystem?.Contains(gameLocation) == true)"
+            Disabled="@(SelectedSystem is null)"
+            Required/>
+    </MudItem>
+    <MudItem xs="12" md="8">
+        <GameEntitySelectBox
+            Label="Closest location"
+            Placeholder="Search for a closest game location"
+            HelperText="Not required, only provide if you know the exact location closest to you"
+            EntityCategory="@GameEntityCategory.Location"
+            @bind-Value="@_selectedLocationEntity"
+            Disabled="@(SelectedPlanet is null)"
+            Accept="@(location => location is IGameLocation gameLocation and (GameCity or GameOutpost or GameTerminal or GamePointOfInterest)
+                                  && SelectedPlanetOrMoon?.Contains(gameLocation) == true)"/>
+    </MudItem>
+    <MudItem xs="12" md="4">
+        <MudSelect @bind-Value="@_threatLevel"
+                   Label="Threat level"
+                   Required>
+            @foreach (var threatLevel in Enum.GetValues<ThreatLevel>())
+            {
+                <MudSelectItem T="ThreatLevel?" Value="@threatLevel">
+                    @threatLevel.Humanize()
+                </MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="12">
+        @if (MedRunnerClientConfig.IsMock)
+        {
+            <MudAlert Severity="@Severity.Warning">
+                The MedRunner API is currently in local mock mode.
+                Submitting this request will will not contact the live MedRunner API.
+            </MudAlert>
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Info">
+                By submitting this request to this <b>live</b> service, you agree to the
+                <MudLink Href="@ExternalLinkHelper.GetMedRunnerTosLink(ContentId)"
+                         Target="_blank"
+                         Typo="@Typo.inherit">
+                    terms and conditions
+                </MudLink>
+                of the service provider.
+            </MudAlert>
+        }
+    </MudItem>
+    <MudItem xs="12">
+        <MudButton Variant="@Variant.Filled"
+                   Color="@Color.Error"
+                   Class="w-100"
+                   StartIcon="@Icons.Material.Filled.EmergencyShare"
+                   OnClick="@StartMedRunnerEmergencyAsync"
+                   Disabled="@SubmitDisabled">
+            Submit request
+        </MudButton>
+        @if (EmergencyContext.HasErrors)
+        {
+            <MudStack Class="mt-2">
+                @foreach (var error in EmergencyContext.Errors)
+                {
+                    <MudAlert Severity="@Severity.Error">
+                        @error
+                    </MudAlert>
+                }
+            </MudStack>
+        }
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+    private ThreatLevel? _threatLevel;
+    private IGameEntity? _selectedLocationEntity;
+    private IGameEntity? _selectedSystemEntity;
+    private IGameEntity? _selectedPlanetOrMoonEntity;
+
+    private IGameLocation? SelectedSystem
+        => _selectedSystemEntity as IGameLocation;
+
+    private IGameLocation? SelectedPlanet
+        => _selectedPlanetOrMoonEntity is GameMoon moon
+            ? moon.Parent
+            : _selectedPlanetOrMoonEntity as IGameLocation;
+
+    private IGameLocation? SelectedPlanetOrMoon
+        => _selectedPlanetOrMoonEntity as IGameLocation;
+
+    private GameLocationEntity? ClosestLocation
+        => _selectedLocationEntity as GameLocationEntity
+           ?? SelectedPlanet as GameLocationEntity;
+
+    [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
+    private bool SubmitDisabled
+        => IsLoading
+           || ClosestLocation is null
+           || _threatLevel is null;
+
+    private async Task StartMedRunnerEmergencyAsync()
+    {
+        if (SubmitDisabled)
+        {
+            return;
+        }
+
+        await PerformSafeAsync(async () =>
+            {
+                var request = new CreateEmergencyRequest
+                {
+                    Location = CreateMedRunnerLocation(ClosestLocation),
+                    ThreatLevel = _threatLevel.Value,
+                };
+                var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
+
+                if (!emergencyResponse.Success)
+                {
+                    EmergencyContext.Errors.Add(emergencyResponse.ErrorMessage);
+                    await EmergencyContextChanged.InvokeAsync(EmergencyContext);
+                    return;
+                }
+
+                EmergencyContext.Emergency = emergencyResponse.Data;
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
+            }
+        );
+    }
+
+    private Location CreateMedRunnerLocation(GameLocationEntity location)
+        => new()
+        {
+            System = location.CreatePathToRoot().OfType<GameStarSystem>().First().Name.MainContent.FullName,
+            Subsystem = location.CreatePathToRoot().OfType<GamePlanet>().First().Name.MainContent.FullName,
+            TertiaryLocation = new StringBuilder().AppendJoin(
+                    " / ",
+                    location.CreatePathToRoot()
+                        .Reverse()
+                        .Where(x => x is not GameStarSystem and not GamePlanet)
+                        .Select(x => x.Name.MainContent.FullName)
+                        .Append(location.Name.MainContent.FullName)
+                )
+                .ToString(),
+        };
+
+}

@@ -1,5 +1,9 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data;
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Common.UnitTests;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;

@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Common.Abstractions;
+namespace Arkanis.Overlay.Common.Abstractions.Services;
 
 using Models;
 using NuGet.Versioning;

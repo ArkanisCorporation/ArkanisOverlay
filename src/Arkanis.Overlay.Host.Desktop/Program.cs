@@ -2,7 +2,7 @@ namespace Arkanis.Overlay.Host.Desktop;
 
 using System.Globalization;
 using Windows.Win32;
-using Common.Abstractions;
+using Common.Abstractions.Services;
 using Common.Enums;
 using Common.Extensions;
 using Components.Helpers;

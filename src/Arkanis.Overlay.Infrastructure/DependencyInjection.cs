@@ -3,7 +3,9 @@ namespace Arkanis.Overlay.Infrastructure;
 using Common.Enums;
 using Common.Extensions;
 using Data;
+using Domain;
 using Domain.Abstractions.Services;
+using External.MedRunner;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,7 @@ using Quartz;
 using Quartz.Simpl;
 using Repositories;
 using Services;
+using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
@@ -38,7 +41,17 @@ public static class DependencyInjection
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
             .AddHostedService<InitializeServicesHostedService>()
-            .AddAllUexApiClients()
+            .AddSingleton<UexAccountContext>()
+            .AddAllUexApiClients(provider =>
+                {
+                    var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();
+                    var credentials = userPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.UnitedExpress);
+                    return new UexApiOptions
+                    {
+                        UserToken = credentials.SecretToken,
+                    };
+                }
+            )
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -51,11 +64,14 @@ public static class DependencyInjection
 
         if (options.HostingMode is HostingMode.Server)
         {
-            services.AddServicesForInMemoryUserPreferences();
+            services.AddServicesForInMemoryUserPreferences()
+                .AddMockMedRunnerApiClient();
         }
         else
         {
-            services.AddServicesForUserPreferencesFromJsonFile();
+            services
+                .AddServicesForUserPreferencesFromJsonFile()
+                .AddLiveMedRunnerApiClient();
         }
 
         return services;

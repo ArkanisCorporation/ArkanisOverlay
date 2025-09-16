@@ -1,0 +1,78 @@
+@using Arkanis.Overlay.External.MedRunner.Models
+@inherits MedRunnerComponentBase
+
+<MudStack Class="pa-5">
+    @if (EmergencyContext.Emergency is not null)
+    {
+        <MedRunnerServiceProvidedBy
+            ContentId="@ContentId"/>
+
+        <MudToggleGroup @bind-Value="@EmergencyContext.Emergency.Rating"
+                        Color="@ColorByResponseRating"
+                        FixedContent
+                        CheckMark>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbUp"
+                           Value="@ResponseRating.Good">
+                Went well
+            </MudToggleItem>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbsUpDown"
+                           Value="@ResponseRating.None">
+                No rating
+            </MudToggleItem>
+            <MudToggleItem SelectedIcon="@Icons.Material.Filled.ThumbDown"
+                           Value="@ResponseRating.Bad">
+                Went bad
+            </MudToggleItem>
+        </MudToggleGroup>
+
+        <MudTextField
+            T="string"
+            Label="Response remarks"
+            @bind-Value="@EmergencyContext.Emergency.RatingRemarks"
+            Class="review"
+            Immediate
+            AutoGrow/>
+
+        <MudButton Variant="@(FeedbackProvided ? Variant.Outlined : Variant.Text)"
+                   Color="@Color.Surface"
+                   OnClick="@SubmitReviewAsync"
+                   StartIcon="@Icons.Material.Filled.Check"
+                   Disabled="@IsLoading">
+            Submit rating
+        </MudButton>
+    }
+</MudStack>
+
+@code
+{
+
+    private bool FeedbackProvided
+        => EmergencyContext.Emergency is null
+           || EmergencyContext.Emergency.Rating != ResponseRating.None
+           || !string.IsNullOrWhiteSpace(EmergencyContext.Emergency.RatingRemarks);
+
+    public Color ColorByResponseRating
+        => EmergencyContext.Emergency?.Rating switch
+        {
+            ResponseRating.Good => Color.Success,
+            ResponseRating.None => Color.Default,
+            ResponseRating.Bad => Color.Error,
+            _ => Color.Default,
+        };
+
+    private async Task SubmitReviewAsync()
+    {
+        if (EmergencyContext.Emergency is null)
+        {
+            return;
+        }
+
+        await PerformSafeAsync(async () =>
+            {
+                await MedRunner.Emergency.RateServicesAsync(EmergencyId!, EmergencyContext.Emergency.Rating, EmergencyContext.Emergency.RatingRemarks);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
+            }
+        );
+    }
+
+}

@@ -1,0 +1,54 @@
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@implements IDisposable
+@inject IMedRunnerServiceContext ServiceContext
+
+@if (ServiceContext.ClientInfo is null)
+{
+    <MudAlert Severity="@Severity.Info">
+        <b>No account connected.</b>
+        There is no MedRunner account connected to this Arkanis Overlay installation.
+    </MudAlert>
+}
+
+@if (ServiceContext.ClientInfo is { Overdue: true })
+{
+    <MudAlert Severity="@Severity.Warning">
+        <b>Overdue for payment!</b>
+        Your access to the MedRunner services may be limited.
+    </MudAlert>
+}
+
+@if (ServiceContext.IsClientInactive)
+{
+    <MudAlert Severity="@Severity.Warning">
+        <b>Valid subscription missing!</b>
+        Your MedRunner subscription is currently inactive.
+        You will not be able to use the MedRunner services reactivate your subscription.
+    </MudAlert>
+}
+
+@if (ServiceContext.IsClientBlocked)
+{
+    <MudAlert Severity="@Severity.Error">
+        <b>Account blocked!</b>
+        This account has been blocked.
+        You will not be able to use the MedRunner services with this account.
+    </MudAlert>
+}
+
+@code
+{
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ServiceContext.Updated += OnExternalUpdate;
+    }
+
+    private void OnExternalUpdate(object? _, EventArgs e)
+        => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+        => ServiceContext.Updated -= OnExternalUpdate;
+
+}
