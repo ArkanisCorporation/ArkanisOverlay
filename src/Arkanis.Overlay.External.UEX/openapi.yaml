@@ -24285,7 +24285,7 @@ paths:
       parameters:
       - in: query
         name: username
-        required: true
+        required: false
         schema:
           type: string
       responses:

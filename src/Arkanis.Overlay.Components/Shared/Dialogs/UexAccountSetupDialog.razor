@@ -91,25 +91,7 @@
                     <MudStack Class="py-4"
                               AlignItems="@AlignItems.Center">
                         <MudText Align="@Align.Center">
-                            First, provide your United Express account username below.
-                        </MudText>
-                        <MudImage
-                            Src="@LinkHelper.GetPathToAsset("img/uex-04-username.png")"
-                            Class="border border-dashed pa-2"
-                            Style="max-width: 90%"/>
-                        <div style="width: 60%">
-                            <MudTextField
-                                Label="Username"
-                                Disabled="@_isLoading"
-                                @bind-Value="_username"
-                                @bind-Value:after="CheckTokenAsync"
-                                Error="@UsernameHasError"
-                                ErrorText="@_usernameError"
-                                FullWidth
-                                Required/>
-                        </div>
-                        <MudText Align="@Align.Center">
-                            Then, copy the <b>Secret Key</b> and paste it into the corresponding input field below.
+                            Copy the <b>Secret Key</b> and paste it into the corresponding input field below.
                         </MudText>
                         <MudImage
                             Src="@LinkHelper.GetPathToAsset("img/uex-04-key.png")"
@@ -135,7 +117,7 @@
                                     <MudProgressLinear
                                         Indeterminate/>
                                 }
-                                else if (TokenHasError || UsernameHasError)
+                                else if (TokenHasError)
                                 {
                                     <MudButton Variant="@Variant.Filled"
                                                OnClick="@CheckTokenAsync"
@@ -170,14 +152,9 @@
 
     private MudStepper? _stepper;
 
-    private string? _username;
-    private string? _usernameError;
     private string? _token;
     private string? _tokenError;
     private bool _isLoading;
-
-    private bool UsernameHasError
-        => _usernameError is not null;
 
     private bool TokenHasError
         => _tokenError is not null;
@@ -211,30 +188,25 @@
     {
         _tokenError = _token switch
         {
-            { Length: not 40 } => "Provided secret key is not valid.",
+            { Length: not 40 } => $"Provided secret key is not valid.",
             _ => null,
         };
-        if (_tokenError is not null || _token is null || _username is null)
+        if (_tokenError is not null || _token is null)
         {
             return;
         }
 
         _isLoading = true;
-        _usernameError = null;
 
         try
         {
             var credentials = new UserPreferences.Credentials(ExternalService.UnitedExpress)
             {
-                UserIdentifier = _username,
+                UserIdentifier = null,
                 SecretToken = _token,
             };
             await UexAccountContext.ConfigureAsync(credentials, CancellationToken.None);
             await _stepper!.NextStepAsync();
-        }
-        catch (ExternalLinkAccountNotFoundException exception)
-        {
-            _usernameError = exception.Message;
         }
         catch (ExternalLinkException exception)
         {
