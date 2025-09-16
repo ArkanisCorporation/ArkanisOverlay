@@ -260,6 +260,11 @@ img {
     width: min-content !important;
 }
 
+.mud-card-actions:empty,
+.mud-stepper-actions:empty {
+    padding: 0;
+}
+
 .shimmer {
     display: inline-block;
     mask: linear-gradient(-60deg, #000 30%, #efbf04, #000 70%) right/350% 100%;
