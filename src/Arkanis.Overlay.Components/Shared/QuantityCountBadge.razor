@@ -1,0 +1,32 @@
+<MudTooltip Placement="@Placement.Top"
+            RootStyle="min-width: 40px">
+    <TooltipContent>
+        <QuantityAggregateLabel
+            Models="@Models"/>
+    </TooltipContent>
+    <ChildContent>
+        <MudChip
+            Value="@Models.Count()"
+            Color="@Color"
+            Class="@Class"
+            Style="@Style"/>
+    </ChildContent>
+</MudTooltip>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public IEnumerable<Quantity> Models { get; set; } = [];
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Default;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+}
