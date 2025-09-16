@@ -24,7 +24,7 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
 
     public async Task ConfigureAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken)
     {
-        if (credentials is not { UserIdentifier.Length: > 0, SecretToken.Length: > 0 })
+        if (credentials is not { SecretToken.Length: > 0 })
         {
             throw new ExternalLinkUnauthorizedException("Provided secret key is not valid.", null);
         }
@@ -33,7 +33,7 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
 
         try
         {
-            var userResponse = await userApi.GetUserAsync(credentials.UserIdentifier, cancellationToken);
+            var userResponse = await userApi.GetUserAsync(cancellationToken: cancellationToken);
             if (IsLinkedUserValid(userResponse))
             {
                 var persistentCredentials = Credentials;
