@@ -2,10 +2,10 @@
 namespace Arkanis.Overlay.Components.Shared;
 #pragma warning restore CA1716
 using System.Diagnostics.CodeAnalysis;
-using External.MedRunner.API.Abstractions;
-using External.MedRunner.API.Endpoints.Emergency.Response;
-using External.MedRunner.Models;
 using Microsoft.AspNetCore.Components;
+using Overlay.External.MedRunner.API.Abstractions;
+using Overlay.External.MedRunner.API.Endpoints.Emergency.Response;
+using Overlay.External.MedRunner.Models;
 
 public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 {
