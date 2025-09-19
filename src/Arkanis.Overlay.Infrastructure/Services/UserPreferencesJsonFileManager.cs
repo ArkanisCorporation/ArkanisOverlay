@@ -8,8 +8,10 @@ using Domain.Abstractions.Services;
 using Domain.Models.Analytics;
 using Domain.Models.Keyboard;
 using Domain.Options;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
+[UsedImplicitly]
 public class UserPreferencesJsonFileManager(IGlobalAnalyticsReporter analyticsReporter, ILogger<UserPreferencesJsonFileManager> logger)
     : IUserPreferencesManager
 {

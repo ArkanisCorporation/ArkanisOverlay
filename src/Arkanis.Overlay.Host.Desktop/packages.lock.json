@@ -1351,10 +1351,12 @@
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
+          "JetBrains.Annotations": "[2025.2.0, )",
           "Microsoft.AspNetCore.Http.Extensions": "[2.3.0, )",
           "Microsoft.Data.Sqlite": "[8.0.16, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.16, )",
           "Microsoft.Extensions.Http": "[8.0.1, )",
+          "MudBlazor": "[8.6.0, )",
           "Quartz": "[3.14.0, )",
           "Quartz.Extensions.DependencyInjection": "[3.14.0, )",
           "Quartz.Extensions.Hosting": "[3.14.0, )",
@@ -1449,6 +1451,12 @@
           "Humanizer.Core.zh-Hans": "2.14.1",
           "Humanizer.Core.zh-Hant": "2.14.1"
         }
+      },
+      "JetBrains.Annotations": {
+        "type": "CentralTransitive",
+        "requested": "[2025.2.0, )",
+        "resolved": "2025.2.0",
+        "contentHash": "2BvMkOSW+50EbQFhWFIPWTqmcDLiyyjwkMN7lN386bhP2vN/7ts5t59qu11HtenmHFxqDzaD8J1fFoh+QTOzVA=="
       },
       "MathEvaluator": {
         "type": "CentralTransitive",

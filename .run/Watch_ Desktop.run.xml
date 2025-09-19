@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Watch: Desktop" type="RunDotNetWatch" factoryName="RunDotNetWatch">
+    <option name="envs">
+      <map>
+        <entry key="DOTNET_ENVIRONMENT" value="Development" />
+      </map>
+    </option>
+    <option name="exePath" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Desktop/debug/ArkanisOverlay.exe" />
+    <option name="programParameters" value="" />
+    <option name="projectFilePath" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Desktop/Arkanis.Overlay.Host.Desktop.csproj" />
+    <option name="projectTfm" value="net8.0-windows10.0.17763.0" />
+    <option name="useExternalConsole" value="true" />
+    <option name="watchParameters" value="" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Desktop/debug" />
+    <method v="2" />
+  </configuration>
+</component>

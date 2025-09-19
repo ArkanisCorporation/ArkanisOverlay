@@ -32,9 +32,19 @@ public class WindowsOverlayControls : IOverlayControls, IOverlayEventProvider, I
     public void OnFocusLost()
         => OverlayBlurred?.Invoke(this, EventArgs.Empty);
 
+    public void OnWindowFound()
+        => WindowFound?.Invoke(this, EventArgs.Empty);
+
+    public void OnWindowShown()
+        => OverlayShown?.Invoke(this, EventArgs.Empty);
+
+    public void OnWindowHidden()
+        => OverlayHidden?.Invoke(this, EventArgs.Empty);
+
     public event EventHandler? OverlayShown;
     public event EventHandler? OverlayHidden;
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
+    public event EventHandler? WindowFound;
 }
