@@ -24,7 +24,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <!-- Toggle me to show/hide the debug panel -->
-        <sys:Boolean x:Key="ShowDebugPanel">True</sys:Boolean>
+        <sys:Boolean x:Key="ShowDebugPanel">False</sys:Boolean>
     </Window.Resources>
     <Grid Name="Root">
         <blazor:BlazorWebView HostPage="wwwroot\index.html"
