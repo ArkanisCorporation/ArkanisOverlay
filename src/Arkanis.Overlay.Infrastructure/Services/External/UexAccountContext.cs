@@ -22,6 +22,13 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
     private UserPreferences.Credentials Credentials
         => userPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.UnitedExpress);
 
+    public async Task UnlinkAsync()
+    {
+        CurrentUser = null;
+        userPreferences.CurrentPreferences.RemoveCredentialsFor(ExternalService.UnitedExpress);
+        await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
+    }
+
     public async Task ConfigureAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken)
     {
         if (credentials is not { SecretToken.Length: > 0 })

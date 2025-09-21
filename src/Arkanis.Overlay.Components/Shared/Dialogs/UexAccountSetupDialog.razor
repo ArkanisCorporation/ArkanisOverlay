@@ -171,6 +171,29 @@
     private async Task PreviousStepAsync()
         => await _stepper!.PreviousStepAsync();
 
+    public static async Task<DialogResult> UnlinkAsync(IDialogService dialogService, UexAccountContext accountContext)
+    {
+        if (!accountContext.IsLinked)
+        {
+            return DialogResult.Ok(true);
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = $"Unlink {accountContext.CurrentUser.Name} (United Express)",
+            Message = "This action cannot be undone. Are you sure?",
+            YesText = "Unlink",
+            CancelText = "Cancel",
+        };
+        if (await dialogService.ShowMessageBox(options) is not true)
+        {
+            return DialogResult.Cancel();
+        }
+
+        await accountContext.UnlinkAsync();
+        return DialogResult.Ok(true);
+    }
+
     public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
     {
         var dialogOptions = new DialogOptions

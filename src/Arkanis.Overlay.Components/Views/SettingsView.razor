@@ -92,6 +92,11 @@
                                                OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
                                         Connect different account
                                     </MudButton>
+                                    <MudIconButton
+                                        Variant="@Variant.Outlined"
+                                        Color="@Color.Error"
+                                        Icon="@Icons.Material.Filled.LinkOff"
+                                        OnClick="@(() => UexAccountSetupDialog.UnlinkAsync(DialogService, UexAccountContext))"/>
                                 }
                                 else
                                 {
@@ -115,30 +120,6 @@
                                   Justify="@Justify.Center"
                                   Row>
                             <RegolithLogo
-                                Style="height: 40px;"
-                                Class="my-n1"
-                                ContentId="@ContentId"/>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
-                            <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
-                </MudExpansionPanel>
-
-                <MudExpansionPanel Class="external-service-config" Disabled>
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <ErkulLogo
                                 Style="height: 40px;"
                                 Class="my-n1"
                                 ContentId="@ContentId"/>

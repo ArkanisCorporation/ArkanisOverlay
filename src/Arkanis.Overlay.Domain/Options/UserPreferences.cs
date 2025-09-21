@@ -46,6 +46,9 @@ public record UserPreferences
         return credentials;
     }
 
+    public void RemoveCredentialsFor(string serviceId)
+        => ExternalServiceCredentials.RemoveAll(x => x.ServiceId == serviceId);
+
     public class Credentials(string serviceId)
     {
         public string ServiceId { get; init; } = serviceId;
