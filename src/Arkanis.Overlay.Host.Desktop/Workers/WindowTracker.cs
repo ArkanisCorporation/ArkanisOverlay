@@ -331,7 +331,8 @@ public sealed class WindowTracker : IHostedService, IDisposable
 
         UpdateWindowSizeAndPosition();
 
-        IsWindowFocused = GetWindowFocus();
+        // IsWindowFocused = GetWindowFocus();
+        IsWindowFocused = true; // Star Citizen takes focus on startup
         WindowFocusChanged?.Invoke(this, IsWindowFocused);
     }
 
@@ -506,10 +507,15 @@ public sealed class WindowTracker : IHostedService, IDisposable
         }
     }
 
-    private bool GetWindowFocus()
+    private bool GetWindowFocus(HWND? targetHWnd = null)
     {
-        var hWnd = PInvoke.GetForegroundWindow();
-        var isFocused = _currentWindowHWnd != HWND.Null && hWnd == _currentWindowHWnd;
+        var hWnd = targetHWnd ?? PInvoke.GetForegroundWindow();
+
+        PInvoke.GetWindowThreadProcessId(hWnd, out var focusedWindowProcessId);
+
+        var isFocused =
+            (_currentWindowHWnd != HWND.Null && hWnd == _currentWindowHWnd)
+            || (_currentWindowProcessId == focusedWindowProcessId);
 
 #if DEBUG
         var windowTitle = PInvoke.GetWindowText(hWnd);
@@ -722,7 +728,23 @@ public sealed class WindowTracker : IHostedService, IDisposable
         // sometimes there is an erroneously detected focus change
         // if the above check is used, the below check works 100% of the time
         var currentForegroundWindowHWnd = PInvoke.GetForegroundWindow();
-        var isFocused = currentForegroundWindowHWnd == _currentWindowHWnd;
+        var isFocused1 = currentForegroundWindowHWnd == _currentWindowHWnd;
+        var isFocused2 = GetWindowFocus();
+        var isFocused3 = GetWindowFocus(hWnd);
+
+        var isFocused = isFocused2;
+
+        DispatchFast(() =>
+            {
+                _logger.LogDebug("WindowFocused: HWnd: {HWnd} - CurrentForegroundWindowHWnd: {CurrentForegroundWindowHWnd} - CurrentWindowHWnd: {CurrentWindowHWnd}", hWnd, currentForegroundWindowHWnd, _currentWindowHWnd);
+                _logger.LogDebug(
+                    "WindowFocused: IsFocused: {IsFocused} - IsFocused2: {IsFocused2} - IsFocused3: {IsFocused3}",
+                    isFocused1,
+                    isFocused2,
+                    isFocused3
+                );
+            }
+        );
 
 
 #if DEBUG && !DEBUG
