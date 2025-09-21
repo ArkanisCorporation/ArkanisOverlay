@@ -134,9 +134,9 @@
             queries = queries.Append(new EntityCategorySearch(EntityCategory));
         }
 
-        foreach (var category in EntityCategories)
+        if (EntityCategories.Length > 0)
         {
-            queries = queries.Append(new EntityCategorySearch(category, false));
+            queries = queries.Append(new EntityCategorySearch(EntityCategories.ToHashSet()));
         }
 
         if (ProductCategory is not null)
@@ -144,9 +144,9 @@
             queries = queries.Append(new ProductCategorySearch(ProductCategory));
         }
 
-        foreach (var category in ProductCategories)
+        if (ProductCategories.Length > 0)
         {
-            queries = queries.Append(new ProductCategorySearch(category, false));
+            queries = queries.Append(new ProductCategorySearch(ProductCategories.ToHashSet()));
         }
 
         if (searchText is not null)
@@ -157,7 +157,7 @@
         var results = await SearchService.SearchAsync(queries, ct);
         var filteredResults = results.GameEntities
             .Select(x => x.Subject)
-            .Where(x => _except.Contains(x) == false)
+            .Where(x => !_except.Contains(x))
             .Where(x => _only is null || _only.Contains(x))
             .Where(Accept);
 

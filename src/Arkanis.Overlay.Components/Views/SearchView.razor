@@ -120,7 +120,7 @@
 
     private string ShortcutsText
         => new StringBuilder()
-            .AppendJoin(", ", _categorySearchShortcuts.Select(search => $"{search.Key} {search.Value.Category.Humanize().Pluralize()}"))
+            .AppendJoin(", ", _categorySearchShortcuts.Select(search => $"{search.Key} {search.Value.Categories.Single().Humanize().Pluralize()}"))
             .Append(", =(math expression)")
             .ToString();
 

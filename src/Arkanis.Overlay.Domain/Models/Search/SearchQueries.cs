@@ -93,12 +93,14 @@ public sealed record LocationSearch(IGameLocation Location) : SearchQuery
         };
 }
 
-public sealed record EntityCategorySearch(GameEntityCategory Category, bool ExcludeOnMismatch = true) : SearchQuery
+public sealed record EntityCategorySearch(params HashSet<GameEntityCategory> Categories) : SearchQuery
 {
+    public bool ExcludeOnMismatch { get; init; } = true;
+
     public override IEnumerable<SearchMatch> Match(SearchableTrait trait, int depth = 0)
         => trait switch
         {
-            SearchableEntityCategory data => data.Category == Category
+            SearchableEntityCategory data => Categories.Contains(data.Category)
                 ? [new SoftMatch(trait, this)]
                 : ExcludeOnMismatch
                     ? [new ExcludeMatch(trait, this)]
@@ -107,12 +109,14 @@ public sealed record EntityCategorySearch(GameEntityCategory Category, bool Excl
         };
 }
 
-public sealed record ProductCategorySearch(GameProductCategory Category, bool ExcludeOnMismatch = true) : SearchQuery
+public sealed record ProductCategorySearch(params HashSet<GameProductCategory> Categories) : SearchQuery
 {
+    public bool ExcludeOnMismatch { get; init; } = true;
+
     public override IEnumerable<SearchMatch> Match(SearchableTrait trait, int depth = 0)
         => trait switch
         {
-            SearchableProductCategory data => data.Category == Category
+            SearchableProductCategory data => Categories.Contains(data.Category)
                 ? [new SoftMatch(trait, this)]
                 : ExcludeOnMismatch
                     ? [new ExcludeMatch(trait, this)]
