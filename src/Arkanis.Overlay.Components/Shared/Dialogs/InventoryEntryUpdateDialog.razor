@@ -304,8 +304,7 @@
                 HangarEntry = hangarEntry,
                 VehicleInventoryType = VehicleInventoryType.Module,
                 InventoryAccept = entry
-                    => entry is not VehicleModuleEntry
-                       && entry is not VehicleInventoryEntry
+                    => (entry is not VehicleModuleEntry equippedModule || equippedModule.HangarEntry.Id != hangarEntry.Id)
                        && entry.Quantity.Reference.Entity is GameItem gameItem
                        && (itemCategory is null || gameItem.Category == itemCategory),
             }
