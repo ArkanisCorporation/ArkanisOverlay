@@ -55,14 +55,7 @@ public partial class HudWindow
         {
             Dispatcher.Invoke(() =>
                 {
-                    _logger.LogDebug("HudWindow: WindowFocused: {IsFocused}", focused);
-                    // Topmost = focused;
                     Visibility = focused ? Visibility.Visible : Visibility.Collapsed;
-                    _logger.LogDebug("HudWindow: Visibility: {Visibility}", Visibility);
-                    _logger.LogDebug("HudWindow: Position: {X},{Y}", Left, Top);
-                    _logger.LogDebug("HudWindow: Size: {Width}x{Height}", Width, Height);
-                    _logger.LogDebug("HudWindow: ActualSize: {Width}x{Height}", ActualWidth, ActualHeight);
-                    _logger.LogDebug("HudWindow: RenderSize: {Width}x{Height}", RenderSize.Width, RenderSize.Height);
                 }
             );
         };
