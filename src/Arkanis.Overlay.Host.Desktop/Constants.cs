@@ -8,4 +8,9 @@ public static class Constants
 
     public const string WindowClass = "CryENGINE";
     public const string WindowName = "Star Citizen "; // the trailing space is NOT a typo!!
+
+    /// <summary>
+    /// Window Class Name for windows that Windows marks as "unresponsive" ( "Not Responding" )
+    /// </summary>
+    public const string GhostWindowClassName = "Ghost";
 }

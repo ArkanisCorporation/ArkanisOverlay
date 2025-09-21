@@ -331,8 +331,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
 
         UpdateWindowSizeAndPosition();
 
-        // IsWindowFocused = GetWindowFocus();
-        IsWindowFocused = true; // Star Citizen takes focus on startup
+        IsWindowFocused = GetWindowFocus();
         WindowFocusChanged?.Invoke(this, IsWindowFocused);
     }
 
@@ -513,22 +512,31 @@ public sealed class WindowTracker : IHostedService, IDisposable
     private bool GetWindowFocus(HWND? targetHWnd = null)
     {
         var hWnd = targetHWnd ?? PInvoke.GetForegroundWindow();
+        var windowTitle = PInvoke.GetWindowText(hWnd);
 
         PInvoke.GetWindowThreadProcessId(hWnd, out var focusedWindowProcessId);
+        var processName = PInvoke.GetWindowProcessName(hWnd);
 
         var isFocused =
             (_currentWindowHWnd != HWND.Null && hWnd == _currentWindowHWnd)
             || (_currentWindowProcessId == focusedWindowProcessId);
 
 #if DEBUG
-        var windowTitle = PInvoke.GetWindowText(hWnd);
         // allows for convenient debugging
         // this way the DevTools window counts as the window being focused
         if (windowTitle != null)
         {
-            isFocused |= Debugger.IsAttached && windowTitle.StartsWith("DevTools", StringComparison.InvariantCulture);
+            isFocused |= Debugger.IsAttached && windowTitle.StartsWith("DevTool", StringComparison.InvariantCulture);
         }
 #endif
+
+        _logger.LogDebug(
+            "GetWindowFocus: HWnd: {HWnd} - IsFocused: {IsFocused} - Title: {Title} - ProcessName: {ProcessName}",
+            hWnd,
+            isFocused,
+            windowTitle,
+            processName
+        );
 
         return isFocused;
     }
@@ -609,7 +617,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
                 isStarCitizen
             )
         );
-
 
         if (windowClass != WindowClass) { return; }
 
@@ -724,53 +731,31 @@ public sealed class WindowTracker : IHostedService, IDisposable
     {
         var startTicks = HookTiming.NowTicks();
 
-        // safety precaution
-        // if (hWnd == HWND.Null) return;
-
-        // var isFocused = hWnd == _currentWindowHWnd;
-        // sometimes there is an erroneously detected focus change
-        // if the above check is used, the below check works 100% of the time
-        var currentForegroundWindowHWnd = PInvoke.GetForegroundWindow();
-        var isFocused1 = currentForegroundWindowHWnd == _currentWindowHWnd;
-        var isFocused2 = GetWindowFocus();
-        var isFocused3 = GetWindowFocus(hWnd);
-
-        var isFocused = isFocused2;
-
-        DispatchFast(() =>
-            {
-                _logger.LogDebug("WindowFocused: HWnd: {HWnd} - CurrentForegroundWindowHWnd: {CurrentForegroundWindowHWnd} - CurrentWindowHWnd: {CurrentWindowHWnd}", hWnd, currentForegroundWindowHWnd, _currentWindowHWnd);
-                _logger.LogDebug(
-                    "WindowFocused: IsFocused: {IsFocused} - IsFocused2: {IsFocused2} - IsFocused3: {IsFocused3}",
-                    isFocused1,
-                    isFocused2,
-                    isFocused3
-                );
-            }
-        );
-
-
-#if DEBUG && !DEBUG
-        var windowTitle = PInvoke.GetWindowText(hWnd);
-        // allows for convenient debugging
-        // this way the DevTools window counts as the window being focused
-        isFocused |= Debugger.IsAttached && (windowTitle?.StartsWith("DevTools", StringComparison.InvariantCulture) ?? false);
-#endif
+        var isFocused = false;
+        var windowClass = PInvoke.GetClassName(hWnd);
+        var isGhostWindow = windowClass == Constants.GhostWindowClassName;
 
         // only dispatch if the state has changed
         // if (isFocused != IsWindowFocused)
-        if (!_isSwitchingWindows)
+        if (!_isSwitchingWindows && !isGhostWindow)
         {
+            isFocused = GetWindowFocus(hWnd);
+
             IsWindowFocused = isFocused;
-            WindowFocusChanged?.Invoke(null, isFocused);
-            // DispatchFast(() => WindowFocusChanged?.Invoke(null, isFocused));
+            // WindowFocusChanged?.Invoke(null, isFocused);
+            DispatchFast(() => WindowFocusChanged?.Invoke(null, isFocused));
         }
 
         DispatchFast(() =>
-            _logger.LogDebug("WindowFocused: {IsFocused} - Elapsed: {ElapsedUs} us", isFocused, HookTiming.ElapsedUs(startTicks))
+            _logger.LogDebug(
+                "WindowFocused: {IsFocused} - IsSwitchingWindows: {IsSwitchingWindows} - IsGhostWindow: {IsGhostWindow} - Elapsed: {ElapsedUs} us",
+                isFocused,
+                _isSwitchingWindows,
+                isGhostWindow,
+                HookTiming.ElapsedUs(startTicks)
+            )
         );
     }
-
 
     private bool _isSwitchingWindows;
 
