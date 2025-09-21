@@ -2,8 +2,10 @@
 @using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Host.Desktop.Workers
 @using Arkanis.Overlay.Infrastructure.Services
+@using Microsoft.Extensions.Logging
 @layout MainLayout
 
+@inject ILogger<HudPage> Logger
 @inject NotificationService NotificationService
 @inject ISnackbar SnackbarService
 @inject IOverlayEventProvider OverlayEventProvider
@@ -237,6 +239,7 @@
 
     private void ShowStartUpHotkeyNotification()
     {
+        Logger.LogInformation("Showing start up hotkey notification");
         if (_startUpHotkeyNotificationSnackbar != null)
         {
             return;
