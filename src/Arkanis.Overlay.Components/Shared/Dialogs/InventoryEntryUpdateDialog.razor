@@ -19,14 +19,22 @@
     <DialogContent>
         <MudGrid>
             <MudItem xs="12">
-                <InventoryEntrySelectBox
-                    T="@(InventoryEntryBase?)"
-                    Label="Inventory Entity"
-                    @bind-Value="@SourceModel"
-                    @bind-Value:after="@ConfigureDefaults"
-                    Accept="@InventoryAccept"
-                    Disabled="@SourceModelProvided"
-                    Required/>
+                <MudStack Spacing="0">
+                    <InventoryEntrySelectBox
+                        T="@(InventoryEntryBase?)"
+                        Label="Inventory Entity"
+                        @bind-Value="@SourceModel"
+                        @bind-Value:after="@ConfigureDefaults"
+                        Accept="@InventoryAccept"
+                        Disabled="@SourceModelProvided"
+                        TargetLocationEntity="@TargetLocationEntity"
+                        TargetHangarEntry="@TargetHangarEntry"
+                        ShowCreateButton="@(!SourceModelProvided)"
+                        Required/>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        This operation requires an existing inventory entry to be selected.
+                    </MudText>
+                </MudStack>
             </MudItem>
             <MudItem xs="12">
                 <QuantityField
