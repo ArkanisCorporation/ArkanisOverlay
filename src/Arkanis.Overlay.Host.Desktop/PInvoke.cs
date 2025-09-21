@@ -80,10 +80,10 @@ internal partial class PInvoke
             return string.Empty;
         }
 
-        var length = GetWindowTextLength(hWnd);
+        var length = GetWindowTextLength(hWnd) + 1;
         Span<char> windowText = stackalloc char[length];
         GetWindowText(hWnd, windowText);
-        return SpanToString(windowText, length - 1); // ignore trailing null terminator
+        return SpanToString(windowText, length)?.Trim(' ', '\0'); // ignore trailing null terminator
     }
 
     public static bool IsTopLevelWindow(HWND hWnd)
