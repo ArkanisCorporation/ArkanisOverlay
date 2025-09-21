@@ -22,19 +22,20 @@ public partial class HudWindow
         _logger = logger;
         _windowTracker = windowTracker;
 
-        Top = _windowTracker.CurrentWindowPosition.Y;
-        Left = _windowTracker.CurrentWindowPosition.X;
+        InitializeComponent();
 
-        Height = _windowTracker.CurrentWindowSize.Height;
-        Width = _windowTracker.CurrentWindowSize.Width;
+        IsVisibleChanged += (_, _) =>
+        {
+            _logger.LogDebug("HudWindow: VisibilityChanged: {IsVisible}", IsVisible);
+        };
 
         _windowTracker.WindowSizeChanged += (_, size) =>
         {
             Dispatcher.Invoke(() =>
                 {
                     // _logger.LogDebug("HudWindow: WindowSize: {Width}x{Height}", size.Width, size.Height);
-                    Width = size.Width;
-                    Height = size.Height;
+                    MaxWidth = MinWidth = size.Width;
+                    MaxHeight = MinHeight = size.Height;
                 }
             );
         };
@@ -56,10 +57,12 @@ public partial class HudWindow
                 {
                     _logger.LogDebug("HudWindow: WindowFocused: {IsFocused}", focused);
                     // Topmost = focused;
-                    Visibility = focused ? Visibility.Visible : Visibility.Hidden;
+                    Visibility = focused ? Visibility.Visible : Visibility.Collapsed;
                     _logger.LogDebug("HudWindow: Visibility: {Visibility}", Visibility);
                     _logger.LogDebug("HudWindow: Position: {X},{Y}", Left, Top);
                     _logger.LogDebug("HudWindow: Size: {Width}x{Height}", Width, Height);
+                    _logger.LogDebug("HudWindow: ActualSize: {Width}x{Height}", ActualWidth, ActualHeight);
+                    _logger.LogDebug("HudWindow: RenderSize: {Width}x{Height}", RenderSize.Width, RenderSize.Height);
                 }
             );
         };
@@ -86,7 +89,7 @@ public partial class HudWindow
             );
         };
 
-        InitializeComponent();
+        LocationChanged += (_, __) => NudgePopup();
     }
 
     private void OnWindowInitialized(object sender, EventArgs e)
@@ -94,24 +97,37 @@ public partial class HudWindow
     }
 
     private void OnWindowLoaded(object sender, RoutedEventArgs e)
-        => WindowUtils.SetExtendedStyle(
+    {
+        WindowUtils.SetExtendedStyle(
             this,
             WINDOW_EX_STYLE.WS_EX_TRANSPARENT
             | WINDOW_EX_STYLE.WS_EX_NOACTIVATE
             //|  WINDOW_EX_STYLE.WS_EX_LAYERED
         );
 
+        Top = _windowTracker.CurrentWindowPosition.Y;
+        Left = _windowTracker.CurrentWindowPosition.X;
+
+        MaxWidth = MinWidth = _windowTracker.CurrentWindowSize.Width;
+        MaxHeight = MinHeight = _windowTracker.CurrentWindowSize.Height;
+    }
+
     private void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
         BlazorWebView.WebView.DefaultBackgroundColor = Color.Transparent;
         BlazorWebView.WebView.NavigationCompleted += WebView_Loaded;
         BlazorWebView.WebView.CoreWebView2InitializationCompleted += CoreWebView_Loaded;
+        Visibility = Visibility.Collapsed; // workaround to prevent the window from being shown on startup
+        // Window.Show() sets Visibility to Visible
+        // Window.Show() also causes the window contents to load, so it's required
+        // This is the last step in the initialization / loading process, so we can collapse the window right after
     }
 
     private void CoreWebView_Loaded(object? sender, CoreWebView2InitializationCompletedEventArgs e)
     {
         BlazorWebView.WebView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
         BlazorWebView.WebView.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+        BlazorWebView.WebView.CoreWebView2.Settings.IsGeneralAutofillEnabled = false;
     }
 
     private void WebView_Loaded(object? sender, CoreWebView2NavigationCompletedEventArgs e)
@@ -121,7 +137,18 @@ public partial class HudWindow
         {
             BlazorWebView.WebView.CoreWebView2.OpenDevToolsWindow();
         }
+    }
 
-        BlazorWebView.Focus();
+    private void NudgePopup()
+    {
+        if (DebugPanel?.IsOpen != true)
+        {
+            return;
+        }
+
+        // Toggle offset by a pixel to force WPF to recompute placement
+        var o = DebugPanel.HorizontalOffset;
+        DebugPanel.HorizontalOffset = o + 1;
+        DebugPanel.HorizontalOffset = o;
     }
 }

@@ -61,8 +61,8 @@ public sealed partial class OverlayWindow : IDisposable
         SetupWorkerEventListeners();
         InitializeComponent();
 
-        Height = _windowTracker.CurrentWindowSize.Height;
-        Width = _windowTracker.CurrentWindowSize.Width;
+        MaxWidth = MinWidth = _windowTracker.CurrentWindowSize.Width;
+        MaxHeight = MinHeight = _windowTracker.CurrentWindowSize.Height;
 
         Top = _windowTracker.CurrentWindowPosition.Y;
         Left = _windowTracker.CurrentWindowPosition.X;
@@ -134,8 +134,8 @@ public sealed partial class OverlayWindow : IDisposable
         _windowTracker.WindowSizeChanged += (_, size) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowSizeChanged: {Size}", size.ToString());
-                Width = size.Width;
-                Height = size.Height;
+                MaxWidth = MinWidth = size.Width;
+                MaxHeight = MinHeight = size.Height;
             }
         );
 
@@ -222,7 +222,10 @@ public sealed partial class OverlayWindow : IDisposable
         BlazorWebView.WebView.DefaultBackgroundColor = Color.Transparent;
         BlazorWebView.WebView.NavigationCompleted += WebView_Loaded;
         BlazorWebView.WebView.CoreWebView2InitializationCompleted += CoreWebView_Loaded;
-        Visibility = Visibility.Collapsed;
+        Visibility = Visibility.Collapsed; // workaround to prevent the window from being shown on startup
+        // Window.Show() sets Visibility to Visible
+        // Window.Show() also causes the window contents to load, so it's required
+        // This is the last step in the initialization / loading process, so we can collapse the window right after
     }
 
     private void BlazorWebView_Initializing(object? sender, BlazorWebViewInitializingEventArgs e)

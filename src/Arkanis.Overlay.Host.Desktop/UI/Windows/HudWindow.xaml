@@ -10,20 +10,21 @@
         Title="HudWindow"
         ResizeMode="NoResize"
         WindowStyle="None"
-        Visibility="Collapsed"
+        Visibility="Hidden"
+        Background="{x:Null}"
         Topmost="True"
         ShowInTaskbar="False"
-        Background="{x:Null}"
         Focusable="False"
         AllowsTransparency="True"
+        FocusManager.FocusedElement="{Binding ElementName=BlazorWebView}"
         Initialized="OnWindowInitialized"
         Loaded="OnWindowLoaded">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <!-- Toggle me to show/hide the debug panel -->
-        <system:Boolean x:Key="ShowDebugPanel">False</system:Boolean>
+        <system:Boolean x:Key="ShowDebugPanel">True</system:Boolean>
     </Window.Resources>
-    <Grid>
+    <Grid Name="Root">
         <blazor:BlazorWebView HostPage="wwwroot\index.html"
                            x:Name="BlazorWebView"
                            Loaded="MainWindow_Loaded"
@@ -40,6 +41,7 @@
               IsOpen="{Binding Source={StaticResource ShowDebugPanel}, Mode=OneWay}"
               StaysOpen="True"
               AllowsTransparency="True"
+              VerticalOffset="350"
               Placement="Relative"
               PlacementTarget="{Binding ElementName=Root}"
               PopupAnimation="None"
@@ -48,8 +50,8 @@
             <Grid
                 IsHitTestVisible="False"
                 Background="Transparent"
-                Width="{Binding ElementName=Root, Path=ActualWidth}"
-                Height="{Binding ElementName=Root, Path=ActualHeight}">
+                Width="{Binding ElementName=Root, Path=Width}"
+                Height="{Binding ElementName=Root, Path=Height}">
                 <Border
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
@@ -63,8 +65,7 @@
                     <TextBlock
                         FontFamily="Consolas"
                         FontSize="12"
-                        TextWrapping="Wrap"
-                        MaxWidth="360">
+                        TextWrapping="Wrap">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="
 [Window Debug]&#x0d;&#x0a;
@@ -76,8 +77,11 @@ WindowState:       {4}&#x0d;&#x0a;
 ShowInTaskbar:     {5}&#x0d;&#x0a;
 ResizeMode:        {6}&#x0d;&#x0a;
 Opacity:           {7:0.###}&#x0d;&#x0a;
-Bounds:            L={8:0.#}, T={9:0.#}, W={10:0.#}, H={11:0.#}&#x0d;&#x0a;
-Focused Element:   {12}">
+Position:          Left={8:0.#}, Top={9:0.#}&#x0d;&#x0a;
+Size:              Width={10:0.#}, Height={11:0.#}&#x0d;&#x0a;
+ActualSize:        ActualWidth={12:0.#}, ActualHeight={13:0.#}&#x0d;&#x0a;
+ActualSize:        RenderSize.Width={14:0.#}, RenderSize.Height={15:0.#}&#x0d;&#x0a;
+Focused Element:   {16}">
                                 <Binding Path="Title"/>
                                 <Binding Path="Visibility"/>
                                 <Binding Path="IsActive"/>
@@ -88,8 +92,12 @@ Focused Element:   {12}">
                                 <Binding Path="Opacity"/>
                                 <Binding Path="Left"/>
                                 <Binding Path="Top"/>
+                                <Binding Path="Width"/>
+                                <Binding Path="Height"/>
                                 <Binding Path="ActualWidth"/>
                                 <Binding Path="ActualHeight"/>
+                                <Binding Path="RenderSize.Width"/>
+                                <Binding Path="RenderSize.Height"/>
                                 <Binding Path="(FocusManager.FocusedElement)"/>
                             </MultiBinding>
                         </TextBlock.Text>
