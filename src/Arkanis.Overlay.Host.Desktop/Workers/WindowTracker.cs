@@ -452,6 +452,9 @@ public sealed class WindowTracker : IHostedService, IDisposable
         _logger.LogDebug("Game process exited");
         StopWindowStateTracking();
 
+        IsWindowFocused = false;
+        DispatchFast(() => WindowFocusChanged?.Invoke(this, IsWindowFocused));
+
         if (!_userPreferencesProvider.CurrentPreferences.TerminateOnGameExit)
         {
             StartWaitForNewWindow();
