@@ -739,7 +739,12 @@ public sealed class WindowTracker : IHostedService, IDisposable
         // if (isFocused != IsWindowFocused)
         if (!_isSwitchingWindows && !isGhostWindow)
         {
-            isFocused = GetWindowFocus(hWnd);
+            // might work better for launch focus change detection
+            // isFocused = GetWindowFocus(hWnd);
+
+            // auto-detects currently focused window with GetForegroundWindow() internally
+            // fixes Alt + Tab bug
+            isFocused = GetWindowFocus();
 
             IsWindowFocused = isFocused;
             // WindowFocusChanged?.Invoke(null, isFocused);
