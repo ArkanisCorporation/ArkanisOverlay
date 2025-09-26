@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Threading.RateLimiting;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Game;
@@ -16,6 +17,42 @@ using Infrastructure.Exceptions;
 using Local;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.CircuitBreaker;
+using Polly.Retry;
+
+static file class RepositoryShared
+{
+    private static readonly TimeSpan TrackedWindow = TimeSpan.FromSeconds(10);
+
+    public static readonly ResiliencePipeline Pipeline = new ResiliencePipelineBuilder()
+        .AddRateLimiter(
+            new FixedWindowRateLimiter(
+                new FixedWindowRateLimiterOptions
+                {
+                    Window = TrackedWindow,
+                    PermitLimit = 10,
+                    QueueLimit = 1_000,
+                    AutoReplenishment = true,
+                }
+            )
+        )
+        .AddCircuitBreaker(
+            new CircuitBreakerStrategyOptions
+            {
+                BreakDuration = TrackedWindow / 2,
+            }
+        )
+        .AddRetry(
+            new RetryStrategyOptions
+            {
+                Delay = TrackedWindow / 2,
+                BackoffType = DelayBackoffType.Linear,
+                MaxRetryAttempts = 6,
+            }
+        )
+        .Build();
+}
 
 /// <summary>
 ///     A generic synchronization repository for game entities sourced from UEX API.
@@ -70,7 +107,10 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             }
 
             Logger.LogDebug("Performing uncached API request for: {Type}", DomainType.Name);
-            var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
+            var response = await RepositoryShared.Pipeline.ExecuteAsync(
+                async ct => await GetInternalResponseAsync(ct).ConfigureAwait(false),
+                cancellationToken
+            );
             var result = CreateSyncData(response, serviceAvailableState);
 
             Logger.LogDebug("Caching data for: {Type}", DomainType.Name);
