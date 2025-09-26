@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    partial class OverlayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250729123847_AddIndicesForImprovedFiltering")]
+    partial class AddIndicesForImprovedFiltering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
@@ -280,9 +283,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage");
 
                     b.Property<DateTimeOffset?>("SoldAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("VehicleStoredAt")
                         .HasColumnType("TEXT");
 
                     b.HasIndex("TradeRunId");

@@ -4,11 +4,13 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
+using Microsoft.Extensions.Primitives;
 using Services;
 
 /// <summary>
 ///     A base class for all repository decorators.
-///     Simplifies the implementation of the decorator pattern wrapping the other functionality of the decorated repository.
+///     Simplifies the implementation of the decorator pattern wrapping the other functionality of the decorated
+///     repository.
 /// </summary>
 /// <param name="decoratedRepository">The repository to be decorated</param>
 /// <typeparam name="T">Target entity type</typeparam>
@@ -21,6 +23,9 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
 
     public InternalDataState DataState
         => decoratedRepository.DataState;
+
+    public IChangeToken DataChangeToken
+        => decoratedRepository.DataChangeToken;
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {

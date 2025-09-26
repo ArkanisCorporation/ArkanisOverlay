@@ -42,6 +42,15 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
     public override string ToString()
         => ToString(null, null);
 
+    public static QuantityOf Create(GameItem item, Quantity quantity)
+        => new(new OwnableEntityReference.Item(item), quantity);
+
+    public static QuantityOf Create(GameCommodity commodity, Quantity quantity)
+        => new(new OwnableEntityReference.Commodity(commodity), quantity);
+
+    public static QuantityOf Create(GameVehicle vehicle, Quantity quantity)
+        => new(new OwnableEntityReference.Vehicle(vehicle), quantity);
+
     public static IEnumerable<QuantityOf> Aggregate(IEnumerable<QuantityOf> quantities)
         => quantities
             .GroupBy(quantity => quantity.Reference.EntityId)

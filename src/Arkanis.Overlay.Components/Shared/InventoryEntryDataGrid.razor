@@ -394,10 +394,10 @@
             : string.Empty;
 
     private string GetEntryType(InventoryEntryBase contextItem)
-        => contextItem switch
+        => contextItem.Entity switch
         {
-            ItemInventoryEntry => "Item",
-            CommodityInventoryEntry => "Commodity",
+            GameItem => "Item",
+            GameCommodity => "Commodity",
             _ => "unknown",
         };
 

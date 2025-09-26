@@ -6,19 +6,25 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using MoreAsyncLINQ;
 using Services;
+using Services.Abstractions;
 
 /// <summary>
 ///     A repository for any game entity that stores them directly in memory.
 /// </summary>
 /// <param name="logger">A logger</param>
 /// <typeparam name="T">Target game entity type</typeparam>
-public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRepository<T>> logger) : InitializableBase, IGameEntityRepository<T>
-    where T : class, IGameEntity
+public class UexGameEntityInMemoryRepository<T>(IChangeTokenManager changeTokenManager, ILogger<UexGameEntityInMemoryRepository<T>> logger)
+    : InitializableBase, IGameEntityRepository<T> where T : class, IGameEntity
 {
     internal Dictionary<UexApiGameEntityId, T> Entities { get; set; } = [];
 
     public InternalDataState DataState { get; private set; } = DataMissing.Initial;
+
+    public IChangeToken DataChangeToken
+        => changeTokenManager.GetChangeTokenFor(this);
 
     public async IAsyncEnumerable<T> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
@@ -63,7 +69,12 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
         try
         {
             DataState = loadedSyncData.DataState with { RefreshRequired = false };
-            Entities = await loadedSyncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
+            Entities = await loadedSyncData.GameEntities
+                .DistinctBy(x => x.Id)
+                .ToDictionaryAsync(x => x.Id, cancellationToken)
+                .ConfigureAwait(false);
+
+            await changeTokenManager.TriggerChangeForAsync(this);
             Initialized();
             logger.LogInformation(
                 "Repository updated successfully to {CurrentDataState} with {EntityCount} entities",

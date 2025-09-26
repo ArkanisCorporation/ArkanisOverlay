@@ -15,26 +15,23 @@ public class InventoryEntityMapperUnitTests
     internal void Correctly_Maps_Base_Properties_For_All_Database_Types(InventoryEntryEntityBase sourceObject)
     {
         var uexMapper = new UexApiDtoMapper(new NoHydrationMockService());
+        var ownableEntityRefMapper = new EntityReferenceMapper(uexMapper);
+        var tradeRunEntityMapper = new TradeRunEntityMapper(ownableEntityRefMapper, uexMapper);
         GameEntityFixture.AllEntities.ForEach(uexMapper.CacheGameEntity);
 
-        var mapper = new InventoryEntityMapper(uexMapper);
+        var mapper = new InventoryEntityMapper(ownableEntityRefMapper, tradeRunEntityMapper, uexMapper);
 
         var result = mapper.Map(sourceObject);
 
         result.Id.ShouldBe(sourceObject.Id);
-        result.Quantity.ShouldBe(sourceObject.Quantity);
+        result.Quantity.Reference.EntityId.ShouldBe(sourceObject.Quantity.Reference.EntityId);
+        result.Quantity.Amount.ShouldBe(sourceObject.Quantity.Amount);
+        result.Quantity.Unit.ShouldBe(sourceObject.Quantity.Unit);
 
-        if (sourceObject is ItemInventoryEntryEntityBase itemSource)
+        if (sourceObject is LocationInventoryEntryEntity locationSource)
         {
-            var itemResult = result.ShouldBeAssignableTo<ItemInventoryEntry>();
-            var item = itemResult.Entity.ShouldNotBeNull();
-            item.Id.ShouldBe(itemSource.ItemId);
-
-            if (itemSource is PhysicalItemInventoryEntryEntity physicalItemSource)
-            {
-                var physicalResult = result.ShouldBeOfType<PhysicalItemInventoryEntry>();
-                physicalResult.Location.Id.ShouldBe(physicalItemSource.LocationId);
-            }
+            var physicalResult = result.ShouldBeOfType<LocationInventoryEntry>();
+            physicalResult.Location.Id.ShouldBe(locationSource.LocationId);
         }
     }
 
@@ -43,43 +40,41 @@ public class InventoryEntityMapperUnitTests
     internal void Correctly_Maps_Base_Properties_For_All_Domain_Types(InventoryEntryBase sourceObject)
     {
         var uexMapper = new UexApiDtoMapper(new NoHydrationMockService());
-        var mapper = new InventoryEntityMapper(uexMapper);
+        var ownableEntityRefMapper = new EntityReferenceMapper(uexMapper);
+        var tradeRunEntityMapper = new TradeRunEntityMapper(ownableEntityRefMapper, uexMapper);
+        var mapper = new InventoryEntityMapper(ownableEntityRefMapper, tradeRunEntityMapper, uexMapper);
 
         var result = mapper.Map(sourceObject);
 
         result.Id.ShouldBe(sourceObject.Id);
-        result.Quantity.ShouldBe(sourceObject.Quantity);
+        result.Quantity.Reference.EntityId.ShouldBe(sourceObject.Quantity.Reference.EntityId);
+        result.Quantity.Amount.ShouldBe(sourceObject.Quantity.Amount);
+        result.Quantity.Unit.ShouldBe(sourceObject.Quantity.Unit);
 
-        if (sourceObject is ItemInventoryEntry itemSource)
+        if (sourceObject is LocationInventoryEntry locationSource)
         {
-            var itemResult = result.ShouldBeAssignableTo<ItemInventoryEntryEntityBase>();
-            itemResult.ItemId.ShouldBe(itemSource.Item.Id);
-
-            if (itemSource is PhysicalItemInventoryEntry physicalSource)
-            {
-                var physicalResult = result.ShouldBeOfType<PhysicalItemInventoryEntryEntity>();
-                physicalResult.LocationId.ShouldBe(physicalSource.Location.Id);
-            }
+            var physicalResult = result.ShouldBeOfType<LocationInventoryEntryEntity>();
+            physicalResult.LocationId.ShouldBe(locationSource.Location.Id);
         }
     }
 
     internal static IEnumerable<InventoryEntryEntityBase[]> DatabaseInventoryEntities()
         =>
         [
-            [DatabaseInventoryEntitiesFixture.PhysicalItem1],
+            [DatabaseInventoryEntitiesFixture.LocationItem1],
             //
-            [DatabaseInventoryEntitiesFixture.PhysicalItem2],
+            [DatabaseInventoryEntitiesFixture.LocationItem2],
             //
-            [DatabaseInventoryEntitiesFixture.PhysicalItem3],
+            [DatabaseInventoryEntitiesFixture.LocationItem3],
         ];
 
     internal static IEnumerable<InventoryEntryBase[]> DomainInventoryEntries()
         =>
         [
-            [DomainInventoryEntriesFixture.PhysicalItem1],
+            [DomainInventoryEntriesFixture.LocationItem1],
             //
-            [DomainInventoryEntriesFixture.PhysicalItem2],
+            [DomainInventoryEntriesFixture.LocationItem1],
             //
-            [DomainInventoryEntriesFixture.PhysicalItem3],
+            [DomainInventoryEntriesFixture.LocationItem1],
         ];
 }

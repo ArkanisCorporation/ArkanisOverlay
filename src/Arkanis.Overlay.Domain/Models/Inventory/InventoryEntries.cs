@@ -13,47 +13,32 @@ public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
 
 public static class InventoryEntry
 {
-    public static InventoryEntryBase Create(QuantityOf quantityOf, InventoryEntryList? list = null)
-        => quantityOf.Reference switch
-        {
-            OwnableEntityReference.Commodity reference => Create(reference.Entity, quantityOf, list),
-            OwnableEntityReference.Item reference => Create(reference.Entity, quantityOf, list),
-            _ => throw new NotSupportedException($"Unable to create appropriate inventory entry for: {quantityOf.Reference}"),
-        };
-
-    public static VirtualItemInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
+    public static VirtualInventoryEntry Create(QuantityOf quantityOf, InventoryEntryList? list = null)
         => new()
         {
-            Item = item,
-            Quantity = quantity,
+            Quantity = quantityOf,
             List = list,
         };
 
-    public static PhysicalItemInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
+    public static LocationInventoryEntry Create(QuantityOf quantityOf, IGameLocation location, InventoryEntryList? list = null)
         => new()
         {
-            Item = item,
-            Quantity = quantity,
+            Quantity = quantityOf,
             Location = location,
             List = list,
         };
 
-    public static VirtualCommodityInventoryEntry Create(GameCommodity commodity, Quantity quantity, InventoryEntryList? list = null)
-        => new()
-        {
-            Commodity = commodity,
-            Quantity = quantity,
-            List = list,
-        };
+    public static VirtualInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
+        => Create(QuantityOf.Create(item, quantity), list);
 
-    public static PhysicalCommodityInventoryEntry CreateAt(GameCommodity commodity, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
-        => new()
-        {
-            Commodity = commodity,
-            Quantity = quantity,
-            Location = location,
-            List = list,
-        };
+    public static VirtualInventoryEntry Create(GameCommodity item, Quantity quantity, InventoryEntryList? list = null)
+        => Create(QuantityOf.Create(item, quantity), list);
+
+    public static LocationInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
+        => Create(QuantityOf.Create(item, quantity), location, list);
+
+    public static LocationInventoryEntry CreateAt(GameCommodity item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
+        => Create(QuantityOf.Create(item, quantity), location, list);
 
     public static InventoryEntryBase Create(IGameEntity source, Quantity quantity, IGameLocation? location = null, InventoryEntryList? list = null)
         => source switch
@@ -81,7 +66,7 @@ public static class InventoryEntry
             location ??= locatedAt.Location;
         }
 
-        return Create(source.Entity, quantity, location, list);
+        return Create(source.Quantity.Reference.Entity, quantity, location, list);
     }
 }
 
@@ -91,18 +76,23 @@ public abstract class InventoryEntryBase : IIdentifiable
     {
         Undefined,
         Virtual,
-        Physical,
+        Location,
     }
 
     public InventoryEntryId Id { get; init; } = InventoryEntryId.CreateNew();
 
-    public InventoryEntryList? List { get; set; }
+    public bool IsManagedInternally
+        => TradeRun is not null;
 
-    public abstract IGameEntity Entity { get; }
+    public IGameEntity Entity
+        => Quantity.Reference.Entity;
+
+    public TradeRun? TradeRun { get; set; }
+    public InventoryEntryList? List { get; set; }
 
     public abstract EntryType Type { get; }
 
-    public required Quantity Quantity { get; set; }
+    public required QuantityOf Quantity { get; set; }
 
     IDomainId IIdentifiable.Id
         => Id;
@@ -110,72 +100,25 @@ public abstract class InventoryEntryBase : IIdentifiable
     public abstract InventoryEntryBase SetLocation(IGameLocation location);
 }
 
-public abstract class ItemInventoryEntry : InventoryEntryBase
-{
-    public required GameItem Item { get; init; }
-
-    public override IGameEntity Entity
-        => Item;
-}
-
-public sealed class VirtualItemInventoryEntry : ItemInventoryEntry
+public sealed class VirtualInventoryEntry : InventoryEntryBase
 {
     public override EntryType Type
         => EntryType.Virtual;
 
     public override InventoryEntryBase SetLocation(IGameLocation location)
-        => new PhysicalItemInventoryEntry
+        => new LocationInventoryEntry
         {
             Id = Id,
-            Item = Item,
             Quantity = Quantity,
             Location = location,
             List = List,
         };
 }
 
-public sealed class PhysicalItemInventoryEntry : ItemInventoryEntry, IGameLocatedAt
+public sealed class LocationInventoryEntry : InventoryEntryBase, IGameLocatedAt
 {
     public override EntryType Type
-        => EntryType.Physical;
-
-    public required IGameLocation Location { get; set; }
-
-    public override InventoryEntryBase SetLocation(IGameLocation location)
-    {
-        Location = location;
-        return this;
-    }
-}
-
-public abstract class CommodityInventoryEntry : InventoryEntryBase
-{
-    public required GameCommodity Commodity { get; init; }
-
-    public override IGameEntity Entity
-        => Commodity;
-}
-
-public sealed class VirtualCommodityInventoryEntry : CommodityInventoryEntry
-{
-    public override EntryType Type
-        => EntryType.Virtual;
-
-    public override InventoryEntryBase SetLocation(IGameLocation location)
-        => new PhysicalCommodityInventoryEntry
-        {
-            Id = Id,
-            Commodity = Commodity,
-            Quantity = Quantity,
-            Location = location,
-            List = List,
-        };
-}
-
-public sealed class PhysicalCommodityInventoryEntry : CommodityInventoryEntry, IGameLocatedAt
-{
-    public override EntryType Type
-        => EntryType.Physical;
+        => EntryType.Location;
 
     public required IGameLocation Location { get; set; }
 
