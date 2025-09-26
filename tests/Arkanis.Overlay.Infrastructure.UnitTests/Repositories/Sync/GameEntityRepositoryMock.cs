@@ -7,6 +7,7 @@ using Domain.Models;
 using Domain.Models.Game;
 using Infrastructure.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
 internal sealed class GameEntityRepositoryMock<T>(
     IGameEntityExternalSyncRepository<T> repository,
@@ -42,6 +43,9 @@ internal sealed class GameEntityRepositoryMock<T>(
             return new DataLoaded(serviceState, DateTimeOffset.UtcNow);
         }
     }
+
+    public IChangeToken DataChangeToken
+        => new CancellationChangeToken(CancellationToken.None);
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
