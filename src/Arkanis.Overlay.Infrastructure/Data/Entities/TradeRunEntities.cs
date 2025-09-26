@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Riok.Mapperly.Abstractions;
 
+[Index(nameof(VehicleId))]
+[Index(nameof(Version))]
 [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
 public class TradeRunEntity : IDatabaseEntity<TradeRunId>
 {
@@ -59,6 +61,7 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
         }
     }
 
+    [Index(nameof(CargoTransferType))]
     public abstract class Stage
     {
         [Key]
@@ -112,6 +115,7 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
         }
     }
 
+    [Index(nameof(TerminalId))]
     public sealed class TerminalPurchaseStage : AcquisitionStage
     {
         [Column(nameof(TerminalId))]
@@ -144,6 +148,7 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
         }
     }
 
+    [Index(nameof(TerminalId))]
     public sealed class TerminalSaleStage : SaleStage
     {
         [Column(nameof(TerminalId))]

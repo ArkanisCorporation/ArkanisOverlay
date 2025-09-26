@@ -1,5 +1,4 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
-@using Arkanis.Overlay.Domain.Enums
 @inject IInventoryManager InventoryManager
 @inject IAnalyticsEventReporter EventReporter
 @inject ILogger<InventoryEntryUpdateDialog> Logger
@@ -130,7 +129,8 @@
         if (IsEditMode || TargetQuantity == SourceModel.Quantity)
         {
             // the entry is updated as a whole
-            SourceModel.Quantity = TargetQuantity;
+            SourceModel.Quantity.Amount = TargetQuantity.Amount;
+            SourceModel.Quantity.Unit = TargetQuantity.Unit;
             SourceModel.List = TargetList;
             var updatedModel = TargetLocation is not null
                 ? SourceModel.SetLocation(TargetLocation)

@@ -5,4 +5,5 @@ public enum GameItemCategoryType
     Undefined,
     Item,
     Service,
+    Contract,
 }

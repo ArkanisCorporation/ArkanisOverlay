@@ -639,4 +639,27 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private interface IPriceOf<TEntity, TPrice> : IGameEntity
         where TEntity : IGameEntity
         where TPrice : class, IGameEntityPrice;
+
+    public interface ICapabilities : IMapperWith<UexApiDtoMapper>
+    {
+        GameCommodity ResolveCommodity(UexId<GameCommodity> commodityId)
+            => Reference.ResolveCachedGameEntity(commodityId);
+
+        GameItem ResolveItem(UexId<GameItem> itemId)
+            => Reference.ResolveCachedGameEntity(itemId);
+
+        IGameLocation ResolveLocation(UexApiGameEntityId locationId)
+            => Reference.ResolveCachedGameEntity<IGameLocation>(locationId);
+
+        GameTerminal ResolveTerminal(UexId<GameTerminal> terminalId)
+            => Reference.ResolveCachedGameEntity(terminalId);
+
+        GameVehicle ResolveVehicle(UexId<GameVehicle> itemId)
+            => Reference.ResolveCachedGameEntity(itemId);
+
+        GameVehicle? ResolveVehicleNullable(UexId<GameVehicle>? vehicleId)
+            => vehicleId is not null
+                ? Reference.ResolveCachedGameEntity(vehicleId)
+                : null;
+    }
 }

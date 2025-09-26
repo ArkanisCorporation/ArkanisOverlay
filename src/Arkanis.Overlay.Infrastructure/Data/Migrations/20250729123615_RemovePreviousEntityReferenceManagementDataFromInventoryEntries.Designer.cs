@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    partial class OverlayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250729123615_RemovePreviousEntityReferenceManagementDataFromInventoryEntries")]
+    partial class RemovePreviousEntityReferenceManagementDataFromInventoryEntries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
@@ -126,8 +129,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EntityId");
-
                     b.HasIndex("QuantityOfId")
                         .IsUnique();
 
@@ -186,10 +187,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleId");
-
-                    b.HasIndex("Version");
-
                     b.ToTable("TradeRuns");
                 });
 
@@ -233,8 +230,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CargoTransferType");
-
                     b.ToTable("TradeRunStages", (string)null);
 
                     b.HasDiscriminator().HasValue("Stage");
@@ -250,8 +245,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
-
-                    b.HasIndex("LocationId");
 
                     b.HasDiscriminator().HasValue("Location");
                 });
@@ -280,9 +273,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage");
 
                     b.Property<DateTimeOffset?>("SoldAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("VehicleStoredAt")
                         .HasColumnType("TEXT");
 
                     b.HasIndex("TradeRunId");
@@ -330,8 +320,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 });
                         });
 
-                    b.HasIndex("TerminalId");
-
                     b.HasDiscriminator().HasValue("TerminalPurchaseStage");
                 });
 
@@ -374,8 +362,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                         .HasColumnType("INTEGER");
                                 });
                         });
-
-                    b.HasIndex("TerminalId");
 
                     b.HasDiscriminator().HasValue("TerminalSaleStage");
                 });

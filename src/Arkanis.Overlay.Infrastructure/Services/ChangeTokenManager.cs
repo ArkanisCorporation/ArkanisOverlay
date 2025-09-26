@@ -32,13 +32,34 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
     public IChangeToken GetChangeTokenFor<T>()
         => GetChangeTokenFor(typeof(T));
 
-    public async Task<IChangeToken> ResetChangeTokenFor<T>()
+    public IChangeToken GetChangeTokenFor<T>(T reference)
+        => GetChangeTokenFor<T>();
+
+    public async Task<IChangeToken> ResetChangeTokenForAsync<T>()
+    {
+        var targetType = typeof(T);
+        return await ResetChangeTokenForAsync(targetType);
+    }
+
+    public async Task TriggerChangeForAsync<T>()
+        => await ResetChangeTokenForAsync<T>();
+
+    public Task TriggerChangeForAsync<T>(T reference)
+        => TriggerChangeForAsync<T>();
+
+    public async Task TriggerChangeForAllAsync()
+    {
+        foreach (var changeProviderKeyType in _changeProviders.Keys)
+        {
+            await ResetChangeTokenForAsync(changeProviderKeyType);
+        }
+    }
+
+    private async Task<CancellationChangeToken> ResetChangeTokenForAsync(Type targetType)
     {
         try
         {
             await _semaphore.WaitAsync();
-            var targetType = typeof(T);
-
             if (!_changeProviders.TryGetValue(targetType, out var changeProvider))
             {
                 return GetChangeTokenFor(targetType);
@@ -59,9 +80,6 @@ public sealed class ChangeTokenManager : IChangeTokenManager, IDisposable, IAsyn
             _semaphore.Release();
         }
     }
-
-    public async Task TriggerChangeForAsync<T>()
-        => await ResetChangeTokenFor<T>();
 
     private CancellationChangeToken GetChangeTokenFor(Type type)
     {

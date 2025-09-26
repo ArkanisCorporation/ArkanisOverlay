@@ -2,7 +2,9 @@
 @using Arkanis.Overlay.Infrastructure.Data.Entities
 @using Arkanis.Overlay.Infrastructure.Services.Abstractions
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.Caching.Memory
 @implements IDisposable
+@inject IMemoryCache MemoryCache
 @inject NavigationManager NavigationManager
 @inject IDbContextFactory<OverlayDbContext> DbContextFactory
 @inject IEnumerable<ISelfUpdatable> SelfUpdatableServices

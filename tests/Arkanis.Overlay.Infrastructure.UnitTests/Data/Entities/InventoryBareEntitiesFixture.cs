@@ -1,30 +1,28 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Entities;
 
 using Domain.Models.Inventory;
+using Domain.Models.Trade;
 
 public static class DomainInventoryEntriesFixture
 {
-    public static readonly PhysicalItemInventoryEntry PhysicalItem1 = new()
+    public static readonly LocationInventoryEntry LocationItem1 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Item = GameEntityFixture.Item1,
-        Quantity = new Quantity(1, Quantity.UnitType.Count),
+        Quantity = QuantityOf.Create(GameEntityFixture.Item1, new Quantity(1, Quantity.UnitType.Count)),
         Location = GameEntityFixture.SpaceStation,
     };
 
-    public static readonly PhysicalItemInventoryEntry PhysicalItem2 = new()
+    public static readonly LocationInventoryEntry LocationItem2 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Item = GameEntityFixture.Item2,
-        Quantity = new Quantity(2, Quantity.UnitType.Count),
+        Quantity = QuantityOf.Create(GameEntityFixture.Item2, new Quantity(2, Quantity.UnitType.Count)),
         Location = GameEntityFixture.SpaceStation,
     };
 
-    public static readonly PhysicalItemInventoryEntry PhysicalItem3 = new()
+    public static readonly LocationInventoryEntry LocationItem3 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Item = GameEntityFixture.Item3,
-        Quantity = new Quantity(10, Quantity.UnitType.Count),
+        Quantity = QuantityOf.Create(GameEntityFixture.Item3, new Quantity(10, Quantity.UnitType.Count)),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -33,30 +31,27 @@ public static class DomainInventoryEntriesFixture
         Id = InventoryEntryListId.CreateNew(),
         Name = nameof(ItemList),
         Notes = "This is for a unit test",
-        Entries = [PhysicalItem1, PhysicalItem2],
+        Entries = [LocationItem1, LocationItem2],
     };
 
-    public static readonly PhysicalCommodityInventoryEntry PhysicalCommodity1 = new()
+    public static readonly LocationInventoryEntry LocationCommodity1 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Commodity = GameEntityFixture.Commodity1,
-        Quantity = new Quantity(5, Quantity.UnitType.StandardCargoUnit),
+        Quantity = QuantityOf.Create(GameEntityFixture.Commodity1, new Quantity(5, Quantity.UnitType.StandardCargoUnit)),
         Location = GameEntityFixture.SpaceStation,
     };
 
-    public static readonly PhysicalCommodityInventoryEntry PhysicalCommodity2 = new()
+    public static readonly LocationInventoryEntry LocationCommodity2 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Commodity = GameEntityFixture.Commodity2,
-        Quantity = new Quantity(8, Quantity.UnitType.StandardCargoUnit),
+        Quantity = QuantityOf.Create(GameEntityFixture.Commodity2, new Quantity(8, Quantity.UnitType.StandardCargoUnit)),
         Location = GameEntityFixture.SpaceStation,
     };
 
-    public static readonly PhysicalCommodityInventoryEntry PhysicalCommodity3 = new()
+    public static readonly LocationInventoryEntry LocationCommodity3 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        Commodity = GameEntityFixture.Commodity3,
-        Quantity = new Quantity(300, Quantity.UnitType.CentiStandardCargoUnit),
+        Quantity = QuantityOf.Create(GameEntityFixture.Commodity3, new Quantity(300, Quantity.UnitType.CentiStandardCargoUnit)),
         Location = GameEntityFixture.SpaceStation,
     };
 
@@ -65,17 +60,17 @@ public static class DomainInventoryEntriesFixture
         Id = InventoryEntryListId.CreateNew(),
         Name = nameof(CommodityList),
         Notes = "This is for a unit test",
-        Entries = [PhysicalCommodity1, PhysicalCommodity2],
+        Entries = [LocationCommodity1, LocationCommodity2],
     };
 
     public static readonly IEnumerable<InventoryEntryBase> AllEntries =
     [
-        PhysicalItem1,
-        PhysicalItem2,
-        PhysicalItem3,
-        PhysicalCommodity1,
-        PhysicalCommodity2,
-        PhysicalCommodity3,
+        LocationItem1,
+        LocationItem2,
+        LocationItem3,
+        LocationCommodity1,
+        LocationCommodity2,
+        LocationCommodity3,
     ];
 
     public static readonly IEnumerable<InventoryEntryList> AllLists = [ItemList, CommodityList];

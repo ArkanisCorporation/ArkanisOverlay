@@ -5,27 +5,48 @@ using Infrastructure.Data.Entities;
 
 internal static class DatabaseInventoryEntitiesFixture
 {
-    public static readonly PhysicalItemInventoryEntryEntity PhysicalItem1 = new()
+    public static readonly LocationInventoryEntryEntity LocationItem1 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        ItemId = GameEntityFixture.Item1.StrongId,
-        Quantity = new Quantity(1, Quantity.UnitType.StandardCargoUnit),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 1,
+            Unit = Quantity.UnitType.StandardCargoUnit,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Item1.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
-    public static readonly PhysicalItemInventoryEntryEntity PhysicalItem2 = new()
+    public static readonly LocationInventoryEntryEntity LocationItem2 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        ItemId = GameEntityFixture.Item2.StrongId,
-        Quantity = new Quantity(2, Quantity.UnitType.CentiStandardCargoUnit),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 100,
+            Unit = Quantity.UnitType.CentiStandardCargoUnit,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Item2.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
-    public static readonly PhysicalItemInventoryEntryEntity PhysicalItem3 = new()
+    public static readonly LocationInventoryEntryEntity LocationItem3 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        ItemId = GameEntityFixture.Item3.StrongId,
-        Quantity = new Quantity(10, Quantity.UnitType.Count),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 10,
+            Unit = Quantity.UnitType.Count,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Item3.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -34,30 +55,51 @@ internal static class DatabaseInventoryEntitiesFixture
         Id = InventoryEntryListId.CreateNew(),
         Name = nameof(ItemList),
         Notes = "This is for a unit test",
-        Entries = [PhysicalItem1, PhysicalItem2],
+        Entries = [LocationItem1, LocationItem2],
     };
 
-    public static readonly PhysicalCommodityInventoryEntryEntity PhysicalCommodity1 = new()
+    public static readonly LocationInventoryEntryEntity PhysicalCommodity1 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        CommodityId = GameEntityFixture.Commodity1.StrongId,
-        Quantity = new Quantity(5, Quantity.UnitType.StandardCargoUnit),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 5,
+            Unit = Quantity.UnitType.StandardCargoUnit,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Commodity1.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
-    public static readonly PhysicalCommodityInventoryEntryEntity PhysicalCommodity2 = new()
+    public static readonly LocationInventoryEntryEntity PhysicalCommodity2 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        CommodityId = GameEntityFixture.Commodity2.StrongId,
-        Quantity = new Quantity(8, Quantity.UnitType.StandardCargoUnit),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 24,
+            Unit = Quantity.UnitType.StandardCargoUnit,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Commodity2.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
-    public static readonly PhysicalCommodityInventoryEntryEntity PhysicalCommodity3 = new()
+    public static readonly LocationInventoryEntryEntity PhysicalCommodity3 = new()
     {
         Id = InventoryEntryId.CreateNew(),
-        CommodityId = GameEntityFixture.Commodity3.StrongId,
-        Quantity = new Quantity(300, Quantity.UnitType.CentiStandardCargoUnit),
+        Quantity = new QuantityOfEntity
+        {
+            Amount = 300,
+            Unit = Quantity.UnitType.StandardCargoUnit,
+            Reference = new OwnableEntityReferenceEntity
+            {
+                EntityId = GameEntityFixture.Commodity3.Id,
+            },
+        },
         LocationId = GameEntityFixture.SpaceStation.Id,
     };
 
@@ -71,9 +113,9 @@ internal static class DatabaseInventoryEntitiesFixture
 
     public static readonly IEnumerable<InventoryEntryEntityBase> AllEntries =
     [
-        PhysicalItem1,
-        PhysicalItem2,
-        PhysicalItem3,
+        LocationItem1,
+        LocationItem2,
+        LocationItem3,
         PhysicalCommodity1,
         PhysicalCommodity2,
         PhysicalCommodity3,

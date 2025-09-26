@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Arkanis.Overlay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(OverlayDbContext))]
-    partial class OverlayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250729123131_TransformInventoryEntriesToUseOwnableEntityReferences")]
+    partial class TransformInventoryEntriesToUseOwnableEntityReferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
@@ -66,11 +69,18 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(13)
+                        .HasMaxLength(21)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EntryType")
                         .HasColumnType("INTEGER");
+
+                    b.Property<int>("GameEntityCategory")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("GameEntityId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid?>("ListId")
                         .HasColumnType("TEXT");
@@ -78,7 +88,20 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.Property<Guid?>("TradeRunId")
                         .HasColumnType("TEXT");
 
+                    b.ComplexProperty<Dictionary<string, object>>("Quantity", "Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase.Quantity#Quantity", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("Amount")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("Unit")
+                                .HasColumnType("INTEGER");
+                        });
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GameEntityId");
 
                     b.HasIndex("ListId");
 
@@ -86,7 +109,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.ToTable("InventoryEntries");
 
-                    b.HasDiscriminator().HasValue("Undefined");
+                    b.HasDiscriminator().HasValue("Undefined_Undefined");
 
                     b.UseTphMappingStrategy();
                 });
@@ -125,8 +148,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityId");
 
                     b.HasIndex("QuantityOfId")
                         .IsUnique();
@@ -186,10 +207,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleId");
-
-                    b.HasIndex("Version");
-
                     b.ToTable("TradeRuns");
                 });
 
@@ -233,8 +250,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CargoTransferType");
-
                     b.ToTable("TradeRunStages", (string)null);
 
                     b.HasDiscriminator().HasValue("Stage");
@@ -242,25 +257,44 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.LocationInventoryEntryEntity", b =>
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalCommodityInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
                     b.Property<string>("LocationId")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
 
-                    b.HasIndex("LocationId");
-
-                    b.HasDiscriminator().HasValue("Location");
+                    b.HasDiscriminator().HasValue("Physical_Commodity");
                 });
 
-            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualInventoryEntryEntity", b =>
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.PhysicalItemInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
-                    b.HasDiscriminator().HasValue("Virtual");
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
+
+                    b.HasDiscriminator().HasValue("Physical_Item");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualCommodityInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.HasDiscriminator().HasValue("Virtual_Commodity");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualItemInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.HasDiscriminator().HasValue("Virtual_Item");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage", b =>
@@ -280,9 +314,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage");
 
                     b.Property<DateTimeOffset?>("SoldAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTimeOffset?>("VehicleStoredAt")
                         .HasColumnType("TEXT");
 
                     b.HasIndex("TradeRunId");
@@ -330,8 +361,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 });
                         });
 
-                    b.HasIndex("TerminalId");
-
                     b.HasDiscriminator().HasValue("TerminalPurchaseStage");
                 });
 
@@ -375,8 +404,6 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 });
                         });
 
-                    b.HasIndex("TerminalId");
-
                     b.HasDiscriminator().HasValue("TerminalSaleStage");
                 });
 
@@ -408,7 +435,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", b =>
                 {
                     b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", null)
-                        .WithOne("Quantity")
+                        .WithOne("QuantityReference")
                         .HasForeignKey("Arkanis.Overlay.Infrastructure.Data.Entities.QuantityOfEntity", "InventoryEntryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -438,8 +465,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", b =>
                 {
-                    b.Navigation("Quantity")
-                        .IsRequired();
+                    b.Navigation("QuantityReference");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryListEntity", b =>

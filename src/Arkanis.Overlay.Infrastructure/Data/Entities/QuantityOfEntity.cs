@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Data.Entities;
 
 using System.ComponentModel.DataAnnotations;
+using Converters;
 using Domain.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -11,6 +12,9 @@ public class QuantityOfEntity
     [Key]
     [MapperIgnore]
     public Guid Id { get; init; }
+
+    [MapperIgnore]
+    public InventoryEntryId? InventoryEntryId { get; init; }
 
     [MapperIgnore]
     public int? TradeRunStageId { get; init; }
@@ -24,6 +28,9 @@ public class QuantityOfEntity
         public void Configure(EntityTypeBuilder<QuantityOfEntity> builder)
         {
             builder.ToTable("Quantities");
+
+            builder.Property(x => x.InventoryEntryId)
+                .HasConversion<GuidDomainIdConverter<InventoryEntryId>>();
 
             builder.HasOne(x => x.Reference)
                 .WithOne()

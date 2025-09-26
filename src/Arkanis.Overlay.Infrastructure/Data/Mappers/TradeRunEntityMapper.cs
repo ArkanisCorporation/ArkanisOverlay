@@ -1,42 +1,22 @@
 namespace Arkanis.Overlay.Infrastructure.Data.Mappers;
 
-using Domain.Models.Game;
 using Domain.Models.Trade;
 using Entities;
 using Riok.Mapperly.Abstractions;
 
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
-internal partial class TradeRunEntityMapper(UexApiDtoMapper uexMapper)
+internal partial class TradeRunEntityMapper(EntityReferenceMapper entityReferenceMapper, UexApiDtoMapper uexMapper)
+    : EntityReferenceMapper.ICapabilities, UexApiDtoMapper.ICapabilities
 {
-    private GameItem ResolveItem(UexId<GameItem> itemId)
-        => uexMapper.ResolveCachedGameEntity(itemId);
+    EntityReferenceMapper IMapperWith<EntityReferenceMapper>.Reference
+        => entityReferenceMapper;
 
-    private GameCommodity ResolveCommodity(UexId<GameCommodity> commodityId)
-        => uexMapper.ResolveCachedGameEntity(commodityId);
-
-    private GameVehicle? ResolveVehicle(UexId<GameVehicle>? vehicleId)
-        => vehicleId is not null
-            ? uexMapper.ResolveCachedGameEntity(vehicleId)
-            : null;
-
-    private GameTerminal ResolveTerminal(UexId<GameTerminal> terminalId)
-        => uexMapper.ResolveCachedGameEntity(terminalId);
-
-    #region (To Database) Quantity Of Entity
-
-    public partial QuantityOfEntity Map(QuantityOf quantityOf);
-
-    #endregion
-
-    #region (To Domain) Quantity Of Entity
-
-    public partial QuantityOf Map(QuantityOfEntity quantityOf);
-
-    #endregion
+    UexApiDtoMapper IMapperWith<UexApiDtoMapper>.Reference
+        => uexMapper;
 
     #region (To Domain) Trade Run Mapping
 
-    [MapProperty(nameof(TradeRunEntity.VehicleId), nameof(TradeRun.Vehicle), Use = nameof(ResolveVehicle))]
+    [MapProperty(nameof(TradeRunEntity.VehicleId), nameof(TradeRun.Vehicle))]
     public partial TradeRun Map(TradeRunEntity tradeRun);
 
     #endregion
@@ -47,21 +27,24 @@ internal partial class TradeRunEntityMapper(UexApiDtoMapper uexMapper)
 
     #endregion
 
-    #region (To Database) Ownable Entity Reference
+    public interface ICapabilities : IMapperWith<TradeRunEntityMapper>
+    {
+        [UserMapping(Default = true)]
+        public TradeRun Map(TradeRunEntity tradeRun)
+            => Reference.Map(tradeRun);
 
-    [UserMapping(Default = true)]
-    public OwnableEntityReferenceEntity Map(OwnableEntityReference reference)
-        => OwnableEntityReferenceEntity.Create(reference);
+        [UserMapping(Default = true)]
+        public TradeRunEntity Map(TradeRun tradeRun)
+            => Reference.Map(tradeRun);
 
-    #endregion
+        [UserMapping(Default = true)]
+        public TradeRun.AcquisitionStage Map(TradeRunEntity.AcquisitionStage stage)
+            => Reference.Map(stage);
 
-    #region (To Domain) Ownable Entity Reference
-
-    [UserMapping(Default = true)]
-    public OwnableEntityReference Map(OwnableEntityReferenceEntity referenceEntity)
-        => referenceEntity.ToReference(uexMapper);
-
-    #endregion
+        [UserMapping(Default = true)]
+        public TradeRun.SaleStage Map(TradeRunEntity.SaleStage stage)
+            => Reference.Map(stage);
+    }
 
     #region (To Database) Trade Run Stage Mapping
 
@@ -105,10 +88,18 @@ internal partial class TradeRunEntityMapper(UexApiDtoMapper uexMapper)
             _ => throw new NotSupportedException($"Database entity mapping not supported for source domain object: {stage}"),
         };
 
-    [MapProperty(nameof(TradeRunEntity.TerminalPurchaseStage.TerminalId), nameof(TradeRun.TerminalPurchaseStage.Terminal), Use = nameof(ResolveTerminal))]
+    [MapProperty(
+        nameof(TradeRunEntity.TerminalPurchaseStage.TerminalId),
+        nameof(TradeRun.TerminalPurchaseStage.Terminal),
+        Use = nameof(UexApiDtoMapper.ICapabilities.ResolveTerminal)
+    )]
     public partial TradeRun.TerminalPurchaseStage Map(TradeRunEntity.TerminalPurchaseStage stage);
 
-    [MapProperty(nameof(TradeRunEntity.TerminalSaleStage.TerminalId), nameof(TradeRun.TerminalSaleStage.Terminal), Use = nameof(ResolveTerminal))]
+    [MapProperty(
+        nameof(TradeRunEntity.TerminalSaleStage.TerminalId),
+        nameof(TradeRun.TerminalSaleStage.Terminal),
+        Use = nameof(UexApiDtoMapper.ICapabilities.ResolveTerminal)
+    )]
     public partial TradeRun.TerminalSaleStage Map(TradeRunEntity.TerminalSaleStage stage);
 
     #endregion
