@@ -63,7 +63,11 @@ public class UexGameEntityInMemoryRepository<T>(ILogger<UexGameEntityInMemoryRep
         try
         {
             DataState = loadedSyncData.DataState with { RefreshRequired = false };
-            Entities = await loadedSyncData.GameEntities.ToDictionaryAsync(x => x.Id, cancellationToken).ConfigureAwait(false);
+            Entities = await loadedSyncData.GameEntities
+                .DistinctBy(x => x.Id)
+                .ToDictionaryAsync(x => x.Id, cancellationToken)
+                .ConfigureAwait(false);
+
             Initialized();
             logger.LogInformation(
                 "Repository updated successfully to {CurrentDataState} with {EntityCount} entities",
