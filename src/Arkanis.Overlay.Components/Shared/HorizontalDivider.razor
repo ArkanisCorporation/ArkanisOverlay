@@ -1,0 +1,35 @@
+<!--suppress CssUnresolvedCustomProperty -->
+<div class="pt-2 pb-1 relative">
+    <MudDivider/>
+    @if (Text is not null || ChildContent is not null)
+    {
+        <MudStack Justify="@Justify.Center"
+                  Class="absolute w-100"
+                  style="top: -1px;"
+                  Row>
+            <div class="px-3" style="background: var(--mud-palette-surface);">
+                @if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+                else
+                {
+                    <span>
+                        @Text
+                    </span>
+                }
+            </div>
+        </MudStack>
+    }
+</div>
+
+@code
+{
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

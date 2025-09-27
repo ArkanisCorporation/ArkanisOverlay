@@ -1,0 +1,53 @@
+<MudStack AlignItems="@AlignItems.Center"
+          Spacing="@Spacing"
+          Class="@Class"
+          Row>
+    @if (Model is HangarInventoryEntry hangarEntry)
+    {
+        if (!string.IsNullOrWhiteSpace(hangarEntry.NameTag))
+        {
+            <MudText Typo="@Typo"
+                     Class="no-wrap">
+                "@hangarEntry.NameTag"
+            </MudText>
+        }
+
+        <GameEntityNameLabel
+            Model="@Model.Entity.Name"
+            Typo="@Typo"
+            Embedded/>
+    }
+    else
+    {
+        <GameEntityNameLabel
+            Model="@Model.Entity.Name"
+            Typo="@Typo"/>
+    }
+    @if (!WithoutLocation)
+    {
+        <InventoryEntryPlacementLabel
+            Model="@Model"
+            Typo="@Typo"/>
+    }
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required InventoryEntryBase Model { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; } = 1;
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.h6;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public bool WithoutLocation { get; set; }
+
+}
