@@ -1,0 +1,103 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol -->
+<style>
+    .cid-logo-wrapper {
+        display: flex;
+        height: 100%;
+        width: fit-content;
+    }
+
+    .cid-logo {
+        position: relative;
+    }
+
+    .cid-logo > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    <div class="cid-logo-wrapper" style="@WrapperStyle">
+        @ImageContent
+    </div>
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetCitizenIdLink(ContentId)" Class="cid-logo-wrapper" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="Citizen iD"/>
+           </picture>;
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("cid-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string AssetPath
+        => DevelopmentVariant switch
+        {
+            true => SizeVariant switch
+            {
+                Variant.Icon => "img/citizenid-icon-light-dev.png",
+                _ => "img/citizenid-logo-light-dev.png",
+            },
+            _ => SizeVariant switch
+            {
+                Variant.Icon => "img/citizenid-icon-light.png",
+                _ => "img/citizenid-logo-light.png",
+            },
+        };
+
+    [Parameter]
+    public Variant SizeVariant { get; set; } = Variant.Logo;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? WrapperStyle { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public bool DevelopmentVariant { get; set; }
+
+    public enum Variant
+    {
+        Logo,
+        Icon,
+    }
+
+}
