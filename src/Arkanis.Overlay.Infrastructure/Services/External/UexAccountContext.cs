@@ -6,10 +6,17 @@ using Domain;
 using Domain.Abstractions.Services;
 using Domain.Options;
 using Exceptions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Overlay.External.UEX;
 using Overlay.External.UEX.Abstractions;
 
-public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager userPreferences, UexApiOptions options) : SelfInitializableServiceBase
+public class UexAccountContext(
+    IUexUserApi userApi,
+    IUserPreferencesManager userPreferences,
+    IOptions<UexApiOptions> options,
+    ILogger<UexAccountContext> logger
+) : SelfInitializableServiceBase
 {
     public UexUserDTO? CurrentUser { get; set; }
 
@@ -36,10 +43,9 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
             throw new ExternalLinkUnauthorizedException("Provided secret key is not valid.", null);
         }
 
-        options.UserToken = credentials.SecretToken;
-
         try
         {
+            options.Value.UserToken = credentials.SecretToken;
             var userResponse = await userApi.GetUserAsync(cancellationToken: cancellationToken);
             if (IsLinkedUserValid(userResponse))
             {
@@ -74,20 +80,22 @@ public class UexAccountContext(IUexUserApi userApi, IUserPreferencesManager user
         {
             if (!IsLinked)
             {
-                options.UserToken = null;
+                options.Value.UserToken = null;
             }
         }
     }
 
     public async Task UpdateAsync(CancellationToken cancellationToken)
     {
-        if (Credentials is not { UserIdentifier.Length: > 0, SecretToken.Length: > 0 })
+        if (Credentials is not { SecretToken.Length: > 0 })
         {
+            logger.LogDebug("Cannot update UEX account context, user ID or secret token is not set.");
             return;
         }
 
         try
         {
+            logger.LogDebug("Updating UEX account context, using stored user credentials");
             var userResponse = await userApi.GetUserAsync(Credentials.UserIdentifier, cancellationToken);
             if (IsLinkedUserValid(userResponse))
             {
