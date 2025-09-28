@@ -30,4 +30,9 @@ public static class ApplicationConstants
 
     public static readonly DirectoryInfo ApplicationDataDirectory = Directory.CreateDirectory(ApplicationDataDirectoryPath);
     public static readonly DirectoryInfo ApplicationLogsDirectory = Directory.CreateDirectory(ApplicationLogsDirectoryPath);
+
+    public static class ArgNames
+    {
+        public const string HandleUrl = "handle-url";
+    }
 }

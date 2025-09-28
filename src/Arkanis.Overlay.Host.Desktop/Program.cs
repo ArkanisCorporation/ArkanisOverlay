@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Host.Desktop;
 
 using System.Globalization;
 using Windows.Win32;
+using Common;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
@@ -65,6 +66,14 @@ public static class Program
                         logger.LogCritical("{AppName} is already running", environment.ApplicationName);
                     };
                 }
+            )
+            .ConfigureAppConfiguration(config => config.AddCommandLine(
+                    args,
+                    new Dictionary<string, string>
+                    {
+                        [ApplicationConstants.ArgNames.HandleUrl] = $"CommandLine:{ApplicationConstants.ArgNames.HandleUrl}",
+                    }
+                )
             )
             .ConfigureServices((context, services) => services.AddAllDesktopHostServices(context.Configuration))
             .ConfigureWpf(options =>
@@ -177,6 +186,7 @@ public static class Program
         services.AddJavaScriptEventInterop();
         services.AddSingleton(typeof(WindowProvider<>));
 
+        services.AddHostedService<WindowsCustomProtocolHandlerManager>();
         services.AddHostedService<WindowsAutoStartManager>()
             .AddSingleton<ISystemAutoStartStateProvider, WindowsAutoStartStateProvider>();
 
