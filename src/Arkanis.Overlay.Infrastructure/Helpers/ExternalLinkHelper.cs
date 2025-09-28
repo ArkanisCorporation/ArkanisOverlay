@@ -51,6 +51,9 @@ public static class ExternalLinkHelper
     public static string GetCitizenIdLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://citizenid.space/", contentId);
 
+    public static string GetFleetYardsLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://fleetyards.net/", contentId);
+
     public static string GetMedRunnerLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://medrunner.space/", contentId);
 

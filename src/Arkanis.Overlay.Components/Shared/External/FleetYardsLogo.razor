@@ -2,19 +2,19 @@
 @using Arkanis.Overlay.Infrastructure.Helpers
 <!--suppress CssUnusedSymbol -->
 <style>
-    .cid-logo-wrapper {
+    .fltyd-logo-wrapper {
         display: flex;
         height: 100%;
         width: fit-content;
     }
 
-    .cid-logo {
+    .fltyd-logo {
         position: relative;
         display: flex;
         align-items: center;
     }
 
-    .cid-logo > img {
+    .fltyd-logo > img {
         display: block;
         width: 100%;
         height: auto;
@@ -23,13 +23,13 @@
 
 @if (WithoutLink)
 {
-    <div class="cid-logo-wrapper" style="@WrapperStyle">
+    <div class="fltyd-logo-wrapper" style="@WrapperStyle">
         @ImageContent
     </div>
 }
 else
 {
-    <MudLink Href="@ExternalLinkHelper.GetCitizenIdLink(ContentId)" Class="cid-logo-wrapper" Target="_blank">
+    <MudLink Href="@ExternalLinkHelper.GetFleetYardsLink(ContentId)" Class="fltyd-logo-wrapper" Target="_blank">
         @ImageContent
     </MudLink>
 }
@@ -49,7 +49,7 @@ else
     {
         get
         {
-            var builder = new StringBuilder("cid-logo");
+            var builder = new StringBuilder("fltyd-logo");
             if (Class is not null)
             {
                 builder.Append(' ');
@@ -61,18 +61,10 @@ else
     }
 
     private string AssetPath
-        => DevelopmentVariant switch
+        => SizeVariant switch
         {
-            true => SizeVariant switch
-            {
-                Variant.Icon => "img/citizenid-icon-light-dev.png",
-                _ => "img/citizenid-logo-light-dev.png",
-            },
-            _ => SizeVariant switch
-            {
-                Variant.Icon => "img/citizenid-icon-light.png",
-                _ => "img/citizenid-logo-light.png",
-            },
+            Variant.Icon => "img/fleetyards-icon.png",
+            _ => "img/fleetyards-logo.png",
         };
 
     [Parameter]
@@ -92,9 +84,6 @@ else
 
     [Parameter]
     public bool WithoutLink { get; set; }
-
-    [Parameter]
-    public bool DevelopmentVariant { get; set; }
 
     public enum Variant
     {
