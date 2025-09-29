@@ -12,6 +12,8 @@ using Windows.Win32.UI.HiDpi;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Timer = System.Threading.Timer;
 
 // /// <summary>
@@ -278,10 +280,8 @@ public sealed class WindowTracker : IHostedService, IDisposable
         if (!success)
         {
             var code = Marshal.GetLastWin32Error();
-            // throw new NativeCallException($"Failed to set WinEventHook: {reason}");
-            // Logger.LogWarning("Failed to unhook win event hook: {hWinEventHook}", hWinEventHook);
-            Console.WriteLine("Failed to unhook win event hook: {0} - {1}", hWinEventHook, code);
-            Console.WriteLine(
+            Log.Fatal("Failed to unhook win event hook: {0} - Code: {1}", hWinEventHook, code);
+            Log.Fatal(
                 "Expected Thread: {0} - Actual: {1} - Equal: {2}",
                 ThreadMap[hWinEventHook].ManagedThreadId,
                 Environment.CurrentManagedThreadId,
