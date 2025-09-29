@@ -245,11 +245,7 @@
             return;
         }
 
-        var currentHotkey = string.Join(
-            "+",
-            UserPreferencesProvider.CurrentPreferences.LaunchShortcut.FormatParts
-                .Select(p => p.ToString().Replace(" ", ""))
-        );
+        var currentHotkey = UserPreferencesProvider.CurrentPreferences.LaunchShortcut.ToString();
 
         _startUpHotkeyNotificationSnackbar = SnackbarService.Add(
             @<div>
