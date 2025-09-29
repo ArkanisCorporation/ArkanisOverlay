@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Components.Services;
 
+using System.Diagnostics;
 using Domain.Abstractions.Services;
 using Domain.Models.Keyboard;
 using Microsoft.AspNetCore.Components;
@@ -9,17 +10,17 @@ using Microsoft.Extensions.Primitives;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
 
-public class OverlayModules
+public class OverlayModules(IOverlayControls overlayControls)
 {
     private readonly ICollection<Entry> _modules =
     [
-        new()
+        new UrlEntry()
         {
             Url = "/search",
             Name = "Search",
             Icon = Outlined.Search,
         },
-        new()
+        new UrlEntry()
         {
             Url = "/inventory",
             Name = "Inventory",
@@ -31,7 +32,24 @@ public class OverlayModules
                 return await inventoryManager.GetUnassignedCountAsync();
             },
         },
-        new()
+        new ActionEntry()
+        {
+            Name = "Close",
+            Icon = Outlined.Close,
+            Color = Color.Error,
+            Action = async (activationType, cancellationToken) =>
+            {
+                // let the global keybindings close the overlay when invoked via hotkey
+                if (activationType == ActivationType.Hotkey)
+                {
+                    return false;
+                }
+
+                await overlayControls.HideAsync().ConfigureAwait(false);
+                return true;
+            },
+        },
+        new UrlEntry()
         {
             Url = "/trade",
             Name = "Trade",
@@ -43,34 +61,34 @@ public class OverlayModules
                 return await inventoryManager.GetInProgressCountAsync();
             },
         },
-        new()
+        new UrlEntry()
         {
             Url = "/mining",
             Name = "Mining",
             Icon = Outlined.Deblur,
             Disabled = true,
         },
-        new()
+        new UrlEntry()
         {
             Url = "/market",
             Name = "Market",
             Icon = Outlined.Store,
             Disabled = true,
         },
-        new()
+        new UrlEntry()
         {
             Url = "/hangar",
             Name = "Hangar",
             Icon = Outlined.GarageDoor,
         },
-        new()
+        new UrlEntry()
         {
             Url = "/org",
             Name = "Org",
             Icon = Icons.Material.Filled.Groups,
             Disabled = true,
         },
-        new()
+        new UrlEntry()
         {
             Url = "/settings",
             Name = "Settings",
@@ -83,10 +101,18 @@ public class OverlayModules
     public ICollection<Entry> GetAll()
         => _modules;
 
-    public class Entry
+    public enum ActivationType
     {
-        public required string Url { get; init; }
+        Click,
+        Hotkey,
+    }
+
+    [DebuggerDisplay("Entry {Name}")]
+    public abstract class Entry
+    {
         public required string Name { get; init; }
+
+        public Color Color { get; init; } = Color.Inherit;
 
         public bool Disabled { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
@@ -98,7 +124,66 @@ public class OverlayModules
         public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } =
             _ => ValueTask.FromResult(0);
 
-        public string GetAbsoluteUri(NavigationManager navigationManager)
-            => navigationManager.ToAbsoluteUri(Url).ToString();
+        public virtual bool CanActivate(NavigationManager navigationManager, string currentUri)
+            => !Disabled && !IsActive(navigationManager, currentUri);
+
+        protected virtual bool Activate(NavigationManager navigationManager, string currentUri)
+            => false;
+
+        // Automatic invoke of Activate if not overriden to simplify usage of sync/async implementations.
+        public virtual Task<bool> ActivateAsync(
+            NavigationManager navigationManager,
+            string currentUri,
+            ActivationType activationType = ActivationType.Click,
+            CancellationToken cancellationToken = default
+        )
+            => Task.FromResult(Activate(navigationManager, currentUri));
+
+        public abstract bool IsActive(NavigationManager navigationManager, string currentUri);
+    }
+
+    [DebuggerDisplay("UrlEntry - {Name} ({Url})")]
+    public class UrlEntry : Entry
+    {
+        public required string Url { get; init; }
+
+        protected override bool Activate(NavigationManager navigationManager, string currentUri)
+        {
+            if (!CanActivate(navigationManager, currentUri))
+            {
+                return false;
+            }
+
+            var url = navigationManager.ToAbsoluteUri(Url).ToString();
+            navigationManager.NavigateTo(url);
+            return true;
+        }
+
+        public override bool IsActive(NavigationManager navigationManager, string currentUri)
+            => currentUri.StartsWith(navigationManager.ToAbsoluteUri(Url).ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    [DebuggerDisplay("ActionEntry - {Name} {Action}")]
+    public class ActionEntry : Entry
+    {
+        public required Func<ActivationType, CancellationToken, Task<bool>> Action { get; init; }
+
+        public override async Task<bool> ActivateAsync(
+            NavigationManager navigationManager,
+            string currentUri,
+            ActivationType activationType = ActivationType.Click,
+            CancellationToken cancellationToken = default
+        )
+        {
+            if (!CanActivate(navigationManager, currentUri))
+            {
+                return false;
+            }
+
+            return await Action(activationType, cancellationToken);
+        }
+
+        public override bool IsActive(NavigationManager navigationManager, string currentUri)
+            => false;
     }
 }
