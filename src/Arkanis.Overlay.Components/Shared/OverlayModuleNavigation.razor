@@ -29,7 +29,7 @@
          @bind-ActivePanelIndex:set="@ActivateModuleByIndexWithClick">
     @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
-        var moduleShortcut = GetKeyFor(moduleIndex, module);
+        var moduleShortcut = GetKeyboardShortcutFor(moduleIndex, module);
         var updateCount = GetUpdateCount(module);
 
         var description = true switch
@@ -57,7 +57,7 @@
                      Class="@classname">
             <TabWrapperContent>
                 <KeyboardShortcutBadge @key="@module.Name"
-                                       Key="@moduleShortcut"
+                                       Shortcut="@moduleShortcut"
                                        IsActive="@module.CanActivate(NavigationManager, CurrentUri)"
                                        OnKeyPress="@(() => ActivateModuleByIndexWithHotkey(moduleIndex))"
                                        Origin="@KeybindsOrigin"
@@ -192,7 +192,7 @@
         InvokeAsync(StateHasChanged);
     }
 
-    private KeyboardKey GetKeyFor(int index, OverlayModules.Entry module)
+    private KeyboardShortcut GetKeyboardShortcutFor(int index, OverlayModules.Entry module)
         => module.ShortcutOverride
            ?? (index < 12
                ? KeyboardKey.F1 + index

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Primitives;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
 
-public class OverlayModules(IOverlayControls overlayControls)
+public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesManager preferencesManager)
 {
     private readonly ICollection<Entry> _modules =
     [
@@ -36,6 +36,7 @@ public class OverlayModules(IOverlayControls overlayControls)
             Description = "Close the Overlay.",
             Icon = Outlined.Close,
             Color = Color.Error,
+            ShortcutOverride = preferencesManager.CurrentPreferences.LaunchShortcut,
             Action = async (activationType, _) =>
             {
                 // let the global keybindings close the overlay when invoked via hotkey
@@ -114,7 +115,7 @@ public class OverlayModules(IOverlayControls overlayControls)
             Name = "Settings",
             Description = "Configure the Overlay.",
             Icon = Outlined.Settings,
-            ShortcutOverride = KeyboardKey.F12,
+            ShortcutOverride = new KeyboardShortcut([KeyboardKey.F12]),
             IsDisabled = true,
             IsInDevelopment = true,
         },
@@ -141,7 +142,7 @@ public class OverlayModules(IOverlayControls overlayControls)
         public bool IsDisabled { get; init; }
         public bool IsInDevelopment { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
-        public KeyboardKey? ShortcutOverride { get; init; }
+        public KeyboardShortcut? ShortcutOverride { get; init; }
 
         public Func<IServiceProvider, IChangeToken> GetChangeToken { get; set; } =
             _ => NullChangeToken.Singleton;
