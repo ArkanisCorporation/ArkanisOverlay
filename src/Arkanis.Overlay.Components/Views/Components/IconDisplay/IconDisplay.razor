@@ -1,0 +1,42 @@
+@namespace Arkanis.Overlay.Components.Views.Components
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Components.Helpers
+@inject IIconService IconService
+@typeparam T
+
+<MudIcon Icon="@GetIconString()" Class="@Class" Style="@Style" />
+
+@code {
+    [Parameter]
+    public required T Value { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    private string GetIconString()
+    {
+        var iconName = IconService.GetIconFor(Value);
+        
+        // Map the icon name to actual MudBlazor icon string
+        return iconName switch
+        {
+            "AddShoppingCart" => MudBlazor.Icons.Material.Filled.AddShoppingCart,
+            "RemoveShoppingCart" => MudBlazor.Icons.Material.Filled.RemoveShoppingCart,
+            "CarRental" => MudBlazor.Icons.Material.Filled.CarRental,
+            "Diamond" => MudBlazor.Icons.Material.Filled.Diamond,
+            "Rocket" => MudBlazor.Icons.Material.Filled.Rocket,
+            "LocalShipping" => MudBlazor.Icons.Material.Filled.LocalShipping,
+            "Category" => MudBlazor.Icons.Material.Filled.Category,
+            "Topic" => MudBlazor.Icons.Material.Filled.Topic,
+            "Domain" => MudBlazor.Icons.Material.Filled.Domain,
+            "Public" => MudBlazor.Icons.Material.Filled.Public,
+            _ => MudBlazor.Icons.Material.Filled.Square,
+        };
+    }
+}
+
+

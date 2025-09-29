@@ -47,4 +47,13 @@ public static class DependencyInjection
             .Alias<IUserPreferencesManager, T>()
             .Alias<IUserPreferencesProvider, T>()
             .AddHostedService<UserPreferencesLoader>();
+
+    public static IServiceCollection AddIconManagementServices(this IServiceCollection services)
+        => services
+            .AddSingleton<IconManagement.IconValidationService>()
+            .Alias<IIconValidationService, IconManagement.IconValidationService>()
+            .AddSingleton<IconManagement.IconFallbackService>()
+            .Alias<IIconFallbackService, IconManagement.IconFallbackService>()
+            .AddSingleton<IconManagement.IconService>()
+            .Alias<IIconService, IconManagement.IconService>();
 }
