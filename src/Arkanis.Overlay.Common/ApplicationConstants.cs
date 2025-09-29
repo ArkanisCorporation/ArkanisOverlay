@@ -53,8 +53,9 @@ public static class ApplicationConstants
 
     public static class Args
     {
-        public static readonly string[] All = [HandleUrl];
+        public static readonly string[] All = [PreventLaunch, HandleUrl];
 
+        public const string PreventLaunch = "prevent-launch";
         public const string HandleUrl = "handle-url";
 
         public static class Config

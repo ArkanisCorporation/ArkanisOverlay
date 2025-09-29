@@ -82,7 +82,11 @@ public static class Program
         {
             using var appMutex = new SystemAppMutexManager();
             var host = hostBuilder.Build();
-            if (!appMutex.TryAcquire())
+            var preventLaunch = host.Services.GetRequiredService<IConfiguration>()
+                .GetSection(ApplicationConstants.Args.Config.GetKeyFor(ApplicationConstants.Args.PreventLaunch))
+                .Exists();
+
+            if (!appMutex.TryAcquire() || preventLaunch)
             {
                 Log.Warning("Another application instance is already running");
                 var hostApplicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
@@ -93,6 +97,11 @@ public static class Program
                     // custom protocol invocation was successfully processed, do not continue to launch
                     return;
                 }
+            }
+
+            if (preventLaunch)
+            {
+                return;
             }
 
             //? force acquire or throw
