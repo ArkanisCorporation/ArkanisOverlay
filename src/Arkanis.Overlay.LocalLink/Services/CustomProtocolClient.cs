@@ -22,13 +22,10 @@ public class CustomProtocolClient(ILogger<CustomProtocolClient> logger)
 
     public LocalLinkEndpointCall ParseEndpointCall(string uriPathAndQuery)
     {
-        var uriParts = uriPathAndQuery.Split('?', 2);
-        var (uriPath, uriQuery) = uriParts.Length == 2
-            ? (uriParts[0], uriParts[1])
-            : (uriParts[0], string.Empty);
+        var uri = new Uri(uriPathAndQuery);
 
-        var queryParams = HttpUtility.ParseQueryString(uriQuery);
-        return uriPath switch
+        var queryParams = HttpUtility.ParseQueryString(uri.Query);
+        return uri.AbsolutePath switch
         {
             CommandEndpoint => ParseCommandEndpointCall(queryParams),
             _ => new UnsupportedLocalLinkEndpointCall(uriPathAndQuery),

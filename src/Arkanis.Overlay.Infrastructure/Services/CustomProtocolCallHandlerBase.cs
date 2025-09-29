@@ -24,10 +24,10 @@ public abstract class CustomProtocolCallHandlerBase(
         return await TryProcessCustomProtocolCallAsync(customProtocolContent, cancellationToken);
     }
 
-    public async Task<bool> TryProcessCustomProtocolCallAsync(string customProtocolContent, CancellationToken cancellationToken)
+    public async Task<bool> TryProcessCustomProtocolCallAsync(string customProtocolUrl, CancellationToken cancellationToken)
     {
-        logger.LogDebug("Processing custom protocol content: {Content}", customProtocolContent);
-        var endpointCall = customProtocolClient.ParseEndpointCall(customProtocolContent);
+        logger.LogDebug("Processing custom protocol content: {Content}", customProtocolUrl);
+        var endpointCall = customProtocolClient.ParseEndpointCall(customProtocolUrl);
         if (endpointCall is CommandLocalLinkEndpointCall commandEndpointCall)
         {
             return await TryProcessCommandEndpointCall(commandEndpointCall, cancellationToken);
