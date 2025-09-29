@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Server.Services;
 
 using System.Globalization;
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using MudBlazor;
 
 internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvider, IOverlayEventControls, IDisposable

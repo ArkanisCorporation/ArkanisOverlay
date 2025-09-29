@@ -5,8 +5,9 @@ public static class ApplicationConstants
     public const string GoogleAnalyticsTrackingId = "G-ND6WBR51VP";
 
     public const string ApplicationName = "Arkanis Overlay";
+    public const string ApplicationSlug = "ArkanisOverlay";
 
-    public const string AppDirectoryName = "ArkanisOverlay";
+    public const string AppDirectoryName = ApplicationSlug;
     public const string DataDirectoryName = "data";
     public const string LogsDirectoryName = "logs";
 
@@ -31,8 +32,37 @@ public static class ApplicationConstants
     public static readonly DirectoryInfo ApplicationDataDirectory = Directory.CreateDirectory(ApplicationDataDirectoryPath);
     public static readonly DirectoryInfo ApplicationLogsDirectory = Directory.CreateDirectory(ApplicationLogsDirectoryPath);
 
-    public static class ArgNames
+    public static class Company
     {
+        public const string ShortName = "Arkanis";
+        public const string FullName = "Arkanis Corporation";
+        public const string Slug = "ArkanisCorp";
+    }
+
+    public static class Protocol
+    {
+        private const string AppName = "Overlay";
+
+        public const string Schema = $"{Company.Slug}-{AppName}";
+
+        private static readonly Uri BaseUri = new($"{Schema.ToLowerInvariant()}://");
+
+        public static Uri CreateUriFor(string path)
+            => new(BaseUri, path);
+    }
+
+    public static class Args
+    {
+        public static readonly string[] All = [HandleUrl];
+
         public const string HandleUrl = "handle-url";
+
+        public static class Config
+        {
+            private const string ConfigurationSectionPath = "CommandLine";
+
+            public static string GetKeyFor(string key)
+                => $"{ConfigurationSectionPath}:{key}";
+        }
     }
 }

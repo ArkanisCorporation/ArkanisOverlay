@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using Common;
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -12,11 +12,7 @@ public class WindowsCustomProtocolHandlerManager(
     ILogger<WindowsCustomProtocolHandlerManager> logger
 ) : IHostedService
 {
-    private const string ProtocolCompany = "ArkanisCorp";
-    private const string ProtocolSchema = "Overlay";
-    private const string Protocol = $"{ProtocolCompany}-{ProtocolSchema}";
-
-    private const string ProtocolHandlerKeyPath = @$"Software\Classes\{Protocol}";
+    private const string ProtocolHandlerKeyPath = @$"Software\Classes\{ApplicationConstants.Protocol.Schema}";
 
     private const string ApplicationKeySubPath = "Application";
     private const string HandlerKeySubPath = @"shell\open\command";
@@ -56,7 +52,7 @@ public class WindowsCustomProtocolHandlerManager(
         using var handlerCommandKey = protocolHandlerKey.OpenSubKey(HandlerKeySubPath, true)
                                       ?? protocolHandlerKey.CreateSubKey(HandlerKeySubPath);
 
-        handlerCommandKey.SetValue(null, $"\"{Application.ExecutablePath}\" --{ApplicationConstants.ArgNames.HandleUrl} \"%1\"");
+        handlerCommandKey.SetValue(null, $"\"{Application.ExecutablePath}\" --{ApplicationConstants.Args.HandleUrl} \"%1\"");
     }
 
     private static void DisableProtocolHandler()

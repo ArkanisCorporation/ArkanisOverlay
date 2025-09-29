@@ -972,6 +972,13 @@
           "Microsoft.Extensions.Http": "[8.0.1, )"
         }
       },
+      "arkanis.overlay.locallink": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Microsoft.Extensions.Hosting.Abstractions": "[8.0.1, )"
+        }
+      },
       "FluentValidation": {
         "type": "CentralTransitive",
         "requested": "[12.0.0, )",

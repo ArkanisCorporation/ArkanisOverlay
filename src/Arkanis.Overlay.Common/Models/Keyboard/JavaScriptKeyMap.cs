@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Domain.Models.Keyboard;
+namespace Arkanis.Overlay.Common.Models.Keyboard;
 
 /// <remarks>
 ///     Based on https://github.com/taublast/DrawnUi/blob/main/src/Engine/Maui/Features/Keyboard/MauiKeys.cs

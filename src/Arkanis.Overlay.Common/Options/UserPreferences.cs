@@ -1,8 +1,8 @@
-namespace Arkanis.Overlay.Domain.Options;
+namespace Arkanis.Overlay.Common.Options;
 
 using System.Globalization;
-using Arkanis.Overlay.Common.Models;
-using Arkanis.Overlay.Domain.Models.Keyboard;
+using Models;
+using Models.Keyboard;
 
 public record UserPreferences
 {
@@ -44,6 +44,15 @@ public record UserPreferences
         }
 
         return credentials;
+    }
+
+    public UserPreferences SetCredentials(Credentials credentials)
+    {
+        ExternalServiceCredentials.RemoveAll(x => x.ServiceId == credentials.ServiceId);
+        return this with
+        {
+            ExternalServiceCredentials = ExternalServiceCredentials.Append(credentials).ToList(),
+        };
     }
 
     public void RemoveCredentialsFor(string serviceId)

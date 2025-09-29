@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Domain.Models.Keyboard;
+namespace Arkanis.Overlay.Common.Models.Keyboard;
 
 /// <summary>
 ///     These are platform-independent.

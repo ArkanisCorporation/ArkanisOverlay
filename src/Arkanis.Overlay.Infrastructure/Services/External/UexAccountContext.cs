@@ -2,9 +2,9 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using Common.Options;
 using Domain;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -45,20 +45,14 @@ public class UexAccountContext(
 
         try
         {
-            options.Value.UserToken = credentials.SecretToken;
-            var userResponse = await userApi.GetUserAsync(cancellationToken: cancellationToken);
-            if (IsLinkedUserValid(userResponse))
+            await UpdateAsync(cancellationToken);
+
+            if (IsLinked)
             {
                 var persistentCredentials = Credentials;
                 persistentCredentials.UserIdentifier = credentials.UserIdentifier;
                 persistentCredentials.SecretToken = credentials.SecretToken;
-
-                CurrentUser = userResponse.Result.Data;
                 await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
-            }
-            else
-            {
-                throw new ExternalLinkUnauthorizedException("Provided key is not valid or does not belong to the specified account.", null);
             }
         }
         catch (UexApiException exception)
@@ -85,7 +79,7 @@ public class UexAccountContext(
         }
     }
 
-    public async Task UpdateAsync(CancellationToken cancellationToken)
+    private async Task UpdateAsync(CancellationToken cancellationToken)
     {
         if (Credentials is not { SecretToken.Length: > 0 })
         {
@@ -96,7 +90,7 @@ public class UexAccountContext(
         try
         {
             logger.LogDebug("Updating UEX account context, using stored user credentials");
-            var userResponse = await userApi.GetUserAsync(Credentials.UserIdentifier, cancellationToken);
+            var userResponse = await userApi.GetUserAsync(cancellationToken: cancellationToken);
             if (IsLinkedUserValid(userResponse))
             {
                 CurrentUser = userResponse.Result.Data;
@@ -104,12 +98,14 @@ public class UexAccountContext(
             }
             else
             {
-                LinkError = new ExternalLinkUnauthorizedException("Provided key is not valid or does not belong to the specified account.", null);
+                throw new ExternalLinkUnauthorizedException("Provided key is not valid or does not belong to the specified account.", null);
             }
         }
         catch (Exception exception)
         {
+            CurrentUser = null;
             LinkError = exception;
+            throw;
         }
     }
 
@@ -117,5 +113,20 @@ public class UexAccountContext(
         => userResponse.Result.Data is { Discord_username.Length: > 0 } or { Email.Length: > 0 };
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
-        => await UpdateAsync(cancellationToken);
+    {
+        userPreferences.ApplyPreferences += OnApplyPreferences;
+        await UpdateAsync(cancellationToken);
+    }
+
+    private async void OnApplyPreferences(object? _, UserPreferences preferences)
+    {
+        try
+        {
+            await UpdateAsync(CancellationToken.None);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to update UEX account context");
+        }
+    }
 }
