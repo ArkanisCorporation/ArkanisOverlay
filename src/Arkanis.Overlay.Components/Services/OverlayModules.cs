@@ -18,23 +18,22 @@ public class OverlayModules(IOverlayControls overlayControls)
         {
             Url = "/search",
             Name = "Search",
+            Description = "Find anything you're looking for.",
             Icon = Outlined.Search,
         },
         new UrlEntry()
         {
-            Url = "/inventory",
-            Name = "Inventory",
-            Icon = Icons.Material.Filled.Warehouse,
-            GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<IInventoryManager>().ChangeToken,
-            GetUpdateCountAsync = async serviceProvider =>
-            {
-                var inventoryManager = serviceProvider.GetRequiredService<IInventoryManager>();
-                return await inventoryManager.GetUnassignedCountAsync();
-            },
+            Url = "/hub",
+            Name = "Hub",
+            Description = "See what's going on around you.",
+            Icon = Outlined.Hub,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
         new ActionEntry()
         {
             Name = "Close",
+            Description = "Close the Overlay.",
             Icon = Outlined.Close,
             Color = Color.Error,
             Action = async (activationType, _) =>
@@ -51,8 +50,22 @@ public class OverlayModules(IOverlayControls overlayControls)
         },
         new UrlEntry()
         {
+            Url = "/inventory",
+            Name = "Inventory",
+            Description = "Track and manage your Inventory.",
+            Icon = Icons.Material.Filled.Warehouse,
+            GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<IInventoryManager>().ChangeToken,
+            GetUpdateCountAsync = async serviceProvider =>
+            {
+                var inventoryManager = serviceProvider.GetRequiredService<IInventoryManager>();
+                return await inventoryManager.GetUnassignedCountAsync();
+            },
+        },
+        new UrlEntry()
+        {
             Url = "/trade",
             Name = "Trade",
+            Description = "Plan your next Haul.",
             Icon = Outlined.Storefront,
             GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<ITradeRunManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
@@ -65,36 +78,45 @@ public class OverlayModules(IOverlayControls overlayControls)
         {
             Url = "/mining",
             Name = "Mining",
+            Description = "Manage your Mining Operations.",
             Icon = Outlined.Deblur,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
         new UrlEntry()
         {
             Url = "/market",
             Name = "Market",
+            Description = "Trade with other players.",
             Icon = Outlined.Store,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
         new UrlEntry()
         {
             Url = "/hangar",
             Name = "Hangar",
+            Description = "Manage your Fleet.",
             Icon = Outlined.GarageDoor,
         },
         new UrlEntry()
         {
             Url = "/org",
             Name = "Org",
+            Description = "Manage your Organization.",
             Icon = Icons.Material.Filled.Groups,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
         new UrlEntry()
         {
             Url = "/settings",
             Name = "Settings",
+            Description = "Configure the Overlay.",
             Icon = Outlined.Settings,
             ShortcutOverride = KeyboardKey.F12,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
     ];
 
@@ -112,9 +134,12 @@ public class OverlayModules(IOverlayControls overlayControls)
     {
         public required string Name { get; init; }
 
+        public required string Description { get; init; }
+
         public Color Color { get; init; } = Color.Inherit;
 
-        public bool Disabled { get; init; }
+        public bool IsDisabled { get; init; }
+        public bool IsInDevelopment { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
         public KeyboardKey? ShortcutOverride { get; init; }
 
@@ -125,7 +150,7 @@ public class OverlayModules(IOverlayControls overlayControls)
             _ => ValueTask.FromResult(0);
 
         public virtual bool CanActivate(NavigationManager navigationManager, string currentUri)
-            => !Disabled && !IsActive(navigationManager, currentUri);
+            => !IsDisabled && !IsActive(navigationManager, currentUri);
 
         protected virtual bool Activate(NavigationManager navigationManager, string currentUri)
             => false;

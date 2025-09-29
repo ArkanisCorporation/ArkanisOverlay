@@ -32,6 +32,13 @@
         var moduleShortcut = GetKeyFor(moduleIndex, module);
         var updateCount = GetUpdateCount(module);
 
+        var description = true switch
+        {
+            true when module.IsInDevelopment => "In Development",
+            true when module.IsDisabled => "Disabled",
+            _ => module.Description,
+        };
+
         var classname =
             new CssBuilder()
                 .AddClass($"mud-theme-{module.Color.ToDescriptionString()}", module.Color != Color.Default && module.Color != Color.Inherit)
@@ -45,7 +52,8 @@
 
         <MudTabPanel @key="@module.Name"
                      Icon="@module.Icon"
-                     Disabled="@module.Disabled"
+                     Disabled="@module.IsDisabled"
+                     Tooltip="@module.Description"
                      Class="@classname">
             <TabWrapperContent>
                 <KeyboardShortcutBadge @key="@module.Name"
@@ -56,7 +64,15 @@
                                        Elevation="4"
                                        DoNotOverlap="@DoNotOverlapKeybinds"
                                        @attributes="@badgeAttributes">
-                    @context
+                    <MudTooltip>
+                        <ChildContent>@context</ChildContent>
+                        <TooltipContent>
+                            <MudText Typo="@Typo.inherit">
+                                @* @module.Description @extraDescription *@
+                                @description
+                            </MudText>
+                        </TooltipContent>
+                    </MudTooltip>
                 </KeyboardShortcutBadge>
             </TabWrapperContent>
             <TabContent>
