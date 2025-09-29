@@ -36,7 +36,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             Description = "Close the Overlay.",
             Icon = Outlined.Close,
             Color = Color.Error,
-            ShortcutOverride = preferencesManager.CurrentPreferences.LaunchShortcut,
+            ShortcutOverride = preferencesManager.CurrentPreferences.InGameLaunchShortcut,
             Action = async (activationType, _) =>
             {
                 // let the global keybindings close the overlay when invoked via hotkey

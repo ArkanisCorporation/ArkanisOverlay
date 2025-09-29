@@ -45,7 +45,7 @@ internal class WindowsNotifications : IDisposable
 
     public static void ShowWelcomeToast(UserPreferences userPreferences)
     {
-        var launchShortcut = userPreferences.LaunchShortcut.Description;
+        var launchShortcut = userPreferences.InGameLaunchShortcut.Description;
         new ToastContentBuilder()
             .SetToastDuration(ToastDuration.Long)
             .SetToastScenario(ToastScenario.Default)
