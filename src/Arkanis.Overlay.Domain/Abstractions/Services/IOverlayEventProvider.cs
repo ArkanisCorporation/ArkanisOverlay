@@ -2,9 +2,11 @@ namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 public interface IOverlayEventProvider
 {
-    event EventHandler OverlayShown;
-    event EventHandler OverlayHidden;
+    public event EventHandler OverlayShown;
+    public event EventHandler OverlayHidden;
 
-    event EventHandler OverlayFocused;
-    event EventHandler OverlayBlurred;
+    public event EventHandler OverlayFocused;
+    public event EventHandler OverlayBlurred;
+
+    public event EventHandler WindowFound;
 }

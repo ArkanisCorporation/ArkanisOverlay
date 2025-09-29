@@ -1,39 +1,36 @@
-﻿<Window x:Class="Arkanis.Overlay.Host.Desktop.UI.Windows.OverlayWindow"
+<Window x:Class="Arkanis.Overlay.Host.Desktop.UI.Windows.HudWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:blazor="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
+        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
+        Title="HudWindow"
         ResizeMode="NoResize"
-        Topmost="False"
-        ShowInTaskbar="False"
         WindowStyle="None"
         Visibility="Collapsed"
-        Focusable="True"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Background="{x:Null}"
+        Focusable="False"
         AllowsTransparency="True"
-        FocusManager.FocusedElement="{Binding ElementName=BlazorWebView}"
-        xmlns:ui="clr-namespace:Arkanis.Overlay.Host.Desktop.UI"
-        xmlns:chapter="clr-namespace:Chapter.Net.WPF.SystemTray;assembly=Chapter.Net.WPF.SystemTray"
-        xmlns:sys="clr-namespace:System;assembly=System.Runtime">
-    <Window.Background>
-        <!-- If the opacity is not set, the window will be click-through -->
-        <!-- This is because WPF does not know about controls in the webview -->
-        <SolidColorBrush Color="#010000" Opacity="0.05" />
-    </Window.Background>
+        Initialized="OnWindowInitialized"
+        Loaded="OnWindowLoaded">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <!-- Toggle me to show/hide the debug panel -->
-        <sys:Boolean x:Key="ShowDebugPanel">False</sys:Boolean>
+        <system:Boolean x:Key="ShowDebugPanel">False</system:Boolean>
     </Window.Resources>
-    <Grid Name="Root">
+    <Grid>
         <blazor:BlazorWebView HostPage="wwwroot\index.html"
-                              x:Name="BlazorWebView"
-                              Loaded="MainWindow_Loaded"
-                              Panel.ZIndex="9"
-                              Focusable="True"
-                              Services="{DynamicResource services}"
-                              StartPath="/search">
+                           x:Name="BlazorWebView"
+                           Loaded="MainWindow_Loaded"
+                           Panel.ZIndex="99"
+                           Focusable="True"
+                           Services="{DynamicResource services}"
+                           StartPath="/hud">
             <blazor:BlazorWebView.RootComponents>
                 <blazor:RootComponent Selector="#app" ComponentType="{x:Type ui:RazorApp}" />
             </blazor:BlazorWebView.RootComponents>
@@ -102,20 +99,4 @@ Focused Element:   {12}">
         </Popup>
         <!-- === /DEBUG PANEL === -->
     </Grid>
-    <chapter:Tray.TrayIcon>
-
-        <chapter:TrayIcon Icon="{x:Static sys:Environment.ProcessPath}"
-                          OpenWindowOnClick="False"
-                          HideIfWindowShown="False"
-                          ToolTip="ArkanisOverlay">
-            <chapter:TrayIcon.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="About" Click="OnAboutCommand" />
-                    <MenuItem Header="Preferences" Click="OnPreferenceCommand" />
-                    <Separator />
-                    <MenuItem Header="Exit" Click="OnExitCommand" />
-                </ContextMenu>
-            </chapter:TrayIcon.ContextMenu>
-        </chapter:TrayIcon>
-    </chapter:Tray.TrayIcon>
 </Window>

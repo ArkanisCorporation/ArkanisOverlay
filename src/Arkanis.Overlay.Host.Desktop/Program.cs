@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 using MudBlazor.Services;
 using Quartz;
 using Serilog;
@@ -72,6 +73,7 @@ public static class Program
 
                     // Windows will be registered as singletons
                     options.UseWindow<OverlayWindow>();
+                    options.UseWindow<HudWindow>();
                 }
             )
             .UseWpfLifetime()
@@ -147,6 +149,16 @@ public static class Program
             {
                 config.SnackbarConfiguration.NewestOnTop = true;
                 config.SnackbarConfiguration.MaxDisplayedSnackbars = 1;
+
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
+
+                config.SnackbarConfiguration.PreventDuplicates = false;
+                config.SnackbarConfiguration.NewestOnTop = true;
+                config.SnackbarConfiguration.ShowCloseIcon = false;
+                config.SnackbarConfiguration.VisibleStateDuration = 2000;
+                config.SnackbarConfiguration.HideTransitionDuration = 250;
+                config.SnackbarConfiguration.ShowTransitionDuration = 250;
+                config.SnackbarConfiguration.SnackbarVariant = Variant.Outlined;
             }
         );
         services.AddSingleton<IServiceProvider>(sp => sp);

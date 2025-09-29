@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using Common;
 using Domain.Abstractions.Services;
 using Domain.Options;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
 using Services.Factories;
 using Workers;
+using Color = Color;
 
 /// <summary>
 ///     Interaction logic for OverlayWindow.xaml
@@ -30,6 +32,7 @@ public sealed partial class OverlayWindow : IDisposable
     private readonly ILogger _logger;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly WindowFactory _windowFactory;
+    private readonly IOverlayEventControls _overlayEventControls;
     private readonly WindowTracker _windowTracker;
 
     private HWND _currentWindowHWnd = HWND.Null;
@@ -40,10 +43,12 @@ public sealed partial class OverlayWindow : IDisposable
         WindowTracker windowTracker,
         GlobalHotkey globalHotkey,
         BlurHelper blurHelper,
-        WindowFactory windowFactory
+        WindowFactory windowFactory,
+        IOverlayEventControls overlayEventControls
     )
     {
         Instance = this;
+        // DataContext = this;
 
         _logger = logger;
         _preferencesProvider = preferencesProvider;
@@ -51,6 +56,7 @@ public sealed partial class OverlayWindow : IDisposable
         _globalHotkey = globalHotkey;
         _blurHelper = blurHelper;
         _windowFactory = windowFactory;
+        _overlayEventControls = overlayEventControls;
 
         SetupWorkerEventListeners();
         InitializeComponent();
@@ -63,6 +69,8 @@ public sealed partial class OverlayWindow : IDisposable
 
         BlazorWebView.BlazorWebViewInitializing += BlazorWebView_Initializing;
         _preferencesProvider.ApplyPreferences += ApplyUserPreferences;
+
+        LocationChanged += (_, __) => NudgePopup();
     }
 
     public static OverlayWindow? Instance { get; private set; }
@@ -90,6 +98,7 @@ public sealed partial class OverlayWindow : IDisposable
         _logger.LogDebug("Overlay: Activate Window: {Result}", result);
 
         BlazorWebView.WebView.Focus();
+        _overlayEventControls.OnWindowShown();
     }
 
     private void ForceFocus()
@@ -133,15 +142,39 @@ public sealed partial class OverlayWindow : IDisposable
         _windowTracker.WindowFocusChanged += (_, isFocused) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowFocusChanged: {IsFocused}", isFocused);
-                if (Visibility != Visibility.Visible) { return; }
-
-                Topmost = isFocused;
+                if (isFocused && Visibility == Visibility.Visible)
+                {
+                    ForceFocus();
+                }
+                // Topmost = isFocused;
             }
         );
 
+        var visibilityBeforeWindowSizeOrPositionChange = Visibility;
+        _windowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
+        {
+            Dispatcher.Invoke(() =>
+                {
+                    _logger.LogDebug("HudWindow: WindowSizeOrPositionChanging");
+                    visibilityBeforeWindowSizeOrPositionChange = Visibility;
+                    Visibility = Visibility.Collapsed;
+                }
+            );
+        };
+
+        _windowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
+        {
+            Dispatcher.Invoke(() =>
+                {
+                    _logger.LogDebug("HudWindow: WindowSizeOrPositionChanged");
+                    Visibility = visibilityBeforeWindowSizeOrPositionChange;
+                }
+            );
+        };
+
         _globalHotkey.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
             {
-                _logger.LogDebug("Overlay: HotKeyPressed");
+                // _logger.LogDebug("Overlay: HotKeyPressed");
                 if (Visibility == Visibility.Visible)
                 {
                     HideOverlay();
@@ -176,18 +209,15 @@ public sealed partial class OverlayWindow : IDisposable
     //     }
     // }
 
-    private void SetExtendedWindowStyle()
-    {
-        var wndHelper = new WindowInteropHelper(this);
-
-        var exStyle = GetWindowLong((HWND)wndHelper.Handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        exStyle |= (int)WINDOW_EX_STYLE.WS_EX_TOOLWINDOW;
-        _ = SetWindowLong((HWND)wndHelper.Handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, exStyle);
-    }
-
     private void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
-        SetExtendedWindowStyle();
+        WindowUtils.SetExtendedStyle(
+            this,
+            WINDOW_EX_STYLE.WS_EX_TOOLWINDOW
+            // | WINDOW_EX_STYLE.WS_EX_LAYERED
+            // | WINDOW_EX_STYLE.WS_EX_NOACTIVATE
+            // | WINDOW_EX_STYLE.WS_EX_TRANSPARENT
+        );
 
         BlazorWebView.WebView.DefaultBackgroundColor = Color.Transparent;
         BlazorWebView.WebView.NavigationCompleted += WebView_Loaded;
@@ -237,6 +267,19 @@ public sealed partial class OverlayWindow : IDisposable
         }
 
         SetForegroundWindow(_currentWindowHWnd);
+    }
+
+    private void NudgePopup()
+    {
+        if (DebugPanel?.IsOpen != true)
+        {
+            return;
+        }
+
+        // Toggle offset by a pixel to force WPF to recompute placement
+        var o = DebugPanel.HorizontalOffset;
+        DebugPanel.HorizontalOffset = o + 1;
+        DebugPanel.HorizontalOffset = o;
     }
 
     private void OnPreferenceCommand(object sender, RoutedEventArgs e)

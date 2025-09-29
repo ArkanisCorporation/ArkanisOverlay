@@ -1193,6 +1193,7 @@
           "Microsoft.Data.Sqlite": "[8.0.16, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.16, )",
           "Microsoft.Extensions.Http": "[8.0.1, )",
+          "MudBlazor": "[8.6.0, )",
           "Polly": "[8.6.4, )",
           "Polly.RateLimiting": "[8.6.4, )",
           "Quartz": "[3.14.0, )",
