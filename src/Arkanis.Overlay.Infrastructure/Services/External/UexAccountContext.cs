@@ -7,14 +7,11 @@ using Domain;
 using Domain.Abstractions.Services;
 using Exceptions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Overlay.External.UEX;
 using Overlay.External.UEX.Abstractions;
 
 public class UexAccountContext(
     IUexUserApi userApi,
     IUserPreferencesManager userPreferences,
-    IOptions<UexApiOptions> options,
     ILogger<UexAccountContext> logger
 ) : SelfInitializableServiceBase
 {
@@ -45,6 +42,7 @@ public class UexAccountContext(
 
         try
         {
+            Credentials.SecretToken = credentials.SecretToken;
             await UpdateAsync(cancellationToken);
 
             if (IsLinked)
@@ -74,7 +72,7 @@ public class UexAccountContext(
         {
             if (!IsLinked)
             {
-                options.Value.UserToken = null;
+                Credentials.SecretToken = null;
             }
         }
     }
