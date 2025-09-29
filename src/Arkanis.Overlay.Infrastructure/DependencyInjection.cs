@@ -45,6 +45,7 @@ public static class DependencyInjection
             .AddInMemorySearchServices()
             .AddLocalInventoryManagementServices()
             .AddLocalTradeRunManagementServices()
+            .AddIconManagementServices()
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();

@@ -15,7 +15,7 @@
                       AlignItems="@AlignItems.Center"
                       Row>
 
-                <MudIcon Icon="@IconPicker.PickIconFor(Model.EntityCategory)"></MudIcon>
+                <IconDisplay T="GameEntityCategory" Value="@Model.EntityCategory" />
                 <MudDivider Vertical="true" FlexItem="true"></MudDivider>
 
                 <div class="my-n2">
