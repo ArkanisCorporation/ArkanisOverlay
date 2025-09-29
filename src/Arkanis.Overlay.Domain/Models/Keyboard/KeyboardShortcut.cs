@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Humanizer;
+using MoreLinq;
 
 [JsonConverter(typeof(JsonConverter))]
 public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEquatable<KeyboardShortcut>
@@ -31,20 +32,14 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
            || HasStandaloneKey
            || (HasModifierKey && HasNonModifierKey);
 
-    public string Description
-        => new StringBuilder().AppendJoin(' ', FormatParts).ToString();
+    public IEnumerable<string> KeyNames
+        => PressedKeys.OrderBy(KeyboardKeyUtils.GetModifierSortOrder).Select(KeyboardKeyUtils.GetDisplayName).FallbackIfEmpty("None");
 
-    public IEnumerable<FormatPart> FormatParts
-        => PressedKeys.Count > 0
-            ? PressedKeys.SelectMany<KeyboardKey, FormatPart>((pressedKey, index) =>
-                {
-                    var key = new Key(pressedKey.Humanize(LetterCasing.Title));
-                    return index > 0
-                        ? [Fill.Plus, key]
-                        : [key];
-                }
-            )
-            : [EmptyKey.Instance];
+    public override string ToString()
+        => string.Join(" + ", KeyNames);
+
+    public string Description
+        => ToString();
 
     public bool Equals(KeyboardShortcut? other)
     {
@@ -80,30 +75,6 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
 
     public override int GetHashCode()
         => PressedKeys.Aggregate(6428197, (code, key) => HashCode.Combine(code, key.GetHashCode()));
-
-    public record FormatPart;
-
-    public sealed record EmptyKey : FormatPart
-    {
-        public static readonly EmptyKey Instance = new();
-
-        public override string ToString()
-            => "None";
-    }
-
-    public sealed record Key(string Name) : FormatPart
-    {
-        public override string ToString()
-            => Name;
-    }
-
-    public sealed record Fill(string Content) : FormatPart
-    {
-        public static readonly Fill Plus = new("+");
-
-        public override string ToString()
-            => Content;
-    }
 
     public class JsonConverter : JsonConverter<KeyboardShortcut>
     {
