@@ -379,16 +379,6 @@ public sealed class WindowTracker : IHostedService, IDisposable
         );
 
         RegisterWinEventHook(
-            PInvoke.EVENT_SYSTEM_SWITCHSTART,
-            PInvoke.EVENT_SYSTEM_SWITCHEND,
-            Handler_WindowSwitching,
-            0, // not needed
-            0, // not needed
-            // PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
-            PInvoke.WINEVENT_OUTOFCONTEXT
-        );
-
-        RegisterWinEventHook(
             PInvoke.EVENT_OBJECT_REORDER,
             PInvoke.EVENT_OBJECT_REORDER,
             Handler_ObjectsReordered,
@@ -736,8 +726,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
         var isGhostWindow = windowClass == Constants.GhostWindowClassName;
 
         // only dispatch if the state has changed
-        // if (isFocused != IsWindowFocused)
-        if (!_isSwitchingWindows && !isGhostWindow)
+        if (!isGhostWindow)
         {
             // might work better for launch focus change detection
             // isFocused = GetWindowFocus(hWnd);
@@ -753,27 +742,13 @@ public sealed class WindowTracker : IHostedService, IDisposable
 
         DispatchFast(() =>
             _logger.LogDebug(
-                "WindowFocused: {IsFocused} - IsSwitchingWindows: {IsSwitchingWindows} - IsGhostWindow: {IsGhostWindow} - Elapsed: {ElapsedUs} us",
+                "WindowFocused: {IsFocused} - IsGhostWindow: {IsGhostWindow} - Elapsed: {ElapsedUs} us",
                 isFocused,
-                _isSwitchingWindows,
                 isGhostWindow,
                 HookTiming.ElapsedUs(startTicks)
             )
         );
     }
-
-    private bool _isSwitchingWindows;
-
-    private void Handler_WindowSwitching(
-        HWINEVENTHOOK hWinEventHook,
-        uint @event,
-        HWND hWnd,
-        int idObject,
-        int idChild,
-        uint idEventThread,
-        uint dwmsEventTime
-    )
-        => _isSwitchingWindows = @event == PInvoke.EVENT_SYSTEM_SWITCHSTART;
 
     private void Handler_ObjectsReordered(
         HWINEVENTHOOK hWinEventHook,
