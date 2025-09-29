@@ -29,12 +29,9 @@ public class CustomProtocolCallHandler(
         }
     }
 
-    public class HostedService(CustomProtocolCallHandler handler) : IHostedService
+    public class HostedService(CustomProtocolCallHandler handler) : BackgroundService
     {
-        public async Task StartAsync(CancellationToken cancellationToken)
-            => await handler.TryProcessCustomProtocolCallFromConfigurationAsync(cancellationToken);
-
-        public Task StopAsync(CancellationToken cancellationToken)
-            => Task.CompletedTask;
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+            => await handler.TryProcessCustomProtocolCallFromConfigurationAsync(stoppingToken);
     }
 }

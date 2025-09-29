@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Common.Abstractions
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.JSInterop
 @inherits LayoutComponentBase
@@ -10,6 +9,7 @@
 <MudDialogProvider/>
 <AnalyticEventSender/>
 <WebOverlayControlsInterop/>
+<UserConsentDialogProvider/>
 
 <ErrorBoundary @ref="_errorBoundary">
     <ChildContent>

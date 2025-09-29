@@ -6,7 +6,6 @@ using Data;
 using Domain;
 using Domain.Abstractions.Services;
 using External.UEX;
-using LocalLink;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -54,13 +53,14 @@ public static class DependencyInjection
             .Alias<ISelfInitializable, UexAccountContext>();
 
         services
-            .AddLocalLinkClientServices()
-            .AddLocalLinkHostServices<LocalLinkCommandProcessor>();
-
-        services
             .AddSingleton<CustomProtocolCallForwarder>()
             .AddSingleton<CustomProtocolCallHandler>()
             .AddHostedService<CustomProtocolCallHandler.HostedService>();
+
+        services
+            .AddSingleton<UserConsentDialogService>()
+            .Alias<IUserConsentDialogService, UserConsentDialogService>()
+            .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
         services
             .AddSingleton<IStorageManager, StorageManager>()

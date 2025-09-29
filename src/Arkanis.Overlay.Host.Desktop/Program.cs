@@ -188,6 +188,8 @@ public static class Program
         services.AddSingleton<IServiceProvider>(sp => sp);
         services.AddHttpClient();
 
+        services.AddEssentialComponentServices();
+
         services.AddGoogleTrackingServices()
             .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, DesktopAnalyticsPropertyProvider>();

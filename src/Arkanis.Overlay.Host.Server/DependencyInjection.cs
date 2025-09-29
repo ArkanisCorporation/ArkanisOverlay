@@ -33,6 +33,8 @@ public static class DependencyInjection
             }
         );
 
+        services.AddEssentialComponentServices();
+
         services
             .AddJavaScriptEventInterop()
             .AddGlobalKeyboardProxyService()
