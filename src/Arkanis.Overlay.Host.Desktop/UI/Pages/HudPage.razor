@@ -228,13 +228,10 @@
             );
         };
 
-        // We got a new Star Citizen window, so we show the hotkey notification again
-        // var dWindowFound = WindowTracker.WindowFound.Subscribe(ShowStartUpHotkeyNotification);
         OverlayEventProvider.OverlayShown += (_, _) => RemoveStartUpHotkeyNotification();
         // WindowTracker.WindowFound += (_, _) => ShowStartUpHotkeyNotification(true);
 
         ShowStartUpHotkeyNotification();
-        // SnackbarService.Add("HudPage initialized", Severity.Success);
     }
 
     private void ShowStartUpHotkeyNotification()
