@@ -12,6 +12,9 @@ public sealed class UserConsentDialogProvider : ComponentBase, IUserConsentDialo
     public required IDialogService DialogService { get; set; }
 
     [Inject]
+    public required IOverlayControls OverlayControls { get; set; }
+
+    [Inject]
     public required IUserConsentDialogService.IConnector UserConsentDialogServiceConnector { get; set; }
 
     public void Dispose()
@@ -20,6 +23,8 @@ public sealed class UserConsentDialogProvider : ComponentBase, IUserConsentDialo
     public async Task<IUserConsentDialogService.Result> RequestConsentAsync<T>(IDictionary<string, object> parameters)
         where T : ComponentBase, IUserConsentDialogService.IContent
     {
+        await OverlayControls.ForceShowAsync();
+
         var options = new UserConsentDialog.ContentOptions
         {
             ContentComponentType = typeof(T),

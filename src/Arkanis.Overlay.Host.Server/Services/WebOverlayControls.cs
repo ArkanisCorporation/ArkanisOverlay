@@ -20,6 +20,9 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     public void Dispose()
         => _preferencesProvider.ApplyPreferences -= ApplyUserPreferencesAsync;
 
+    public async Task ForceShowAsync()
+        => await ShowAsync();
+
     public ValueTask ShowAsync()
     {
         _snackbar.Add(

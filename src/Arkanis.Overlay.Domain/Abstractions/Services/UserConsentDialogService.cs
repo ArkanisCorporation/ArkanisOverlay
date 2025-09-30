@@ -4,9 +4,10 @@ using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
-public sealed class UserConsentDialogService(ILogger<UserConsentDialogService> logger) : IUserConsentDialogService,
-    IUserConsentDialogService.IConnector,
-    IDisposable
+public sealed class UserConsentDialogService(ILogger<UserConsentDialogService> logger)
+    : IUserConsentDialogService,
+        IUserConsentDialogService.IConnector,
+        IDisposable
 {
     private readonly ConcurrentQueue<PendingRequest> _pendingRequests = new();
     private readonly SemaphoreSlim _requestSemaphore = new(1, 1);
@@ -57,7 +58,8 @@ public sealed class UserConsentDialogService(ILogger<UserConsentDialogService> l
             await _requestSemaphore.WaitAsync();
             try
             {
-                return await connector.RequestConsentAsync<T>(parameters);
+                var result = await connector.RequestConsentAsync<T>(parameters);
+                return result;
             }
             finally
             {
