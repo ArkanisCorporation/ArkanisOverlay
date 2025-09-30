@@ -7,7 +7,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using Common;
 using Domain.Abstractions.Services;
 using Domain.Options;
@@ -48,7 +47,6 @@ public sealed partial class OverlayWindow : IDisposable
     )
     {
         Instance = this;
-        // DataContext = this;
 
         _logger = logger;
         _preferencesProvider = preferencesProvider;
@@ -146,7 +144,6 @@ public sealed partial class OverlayWindow : IDisposable
                 {
                     ForceFocus();
                 }
-                // Topmost = isFocused;
             }
         );
 
@@ -174,7 +171,7 @@ public sealed partial class OverlayWindow : IDisposable
 
         _globalHotkey.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
             {
-                // _logger.LogDebug("Overlay: HotKeyPressed");
+                _logger.LogDebug("Overlay: HotKeyPressed");
                 if (Visibility == Visibility.Visible)
                 {
                     HideOverlay();
@@ -280,9 +277,9 @@ public sealed partial class OverlayWindow : IDisposable
         }
 
         // Toggle offset by a pixel to force WPF to recompute placement
-        var o = DebugPanel.HorizontalOffset;
-        DebugPanel.HorizontalOffset = o + 1;
-        DebugPanel.HorizontalOffset = o;
+        var horizontalOffset = DebugPanel.HorizontalOffset;
+        DebugPanel.HorizontalOffset = horizontalOffset + 1;
+        DebugPanel.HorizontalOffset = horizontalOffset;
     }
 
     private void OnPreferenceCommand(object sender, RoutedEventArgs e)

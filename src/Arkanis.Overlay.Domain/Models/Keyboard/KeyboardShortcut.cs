@@ -1,9 +1,7 @@
 namespace Arkanis.Overlay.Domain.Models.Keyboard;
 
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Humanizer;
 using MoreLinq;
 
 [JsonConverter(typeof(JsonConverter))]

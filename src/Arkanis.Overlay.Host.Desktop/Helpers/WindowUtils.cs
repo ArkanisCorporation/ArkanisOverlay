@@ -11,10 +11,10 @@ using Serilog;
 public static class WindowUtils
 {
     public static void StyleAsToolWindow(Window window)
-    => SetExtendedStyle(window, WINDOW_EX_STYLE.WS_EX_TOOLWINDOW);
+        => SetExtendedStyle(window, WINDOW_EX_STYLE.WS_EX_TOOLWINDOW);
 
     public static void StyleAsTransparent(Window window)
-    => SetExtendedStyle(window, WINDOW_EX_STYLE.WS_EX_TRANSPARENT);
+        => SetExtendedStyle(window, WINDOW_EX_STYLE.WS_EX_TRANSPARENT);
 
     public static void StyleAsLayered(Window window)
         => SetExtendedStyle(window, WINDOW_EX_STYLE.WS_EX_LAYERED);

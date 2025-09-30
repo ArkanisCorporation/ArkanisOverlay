@@ -8,7 +8,6 @@ using Foundation;
 using global::System.Runtime.CompilerServices;
 using global::System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
-using Serilog.Core;
 using UI.WindowsAndMessaging;
 
 internal partial class PInvoke
@@ -23,7 +22,10 @@ internal partial class PInvoke
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static GuardResult Guard(BOOL result, ILogger? logger = null, string? pInvokeMethodName = null)
     {
-        if (result != true) { return new GuardResult { Success = true }; }
+        if (result != true)
+        {
+            return new GuardResult { Success = true };
+        }
 
         pInvokeMethodName ??= "Unknown PInvoke Method";
 

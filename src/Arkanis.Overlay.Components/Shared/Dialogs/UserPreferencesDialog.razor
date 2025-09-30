@@ -2,10 +2,8 @@
 @using Arkanis.Overlay.Common.Abstractions
 @using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Common.Models
-@using Arkanis.Overlay.Infrastructure.Services
 @inject IUserPreferencesManager UserPreferencesManager
 @inject IAppVersionProvider VersionProvider
-@inject NotificationService NotificationService
 
 <MudDialog ContentStyle="padding: 0">
     <TitleContent>
@@ -14,22 +12,6 @@
     <DialogContent>
         <MudDivider/>
         <MudExpansionPanels Outlined Square Dense>
-            <MudExpansionPanel Expanded Dense>
-                <TitleContent>
-                    DEBUG
-                </TitleContent>
-                <ChildContent>
-                    <MudGrid>
-                        <MudItem xs="12">
-                            <MudButton
-                                OnClick="@(() => NotificationService.ShowNotification("Test Notification", Severity.Info))"
-                                Color="@Color.Error">
-                                Send test Notification
-                            </MudButton>
-                        </MudItem>
-                    </MudGrid>
-                </ChildContent>
-            </MudExpansionPanel>
             <MudExpansionPanel Expanded Dense>
                 <TitleContent>
                     General

@@ -34,21 +34,13 @@
 
         var description = true switch
         {
-            true when module.IsInDevelopment => "In Development",
-            true when module.IsDisabled => "Disabled",
+            _ when module.IsInDevelopment => "In Development",
+            _ when module.IsDisabled => "Disabled",
             _ => module.Description,
         };
 
-        var classname =
-            new CssBuilder()
-                .AddClass($"mud-theme-{module.Color.ToDescriptionString()}", module.Color != Color.Default && module.Color != Color.Inherit)
-                .Build();
-
-        var badgeAttributes = new Dictionary<string, object>();
-        if (module.Color != Color.Default && module.Color != Color.Inherit)
-        {
-            badgeAttributes.Add("Color", module.Color);
-        }
+        var classname = GetModuleClassname(module);
+        var badgeAttributes = GetModuleBadgeAttributes(module);
 
         <MudTabPanel @key="@module.Name"
                      Icon="@module.Icon"
@@ -68,7 +60,6 @@
                         <ChildContent>@context</ChildContent>
                         <TooltipContent>
                             <MudText Typo="@Typo.inherit">
-                                @* @module.Description @extraDescription *@
                                 @description
                             </MudText>
                         </TooltipContent>
@@ -220,4 +211,22 @@
         NavigationManager.LocationChanged -= OnLocationChangedAsync;
     }
 
+    private static string GetModuleClassname(OverlayModules.Entry module)
+        => new CssBuilder()
+            .AddClass(
+                $"mud-theme-{module.Color.ToDescriptionString()}",
+                module.Color != Color.Default && module.Color != Color.Inherit
+            )
+            .Build();
+
+    private static Dictionary<string, object> GetModuleBadgeAttributes(OverlayModules.Entry module)
+    {
+        var badgeAttributes = new Dictionary<string, object>();
+        if (module.Color != Color.Default && module.Color != Color.Inherit)
+        {
+            badgeAttributes.Add("Color", module.Color);
+        }
+
+        return badgeAttributes;
+    }
 }

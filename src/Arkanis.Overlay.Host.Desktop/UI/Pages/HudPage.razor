@@ -1,16 +1,13 @@
 @page "/hud"
 @using Arkanis.Overlay.Domain.Abstractions.Services
-@using Arkanis.Overlay.Host.Desktop.Workers
-@using Arkanis.Overlay.Infrastructure.Services
+@using Arkanis.Overlay.Domain.Models.Keyboard
 @using Microsoft.Extensions.Logging
 @layout MainLayout
 
 @inject ILogger<HudPage> Logger
-@inject NotificationService NotificationService
 @inject ISnackbar SnackbarService
 @inject IOverlayEventProvider OverlayEventProvider
 @inject IUserPreferencesProvider UserPreferencesProvider
-@inject WindowTracker WindowTracker
 
 <MudSnackbarProvider Class="animation-4">
 </MudSnackbarProvider>
@@ -207,62 +204,50 @@
 
 </style>
 
-@* <h3>HudPage</h3> *@
-
 @code {
-    private Snackbar? _startUpHotkeyNotificationSnackbar;
+    private Snackbar? _startUpLaunchShortcutNotificationSnackbar;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        NotificationService.NotificationRequested += (message, severity) =>
-        {
-            SnackbarService.Add(
-                message,
-                severity,
-                config =>
-                {
-                    config.RequireInteraction = true;
-                }
-            );
-        };
+        OverlayEventProvider.OverlayShown += (_, _) => RemoveStartUpLaunchShortcutNotification();
 
-        OverlayEventProvider.OverlayShown += (_, _) => RemoveStartUpHotkeyNotification();
-        // WindowTracker.WindowFound += (_, _) => ShowStartUpHotkeyNotification(true);
-
-        ShowStartUpHotkeyNotification();
+        ShowStartUpLaunchShortcutNotification();
     }
 
-    private void ShowStartUpHotkeyNotification()
+    private void ShowStartUpLaunchShortcutNotification()
     {
-        Logger.LogInformation("Showing start up hotkey notification");
-        if (_startUpHotkeyNotificationSnackbar != null)
+        Logger.LogInformation("Showing startup launch shortcut notification");
+        if (_startUpLaunchShortcutNotificationSnackbar != null)
         {
             return;
         }
 
-        var currentHotkey = UserPreferencesProvider.CurrentPreferences.InGameLaunchShortcut.ToString();
-
-        _startUpHotkeyNotificationSnackbar = SnackbarService.Add(
-            @<div>
-                <span>Press <b><code
-                            style="font-family: monospace">@(currentHotkey)</code></b> to open the Overlay.</span>
-            </div>,
+        _startUpLaunchShortcutNotificationSnackbar = SnackbarService.Add(
+            GetStartUpLaunchShortcutNotificationContent(UserPreferencesProvider.CurrentPreferences.InGameLaunchShortcut),
             Severity.Info,
             config => config.RequireInteraction = true
         );
     }
 
-    private void RemoveStartUpHotkeyNotification()
+    private RenderFragment GetStartUpLaunchShortcutNotificationContent(KeyboardShortcut keyboardShortcut)
     {
-        if (_startUpHotkeyNotificationSnackbar == null)
+        return @<div>
+            <span>Press <b><code
+                        style="font-family: monospace">@(keyboardShortcut)</code></b> to open the Overlay.</span>
+        </div>;
+    }
+
+    private void RemoveStartUpLaunchShortcutNotification()
+    {
+        if (_startUpLaunchShortcutNotificationSnackbar == null)
         {
             return;
         }
 
-        SnackbarService.Remove(_startUpHotkeyNotificationSnackbar);
-        _startUpHotkeyNotificationSnackbar = null;
+        SnackbarService.Remove(_startUpLaunchShortcutNotificationSnackbar);
+        _startUpLaunchShortcutNotificationSnackbar = null;
     }
 
 }

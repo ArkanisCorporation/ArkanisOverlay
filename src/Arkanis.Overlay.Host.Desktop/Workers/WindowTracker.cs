@@ -80,7 +80,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
     {
         _applicationLifetime = applicationLifetime;
         _userPreferencesProvider = userPreferencesProvider;
-        _windowSizeAndPositionDebounceTimer = new Timer(OnDebounceTimer_UpdatedWindowSizeAndPosition);
+        _windowSizeAndPositionDebounceTimer = new Timer(OnDebounceTimer_UpdateWindowSizeAndPosition);
         _logger = logger;
 
         ProcessExited += OnProcessExited;
@@ -151,6 +151,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
         return Task.CompletedTask;
     }
 
+    //? For future refactoring to improve developer QOL / interface quality & usability
     // /// <summary>
     // ///
     // /// </summary>
@@ -531,7 +532,7 @@ public sealed class WindowTracker : IHostedService, IDisposable
         return isFocused;
     }
 
-    private void OnDebounceTimer_UpdatedWindowSizeAndPosition(object? state)
+    private void OnDebounceTimer_UpdateWindowSizeAndPosition(object? state)
     {
         _logger.LogDebug("Debounce timer triggered, updating window size and position");
         // reset flag
@@ -769,9 +770,17 @@ public sealed class WindowTracker : IHostedService, IDisposable
                 {
                     action();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignored
+                    Delegate actionDelegate = action;
+
+                    DispatchFast(() => Log.Error(
+                            ex,
+                            "DispatchFast: Unhandled Exception in dispatched action - Action: {Action}.{Method}",
+                            actionDelegate.Method.ReflectedType?.FullName ?? "Unknown",
+                            actionDelegate.Method.Name
+                        )
+                    );
                 }
             },
             null

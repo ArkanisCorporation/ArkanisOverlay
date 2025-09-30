@@ -2,7 +2,6 @@ namespace Arkanis.Overlay.Host.Desktop.UI.Windows;
 
 using System.Diagnostics;
 using System.Windows;
-using Domain.Abstractions.Services;
 using global::Windows.Win32.UI.WindowsAndMessaging;
 using Helpers;
 using Microsoft.Extensions.Logging;
