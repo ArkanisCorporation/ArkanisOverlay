@@ -47,6 +47,18 @@ public static class KeyboardKeyUtils
         KeyboardKey.F10,
         KeyboardKey.F11,
         KeyboardKey.F12,
+        KeyboardKey.F13,
+        KeyboardKey.F14,
+        KeyboardKey.F15,
+        KeyboardKey.F16,
+        KeyboardKey.F17,
+        KeyboardKey.F18,
+        KeyboardKey.F19,
+        KeyboardKey.F20,
+        KeyboardKey.F21,
+        KeyboardKey.F22,
+        KeyboardKey.F23,
+        KeyboardKey.F24,
     ];
 
     private static readonly HashSet<KeyboardKey> AlphanumericKeys =
@@ -277,7 +289,12 @@ public static class KeyboardKeyUtils
         [KeyboardKey.Unknown] = KeyboardKeyCategory.Unknown,
     };
 
-    private static HashSet<KeyboardKey> GetKeys(KeyboardKeyCategory category)
+    private static readonly HashSet<KeyboardKey> ValidStandalone =
+        FunctionKeys
+            .Union(MediaKeys)
+            .ToHashSet();
+
+    public static HashSet<KeyboardKey> GetKeys(KeyboardKeyCategory category)
         => category switch
         {
             KeyboardKeyCategory.Unknown => OtherKeys,
@@ -291,6 +308,7 @@ public static class KeyboardKeyUtils
             KeyboardKeyCategory.Symbol => SymbolKeys,
             KeyboardKeyCategory.Media => MediaKeys,
             KeyboardKeyCategory.Whitespace => WhitespaceKeys,
+            KeyboardKeyCategory.ValidStandalone => ValidStandalone,
             _ => [],
         };
 
@@ -307,4 +325,167 @@ public static class KeyboardKeyUtils
         => IsKeyInCategory(key, KeyboardKeyCategory.Alphanumeric)
            || IsKeyInCategory(key, KeyboardKeyCategory.Numpad)
            || IsKeyInCategory(key, KeyboardKeyCategory.Symbol);
+
+    public static bool IsAlphanumericKey(KeyboardKey key)
+        => IsKeyInCategory(key, KeyboardKeyCategory.Alphanumeric);
+
+    public static bool IsNumpadKey(KeyboardKey key)
+        => IsKeyInCategory(key, KeyboardKeyCategory.Numpad);
+
+    public static bool IsSymbolKey(KeyboardKey key)
+        => IsKeyInCategory(key, KeyboardKeyCategory.Symbol);
+
+    private static readonly Dictionary<KeyboardKey, int> ModifierSortOrder = new()
+    {
+        [KeyboardKey.ControlLeft] = 1,
+        [KeyboardKey.ControlRight] = 2,
+        [KeyboardKey.MetaLeft] = 3,
+        [KeyboardKey.MetaRight] = 4,
+        [KeyboardKey.AltLeft] = 5,
+        [KeyboardKey.AltRight] = 6,
+        [KeyboardKey.ShiftLeft] = 7,
+        [KeyboardKey.ShiftRight] = 8,
+    };
+
+    public static int GetModifierSortOrder(KeyboardKey key)
+        => ModifierSortOrder.GetValueOrDefault(key, int.MaxValue);
+
+    private static readonly Dictionary<KeyboardKey, string> KeyToDisplayName = new()
+    {
+        // Modifier Keys
+        [KeyboardKey.ShiftLeft] = "LShift",
+        [KeyboardKey.ShiftRight] = "RShift",
+        [KeyboardKey.ControlLeft] = "LCtrl",
+        [KeyboardKey.ControlRight] = "RCtrl",
+        [KeyboardKey.AltLeft] = "LAlt",
+        [KeyboardKey.AltRight] = "RAlt",
+        [KeyboardKey.MetaLeft] = "LWin",
+        [KeyboardKey.MetaRight] = "RWin",
+
+        // Lock Keys
+        [KeyboardKey.CapsLock] = "Caps Lock",
+        [KeyboardKey.NumLock] = "Num",
+        [KeyboardKey.ScrollLock] = "Scroll Lock",
+
+        // Navigation Keys
+        [KeyboardKey.ArrowLeft] = "Left",
+        [KeyboardKey.ArrowUp] = "Up",
+        [KeyboardKey.ArrowRight] = "Right",
+        [KeyboardKey.ArrowDown] = "Down",
+        [KeyboardKey.Home] = "Home",
+        [KeyboardKey.End] = "End",
+        [KeyboardKey.PageUp] = "Page Up",
+        [KeyboardKey.PageDown] = "Page Down",
+
+        // Editing Keys
+        [KeyboardKey.Backspace] = "Backspace",
+        [KeyboardKey.Delete] = "Del",
+        [KeyboardKey.Insert] = "Ins",
+        [KeyboardKey.Enter] = "Enter",
+        [KeyboardKey.Tab] = "Tab",
+        [KeyboardKey.Escape] = "Esc",
+
+        // Function Keys
+        [KeyboardKey.F1] = "F1",
+        [KeyboardKey.F2] = "F2",
+        [KeyboardKey.F3] = "F3",
+        [KeyboardKey.F4] = "F4",
+        [KeyboardKey.F5] = "F5",
+        [KeyboardKey.F6] = "F6",
+        [KeyboardKey.F7] = "F7",
+        [KeyboardKey.F8] = "F8",
+        [KeyboardKey.F9] = "F9",
+        [KeyboardKey.F10] = "F10",
+        [KeyboardKey.F11] = "F11",
+        [KeyboardKey.F12] = "F12",
+
+        // Alphanumeric Keys
+        [KeyboardKey.Digit0] = "0",
+        [KeyboardKey.Digit1] = "1",
+        [KeyboardKey.Digit2] = "2",
+        [KeyboardKey.Digit3] = "3",
+        [KeyboardKey.Digit4] = "4",
+        [KeyboardKey.Digit5] = "5",
+        [KeyboardKey.Digit6] = "6",
+        [KeyboardKey.Digit7] = "7",
+        [KeyboardKey.Digit8] = "8",
+        [KeyboardKey.Digit9] = "9",
+        [KeyboardKey.KeyA] = "A",
+        [KeyboardKey.KeyB] = "B",
+        [KeyboardKey.KeyC] = "C",
+        [KeyboardKey.KeyD] = "D",
+        [KeyboardKey.KeyE] = "E",
+        [KeyboardKey.KeyF] = "F",
+        [KeyboardKey.KeyG] = "G",
+        [KeyboardKey.KeyH] = "H",
+        [KeyboardKey.KeyI] = "I",
+        [KeyboardKey.KeyJ] = "J",
+        [KeyboardKey.KeyK] = "K",
+        [KeyboardKey.KeyL] = "L",
+        [KeyboardKey.KeyM] = "M",
+        [KeyboardKey.KeyN] = "N",
+        [KeyboardKey.KeyO] = "O",
+        [KeyboardKey.KeyP] = "P",
+        [KeyboardKey.KeyQ] = "Q",
+        [KeyboardKey.KeyR] = "R",
+        [KeyboardKey.KeyS] = "S",
+        [KeyboardKey.KeyT] = "T",
+        [KeyboardKey.KeyU] = "U",
+        [KeyboardKey.KeyV] = "V",
+        [KeyboardKey.KeyW] = "W",
+        [KeyboardKey.KeyX] = "X",
+        [KeyboardKey.KeyY] = "Y",
+        [KeyboardKey.KeyZ] = "Z",
+
+        // Numpad Keys
+        [KeyboardKey.Numpad0] = "Num 0",
+        [KeyboardKey.Numpad1] = "Num 1",
+        [KeyboardKey.Numpad2] = "Num 2",
+        [KeyboardKey.Numpad3] = "Num 3",
+        [KeyboardKey.Numpad4] = "Num 4",
+        [KeyboardKey.Numpad5] = "Num 5",
+        [KeyboardKey.Numpad6] = "Num 6",
+        [KeyboardKey.Numpad7] = "Num 7",
+        [KeyboardKey.Numpad8] = "Num 8",
+        [KeyboardKey.Numpad9] = "Num 9",
+        [KeyboardKey.NumpadMultiply] = "Num *",
+        [KeyboardKey.NumpadAdd] = "Num +",
+        [KeyboardKey.NumpadSubtract] = "Num -",
+        [KeyboardKey.NumpadDecimal] = "Num .",
+        [KeyboardKey.NumpadDivide] = "Num /",
+
+        // Symbol & Punctuation Keys
+        [KeyboardKey.Semicolon] = ";",
+        [KeyboardKey.Equal] = "=",
+        [KeyboardKey.Comma] = ",",
+        [KeyboardKey.Minus] = "-",
+        [KeyboardKey.Period] = ".",
+        [KeyboardKey.Slash] = "/",
+        [KeyboardKey.Backquote] = "`",
+        [KeyboardKey.BracketLeft] = "[",
+        [KeyboardKey.Backslash] = "\\",
+        [KeyboardKey.BracketRight] = "]",
+        [KeyboardKey.Quote] = "\"",
+        [KeyboardKey.IntBackslash] = "\\",
+
+        // Media/System Keys
+        [KeyboardKey.PrintScreen] = "PrtSc",
+        [KeyboardKey.Pause] = "Pause",
+        [KeyboardKey.ContextMenu] = "Menu",
+        [KeyboardKey.AudioVolumeMute] = "Mute",
+        [KeyboardKey.AudioVolumeDown] = "Vol-",
+        [KeyboardKey.AudioVolumeUp] = "Vol+",
+        [KeyboardKey.LaunchMediaPlayer] = "Media",
+        [KeyboardKey.LaunchApplication1] = "App1",
+        [KeyboardKey.LaunchApplication2] = "App2",
+
+        // Whitespace & Misc
+        [KeyboardKey.Space] = "Space",
+
+        // Unknown
+        [KeyboardKey.Unknown] = "Unknown",
+    };
+
+    public static string GetDisplayName(KeyboardKey key)
+        => KeyToDisplayName.GetValueOrDefault(key, key.ToString());
 }

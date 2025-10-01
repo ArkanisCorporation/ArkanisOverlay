@@ -4,4 +4,9 @@ public interface IOverlayEventControls
 {
     void OnFocusGained();
     void OnFocusLost();
+
+    void OnWindowFound();
+
+    void OnWindowShown();
+    void OnWindowHidden();
 }

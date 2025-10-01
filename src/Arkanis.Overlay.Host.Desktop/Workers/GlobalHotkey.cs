@@ -152,7 +152,7 @@ public sealed class GlobalHotkey : IHostedService, IDisposable
             return;
         }
 
-        var shortcutPressed = _preferencesProvider.CurrentPreferences.LaunchShortcut.PressedKeys
+        var shortcutPressed = _preferencesProvider.CurrentPreferences.InGameLaunchShortcut.PressedKeys
             .Select(WindowsKeyMap.ToCode)
             .All(IsKeyDown);
 

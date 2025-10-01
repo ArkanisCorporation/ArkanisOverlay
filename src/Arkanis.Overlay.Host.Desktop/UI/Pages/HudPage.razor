@@ -1,0 +1,253 @@
+@page "/hud"
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Models.Keyboard
+@using Microsoft.Extensions.Logging
+@layout MainLayout
+
+@inject ILogger<HudPage> Logger
+@inject ISnackbar SnackbarService
+@inject IOverlayEventProvider OverlayEventProvider
+@inject IUserPreferencesProvider UserPreferencesProvider
+
+<MudSnackbarProvider Class="animation-4">
+</MudSnackbarProvider>
+
+<style>
+    body {
+        background-color: transparent;
+    }
+
+    :root {
+        --border-radius: 8px;
+    }
+
+    .animation-1,
+    .animation-2 {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .animation-1 .inner,
+    .animation-2 .inner {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+    }
+
+    .animation-1 .inner {
+        margin: 5px;
+    }
+
+    .animation-1::before {
+        content: "";
+        display: block;
+        background: linear-gradient(
+            90deg,
+            hsla(197, 100%, 64%, 1) 0%,
+            hsla(339, 100%, 55%, 1) 100%
+        );
+        height: 500px;
+        width: 500px;
+        position: absolute;
+        animation: rotate 8s linear infinite;
+        z-index: 0;
+    }
+
+    @@keyframes rotate {
+        from {
+            transform: rotate(0);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .animation-2 .inner {
+        margin: 2px;
+    }
+
+    .animation-2::before {
+        content: "";
+        display: block;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(102, 102, 102, 0.75) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        height: 300px;
+        width: 100px;
+        transform: translate(0);
+        position: absolute;
+        animation: rotate 5s linear forwards infinite;
+        z-index: 0;
+        top: 50%;
+        transform-origin: top center;
+    }
+
+    .animation-3 {
+        position: relative;
+        border-radius: var(--border-radius);
+        padding: 4px;
+    }
+
+    .animation-3 .inner {
+        border-radius: 4px;
+    }
+
+    .animation-3::before,
+    .animation-3::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: linear-gradient(
+            45deg,
+            #ff595e,
+            #ffca3a,
+            #8ac926,
+            #1982c4,
+            #6a4c93,
+            #ff6700
+        );
+        background-size: 400%;
+        z-index: -1;
+        animation: glow 20s linear infinite;
+        width: 100%;
+        border-radius: var(--border-radius);
+    }
+
+    .animation-3::after {
+        filter: blur(25px);
+        transform: translate3d(0, 0, 0);
+    }
+
+    @@keyframes glow {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 100% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+    .animation-4 > .mud-snackbar {
+        border: none;
+
+        outline-width: 1px;
+        outline-offset: 0;
+        outline-color: rgba(0, 130, 206, 0.75);
+        outline-style: solid;
+        animation: animateOutline 4s ease infinite;
+    }
+
+    @@keyframes animateOutline {
+        0% {
+            outline-width: 1px;
+            outline-offset: 0;
+            outline-color: rgba(0, 130, 206, 0);
+        }
+
+        10% {
+            outline-color: rgba(0, 130, 206, 0.75);
+        }
+
+        /* The animation finishes at 50% */
+        50% {
+            outline-width: 7px;
+            outline-offset: 4px;
+            outline-color: rgba(0, 130, 206, 0);
+        }
+
+        100% {
+            outline-width: 7px;
+            outline-offset: 4px;
+            outline-color: rgba(102, 102, 102, 0);
+        }
+    }
+
+    .animation-5 {
+        position: relative;
+    }
+
+    .animation-5 svg {
+        position: absolute;
+    }
+
+    .animation-5 .line {
+        stroke-dasharray: 260;
+        stroke-width: 1px;
+        fill: transparent;
+        stroke: rgba(78, 255, 13, 0.3);
+        animation: svgAnimation 2.5s linear infinite;
+    }
+
+    @@keyframes svgAnimation {
+        from {
+            stroke-dashoffset: 0;
+        }
+        to {
+            stroke-dashoffset: 1000;
+        }
+    }
+
+</style>
+
+@code {
+    private Snackbar? _startUpLaunchShortcutNotificationSnackbar;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        OverlayEventProvider.OverlayShown += (_, _) => RemoveStartUpLaunchShortcutNotification();
+
+        ShowStartUpLaunchShortcutNotification();
+    }
+
+    private void ShowStartUpLaunchShortcutNotification()
+    {
+        Logger.LogInformation("Showing startup launch shortcut notification");
+        if (_startUpLaunchShortcutNotificationSnackbar != null)
+        {
+            return;
+        }
+
+        _startUpLaunchShortcutNotificationSnackbar = SnackbarService.Add(
+            GetStartUpLaunchShortcutNotificationContent(UserPreferencesProvider.CurrentPreferences.InGameLaunchShortcut),
+            Severity.Info,
+            config => config.RequireInteraction = true
+        );
+    }
+
+    private RenderFragment GetStartUpLaunchShortcutNotificationContent(KeyboardShortcut keyboardShortcut)
+    {
+        return @<div>
+            <span>Press <b><code
+                        style="font-family: monospace">@(keyboardShortcut)</code></b> to open the Overlay.</span>
+        </div>;
+    }
+
+    private void RemoveStartUpLaunchShortcutNotification()
+    {
+        if (_startUpLaunchShortcutNotificationSnackbar == null)
+        {
+            return;
+        }
+
+        SnackbarService.Remove(_startUpLaunchShortcutNotificationSnackbar);
+        _startUpLaunchShortcutNotificationSnackbar = null;
+    }
+
+}

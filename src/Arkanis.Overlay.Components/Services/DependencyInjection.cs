@@ -26,6 +26,6 @@ public static class DependencyInjection
         => services.AddSingleton<IGlobalAnalyticsReporter, FakeAnalyticsReporter>();
 
     public static IServiceCollection AddSharedComponentServices(this IServiceCollection services)
-        => services.AddSingleton<OverlayModules>()
+        => services.AddScoped<OverlayModules>()
             .AddComponentViewModels();
 }
