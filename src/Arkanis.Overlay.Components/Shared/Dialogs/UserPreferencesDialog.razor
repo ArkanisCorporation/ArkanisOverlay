@@ -2,6 +2,7 @@
 @using Arkanis.Overlay.Common.Abstractions
 @using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Common.Models
+@using Arkanis.Overlay.Components.Views.Components.IconPicker
 @inject IUserPreferencesManager UserPreferencesManager
 @inject IAppVersionProvider VersionProvider
 
@@ -141,6 +142,15 @@
             </MudExpansionPanel>
             <MudExpansionPanel Expanded Dense>
                 <TitleContent>
+                    Icon Customization
+                </TitleContent>
+                <ChildContent>
+                    <IconPreferences Preferences="@Preferences" 
+                                   PreferencesChanged="@OnIconPreferencesChanged"/>
+                </ChildContent>
+            </MudExpansionPanel>
+            <MudExpansionPanel Expanded Dense>
+                <TitleContent>
                     Cache management
                 </TitleContent>
                 <ChildContent>
@@ -217,6 +227,12 @@
         {
             await _form.Validate();
         }
+    }
+
+    private async Task OnIconPreferencesChanged(UserPreferences newPreferences)
+    {
+        Preferences = newPreferences;
+        await InvokeAsync(StateHasChanged);
     }
 
     private void Cancel()

@@ -1,4 +1,5 @@
 @using Arkanis.Overlay.Host.Server.Models
+@using Arkanis.Overlay.Components.Helpers
 @typeparam T where T : AppRelease
 @if (AssetDownload is AssetDownloadMissing)
 {
@@ -12,7 +13,7 @@ else if (AssetDownload is ReleaseAssetDownload download)
 {
     <MudButton Variant="@Variant.Filled"
                Color="@Color.Primary"
-               StartIcon="@Icons.Material.Filled.InstallDesktop"
+               StartIcon="@MudBlazorIconMapping.GetIconString("InstallDesktop")"
                Href="@download.BrowserDownloadUrl"
                Target="_blank">
         @Name @download.Version

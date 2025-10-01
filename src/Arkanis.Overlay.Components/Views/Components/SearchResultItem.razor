@@ -1,7 +1,10 @@
 @implements QuickAccessContainer.IEntry
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Enums
 @implements IAsyncDisposable
 @inject IPriceProvider PriceProvider
+@inject IIconService IconService
 
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 focus" tabindex="0">
@@ -15,7 +18,7 @@
                       AlignItems="@AlignItems.Center"
                       Row>
 
-                <IconDisplay T="GameEntityCategory" Value="@Model.EntityCategory" />
+                <IconDisplay IconName="@GetCategoryIconName()" />
                 <MudDivider Vertical="true" FlexItem="true"></MudDivider>
 
                 <div class="my-n2">
@@ -149,6 +152,11 @@
 
         _itemInfo = info;
         await InvokeAsync(StateHasChanged);
+    }
+
+    private string GetCategoryIconName()
+    {
+        return IconService.GetIconFor(Model.EntityCategory);
     }
 
     public ValueTask DisposeAsync()

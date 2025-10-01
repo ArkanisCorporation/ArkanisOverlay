@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Domain.Options;
 using System.Globalization;
 using Arkanis.Overlay.Common.Models;
 using Arkanis.Overlay.Domain.Models.Keyboard;
+using System.Collections.Generic;
 
 public record UserPreferences
 {
@@ -33,4 +34,7 @@ public record UserPreferences
     public KeyboardShortcut InGameLaunchShortcut { get; set; } = new([KeyboardKey.F3]);
 
     public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyS]);
+
+    // Icon customization preferences
+    public Dictionary<string, string> CustomIcons { get; set; } = new();
 }
