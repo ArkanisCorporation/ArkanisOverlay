@@ -140,6 +140,7 @@
                     </MudForm>
                 </ChildContent>
             </MudExpansionPanel>
+            @* TODO: Enable icon customization once IconPicker dialog functionality is implemented
             <MudExpansionPanel Expanded Dense>
                 <TitleContent>
                     Icon Customization
@@ -149,6 +150,7 @@
                                    PreferencesChanged="@OnIconPreferencesChanged"/>
                 </ChildContent>
             </MudExpansionPanel>
+            *@
             <MudExpansionPanel Expanded Dense>
                 <TitleContent>
                     Cache management
@@ -229,11 +231,12 @@
         }
     }
 
-    private async Task OnIconPreferencesChanged(UserPreferences newPreferences)
-    {
-        Preferences = newPreferences;
-        await InvokeAsync(StateHasChanged);
-    }
+    // TODO: Uncomment when icon customization is enabled
+    // private async Task OnIconPreferencesChanged(UserPreferences newPreferences)
+    // {
+    //     Preferences = newPreferences;
+    //     await InvokeAsync(StateHasChanged);
+    // }
 
     private void Cancel()
         => MudDialog.Cancel();
