@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Common.Models.Keyboard
 @using Microsoft.JSInterop
+@using Arkanis.Overlay.Components.Helpers
 @inject IJSRuntime JsRuntime
 
 <FocusRegion @ref="_focusRegion" Class="w-100 search-result-container">
@@ -14,7 +15,7 @@
                       AlignItems="@AlignItems.Center"
                       Row>
 
-                <MudIcon Icon="@Icons.Material.Filled.Calculate"></MudIcon>
+                <MudIcon Icon="@MudBlazorIconMapping.GetIconString("Calculate")"></MudIcon>
                 <MudDivider Vertical="true" FlexItem="true"></MudDivider>
 
                 <div class="my-n2">
@@ -52,7 +53,7 @@
                         <MudTooltip Text="Copy result to clipboard"
                                     Placement="@Placement.Top">
                             <MudIconButton
-                                Icon="@Icons.Material.Filled.ContentCopy"
+                                Icon="@MudBlazorIconMapping.GetIconString("ContentCopy")"
                                 OnClick="@CopyResultAsync"
                                 Disabled="@HasError"
                                 Class="focus"

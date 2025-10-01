@@ -1,0 +1,206 @@
+@using Arkanis.Overlay.Domain.Models.IconSelection
+@using Arkanis.Overlay.Components.Helpers
+
+<style>
+    .icon-picker-item {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .icon-picker-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .icon-picker-item.selected {
+        background-color: var(--mud-palette-primary-lighten);
+    }
+</style>
+
+<MudPaper Class="pa-4" Elevation="2">
+    <MudStack Spacing="3">
+        <!-- Header -->
+        <MudStack Row AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+            <MudText Typo="Typo.h6">Icon Picker</MudText>
+            @if (SelectedIcon is not null)
+            {
+                <MudChip T="string" Color="Color.Primary" Size="Size.Small">
+                    <MudIcon Icon="@MudBlazorIconMapping.GetIconString(SelectedIcon)" Class="mr-2" Size="Size.Small"/>
+                    @SelectedIcon
+                </MudChip>
+            }
+        </MudStack>
+
+        <!-- Search and Filter Controls -->
+        <MudStack Row Spacing="2" AlignItems="AlignItems.Center">
+            <MudTextField @bind-Value="SearchText"
+                         Placeholder="Search icons..."
+                         Adornment="Adornment.Start"
+                         AdornmentIcon="@MudBlazorIconMapping.GetIconString("Search")"
+                         Variant="Variant.Outlined"
+                         Immediate="true"
+                         DebounceInterval="300"
+                         Class="flex-grow-1"/>
+
+            <MudSelect @bind-Value="SelectedCategory"
+                      Label="Category"
+                      Variant="Variant.Outlined"
+                      Clearable="true"
+                      T="IconCategory?"
+                      Style="min-width: 150px;">
+                @foreach (var category in Enum.GetValues<IconCategory>())
+                {
+                    <MudSelectItem Value="category">@category</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect @bind-Value="SelectedIconType"
+                      Label="Type"
+                      Variant="Variant.Outlined"
+                      T="IconType"
+                      Style="min-width: 150px;">
+                @foreach (var type in Enum.GetValues<IconType>())
+                {
+                    <MudSelectItem Value="type">@type</MudSelectItem>
+                }
+            </MudSelect>
+        </MudStack>
+
+        <!-- Icon Grid -->
+        <MudGrid Spacing="2">
+            @foreach (var icon in FilteredIcons)
+            {
+                <MudItem xs="2" sm="1" md="1" lg="1">
+                    <MudPaper Class="@GetIconItemClass(icon.IconName)"
+                             Elevation="@(SelectedIcon == icon.IconName ? 4 : 1)"
+                             Style="@(SelectedIcon == icon.IconName ? "border: 2px solid var(--mud-palette-primary);" : "")"
+                             @onclick="@(() => SelectIcon(icon.IconName))">
+                        <MudStack Spacing="1" AlignItems="AlignItems.Center">
+                            <MudIcon Icon="@MudBlazorIconMapping.GetIconString(icon.IconName)"
+                                   Size="Size.Medium"
+                                   Color="@(SelectedIcon == icon.IconName ? Color.Primary : Color.Default)"/>
+                            <MudText Typo="Typo.caption" Class="text-truncate" Style="font-size: 0.7rem;">
+                                @icon.IconName
+                            </MudText>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+
+        @if (!FilteredIcons.Any())
+        {
+            <MudAlert Severity="Severity.Info" Class="mt-4">
+                No icons found matching your criteria. Try adjusting your search or filters.
+            </MudAlert>
+        }
+
+        <!-- Footer Actions -->
+        <MudStack Row Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <MudText Typo="Typo.body2" Class="text-secondary">
+                @FilteredIcons.Count() icons shown
+            </MudText>
+            <MudStack Row Spacing="2">
+                <MudButton Variant="Variant.Text"
+                          OnClick="@ClearSelection">
+                    Clear
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                          Color="Color.Primary"
+                          Disabled="@(SelectedIcon is null)"
+                          OnClick="@(() => OnIconSelected.InvokeAsync(SelectedIcon))">
+                    Select Icon
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+@code {
+    [Parameter] public string? SelectedIcon { get; set; }
+    [Parameter] public EventCallback<string?> SelectedIconChanged { get; set; }
+    [Parameter] public EventCallback<string?> OnIconSelected { get; set; }
+
+    private string? SearchText { get; set; }
+    private IconCategory? SelectedCategory { get; set; }
+    private IconType SelectedIconType { get; set; } = IconType.MaterialIcons;
+
+    private IEnumerable<IconSelectionObject> FilteredIcons => GetFilteredIcons();
+
+    private IEnumerable<IconSelectionObject> GetFilteredIcons()
+    {
+        var icons = GetAllAvailableIcons();
+
+        // Filter by category
+        if (SelectedCategory.HasValue)
+        {
+            icons = icons.Where(i => i.Category == SelectedCategory.Value);
+        }
+
+        // Filter by type
+        icons = icons.Where(i => i.Type == SelectedIconType);
+
+        // Filter by search text
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            var searchLower = SearchText.ToLowerInvariant();
+            icons = icons.Where(i => 
+                i.IconName.ToLowerInvariant().Contains(searchLower) ||
+                i.Description.ToLowerInvariant().Contains(searchLower));
+        }
+
+        return icons.OrderBy(i => i.IconName);
+    }
+
+    private IEnumerable<IconSelectionObject> GetAllAvailableIcons()
+    {
+        // This would ideally come from a service or configuration
+        // For now, we'll return a curated list of commonly used icons
+        return new List<IconSelectionObject>
+        {
+            new() { Category = IconCategory.Search, Type = IconType.MaterialIcons, IconName = "Search", Description = "Search functionality" },
+            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Add", Description = "Add new item" },
+            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Remove", Description = "Remove item" },
+            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "Settings", Description = "Application settings" },
+            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Calculate", Description = "Calculate or compute" },
+            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "ContentCopy", Description = "Copy to clipboard" },
+            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "ScreenshotMonitor", Description = "Overlay or monitor" },
+            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "InstallDesktop", Description = "Install application" },
+            new() { Category = IconCategory.Navigation, Type = IconType.MaterialIcons, IconName = "Web", Description = "Web or external link" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Flight", Description = "Flight or travel" },
+            new() { Category = IconCategory.Status, Type = IconType.MaterialIcons, IconName = "Info", Description = "Information" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Diamond", Description = "Commodity or valuable item" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Rocket", Description = "Space ship" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "LocalShipping", Description = "Ground vehicle" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Category", Description = "Item category" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Topic", Description = "Product category" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Domain", Description = "Company or organization" },
+            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Public", Description = "Location or place" },
+            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "AddShoppingCart", Description = "Buy or purchase" },
+            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "RemoveShoppingCart", Description = "Sell or remove" },
+            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "CarRental", Description = "Rent or lease" },
+        };
+    }
+
+    private void SelectIcon(string iconName)
+    {
+        SelectedIcon = iconName;
+        SelectedIconChanged.InvokeAsync(iconName);
+    }
+
+    private void ClearSelection()
+    {
+        SelectedIcon = null;
+        SelectedIconChanged.InvokeAsync(null);
+    }
+
+    private string GetIconItemClass(string iconName)
+    {
+        var baseClass = "pa-2 text-center icon-picker-item";
+        return SelectedIcon == iconName ? $"{baseClass} selected" : baseClass;
+    }
+}

@@ -14,6 +14,7 @@
 @using Arkanis.Overlay.LocalLink.Models.Commands
 @using Arkanis.Overlay.LocalLink.Services
 @using MoreLinq
+@using Arkanis.Overlay.Components.Helpers
 @inject IDialogService DialogService
 @inject IAppVersionProvider VersionProvider
 @inject GitHubReleasesService GitHubReleasesService
@@ -53,7 +54,7 @@
         <MudContainer Class="w-100" MaxWidth="@MaxWidth.Large">
             <MudStack Class="w-100" AlignItems="@AlignItems.Center" Row>
                 <MudText Typo="@Typo.h5" Class="mr-4">Arkanis Overlay</MudText>
-                <MudButton StartIcon="@Icons.Material.Filled.ScreenshotMonitor" Href="/search">
+                <MudButton StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")" Href="/search">
                     Demo
                 </MudButton>
                 <MudButton StartIcon="@Icons.Custom.Brands.GitHub" Href="@GitHubRepositoryUrl" Target="_blank">
@@ -74,7 +75,7 @@
                     </MudLink>
                 }
                 <MudIconButton
-                    Icon="@Icons.Material.Outlined.Info"
+                    Icon="@MudBlazorIconMapping.GetIconString("Info")"
                     Color="Color.Inherit"
                     Edge="Edge.End"
                     OnClick="@(() => AboutDialog.ShowAsync(DialogService))"/>
@@ -105,7 +106,7 @@
                     </MudButtonGroup>
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
-                               StartIcon="@Icons.Material.Filled.Web"
+                               StartIcon="@MudBlazorIconMapping.GetIconString("Web")"
                                Href="https://arkanis.cc"
                                Target="_blank">
                         Visit Arkanis Website
@@ -155,7 +156,7 @@
                             </MudText>
                             <MudButton Variant="Variant.Outlined"
                                        Color="Color.Secondary"
-                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                        Href="/search?q=:i%20Artimex">
                                 Try it out
                             </MudButton>
@@ -220,7 +221,7 @@
                             </MudText>
                             <MudButton Variant="Variant.Outlined"
                                        Color="Color.Secondary"
-                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                        Href="/search?q=:c%20Gold">
                                 Try it out
                             </MudButton>
@@ -240,7 +241,7 @@
                             </MudText>
                             <MudButton Variant="Variant.Outlined"
                                        Color="Color.Secondary"
-                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                        Href="/search?q=:l%20Orison">
                                 Try it out
                             </MudButton>
@@ -302,7 +303,7 @@
                                 </MudText>
                                 <MudButton Variant="Variant.Outlined"
                                            Color="Color.Secondary"
-                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                            Href="/trade">
                                     Try it out
                                 </MudButton>
@@ -321,7 +322,7 @@
                                         Text="Create trade run"
                                         Placement="@Placement.Top">
                                         <MudIconButton
-                                            Icon="@Icons.Material.Filled.Flight"
+                                            Icon="@MudBlazorIconMapping.GetIconString("Flight")"
                                             Class="focus"
                                             Disabled
                                             tabindex="1"/>
@@ -353,7 +354,7 @@
                                 </MudText>
                                 <MudButton Variant="Variant.Outlined"
                                            Color="Color.Secondary"
-                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                            Href="/trade">
                                     Try it out
                                 </MudButton>
@@ -430,7 +431,7 @@
                                 </MudText>
                                 <MudButton Variant="Variant.Outlined"
                                            Color="Color.Secondary"
-                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                            Href="/inventory">
                                     Try it out
                                 </MudButton>
@@ -460,7 +461,7 @@
                                 </MudText>
                                 <MudButton Variant="Variant.Outlined"
                                            Color="Color.Secondary"
-                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           StartIcon="@MudBlazorIconMapping.GetIconString("ScreenshotMonitor")"
                                            Href="/inventory">
                                     Try it out
                                 </MudButton>

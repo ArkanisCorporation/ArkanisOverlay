@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Components.Helpers
 @typeparam T where T : InventoryEntryBase
 @inject IDialogService DialogService
 @inject IInventoryManager InventoryManager
@@ -23,7 +24,7 @@
                  TextUpdateSuppression="@false"
                  PopoverClass="width-min-content"
                  Adornment="@(ShowCreateButton ? Adornment.End : Adornment.None)"
-                 AdornmentIcon="@Icons.Material.Filled.Add"
+                 AdornmentIcon="@MudBlazorIconMapping.GetIconString("Add")"
                  AdornmentColor="@Color.Success"
                  OnAdornmentClick="@ShowCreateDialogAsync"
                  ItemDisabledFunc="@(item => Value == item)"

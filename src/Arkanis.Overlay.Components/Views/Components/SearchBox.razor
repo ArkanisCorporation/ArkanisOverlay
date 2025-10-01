@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Common.Models.Keyboard
 @inject IOverlayControls OverlayControls
+@using Arkanis.Overlay.Components.Helpers
 
 <MudPaper Elevation="8"
           id="search-box-container"
@@ -38,7 +39,7 @@
                         @bind-Value="@SearchText"
                         Variant="Variant.Outlined"
                         Adornment="@Adornment.End"
-                        AdornmentIcon="@Icons.Material.Filled.Search"
+                        AdornmentIcon="@MudBlazorIconMapping.GetIconString("Search")"
                         AdornmentColor="@Color.Secondary"
                         DebounceInterval="180"
                         OnDebounceIntervalElapsed="@SearchAsync"

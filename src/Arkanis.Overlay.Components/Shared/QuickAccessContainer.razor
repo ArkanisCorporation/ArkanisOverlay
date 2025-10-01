@@ -15,6 +15,7 @@
     private DebounceHelper? _debounceHelper;
     private FocusRegion? _regionRef;
     private JsComponentInterop<QuickAccessContainer>? _interop;
+    private bool _disposed;
 
     [Parameter]
     [EditorRequired]
@@ -57,9 +58,17 @@
 
     private async Task InvokeJsUpdateAsync()
     {
-        if (_interop?.Controls is not null)
+        try
         {
-            await _interop.Controls.InvokeVoidAsync("updateDebounced", 100);
+            if (_interop?.Controls is not null && !_disposed)
+            {
+                await _interop.Controls.InvokeVoidAsync("updateDebounced", 100);
+            }
+        }
+        catch (JSException)
+        {
+            // JS object disposed - this is expected when component is being disposed
+            // No need to log this as it's a normal part of component lifecycle
         }
     }
 
@@ -162,9 +171,14 @@
 
     public async ValueTask DisposeAsync()
     {
-        if (_interop is not null)
+        if (!_disposed)
         {
-            await _interop.DisposeAsync();
+            _disposed = true;
+            _debounceHelper?.Dispose();
+            if (_interop is not null)
+            {
+                await _interop.DisposeAsync();
+            }
         }
     }
 
@@ -208,4 +222,5 @@
     {
         public static readonly EntryInfo Empty = new(-1, false);
     }
+
 }
