@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 using Game;
+using Microsoft.Extensions.Primitives;
 using Models;
 using Models.Game;
 
@@ -10,9 +11,11 @@ using Models.Game;
 /// </summary>
 public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEntity>, IDependable
 {
-    Type EntityType { get; }
+    public Type EntityType { get; }
 
-    InternalDataState DataState { get; }
+    public InternalDataState DataState { get; }
+
+    public IChangeToken DataChangeToken { get; }
 }
 
 /// <summary>
@@ -23,7 +26,9 @@ public interface IGameEntityRepository : IGameEntityReadOnlyRepository<IGameEnti
 public interface IGameEntityRepository<T> : IGameEntityReadOnlyRepository<T>, IDependable
     where T : class, IGameEntity
 {
-    InternalDataState DataState { get; }
+    public InternalDataState DataState { get; }
 
-    Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default);
+    public IChangeToken DataChangeToken { get; }
+
+    public Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default);
 }

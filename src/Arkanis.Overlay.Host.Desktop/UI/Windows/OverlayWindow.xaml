@@ -3,15 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
+        xmlns:blazor="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
         mc:Ignorable="d"
-        Width="800"
-        Height="600"
         ResizeMode="NoResize"
         Topmost="False"
         ShowInTaskbar="False"
         WindowStyle="None"
-        Visibility="Hidden"
+        Visibility="Collapsed"
         Focusable="True"
         AllowsTransparency="True"
         FocusManager.FocusedElement="{Binding ElementName=BlazorWebView}"
@@ -19,13 +17,20 @@
         xmlns:chapter="clr-namespace:Chapter.Net.WPF.SystemTray;assembly=Chapter.Net.WPF.SystemTray"
         xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <Window.Background>
+        <!-- If the opacity is not set, the window will be click-through -->
+        <!-- This is because WPF does not know about controls in the webview -->
         <SolidColorBrush Color="#010000" Opacity="0.05" />
     </Window.Background>
-    <Grid>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- Toggle me to show/hide the debug panel -->
+        <sys:Boolean x:Key="ShowDebugPanel">False</sys:Boolean>
+    </Window.Resources>
+    <Grid Name="Root">
         <blazor:BlazorWebView HostPage="wwwroot\index.html"
                               x:Name="BlazorWebView"
                               Loaded="MainWindow_Loaded"
-                              Panel.ZIndex="99"
+                              Panel.ZIndex="9"
                               Focusable="True"
                               Services="{DynamicResource services}"
                               StartPath="/search">
@@ -33,9 +38,77 @@
                 <blazor:RootComponent Selector="#app" ComponentType="{x:Type ui:RazorApp}" />
             </blazor:BlazorWebView.RootComponents>
         </blazor:BlazorWebView>
+        <!-- === DEBUG PANEL (paste as last child) === -->
+       <Popup x:Name="DebugPanel"
+              IsOpen="{Binding Source={StaticResource ShowDebugPanel}, Mode=OneWay}"
+              StaysOpen="True"
+              AllowsTransparency="True"
+              Placement="Relative"
+              PlacementTarget="{Binding ElementName=Root}"
+              PopupAnimation="None"
+              DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+            <!-- Stretch a transparent surface to the window size, then align overlay inside -->
+            <Grid
+                IsHitTestVisible="False"
+                Background="Transparent"
+                Width="{Binding ElementName=Root, Path=Width}"
+                Height="{Binding ElementName=Root, Path=Height}">
+                <Border
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="8"
+                    Opacity="0.95"
+                    CornerRadius="6"
+                    Background="#FFFFFFFF"
+                    BorderBrush="#AA00C8FF"
+                    BorderThickness="1"
+                    IsHitTestVisible="False">
+                    <TextBlock
+                        FontFamily="Consolas"
+                        FontSize="12"
+                        TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="
+[Window Debug]&#x0d;&#x0a;
+Title:             {0}&#x0d;&#x0a;
+Visibility:        {1}&#x0d;&#x0a;
+IsActive:          {2}&#x0d;&#x0a;
+Topmost:           {3}&#x0d;&#x0a;
+WindowState:       {4}&#x0d;&#x0a;
+ShowInTaskbar:     {5}&#x0d;&#x0a;
+ResizeMode:        {6}&#x0d;&#x0a;
+Opacity:           {7:0.###}&#x0d;&#x0a;
+Position:          Left={8:0.#}, Top={9:0.#}&#x0d;&#x0a;
+Size:              Width={10:0.#}, Height={11:0.#}&#x0d;&#x0a;
+ActualSize:        ActualWidth={12:0.#}, ActualHeight={13:0.#}&#x0d;&#x0a;
+ActualSize:        RenderSize.Width={14:0.#}, RenderSize.Height={15:0.#}&#x0d;&#x0a;
+Focused Element:   {16}">
+                                <Binding Path="Title"/>
+                                <Binding Path="Visibility"/>
+                                <Binding Path="IsActive"/>
+                                <Binding Path="Topmost"/>
+                                <Binding Path="WindowState"/>
+                                <Binding Path="ShowInTaskbar"/>
+                                <Binding Path="ResizeMode"/>
+                                <Binding Path="Opacity"/>
+                                <Binding Path="Left"/>
+                                <Binding Path="Top"/>
+                                <Binding Path="Width"/>
+                                <Binding Path="Height"/>
+                                <Binding Path="ActualWidth"/>
+                                <Binding Path="ActualHeight"/>
+                                <Binding Path="RenderSize.Width"/>
+                                <Binding Path="RenderSize.Height"/>
+                                <Binding Path="(FocusManager.FocusedElement)"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Border>
+            </Grid>
+        </Popup>
+        <!-- === /DEBUG PANEL === -->
     </Grid>
     <chapter:Tray.TrayIcon>
-
         <chapter:TrayIcon Icon="{x:Static sys:Environment.ProcessPath}"
                           OpenWindowOnClick="False"
                           HideIfWindowShown="False"

@@ -1,5 +1,6 @@
 @using System.Collections.Concurrent
 @using Microsoft.AspNetCore.Components.Routing
+@using MudBlazor.Utilities
 @implements IDisposable
 @inject IServiceProvider ServiceProvider
 @inject NavigationManager NavigationManager
@@ -25,26 +26,44 @@
 <MudTabs @ref="@_tabs"
          Class="with-badges navigation-tabs"
          @bind-ActivePanelIndex:get="@ActiveModuleIndex"
-         @bind-ActivePanelIndex:set="@ActivateModuleByIndex">
+         @bind-ActivePanelIndex:set="@ActivateModuleByIndexWithClick">
     @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
     {
-        var moduleShortcut = GetKeyFor(moduleIndex, module);
-        var isModuleActive = IsActive(module);
-        var isShortcutAvailable = !isModuleActive && !module.Disabled;
+        var moduleShortcut = GetKeyboardShortcutFor(moduleIndex, module);
         var updateCount = GetUpdateCount(module);
 
-        <MudTabPanel @key="@module.Url"
+        var description = true switch
+        {
+            _ when module.IsInDevelopment => "In Development",
+            _ when module.IsDisabled => "Disabled",
+            _ => module.Description,
+        };
+
+        var classname = GetModuleClassname(module);
+        var badgeAttributes = GetModuleBadgeAttributes(module);
+
+        <MudTabPanel @key="@module.Name"
                      Icon="@module.Icon"
-                     Disabled="@module.Disabled">
+                     Disabled="@module.IsDisabled"
+                     Tooltip="@module.Description"
+                     Class="@classname">
             <TabWrapperContent>
                 <KeyboardShortcutBadge @key="@module.Name"
-                                       Key="@moduleShortcut"
-                                       IsActive="@isShortcutAvailable"
-                                       OnKeyPress="@(() => ActivateModuleByIndex(moduleIndex))"
+                                       Shortcut="@moduleShortcut"
+                                       IsActive="@module.CanActivate(NavigationManager, CurrentUri)"
+                                       OnKeyPress="@(() => ActivateModuleByIndexWithHotkey(moduleIndex))"
                                        Origin="@KeybindsOrigin"
                                        Elevation="4"
-                                       DoNotOverlap="@DoNotOverlapKeybinds">
-                    @context
+                                       DoNotOverlap="@DoNotOverlapKeybinds"
+                                       @attributes="@badgeAttributes">
+                    <MudTooltip>
+                        <ChildContent>@context</ChildContent>
+                        <TooltipContent>
+                            <MudText Typo="@Typo.inherit">
+                                @description
+                            </MudText>
+                        </TooltipContent>
+                    </MudTooltip>
                 </KeyboardShortcutBadge>
             </TabWrapperContent>
             <TabContent>
@@ -111,7 +130,7 @@
     public bool DoNotOverlapUpdates { get; set; }
 
     private bool IsActive(OverlayModules.Entry module)
-        => CurrentUri.StartsWith(module.GetAbsoluteUri(NavigationManager));
+        => module.IsActive(NavigationManager, CurrentUri);
 
     protected override void OnInitialized()
     {
@@ -164,17 +183,23 @@
         InvokeAsync(StateHasChanged);
     }
 
-    private KeyboardKey GetKeyFor(int index, OverlayModules.Entry module)
+    private KeyboardShortcut GetKeyboardShortcutFor(int index, OverlayModules.Entry module)
         => module.ShortcutOverride
            ?? (index < 12
                ? KeyboardKey.F1 + index
                : KeyboardKey.Unknown);
 
-    private void ActivateModuleByIndex(int moduleIndex)
+    private async Task ActivateModuleByIndexWithClick(int moduleIndex)
+        => await ActivateModuleByIndex(moduleIndex, OverlayModules.ActivationType.Click);
+
+    private async Task ActivateModuleByIndexWithHotkey(int moduleIndex)
+        => await ActivateModuleByIndex(moduleIndex, OverlayModules.ActivationType.Hotkey);
+
+    private async Task ActivateModuleByIndex(int moduleIndex, OverlayModules.ActivationType activationType)
     {
         var module = _modules[moduleIndex];
-        CurrentUri = module.GetAbsoluteUri(NavigationManager);
-        NavigationManager.NavigateTo(module.Url);
+        await module.ActivateAsync(NavigationManager, CurrentUri, activationType);
+        await InvokeAsync(StateHasChanged);
     }
 
     private int GetUpdateCount(OverlayModules.Entry module)
@@ -186,4 +211,22 @@
         NavigationManager.LocationChanged -= OnLocationChangedAsync;
     }
 
+    private static string GetModuleClassname(OverlayModules.Entry module)
+        => new CssBuilder()
+            .AddClass(
+                $"mud-theme-{module.Color.ToDescriptionString()}",
+                module.Color != Color.Default && module.Color != Color.Inherit
+            )
+            .Build();
+
+    private static Dictionary<string, object> GetModuleBadgeAttributes(OverlayModules.Entry module)
+    {
+        var badgeAttributes = new Dictionary<string, object>();
+        if (module.Color != Color.Default && module.Color != Color.Inherit)
+        {
+            badgeAttributes.Add("Color", module.Color);
+        }
+
+        return badgeAttributes;
+    }
 }

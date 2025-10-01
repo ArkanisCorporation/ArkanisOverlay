@@ -1,0 +1,68 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@implements IDisposable
+@inject InventoryViewModel ViewModel
+
+<div>
+    <MudTooltip Text="Transfer"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+            Size="@Size.Small"
+            Color="@Color.Info"
+            OnClick="@TransferAsync"/>
+    </MudTooltip>
+
+    <MudTooltip Text="Modify"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.Edit"
+            Size="@Size.Small"
+            Color="@Color.Warning"
+            OnClick="@UpdateAsync"/>
+    </MudTooltip>
+
+    <MudTooltip Text="Remove"
+                Placement="@Placement.Top">
+        <MudIconButton
+            Icon="@Icons.Material.Filled.DeleteForever"
+            Size="@Size.Small"
+            Color="@Color.Error"
+            OnClick="@DeleteForeverAsync"/>
+    </MudTooltip>
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required InventoryEntryBase Model { get; set; }
+
+    [Parameter]
+    public EventCallback<InventoryEntryBase?> ModelChanged { get; set; }
+
+    [Parameter]
+    public IGameLocation? SelectedLocation { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => ModelChanged.InvokeAsync(Model));
+
+    private async Task TransferAsync()
+        => await ViewModel.TransferAsync(Model, SelectedLocation);
+
+    private async Task UpdateAsync()
+        => await ViewModel.UpdateAsync(Model, SelectedLocation);
+
+    private async Task DeleteForeverAsync()
+        => await ViewModel.DeleteForeverAsync(Model);
+
+}

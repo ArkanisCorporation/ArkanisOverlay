@@ -1,0 +1,24 @@
+@page "/hangar"
+@page "/hangar/{entryId:guid}"
+@using Arkanis.Overlay.Domain.Models.Inventory
+@layout ServerOverlayLayout
+
+<PageTitle>@ApplicationConstants.ApplicationName — Hangar</PageTitle>
+
+<div>
+    <HangarView
+        SelectedEntryId="@InventoryEntryId"/>
+</div>
+
+@code
+{
+
+    [Parameter]
+    public Guid? EntryId { get; set; }
+
+    public InventoryEntryId? InventoryEntryId
+        => EntryId is not null
+            ? new InventoryEntryId(EntryId.Value)
+            : null;
+
+}

@@ -607,6 +607,11 @@
           "System.Buffers": "4.6.0"
         }
       },
+      "Polly.Core": {
+        "type": "Transitive",
+        "resolved": "8.6.4",
+        "contentHash": "4AWqYnQ2TME0E+Mzovt1Uu+VyvpR84ymUldMcPw7Mbj799Phaag14CKrMtlJGx5jsvYP+S3oR1QmysgmXoD5cw=="
+      },
       "Serilog.Extensions.Logging": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -666,10 +671,17 @@
         "resolved": "8.0.0",
         "contentHash": "yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ=="
       },
+<<<<<<< HEAD
       "System.Text.Json": {
         "type": "Transitive",
         "resolved": "9.0.1",
         "contentHash": "eqWHDZqYPv1PvuvoIIx5pF74plL3iEOZOl/0kQP+Y0TEbtgNnM2W6k8h8EPYs+LTJZsXuWa92n5W5sHTWvE3VA=="
+=======
+      "System.Threading.RateLimiting": {
+        "type": "Transitive",
+        "resolved": "8.0.0",
+        "contentHash": "7mu9v0QDv66ar3DpGSZHg9NuNcxDaaAcnMULuZlaTpP9+hwXhrxNGsF5GmLkSHxFdb5bBc1TzeujsRgTrPWi+Q=="
+>>>>>>> origin/main
       },
       "arkanis.overlay.common": {
         "type": "Project",
@@ -730,11 +742,20 @@
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
+          "JetBrains.Annotations": "[2025.2.0, )",
           "Microsoft.AspNetCore.Http.Extensions": "[2.3.0, )",
+<<<<<<< HEAD
           "Microsoft.Data.Sqlite": "[9.0.1, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[9.0.1, )",
           "Microsoft.Extensions.Http": "[9.0.1, )",
           "MudBlazor": "[8.6.0, )",
+=======
+          "Microsoft.Data.Sqlite": "[8.0.16, )",
+          "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.16, )",
+          "Microsoft.Extensions.Http": "[8.0.1, )",
+          "Polly": "[8.6.4, )",
+          "Polly.RateLimiting": "[8.6.4, )",
+>>>>>>> origin/main
           "Quartz": "[3.14.0, )",
           "Quartz.Extensions.DependencyInjection": "[3.14.0, )",
           "Quartz.Extensions.Hosting": "[3.14.0, )",
@@ -829,6 +850,12 @@
           "Humanizer.Core.zh-Hans": "2.14.1",
           "Humanizer.Core.zh-Hant": "2.14.1"
         }
+      },
+      "JetBrains.Annotations": {
+        "type": "CentralTransitive",
+        "requested": "[2025.2.0, )",
+        "resolved": "2025.2.0",
+        "contentHash": "2BvMkOSW+50EbQFhWFIPWTqmcDLiyyjwkMN7lN386bhP2vN/7ts5t59qu11HtenmHFxqDzaD8J1fFoh+QTOzVA=="
       },
       "MathEvaluator": {
         "type": "CentralTransitive",
@@ -1043,6 +1070,25 @@
         "requested": "[6.14.0, )",
         "resolved": "6.14.0",
         "contentHash": "4v4blkhCv8mpKtfx+z0G/X0daVCzdIaHSC51GkUspugi5JIMn2Bo8xm5PdZYF0U68gOBfz/+aPWMnpRd85Jbow=="
+      },
+      "Polly": {
+        "type": "CentralTransitive",
+        "requested": "[8.6.4, )",
+        "resolved": "8.6.4",
+        "contentHash": "uuBsDoBw0oYrMe3uTWRjkT2sIkKh+ZZnnDrLb4Z+QANfeA4+7FJacx6E8CY5GAxXRoSgFrvUADEAQ7DPF6fGiw==",
+        "dependencies": {
+          "Polly.Core": "8.6.4"
+        }
+      },
+      "Polly.RateLimiting": {
+        "type": "CentralTransitive",
+        "requested": "[8.6.4, )",
+        "resolved": "8.6.4",
+        "contentHash": "Sy5CN4xeBqdJNnZ0XYlz2by9rJJ6kvXPBkU2L3XfRxN8FJf6pi0ZHMCkz1ZyZN5MIbrT2usQGueygHnvbBt2ZA==",
+        "dependencies": {
+          "Polly.Core": "8.6.4",
+          "System.Threading.RateLimiting": "8.0.0"
+        }
       },
       "Quartz": {
         "type": "CentralTransitive",

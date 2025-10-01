@@ -15,6 +15,7 @@
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FuzzySharp" Version="2.0.2" />
     <PackageVersion Include="Humanizer" Version="2.14.1" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
     <PackageVersion Include="MathEvaluator" Version="2.3.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.16" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.16" />
@@ -52,6 +53,8 @@
     <PackageVersion Include="MudBlazor" Version="8.6.0" />
     <PackageVersion Include="NuGet.Versioning" Version="6.14.0" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
+    <PackageVersion Include="Polly" Version="8.6.4"/>
+    <PackageVersion Include="Polly.RateLimiting" Version="8.6.4"/>
     <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.14.0" />
     <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0" />
     <PackageVersion Include="Quartz.Jobs" Version="3.14.0" />

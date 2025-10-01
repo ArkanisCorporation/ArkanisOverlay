@@ -256,6 +256,7 @@ public static class JavaScriptKeyMap
         [KeyboardKey.Backslash] = 220,
         [KeyboardKey.BracketRight] = 221,
         [KeyboardKey.Quote] = 222,
+        [KeyboardKey.IntBackslash] = 226, // "Left" Backslash key for ISO keyboards
     };
 
     private static readonly Dictionary<int, KeyboardKey> CodeToEnum = new()

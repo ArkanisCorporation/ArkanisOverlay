@@ -18,12 +18,6 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <!-- Exclude unsupported languages -->
-        <ResourceLanguages>en</ResourceLanguages>
-        <SatelliteResourceLanguages>en-US;en</SatelliteResourceLanguages>
-    </PropertyGroup>
-
-    <PropertyGroup>
         <ApplicationIcon>Resources/favicon.ico</ApplicationIcon>
     </PropertyGroup>
 

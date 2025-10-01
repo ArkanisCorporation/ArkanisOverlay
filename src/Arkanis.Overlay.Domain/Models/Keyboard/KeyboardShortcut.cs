@@ -1,9 +1,8 @@
 namespace Arkanis.Overlay.Domain.Models.Keyboard;
 
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Humanizer;
+using MoreLinq;
 
 [JsonConverter(typeof(JsonConverter))]
 public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEquatable<KeyboardShortcut>
@@ -17,32 +16,28 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
     public bool IsEmpty
         => PressedKeys.Count == 0;
 
+    private bool HasStandaloneKey
+        => PressedKeys.Intersect(KeyboardKeyUtils.GetKeys(KeyboardKeyCategory.ValidStandalone)).Any();
+
+    private bool HasModifierKey
+        => PressedKeys.Select(KeyboardKeyUtils.GetCategory).Any(category => category == KeyboardKeyCategory.Modifier);
+
+    private bool HasNonModifierKey
+        => PressedKeys.Select(KeyboardKeyUtils.GetCategory).Any(category => category != KeyboardKeyCategory.Modifier);
+
     public bool IsValid
-    {
-        get
-        {
-            var categoryCounts = PressedKeys.Select(KeyboardKeyUtils.GetCategory).GroupBy(key => key).ToDictionary(x => x.Key, x => x.Count());
-            var modifierKeyCount = categoryCounts.GetValueOrDefault(KeyboardKeyCategory.Modifier, 0);
-            return IsEmpty
-                   || modifierKeyCount >= 2
-                   || (modifierKeyCount == 1 && categoryCounts.Count >= 2 && categoryCounts.Values.Sum() == 2);
-        }
-    }
+        => IsEmpty
+           || HasStandaloneKey
+           || (HasModifierKey && HasNonModifierKey);
+
+    public IEnumerable<string> KeyNames
+        => PressedKeys.OrderBy(KeyboardKeyUtils.GetModifierSortOrder).Select(KeyboardKeyUtils.GetDisplayName).FallbackIfEmpty("None");
+
+    public override string ToString()
+        => string.Join(" + ", KeyNames);
 
     public string Description
-        => new StringBuilder().AppendJoin(' ', FormatParts).ToString();
-
-    public IEnumerable<FormatPart> FormatParts
-        => PressedKeys.Count > 0
-            ? PressedKeys.SelectMany<KeyboardKey, FormatPart>((pressedKey, index) =>
-                {
-                    var key = new Key(pressedKey.Humanize(LetterCasing.Title));
-                    return index > 0
-                        ? [Fill.Plus, key]
-                        : [key];
-                }
-            )
-            : [EmptyKey.Instance];
+        => ToString();
 
     public bool Equals(KeyboardShortcut? other)
     {
@@ -78,30 +73,6 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
 
     public override int GetHashCode()
         => PressedKeys.Aggregate(6428197, (code, key) => HashCode.Combine(code, key.GetHashCode()));
-
-    public record FormatPart;
-
-    public sealed record EmptyKey : FormatPart
-    {
-        public static readonly EmptyKey Instance = new();
-
-        public override string ToString()
-            => "None";
-    }
-
-    public sealed record Key(string Name) : FormatPart
-    {
-        public override string ToString()
-            => Name;
-    }
-
-    public sealed record Fill(string Content) : FormatPart
-    {
-        public static readonly Fill Plus = new("+");
-
-        public override string ToString()
-            => Content;
-    }
 
     public class JsonConverter : JsonConverter<KeyboardShortcut>
     {

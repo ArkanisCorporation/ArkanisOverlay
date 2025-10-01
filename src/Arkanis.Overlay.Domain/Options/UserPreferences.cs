@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Domain.Options;
 
 using System.Globalization;
-using Common.Models;
-using Models.Keyboard;
+using Arkanis.Overlay.Common.Models;
+using Arkanis.Overlay.Domain.Models.Keyboard;
 
 public record UserPreferences
 {
@@ -29,6 +29,8 @@ public record UserPreferences
     public CultureInfo? CustomCultureInfo { get; set; } = CultureInfo.GetCultureInfo("en");
 
     public RegionInfo? CustomRegionInfo { get; set; }
+
+    public KeyboardShortcut InGameLaunchShortcut { get; set; } = new([KeyboardKey.F3]);
 
     public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyS]);
 }

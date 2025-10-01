@@ -13,4 +13,5 @@ public enum KeyboardKeyCategory : byte
     Symbol,
     Media,
     Whitespace,
+    ValidStandalone,
 }

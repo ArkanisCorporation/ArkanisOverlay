@@ -2,5 +2,5 @@ namespace Arkanis.Overlay.External.UEX;
 
 internal static class UexConstants
 {
-    public const string BaseUrl = "https://api.uexcorp.space/2.0";
+    public const string BaseUrl = "https://api.uexcorp.uk/2.0";
 }

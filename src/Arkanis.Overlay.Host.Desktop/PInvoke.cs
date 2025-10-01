@@ -5,10 +5,48 @@ namespace Windows.Win32;
 
 using System.Threading;
 using Foundation;
+using global::System.Runtime.CompilerServices;
+using global::System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 using UI.WindowsAndMessaging;
 
 internal partial class PInvoke
 {
+    public record struct GuardResult
+    {
+        public bool Success { get; init; }
+        public int ErrorCode { get; init; }
+        public string? ErrorMessage { get; init; }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static GuardResult Guard(BOOL result, ILogger? logger = null, string? pInvokeMethodName = null)
+    {
+        if (result != true)
+        {
+            return new GuardResult { Success = true };
+        }
+
+        pInvokeMethodName ??= "Unknown PInvoke Method";
+
+        var errorCode = Marshal.GetLastWin32Error();
+        var errorMessage = Marshal.GetLastPInvokeErrorMessage();
+
+        logger?.LogError(
+            "[{PInvokeMethodName}] PInvoke failed with error code {ErrorCode}: {ErrorMessage}",
+            pInvokeMethodName,
+            errorCode,
+            errorMessage
+        );
+
+        return new GuardResult
+        {
+            Success = false,
+            ErrorCode = errorCode,
+            ErrorMessage = errorMessage
+        };
+    }
+
     /// <summary>
     ///     Workaround for unsafe pointer access.
     ///     See: https://github.com/microsoft/CsWin32/issues/137#issuecomment-1879493081
@@ -44,10 +82,10 @@ internal partial class PInvoke
             return string.Empty;
         }
 
-        var length = GetWindowTextLength(hWnd);
+        var length = GetWindowTextLength(hWnd) + 1;
         Span<char> windowText = stackalloc char[length];
         GetWindowText(hWnd, windowText);
-        return SpanToString(windowText, length-1); // ignore trailing null terminator
+        return SpanToString(windowText, length)?.Trim(' ', '\0'); // ignore trailing null terminator
     }
 
     public static bool IsTopLevelWindow(HWND hWnd)

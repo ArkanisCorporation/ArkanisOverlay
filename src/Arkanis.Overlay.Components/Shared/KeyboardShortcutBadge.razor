@@ -27,6 +27,9 @@
     public IEnumerable<KeyboardKey>? Keys { get; set; }
 
     [Parameter]
+    public KeyboardShortcut? Shortcut { get; set; }
+
+    [Parameter]
     [EditorRequired]
     public required EventCallback OnKeyPress { get; set; }
 
@@ -76,9 +79,10 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        _shortcut = Keys is not null
-            ? new KeyboardShortcut(Keys)
-            : new KeyboardShortcut([Key]);
+        _shortcut = Shortcut
+                    ?? (Keys is not null
+                        ? new KeyboardShortcut(Keys)
+                        : new KeyboardShortcut([Key]));
     }
 
     private async void OnKeyboardShortcut(object? sender, KeyboardShortcut keyboardShortcut)
