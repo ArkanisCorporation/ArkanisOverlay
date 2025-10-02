@@ -13,6 +13,8 @@ public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHe
     : TestBed<TFixture>(testOutputHelper, fixture)
     where TEntity : GameEntity where TFixture : TestBedFixture
 {
+    // Timeout set to 30s to accommodate live external API calls (UEX API) and complex dependency resolution chains
+    // This could be set to 10s for release builds - but 10s is too short to pass tests locally for me 
     protected CancellationTokenSource TestCancellation { get; } = new(TimeSpan.FromSeconds(30));
 
     protected CancellationToken TestCancellationToken

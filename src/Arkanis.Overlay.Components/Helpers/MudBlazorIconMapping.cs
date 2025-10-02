@@ -27,20 +27,21 @@ public static class MudBlazorIconMapping
     /// </summary>
     public static string GetIconString(string iconName)
     {
+        var defaultIcon = GetDefaultIconString();
         if (string.IsNullOrWhiteSpace(iconName))
-            return GetDefaultIconString();
+            return defaultIcon;
 
         // Try Material Icons first (Filled variant)
         var materialIcon = GetMaterialIconString(iconName);
-        if (materialIcon != GetDefaultIconString())
+        if (materialIcon != defaultIcon)
             return materialIcon;
 
         // Fallback to Material Symbols
         var materialSymbol = GetMaterialSymbolString(iconName);
-        if (materialSymbol != GetDefaultIconString())
+        if (materialSymbol != defaultIcon)
             return materialSymbol;
 
-        return GetDefaultIconString();
+        return defaultIcon;
     }
 
     /// <summary>
@@ -116,6 +117,6 @@ public static class MudBlazorIconMapping
             _ => Outlined.Square,
         };
 
-    private static string GetDefaultIconString()
+    public static string GetDefaultIconString()
         => MudBlazor.Icons.Material.Filled.Square;
 }
