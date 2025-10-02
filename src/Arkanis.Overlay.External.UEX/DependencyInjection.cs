@@ -2,12 +2,16 @@ namespace Arkanis.Overlay.External.UEX;
 
 using Abstractions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddAllUexApiClients(this IServiceCollection services, Func<IServiceProvider, UexApiOptions>? createOptions = null)
+    public static IServiceCollection AddAllUexApiClients(
+        this IServiceCollection services,
+        Func<IServiceProvider, IConfigureOptions<UexApiOptions>>? createOptions = null
+    )
         => services
-            .AddSingleton(createOptions ?? (_ => new UexApiOptions()))
+            .AddSingleton(createOptions ?? (_ => new ConfigureOptions<UexApiOptions>(_ => { })))
             .AddSingleton<IUexCrewApi, UexCrewApi>()
             .AddSingleton<IUexCommoditiesApi, UexCommoditiesApi>()
             .AddSingleton<IUexFuelApi, UexFuelApi>()

@@ -14,14 +14,14 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
 {
     private readonly ICollection<Entry> _modules =
     [
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/search",
             Name = "Search",
             Description = "Find anything you're looking for.",
             Icon = Outlined.Search,
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/hub",
             Name = "Hub",
@@ -30,7 +30,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             IsDisabled = true,
             IsInDevelopment = true,
         },
-        new ActionEntry()
+        new ActionEntry
         {
             Name = "Close",
             Description = "Close the Overlay.",
@@ -49,7 +49,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
                 return true;
             },
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/inventory",
             Name = "Inventory",
@@ -62,7 +62,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
                 return await inventoryManager.GetUnassignedCountAsync();
             },
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/trade",
             Name = "Trade",
@@ -75,7 +75,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
                 return await inventoryManager.GetInProgressCountAsync();
             },
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/mining",
             Name = "Mining",
@@ -84,7 +84,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             IsDisabled = true,
             IsInDevelopment = true,
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/market",
             Name = "Market",
@@ -93,14 +93,14 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             IsDisabled = true,
             IsInDevelopment = true,
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/hangar",
             Name = "Hangar",
             Description = "Manage your Fleet.",
             Icon = Outlined.GarageDoor,
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/org",
             Name = "Org",
@@ -109,15 +109,13 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             IsDisabled = true,
             IsInDevelopment = true,
         },
-        new UrlEntry()
+        new UrlEntry
         {
             Url = "/settings",
             Name = "Settings",
             Description = "Configure the Overlay.",
             Icon = Outlined.Settings,
             ShortcutOverride = new KeyboardShortcut([KeyboardKey.F12]),
-            IsDisabled = true,
-            IsInDevelopment = true,
         },
     ];
 

@@ -144,6 +144,11 @@ public static class Program
     {
         services.AddInfrastructureConfiguration(configuration);
 
+        // Data
+        services
+            .AddWindowsOverlayControls()
+            .AddInfrastructure(options => options.HostingMode = HostingMode.LocalSingleUser);
+
         services.AddWpfBlazorWebView();
         services.AddMudServices(config =>
             {
@@ -179,11 +184,6 @@ public static class Program
 
         // Auto updater
         services.AddVelopackServices();
-
-        // Data
-        services
-            .AddWindowsOverlayControls()
-            .AddInfrastructure(options => options.HostingMode = HostingMode.LocalSingleUser);
 
         // Singleton Services
         services.AddSingleton<BlurHelper>();

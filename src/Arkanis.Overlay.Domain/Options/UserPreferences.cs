@@ -37,4 +37,27 @@ public record UserPreferences
 
     // Icon customization preferences
     public Dictionary<string, string> CustomIcons { get; set; } = new();
+
+    public List<Credentials> ExternalServiceCredentials { get; set; } = [];
+
+    public Credentials GetOrCreateCredentialsFor(string serviceId)
+    {
+        if (ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId) is not { } credentials)
+        {
+            ExternalServiceCredentials.Add(credentials = new Credentials(serviceId));
+        }
+
+        return credentials;
+    }
+
+    public void RemoveCredentialsFor(string serviceId)
+        => ExternalServiceCredentials.RemoveAll(x => x.ServiceId == serviceId);
+
+    public class Credentials(string serviceId)
+    {
+        public string ServiceId { get; init; } = serviceId;
+
+        public string? UserIdentifier { get; set; }
+        public string? SecretToken { get; set; }
+    }
 }
