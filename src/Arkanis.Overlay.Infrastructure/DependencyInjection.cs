@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure;
 
+using Common;
 using Common.Enums;
 using Common.Extensions;
 using Data;

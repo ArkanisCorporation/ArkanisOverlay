@@ -2,8 +2,8 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using Common;
 using Common.Options;
-using Domain;
 using Domain.Abstractions.Services;
 using Exceptions;
 using Microsoft.Extensions.Logging;
