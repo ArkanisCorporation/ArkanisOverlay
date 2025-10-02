@@ -74,7 +74,7 @@
         <MudGrid Spacing="2">
             @foreach (var icon in FilteredIcons)
             {
-                <MudItem xs="2" sm="1" md="1" lg="1">
+                <MudItem xs="1" sm="1" md="1" lg="1">
                     <MudPaper Class="@GetIconItemClass(icon.IconName)"
                              Elevation="@(SelectedIcon == icon.IconName ? 4 : 1)"
                              Style="@(SelectedIcon == icon.IconName ? "border: 2px solid var(--mud-palette-primary);" : "")"

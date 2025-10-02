@@ -10,8 +10,11 @@ public sealed class IconFallbackService : IIconFallbackService
         // Try provided fallbacks, then global default.
         foreach (var fallback in selection.FallbackIcons)
         {
-            // Return the fallback icon name for the UI layer to resolve
-            return GetIconNameForType(selection, fallback);
+            if (!string.IsNullOrWhiteSpace(fallback))
+            {
+                // Return the fallback icon name for the UI layer to resolve
+                return GetIconNameForType(selection, fallback);
+            }
         }
 
         return "Square";
