@@ -9,10 +9,18 @@ using Models;
 
 public class NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPublisherService> logger)
 {
+#if WINDOWS
     public const string PipeName = $"{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands";
+#else
+    public const string PipeName = $"/tmp/{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands.pipe";
+#endif
 
     public async Task<LocalLinkCommandBase> ReceiveAsync(TimeSpan communicationTimeout, CancellationToken cancellationToken)
     {
+#if !WINDOWS
+        Directory.CreateDirectory(Path.GetDirectoryName(PipeName)!);
+#endif
+
         await using var pipe = new NamedPipeServerStream(PipeName, PipeDirection.In);
 
         logger.LogDebug("Waiting for incoming named pipe connection: {PipeName}", PipeName);
