@@ -8,10 +8,17 @@
 
     <PropertyGroup>
         <PackageId>Arkanis.Overlay.LocalLink</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageDescription>Provides models and services for external communication with the Arkanis Overlay.</PackageDescription>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/ArkanisCorporation/ArkanisOverlay</RepositoryUrl>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 
     <PropertyGroup>
         <WarningsNotAsErrors>
