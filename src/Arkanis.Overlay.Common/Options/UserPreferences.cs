@@ -64,5 +64,6 @@ public record UserPreferences
 
         public string? UserIdentifier { get; set; }
         public string? SecretToken { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }
