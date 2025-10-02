@@ -3,15 +3,19 @@ namespace Arkanis.Overlay.Infrastructure;
 using Common.Enums;
 using Common.Extensions;
 using Data;
+using Domain;
 using Domain.Abstractions.Services;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Options;
 using Quartz;
 using Quartz.Simpl;
 using Repositories;
 using Services;
+using Services.Abstractions;
+using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
@@ -34,11 +38,31 @@ public static class DependencyInjection
         var options = new InfrastructureServiceOptions();
         configure(options);
 
+        if (options.HostingMode is HostingMode.Server)
+        {
+            services.AddServicesForInMemoryUserPreferences();
+        }
+        else
+        {
+            //! Registers hosted service for loading preferences from file - this needs to run as soon as possible
+            services.AddServicesForUserPreferencesFromJsonFile();
+        }
+
+        services
+            .AddSingleton<UexAccountContext>()
+            .Alias<ISelfInitializable, UexAccountContext>();
+
         services
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
-            .AddHostedService<InitializeServicesHostedService>()
-            .AddAllUexApiClients()
+            .AddAllUexApiClients(provider => new ConfigureOptions<UexApiOptions>(uexApiOptions =>
+                    {
+                        var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();
+                        var credentials = userPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.UnitedExpress);
+                        uexApiOptions.UserToken = credentials.SecretToken;
+                    }
+                )
+            )
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -49,14 +73,7 @@ public static class DependencyInjection
             .AddPriceProviders()
             .AddUexHydrationServices();
 
-        if (options.HostingMode is HostingMode.Server)
-        {
-            services.AddServicesForInMemoryUserPreferences();
-        }
-        else
-        {
-            services.AddServicesForUserPreferencesFromJsonFile();
-        }
+        services.AddHostedService<InitializeServicesHostedService>();
 
         return services;
     }

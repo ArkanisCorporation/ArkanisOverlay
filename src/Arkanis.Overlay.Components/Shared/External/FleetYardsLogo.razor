@@ -1,0 +1,94 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol -->
+<style>
+    .fltyd-logo-wrapper {
+        display: flex;
+        height: 100%;
+        width: fit-content;
+    }
+
+    .fltyd-logo {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .fltyd-logo > img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    <div class="fltyd-logo-wrapper" style="@WrapperStyle">
+        @ImageContent
+    </div>
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetFleetYardsLink(ContentId)" Class="fltyd-logo-wrapper" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="Citizen iD"/>
+           </picture>;
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("fltyd-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string AssetPath
+        => SizeVariant switch
+        {
+            Variant.Icon => "img/fleetyards-icon.png",
+            _ => "img/fleetyards-logo.png",
+        };
+
+    [Parameter]
+    public Variant SizeVariant { get; set; } = Variant.Logo;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? WrapperStyle { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    public enum Variant
+    {
+        Logo,
+        Icon,
+    }
+
+}
