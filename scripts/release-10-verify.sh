@@ -27,3 +27,4 @@ dotnet setversion --recursive "${VERSION}" 1>&2 # logging output must not go to 
 run_sub "$THIS_DIR/release-11-verify-win64.sh"
 run_sub "$THIS_DIR/release-12-verify-win64-velopack.sh"
 run_sub "$THIS_DIR/release-13-verify-server.sh"
+run_sub "$THIS_DIR/release-14-verify-nuget-locallink.sh"
