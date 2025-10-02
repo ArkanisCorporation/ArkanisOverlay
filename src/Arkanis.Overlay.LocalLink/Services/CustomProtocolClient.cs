@@ -15,7 +15,7 @@ public class CustomProtocolClient(ILogger<CustomProtocolClient> logger)
 
     public Uri CreateUriFor(LocalLinkCommandBase command)
     {
-        var commandData = JsonSerializer.Serialize(command, typeof(LocalLinkCommandBase), LocalLinkConstants.SerializerOptions);
+        var commandData = JsonSerializer.Serialize(command, LocalLinkConstants.SerializerOptions);
         var base64CommandData = Convert.ToBase64String(Encoding.UTF8.GetBytes(commandData));
         return ApplicationConstants.Protocol.CreateUriFor($"{CommandEndpoint}?data={base64CommandData}");
     }

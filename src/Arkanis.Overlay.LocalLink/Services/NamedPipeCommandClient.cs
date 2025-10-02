@@ -16,7 +16,7 @@ public class NamedPipeCommandClient(ILogger<NamedPipeCommandClient> logger)
         await pipe.ConnectAsync(cts.Token);
 
         logger.LogDebug("Sending via LocalLink: {Command}", command);
-        await JsonSerializer.SerializeAsync(pipe, command, typeof(LocalLinkCommandBase), LocalLinkConstants.SerializerOptions, cts.Token);
+        await JsonSerializer.SerializeAsync(pipe, command, LocalLinkConstants.SerializerOptions, cts.Token);
         await pipe.FlushAsync(cts.Token);
     }
 }

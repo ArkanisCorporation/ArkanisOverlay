@@ -35,11 +35,12 @@ public class NamedPipeCommandCommunicationTests
         await server.WaitForConnectionAsync();
 
         // Assert
-        var receivedCommand = await JsonSerializer.DeserializeAsync<TestCommand>(server);
-
+        var receivedCommand = await JsonSerializer.DeserializeAsync<LocalLinkCommandBase>(server);
         receivedCommand.ShouldNotBeNull();
-        receivedCommand.TestPropertyString.ShouldBe(command.TestPropertyString);
-        receivedCommand.TestPropertyInt.ShouldBe(command.TestPropertyInt);
+
+        var typedCommand = receivedCommand.ShouldBeOfType<TestCommand>();
+        typedCommand.TestPropertyString.ShouldBe(command.TestPropertyString);
+        typedCommand.TestPropertyInt.ShouldBe(command.TestPropertyInt);
 
         await sendTask;
     }
@@ -61,7 +62,7 @@ public class NamedPipeCommandCommunicationTests
         var receiveTask = server.ReceiveAsync(TimeSpan.FromSeconds(2), CancellationToken.None);
         await clientPipe.ConnectAsync();
 
-        await JsonSerializer.SerializeAsync(clientPipe, command, typeof(LocalLinkCommandBase));
+        await JsonSerializer.SerializeAsync<LocalLinkCommandBase>(clientPipe, command);
         await clientPipe.DisposeAsync();
 
         // Assert
