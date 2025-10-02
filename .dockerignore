@@ -21,5 +21,9 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+/publish-*
+/release-*
+/artifacts
 LICENSE
 README.md
+CHANGELOG.md
