@@ -42,6 +42,7 @@ public class UexAccountContext(
 
         try
         {
+            LinkError = null;
             Credentials.SecretToken = credentials.SecretToken;
             await UpdateAsync(cancellationToken);
 
@@ -55,18 +56,24 @@ public class UexAccountContext(
         }
         catch (UexApiException exception)
         {
-            var newException = exception.StatusCode switch
+            LinkError = exception.StatusCode switch
             {
                 (int)HttpStatusCode.NotFound => new ExternalLinkAccountNotFoundException("Account with the provided username does not exist.", exception),
                 (int)HttpStatusCode.Unauthorized => new ExternalLinkUnauthorizedException("Provided secret key is not valid.", exception),
                 _ => new ExternalLinkException("Could not verify account with the provided username.", exception),
             };
 
-            throw newException;
+            throw LinkError;
         }
-        catch (Exception exception) when (exception is not ExternalLinkException)
+        catch (ExternalLinkException exception)
         {
-            throw new ExternalLinkException($"Internal error has occured: {exception.Message}", exception);
+            LinkError = exception;
+            throw;
+        }
+        catch (Exception exception)
+        {
+            LinkError = new ExternalLinkException($"Internal error has occured: {exception.Message}", exception);
+            throw LinkError;
         }
         finally
         {
@@ -92,17 +99,15 @@ public class UexAccountContext(
             if (IsLinkedUserValid(userResponse))
             {
                 CurrentUser = userResponse.Result.Data;
-                LinkError = null;
             }
             else
             {
                 throw new ExternalLinkUnauthorizedException("Provided key is not valid or does not belong to the specified account.", null);
             }
         }
-        catch (Exception exception)
+        catch
         {
             CurrentUser = null;
-            LinkError = exception;
             throw;
         }
     }
