@@ -22,11 +22,11 @@
       },
       "Microsoft.Data.Sqlite": {
         "type": "Direct",
-        "requested": "[8.0.16, )",
-        "resolved": "8.0.16",
-        "contentHash": "K4qA8VtCYnKX2lyRn1hJUgcCo1nxmlerBLMemlH84/DvsJqfnG1qEQeMOldd/yh/42D1wa5sK/oOHbkYzjdZiw==",
+        "requested": "[8.0.20, )",
+        "resolved": "8.0.20",
+        "contentHash": "k2mM6VuzvNlmrXPCXm+78Y+jgUifiaPdL9TpuSpJ73fLj3ErYq1CqCgDZR/BfBcvAXJrDYWGPrQ775okL62XEA==",
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "8.0.16",
+          "Microsoft.Data.Sqlite.Core": "8.0.20",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.1.6"
         }
       },
