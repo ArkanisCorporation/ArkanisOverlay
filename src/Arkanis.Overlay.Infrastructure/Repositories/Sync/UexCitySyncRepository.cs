@@ -7,6 +7,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Services;
 
 internal class UexCitySyncRepository(
@@ -26,9 +27,15 @@ internal class UexCitySyncRepository(
     protected override double CacheTimeFactor
         => 7;
 
-    protected override async Task<UexApiResponse<ICollection<UniverseCityDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<UniverseCityDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await gameApi.GetCitiesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await gameApi.GetCitiesAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 

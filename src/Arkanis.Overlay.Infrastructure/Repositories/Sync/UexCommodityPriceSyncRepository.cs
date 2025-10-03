@@ -7,6 +7,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Services;
 
 internal class UexCommodityPriceSyncRepository(
@@ -24,9 +25,15 @@ internal class UexCommodityPriceSyncRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);
 
-    protected override async Task<UexApiResponse<ICollection<CommodityPriceBriefDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<CommodityPriceBriefDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await commoditiesApi.GetCommoditiesPricesAllAsync(cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await commoditiesApi.GetCommoditiesPricesAllAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data);
     }
 

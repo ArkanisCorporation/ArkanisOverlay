@@ -6,6 +6,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 
 internal class UexMarketPriceSyncRepository(
     IExternalSyncCacheProvider<UexMarketPriceSyncRepository> cacheProvider,
@@ -15,9 +16,15 @@ internal class UexMarketPriceSyncRepository(
     ILogger<UexMarketPriceSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<MarketplaceListingDTO, GameEntityMarketPrice>(stateProvider, cacheProvider, mapper, logger)
 {
-    protected override async Task<UexApiResponse<ICollection<MarketplaceListingDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<MarketplaceListingDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await marketplaceApi.GetMarketplaceListingsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await marketplaceApi.GetMarketplaceListingsAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data);
     }
 

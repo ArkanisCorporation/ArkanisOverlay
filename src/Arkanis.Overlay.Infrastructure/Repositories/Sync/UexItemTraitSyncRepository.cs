@@ -11,6 +11,7 @@ using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
 using MoreAsyncLINQ;
+using Polly;
 using Services;
 
 internal class UexItemTraitSyncRepository(
@@ -23,12 +24,13 @@ internal class UexItemTraitSyncRepository(
     ILogger<UexItemTraitSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<ItemAttributeDTO, GameItemTrait>(stateProvider, cacheProvider, mapper, logger)
 {
-    private const int BatchSize = 4;
-
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameProductCategory>(this);
 
-    protected override async Task<UexApiResponse<ICollection<ItemAttributeDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<ItemAttributeDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
         var categories = itemCategoryRepository.GetAllAsync(cancellationToken)
             .Where(x => x.CategoryType == GameItemCategoryType.Item)
@@ -38,7 +40,7 @@ internal class UexItemTraitSyncRepository(
         var items = new ConcurrentBag<ItemAttributeDTO>();
         UexApiResponse<GetItemsAttributesOkResponse>? response = null;
 
-        await foreach (var categoryBatch in categories.Batch(BatchSize).WithCancellation(cancellationToken))
+        await foreach (var categoryBatch in categories.Batch(UexSharedResiliency.ApiRequestBatchSize).WithCancellation(cancellationToken))
         {
             await Task.WhenAll(categoryBatch.Select(LoadForCategoryAsync));
         }
@@ -49,7 +51,10 @@ internal class UexItemTraitSyncRepository(
         {
             var categoryEntityId = category.Id;
             var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
-            response = await itemsApi.GetItemsAttributesByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
+            response = await pipeline.ExecuteAsync(
+                async ct => await itemsApi.GetItemsAttributesByCategoryAsync(categoryId, cancellationToken: ct).ConfigureAwait(false),
+                cancellationToken
+            );
             foreach (var dto in response.Result.Data ?? ThrowCouldNotParseResponse())
             {
                 items.Add(dto);

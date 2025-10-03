@@ -6,6 +6,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 
 internal class UexProductCategorySyncRepository(
     IUexGameApi gameApi,
@@ -15,9 +16,15 @@ internal class UexProductCategorySyncRepository(
     ILogger<UexProductCategorySyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<CategoryDTO, GameProductCategory>(stateProvider, cacheProvider, mapper, logger)
 {
-    protected override async Task<UexApiResponse<ICollection<CategoryDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<CategoryDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await gameApi.GetCategoriesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await gameApi.GetCategoriesAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data);
     }
 

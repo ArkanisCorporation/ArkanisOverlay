@@ -11,6 +11,7 @@ using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
 using MoreAsyncLINQ;
+using Polly;
 using Services;
 
 internal class UexItemSyncRepository(
@@ -23,13 +24,14 @@ internal class UexItemSyncRepository(
     ILogger<UexItemSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<ItemDTO, GameItem>(stateProvider, cacheProvider, mapper, logger)
 {
-    private const int BatchSize = 4;
-
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameProductCategory>(this)
             .AlsoDependsOn<GameCompany>();
 
-    protected override async Task<UexApiResponse<ICollection<ItemDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<ItemDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
         var categories = itemCategoryRepository.GetAllAsync(cancellationToken)
             .Where(x => x.CategoryType == GameItemCategoryType.Item)
@@ -40,7 +42,7 @@ internal class UexItemSyncRepository(
         var responseDetectedAsNull = false;
         UexApiResponse<GetItemsOkResponse>? response = null;
 
-        await foreach (var categoryBatch in categories.Batch(BatchSize).WithCancellation(cancellationToken))
+        await foreach (var categoryBatch in categories.Batch(UexSharedResiliency.ApiRequestBatchSize).WithCancellation(cancellationToken))
         {
             await Task.WhenAll(categoryBatch.Select(LoadForCategoryAsync));
         }
@@ -57,7 +59,10 @@ internal class UexItemSyncRepository(
         {
             var categoryEntityId = category.Id;
             var categoryId = categoryEntityId.Identity.ToString(CultureInfo.InvariantCulture);
-            response = await itemsApi.GetItemsByCategoryAsync(categoryId, cancellationToken).ConfigureAwait(false);
+            response = await pipeline.ExecuteAsync(
+                async ct => await itemsApi.GetItemsByCategoryAsync(categoryId, cancellationToken: ct).ConfigureAwait(false),
+                cancellationToken
+            );
             responseDetectedAsNull |= response.Result.Data is null;
             foreach (var dto in response.Result.Data ?? [])
             {

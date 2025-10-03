@@ -10,6 +10,7 @@ using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
 using MoreAsyncLINQ;
+using Polly;
 using Services;
 
 internal class UexTradeRouteSyncRepository(
@@ -22,13 +23,14 @@ internal class UexTradeRouteSyncRepository(
     ILogger<UexTradeRouteSyncRepository> logger
 ) : UexGameEntitySyncRepositoryBase<CommodityRouteDTO, GameTradeRoute>(stateProvider, cacheProvider, mapper, logger)
 {
-    private const int BatchSize = 6;
-
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this)
             .AlsoDependsOn<GameCommodity>();
 
-    protected override async Task<UexApiResponse<ICollection<CommodityRouteDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<CommodityRouteDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
         var commodities = commodityRepository.GetAllAsync(cancellationToken)
             .Where(x => !x.IsHarvestable)
@@ -37,7 +39,7 @@ internal class UexTradeRouteSyncRepository(
         var items = new ConcurrentBag<CommodityRouteDTO>();
         UexApiResponse<GetCommoditiesRoutesOkResponse>? response = null;
 
-        await foreach (var commodityBatch in commodities.Batch(BatchSize).WithCancellation(cancellationToken))
+        await foreach (var commodityBatch in commodities.Batch(UexSharedResiliency.ApiRequestBatchSize).WithCancellation(cancellationToken))
         {
             await Task.WhenAll(commodityBatch.Select(LoadForPlanetOrbitAsync));
         }
@@ -48,7 +50,10 @@ internal class UexTradeRouteSyncRepository(
         {
             var commodityEntityId = commodity.Id;
             var commodityId = commodityEntityId.Identity.ToString(CultureInfo.InvariantCulture);
-            response = await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, cancellationToken).ConfigureAwait(false);
+            response = await pipeline.ExecuteAsync(
+                async ct => await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, cancellationToken: ct).ConfigureAwait(false),
+                cancellationToken
+            );
             foreach (var dto in response.Result.Data ?? ThrowCouldNotParseResponse())
             {
                 items.Add(dto);
