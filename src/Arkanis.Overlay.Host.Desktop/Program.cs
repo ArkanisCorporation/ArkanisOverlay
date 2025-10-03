@@ -19,6 +19,7 @@ using Infrastructure.Data;
 using Infrastructure.Data.Extensions;
 using Infrastructure.Services;
 using Infrastructure.Services.Abstractions;
+using LocalLink.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -90,7 +91,7 @@ public static class Program
             {
                 Log.Warning("Another application instance is already running");
                 var hostApplicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
-                var protocolCallHandler = host.Services.GetRequiredService<CustomProtocolCallForwarder>();
+                var protocolCallHandler = host.Services.GetRequiredService<NamedPipeCommandCallForwarder>();
 
                 if (await protocolCallHandler.TryProcessCustomProtocolCallFromConfigurationAsync(hostApplicationLifetime.ApplicationStopping))
                 {

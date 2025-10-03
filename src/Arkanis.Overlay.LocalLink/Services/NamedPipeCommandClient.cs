@@ -12,7 +12,9 @@ public class NamedPipeCommandClient(ILogger<NamedPipeCommandClient> logger)
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         cts.CancelAfter(TimeSpan.FromSeconds(5));
 
-        await using var pipe = new NamedPipeClientStream(".", NamedPipeCommandServer.PipeName, PipeDirection.Out);
+        var pipeName = NamedPipeCommandServer.PipeName;
+        logger.LogDebug("Connecting via LocalLink: {PipeName}", pipeName);
+        await using var pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
         await pipe.ConnectAsync(cts.Token);
 
         logger.LogDebug("Sending via LocalLink: {Command}", command);

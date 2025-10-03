@@ -1,11 +1,10 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.LocalLink.Services;
 
 using Common;
-using LocalLink.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-public abstract class CustomProtocolCallHandlerBase(
+public abstract class LocalLinkCallHandlerBase(
     IConfiguration configuration,
     CustomProtocolClient customProtocolClient,
     ILogger logger
@@ -15,7 +14,7 @@ public abstract class CustomProtocolCallHandlerBase(
     {
         logger.LogInformation("Trying to process custom protocol invocation");
         var customProtocolContentKey = ApplicationConstants.Args.Config.GetKeyFor(ApplicationConstants.Args.HandleUrl);
-        if (configuration.GetValue<string>(customProtocolContentKey) is not { Length: > 0 } customProtocolContent)
+        if (configuration[customProtocolContentKey] is not { Length: > 0 } customProtocolContent)
         {
             logger.LogInformation("No custom protocol content found: {ConfigurationKey}", customProtocolContentKey);
             return false;

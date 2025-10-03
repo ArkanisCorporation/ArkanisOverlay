@@ -1,15 +1,14 @@
-namespace Arkanis.Overlay.Infrastructure.Services;
+namespace Arkanis.Overlay.LocalLink.Services;
 
-using LocalLink.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-public class CustomProtocolCallForwarder(
+public class NamedPipeCommandCallForwarder(
     IConfiguration configuration,
     CustomProtocolClient customProtocolClient,
     NamedPipeCommandClient namedPipeCommandClient,
-    ILogger<CustomProtocolCallForwarder> logger
-) : CustomProtocolCallHandlerBase(configuration, customProtocolClient, logger)
+    ILogger<NamedPipeCommandCallForwarder> logger
+) : LocalLinkCallHandlerBase(configuration, customProtocolClient, logger)
 {
     protected override async Task<bool> TryProcessCommandEndpointCall(CommandLocalLinkEndpointCall endpointCall, CancellationToken cancellationToken)
     {
