@@ -51,10 +51,10 @@ public static class DependencyInjection
 
     public static IServiceCollection AddIconManagementServices(this IServiceCollection services)
         => services
-            .AddSingleton<IconManagement.IconValidationService>()
-            .Alias<IIconValidationService, IconManagement.IconValidationService>()
-            .AddSingleton<IconManagement.IconFallbackService>()
-            .Alias<IIconFallbackService, IconManagement.IconFallbackService>()
+            .AddSingleton<IconManagement.IconDiscoveryService>()
+            .Alias<IIconDiscoveryService, IconManagement.IconDiscoveryService>()
+            .AddSingleton<IconManagement.IconRepository>()
+            .Alias<IIconRepository, IconManagement.IconRepository>()
             .AddSingleton<IconManagement.IconService>()
             .Alias<IIconService, IconManagement.IconService>();
 }

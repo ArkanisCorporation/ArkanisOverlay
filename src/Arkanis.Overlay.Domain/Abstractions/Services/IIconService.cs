@@ -5,14 +5,14 @@ using Models.IconSelection;
 public interface IIconService
 {
     /// <summary>
-    /// Returns a MudBlazor-compatible icon string for the given selection object.
+    /// Returns an IconSelectionObject for the given unique icon identifier.
     /// </summary>
-    string GetIconString(IconSelectionObject selection);
+    IconSelectionObject GetIconSelection(string iconIdentifier);
 
     /// <summary>
-    /// Picks an icon string for a domain value (e.g., enums like PriceType).
+    /// Returns an IconSelectionObject for a domain value (e.g., enums like PriceType).
     /// </summary>
-    string GetIconFor<T>(T value);
+    IconSelectionObject GetIconSelectionFor<T>(T value);
 }
 
 

@@ -1,5 +1,7 @@
 @using Arkanis.Overlay.Domain.Models.IconSelection
+@using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Components.Helpers
+@inject IIconDiscoveryService IconDiscoveryService
 
 <style>
     .icon-picker-item {
@@ -74,7 +76,7 @@
         <MudGrid Spacing="2">
             @foreach (var icon in FilteredIcons)
             {
-                <MudItem xs="1" sm="1" md="1" lg="1">
+                <MudItem xs="3" sm="2" md="1" lg="1">
                     <MudPaper Class="@GetIconItemClass(icon.IconName)"
                              Elevation="@(SelectedIcon == icon.IconName ? 4 : 1)"
                              Style="@(SelectedIcon == icon.IconName ? "border: 2px solid var(--mud-palette-primary);" : "")"
@@ -121,9 +123,14 @@
 </MudPaper>
 
 @code {
-    [Parameter] public string? SelectedIcon { get; set; }
-    [Parameter] public EventCallback<string?> SelectedIconChanged { get; set; }
-    [Parameter] public EventCallback<string?> OnIconSelected { get; set; }
+    [Parameter]
+    public string? SelectedIcon { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> SelectedIconChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> OnIconSelected { get; set; }
 
     private string? SearchText { get; set; }
     private IconCategory? SelectedCategory { get; set; }
@@ -133,58 +140,33 @@
 
     private IEnumerable<IconSelectionObject> GetFilteredIcons()
     {
-        var icons = GetAllAvailableIcons();
+        var icons = IconDiscoveryService.GetAllIcons();
 
         // Filter by category
         if (SelectedCategory.HasValue)
         {
-            icons = icons.Where(i => i.Category == SelectedCategory.Value);
+            icons = icons.Where(i => i.Category == SelectedCategory.Value).ToList();
         }
 
         // Filter by type
-        icons = icons.Where(i => i.Type == SelectedIconType);
+        icons = icons.Where(i => i.Type == SelectedIconType).ToList();
 
         // Filter by search text
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
-            var searchLower = SearchText.ToLowerInvariant();
-            icons = icons.Where(i => 
-                i.IconName.ToLowerInvariant().Contains(searchLower) ||
-                i.Description.ToLowerInvariant().Contains(searchLower));
+            icons = IconDiscoveryService.SearchIcons(SearchText);
+            
+            // Apply category and type filters to search results
+            if (SelectedCategory.HasValue)
+            {
+                icons = icons.Where(i => i.Category == SelectedCategory.Value).ToList();
+            }
+            icons = icons.Where(i => i.Type == SelectedIconType).ToList();
         }
 
-        return icons.OrderBy(i => i.IconName);
+        return icons.OrderBy(i => i.IconName).ToList();
     }
 
-    private IEnumerable<IconSelectionObject> GetAllAvailableIcons()
-    {
-        // This would ideally come from a service or configuration
-        // For now, we'll return a curated list of commonly used icons
-        return new List<IconSelectionObject>
-        {
-            new() { Category = IconCategory.Search, Type = IconType.MaterialIcons, IconName = "Search", Description = "Search functionality" },
-            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Add", Description = "Add new item" },
-            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Remove", Description = "Remove item" },
-            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "Settings", Description = "Application settings" },
-            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "Calculate", Description = "Calculate or compute" },
-            new() { Category = IconCategory.Action, Type = IconType.MaterialIcons, IconName = "ContentCopy", Description = "Copy to clipboard" },
-            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "ScreenshotMonitor", Description = "Overlay or monitor" },
-            new() { Category = IconCategory.System, Type = IconType.MaterialIcons, IconName = "InstallDesktop", Description = "Install application" },
-            new() { Category = IconCategory.Navigation, Type = IconType.MaterialIcons, IconName = "Web", Description = "Web or external link" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Flight", Description = "Flight or travel" },
-            new() { Category = IconCategory.Status, Type = IconType.MaterialIcons, IconName = "Info", Description = "Information" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Diamond", Description = "Commodity or valuable item" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Rocket", Description = "Space ship" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "LocalShipping", Description = "Ground vehicle" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Category", Description = "Item category" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Topic", Description = "Product category" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Domain", Description = "Company or organization" },
-            new() { Category = IconCategory.GameEntity, Type = IconType.MaterialIcons, IconName = "Public", Description = "Location or place" },
-            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "AddShoppingCart", Description = "Buy or purchase" },
-            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "RemoveShoppingCart", Description = "Sell or remove" },
-            new() { Category = IconCategory.Trade, Type = IconType.MaterialIcons, IconName = "CarRental", Description = "Rent or lease" },
-        };
-    }
 
     private void SelectIcon(string iconName)
     {
