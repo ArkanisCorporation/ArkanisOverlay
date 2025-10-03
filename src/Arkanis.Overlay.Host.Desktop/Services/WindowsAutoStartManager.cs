@@ -30,6 +30,7 @@ public class WindowsAutoStartManager(
     public Task StartAsync(CancellationToken cancellationToken)
     {
         userPreferencesProvider.ApplyPreferences += OnUserApplyPreferences;
+        OnUserApplyPreferences(null, userPreferencesProvider.CurrentPreferences);
         return Task.CompletedTask;
     }
 
