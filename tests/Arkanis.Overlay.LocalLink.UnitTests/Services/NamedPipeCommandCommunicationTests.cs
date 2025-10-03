@@ -12,7 +12,7 @@ using Shouldly;
 
 public class NamedPipeCommandCommunicationTests
 {
-    private const string PipeName = NamedPipeCommandServer.PipeName;
+    private static readonly string PipeName = NamedPipeCommandServer.PipeName;
     private readonly ILogger<NamedPipeCommandClient> _clientLogger = NullLogger<NamedPipeCommandClient>.Instance;
 
     private readonly ILogger<NamedPipeCommandServerBackgroundPublisherService> _serverLogger =

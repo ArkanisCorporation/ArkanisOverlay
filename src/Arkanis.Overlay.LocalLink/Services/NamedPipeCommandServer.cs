@@ -9,17 +9,16 @@ using Models;
 
 public class NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPublisherService> logger)
 {
-#if WINDOWS
-    public const string PipeName = $"{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands";
-#else
-    public const string PipeName = $"/tmp/{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands.pipe";
-#endif
+    public static string PipeName { get; } = ApplicationConstants.IsWindowsPlatform
+        ? $"{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands"
+        : $"/tmp/{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands.pipe";
 
-    public async Task<LocalLinkCommandBase> ReceiveAsync(TimeSpan communicationTimeout, CancellationToken cancellationToken)
+    public virtual async Task<LocalLinkCommandBase> ReceiveAsync(TimeSpan communicationTimeout, CancellationToken cancellationToken)
     {
-#if !WINDOWS
-        Directory.CreateDirectory(Path.GetDirectoryName(PipeName)!);
-#endif
+        if (!ApplicationConstants.IsWindowsPlatform)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(PipeName)!);
+        }
 
         await using var pipe = new NamedPipeServerStream(PipeName, PipeDirection.In);
 

@@ -7,10 +7,11 @@ using Services;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddLocalLinkClientServices(this IServiceCollection services)
+    public static IServiceCollection AddLocalLinkSharedServices(this IServiceCollection services)
     {
         services.AddSingleton<CustomProtocolClient>();
-        services.AddSingleton<NamedPipeCommandClient>();
+
+        services.AddHostedService<NamedPipeCommandServerBackgroundPublisherService>();
 
         return services;
     }
@@ -21,9 +22,9 @@ public static class DependencyInjection
         services.AddSingleton<T>()
             .Alias<ILocalLinkCommandPublisher, T>();
 
-        services
+        services.AddSingleton<NamedPipeCommandClient>()
             .AddSingleton<NamedPipeCommandServer>()
-            .AddHostedService<NamedPipeCommandServerBackgroundPublisherService>();
+            .Alias<NamedPipeCommandServer, NamedPipeCommandServer>();
 
         return services;
     }

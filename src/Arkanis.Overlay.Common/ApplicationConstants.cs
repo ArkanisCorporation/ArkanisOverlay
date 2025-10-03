@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Common;
 
+using System.Runtime.InteropServices;
+
 public static class ApplicationConstants
 {
     public const string GoogleAnalyticsTrackingId = "G-ND6WBR51VP";
@@ -31,6 +33,8 @@ public static class ApplicationConstants
 
     public static readonly DirectoryInfo ApplicationDataDirectory = Directory.CreateDirectory(ApplicationDataDirectoryPath);
     public static readonly DirectoryInfo ApplicationLogsDirectory = Directory.CreateDirectory(ApplicationLogsDirectoryPath);
+
+    public static readonly bool IsWindowsPlatform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     public static class Company
     {

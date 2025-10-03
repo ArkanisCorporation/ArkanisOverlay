@@ -36,6 +36,6 @@ public static class DependencyInjection
 
     public static IServiceCollection AddLocalLinkServices(this IServiceCollection services)
         => services
-            .AddLocalLinkClientServices()
+            .AddLocalLinkSharedServices()
             .AddLocalLinkHostServices<LocalLinkCommandProcessorWithConsent>();
 }
