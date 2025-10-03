@@ -94,7 +94,7 @@
     {
         _style = StyleBuilder.Default(StyleBase)
             .AddStyle("background-color", "rgba(0,0,0,0.75)", Location.ImageUrl is not null)
-            .AddStyle("background-image", $"url({Location.ImageUrl})")
+            .AddStyle("background-image", $"url({ExternalLinkHelper.GetUexAssetUrl(Location.ImageUrl)})")
             .Build();
 
         base.OnParametersSet();
