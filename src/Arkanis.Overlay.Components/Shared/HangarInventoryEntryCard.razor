@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Infrastructure.Helpers
 @implements IDisposable
 @inject HangarViewModel ViewModel
 
@@ -187,7 +188,7 @@
     </MudStack>
     @if (Model.VehicleReference.ImageUrl is { } imageUrl)
     {
-        var style = $"background-image: url({imageUrl});";
+        var style = $"background-image: url({ExternalLinkHelper.GetUexAssetUrl(imageUrl)});";
         <div class="background-image" style="@style"></div>
     }
 </MudPaper>
