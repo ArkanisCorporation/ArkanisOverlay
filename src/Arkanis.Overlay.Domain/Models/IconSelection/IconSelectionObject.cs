@@ -38,7 +38,7 @@ public sealed record IconSelectionObject
     /// <summary>
     /// Alternative icon names if the primary is unavailable.
     /// </summary>
-    public IReadOnlyList<string> FallbackIcons { get; init; } = Array.Empty<string>();
+    public IReadOnlyList<string> FallbackIcons { get; init; } = [];
 }
 
 

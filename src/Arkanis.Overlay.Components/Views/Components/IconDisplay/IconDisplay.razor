@@ -1,12 +1,40 @@
 @namespace Arkanis.Overlay.Components.Views.Components
 @using Arkanis.Overlay.Domain.Abstractions.Services
 @using Arkanis.Overlay.Domain.Enums
+@using Arkanis.Overlay.Domain.Models.IconSelection
 @using Arkanis.Overlay.Components.Helpers
 @inject IIconService IconService
 
-<MudIcon Icon="@GetIconString()" Class="@Class" Style="@Style" />
+@if (IconSelection is not null)
+{
+    @if (IconSelection.Type == IconType.Custom)
+    {
+        <!-- Custom icon rendering - could be SVG, image, or other custom implementation -->
+        <div class="@Class" style="@Style">
+            <i class="custom-icon" data-icon="@IconSelection.IconName"></i>
+        </div>
+    }
+    else
+    {
+        <!-- MudBlazor icon for Material Icons and Material Symbols -->
+        <MudIcon Icon="@GetMudBlazorIconString()" Class="@Class" Style="@Style" />
+    }
+}
+else if (!string.IsNullOrEmpty(IconName))
+{
+    <!-- Fallback to string-based icon name -->
+    <MudIcon Icon="@MudBlazorIconMapping.GetIconString(IconName)" Class="@Class" Style="@Style" />
+}
+else
+{
+    <!-- Default icon -->
+    <MudIcon Icon="@MudBlazorIconMapping.DefaultIconString" Class="@Class" Style="@Style" />
+}
 
 @code {
+    [Parameter]
+    public IconSelectionObject? IconSelection { get; set; }
+
     [Parameter]
     public string? IconName { get; set; }
 
@@ -16,14 +44,14 @@
     [Parameter]
     public string? Style { get; set; }
 
-    private string GetIconString()
+    private string GetMudBlazorIconString()
     {
-        if (!string.IsNullOrEmpty(IconName))
+        if (IconSelection is not null)
         {
-            return MudBlazorIconMapping.GetIconString(IconName);
+            return MudBlazorIconMapping.GetIconString(IconSelection);
         }
 
-        return MudBlazorIconMapping.GetDefaultIconString();
+        return MudBlazorIconMapping.DefaultIconString;
     }
 }
 

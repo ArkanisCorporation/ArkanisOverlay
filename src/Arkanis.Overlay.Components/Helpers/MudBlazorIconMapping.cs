@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Components.Helpers;
 
+using Arkanis.Overlay.Domain.Constants;
 using Arkanis.Overlay.Domain.Models.IconSelection;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
@@ -9,17 +10,26 @@ using MudBlazor.FontIcons.MaterialSymbols;
 /// </summary>
 public static class MudBlazorIconMapping
 {
+
     /// <summary>
     /// Converts an IconSelectionObject to a MudBlazor-compatible icon string.
+    /// Only maps to MudBlazor icons if the category and type are appropriate.
     /// </summary>
     public static string GetIconString(IconSelectionObject iconSelection)
-        => iconSelection.Type switch
+    {
+        // Only handle MudBlazor-compatible icon types
+        if (iconSelection.Type != IconType.MaterialIcons && iconSelection.Type != IconType.MaterialSymbols)
+        {
+            return DefaultIconString;
+        }
+
+        return iconSelection.Type switch
         {
             IconType.MaterialSymbols => GetMaterialSymbolString(iconSelection.IconName),
             IconType.MaterialIcons => GetMaterialIconString(iconSelection.IconName),
-            IconType.Custom => $"custom:{iconSelection.IconName}",
-            _ => GetDefaultIconString(),
+            _ => DefaultIconString,
         };
+    }
 
     /// <summary>
     /// Converts an icon name string to a MudBlazor-compatible icon string.
@@ -27,19 +37,25 @@ public static class MudBlazorIconMapping
     /// </summary>
     public static string GetIconString(string iconName)
     {
-        var defaultIcon = GetDefaultIconString();
+        var defaultIcon = DefaultIconString;
         if (string.IsNullOrWhiteSpace(iconName))
+        {
             return defaultIcon;
+        }
 
         // Try Material Icons first (Filled variant)
         var materialIcon = GetMaterialIconString(iconName);
         if (materialIcon != defaultIcon)
+        {
             return materialIcon;
+        }
 
         // Fallback to Material Symbols
         var materialSymbol = GetMaterialSymbolString(iconName);
         if (materialSymbol != defaultIcon)
+        {
             return materialSymbol;
+        }
 
         return defaultIcon;
     }
@@ -51,7 +67,9 @@ public static class MudBlazorIconMapping
     public static string GetIconString(string iconName, IReadOnlyDictionary<string, string>? customIcons = null)
     {
         if (string.IsNullOrWhiteSpace(iconName))
-            return GetDefaultIconString();
+        {
+            return DefaultIconString;
+        }
 
         // Check for custom icon preference first
         if (customIcons?.TryGetValue(iconName, out var customIcon) == true)
@@ -66,37 +84,49 @@ public static class MudBlazorIconMapping
     private static string GetMaterialIconString(string iconName)
         => iconName switch
         {
-            // Commonly used icons in the current codebase
-            "Search" => MudBlazor.Icons.Material.Filled.Search,
-            "Add" => MudBlazor.Icons.Material.Filled.Add,
-            "Remove" => MudBlazor.Icons.Material.Filled.Remove,
-            "Settings" => MudBlazor.Icons.Material.Filled.Settings,
-            "LocationOn" => MudBlazor.Icons.Material.Filled.LocationOn,
-            "LocationOff" => MudBlazor.Icons.Material.Filled.LocationOff,
-            "Warehouse" => MudBlazor.Icons.Material.Filled.Warehouse,
-            "Storefront" => MudBlazor.Icons.Material.Filled.Storefront,
-            "Store" => MudBlazor.Icons.Material.Filled.Store,
-            "Groups" => MudBlazor.Icons.Material.Filled.Groups,
-            "Diamond" => MudBlazor.Icons.Material.Filled.Diamond,
-            "Rocket" => MudBlazor.Icons.Material.Filled.Rocket,
-            "LocalShipping" => MudBlazor.Icons.Material.Filled.LocalShipping,
-            "Category" => MudBlazor.Icons.Material.Filled.Category,
-            "Topic" => MudBlazor.Icons.Material.Filled.Topic,
-            "Domain" => MudBlazor.Icons.Material.Filled.Domain,
-            "Public" => MudBlazor.Icons.Material.Filled.Public,
-            "AddShoppingCart" => MudBlazor.Icons.Material.Filled.AddShoppingCart,
-            "RemoveShoppingCart" => MudBlazor.Icons.Material.Filled.RemoveShoppingCart,
-            "CarRental" => MudBlazor.Icons.Material.Filled.CarRental,
+            // Navigation icons
+            OverlayIcons.Navigation.Search => MudBlazor.Icons.Material.Filled.Search,
+            OverlayIcons.Navigation.Web => MudBlazor.Icons.Material.Filled.Web,
             
-            // Additional icons found in codebase
-            "ScreenshotMonitor" => MudBlazor.Icons.Material.Filled.ScreenshotMonitor,
-            "InstallDesktop" => MudBlazor.Icons.Material.Filled.InstallDesktop,
-            "Web" => MudBlazor.Icons.Material.Filled.Web,
-            "Flight" => MudBlazor.Icons.Material.Filled.Flight,
-            "Calculate" => MudBlazor.Icons.Material.Filled.Calculate,
-            "ContentCopy" => MudBlazor.Icons.Material.Filled.ContentCopy,
-            "Info" => MudBlazor.Icons.Material.Filled.Info,
-            "Square" => MudBlazor.Icons.Material.Filled.Square,
+            // Action icons
+            OverlayIcons.Actions.Add => MudBlazor.Icons.Material.Filled.Add,
+            OverlayIcons.Actions.Remove => MudBlazor.Icons.Material.Filled.Remove,
+            OverlayIcons.Actions.Calculate => MudBlazor.Icons.Material.Filled.Calculate,
+            OverlayIcons.Actions.ContentCopy => MudBlazor.Icons.Material.Filled.ContentCopy,
+            
+            // System icons
+            OverlayIcons.System.Settings => MudBlazor.Icons.Material.Filled.Settings,
+            OverlayIcons.System.ScreenshotMonitor => MudBlazor.Icons.Material.Filled.ScreenshotMonitor,
+            OverlayIcons.System.InstallDesktop => MudBlazor.Icons.Material.Filled.InstallDesktop,
+            
+            // Game entity icons
+            OverlayIcons.GameEntity.Diamond => MudBlazor.Icons.Material.Filled.Diamond,
+            OverlayIcons.GameEntity.Rocket => MudBlazor.Icons.Material.Filled.Rocket,
+            OverlayIcons.GameEntity.LocalShipping => MudBlazor.Icons.Material.Filled.LocalShipping,
+            OverlayIcons.GameEntity.Category => MudBlazor.Icons.Material.Filled.Category,
+            OverlayIcons.GameEntity.Topic => MudBlazor.Icons.Material.Filled.Topic,
+            OverlayIcons.GameEntity.Domain => MudBlazor.Icons.Material.Filled.Domain,
+            OverlayIcons.GameEntity.Public => MudBlazor.Icons.Material.Filled.Public,
+            OverlayIcons.GameEntity.Flight => MudBlazor.Icons.Material.Filled.Flight,
+            OverlayIcons.GameEntity.Store => MudBlazor.Icons.Material.Filled.Store,
+            
+            // Trade icons
+            OverlayIcons.Trade.AddShoppingCart => MudBlazor.Icons.Material.Filled.AddShoppingCart,
+            OverlayIcons.Trade.RemoveShoppingCart => MudBlazor.Icons.Material.Filled.RemoveShoppingCart,
+            OverlayIcons.Trade.CarRental => MudBlazor.Icons.Material.Filled.CarRental,
+            OverlayIcons.Trade.Storefront => MudBlazor.Icons.Material.Filled.Storefront,
+            OverlayIcons.Trade.Warehouse => MudBlazor.Icons.Material.Filled.Warehouse,
+            
+            // Location icons
+            OverlayIcons.Location.LocationOn => MudBlazor.Icons.Material.Filled.LocationOn,
+            OverlayIcons.Location.LocationOff => MudBlazor.Icons.Material.Filled.LocationOff,
+            
+            // Status icons
+            OverlayIcons.Status.Info => MudBlazor.Icons.Material.Filled.Info,
+            OverlayIcons.Status.Square => MudBlazor.Icons.Material.Filled.Square,
+            
+            // Social icons
+            OverlayIcons.Social.Groups => MudBlazor.Icons.Material.Filled.Groups,
             
             _ => MudBlazor.Icons.Material.Filled.Square,
         };
@@ -104,19 +134,25 @@ public static class MudBlazorIconMapping
     private static string GetMaterialSymbolString(string iconName)
         => iconName switch
         {
-            // Commonly used icons in the current codebase
-            "Search" => Outlined.Search,
-            "FrameReload" => Outlined.FrameReload,
-            "ChevronLeft" => Outlined.ChevronLeft,
-            "OpenInBrowser" => Outlined.OpenInBrowser,
-            "Notifications" => Outlined.Notifications,
-            "Settings" => Outlined.Settings,
-            "Deblur" => Outlined.Deblur,
-            "Store" => Outlined.Store,
-            "GarageDoor" => Outlined.GarageDoor,
+            // Navigation icons
+            OverlayIcons.Navigation.Search => Outlined.Search,
+            OverlayIcons.Navigation.ChevronLeft => Outlined.ChevronLeft,
+            OverlayIcons.Navigation.OpenInBrowser => Outlined.OpenInBrowser,
+            
+            // Action icons
+            OverlayIcons.Actions.FrameReload => Outlined.FrameReload,
+            
+            // System icons
+            OverlayIcons.System.Notifications => Outlined.Notifications,
+            OverlayIcons.System.Settings => Outlined.Settings,
+            OverlayIcons.System.Deblur => Outlined.Deblur,
+            
+            // Game entity icons
+            OverlayIcons.GameEntity.Store => Outlined.Store,
+            OverlayIcons.GameEntity.GarageDoor => Outlined.GarageDoor,
+            
             _ => Outlined.Square,
         };
 
-    public static string GetDefaultIconString()
-        => MudBlazor.Icons.Material.Filled.Square;
+    public static string DefaultIconString => MudBlazor.Icons.Material.Filled.Square;
 }

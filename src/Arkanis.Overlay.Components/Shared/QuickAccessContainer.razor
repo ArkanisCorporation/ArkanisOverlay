@@ -65,10 +65,15 @@
                 await _interop.Controls.InvokeVoidAsync("updateDebounced", 100);
             }
         }
-        catch (JSException)
+        catch (JSDisconnectedException)
         {
             // JS object disposed - this is expected when component is being disposed
             // No need to log this as it's a normal part of component lifecycle
+        }
+        catch (JSException ex)
+        {
+            // Log other JS exceptions for debugging
+            Console.WriteLine($"JS Exception in QuickAccessContainer: {ex.Message}");
         }
     }
 
