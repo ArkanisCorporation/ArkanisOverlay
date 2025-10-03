@@ -1,3 +1,6 @@
+using Arkanis.Overlay.Common;
+using Arkanis.Overlay.External.UEX;
+
 namespace Arkanis.Overlay.Infrastructure.Helpers;
 
 using Microsoft.AspNetCore.Http;
@@ -21,11 +24,11 @@ public static class ExternalLinkHelper
     }
 
     public static string GetArkanisGitHubLink(string? contentId = null)
-        => AddAttributionGoogleAnalyticsTo("https://github.com/ArkanisCorporation/ArkanisOverlay", contentId);
+        => AddAttributionGoogleAnalyticsTo(ApplicationConstants.GitHubRepositoryUrl, contentId);
 
     public static string GetArkanisGitHubReportBugLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo(
-            "https://github.com/ArkanisCorporation/ArkanisOverlay/issues/new",
+            $"{ApplicationConstants.GitHubRepositoryUrl}/issues/new",
             contentId,
             new Dictionary<string, string>
             {
@@ -34,13 +37,13 @@ public static class ExternalLinkHelper
         );
 
     public static string GetUexLink(string? contentId = null)
-        => AddAttributionGoogleAnalyticsTo("https://uexcorp.space/", contentId);
+        => AddAttributionGoogleAnalyticsTo(UexConstants.WebBaseUrl, contentId);
 
     public static string GetUexAccountSettingsLink(string? contentId = null)
-        => AddAttributionGoogleAnalyticsTo("https://uexcorp.space/account/home/tab/account_main/", contentId);
+        => AddAttributionGoogleAnalyticsTo($"{UexConstants.WebBaseUrl}/account/home/tab/account_main/", contentId);
 
     public static string GetUexUserLink(string username, string? contentId = null)
-        => AddAttributionGoogleAnalyticsTo($"https://uexcorp.space/@{username}", contentId);
+        => AddAttributionGoogleAnalyticsTo($"{UexConstants.WebBaseUrl}/@{username}", contentId);
 
     public static string GetErkulLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://www.erkul.games/", contentId);
@@ -65,4 +68,7 @@ public static class ExternalLinkHelper
 
     public static string GetMedRunnerPortalProfileLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://portal.medrunner.space/profile", contentId);
+
+    public static string? GetUexAssetUrl(string? imageUrl)
+        => imageUrl?.Replace(UexConstants.AssetsBaseUrl, UexConstants.AssetsPreferredUrl);
 }

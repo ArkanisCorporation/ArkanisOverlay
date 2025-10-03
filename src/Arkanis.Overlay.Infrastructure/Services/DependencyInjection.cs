@@ -46,7 +46,6 @@ public static class DependencyInjection
             .AddSingleton<T>()
             .Alias<IUserPreferencesManager, T>()
             .Alias<IUserPreferencesProvider, T>()
-            .AddHostedService<AutoStartUserPreferencesUpdater>()
             .AddHostedService<UserPreferencesLoader>();
 
     public static IServiceCollection AddIconManagementServices(this IServiceCollection services)
