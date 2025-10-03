@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 public class UexApiOptions
 {
     [Url]
-    public string BaseUrl { get; set; } = UexConstants.BaseUrl;
+    public string BaseUrl { get; set; } = UexConstants.ApiBaseUrl;
 
     public string? ApplicationToken { get; set; }
 
