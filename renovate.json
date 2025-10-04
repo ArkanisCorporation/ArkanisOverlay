@@ -16,12 +16,7 @@
     "packageRules": [
         {
             "matchDatasources": ["nuget"],
-            "skipArtifactsUpdate": true,
-            "postUpgradeTasks": {
-                "commands": [
-                    "dotnet restore --force-evaluate -p:EnableWindowsTargeting=true"
-                ]
-            }
+            "postUpdateOptions": ["dotnetEnableWindowsTargeting"]
         }
     ]
 }
