@@ -1,0 +1,99 @@
+@using Arkanis.Overlay.Components.Views.Components.IconPicker
+@using Arkanis.Overlay.Domain.Options
+@using Arkanis.Overlay.Components.Helpers
+
+<MudStack Spacing="3">
+    <MudText Typo="Typo.h6">Icon Customization</MudText>
+    <MudText Typo="Typo.body2" Class="text-secondary">
+        Customize the icons used throughout the application interface.
+    </MudText>
+
+    <MudGrid Spacing="2">
+        @foreach (var iconPreference in AvailableIconPreferences)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Class="pa-3">
+                    <MudStack Spacing="2" AlignItems="AlignItems.Center">
+                        <MudText Typo="Typo.subtitle2">@iconPreference.Key</MudText>
+                        
+                        <!-- Current Icon Display -->
+                        <MudPaper Class="pa-2" Elevation="1">
+                            <MudIcon Icon="@GetCurrentIconString(iconPreference.Key)" 
+                                     Size="Size.Large" 
+                                     Color="Color.Primary"/>
+                        </MudPaper>
+                        
+                        <!-- Custom Icon Button -->
+                        <MudButton Variant="Variant.Outlined" 
+                                  Size="Size.Small"
+                                  StartIcon="@MudBlazorIconMapping.GetIconString("Settings")"
+                                  OnClick="@(() => ShowCustomizationInfo(iconPreference.Key))">
+                            Customize
+                        </MudButton>
+                        
+                        <!-- Reset Button -->
+                        @if (HasCustomIcon(iconPreference.Key))
+                        {
+                            <MudButton Variant="Variant.Text" 
+                                      Size="Size.Small"
+                                      Color="Color.Secondary"
+                                      StartIcon="@MudBlazorIconMapping.GetIconString("Remove")"
+                                      OnClick="@(() => ResetIcon(iconPreference.Key))">
+                                Reset
+                            </MudButton>
+                        }
+                    </MudStack>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+</MudStack>
+
+@code {
+    [Parameter] public UserPreferences Preferences { get; set; } = new();
+    [Parameter] public EventCallback<UserPreferences> PreferencesChanged { get; set; }
+
+    private readonly List<IconPreference> AvailableIconPreferences = new()
+    {
+        new("Search", "Search functionality", "Search"),
+        new("Add", "Add new items", "Add"),
+        new("Settings", "Application settings", "Settings"),
+        new("Calculate", "Calculate or compute", "Calculate"),
+        new("Flight", "Flight or travel", "Flight"),
+        new("Info", "Information display", "Info"),
+    };
+
+    private string GetCurrentIconString(string iconKey)
+    {
+        // Check if there's a custom icon preference
+        if (Preferences.CustomIcons.TryGetValue(iconKey, out var customIcon))
+        {
+            return MudBlazorIconMapping.GetIconString(customIcon);
+        }
+        
+        // Return default icon
+        return MudBlazorIconMapping.GetIconString(iconKey);
+    }
+
+    private bool HasCustomIcon(string iconKey)
+        => Preferences.CustomIcons.ContainsKey(iconKey);
+
+    private void ShowCustomizationInfo(string iconKey)
+    {
+        // For now, just show a simple message
+        // In a full implementation, this would open a dialog
+        var currentIcon = Preferences.CustomIcons.TryGetValue(iconKey, out var customIcon) ? customIcon : iconKey;
+        // You could implement a simple text input dialog here
+    }
+
+    private async Task ResetIcon(string iconKey)
+    {
+        var newCustomIcons = new Dictionary<string, string>(Preferences.CustomIcons);
+        newCustomIcons.Remove(iconKey);
+        
+        var newPreferences = Preferences with { CustomIcons = newCustomIcons };
+        await PreferencesChanged.InvokeAsync(newPreferences);
+    }
+
+    private record IconPreference(string Key, string Description, string DefaultIcon);
+}

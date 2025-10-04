@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Models
+@using Arkanis.Overlay.Components.Helpers
 @inject IGameEntityRepository<GameTradeRoute> TradeRouteRepository
 @inject ITradeRunManager TradeRunManager
 @inject IAnalyticsEventReporter EventReporter
@@ -156,7 +157,7 @@
                             Text="Create trade run"
                             Placement="@Placement.Top">
                             <MudIconButton
-                                Icon="@Icons.Material.Filled.Flight"
+                                Icon="@MudBlazorIconMapping.GetIconString("Flight")"
                                 Class="focus"
                                 OnClick="@(() => CreateTradeRunAsync(route))"
                                 tabindex="1"/>

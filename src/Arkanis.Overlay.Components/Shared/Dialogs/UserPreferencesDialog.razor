@@ -2,6 +2,7 @@
 @using Arkanis.Overlay.Common.Abstractions
 @using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Common.Models
+@using Arkanis.Overlay.Components.Views.Components.IconPicker
 @inject IUserPreferencesManager UserPreferencesManager
 @inject IAppVersionProvider VersionProvider
 
@@ -218,6 +219,13 @@
             await _form.Validate();
         }
     }
+
+    // TODO: Uncomment when icon customization is enabled
+    // private async Task OnIconPreferencesChanged(UserPreferences newPreferences)
+    // {
+    //     Preferences = newPreferences;
+    //     await InvokeAsync(StateHasChanged);
+    // }
 
     private void Cancel()
         => MudDialog.Cancel();

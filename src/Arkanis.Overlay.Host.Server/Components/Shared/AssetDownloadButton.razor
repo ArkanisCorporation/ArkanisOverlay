@@ -12,7 +12,7 @@ else if (AssetDownload is ReleaseAssetDownload download)
 {
     <MudButton Variant="@Variant.Filled"
                Color="@Color.Primary"
-               StartIcon="@Icons.Material.Filled.InstallDesktop"
+               StartIcon="@MudBlazorIconMapping.GetIconString("InstallDesktop")"
                Href="@download.BrowserDownloadUrl"
                Target="_blank">
         @Name @download.Version
