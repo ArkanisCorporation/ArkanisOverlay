@@ -1,12 +1,12 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
-using Options;
+using Common.Options;
 
 public interface IUserPreferencesManager : IUserPreferencesProvider
 {
-    Task LoadUserPreferencesAsync();
+    public Task LoadUserPreferencesAsync();
 
-    Task SaveAndApplyUserPreferencesAsync(UserPreferences userPreferences);
+    public Task SaveAndApplyUserPreferencesAsync(UserPreferences userPreferences);
 
-    event EventHandler<UserPreferences> UpdatePreferences;
+    public event EventHandler<UserPreferences> UpdatePreferences;
 }

@@ -15,3 +15,4 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 
 run_sub "$THIS_DIR/release-31-publish-win64-velopack.sh"
 run_sub "$THIS_DIR/release-32-publish-server.sh"
+run_sub "$THIS_DIR/release-33-publish-nuget-locallink.sh"

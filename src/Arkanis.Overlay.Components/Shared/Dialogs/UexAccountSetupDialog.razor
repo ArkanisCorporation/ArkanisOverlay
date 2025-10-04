@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Options
 @using Arkanis.Overlay.Domain
 @using Arkanis.Overlay.Infrastructure.Exceptions
 @using Arkanis.Overlay.Infrastructure.Helpers
@@ -211,7 +212,7 @@
     {
         _tokenError = _token switch
         {
-            { Length: not 40 } => $"Provided secret key is not valid.",
+            { Length: not 40 } => "Provided secret key is not valid.",
             _ => null,
         };
         if (_tokenError is not null || _token is null)

@@ -1,21 +1,25 @@
 namespace Arkanis.Overlay.Host.Desktop;
 
 using System.Globalization;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using Windows.Win32;
+using Common;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
 using Components.Helpers;
 using Components.Services;
-using Dapplo.Microsoft.Extensions.Hosting.AppServices;
 using Dapplo.Microsoft.Extensions.Hosting.Wpf;
 using Domain.Abstractions.Services;
+using Exceptions;
 using Helpers;
 using Infrastructure;
 using Infrastructure.Data;
 using Infrastructure.Data.Extensions;
 using Infrastructure.Services;
 using Infrastructure.Services.Abstractions;
+using LocalLink.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -50,6 +54,10 @@ public static class Program
 
         await HandleInstallationBehaviourAsync(args);
 
+        var cliSwitchMappings = ApplicationConstants.Args.All
+            .Select(x => KeyValuePair.Create($"--{x}", ApplicationConstants.Args.Config.GetKeyFor(x)))
+            .ToDictionary();
+
         var hostBuilder = Host.CreateDefaultBuilder(args)
             .UseCommonServices((context, options) =>
                 {
@@ -57,15 +65,7 @@ public static class Program
                     options.UseSeqLogging = context.IsDevelopment();
                 }
             )
-            .ConfigureSingleInstance(options =>
-                {
-                    options.MutexId = $"{{{Constants.InstanceId}}}";
-                    options.WhenNotFirstInstance = (environment, logger) =>
-                    {
-                        logger.LogCritical("{AppName} is already running", environment.ApplicationName);
-                    };
-                }
-            )
+            .ConfigureAppConfiguration(config => config.AddCommandLine(args, cliSwitchMappings))
             .ConfigureServices((context, services) => services.AddAllDesktopHostServices(context.Configuration))
             .ConfigureWpf(options =>
                 {
@@ -81,9 +81,38 @@ public static class Program
 
         try
         {
+            using var appMutex = new SystemAppMutexManager();
             var host = hostBuilder.Build();
+            var preventLaunch = host.Services.GetRequiredService<IConfiguration>()
+                .GetSection(ApplicationConstants.Args.Config.GetKeyFor(ApplicationConstants.Args.PreventLaunch))
+                .Exists();
+
+            if (!appMutex.TryAcquire() || preventLaunch)
+            {
+                Log.Warning("Another application instance is already running");
+                var hostApplicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
+                var protocolCallHandler = host.Services.GetRequiredService<NamedPipeCommandCallForwarder>();
+
+                if (await protocolCallHandler.TryProcessCustomProtocolCallFromConfigurationAsync(hostApplicationLifetime.ApplicationStopping))
+                {
+                    // custom protocol invocation was successfully processed, do not continue to launch
+                    return;
+                }
+            }
+
+            if (preventLaunch)
+            {
+                return;
+            }
+
+            //? force acquire or throw
+            appMutex.Acquire();
             await host.MigrateDatabaseAsync<OverlayDbContext>().ConfigureAwait(false);
             await host.RunAsync().ConfigureAwait(false);
+        }
+        catch (ApplicationAlreadyRunningException e)
+        {
+            Log.Fatal(e, "Another instance is already running");
         }
         catch (Exception ex)
         {
@@ -169,6 +198,8 @@ public static class Program
         services.AddSingleton<IServiceProvider>(sp => sp);
         services.AddHttpClient();
 
+        services.AddEssentialComponentServices();
+
         services.AddGoogleTrackingServices()
             .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, DesktopAnalyticsPropertyProvider>();
@@ -177,6 +208,7 @@ public static class Program
         services.AddJavaScriptEventInterop();
         services.AddSingleton(typeof(WindowProvider<>));
 
+        services.AddHostedService<WindowsCustomProtocolHandlerManager>();
         services.AddHostedService<WindowsAutoStartManager>()
             .AddSingleton<ISystemAutoStartStateProvider, WindowsAutoStartStateProvider>();
 
@@ -220,4 +252,154 @@ public static class Program
             .AddTransient<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
             .AddTransient<IAppVersionProvider, VelopackAppVersionProvider>()
             .AddHostedService<UpdateProcess.CheckForUpdatesJob.SelfScheduleService>();
+
+    private class SystemAppMutexManager : IDisposable
+    {
+        /// <summary>
+        ///     Signalises that the attempt to acquire the mutex has completed and the result is available.
+        /// </summary>
+        private readonly SemaphoreSlim _acquireSemaphore = new(0, 1);
+
+        private readonly MutexHolder _mutexHolder = new();
+
+        /// <summary>
+        ///     Signalises that the main thread is shutting down and the mutex can be disposed.
+        /// </summary>
+        private readonly SemaphoreSlim _releaseSemaphore = new(0, 1);
+
+        private Thread? _thread;
+
+        public void Dispose()
+        {
+            _releaseSemaphore.Release();
+            _thread?.Join();
+        }
+
+        /// <summary>
+        ///     Acquires the mutex. If the mutex is already acquired, throws an <see cref="ApplicationAlreadyRunningException" />.
+        /// </summary>
+        /// <exception cref="ApplicationAlreadyRunningException">Thrown if the mutex is already acquired</exception>
+        public void Acquire()
+        {
+            if (!TryAcquire())
+            {
+                throw new ApplicationAlreadyRunningException();
+            }
+        }
+
+        /// <summary>
+        ///     Tries to acquire the mutex. If the mutex is already acquired, returns <c>true</c>.
+        ///     If the mutex is not acquired within 1 second, returns <c>false</c>.
+        ///     If the mutex is abandoned in another process, logs a warning and returns <c>true</c>.
+        /// </summary>
+        /// <returns><c>true</c> if the mutex is acquired, <c>false</c> otherwise.</returns>
+        public bool TryAcquire()
+        {
+            if (_thread is null)
+            {
+                _thread ??= new Thread(AcquireAndDispose);
+                _thread.Start();
+            }
+
+            try
+            {
+                // wait for the attempt to acquire the mutex to complete
+                _acquireSemaphore.Wait();
+                return _mutexHolder.HasHandle;
+            }
+            finally
+            {
+                _acquireSemaphore.Release();
+            }
+        }
+
+        private void AcquireAndDispose()
+        {
+            // acquire the system-global application mutex
+            _mutexHolder.TryAcquire();
+
+            // notify the main thread that the attempt to acquire the mutex has completed
+            _acquireSemaphore.Release();
+
+            // wait for the main thread shutdown to dispose the mutex
+            _releaseSemaphore.Wait();
+            _mutexHolder.Dispose();
+        }
+
+        private class MutexHolder : IDisposable
+        {
+            // unique id for global mutex - Global prefix means it is global to the machine
+            private static readonly string MutexId = string.Format(CultureInfo.InvariantCulture, @"Global\{{{0}}}", Constants.InstanceId);
+
+            private static readonly MutexAccessRule AllowEveryoneRule = new(
+                new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+                MutexRights.FullControl,
+                AccessControlType.Allow
+            );
+
+            private Mutex? _applicationMutex;
+
+            public bool HasHandle { get; private set; }
+
+            private Mutex ApplicationMutex
+                => _applicationMutex ??= CreateMutex();
+
+            /// <summary>
+            ///     Releases the mutex and disposes of it.
+            /// </summary>
+            /// <remarks>
+            ///     If the mutex is currently held, this method will release it.
+            ///     Then, it will dispose of the mutex.
+            /// </remarks>
+            public void Dispose()
+            {
+                if (HasHandle)
+                {
+                    lock (ApplicationMutex)
+                    {
+                        _applicationMutex?.ReleaseMutex();
+                    }
+                }
+
+                _applicationMutex?.Dispose();
+            }
+
+            private static Mutex CreateMutex()
+            {
+                var securitySettings = new MutexSecurity();
+                securitySettings.AddAccessRule(AllowEveryoneRule);
+
+                var mutex = new Mutex(false, MutexId);
+                mutex.SetAccessControl(securitySettings);
+
+                return mutex;
+            }
+
+            /// <summary>
+            ///     Tries to acquire the mutex. If the mutex is already acquired, returns <c>true</c>.
+            ///     If the mutex is not acquired within 1 second, returns <c>false</c>.
+            ///     If the mutex is abandoned in another process, logs a warning and returns <c>true</c>.
+            /// </summary>
+            /// <returns><c>true</c> if the mutex is acquired, <c>false</c> otherwise.</returns>
+            public bool TryAcquire()
+            {
+                if (HasHandle)
+                {
+                    return true;
+                }
+
+                try
+                {
+                    HasHandle = ApplicationMutex.WaitOne(TimeSpan.FromSeconds(1), false);
+                }
+                catch (AbandonedMutexException e)
+                {
+                    Log.Warning(e, "Previous Mutex was abandoned in another process");
+                    HasHandle = true;
+                }
+
+                return HasHandle;
+            }
+        }
+    }
 }

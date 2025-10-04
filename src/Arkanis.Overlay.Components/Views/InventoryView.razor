@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IDisposable
@@ -22,7 +23,7 @@
 
 <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
     <div class="pa-4">
-        <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
+        <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
                                OnKeyPress="@(() => _fabMenuOpen = true)"
                                IsActive="@(!_fabMenuOpen)"
                                Origin="@Origin.CenterLeft">
@@ -139,11 +140,11 @@
                              Rounded>
                         <MudTabPanel>
                             <TabWrapperContent>
-                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyQ])"
+                                <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyQ])"
                                                        OnKeyPress="@(() => _activePanelIndex -= 1)"
                                                        IsActive="@(IsPanelInactive(Panel.ByStorage))"
                                                        Origin="@Origin.CenterLeft">
-                                    <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyS])"
+                                    <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyS])"
                                                            OnKeyPress="@(() => SetActivePanel(Panel.ByStorage))"
                                                            IsActive="@(IsPanelInactive(Panel.ByStorage))"
                                                            Origin="@Origin.TopCenter">
@@ -166,7 +167,7 @@
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
-                                                        Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
+                                                        Groupings="@([InventoryEntryDataGrid.Column.LocationOrVehicle])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         <DefaultInventoryListEntryCellActions
@@ -183,7 +184,7 @@
 
                         <MudTabPanel>
                             <TabWrapperContent>
-                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyL])"
+                                <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyL])"
                                                        OnKeyPress="@(() => SetActivePanel(Panel.ByList))"
                                                        IsActive="@(IsPanelInactive(Panel.ByList))"
                                                        Origin="@Origin.TopCenter">
@@ -205,7 +206,7 @@
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
-                                                        Groupings="@( [InventoryEntryDataGrid.Column.List])"
+                                                        Groupings="@([InventoryEntryDataGrid.Column.List])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         <DefaultInventoryListEntryCellActions
@@ -222,7 +223,7 @@
 
                         <MudTabPanel>
                             <TabWrapperContent>
-                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyN])"
+                                <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyN])"
                                                        OnKeyPress="@(() => SetActivePanel(Panel.ByEntity))"
                                                        IsActive="@(IsPanelInactive(Panel.ByEntity))"
                                                        Origin="@Origin.TopCenter">
@@ -244,7 +245,7 @@
                                 <InventoryEntryDataGrid Models="@FilteredEntries"
                                                         @bind-SelectedModels="@SelectedEntries"
                                                         Lists="@AllLists"
-                                                        Groupings="@( [InventoryEntryDataGrid.Column.Entity])"
+                                                        Groupings="@([InventoryEntryDataGrid.Column.Entity])"
                                                         ExpandAll="@_filtersContext.HasActiveFilters">
                                     <ListActionsContent>
                                         <DefaultInventoryListEntryCellActions
@@ -261,7 +262,7 @@
 
                         <MudTabPanel>
                             <TabWrapperContent>
-                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyM])"
+                                <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyM])"
                                                        OnKeyPress="@(() => SetActivePanel(Panel.OnlyMatching))"
                                                        IsActive="@(IsPanelInactive(Panel.OnlyMatching))"
                                                        Origin="@Origin.TopCenter">
@@ -298,11 +299,11 @@
 
                         <MudTabPanel>
                             <TabWrapperContent>
-                                <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyE])"
+                                <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyE])"
                                                        OnKeyPress="@(() => _activePanelIndex += 1)"
                                                        IsActive="@(IsPanelInactive(Panel.AllInventory))"
                                                        Origin="@Origin.CenterRight">
-                                    <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyA])"
+                                    <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyA])"
                                                            OnKeyPress="@(() => SetActivePanel(Panel.AllInventory))"
                                                            IsActive="@(IsPanelInactive(Panel.AllInventory))"
                                                            Origin="@Origin.TopCenter">

@@ -1,7 +1,7 @@
-@using Arkanis.Overlay.Common.Abstractions
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.JSInterop
 @inherits LayoutComponentBase
+@layout SharedLayoutBase
 @inject IAppVersionProvider VersionProvider
 @inject IJSRuntime JsRuntime
 
@@ -10,6 +10,7 @@
 <MudDialogProvider/>
 <AnalyticEventSender/>
 <WebOverlayControlsInterop/>
+<UserConsentDialogProvider/>
 
 <ErrorBoundary @ref="_errorBoundary">
     <ChildContent>

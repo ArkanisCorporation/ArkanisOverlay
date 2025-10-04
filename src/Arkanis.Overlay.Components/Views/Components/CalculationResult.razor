@@ -1,9 +1,10 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Microsoft.JSInterop
 @inject IJSRuntime JsRuntime
 
 <FocusRegion @ref="_focusRegion" Class="w-100 search-result-container">
     <MudPaper Class="w-100 search-result px-4 py-2 focus" tabindex="0">
-        <KeyboardShortcutBadge Keys="@( [KeyboardKey.Enter])"
+        <KeyboardShortcutBadge Keys="@([KeyboardKey.Enter])"
                                Origin="@Origin.TopLeft"
                                Class="w-100"
                                IsActive="@(!IsFocused)"

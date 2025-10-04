@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using Abstractions;
-using Domain.Models.Keyboard;
+using Common.Models.Keyboard;
 using Extensions;
 using Helpers;
 using Microsoft.AspNetCore.Components.Web;

@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using System.Diagnostics;
+using Common.Models.Keyboard;
 using Domain.Abstractions.Services;
-using Domain.Models.Keyboard;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;

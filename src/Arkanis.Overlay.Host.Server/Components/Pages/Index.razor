@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Arkanis.Overlay.Common.Abstractions
+@using Arkanis.Overlay.Common.Options
 @using Arkanis.Overlay.Components.Views.Components
 @using Arkanis.Overlay.Components.Views.Trade.Components
 @using Arkanis.Overlay.Domain.Abstractions.Game
@@ -10,6 +11,8 @@
 @using Arkanis.Overlay.Domain.Models.Trade
 @using Arkanis.Overlay.Host.Server.Models
 @using Arkanis.Overlay.Host.Server.Services
+@using Arkanis.Overlay.LocalLink.Models.Commands
+@using Arkanis.Overlay.LocalLink.Services
 @using MoreLinq
 @inject IDialogService DialogService
 @inject IAppVersionProvider VersionProvider
@@ -19,6 +22,7 @@
 @inject IGameEntityRepository<GameItem> GameItemRepository
 @inject IGameEntityRepository<GameCommodity> GameCommodityRepository
 @inject IGameEntityRepository<GameTradeRoute> GameTradeRouteRepository
+@inject CustomProtocolClient CustomProtocolClient
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -439,7 +443,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])"
+                        Groupings="@([InventoryEntryDataGrid.Column.LocationOrVehicle])"
                         ExpandAll/>
                 </MudPaper>
 
@@ -469,7 +473,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.List])"
+                        Groupings="@([InventoryEntryDataGrid.Column.List])"
                         ExpandAll/>
                 </MudPaper>
             </MudStack>

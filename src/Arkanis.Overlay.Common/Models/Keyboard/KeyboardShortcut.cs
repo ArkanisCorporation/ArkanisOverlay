@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Domain.Models.Keyboard;
+namespace Arkanis.Overlay.Common.Models.Keyboard;
 
 using System.Text.Json;
 using System.Text.Json.Serialization;

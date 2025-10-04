@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @inject IOverlayControls OverlayControls
 
 <MudPaper Elevation="8"
@@ -11,7 +12,7 @@
             @if (SearchContext?.CurrentLocation is { } currentLocation)
             {
                 <KeyboardShortcutBadge id="currentLocation"
-                                       Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyL])"
+                                       Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyL])"
                                        Origin="@Origin.BottomCenter"
                                        Color="@Color.Error"
                                        Class="d-flex"

@@ -1,6 +1,6 @@
-@using Arkanis.Overlay.Infrastructure.Services.External
-@inject IDialogService DialogService
-@inject UexAccountContext UexAccountContext
+@using Arkanis.Overlay.Common.Options
+@implements IDisposable
+@inject IUserPreferencesProvider UserPreferencesProvider
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -70,75 +70,8 @@
                     </ChildContent>
                 </MudExpansionPanel>
 
-                <MudExpansionPanel Class="external-service-config" Disabled="@(!UexAccountContext.IsLinked)">
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <UexLogo
-                                Style="height: 32px;"
-                                ContentId="@ContentId"/>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            @if (UexAccountContext.LinkError is { } uexLinkError)
-                            {
-                                <MudChip T="string" Color="@Color.Error">
-                                    Failed
-                                </MudChip>
-                                <MudText Class="text-secondary">
-                                    @uexLinkError.Message
-                                </MudText>
-                            }
-                            else if (UexAccountContext.IsLinked)
-                            {
-                                <MudChip T="string" Color="@Color.Success">
-                                    Linked
-                                </MudChip>
-                                <MudAvatar Style="height: 32px; width: 32px;">
-                                    <MudImage
-                                        Src="@UexAccountContext.CurrentUser.Avatar"
-                                        Alt="Avatar"/>
-                                </MudAvatar>
-                                <MudText>
-                                    @UexAccountContext.CurrentUser.Name
-                                </MudText>
-                            }
-                            else
-                            {
-                                <MudChip T="string" Color="@Color.Default">
-                                    Inactive
-                                </MudChip>
-                            }
-                            <MudSpacer/>
-                            <div class="my-n2">
-                                @if (UexAccountContext.IsLinked)
-                                {
-                                    <MudButton Variant="@Variant.Outlined"
-                                               Color="@Color.Default"
-                                               OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
-                                        Connect different account
-                                    </MudButton>
-                                    <MudIconButton
-                                        Variant="@Variant.Outlined"
-                                        Color="@Color.Error"
-                                        Icon="@Icons.Material.Filled.LinkOff"
-                                        OnClick="@(() => UexAccountSetupDialog.UnlinkAsync(DialogService, UexAccountContext))"/>
-                                }
-                                else
-                                {
-                                    <MudButton Variant="@Variant.Outlined"
-                                               Color="@Color.Info"
-                                               OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
-                                        Connect account
-                                    </MudButton>
-                                }
-                            </div>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                        <UexAccountSettings/>
-                    </ChildContent>
-                </MudExpansionPanel>
+                <UexServiceSettingsPanel
+                    ContentId="@ContentId"/>
 
                 <MudExpansionPanel Class="external-service-config" Disabled>
                     <TitleContent>
@@ -223,5 +156,27 @@
 {
 
     private const string ContentId = "settings";
+
+    private async void PerformUpdate(object? _, UserPreferences preferences)
+    {
+        try
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        UserPreferencesProvider.ApplyPreferences += PerformUpdate;
+    }
+
+    public void Dispose()
+    {
+        UserPreferencesProvider.ApplyPreferences -= PerformUpdate;
+    }
 
 }

@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Domain.Models.Keyboard;
+namespace Arkanis.Overlay.Common.Models.Keyboard;
 
 public enum KeyboardKeyCategory : byte
 {

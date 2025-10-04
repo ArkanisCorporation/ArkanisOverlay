@@ -135,6 +135,7 @@ publish/
 # NPM (for semantic-release)
 node_modules/
 
+publish-*/
+release-*/
 artifacts/
-
 Releases/
