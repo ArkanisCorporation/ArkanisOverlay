@@ -25,9 +25,6 @@ public class RepositorySyncGameTrackedStrategy : IRepositorySyncStrategy, IDispo
     public virtual bool ShouldUpdateNow
         => _gameIsTracked;
 
-    public bool ShouldNotUpdateNow
-        => !ShouldUpdateNow;
-
     public event EventHandler<bool>? ShouldUpdateNowChanged;
 
     protected void EmitCurrentStatus()
