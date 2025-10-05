@@ -1,10 +1,6 @@
 namespace Arkanis.Overlay.Host.Desktop;
 
 using System.Globalization;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using Windows.Win32;
-using Common;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
@@ -34,6 +30,7 @@ using UI;
 using UI.Windows;
 using Velopack;
 using Velopack.Sources;
+using Windows.Win32;
 using Workers;
 
 // based on:
@@ -65,7 +62,12 @@ public static class Program
                     options.UseSeqLogging = context.IsDevelopment();
                 }
             )
-            .ConfigureAppConfiguration(config => config.AddCommandLine(args, cliSwitchMappings))
+            .ConfigureSingleInstance(options =>
+                {
+                    options.MutexId = $"{{{Constants.InstanceId}}}";
+                    options.WhenNotFirstInstance = (environment, logger) => logger.LogCritical("{AppName} is already running", environment.ApplicationName);
+                }
+            )
             .ConfigureServices((context, services) => services.AddAllDesktopHostServices(context.Configuration))
             .ConfigureWpf(options =>
                 {
@@ -195,7 +197,7 @@ public static class Program
                 config.SnackbarConfiguration.SnackbarVariant = Variant.Outlined;
             }
         );
-        services.AddSingleton<IServiceProvider>(sp => sp);
+        services.AddSingleton(sp => sp);
         services.AddHttpClient();
 
         services.AddEssentialComponentServices();
@@ -237,19 +239,19 @@ public static class Program
 
     internal static IServiceCollection AddVelopackServices(this IServiceCollection services)
         => services
-            .AddTransient<IUpdateSource>(provider =>
+            .AddTransient(provider =>
                 {
                     var userPreferencesProvider = provider.GetRequiredService<IUserPreferencesProvider>();
                     return UpdateHelper.CreateSourceFor(userPreferencesProvider.CurrentPreferences.UpdateChannel);
                 }
             )
-            .AddTransient<UpdateOptions>(provider => new UpdateOptions
-                {
-                    AllowVersionDowngrade = true,
-                    ExplicitChannel = provider.GetRequiredService<IUserPreferencesProvider>().CurrentPreferences.UpdateChannel.VelopackChannelId,
-                }
+            .AddTransient(provider => new UpdateOptions
+            {
+                AllowVersionDowngrade = true,
+                ExplicitChannel = provider.GetRequiredService<IUserPreferencesProvider>().CurrentPreferences.UpdateChannel.VelopackChannelId,
+            }
             )
-            .AddTransient<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
+            .AddTransient(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
             .AddTransient<IAppVersionProvider, VelopackAppVersionProvider>()
             .AddHostedService<UpdateProcess.CheckForUpdatesJob.SelfScheduleService>();
 

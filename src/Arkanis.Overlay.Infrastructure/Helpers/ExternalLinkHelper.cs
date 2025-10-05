@@ -1,7 +1,6 @@
+namespace Arkanis.Overlay.Infrastructure.Helpers;
 using Arkanis.Overlay.Common;
 using Arkanis.Overlay.External.UEX;
-
-namespace Arkanis.Overlay.Infrastructure.Helpers;
 
 using Microsoft.AspNetCore.Http;
 

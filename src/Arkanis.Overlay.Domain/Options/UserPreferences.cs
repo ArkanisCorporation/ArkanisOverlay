@@ -1,9 +1,9 @@
 namespace Arkanis.Overlay.Domain.Options;
 
+using System.Collections.Generic;
 using System.Globalization;
 using Arkanis.Overlay.Common.Models;
 using Arkanis.Overlay.Domain.Models.Keyboard;
-using System.Collections.Generic;
 
 public record UserPreferences
 {
@@ -36,5 +36,28 @@ public record UserPreferences
     public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyS]);
 
     // Icon customization preferences
-    public Dictionary<string, string> CustomIcons { get; set; } = new();
+    public Dictionary<string, string> CustomIcons { get; set; } = [];
+
+    public List<Credentials> ExternalServiceCredentials { get; set; } = [];
+
+    public Credentials GetOrCreateCredentialsFor(string serviceId)
+    {
+        if (ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId) is not { } credentials)
+        {
+            ExternalServiceCredentials.Add(credentials = new Credentials(serviceId));
+        }
+
+        return credentials;
+    }
+
+    public void RemoveCredentialsFor(string serviceId)
+        => ExternalServiceCredentials.RemoveAll(x => x.ServiceId == serviceId);
+
+    public class Credentials(string serviceId)
+    {
+        public string ServiceId { get; init; } = serviceId;
+
+        public string? UserIdentifier { get; set; }
+        public string? SecretToken { get; set; }
+    }
 }

@@ -1,6 +1,5 @@
-﻿using static Windows.Win32.PInvoke;
-
 namespace Arkanis.Overlay.Host.Desktop.UI.Windows;
+using static global::Windows.Win32.PInvoke;
 
 using System.Diagnostics;
 using System.IO;
@@ -114,7 +113,7 @@ public sealed partial class OverlayWindow : IDisposable
     private void SetupWorkerEventListeners()
     {
         _windowTracker.WindowFound +=
-            (_, hWnd) => Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
+            (_, hWnd) => Dispatcher.Invoke(() => _currentWindowHWnd = hWnd);
         _windowTracker.ProcessExited +=
             (_, _) => Dispatcher.Invoke(() =>
                 {
@@ -148,26 +147,20 @@ public sealed partial class OverlayWindow : IDisposable
         );
 
         var visibilityBeforeWindowSizeOrPositionChange = Visibility;
-        _windowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
-        {
-            Dispatcher.Invoke(() =>
+        _windowTracker.WindowSizeOrPositionChangeStart += (_, _) => Dispatcher.Invoke(() =>
                 {
                     _logger.LogDebug("HudWindow: WindowSizeOrPositionChanging");
                     visibilityBeforeWindowSizeOrPositionChange = Visibility;
                     Visibility = Visibility.Collapsed;
                 }
             );
-        };
 
-        _windowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
-        {
-            Dispatcher.Invoke(() =>
+        _windowTracker.WindowSizeOrPositionChangeEnd += (_, _) => Dispatcher.Invoke(() =>
                 {
                     _logger.LogDebug("HudWindow: WindowSizeOrPositionChanged");
                     Visibility = visibilityBeforeWindowSizeOrPositionChange;
                 }
             );
-        };
 
         _globalHotkey.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
             {
@@ -211,9 +204,9 @@ public sealed partial class OverlayWindow : IDisposable
         WindowUtils.SetExtendedStyle(
             this,
             WINDOW_EX_STYLE.WS_EX_TOOLWINDOW
-            // | WINDOW_EX_STYLE.WS_EX_LAYERED
-            // | WINDOW_EX_STYLE.WS_EX_NOACTIVATE
-            // | WINDOW_EX_STYLE.WS_EX_TRANSPARENT
+        // | WINDOW_EX_STYLE.WS_EX_LAYERED
+        // | WINDOW_EX_STYLE.WS_EX_NOACTIVATE
+        // | WINDOW_EX_STYLE.WS_EX_TRANSPARENT
         );
 
         BlazorWebView.WebView.DefaultBackgroundColor = Color.Transparent;

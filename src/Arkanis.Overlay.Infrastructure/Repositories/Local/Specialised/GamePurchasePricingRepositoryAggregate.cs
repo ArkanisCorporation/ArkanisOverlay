@@ -29,10 +29,6 @@ public class GamePurchasePricingRepositoryAggregate(
 
         return result;
     }
-
-    private IAsyncEnumerable<IGameEntityPurchasePrice> GetAllAsync(CancellationToken cancellationToken)
-        => repositories.ToAsyncEnumerable()
-            .SelectMany(repository => repository.GetAllPurchasePricesAsync(cancellationToken));
 }
 
 public class GameSalePricingRepositoryAggregate(
@@ -58,10 +54,6 @@ public class GameSalePricingRepositoryAggregate(
 
         return result;
     }
-
-    private IAsyncEnumerable<IGameEntitySalePrice> GetAllAsync(CancellationToken cancellationToken)
-        => repositories.ToAsyncEnumerable()
-            .SelectMany(repository => repository.GetAllSalePricesAsync(cancellationToken));
 }
 
 public class GameRentalPricingRepositoryAggregate(
@@ -87,10 +79,6 @@ public class GameRentalPricingRepositoryAggregate(
 
         return result;
     }
-
-    private IAsyncEnumerable<IGameEntityRentalPrice> GetAllAsync(CancellationToken cancellationToken)
-        => repositories.ToAsyncEnumerable()
-            .SelectMany(repository => repository.GetAllRentalPricesAsync(cancellationToken));
 }
 
 public class GameMarketPricingRepositoryAggregate(
@@ -116,8 +104,4 @@ public class GameMarketPricingRepositoryAggregate(
 
         return result;
     }
-
-    private IAsyncEnumerable<GameEntityMarketPrice> GetAllAsync(CancellationToken cancellationToken)
-        => repositories.ToAsyncEnumerable()
-            .SelectMany(repository => repository.GetAllMarketPricesAsync(cancellationToken));
 }

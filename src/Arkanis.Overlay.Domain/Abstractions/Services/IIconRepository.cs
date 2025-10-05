@@ -41,10 +41,10 @@ public interface IIconRepository
     /// Gets icons with pagination support.
     /// </summary>
     Task<(IReadOnlyList<IconSelectionObject> Icons, int TotalCount)> GetIconsPagedAsync(
-        int pageNumber, 
-        int pageSize, 
-        IconCategory? category = null, 
-        IconType? type = null, 
+        int pageNumber,
+        int pageSize,
+        IconCategory? category = null,
+        IconType? type = null,
         string? searchTerm = null);
 
     /// <summary>

@@ -36,6 +36,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
+        <ProjectReference Include="..\..\src\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ public sealed class KeyboardShortcutBuilder : IDisposable
         lock (_releasedKeys)
         {
             // keys that have been pressed have all been released
-            return Value.PressedKeys.SetEquals(_releasedKeys) == false;
+            return !Value.PressedKeys.SetEquals(_releasedKeys);
         }
     }
 

@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Host.Desktop.Helpers;
 
+using Domain.Models.Keyboard;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Common.Models.Keyboard;
 

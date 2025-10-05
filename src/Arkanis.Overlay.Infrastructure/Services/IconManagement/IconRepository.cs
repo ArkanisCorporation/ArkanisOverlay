@@ -6,14 +6,9 @@ using Arkanis.Overlay.Domain.Models.IconSelection;
 /// <summary>
 /// Repository implementation for managing and retrieving icon data.
 /// </summary>
-public sealed class IconRepository : IIconRepository
+public sealed class IconRepository(IIconDiscoveryService discoveryService) : IIconRepository
 {
-    private readonly IIconDiscoveryService _discoveryService;
-
-    public IconRepository(IIconDiscoveryService discoveryService)
-    {
-        _discoveryService = discoveryService;
-    }
+    private readonly IIconDiscoveryService _discoveryService = discoveryService;
 
     public Task<IReadOnlyList<IconSelectionObject>> GetAllIconsAsync()
     {
@@ -53,10 +48,10 @@ public sealed class IconRepository : IIconRepository
     }
 
     public Task<(IReadOnlyList<IconSelectionObject> Icons, int TotalCount)> GetIconsPagedAsync(
-        int pageNumber, 
-        int pageSize, 
-        IconCategory? category = null, 
-        IconType? type = null, 
+        int pageNumber,
+        int pageSize,
+        IconCategory? category = null,
+        IconType? type = null,
         string? searchTerm = null)
     {
         var allIcons = _discoveryService.GetAllIcons().AsEnumerable();
@@ -75,7 +70,7 @@ public sealed class IconRepository : IIconRepository
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             allIcons = _discoveryService.SearchIcons(searchTerm).AsEnumerable();
-            
+
             // Re-apply category and type filters to search results
             if (category.HasValue)
             {

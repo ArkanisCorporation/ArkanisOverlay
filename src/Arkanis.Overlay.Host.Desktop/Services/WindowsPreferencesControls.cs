@@ -10,7 +10,7 @@ public class WindowControls<T> where T : Window
     {
         foreach (var window in _windows)
         {
-            await window.Dispatcher.InvokeAsync(() => window.Close());
+            await window.Dispatcher.InvokeAsync(window.Close);
         }
     }
 

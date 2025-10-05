@@ -73,7 +73,7 @@
         catch (JSException ex)
         {
             // Log other JS exceptions for debugging
-            Console.WriteLine($"JS Exception in QuickAccessContainer: {ex.Message}");
+            Logger.LogError(ex, "JavaScript exception occurred in QuickAccessContainer");
         }
     }
 

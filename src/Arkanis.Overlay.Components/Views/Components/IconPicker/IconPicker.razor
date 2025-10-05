@@ -145,11 +145,11 @@
         // Filter by category
         if (SelectedCategory.HasValue)
         {
-            icons = icons.Where(i => i.Category == SelectedCategory.Value).ToList();
+            icons = icons.Where(i => i.Category == SelectedCategory.Value);
         }
 
         // Filter by type
-        icons = icons.Where(i => i.Type == SelectedIconType).ToList();
+        icons = icons.Where(i => i.Type == SelectedIconType);
 
         // Filter by search text
         if (!string.IsNullOrWhiteSpace(SearchText))
@@ -159,12 +159,12 @@
             // Apply category and type filters to search results
             if (SelectedCategory.HasValue)
             {
-                icons = icons.Where(i => i.Category == SelectedCategory.Value).ToList();
+                icons = icons.Where(i => i.Category == SelectedCategory.Value);
             }
-            icons = icons.Where(i => i.Type == SelectedIconType).ToList();
+            icons = icons.Where(i => i.Type == SelectedIconType);
         }
 
-        return icons.OrderBy(i => i.IconName).ToList();
+        return icons.OrderBy(i => i.IconName);
     }
 
 

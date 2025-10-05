@@ -24,16 +24,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, Action<InfrastructureServiceOptions> configure)
     {
-        services.AddQuartz(options =>
-            {
-                options.UseJobFactory<MicrosoftDependencyInjectionJobFactory>();
-            }
-        );
-        services.AddQuartzHostedService(options =>
-            {
-                options.WaitForJobsToComplete = false;
-            }
-        );
+        services.AddQuartz(options => options.UseJobFactory<MicrosoftDependencyInjectionJobFactory>());
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = false);
 
         var options = new InfrastructureServiceOptions();
         configure(options);

@@ -118,7 +118,7 @@ public sealed class JsComponentInterop<T>(IJSRuntime jsRuntime, T component) : I
             // Call the JavaScript logic's initialization method, passing the component reference and any additional parameters.
             Controls ??= await _module.InvokeAsync<IJSObjectReference>(
                 $"{componentName}.{StaticFactoryMethodName}",
-                [ComponentReference, ..initParameters]
+                [ComponentReference, .. initParameters]
             );
         }
         catch (Exception e)

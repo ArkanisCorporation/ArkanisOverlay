@@ -8,8 +8,6 @@ using Arkanis.Overlay.Domain.Models.IconSelection;
 public sealed class IconService()
     : IIconService
 {
-    private const string DefaultIcon = "Icons.Material.Filled.Square";
-
     public IconSelectionObject GetIconSelection(string iconIdentifier)
     {
         // Create an AppIcon from the identifier and convert to IconSelectionObject
@@ -25,15 +23,13 @@ public sealed class IconService()
             _ => GetDefaultIconSelection(),
         };
 
-    private static string GetIconNameForType(IconSelectionObject selection)
-        => GetIconNameForType(selection, selection.IconName);
-
     private static string GetIconNameForType(IconSelectionObject selection, string iconName)
         => selection.Type switch
         {
             IconType.MaterialSymbols => iconName,
             IconType.MaterialIcons => iconName,
             IconType.Custom => $"custom:{iconName}",
+            IconType.Undefined => throw new NotImplementedException(),
             _ => OverlayIcons.Status.Square,
         };
 
@@ -43,19 +39,24 @@ public sealed class IconService()
             PriceType.Buy => CreateIconSelection(OverlayIcons.Trade.AddShoppingCart, IconCategory.Trade, "Buy or purchase"),
             PriceType.Sell => CreateIconSelection(OverlayIcons.Trade.RemoveShoppingCart, IconCategory.Trade, "Sell or remove"),
             PriceType.Rent => CreateIconSelection(OverlayIcons.Trade.CarRental, IconCategory.Trade, "Rent or lease"),
+            PriceType.Undefined => throw new NotImplementedException(),
             _ => GetDefaultIconSelection(),
         };
 
     private static IconSelectionObject GetIconSelectionFor(GameEntityCategory value)
         => value switch
         {
-            GameEntityCategory.Commodity => CreateIconSelection(OverlayIcons.GameEntity.Diamond, IconCategory.GameEntity, "Commodity or valuable item"),
-            GameEntityCategory.SpaceShip => CreateIconSelection(OverlayIcons.GameEntity.Rocket, IconCategory.GameEntity, "Space ship"),
-            GameEntityCategory.GroundVehicle => CreateIconSelection(OverlayIcons.GameEntity.LocalShipping, IconCategory.GameEntity, "Ground vehicle"),
-            GameEntityCategory.Item => CreateIconSelection(OverlayIcons.GameEntity.Category, IconCategory.GameEntity, "Item category"),
-            GameEntityCategory.ProductCategory => CreateIconSelection(OverlayIcons.GameEntity.Topic, IconCategory.GameEntity, "Product category"),
-            GameEntityCategory.Company => CreateIconSelection(OverlayIcons.GameEntity.Domain, IconCategory.GameEntity, "Company or organization"),
-            GameEntityCategory.Location => CreateIconSelection(OverlayIcons.GameEntity.Public, IconCategory.GameEntity, "Location or place"),
+            GameEntityCategory.Commodity => CreateIconSelection(OverlayIcons.GameEntity.Commodity, IconCategory.GameEntity, "Commodity or valuable item"),
+            GameEntityCategory.SpaceShip => CreateIconSelection(OverlayIcons.GameEntity.SpaceShip, IconCategory.GameEntity, "Space ship"),
+            GameEntityCategory.GroundVehicle => CreateIconSelection(OverlayIcons.GameEntity.GroundVehicle, IconCategory.GameEntity, "Ground vehicle"),
+            GameEntityCategory.Item => CreateIconSelection(OverlayIcons.GameEntity.Item, IconCategory.GameEntity, "Item category"),
+            GameEntityCategory.ProductCategory => CreateIconSelection(OverlayIcons.GameEntity.ProductCategory, IconCategory.GameEntity, "Product category"),
+            GameEntityCategory.Company => CreateIconSelection(OverlayIcons.GameEntity.Company, IconCategory.GameEntity, "Company or organization"),
+            GameEntityCategory.Location => CreateIconSelection(OverlayIcons.GameEntity.Location, IconCategory.GameEntity, "Location or place"),
+            GameEntityCategory.Undefined => throw new NotImplementedException(),
+            GameEntityCategory.ItemTrait => throw new NotImplementedException(),
+            GameEntityCategory.TradeRoute => throw new NotImplementedException(),
+            GameEntityCategory.Price => throw new NotImplementedException(),
             _ => GetDefaultIconSelection(),
         };
 
@@ -77,13 +78,36 @@ public sealed class IconService()
     private static IconCategory DetermineCategoryFromIdentifier(string identifier)
     {
         // Determine category based on the identifier prefix
-        if (identifier.StartsWith("Navigation.", StringComparison.OrdinalIgnoreCase)) return IconCategory.Navigation;
-        if (identifier.StartsWith("Actions.", StringComparison.OrdinalIgnoreCase)) return IconCategory.Action;
-        if (identifier.StartsWith("System.", StringComparison.OrdinalIgnoreCase)) return IconCategory.System;
-        if (identifier.StartsWith("GameEntity.", StringComparison.OrdinalIgnoreCase)) return IconCategory.GameEntity;
-        if (identifier.StartsWith("Trade.", StringComparison.OrdinalIgnoreCase)) return IconCategory.Trade;
-        if (identifier.StartsWith("Status.", StringComparison.OrdinalIgnoreCase)) return IconCategory.Status;
-        
+        if (identifier.StartsWith("Navigation.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.Navigation;
+        }
+
+        if (identifier.StartsWith("Actions.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.Action;
+        }
+
+        if (identifier.StartsWith("System.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.System;
+        }
+
+        if (identifier.StartsWith("GameEntity.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.GameEntity;
+        }
+
+        if (identifier.StartsWith("Trade.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.Trade;
+        }
+
+        if (identifier.StartsWith("Status.", StringComparison.OrdinalIgnoreCase))
+        {
+            return IconCategory.Status;
+        }
+
         return IconCategory.Status; // Default fallback
     }
 
@@ -121,7 +145,7 @@ public sealed class IconService()
                 _ => $"Icon: {iconName}"
             };
         }
-        
+
         return $"Icon: {identifier}";
     }
 
@@ -129,7 +153,7 @@ public sealed class IconService()
     {
         var category = DetermineCategoryFromIdentifier(identifier);
         var description = GetDescriptionForIdentifier(identifier);
-        
+
         // Determine the icon type and create appropriate AppIcon
         if (identifier.Contains("MaterialSymbols") || identifier.Contains("Symbol"))
         {
@@ -145,7 +169,7 @@ public sealed class IconService()
                 FallbackIcons = []
             };
         }
-        
+
         if (identifier.Contains("Custom"))
         {
             return new CustomIcon
@@ -160,7 +184,7 @@ public sealed class IconService()
                 FallbackIcons = []
             };
         }
-        
+
         // Default to MaterialIcon
         return new MaterialIcon
         {
