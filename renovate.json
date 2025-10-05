@@ -15,8 +15,7 @@
     },
     "packageRules": [
         {
-            "matchDatasources": ["nuget"],
-            "postUpdateOptions": ["dotnetEnableWindowsTargeting"]
+            "matchDatasources": ["nuget"]
         }
     ]
 }
