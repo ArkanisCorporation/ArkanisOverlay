@@ -14,7 +14,7 @@ using PInvoke = Windows.Win32.PInvoke;
 ///     Captures global hotkeys.
 ///     Based on: https://learn.microsoft.com/en-us/archive/blogs/toub/low-level-keyboard-hook-in-c
 /// </summary>
-public sealed class GlobalLaunchShortcutTracker : IHostedService, IDisposable
+public sealed class GlobalKeyboardShortcutListener : IHostedService, IDisposable
 {
     private static HOOKPROC? _proc;
     private static HHOOK _hookId = HHOOK.Null;
@@ -24,7 +24,7 @@ public sealed class GlobalLaunchShortcutTracker : IHostedService, IDisposable
 
     private Thread? _thread;
 
-    public GlobalLaunchShortcutTracker(IUserPreferencesProvider preferencesProvider, ILogger<GlobalLaunchShortcutTracker> logger)
+    public GlobalKeyboardShortcutListener(IUserPreferencesProvider preferencesProvider, ILogger<GlobalKeyboardShortcutListener> logger)
     {
         _preferencesProvider = preferencesProvider;
         _logger = logger;

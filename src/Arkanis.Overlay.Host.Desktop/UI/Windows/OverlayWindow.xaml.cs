@@ -27,7 +27,7 @@ public sealed partial class OverlayWindow : IDisposable
 {
     private readonly BlurHelper _blurHelper;
     private readonly GameWindowTracker _gameWindowTracker;
-    private readonly GlobalLaunchShortcutTracker _globalLaunchShortcutTracker;
+    private readonly GlobalKeyboardShortcutListener _globalKeyboardShortcutListener;
 
     private readonly ILogger _logger;
     private readonly IOverlayEventControls _overlayEventControls;
@@ -40,7 +40,7 @@ public sealed partial class OverlayWindow : IDisposable
         ILogger<OverlayWindow> logger,
         IUserPreferencesProvider preferencesProvider,
         GameWindowTracker gameWindowTracker,
-        GlobalLaunchShortcutTracker globalLaunchShortcutTracker,
+        GlobalKeyboardShortcutListener globalKeyboardShortcutListener,
         BlurHelper blurHelper,
         WindowFactory windowFactory,
         IOverlayEventControls overlayEventControls
@@ -51,7 +51,7 @@ public sealed partial class OverlayWindow : IDisposable
         _logger = logger;
         _preferencesProvider = preferencesProvider;
         _gameWindowTracker = gameWindowTracker;
-        _globalLaunchShortcutTracker = globalLaunchShortcutTracker;
+        _globalKeyboardShortcutListener = globalKeyboardShortcutListener;
         _blurHelper = blurHelper;
         _windowFactory = windowFactory;
         _overlayEventControls = overlayEventControls;
@@ -75,7 +75,7 @@ public sealed partial class OverlayWindow : IDisposable
 
     public void Dispose()
     {
-        _globalLaunchShortcutTracker.Dispose();
+        _globalKeyboardShortcutListener.Dispose();
         _gameWindowTracker.Dispose();
         if (BlazorWebView is IDisposable blazorWebViewDisposable)
         {
@@ -193,7 +193,7 @@ public sealed partial class OverlayWindow : IDisposable
             );
         };
 
-        _globalLaunchShortcutTracker.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
+        _globalKeyboardShortcutListener.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: HotKeyPressed");
                 if (Visibility == Visibility.Visible)

@@ -229,8 +229,8 @@ public static class Program
         services.AddSingleton<GameWindowTracker>()
             .Alias<IHostedService, GameWindowTracker>();
 
-        services.AddSingleton<GlobalLaunchShortcutTracker>()
-            .Alias<IHostedService, GlobalLaunchShortcutTracker>();
+        services.AddSingleton<GlobalKeyboardShortcutListener>()
+            .Alias<IHostedService, GlobalKeyboardShortcutListener>();
 
         return services;
     }
