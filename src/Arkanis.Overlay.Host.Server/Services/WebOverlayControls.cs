@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Server.Services;
 
 using System.Globalization;
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using MudBlazor;
 
 internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvider, IOverlayEventControls, IDisposable
@@ -19,6 +19,9 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
 
     public void Dispose()
         => _preferencesProvider.ApplyPreferences -= ApplyUserPreferencesAsync;
+
+    public async Task ForceShowAsync()
+        => await ShowAsync();
 
     public ValueTask ShowAsync()
     {

@@ -1,9 +1,9 @@
 namespace Arkanis.Overlay.Infrastructure;
 
+using Common;
 using Common.Enums;
 using Common.Extensions;
 using Data;
-using Domain;
 using Domain.Abstractions.Services;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
@@ -53,8 +53,14 @@ public static class DependencyInjection
             .Alias<ISelfInitializable, UexAccountContext>();
 
         services
+            .AddSingleton<UserConsentDialogService>()
+            .Alias<IUserConsentDialogService, UserConsentDialogService>()
+            .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
+
+        services
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
+            .AddSingleton<IOptionsChangeTokenSource<UexApiOptions>, UserPreferencesBasedOptionsChangeTokenSource<UexApiOptions>>()
             .AddAllUexApiClients(provider => new ConfigureOptions<UexApiOptions>(uexApiOptions =>
                     {
                         var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();

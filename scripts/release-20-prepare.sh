@@ -13,17 +13,20 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 #| `stdout`         | Can be used for logging.                                                                                            |
 #| `stderr`         | Can be used for logging.                                                                                            |
 
-if [[ ! -d publish-win64 ]]; then
-  >&2 echo "publish-win64 directory does not exist"
-  exit 2
-fi
+DIRS=(
+publish-win64
+publish-server
+release-win64
+publish-nuget-locallink
+)
+RETURN=0
 
-if [[ ! -d publish-server ]]; then
-  >&2 echo "publish-server directory does not exist"
-  exit 2
-fi
+for dir in "${DIRS[@]}"
+do
+    if [[ ! -d "${dir}" ]]; then
+      >&2 echo "${dir} directory does not exist"
+      RETURN=2
+    fi
+done
 
-if [[ ! -d release-win64 ]]; then
-  >&2 echo "release-win64 directory does not exist"
-  exit 2
-fi
+exit $RETURN

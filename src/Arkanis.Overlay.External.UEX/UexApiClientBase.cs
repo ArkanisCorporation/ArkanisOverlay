@@ -9,13 +9,13 @@ internal abstract class UexApiClientBase
     private static readonly UexApiOptions DefaultOptions = new();
 
     private readonly IHttpClientFactory? _httpClientFactory;
-    private readonly IOptions<UexApiOptions>? _options;
+    private readonly IOptionsMonitor<UexApiOptions>? _options;
 
     protected UexApiClientBase()
     {
     }
 
-    protected UexApiClientBase(IHttpClientFactory httpClientFactory, IOptions<UexApiOptions>? options = null) : this()
+    protected UexApiClientBase(IHttpClientFactory httpClientFactory, IOptionsMonitor<UexApiOptions>? options = null) : this()
     {
         _httpClientFactory = httpClientFactory;
         _options = options;
@@ -23,7 +23,7 @@ internal abstract class UexApiClientBase
 
     public ValueTask<HttpClient> CreateHttpClientAsync(CancellationToken cancellationToken = default)
     {
-        var options = _options?.Value ?? DefaultOptions;
+        var options = _options?.CurrentValue ?? DefaultOptions;
         var httpClient = _httpClientFactory?.CreateClient(GetType().Name);
         httpClient ??= new HttpClient();
         httpClient.Timeout = options.Timeout;

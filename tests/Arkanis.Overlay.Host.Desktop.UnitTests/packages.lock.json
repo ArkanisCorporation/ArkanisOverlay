@@ -1188,6 +1188,7 @@
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
+          "Arkanis.Overlay.LocalLink": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.2, )",
           "Microsoft.AspNetCore.Http.Extensions": "[2.3.0, )",
           "Microsoft.Data.Sqlite": "[8.0.20, )",
@@ -1200,6 +1201,13 @@
           "Quartz.Extensions.Hosting": "[3.15.0, )",
           "Quartz.Jobs": "[3.15.0, )",
           "Scrutor": "[6.1.0, )"
+        }
+      },
+      "arkanis.overlay.locallink": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Microsoft.Extensions.Hosting.Abstractions": "[8.0.1, )"
         }
       },
       "Blazor-Analytics": {
