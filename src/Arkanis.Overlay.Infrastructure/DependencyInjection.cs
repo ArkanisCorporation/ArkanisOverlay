@@ -52,6 +52,9 @@ public static class DependencyInjection
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>();
 
+        services.AddSingleton<RepositorySyncOverlayFocusedAndGameTrackedStrategy>()
+            .Alias<IRepositorySyncStrategy, RepositorySyncOverlayFocusedAndGameTrackedStrategy>();
+
         services
             .AddSingleton<UserConsentDialogService>()
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
