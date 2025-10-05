@@ -2,7 +2,7 @@ namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Common.Options;
+using Domain.Options;
 using Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NuGet.Versioning;
