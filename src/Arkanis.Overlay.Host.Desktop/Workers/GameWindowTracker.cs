@@ -101,12 +101,12 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
                     if (value != HWND.Null)
                     {
                         // an active window is tracked
-                        WindowFound?.Invoke(this, value);
+                        Invoke(() => WindowFound?.Invoke(this, value));
                     }
                     else
                     {
                         // the tracked window was lost
-                        WindowLost?.Invoke(this, EventArgs.Empty);
+                        Invoke(() => WindowLost?.Invoke(this, EventArgs.Empty));
                     }
                 }
             );

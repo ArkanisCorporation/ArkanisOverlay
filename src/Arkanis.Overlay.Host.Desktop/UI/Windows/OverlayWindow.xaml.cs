@@ -293,6 +293,7 @@ public sealed partial class OverlayWindow : IDisposable
         }
 
         SetForegroundWindow(_currentWindowHWnd);
+        _overlayEventControls.OnOverlayWindowHidden();
     }
 
     private void NudgePopup()
