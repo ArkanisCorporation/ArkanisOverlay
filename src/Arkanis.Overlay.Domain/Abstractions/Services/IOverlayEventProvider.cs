@@ -8,5 +8,9 @@ public interface IOverlayEventProvider
     public event EventHandler OverlayFocused;
     public event EventHandler OverlayBlurred;
 
-    public event EventHandler WindowFound;
+    public event EventHandler GameWindowFocused;
+    public event EventHandler GameWindowBlurred;
+
+    public event EventHandler GameWindowFound;
+    public event EventHandler GameWindowLost;
 }

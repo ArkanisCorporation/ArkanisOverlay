@@ -226,11 +226,16 @@ public static class Program
         services.AddSingleton<WindowFactory>();
 
         // Workers
-        services.AddSingleton<WindowTracker>()
-            .Alias<IHostedService, WindowTracker>();
+        //! Important: The order of these hosted services matters!
+        //! The GameWindowTrackerOverlayEventRelayService must be started before the GameWindowTracker
 
-        services.AddSingleton<GlobalHotkey>()
-            .Alias<IHostedService, GlobalHotkey>();
+        services.AddHostedService<GameWindowTrackerOverlayEventRelayService>();
+
+        services.AddSingleton<GameWindowTracker>()
+            .Alias<IHostedService, GameWindowTracker>();
+
+        services.AddSingleton<GlobalLaunchShortcutTracker>()
+            .Alias<IHostedService, GlobalLaunchShortcutTracker>();
 
         return services;
     }
