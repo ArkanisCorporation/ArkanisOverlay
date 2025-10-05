@@ -61,6 +61,7 @@ public class WindowsOverlayControls : IOverlayControls, IOverlayEventProvider, I
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
+
     public event EventHandler? GameWindowFocused;
     public event EventHandler? GameWindowBlurred;
 

@@ -226,11 +226,6 @@ public static class Program
         services.AddSingleton<WindowFactory>();
 
         // Workers
-        //! Important: The order of these hosted services matters!
-        //! The GameWindowTrackerOverlayEventRelayService must be started before the GameWindowTracker
-
-        services.AddHostedService<GameWindowTrackerOverlayEventRelayService>();
-
         services.AddSingleton<GameWindowTracker>()
             .Alias<IHostedService, GameWindowTracker>();
 

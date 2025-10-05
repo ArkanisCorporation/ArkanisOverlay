@@ -126,25 +126,23 @@ public sealed partial class OverlayWindow : IDisposable
 
     private void SetupWorkerEventListeners()
     {
-        _gameWindowTracker.WindowTrackingChanged += (_, info) =>
+        _gameWindowTracker.WindowFound += (_, currentWindowHandle) =>
         {
-            if (info.IsTracked)
-            {
-                Dispatcher.Invoke(() =>
-                    {
-                        _currentWindowHWnd = info.HWnd;
-                    }
-                );
-            }
-            else
-            {
-                Dispatcher.Invoke(() =>
-                    {
-                        _currentWindowHWnd = HWND.Null;
-                        HideOverlay();
-                    }
-                );
-            }
+            Dispatcher.Invoke(() =>
+                {
+                    _currentWindowHWnd = currentWindowHandle;
+                }
+            );
+        };
+
+        _gameWindowTracker.WindowLost += (_, _) =>
+        {
+            Dispatcher.Invoke(() =>
+                {
+                    _currentWindowHWnd = HWND.Null;
+                    HideOverlay();
+                }
+            );
         };
 
         _gameWindowTracker.WindowPositionChanged += (_, position) => Dispatcher.Invoke(() =>

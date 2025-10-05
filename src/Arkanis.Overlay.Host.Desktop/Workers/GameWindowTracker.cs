@@ -46,15 +46,13 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = new();
 
     private readonly ConcurrentQueue<Action> _actionQueue = new();
+    private readonly IOverlayEventControls _overlayEventControls;
     private readonly IHostApplicationLifetime _applicationLifetime;
 
     private readonly ILogger _logger;
     private readonly IUserPreferencesProvider _userPreferencesProvider;
 
     private readonly Timer _windowSizeAndPositionDebounceTimer;
-
-    [Obsolete($"Do not access this field directly, use the property {nameof(CurrentWindowHWnd)} instead")]
-    private HWND _currentWindowHWnd = HWND.Null;
 
     private uint _currentWindowProcessId;
     private uint _currentWindowThreadId;
@@ -70,17 +68,18 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     private uint _threadId;
 
     public GameWindowTracker(
+        IOverlayEventControls overlayEventControls,
         IUserPreferencesProvider userPreferencesProvider,
         IHostApplicationLifetime applicationLifetime,
         ILogger<GameWindowTracker> logger
     )
     {
+        _overlayEventControls = overlayEventControls;
         _applicationLifetime = applicationLifetime;
         _userPreferencesProvider = userPreferencesProvider;
         _windowSizeAndPositionDebounceTimer = new Timer(OnDebounceTimer_UpdateWindowSizeAndPosition);
         _logger = logger;
 
-        ProcessExited += OnProcessExited;
         WindowFound += OnWindowFound;
         WindowLost += OnWindowLost;
     }
@@ -89,13 +88,18 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     public Point CurrentWindowPosition { get; private set; }
     public bool IsWindowFocused { get; private set; }
 
-#pragma warning disable CS0618 // Type or member is obsolete
     private HWND CurrentWindowHWnd
     {
-        get => _currentWindowHWnd;
+        get;
         set
         {
-            _currentWindowHWnd = value;
+            if (field == value)
+            {
+                // prevents any accidental loops and redundant event invocations
+                return;
+            }
+
+            field = value;
             DispatchFast(() =>
                 {
                     if (value != HWND.Null)
@@ -111,8 +115,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
                 }
             );
         }
-    }
-#pragma warning restore CS0618 // Type or member is obsolete
+    } = HWND.Null;
 
     public void Dispose()
     {
@@ -166,7 +169,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
             StartWaitForNewWindow();
         }
 
-        // safe-guard: handle any actions enqueued before the thread was started
+        // safeguard: handle any actions enqueued before the thread was started
         ProcessActionQueue();
 
         // this thread needs a message loop
@@ -377,12 +380,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     }
 
     private void StopWindowStateTracking()
-    {
-        RemoveAllRegisteredWinEventHooks();
-
-        // reset window handle
-        CurrentWindowHWnd = default;
-    }
+        => RemoveAllRegisteredWinEventHooks();
 
     private void StartWaitForNewWindow()
     {
@@ -440,10 +438,9 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
                         return;
                     }
 
-                    // dispatch to WindowTracker worker thread
-                    // otherwise we have a lot of fun :)))
-                    // => All Native InterOp needs to stick to the same thread
-                    Invoke(() => ProcessExited?.Invoke(this, EventArgs.Empty));
+                    // update tracked window handle to null
+                    //? this will trigger the appropriate events automatically
+                    CurrentWindowHWnd = HWND.Null;
                 }
             );
     }
@@ -467,9 +464,8 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
         PInvoke.GetWindowThreadProcessId(hWnd, out var focusedWindowProcessId);
         var processName = PInvoke.GetWindowProcessName(hWnd);
 
-        var isFocused =
-            (CurrentWindowHWnd != HWND.Null && hWnd == CurrentWindowHWnd)
-            || (_currentWindowProcessId == focusedWindowProcessId);
+        var isFocused = (CurrentWindowHWnd != HWND.Null && hWnd == CurrentWindowHWnd)
+                        || (_currentWindowProcessId == focusedWindowProcessId);
 
 #if DEBUG
         // allows for convenient debugging
@@ -491,6 +487,10 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
         return isFocused;
     }
 
+    /// <summary>
+    ///     Notifies listeners if the window size or position changed.
+    ///     This method invokes the <see cref="WindowPositionChanged"/> and <see cref="WindowSizeChanged"/> events as needed.
+    /// </summary>
     private void UpdateWindowSizeAndPosition()
     {
         var windowPosition = GetWindowPosition();
@@ -515,15 +515,9 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
 
     /// <summary>
     ///     Raised when the window focus was changed.
-    ///     Reports true if the window is focused, false otherwise.
+    ///     Reports <c>true</c> if the window is focused, <c>false</c> otherwise.
     /// </summary>
     public event EventHandler<bool>? WindowFocusChanged;
-
-    /// <summary>
-    ///     Raised when the tracked window changes.
-    ///     Reports true if there is a window active and being tracked, false otherwise.
-    /// </summary>
-    internal event EventHandler<WindowTrackingInfo>? WindowTrackingChanged;
 
     /// <summary>
     ///     Raised when the window position changed.
@@ -549,28 +543,26 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     /// </summary>
     public event EventHandler? WindowSizeOrPositionChangeEnd;
 
-    #endregion
-
-    #region Internal Events
-
-    private event EventHandler? WindowMinimized;
-    private event EventHandler? WindowRestored;
+    /// <summary>
+    ///     Raised when the window is minimized.
+    /// </summary>
+    public event EventHandler? WindowMinimized;
 
     /// <summary>
-    ///     Raised when the Star Citizen game window was found.
+    ///     Raised when the window is restored from a minimized state.
     /// </summary>
-    private event EventHandler<HWND>? WindowFound;
+    public event EventHandler? WindowRestored;
 
     /// <summary>
-    ///     Raised when the Star Citizen game window was lost.
-    ///     The game might have been closed or crashed.
+    ///     Raised when the tracked window handle changes.
+    ///     Only reports a valid <see cref="HWND"/> corresponding to an active and currently tracked window.
     /// </summary>
-    private event EventHandler? WindowLost;
+    internal event EventHandler<HWND>? WindowFound;
 
     /// <summary>
-    ///     Raised when the Star Citizen game process exits.
+    ///     Raised when the tracked window is lost (the underlying process exits).
     /// </summary>
-    private event EventHandler? ProcessExited;
+    internal event EventHandler? WindowLost;
 
     #endregion
 
@@ -596,7 +588,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     {
         _logger.LogDebug("Window found");
 
-        WindowTrackingChanged?.Invoke(this, new WindowTrackingInfo(hWnd, true));
+        _overlayEventControls.OnGameWindowFound();
         EmitWindowState();
 
         // start tracking window state changes
@@ -608,16 +600,9 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     {
         _logger.LogDebug("Window lost");
 
-        WindowTrackingChanged?.Invoke(this, new  WindowTrackingInfo(HWND.Null, false));
-        EmitWindowState();
-    }
-
-    private void OnProcessExited(object? _, EventArgs args)
-    {
-        _logger.LogDebug("Game process exited");
-
         IsWindowFocused = false;
         DispatchFast(() => WindowFocusChanged?.Invoke(this, IsWindowFocused));
+        _overlayEventControls.OnGameWindowLost();
 
         if (_userPreferencesProvider.CurrentPreferences.TerminateOnGameExit)
         {
@@ -867,12 +852,6 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ElapsedUs(long startTicks)
             => (int)((Stopwatch.GetTimestamp() - startTicks) * TicksToUs);
-    }
-
-    internal struct WindowTrackingInfo(HWND hWnd, bool isTracked)
-    {
-        public readonly HWND HWnd = hWnd;
-        public readonly bool IsTracked = isTracked;
     }
 
     #endregion
