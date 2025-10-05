@@ -7,6 +7,9 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+
+        <!-- Allow building on non-windows platforms -->
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <ItemGroup>

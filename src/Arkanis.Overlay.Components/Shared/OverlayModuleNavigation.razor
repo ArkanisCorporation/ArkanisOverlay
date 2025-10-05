@@ -1,7 +1,6 @@
 @using System.Collections.Concurrent
 @using Arkanis.Overlay.Common.Models.Keyboard
 @using Microsoft.AspNetCore.Components.Routing
-@using MudBlazor.Utilities
 @implements IDisposable
 @inject IServiceProvider ServiceProvider
 @inject NavigationManager NavigationManager
@@ -40,14 +39,10 @@
             _ => module.Description,
         };
 
-        var classname = GetModuleClassname(module);
-        var badgeAttributes = GetModuleBadgeAttributes(module);
-
         <MudTabPanel @key="@module.Name"
                      Icon="@module.Icon"
                      Disabled="@module.IsDisabled"
-                     Tooltip="@module.Description"
-                     Class="@classname">
+                     Tooltip="@module.Description">
             <TabWrapperContent>
                 <KeyboardShortcutBadge @key="@module.Name"
                                        Shortcut="@moduleShortcut"
@@ -55,8 +50,7 @@
                                        OnKeyPress="@(() => ActivateModuleByIndexWithHotkey(moduleIndex))"
                                        Origin="@KeybindsOrigin"
                                        Elevation="4"
-                                       DoNotOverlap="@DoNotOverlapKeybinds"
-                                       @attributes="@badgeAttributes">
+                                       DoNotOverlap="@DoNotOverlapKeybinds">
                     <MudTooltip>
                         <ChildContent>@context</ChildContent>
                         <TooltipContent>
@@ -72,8 +66,11 @@
                           Spacing="3"
                           Row>
                     <MudIcon
-                        Icon="@module.Icon"/>
-                    @module.Name
+                        Icon="@module.Icon"
+                        Color="@module.Color"/>
+                    <MudText Typo="@Typo.inherit" Color="@module.Color">
+                        @module.Name
+                    </MudText>
                     @if (updateCount > 0)
                     {
                         <MudChip
@@ -212,22 +209,4 @@
         NavigationManager.LocationChanged -= OnLocationChangedAsync;
     }
 
-    private static string GetModuleClassname(OverlayModules.Entry module)
-        => new CssBuilder()
-            .AddClass(
-                $"mud-theme-{module.Color.ToDescriptionString()}",
-                module.Color != Color.Default && module.Color != Color.Inherit
-            )
-            .Build();
-
-    private static Dictionary<string, object> GetModuleBadgeAttributes(OverlayModules.Entry module)
-    {
-        var badgeAttributes = new Dictionary<string, object>();
-        if (module.Color != Color.Default && module.Color != Color.Inherit)
-        {
-            badgeAttributes.Add("Color", module.Color);
-        }
-
-        return badgeAttributes;
-    }
 }
