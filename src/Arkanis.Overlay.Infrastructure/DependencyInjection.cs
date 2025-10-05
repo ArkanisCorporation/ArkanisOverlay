@@ -60,6 +60,7 @@ public static class DependencyInjection
         services
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
+            .AddSingleton<IOptionsChangeTokenSource<UexApiOptions>, UserPreferencesBasedOptionsChangeTokenSource<UexApiOptions>>()
             .AddAllUexApiClients(provider => new ConfigureOptions<UexApiOptions>(uexApiOptions =>
                     {
                         var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();
