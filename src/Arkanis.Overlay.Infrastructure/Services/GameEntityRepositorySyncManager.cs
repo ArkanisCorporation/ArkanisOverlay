@@ -43,8 +43,9 @@ internal sealed class GameEntityRepositorySyncManager<T>(
 
     private async Task UpdateAsync(bool onlyWhenNecessary, CancellationToken cancellationToken)
     {
-        if (onlyWhenNecessary && syncStrategy.ShouldNotUpdateNow)
+        if (repository.DataState is not DataMissing && onlyWhenNecessary && syncStrategy.ShouldNotUpdateNow)
         {
+            logger.LogDebug("Preventing repository update when idling, will refresh on next state change");
             QueueRefreshOnChange();
             return;
         }
@@ -90,7 +91,6 @@ internal sealed class GameEntityRepositorySyncManager<T>(
     {
         lock (this)
         {
-            logger.LogInformation("Preventing repository update when idling, will refresh on next state change");
             _refreshQueued = true;
         }
     }

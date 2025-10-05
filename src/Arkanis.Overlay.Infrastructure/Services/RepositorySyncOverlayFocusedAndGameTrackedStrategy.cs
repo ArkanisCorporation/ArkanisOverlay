@@ -6,24 +6,24 @@ public sealed class RepositorySyncOverlayFocusedAndGameTrackedStrategy : IReposi
 {
     private readonly IOverlayEventProvider _overlayEventProvider;
 
-    private bool _gameIsTracked = true;
-    private bool _overlayIsFocused = true;
+    private bool _gameIsTracked;
+    private bool _overlayIsFocused;
 
     public RepositorySyncOverlayFocusedAndGameTrackedStrategy(IOverlayEventProvider overlayEventProvider)
     {
         _overlayEventProvider = overlayEventProvider;
         _overlayEventProvider.OverlayFocused += OnOverlayEventProviderOnOverlayFocused;
         _overlayEventProvider.OverlayBlurred += OnOverlayEventProviderOnOverlayBlurred;
-        _overlayEventProvider.GameWindowFound += OnOverlayEventProviderOnGameUntracked;
-        _overlayEventProvider.GameWindowLost += OnOverlayEventProviderOnGameTracked;
+        _overlayEventProvider.GameWindowFound += OnOverlayEventProviderOnGameTracked;
+        _overlayEventProvider.GameWindowLost += OnOverlayEventProviderOnGameUntracked;
     }
 
     public void Dispose()
     {
         _overlayEventProvider.OverlayFocused -= OnOverlayEventProviderOnOverlayFocused;
         _overlayEventProvider.OverlayBlurred -= OnOverlayEventProviderOnOverlayBlurred;
-        _overlayEventProvider.GameWindowFound -= OnOverlayEventProviderOnGameUntracked;
-        _overlayEventProvider.GameWindowLost -= OnOverlayEventProviderOnGameTracked;
+        _overlayEventProvider.GameWindowFound -= OnOverlayEventProviderOnGameTracked;
+        _overlayEventProvider.GameWindowLost -= OnOverlayEventProviderOnGameUntracked;
     }
 
     public bool ShouldUpdateNow
