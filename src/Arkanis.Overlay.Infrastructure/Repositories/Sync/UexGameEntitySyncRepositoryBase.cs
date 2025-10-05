@@ -3,7 +3,6 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Threading.RateLimiting;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Game;
@@ -18,41 +17,6 @@ using Local;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Polly;
-using Polly.CircuitBreaker;
-using Polly.Retry;
-
-static file class RepositoryShared
-{
-    private static readonly TimeSpan TrackedWindow = TimeSpan.FromSeconds(10);
-
-    public static readonly ResiliencePipeline Pipeline = new ResiliencePipelineBuilder()
-        .AddRateLimiter(
-            new FixedWindowRateLimiter(
-                new FixedWindowRateLimiterOptions
-                {
-                    Window = TrackedWindow,
-                    PermitLimit = 10,
-                    QueueLimit = 1_000,
-                    AutoReplenishment = true,
-                }
-            )
-        )
-        .AddCircuitBreaker(
-            new CircuitBreakerStrategyOptions
-            {
-                BreakDuration = TrackedWindow / 2,
-            }
-        )
-        .AddRetry(
-            new RetryStrategyOptions
-            {
-                Delay = TrackedWindow / 2,
-                BackoffType = DelayBackoffType.Linear,
-                MaxRetryAttempts = 6,
-            }
-        )
-        .Build();
-}
 
 /// <summary>
 ///     A generic synchronization repository for game entities sourced from UEX API.
@@ -107,10 +71,7 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             }
 
             Logger.LogDebug("Performing uncached API request for: {Type}", DomainType.Name);
-            var response = await RepositoryShared.Pipeline.ExecuteAsync(
-                async ct => await GetInternalResponseAsync(ct).ConfigureAwait(false),
-                cancellationToken
-            );
+            var response = await GetInternalResponseAsync(UexSharedResiliency.Pipeline, cancellationToken).ConfigureAwait(false);
             var result = CreateSyncData(response, serviceAvailableState);
 
             Logger.LogDebug("Caching data for: {Type}", DomainType.Name);
@@ -200,7 +161,7 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             ? new UexApiResponse<ICollection<TSource>>(response.StatusCode, response.Headers, items ?? ThrowCouldNotParseResponse())
             : new UexApiResponse<ICollection<TSource>>(0, new Dictionary<string, IEnumerable<string>>(), []);
 
-    protected abstract Task<UexApiResponse<ICollection<TSource>>> GetInternalResponseAsync(CancellationToken cancellationToken);
+    protected abstract Task<UexApiResponse<ICollection<TSource>>> GetInternalResponseAsync(ResiliencePipeline pipeline, CancellationToken cancellationToken);
 
     protected abstract UexApiGameEntityId? GetSourceApiId(TSource source);
 
@@ -211,7 +172,7 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             throw new NotSupportedException($"UEX API request cannot be performed based on entity ID of: {id.GetType()}");
         }
 
-        var response = await GetInternalResponseAsync(cancellationToken).ConfigureAwait(false);
+        var response = await GetInternalResponseAsync(UexSharedResiliency.Pipeline, cancellationToken).ConfigureAwait(false);
         return response.Result.FirstOrDefault(source => uexApiId.Equals(GetSourceApiId(source)));
     }
 

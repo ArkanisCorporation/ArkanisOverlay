@@ -7,6 +7,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Services;
 
 internal class UexVehiclePurchasePriceSyncRepository(
@@ -21,9 +22,15 @@ internal class UexVehiclePurchasePriceSyncRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameTerminal>(this);
 
-    protected override async Task<UexApiResponse<ICollection<VehiclePurchasePriceBriefDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<VehiclePurchasePriceBriefDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await vehiclesApi.GetVehiclesPurchasesPricesAllAsync(cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await vehiclesApi.GetVehiclesPurchasesPricesAllAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data);
     }
 
