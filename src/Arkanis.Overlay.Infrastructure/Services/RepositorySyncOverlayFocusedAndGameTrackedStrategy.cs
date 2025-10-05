@@ -2,59 +2,36 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 
 using Domain.Abstractions.Services;
 
-public sealed class RepositorySyncOverlayFocusedAndGameTrackedStrategy : IRepositorySyncStrategy, IDisposable
+public class RepositorySyncOverlayFocusedAndGameTrackedStrategy : RepositorySyncGameTrackedStrategy
 {
-    private readonly IOverlayEventProvider _overlayEventProvider;
-
-    private bool _gameIsTracked;
     private bool _overlayIsFocused;
 
-    public RepositorySyncOverlayFocusedAndGameTrackedStrategy(IOverlayEventProvider overlayEventProvider)
+    public RepositorySyncOverlayFocusedAndGameTrackedStrategy(IOverlayEventProvider overlayEventProvider) : base(overlayEventProvider)
     {
-        _overlayEventProvider = overlayEventProvider;
-        _overlayEventProvider.OverlayFocused += OnOverlayEventProviderOnOverlayFocused;
-        _overlayEventProvider.OverlayBlurred += OnOverlayEventProviderOnOverlayBlurred;
-        _overlayEventProvider.GameWindowFound += OnOverlayEventProviderOnGameTracked;
-        _overlayEventProvider.GameWindowLost += OnOverlayEventProviderOnGameUntracked;
+        OverlayEventProvider.OverlayFocused += OnOverlayEventProviderOnOverlayFocused;
+        OverlayEventProvider.OverlayBlurred += OnOverlayEventProviderOnOverlayBlurred;
     }
 
-    public void Dispose()
+    public override bool ShouldUpdateNow
+        => _overlayIsFocused && base.ShouldUpdateNow;
+
+    public override void Dispose()
     {
-        _overlayEventProvider.OverlayFocused -= OnOverlayEventProviderOnOverlayFocused;
-        _overlayEventProvider.OverlayBlurred -= OnOverlayEventProviderOnOverlayBlurred;
-        _overlayEventProvider.GameWindowFound -= OnOverlayEventProviderOnGameTracked;
-        _overlayEventProvider.GameWindowLost -= OnOverlayEventProviderOnGameUntracked;
-    }
-
-    public bool ShouldUpdateNow
-        => _overlayIsFocused && _gameIsTracked;
-
-    public bool ShouldNotUpdateNow
-        => !ShouldUpdateNow;
-
-    public event EventHandler<bool>? ShouldUpdateNowChanged;
-
-    private void OnOverlayEventProviderOnGameTracked(object? _, EventArgs e)
-    {
-        _gameIsTracked = true;
-        ShouldUpdateNowChanged?.Invoke(this, ShouldUpdateNow);
-    }
-
-    private void OnOverlayEventProviderOnGameUntracked(object? _, EventArgs e)
-    {
-        _gameIsTracked = false;
-        ShouldUpdateNowChanged?.Invoke(this, ShouldUpdateNow);
+        OverlayEventProvider.OverlayFocused -= OnOverlayEventProviderOnOverlayFocused;
+        OverlayEventProvider.OverlayBlurred -= OnOverlayEventProviderOnOverlayBlurred;
+        base.Dispose();
+        GC.SuppressFinalize(this);
     }
 
     private void OnOverlayEventProviderOnOverlayFocused(object? _, EventArgs e)
     {
         _overlayIsFocused = true;
-        ShouldUpdateNowChanged?.Invoke(this, ShouldUpdateNow);
+        EmitCurrentStatus();
     }
 
     private void OnOverlayEventProviderOnOverlayBlurred(object? _, EventArgs e)
     {
         _overlayIsFocused = false;
-        ShouldUpdateNowChanged?.Invoke(this, ShouldUpdateNow);
+        EmitCurrentStatus();
     }
 }

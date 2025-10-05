@@ -52,8 +52,9 @@ public static class DependencyInjection
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>();
 
-        services.AddSingleton<RepositorySyncOverlayFocusedAndGameTrackedStrategy>()
-            .Alias<IRepositorySyncStrategy, RepositorySyncOverlayFocusedAndGameTrackedStrategy>();
+        // TODO: effectively disables refresh in Server hosting
+        services.AddSingleton<RepositorySyncGameTrackedStrategy>()
+            .Alias<IRepositorySyncStrategy, RepositorySyncGameTrackedStrategy>();
 
         services
             .AddSingleton<UserConsentDialogService>()
