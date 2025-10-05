@@ -1137,7 +1137,7 @@
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.4.2, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.20, )",
-          "MudBlazor": "[8.12.0, )"
+          "MudBlazor": "[8.13.0, )"
         }
       },
       "arkanis.overlay.domain": {
@@ -1617,9 +1617,9 @@
       },
       "MudBlazor": {
         "type": "CentralTransitive",
-        "requested": "[8.12.0, )",
-        "resolved": "8.12.0",
-        "contentHash": "ZwgHPt2DwiQoFeP8jxPzNEsUmJF17ljtospVH+uMUKUKpklz6jEkdE5vNs7PnHaPH9HEbpFEQgJw8QPlnFZjsQ==",
+        "requested": "[8.13.0, )",
+        "resolved": "8.13.0",
+        "contentHash": "Y6JW93zf8tiVhMSkkL0mZ3ruqjOTNftvVoX3sik6NEnIye+Gs0FXI8rhXfrH2LU79Mw/fOtT5ms3L/Q4TKx2kA==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "8.0.12",
           "Microsoft.AspNetCore.Components.Web": "8.0.12",
