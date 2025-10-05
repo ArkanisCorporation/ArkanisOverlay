@@ -1168,7 +1168,7 @@
           "Microsoft.AspNetCore.Components.Authorization": "[8.0.20, )",
           "Microsoft.AspNetCore.Components.WebView.Wpf": "[8.0.100, )",
           "Microsoft.AspNetCore.Http": "[2.3.0, )",
-          "Microsoft.Data.Sqlite": "[8.0.16, )",
+          "Microsoft.Data.Sqlite": "[8.0.20, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.20, )",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "[8.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[8.0.1, )",
@@ -1190,7 +1190,7 @@
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.2, )",
           "Microsoft.AspNetCore.Http.Extensions": "[2.3.0, )",
-          "Microsoft.Data.Sqlite": "[8.0.16, )",
+          "Microsoft.Data.Sqlite": "[8.0.20, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.20, )",
           "Microsoft.Extensions.Http": "[8.0.1, )",
           "Polly": "[8.6.4, )",
@@ -1403,11 +1403,11 @@
       },
       "Microsoft.Data.Sqlite": {
         "type": "CentralTransitive",
-        "requested": "[8.0.16, )",
-        "resolved": "8.0.16",
-        "contentHash": "K4qA8VtCYnKX2lyRn1hJUgcCo1nxmlerBLMemlH84/DvsJqfnG1qEQeMOldd/yh/42D1wa5sK/oOHbkYzjdZiw==",
+        "requested": "[8.0.20, )",
+        "resolved": "8.0.20",
+        "contentHash": "k2mM6VuzvNlmrXPCXm+78Y+jgUifiaPdL9TpuSpJ73fLj3ErYq1CqCgDZR/BfBcvAXJrDYWGPrQ775okL62XEA==",
         "dependencies": {
-          "Microsoft.Data.Sqlite.Core": "8.0.16",
+          "Microsoft.Data.Sqlite.Core": "8.0.20",
           "SQLitePCLRaw.bundle_e_sqlite3": "2.1.6"
         }
       },
