@@ -64,6 +64,9 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         => unit switch
         {
             UnitType.Count => "\u00d7", // multiplication sign
+            UnitType.Undefined => throw new NotImplementedException(),
+            UnitType.CentiStandardCargoUnit => throw new NotImplementedException(),
+            UnitType.StandardCargoUnit => throw new NotImplementedException(),
             _ => unit.Humanize(),
         };
 

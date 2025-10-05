@@ -65,11 +65,10 @@ public abstract record SearchMatchResult(List<SearchMatch> Matches) : IComparabl
             : left.CompareTo(right) >= 0;
 
     protected static List<SearchMatch> GroupAndPickBest(IEnumerable<SearchMatch> matches)
-        => matches
+        => [.. matches
             .GroupBy(match => (match.TargetTrait, match.Source))
             .Select(group => group.Max()!)
-            .OrderDescending()
-            .ToList();
+            .OrderDescending()];
 }
 
 /// <summary>

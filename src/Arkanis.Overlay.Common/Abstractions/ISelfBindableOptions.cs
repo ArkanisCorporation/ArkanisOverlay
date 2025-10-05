@@ -11,9 +11,5 @@ public interface ISelfBindableOptions
             .Bind
             (
                 this,
-                opts =>
-                {
-                    opts.ErrorOnUnknownConfiguration = true;
-                }
-            );
+                opts => opts.ErrorOnUnknownConfiguration = true);
 }

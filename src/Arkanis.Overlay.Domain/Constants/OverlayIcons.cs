@@ -46,13 +46,13 @@ public static class OverlayIcons
     /// </summary>
     public static class GameEntity
     {
-        public const string Diamond = $"{nameof(GameEntity)}.{nameof(Diamond)}";
-        public const string Rocket = $"{nameof(GameEntity)}.{nameof(Rocket)}";
-        public const string LocalShipping = $"{nameof(GameEntity)}.{nameof(LocalShipping)}";
-        public const string Category = $"{nameof(GameEntity)}.{nameof(Category)}";
-        public const string Topic = $"{nameof(GameEntity)}.{nameof(Topic)}";
-        public const string Domain = $"{nameof(GameEntity)}.{nameof(Domain)}";
-        public const string Public = $"{nameof(GameEntity)}.{nameof(Public)}";
+        public const string Commodity = $"{nameof(GameEntity)}.{nameof(Commodity)}";
+        public const string SpaceShip = $"{nameof(GameEntity)}.{nameof(SpaceShip)}";
+        public const string GroundVehicle = $"{nameof(GameEntity)}.{nameof(GroundVehicle)}";
+        public const string Item = $"{nameof(GameEntity)}.{nameof(Item)}";
+        public const string ProductCategory = $"{nameof(GameEntity)}.{nameof(ProductCategory)}";
+        public const string Company = $"{nameof(GameEntity)}.{nameof(Company)}";
+        public const string Location = $"{nameof(GameEntity)}.{nameof(Location)}";
         public const string Flight = $"{nameof(GameEntity)}.{nameof(Flight)}";
         public const string Store = $"{nameof(GameEntity)}.{nameof(Store)}";
         public const string GarageDoor = $"{nameof(GameEntity)}.{nameof(GarageDoor)}";

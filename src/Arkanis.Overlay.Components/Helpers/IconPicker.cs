@@ -19,6 +19,7 @@ public class IconPicker : IIconPicker
             PriceType.Buy => Icons.Material.Outlined.AddShoppingCart,
             PriceType.Sell => Icons.Material.Outlined.RemoveShoppingCart,
             PriceType.Rent => Icons.Material.Outlined.CarRental,
+            PriceType.Undefined => throw new NotImplementedException(),
             _ => DefaultIcon,
         };
 
@@ -32,6 +33,10 @@ public class IconPicker : IIconPicker
             GameEntityCategory.ProductCategory => Icons.Material.Outlined.Topic,
             GameEntityCategory.Company => Icons.Material.Outlined.Domain,
             GameEntityCategory.Location => Icons.Material.Outlined.Public,
+            GameEntityCategory.Undefined => throw new NotImplementedException(),
+            GameEntityCategory.ItemTrait => throw new NotImplementedException(),
+            GameEntityCategory.TradeRoute => throw new NotImplementedException(),
+            GameEntityCategory.Price => throw new NotImplementedException(),
             _ => DefaultIcon,
         };
 

@@ -2,13 +2,13 @@ namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Windows.Foundation.Collections;
-using Windows.UI.Notifications;
 using Domain.Options;
 using Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NuGet.Versioning;
 using Velopack;
+using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 
 internal class WindowsNotifications : IDisposable
 {
@@ -236,8 +236,7 @@ internal class WindowsNotifications : IDisposable
                     {
                         <= 0 => "Preparing...",
                         < 100 => "Downloading...",
-                        >= 100 => "Installing...",
-                    },
+                        >= 100 => "Installing...", _ => throw new NotImplementedException(), },
                 },
                 SequenceNumber = (uint)ProgressPercent,
             };

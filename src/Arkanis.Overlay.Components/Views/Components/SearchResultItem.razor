@@ -156,8 +156,7 @@
 
     private string GetCategoryIconName()
     {
-        var iconSelection = IconService.GetIconSelectionFor(Model.EntityCategory);
-        return iconSelection.IconName;
+        return IconService.GetIconFor(Model.EntityCategory);
     }
 
     public ValueTask DisposeAsync()

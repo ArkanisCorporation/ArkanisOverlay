@@ -12,7 +12,7 @@ using UI.WindowsAndMessaging;
 
 internal partial class PInvoke
 {
-    public record struct GuardResult
+    public readonly record struct GuardResult
     {
         public bool Success { get; init; }
         public int ErrorCode { get; init; }
@@ -90,7 +90,8 @@ internal partial class PInvoke
 
     public static bool IsTopLevelWindow(HWND hWnd)
     {
-        if (hWnd == HWND.Null) { return false; }
+        if (hWnd == HWND.Null)
+        { return false; }
 
         return GetAncestor(hWnd, GET_ANCESTOR_FLAGS.GA_ROOT) == hWnd;
     }
@@ -119,7 +120,8 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, uint length)
     {
-        if (length == 0 || buffer.IsEmpty) { return null; }
+        if (length == 0 || buffer.IsEmpty)
+        { return null; }
 
         // we do not need to check for overflow here
         // because `buffer.Length` is always less than or equal to `Int32.MaxValue`.
@@ -134,7 +136,8 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, int length)
     {
-        if (length == 0 || buffer.IsEmpty) { return null; }
+        if (length == 0 || buffer.IsEmpty)
+        { return null; }
 
         var safeLength = Math.Min(buffer.Length, length);
 
