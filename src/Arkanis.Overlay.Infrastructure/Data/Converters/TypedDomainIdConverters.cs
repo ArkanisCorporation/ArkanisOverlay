@@ -1,12 +1,53 @@
 namespace Arkanis.Overlay.Infrastructure.Data.Converters;
 
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Domain.Abstractions.Game;
 using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+internal static class TypeResolverCache
+{
+    private static readonly Dictionary<string, Assembly> AssemblyCache = AppDomain.CurrentDomain.GetAssemblies()
+        .ToDictionary(x => x.GetName().Name!, x => x);
+
+    private static readonly Dictionary<string, Type> TypeCache = AppDomain.CurrentDomain.GetAssemblies()
+        .SelectMany(assembly => assembly.GetTypes())
+        .Where(x => x.FullName?.StartsWith("Arkanis", StringComparison.InvariantCulture) == true)
+        .ToDictionary(type => type.AssemblyQualifiedName ?? type.Name, type => type);
+
+    public static Type GetTypeByName(string typeName)
+    {
+        if (TypeCache.TryGetValue(typeName, out var type))
+        {
+            return type;
+        }
+
+        var result = Type.GetType(typeName) switch
+        {
+            { } resolvedType => TypeCache[typeName] = resolvedType,
+            null => Type.GetType(typeName, ResolveAssembly, ResolveType, true) switch
+            {
+                { } resolvedType => TypeCache[typeName] = resolvedType,
+                _ => throw new TypeLoadException($"Could not resolve type by name: {typeName}"),
+            },
+        };
+
+        return result;
+    }
+
+    private static Assembly ResolveAssembly(AssemblyName assemblyName)
+        => AssemblyCache.GetValueOrDefault(assemblyName.Name!)
+           ?? throw new TypeLoadException($"Could not resolve assembly by {assemblyName.Name} ({assemblyName})");
+
+    private static Type ResolveType(Assembly? assembly, string typeName, bool ignoreCase)
+        => assembly?.GetType(typeName)
+           ?? TypeCache.GetValueOrDefault(typeName)
+           ?? throw new TypeLoadException($"Could not resolve type by name: {typeName} in assembly {assembly}");
+}
 
 public sealed class GuidDomainIdConverter<T>() : ValueConverter<T, Guid>(
     source => source.Identity,
@@ -55,7 +96,7 @@ internal record StrongId<T>(
         => GetTypeByName(TypeName);
 
     protected Type GetTypeByName(string typeName)
-        => Type.GetType(typeName, true)!;
+        => TypeResolverCache.GetTypeByName(typeName);
 
     public virtual TResult ConstructReferencedType<TResult>() where TResult : class
         => Activator.CreateInstance(Type, Identity) as TResult
