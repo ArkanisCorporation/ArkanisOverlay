@@ -42,13 +42,16 @@ public class UexAccountContext(
 
         try
         {
-            var persistentCredentials = Credentials;
-            persistentCredentials.UserIdentifier = credentials.UserIdentifier;
-            persistentCredentials.SecretToken = credentials.SecretToken;
+            Credentials.SecretToken = credentials.SecretToken;
             await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
 
             LinkError = null;
             await UpdateAsync(cancellationToken);
+
+            if (IsLinked)
+            {
+                Credentials.UserIdentifier = CurrentUser.Username;
+            }
         }
         catch (UexApiException exception)
         {
