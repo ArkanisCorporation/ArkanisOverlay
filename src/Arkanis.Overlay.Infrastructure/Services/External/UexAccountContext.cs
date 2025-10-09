@@ -42,17 +42,13 @@ public class UexAccountContext(
 
         try
         {
-            LinkError = null;
-            Credentials.SecretToken = credentials.SecretToken;
-            await UpdateAsync(cancellationToken);
+            var persistentCredentials = Credentials;
+            persistentCredentials.UserIdentifier = credentials.UserIdentifier;
+            persistentCredentials.SecretToken = credentials.SecretToken;
+            await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
 
-            if (IsLinked)
-            {
-                var persistentCredentials = Credentials;
-                persistentCredentials.UserIdentifier = credentials.UserIdentifier;
-                persistentCredentials.SecretToken = credentials.SecretToken;
-                await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
-            }
+            LinkError = null;
+            await UpdateAsync(cancellationToken);
         }
         catch (UexApiException exception)
         {
@@ -60,7 +56,7 @@ public class UexAccountContext(
             {
                 (int)HttpStatusCode.NotFound => new ExternalLinkAccountNotFoundException("Account with the provided username does not exist.", exception),
                 (int)HttpStatusCode.Unauthorized => new ExternalLinkUnauthorizedException("Provided secret key is not valid.", exception),
-                _ => new ExternalLinkException("Could not verify account with the provided username.", exception),
+                _ => new ExternalLinkException("Could not verify account with the provided secret key.", exception),
             };
 
             throw LinkError;
@@ -79,7 +75,8 @@ public class UexAccountContext(
         {
             if (!IsLinked)
             {
-                Credentials.SecretToken = null;
+                userPreferences.CurrentPreferences.RemoveCredentialsFor(ExternalService.UnitedExpress);
+                await userPreferences.SaveAndApplyUserPreferencesAsync(userPreferences.CurrentPreferences);
             }
         }
     }
