@@ -6,6 +6,8 @@ using FluentResults;
 
 public interface IExternalAccountContext
 {
+    public ClaimsIdentity Identity { get; }
+
     public bool IsAuthenticated { get; }
 
     public Result<ClaimsIdentity>? LastResult { get; }

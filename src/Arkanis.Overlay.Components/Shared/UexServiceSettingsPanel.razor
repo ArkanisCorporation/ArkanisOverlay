@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Common.Models
 @using Arkanis.Overlay.Infrastructure.Services.External
 @inject IDialogService DialogService
 @inject UexAccountContext UexAccountContext
@@ -14,46 +13,10 @@
                 ContentId="@ContentId"/>
         </MudStack>
         <MudStack AlignItems="@AlignItems.Center" Row>
-            @if (UexAccountContext.LastResult is { IsFailed: true, Errors.Count: > 0 } erroredResult)
-            {
-                <MudChip T="string" Color="@Color.Error">
-                    Failed
-                </MudChip>
-                <MudText Class="text-secondary">
-                    @erroredResult.Errors.First().Message
-                </MudText>
-            }
-            else if (UexAccountContext.IsAuthenticated)
-            {
-                <MudChip T="string" Color="@Color.Success">
-                    Linked
-                </MudChip>
-                @if (UexAccountContext.Identity.FindFirst(AccountClaimTypes.AvatarUrl) is { } avatarClaim)
-                {
-                    <MudAvatar Style="height: 32px; width: 32px;">
-                        <MudImage
-                            Src="@avatarClaim.Value"
-                            Alt="Avatar"/>
-                    </MudAvatar>
-                }
-
-                <MudText>
-                    @if (UexAccountContext.Identity.Name is { } name)
-                    {
-                        @name
-                    }
-                    else
-                    {
-                        <span class="text-secondary">Account Name Unknown</span>
-                    }
-                </MudText>
-            }
-            else
-            {
-                <MudChip T="string" Color="@Color.Default">
-                    Inactive
-                </MudChip>
-            }
+            <ExternalAccountStatusBadge
+                Model="@UexAccountContext"/>
+            <ExternalAccountDetails
+                Model="@UexAccountContext"/>
             <MudSpacer/>
             <div class="my-n2">
                 @if (UexAccountContext.IsAuthenticated)
