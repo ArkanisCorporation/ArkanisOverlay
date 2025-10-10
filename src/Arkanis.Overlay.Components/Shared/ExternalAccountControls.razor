@@ -102,6 +102,33 @@
         <ChildContent>
         </ChildContent>
     </MudExpansionPanel>
+
+    <MudExpansionPanel Class="external-service-config" Disabled>
+        <TitleContent>
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.Center"
+                      Row>
+                <div style="height: 32px;">
+                    <DiscordLogo
+                        Style="max-height: 26px;"
+                        Class="my-n1"
+                        ColorVariant="@DiscordLogo.Color.Blurple"
+                        ContentId="@ContentId"/>
+                </div>
+            </MudStack>
+            <MudStack AlignItems="@AlignItems.Center" Row>
+                <MudChip T="string" Color="@Color.Default">
+                    Inactive
+                </MudChip>
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    Account connection not supported yet
+                </MudText>
+            </MudStack>
+        </TitleContent>
+        <ChildContent>
+        </ChildContent>
+    </MudExpansionPanel>
 </MudExpansionPanels>
 
 @code
