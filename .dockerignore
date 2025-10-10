@@ -24,6 +24,7 @@
 /publish-*
 /release-*
 /artifacts
+/Releases
 LICENSE
 README.md
 CHANGELOG.md
