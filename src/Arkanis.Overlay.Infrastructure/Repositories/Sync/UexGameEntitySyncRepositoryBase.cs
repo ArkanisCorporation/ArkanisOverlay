@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Common.Exceptions;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Game;
