@@ -26,21 +26,21 @@ using Color = Color;
 public sealed partial class OverlayWindow : IDisposable
 {
     private readonly BlurHelper _blurHelper;
-    private readonly GlobalHotkey _globalHotkey;
+    private readonly GameWindowTracker _gameWindowTracker;
+    private readonly GlobalKeyboardShortcutListener _globalKeyboardShortcutListener;
 
     private readonly ILogger _logger;
+    private readonly IOverlayEventControls _overlayEventControls;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly WindowFactory _windowFactory;
-    private readonly IOverlayEventControls _overlayEventControls;
-    private readonly WindowTracker _windowTracker;
 
     private HWND _currentWindowHWnd = HWND.Null;
 
     public OverlayWindow(
         ILogger<OverlayWindow> logger,
         IUserPreferencesProvider preferencesProvider,
-        WindowTracker windowTracker,
-        GlobalHotkey globalHotkey,
+        GameWindowTracker gameWindowTracker,
+        GlobalKeyboardShortcutListener globalKeyboardShortcutListener,
         BlurHelper blurHelper,
         WindowFactory windowFactory,
         IOverlayEventControls overlayEventControls
@@ -50,8 +50,8 @@ public sealed partial class OverlayWindow : IDisposable
 
         _logger = logger;
         _preferencesProvider = preferencesProvider;
-        _windowTracker = windowTracker;
-        _globalHotkey = globalHotkey;
+        _gameWindowTracker = gameWindowTracker;
+        _globalKeyboardShortcutListener = globalKeyboardShortcutListener;
         _blurHelper = blurHelper;
         _windowFactory = windowFactory;
         _overlayEventControls = overlayEventControls;
@@ -59,11 +59,11 @@ public sealed partial class OverlayWindow : IDisposable
         SetupWorkerEventListeners();
         InitializeComponent();
 
-        MaxWidth = MinWidth = _windowTracker.CurrentWindowSize.Width;
-        MaxHeight = MinHeight = _windowTracker.CurrentWindowSize.Height;
+        MaxWidth = MinWidth = _gameWindowTracker.CurrentWindowSize.Width;
+        MaxHeight = MinHeight = _gameWindowTracker.CurrentWindowSize.Height;
 
-        Top = _windowTracker.CurrentWindowPosition.Y;
-        Left = _windowTracker.CurrentWindowPosition.X;
+        Top = _gameWindowTracker.CurrentWindowPosition.Y;
+        Left = _gameWindowTracker.CurrentWindowPosition.X;
 
         BlazorWebView.BlazorWebViewInitializing += BlazorWebView_Initializing;
         _preferencesProvider.ApplyPreferences += ApplyUserPreferences;
@@ -72,6 +72,20 @@ public sealed partial class OverlayWindow : IDisposable
     }
 
     public static OverlayWindow? Instance { get; private set; }
+
+    public void Dispose()
+    {
+        _globalKeyboardShortcutListener.Dispose();
+        _gameWindowTracker.Dispose();
+        if (BlazorWebView is IDisposable blazorWebViewDisposable)
+        {
+            blazorWebViewDisposable.Dispose();
+        }
+        else if (BlazorWebView != null)
+        {
+            _ = BlazorWebView.DisposeAsync().AsTask();
+        }
+    }
 
     private void ApplyUserPreferences(object? sender, UserPreferences newPreferences)
     {
@@ -96,7 +110,7 @@ public sealed partial class OverlayWindow : IDisposable
         _logger.LogDebug("Overlay: Activate Window: {Result}", result);
 
         BlazorWebView.WebView.Focus();
-        _overlayEventControls.OnWindowShown();
+        _overlayEventControls.OnOverlayWindowShown();
     }
 
     private void ForceFocus()
@@ -110,26 +124,36 @@ public sealed partial class OverlayWindow : IDisposable
         AttachThreadInput(windowThreadProcessId, currentThreadId, false);
     }
 
-
     private void SetupWorkerEventListeners()
     {
-        _windowTracker.WindowFound +=
-            (_, hWnd) => Dispatcher.Invoke(() => { _currentWindowHWnd = hWnd; });
-        _windowTracker.ProcessExited +=
-            (_, _) => Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowFound += (_, currentWindowHandle) =>
+        {
+            Dispatcher.Invoke(() =>
+                {
+                    _currentWindowHWnd = currentWindowHandle;
+                }
+            );
+        };
+
+        _gameWindowTracker.WindowLost += (_, _) =>
+        {
+            Dispatcher.Invoke(() =>
                 {
                     _currentWindowHWnd = HWND.Null;
                     HideOverlay();
                 }
             );
-        _windowTracker.WindowPositionChanged += (_, position) => Dispatcher.Invoke(() =>
+        };
+
+        _gameWindowTracker.WindowPositionChanged += (_, position) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowPositionChanged: {Position}", position.ToString());
                 Top = position.Y;
                 Left = position.X;
             }
         );
-        _windowTracker.WindowSizeChanged += (_, size) => Dispatcher.Invoke(() =>
+
+        _gameWindowTracker.WindowSizeChanged += (_, size) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowSizeChanged: {Size}", size.ToString());
                 MaxWidth = MinWidth = size.Width;
@@ -137,7 +161,7 @@ public sealed partial class OverlayWindow : IDisposable
             }
         );
 
-        _windowTracker.WindowFocusChanged += (_, isFocused) => Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowFocusChanged += (_, isFocused) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: WindowFocusChanged: {IsFocused}", isFocused);
                 if (isFocused && Visibility == Visibility.Visible)
@@ -148,7 +172,7 @@ public sealed partial class OverlayWindow : IDisposable
         );
 
         var visibilityBeforeWindowSizeOrPositionChange = Visibility;
-        _windowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
+        _gameWindowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -159,7 +183,7 @@ public sealed partial class OverlayWindow : IDisposable
             );
         };
 
-        _windowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
+        _gameWindowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -169,7 +193,7 @@ public sealed partial class OverlayWindow : IDisposable
             );
         };
 
-        _globalHotkey.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
+        _globalKeyboardShortcutListener.ConfiguredHotKeyPressed += (_, _) => Dispatcher.Invoke(() =>
             {
                 _logger.LogDebug("Overlay: HotKeyPressed");
                 if (Visibility == Visibility.Visible)
@@ -178,7 +202,7 @@ public sealed partial class OverlayWindow : IDisposable
                     return;
                 }
 
-                if (!_windowTracker.IsWindowFocused)
+                if (!_gameWindowTracker.IsWindowFocused)
                 {
                     return;
                 }
@@ -267,6 +291,7 @@ public sealed partial class OverlayWindow : IDisposable
         }
 
         SetForegroundWindow(_currentWindowHWnd);
+        _overlayEventControls.OnOverlayWindowHidden();
     }
 
     private void NudgePopup()
@@ -293,18 +318,4 @@ public sealed partial class OverlayWindow : IDisposable
 
     public void Exit()
         => Dispatcher.Invoke(() => OnExitCommand(this, new RoutedEventArgs()));
-
-    public void Dispose()
-    {
-        _globalHotkey.Dispose();
-        _windowTracker.Dispose();
-        if (BlazorWebView is IDisposable blazorWebViewDisposable)
-        {
-            blazorWebViewDisposable.Dispose();
-        }
-        else if (BlazorWebView != null)
-        {
-            _ = BlazorWebView.DisposeAsync().AsTask();
-        }
-    }
 }

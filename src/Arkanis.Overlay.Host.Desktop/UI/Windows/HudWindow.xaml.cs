@@ -10,16 +10,16 @@ using Workers;
 
 public partial class HudWindow
 {
+    private readonly GameWindowTracker _gameWindowTracker;
     private readonly ILogger<HudWindow> _logger;
-    private readonly WindowTracker _windowTracker;
 
     public HudWindow(
         ILogger<HudWindow> logger,
-        WindowTracker windowTracker
+        GameWindowTracker gameWindowTracker
     )
     {
         _logger = logger;
-        _windowTracker = windowTracker;
+        _gameWindowTracker = gameWindowTracker;
 
         InitializeComponent();
 
@@ -28,7 +28,7 @@ public partial class HudWindow
             _logger.LogDebug("HudWindow: VisibilityChanged: {IsVisible}", IsVisible);
         };
 
-        _windowTracker.WindowSizeChanged += (_, size) =>
+        _gameWindowTracker.WindowSizeChanged += (_, size) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -39,7 +39,7 @@ public partial class HudWindow
             );
         };
 
-        _windowTracker.WindowPositionChanged += (_, position) =>
+        _gameWindowTracker.WindowPositionChanged += (_, position) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -50,7 +50,7 @@ public partial class HudWindow
             );
         };
 
-        _windowTracker.WindowFocusChanged += (_, focused) =>
+        _gameWindowTracker.WindowFocusChanged += (_, focused) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -60,7 +60,7 @@ public partial class HudWindow
         };
 
         var visibilityBeforeWindowSizeOrPositionChange = Visibility;
-        _windowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
+        _gameWindowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -71,7 +71,7 @@ public partial class HudWindow
             );
         };
 
-        _windowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
+        _gameWindowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
         {
             Dispatcher.Invoke(() =>
                 {
@@ -97,11 +97,11 @@ public partial class HudWindow
             //|  WINDOW_EX_STYLE.WS_EX_LAYERED
         );
 
-        Top = _windowTracker.CurrentWindowPosition.Y;
-        Left = _windowTracker.CurrentWindowPosition.X;
+        Top = _gameWindowTracker.CurrentWindowPosition.Y;
+        Left = _gameWindowTracker.CurrentWindowPosition.X;
 
-        MaxWidth = MinWidth = _windowTracker.CurrentWindowSize.Width;
-        MaxHeight = MinHeight = _windowTracker.CurrentWindowSize.Height;
+        MaxWidth = MinWidth = _gameWindowTracker.CurrentWindowSize.Width;
+        MaxHeight = MinHeight = _gameWindowTracker.CurrentWindowSize.Height;
     }
 
     private void MainWindow_Loaded(object? sender, RoutedEventArgs e)

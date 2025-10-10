@@ -41,16 +41,25 @@ public static class DependencyInjection
         if (options.HostingMode is HostingMode.Server)
         {
             services.AddServicesForInMemoryUserPreferences();
+
+            services.AddSingleton<IRepositorySyncStrategy, FakeRepositorySyncStrategy>();
         }
         else
         {
             //! Registers hosted service for loading preferences from file - this needs to run as soon as possible
             services.AddServicesForUserPreferencesFromJsonFile();
+
+            services.AddSingleton<RepositorySyncGameTrackedStrategy>()
+                .Alias<IRepositorySyncStrategy, RepositorySyncGameTrackedStrategy>();
         }
 
         services
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>();
+
+        // TODO: effectively disables refresh in Server hosting
+        services.AddSingleton<RepositorySyncGameTrackedStrategy>()
+            .Alias<IRepositorySyncStrategy, RepositorySyncGameTrackedStrategy>();
 
         services
             .AddSingleton<UserConsentDialogService>()
