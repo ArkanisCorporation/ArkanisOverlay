@@ -22,6 +22,7 @@ public class NamedPipeCommandServerBackgroundPublisherService(
             catch (IOException e)
             {
                 logger.LogError(e, "Could not start the LocalLink command server");
+                break;
             }
         }
     }

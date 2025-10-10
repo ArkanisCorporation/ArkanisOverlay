@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "6a84479b-bd8e-4330-9ed3-e1169cfc546e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "72b8b47b-d61f-4e07-9298-f20044f9508f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "c870f6a8-5db9-4999-909a-675aa511ba19",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "a88d063a-2351-4a0b-b22d-ac7a4a9f6b9f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "142e6235-9f9d-4e5a-b0c9-0a2338f70901",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "9f9eab9c-4038-492d-bdd0-053d60a50307",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "85abd56d-7442-4ef1-bbe3-4d64d8540737",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "d7816c09-3cd3-4669-ad42-d6562894cbc6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "50593138-ee3f-4cc8-9654-b25c1bb6a569",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "7a8d5207-e203-4bbc-8cec-6956b4129a7e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "fcf0cee0-94f6-4bfb-aed3-e255d7f1e12c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "6df9676c-5609-4d9c-a79b-0608f4b59e21",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "f74933cf-181c-42d0-b7b9-e01f6340749c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "e4bb4aae-8d61-451a-8407-ff48cf8593aa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "3677de9d-b92f-42f1-a34e-0c0fe6cdfcd0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "0a9fee0b-6ba5-447f-a907-1ab864202c9c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "44c134d1-061f-4642-b4f1-aa05b19191bd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "42f9b948-8448-4247-a617-2a133ef50f6c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,31 +491,9 @@
         "url_store": "",
         "uuid": "ffaf4f8b-6712-4a72-aa54-003187447399",
         "vehicle_name": "Eclipse",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
-      },
-      {
-        "category": "Missile Racks",
-        "company_name": null,
-        "date_added": 1747406187,
-        "date_modified": 1747406207,
-        "id": 4554,
-        "id_category": 33,
-        "id_company": 0,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 1,
-        "is_exclusive_subscriber": 0,
-        "name": "CST-313 \u0022Castillo\u0022",
-        "notification": null,
-        "screenshot": "",
-        "section": "Vehicle Weapons",
-        "size": null,
-        "slug": "cst-313-castillo-",
-        "url_store": "https://robertsspaceindustries.com/en/pledge/Add-Ons/Bomb-Rack-Weapon-Kit-2-Pack",
-        "uuid": null,
-        "vehicle_name": null,
-        "game_version": null
       }
     ],
     "http_code": 200,
@@ -489,7 +503,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -497,50 +511,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a3400abf08176-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=SwS1bDms3ElbmNW5%2FFqE%2B6JaPqg4xJQnYQgesK6Vqq%2FaPMsC%2F6U9bP2zD31VPVzSYuuBvUixHCggBB4u9hfhH55nH1Sn2KuVFOIhAHLOO9j2nNs9zWLa5txd63HHlFJ5wSlVdw%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1999"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=7754\u0026min_rtt=4232\u0026rtt_var=6274\u0026sent=252\u0026recv=105\u0026lost=0\u0026retrans=0\u0026sent_bytes=327715\u0026recv_bytes=1450\u0026delivery_rate=23925710\u0026cwnd=336\u0026unsent_bytes=0\u0026cid=495ace438151ab96\u0026ts=2106\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84401; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=i0SqROA83vX777uVqVz07kqGZDWSqffIWTeXt3wPLZlzIrP%2Fhsv4gbJwmdYTMpRPaGTGOsLyfxo%2BbFnp2Dt5Dzb7mfqwTf6iqEzGag%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9b7fdff97a-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:00 GMT"
     ]
   }
 }

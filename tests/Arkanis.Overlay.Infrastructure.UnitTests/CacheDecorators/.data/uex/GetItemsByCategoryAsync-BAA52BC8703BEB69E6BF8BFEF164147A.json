@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "44512a35-3a37-48b9-bf0e-c1bf87b4503b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "d6f1b600-353d-42d7-a592-450172889f00",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "ced4ab55-c8d0-42d9-86d9-71f97eb38872",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "64d1c96f-a7c4-492f-a12e-91699e3b01bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Packs/Scourge-Of-The-Stars-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Packs/Scourge-Of-The-Stars-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Packs/Scourge-Of-The-Stars-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Packs/Scourge-Of-The-Stars-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       }
     ],
@@ -201,7 +217,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -209,50 +225,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34047a04cd2b-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=V92UYiUStF1gfcgokJhii2MhEVr6YIrdwe2gc%2FwelX1e7h1U3Veapy8v6nRs04TayMbMwPwzBW4LufcHlwnHrSpIv3vyUTrY2MGazodgIAst%2B56KNZB8OKM%2B3CHK63jC5Rf3vA%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1997"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4408\u0026min_rtt=4218\u0026rtt_var=153\u0026sent=420\u0026recv=179\u0026lost=0\u0026retrans=0\u0026sent_bytes=550192\u0026recv_bytes=2069\u0026delivery_rate=25768402\u0026cwnd=349\u0026unsent_bytes=0\u0026cid=e558bd9e947b5640\u0026ts=2738\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84403; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=ncQqmTzcrV1HqzSTx5gSGZmQT9YOZq3jGn2r1PVLGWTFgl7G2u%2Blv81J0OKDdc8uhJjyGXULDMRNYo8DbFVBD3W5hxbnRaG6GtmJ4A%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9bc886f97a-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:02 GMT"
     ]
   }
 }

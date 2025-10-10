@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "c2006c91-f8f7-4bda-ae38-e0ca5af5c737",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "5b5d11f8-a2b0-4e6e-80c3-2437cc0accae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "077a4a94-6296-4a83-a6c4-f215f7efd1df",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "e6b284b9-456a-4444-b5fc-7c33bf5a6945",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "41850766-d4a8-4255-be75-0d24af7280b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "6429e3d3-c813-4dfc-bc68-c95b54123722",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "30545178-b09e-495d-a8b8-c6267ce2b495",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -191,13 +205,15 @@
         "url_store": "",
         "uuid": "81e1a10a-c7bd-401f-92e1-284115dcd6e1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Mining Laser Heads",
         "company_name": "Thermyte Concern",
         "date_added": 1703519971,
-        "date_modified": 1745121433,
+        "date_modified": 1758672037,
         "id": 115,
         "id_category": 29,
         "id_company": 244,
@@ -215,7 +231,9 @@
         "url_store": "",
         "uuid": "3bcde69d-3e3a-4f78-b2cb-8189b349e4d2",
         "vehicle_name": null,
-        "game_version": "4.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
       },
       {
         "category": "Mining Laser Heads",
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "ba94a262-bc0a-4484-9bbd-a4be7a2ec3e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -263,13 +283,15 @@
         "url_store": "",
         "uuid": "4435898e-a6cc-4f51-ab2a-805d0cf1a44a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Mining Laser Heads",
         "company_name": "Shubin Interstellar",
         "date_added": 1703539900,
-        "date_modified": 1745121469,
+        "date_modified": 1758672038,
         "id": 799,
         "id_category": 29,
         "id_company": 223,
@@ -287,7 +309,9 @@
         "url_store": "",
         "uuid": "b422bcf8-b553-4b09-b2be-e92ab2f80e9a",
         "vehicle_name": null,
-        "game_version": "4.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
       },
       {
         "category": "Mining Laser Heads",
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "0982203d-579f-4c3c-8b7a-c5f1c4a7ddd6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "8c95c978-9e47-46ec-88e3-a0662c13d76a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "1c2bab01-941b-4515-a6a4-5845aaa95696",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "40bd6a85-5695-409c-9d6c-ae1babde416a",
         "vehicle_name": "ATLS GEO",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "5a704f96-c339-43e7-b918-7fc9957673ed",
         "vehicle_name": "Golem",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       }
     ],
@@ -417,7 +451,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:38 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -425,50 +459,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33feff728176-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=eLqSzsiKqlQPhvn1%2BFANfp2sGg%2FYSpBsOCVo8S5aIMiGjh68pl1w5suTaB3h6fAzrL98z9isa2aFF7yr7sGqi%2BW5oLC%2BmUMhyrgju6mRjFzddKAZdt8d%2F%2FoKKeDJNZFvOQHbJQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2006"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=8766\u0026min_rtt=4232\u0026rtt_var=8037\u0026sent=242\u0026recv=102\u0026lost=0\u0026retrans=0\u0026sent_bytes=317966\u0026recv_bytes=1334\u0026delivery_rate=23925710\u0026cwnd=336\u0026unsent_bytes=0\u0026cid=495ace438151ab96\u0026ts=1831\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84394; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=8%2Ft5gbQ2owlFpRgiqy6%2FhI9q125jpnq4qi6lVsy7leDFpvaUQEQjffrCYEjv2ZWfZwd20pdaLLFZpHgPQTX445cjMGkgxFu7mDTMRg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9b4d8e3009-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:38 GMT"
+      "Sat, 11 Oct 2025 04:13:53 GMT"
     ]
   }
 }

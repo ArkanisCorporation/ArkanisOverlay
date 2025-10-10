@@ -23,6 +23,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Cargo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Cargo-Module-Stern",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Torpedo-Module-Stern",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Torpedo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Cargo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Cargo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Torpedo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Retaliator-Torpedo-Module-Bow",
         "uuid": null,
         "vehicle_name": "Retaliator",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Telescope-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Science-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Research-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Med-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Landing-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Fuel-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Crew-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Collider-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -407,7 +439,165 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Add-Ons/Endeavor-Biodome-Pod-10-Year",
         "uuid": null,
         "vehicle_name": "Endeavor",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610224,
+        "date_modified": 1757610533,
+        "id": 4913,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 1 Module Left",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-1-module-left",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610243,
+        "date_modified": 1757610574,
+        "id": 4914,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 2 Module Left",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-2-module-left",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610260,
+        "date_modified": 1757610613,
+        "id": 4915,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 3 Module Left",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-3-module-left",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610271,
+        "date_modified": 1757610632,
+        "id": 4916,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 3 Module Right",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-3-module-right",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610286,
+        "date_modified": 1757610552,
+        "id": 4917,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 1 Module Right",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-1-module-right",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Ship Modules",
+        "company_name": "Roberts Space Industries",
+        "date_added": 1757610321,
+        "date_modified": 1757610594,
+        "id": 4918,
+        "id_category": 74,
+        "id_company": 217,
+        "id_parent": 0,
+        "id_vehicle": 15,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Apollo Tier 2 Module Right",
+        "notification": null,
+        "screenshot": "",
+        "section": "Ship Modules",
+        "size": "",
+        "slug": "apollo-tier-2-module-right",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": "Apollo Medivac",
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
       }
     ],
     "http_code": 200,
@@ -417,7 +607,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:40 GMT"
+      "Fri, 10 Oct 2025 04:49:40 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -425,50 +615,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34073da623fa-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=NmRJ7L0J6aO3ZZH0Ys396xuS1Wk1yynYEWwG4WqtIv5CtAh%2B6mWtfQjIj1ZiugsIUqyITrdzw%2FASXSXMMFK4ebGJBOa71Z2YJCN51MG%2Bpi8J7yZhRDETOhFdjtYnYMBxxzmkJA%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2139"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=3991\u0026min_rtt=3805\u0026rtt_var=52\u0026sent=465\u0026recv=208\u0026lost=0\u0026retrans=0\u0026sent_bytes=607505\u0026recv_bytes=2301\u0026delivery_rate=33556789\u0026cwnd=386\u0026unsent_bytes=0\u0026cid=bc9f5fda215b8a87\u0026ts=3180\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84261; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=%2FLhms%2FHql6D1XFDbkTxc3GhxQUs6leA5XX4HlhejIVqMy0f8cRCn6c4kaYvNUcir2wILU2dyR70Cz8bPTkA72tOJKa1sc4XCl6gdHg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37e139f7cd51d-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:40 GMT"
+      "Sat, 11 Oct 2025 04:14:02 GMT"
     ]
   }
 }

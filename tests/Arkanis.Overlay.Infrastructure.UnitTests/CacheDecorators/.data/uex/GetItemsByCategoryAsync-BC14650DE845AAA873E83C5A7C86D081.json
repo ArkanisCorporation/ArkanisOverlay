@@ -3,12 +3,12 @@
     "data": [
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1703535879,
-        "date_modified": 1740442151,
+        "date_modified": 1758144016,
         "id": 610,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -18,11 +18,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-purple",
         "url_store": "",
         "uuid": "afe865e8-c514-45e9-91c8-dad4e8d35a87",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "23799159-4649-468e-aef5-758e808a4b47",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "0456e210-a99a-4708-b83c-103c1d02923a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "03bb3f37-a122-4a1d-be72-11e799fbd221",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "a723b4e0-f764-4fa2-89d8-b5ec82f749d3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "e64a507a-66d2-4c34-93dd-4c18f294c125",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "97a7bf97-3100-4ba0-ad35-86c9255391f5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "c56fe43b-b69d-46d5-92d2-6538d8e0e6e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "cf63d187-71bb-4934-ba8b-c455f0350444",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "4a72f7c9-745d-4b22-b233-2b11bc22bb5d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "e9850a9f-4f01-4cb7-bbd1-fb53f4e70b01",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "fcdb3335-3856-402f-b4c1-e4b3c6f9f1be",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "ce4f5f12-448b-4b1c-a79a-077fccbd82b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "8910021e-a2f6-46c9-971f-436e14cc380b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "e822bea6-453a-49aa-81f7-ec48d6548da8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "93699fae-dfa4-4c7c-80a0-d50b1ab9fda0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "43696e42-7d70-41e2-bc25-0d2f2478cccd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "9b34de55-b285-4910-93ca-9941c3e24fb6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "",
         "uuid": "d7091a0b-a443-4424-8c29-1a5615b35abb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "",
         "uuid": "dc1b64f4-819c-4b90-adb0-92ee5ab601ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "",
         "uuid": "6d7c10f4-2b48-4aa8-8a0e-eb9685b12fb2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "37d3680b-5620-451d-b294-548504858ad4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "",
         "uuid": "0ac0979f-710f-4cd6-a11a-5eb2c867b204",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "",
         "uuid": "785d359a-69c8-44c3-84e3-7ad8f5f93f38",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "b7c7a5e4-702a-4368-8564-9ca677d3e199",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": "7fa687ac-50b2-4db0-886e-b0e4d7e7bccc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "2673f6cb-3092-41f9-97e5-bc76637499d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "89c498b0-7154-4f28-885c-28b3300892a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "45058ef0-f8f3-43dc-a237-9eb118dfd5ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "25ce3f6c-1743-4bac-a6fa-9a01495ab245",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "",
         "uuid": "fc085f89-a0ad-403e-a06f-8484a0af99bf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "",
         "uuid": "119feca0-d5ef-4883-9786-fa8e83bfcb14",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +855,8 @@
         "url_store": "",
         "uuid": "bbad4646-c86e-43a7-b95c-bed0acb38213",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -815,6 +881,8 @@
         "url_store": "",
         "uuid": "8670a3d2-82c4-4a31-9e7c-7284aa3859af",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +907,8 @@
         "url_store": "",
         "uuid": "54e26c28-c3d8-40df-9681-f69fd755875c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +933,8 @@
         "url_store": "",
         "uuid": "97ddc9d3-efcd-40ee-94bd-c676085c099c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,6 +959,8 @@
         "url_store": "",
         "uuid": "6e7e0bfc-78bc-49a6-9bb9-93c328efe74c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -911,6 +985,8 @@
         "url_store": "",
         "uuid": "5cda15be-9b98-436d-a9a8-7f7faea64ff9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +1011,8 @@
         "url_store": "",
         "uuid": "3a201894-d25e-4869-b327-bb604848ae62",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,6 +1037,8 @@
         "url_store": "",
         "uuid": "287409d3-2ee8-42ee-801e-8bed193fdfb3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -983,6 +1063,8 @@
         "url_store": "",
         "uuid": "521ecb9b-f144-434a-8bbc-f11e27198973",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1007,6 +1089,8 @@
         "url_store": "",
         "uuid": "e81f4997-07bf-40f2-a00b-193973dbf05a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1031,6 +1115,8 @@
         "url_store": "",
         "uuid": "13960fb4-de5c-4cb7-80e3-c3a273a559fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1141,8 @@
         "url_store": "",
         "uuid": "d228a102-4054-475c-b03f-02b4be7e7b15",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1167,8 @@
         "url_store": "",
         "uuid": "6bfa3cf9-b399-402b-a6f7-d811656a426d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1193,8 @@
         "url_store": "",
         "uuid": "e7230532-d589-4c97-82d6-2b551262cf2d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1219,8 @@
         "url_store": "",
         "uuid": "52dd2b59-058f-4f56-864c-5df4ae18587e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1245,8 @@
         "url_store": "",
         "uuid": "f29d1c9f-5256-4128-b19a-27589efe0d77",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1175,6 +1271,8 @@
         "url_store": "",
         "uuid": "6ad48848-17a2-4bc8-8fa0-55cae91dfd51",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1297,8 @@
         "url_store": "",
         "uuid": "95ab2312-05c5-405e-9d13-0bf473015afd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,6 +1323,8 @@
         "url_store": "",
         "uuid": "65756f59-b8bc-4081-893e-7ad517fcd304",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1247,6 +1349,8 @@
         "url_store": "",
         "uuid": "ce7fdfc3-b318-423f-8dfd-13aa4a8c2d18",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1271,6 +1375,8 @@
         "url_store": "",
         "uuid": "31ff398a-c97f-48ee-aed2-1db03327f805",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1295,6 +1401,8 @@
         "url_store": "",
         "uuid": "d5895ee4-e793-44ff-9866-93cf34863c95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1319,6 +1427,8 @@
         "url_store": "",
         "uuid": "f7fc35b9-2980-41bd-948c-cd3483c42245",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1343,6 +1453,8 @@
         "url_store": "",
         "uuid": "444f1ec9-251e-4e7b-ba1e-92b7d1b524a3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1367,6 +1479,8 @@
         "url_store": "",
         "uuid": "76ddb6e5-8ba3-4c4d-acc4-bfb7fa1495b7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1391,6 +1505,8 @@
         "url_store": "",
         "uuid": "a0b9e0d3-043a-4590-88b9-cc4cab8f2bf5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1415,6 +1531,8 @@
         "url_store": "",
         "uuid": "64f14f42-63af-48b0-b5ae-8e5caf8e2122",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1439,6 +1557,8 @@
         "url_store": "",
         "uuid": "990ac0fc-0da6-468d-9ede-2773179cc78e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1583,8 @@
         "url_store": "",
         "uuid": "dbe68a17-ffdc-4ae0-96f3-260a7d22a40a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,6 +1609,8 @@
         "url_store": "",
         "uuid": "828bc5b0-222a-4e09-891e-f83a7c793b6b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1511,6 +1635,8 @@
         "url_store": "",
         "uuid": "910f0fcb-e480-4196-9288-77117c8eb4de",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1535,6 +1661,8 @@
         "url_store": "",
         "uuid": "f9fa091a-13fd-4721-b23e-8a534c4daf56",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1559,6 +1687,8 @@
         "url_store": "",
         "uuid": "acef051e-a77e-4ece-9322-a7d3ac36e348",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1583,6 +1713,8 @@
         "url_store": "",
         "uuid": "3ff0a0dd-b739-45e6-a9f6-28b1fa4ab1d8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1739,8 @@
         "url_store": "",
         "uuid": "f298edad-644e-4b3f-b5f0-752d4a5ca11c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1765,8 @@
         "url_store": "",
         "uuid": "5b1a6eed-7a7c-485c-93e2-20ced47560f6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1655,6 +1791,8 @@
         "url_store": "",
         "uuid": "0ecb635a-7234-474a-a39d-9dff366683d6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1679,6 +1817,8 @@
         "url_store": "",
         "uuid": "e1ea77e9-23d5-42fe-aef4-b088ad3cdbf6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1843,8 @@
         "url_store": "",
         "uuid": "029d431e-d0a6-4a17-a8b9-f528b01d0d33",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1869,8 @@
         "url_store": "",
         "uuid": "d3a17668-90c2-481a-9bf2-28b2a3966319",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1895,8 @@
         "url_store": "",
         "uuid": "15b94cf3-80f5-45e2-a34e-f3b9d75f9ec0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1921,8 @@
         "url_store": "",
         "uuid": "31355140-da8d-4c5a-bf6f-2036bb1d77bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1947,8 @@
         "url_store": "",
         "uuid": "79e349ea-5dcb-427d-81f6-7fd567d807a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,6 +1973,8 @@
         "url_store": "",
         "uuid": "2836e624-23ad-4f76-a6fd-d3f25c5fd1ea",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1847,6 +1999,8 @@
         "url_store": "",
         "uuid": "8c995ee7-389f-4a8c-ae2d-7231ea4d5ff9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1871,6 +2025,8 @@
         "url_store": "",
         "uuid": "670c55b0-a6a0-4109-9e71-6585f20ed286",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,6 +2051,8 @@
         "url_store": "",
         "uuid": "48a1d3c4-1a77-4f02-96e6-80400cadf04e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1919,6 +2077,8 @@
         "url_store": "",
         "uuid": "04898f0d-030c-42de-878c-0e36d79dc8ef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1943,6 +2103,8 @@
         "url_store": "",
         "uuid": "00f22d52-208c-471d-9211-da281490498b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1967,6 +2129,8 @@
         "url_store": "",
         "uuid": "0040add3-7c01-45cf-99c4-66036eb76d86",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1991,6 +2155,8 @@
         "url_store": "",
         "uuid": "fe0e531c-7e92-495b-a82b-faa9a7a453c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2015,6 +2181,8 @@
         "url_store": "",
         "uuid": "aff73778-73a4-450e-b6dd-56817adac3cf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2039,6 +2207,8 @@
         "url_store": "",
         "uuid": "7fd39c72-66f2-47de-a959-d167d6ccebda",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2063,6 +2233,8 @@
         "url_store": "",
         "uuid": "88f06c35-bca3-4ab0-b375-21540e548101",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2087,6 +2259,8 @@
         "url_store": "",
         "uuid": "b79e1385-7ecc-4916-a748-d2fe5052c3fe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2285,8 @@
         "url_store": "",
         "uuid": "5c599276-b05c-45df-a449-5a7243c70478",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2135,6 +2311,8 @@
         "url_store": "",
         "uuid": "de5a222c-66b2-4fee-baca-30fa53011c75",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2159,6 +2337,8 @@
         "url_store": "",
         "uuid": "cfad8c46-2b62-4a61-9219-8910b210aa6b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2183,6 +2363,8 @@
         "url_store": "",
         "uuid": "58412166-9986-48d9-a9d8-18cfe3215902",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2207,6 +2389,8 @@
         "url_store": "",
         "uuid": "ab153446-92cf-461d-9a0f-514961a6bdf6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2231,6 +2415,8 @@
         "url_store": "",
         "uuid": "c5626a80-16b7-4a8a-9f80-77c183518bc9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2255,6 +2441,8 @@
         "url_store": "",
         "uuid": "effeaaef-c2dd-4b66-a674-cb9a5e126456",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2279,6 +2467,8 @@
         "url_store": "",
         "uuid": "9c5b4134-7205-4725-9d59-99b8a3db1f23",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2303,6 +2493,8 @@
         "url_store": "",
         "uuid": "d5c52258-f451-4b5b-a126-f754ba4085e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2327,6 +2519,8 @@
         "url_store": "",
         "uuid": "e0e7791f-c577-4925-9a33-2912ad6de98f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2351,6 +2545,8 @@
         "url_store": "",
         "uuid": "2219397c-3944-4975-b484-72dc84d23ca7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2375,6 +2571,8 @@
         "url_store": "",
         "uuid": "20fab9fa-f49d-4e6f-ad4b-57f7a0ca09db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2597,8 @@
         "url_store": "",
         "uuid": "3113564f-c411-4b6c-a856-996f5d4a3dfd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2423,6 +2623,8 @@
         "url_store": "",
         "uuid": "7b5b3053-c65b-4e2f-82ca-94a1832b8547",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2447,6 +2649,8 @@
         "url_store": "",
         "uuid": "c4805592-13bf-4bb0-aecb-d197708f3d49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2471,6 +2675,8 @@
         "url_store": "",
         "uuid": "8a5e2762-f3ad-4298-8fe8-dbb02322618b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2495,6 +2701,8 @@
         "url_store": "",
         "uuid": "24eae38f-0ea4-4d51-96c6-e5d0dbadf682",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2519,6 +2727,8 @@
         "url_store": "",
         "uuid": "228eef67-ec80-44ca-a6c8-dd962fe7d6b9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2543,6 +2753,8 @@
         "url_store": "",
         "uuid": "7f32cfb7-57d5-4d33-af9b-ee69d9161a80",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2567,6 +2779,8 @@
         "url_store": "",
         "uuid": "f6e31bbf-ef09-40ec-b0f2-201dfe1f9847",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2805,8 @@
         "url_store": "",
         "uuid": "36e48bed-c6f8-4fb1-a4fe-cc754886ecd3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2615,6 +2831,8 @@
         "url_store": "",
         "uuid": "4ffc6923-1ac6-4ee9-8a18-445ec049948f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2639,6 +2857,8 @@
         "url_store": "",
         "uuid": "431ce947-1df1-482f-b227-d096cfd0cfbf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2663,6 +2883,8 @@
         "url_store": "",
         "uuid": "40540ac4-3c6d-40c1-8ae2-c464f45b0c6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2687,6 +2909,8 @@
         "url_store": "",
         "uuid": "0ab36ed3-9af8-4025-8344-c869e24f709a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2711,6 +2935,8 @@
         "url_store": "",
         "uuid": "6afd91f0-8053-4bd7-9093-84dc16bdf9c4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2735,6 +2961,8 @@
         "url_store": "",
         "uuid": "16b43283-eea5-4f3e-87d8-d9997486860a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2987,8 @@
         "url_store": "",
         "uuid": "8ff1a659-4967-4387-a125-39ba1f784aad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2783,6 +3013,8 @@
         "url_store": "",
         "uuid": "aa29ed02-cb9c-47a5-a589-2db28a9df925",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2807,6 +3039,8 @@
         "url_store": "",
         "uuid": "59e36878-6702-4024-9c06-d9f050c13c0b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2831,6 +3065,8 @@
         "url_store": "",
         "uuid": "d668309a-c4a1-4047-879d-768e86c1b2ad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3091,8 @@
         "url_store": "",
         "uuid": "632e7e08-5972-4d2a-af1b-c8da1fdf5c87",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3117,8 @@
         "url_store": "",
         "uuid": "74186540-75f1-422a-a05f-55ce7fa38f79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2903,6 +3143,8 @@
         "url_store": "",
         "uuid": "6dc65fd5-1034-48ad-8bee-4c55ac4c9566",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2927,6 +3169,8 @@
         "url_store": "",
         "uuid": "380a4850-9487-4c88-bf55-1d8bf7f69c05",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2951,6 +3195,8 @@
         "url_store": "",
         "uuid": "98da5564-3626-4605-aa6e-b6156d052b14",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2975,6 +3221,8 @@
         "url_store": "",
         "uuid": "e9653e36-671d-42c4-95a2-706d9559c3ff",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2999,6 +3247,8 @@
         "url_store": "",
         "uuid": "7b2797f9-b000-459f-83a9-2f3d56f8cc1c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3023,6 +3273,8 @@
         "url_store": "",
         "uuid": "dcb9d08e-cd4f-424f-ac0a-3d1cc7249d5d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3047,6 +3299,8 @@
         "url_store": "",
         "uuid": "b750c334-dde8-4deb-9d6b-7a418fcbf58f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3071,6 +3325,8 @@
         "url_store": "",
         "uuid": "4d119f2f-8022-4ed6-a69b-d5bac3ccea9a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3095,6 +3351,8 @@
         "url_store": "",
         "uuid": "40710ca0-2cfa-4c7a-83d0-e3678c507e10",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3119,6 +3377,8 @@
         "url_store": "",
         "uuid": "5319c853-3cbe-4447-986f-6b5133862f68",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3143,6 +3403,8 @@
         "url_store": "",
         "uuid": "9826d1cd-98f3-4dd4-acce-89da696b4b95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3167,6 +3429,8 @@
         "url_store": "",
         "uuid": "e33c7622-154c-4d53-b9c7-c076ad306ced",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3191,6 +3455,8 @@
         "url_store": "",
         "uuid": "7328f9a6-17d1-49d8-b081-6bdcbd84a196",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3215,6 +3481,8 @@
         "url_store": "",
         "uuid": "a74f9666-f7d4-4e21-abed-400174af6d93",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3239,6 +3507,8 @@
         "url_store": "",
         "uuid": "fbf9a767-e7eb-405b-aeb5-f1ebbe8a15da",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3263,6 +3533,8 @@
         "url_store": "",
         "uuid": "00b6bb1c-664e-402f-a1c3-2f41b8e20a07",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3287,6 +3559,8 @@
         "url_store": "",
         "uuid": "b14f0a00-b294-4ba9-b3a1-c15981003f72",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3311,6 +3585,8 @@
         "url_store": "",
         "uuid": "c6dd172b-bb6c-4bad-84a2-b4153d7b0e31",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3335,6 +3611,8 @@
         "url_store": "",
         "uuid": "ce7e28fc-8a07-434f-8c9e-9a696c092417",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3359,6 +3637,8 @@
         "url_store": "",
         "uuid": "aa614324-b210-44c6-8945-ad05b51e76c5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3383,6 +3663,8 @@
         "url_store": "",
         "uuid": "4876ca38-84d4-4913-83d7-4253426e26bb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3407,6 +3689,8 @@
         "url_store": "",
         "uuid": "a6a304e9-d2ea-4b5c-a0d4-3da1a375795c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3431,6 +3715,8 @@
         "url_store": "",
         "uuid": "78ca8397-b4ab-41c2-85af-ddf40360b0c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3455,6 +3741,8 @@
         "url_store": "",
         "uuid": "6eae10ef-fa05-4426-b6fa-af8e7904a428",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3479,6 +3767,8 @@
         "url_store": "",
         "uuid": "702a74b9-330f-414c-8ef0-f1dd42fcc114",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3503,6 +3793,8 @@
         "url_store": "",
         "uuid": "04d1d6d4-9e4b-48fa-8a2d-743072c67b90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3527,6 +3819,8 @@
         "url_store": "",
         "uuid": "1219dabc-5ff1-4025-851e-752ad5f3478c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3551,6 +3845,8 @@
         "url_store": "",
         "uuid": "9df3d60a-0708-4b9b-857b-85714c7af870",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3575,6 +3871,8 @@
         "url_store": "",
         "uuid": "66ad0738-dcfe-45ad-85c9-b848338fffa1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3599,6 +3897,8 @@
         "url_store": "",
         "uuid": "4315904e-81f3-439e-89c4-a840ffbc780b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3623,6 +3923,8 @@
         "url_store": "",
         "uuid": "065e022a-3223-4fb1-9496-1404d78008d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3647,6 +3949,8 @@
         "url_store": "",
         "uuid": "ff67d4da-c106-4447-ba3e-3b0725e1b698",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3671,6 +3975,8 @@
         "url_store": "",
         "uuid": "a7af4686-ac14-4b58-8d18-3bd6d2ae6ad2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3695,6 +4001,8 @@
         "url_store": "",
         "uuid": "faa0a963-75b8-4f1c-9806-57f9c52d1d92",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3719,6 +4027,8 @@
         "url_store": "",
         "uuid": "0e9adeb1-78b2-42a2-b26e-a821f8b20b55",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3743,6 +4053,8 @@
         "url_store": "",
         "uuid": "a2049dec-d59c-4b66-9cce-df6cd68bd5c7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3767,6 +4079,8 @@
         "url_store": "",
         "uuid": "d95171d9-52c2-4969-b30e-a36581e8d27f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3791,6 +4105,8 @@
         "url_store": "",
         "uuid": "3518081c-9a6d-4549-8aad-9455fa433f6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3815,6 +4131,8 @@
         "url_store": "",
         "uuid": "63b9b570-863e-4cda-aeda-a8ff2e579f92",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3839,6 +4157,8 @@
         "url_store": "",
         "uuid": "b5fc6485-a787-476c-aa05-e784e75b32b4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3863,6 +4183,8 @@
         "url_store": "",
         "uuid": "cb8c777f-1393-485c-8e41-a516cfcd6ed8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3887,6 +4209,8 @@
         "url_store": "",
         "uuid": "158b8ac2-551a-4dae-b13a-e5107c8c5425",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3911,6 +4235,8 @@
         "url_store": "",
         "uuid": "3f28d3a6-db30-4519-a1d7-620091e497ab",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3935,6 +4261,8 @@
         "url_store": "",
         "uuid": "e2275ae2-6087-40ab-b3d2-69cb9d575498",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3959,6 +4287,8 @@
         "url_store": "",
         "uuid": "d2acbe0d-3d10-420d-a272-5355741cc4d0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3983,6 +4313,8 @@
         "url_store": "",
         "uuid": "4e8d6ec6-4aff-4250-8606-9e8b7b864387",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4007,6 +4339,8 @@
         "url_store": "",
         "uuid": "71496f52-dc9b-481f-841c-5f02b560ac02",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4031,6 +4365,8 @@
         "url_store": "",
         "uuid": "da7b43f4-12b2-4bcb-b734-b85dd8cebcf1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4055,6 +4391,8 @@
         "url_store": "",
         "uuid": "3b35cec4-11d7-4d89-8aab-263102d0ee44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,6 +4417,8 @@
         "url_store": "",
         "uuid": "4dd8dee2-4019-4a4a-b320-fb4e7665b4c5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4103,6 +4443,8 @@
         "url_store": "",
         "uuid": "c438ac68-6b55-4e20-be3d-f37d41a39ec5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4127,6 +4469,8 @@
         "url_store": "",
         "uuid": "c0fe4313-db92-49c4-96d9-ffd10937ce4c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4151,6 +4495,8 @@
         "url_store": "",
         "uuid": "0ec53953-9ce1-4e1d-9ea9-3193e086d6fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4175,6 +4521,8 @@
         "url_store": "",
         "uuid": "b5aa2a2f-7763-4b19-b96b-24428b8089d4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4199,6 +4547,8 @@
         "url_store": "",
         "uuid": "75b3b850-02ff-4646-9704-33f6b6b50c5c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4573,8 @@
         "url_store": "",
         "uuid": "fa2824c2-b143-4082-b954-5b15f64a2e07",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4247,6 +4599,8 @@
         "url_store": "",
         "uuid": "d5cf1bd9-d347-4954-95f1-290151197672",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4271,6 +4625,8 @@
         "url_store": "",
         "uuid": "4e62dc1a-c7da-4170-a482-c5e5e4270355",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4295,6 +4651,8 @@
         "url_store": "",
         "uuid": "f2a825ae-b359-4eae-98ea-5bea7f309395",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4319,6 +4677,8 @@
         "url_store": "",
         "uuid": "72539b38-17d5-4f5f-982d-c476305e5a25",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4343,6 +4703,8 @@
         "url_store": "",
         "uuid": "d410f968-8aed-4426-9120-a3fb4648c2e1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4367,6 +4729,8 @@
         "url_store": "",
         "uuid": "226656e9-0732-4b9b-8f00-423e0ba2c9be",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4391,6 +4755,8 @@
         "url_store": "",
         "uuid": "ed98d39b-8a66-4b44-a202-f43c09722695",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4415,6 +4781,8 @@
         "url_store": "",
         "uuid": "5a05f916-1ade-4201-b550-a4668f67dfde",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4807,8 @@
         "url_store": "",
         "uuid": "af0a2fd5-cbf4-46bb-99a7-59b64b30c3c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4463,6 +4833,8 @@
         "url_store": "",
         "uuid": "f5dc3c80-10c6-4858-83f5-31dcc7a71e34",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4487,6 +4859,8 @@
         "url_store": "",
         "uuid": "bcb4b6cc-a6fa-47e2-936e-8e3cb4cc1fc7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,6 +4885,8 @@
         "url_store": "",
         "uuid": "fef9e55d-4c9f-4849-885a-625ce1d1dcd4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4535,6 +4911,8 @@
         "url_store": "",
         "uuid": "f258f27c-84ea-431f-b111-b1c783132702",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4559,6 +4937,8 @@
         "url_store": "",
         "uuid": "4d9c3a76-9f7c-439a-b893-fedf0fe87a35",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4583,6 +4963,8 @@
         "url_store": "",
         "uuid": "da7ee8bc-5cd0-4701-b628-ae4feb79af6c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4607,6 +4989,8 @@
         "url_store": "",
         "uuid": "02d1c0a5-6f01-4798-a760-308186a22c57",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4631,6 +5015,8 @@
         "url_store": "",
         "uuid": "16680409-81ed-41ad-b4a2-2d8e75e24c2c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4655,6 +5041,8 @@
         "url_store": "",
         "uuid": "6ecd22f4-8d70-46ea-86a7-cb73b8bc7bb1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4679,6 +5067,8 @@
         "url_store": "",
         "uuid": "61e8df1e-0ce6-4b96-ae38-20fc6d578db7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4703,6 +5093,8 @@
         "url_store": "",
         "uuid": "c76c8fbc-c532-4e02-80a3-870b365bf070",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4727,6 +5119,8 @@
         "url_store": "",
         "uuid": "9db6446a-e4ad-40f6-8d75-c7da6678f668",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4751,6 +5145,8 @@
         "url_store": "",
         "uuid": "64699e98-4a20-449f-bd4d-5f20a46119e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4775,6 +5171,8 @@
         "url_store": "",
         "uuid": "4db4d2e8-d958-49a2-92c3-b1a349417645",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4799,6 +5197,8 @@
         "url_store": "",
         "uuid": "9a078c94-8132-4403-96d6-b6b3a03fc309",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4823,6 +5223,8 @@
         "url_store": "",
         "uuid": "2d6415ba-097f-49d2-922c-ae86e77e3194",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4847,16 +5249,18 @@
         "url_store": "",
         "uuid": "65cd71c1-30da-4eed-8509-aa9af53fa775",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1706620807,
-        "date_modified": 1740471250,
+        "date_modified": 1758143928,
         "id": 2282,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -4866,11 +5270,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-green",
         "url_store": "",
         "uuid": "aa3b2e59-f126-4ffe-a6a2-c08ed10eb8fa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4895,6 +5301,8 @@
         "url_store": "",
         "uuid": "d63caeed-4086-4964-9f3c-b36f1c2b237b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4919,6 +5327,8 @@
         "url_store": "",
         "uuid": "e3abb0e4-1f84-4bae-bc50-179129c7c554",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4943,13 +5353,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Manaslu-Rust-Society-Jacket",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1707985588,
-        "date_modified": 1740471345,
+        "date_modified": 1758149967,
         "id": 2477,
         "id_category": 11,
         "id_company": 0,
@@ -4962,11 +5374,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "invictus-flight-jacket",
         "url_store": "",
         "uuid": "0ebd6e10-59aa-4960-bb2c-f55d5c3d13b1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4991,13 +5405,15 @@
         "url_store": "",
         "uuid": "f8380897-7204-4268-8a8f-cbbfc8bc2a09",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "City Lights",
         "date_added": 1707986028,
-        "date_modified": 1740471347,
+        "date_modified": 1758149658,
         "id": 2482,
         "id_category": 11,
         "id_company": 51,
@@ -5010,11 +5426,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "prestige-misc-racing-jacket",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Prestige-MISC-Racing-Jacket",
         "uuid": "582d09b8-76df-4e87-8a57-f60a1fd0ec49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5039,6 +5457,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Prestige-Origin-Racing-Jacket",
         "uuid": "33aed3ba-e1c0-49c0-964e-840defe4f741",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5063,6 +5483,8 @@
         "url_store": "",
         "uuid": "42f20a21-f22b-4303-baca-d36ad7878aff",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5087,6 +5509,8 @@
         "url_store": "",
         "uuid": "9c478af1-acfd-4e88-b065-c5ebeb05f507",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5111,6 +5535,8 @@
         "url_store": "",
         "uuid": "c30ab793-03d7-4322-a894-429182c28b69",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5135,13 +5561,15 @@
         "url_store": "",
         "uuid": "ba384045-842a-4a6f-9029-26b73c712d9f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Alejo Brothers",
         "date_added": 1708626894,
-        "date_modified": 1740471423,
+        "date_modified": 1758149599,
         "id": 2665,
         "id_category": 11,
         "id_company": 10,
@@ -5154,11 +5582,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "tuvic-outerwear-jacket-crimson",
         "url_store": "",
         "uuid": "b6e9a9eb-25e8-4256-a1ad-7a07e9eb89db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5183,6 +5613,8 @@
         "url_store": "",
         "uuid": "5e1ddd8d-8d1a-4abe-92cd-4763f85f842d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5207,13 +5639,15 @@
         "url_store": "",
         "uuid": "e87b0230-efaf-4719-a8ac-de98b3b7c576",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Alejo Brothers",
         "date_added": 1708626894,
-        "date_modified": 1740471425,
+        "date_modified": 1758150136,
         "id": 2668,
         "id_category": 11,
         "id_company": 10,
@@ -5226,11 +5660,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "tuvic-outerwear-jacket-ash",
         "url_store": "",
         "uuid": "7e8d18e6-9636-48f5-b492-796702a213d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5255,6 +5691,8 @@
         "url_store": "",
         "uuid": "d48374b9-dd79-4821-b8fb-7c95e8a55336",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5279,6 +5717,8 @@
         "url_store": "",
         "uuid": "324425a0-c8a9-44d3-adb6-9e15373f2279",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5303,6 +5743,8 @@
         "url_store": "",
         "uuid": "b3ae128b-1c8a-467a-b1da-b1882c1c4ab9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5327,6 +5769,8 @@
         "url_store": "",
         "uuid": "75dad1b1-17ed-4a00-a420-ced2b36f6cdf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5351,16 +5795,18 @@
         "url_store": "",
         "uuid": "e9231761-516a-43f2-a06b-03a167cbcd3a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1710233584,
-        "date_modified": 1740471499,
+        "date_modified": 1758143580,
         "id": 2837,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5370,18 +5816,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-black",
         "url_store": "",
         "uuid": "6bdab5a8-e691-412a-ae64-96c1fc914920",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710233616,
-        "date_modified": 1740471500,
+        "date_modified": 1758146943,
         "id": 2838,
         "id_category": 11,
         "id_company": 70,
@@ -5399,16 +5847,18 @@
         "url_store": "",
         "uuid": "34f855f7-5055-4853-aa09-769390bfcf05",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1710233676,
-        "date_modified": 1740471500,
+        "date_modified": 1758143692,
         "id": 2839,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5418,21 +5868,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-teal",
         "url_store": "",
         "uuid": "abb98b3b-bca3-49f7-97e3-747cea55a284",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710314354,
-        "date_modified": 1740471517,
+        "date_modified": 1758150214,
         "id": 2869,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5442,18 +5894,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cardona-jacket-blue",
         "url_store": "",
         "uuid": "8b8d7a88-96b4-49fd-b135-5532c72f8ee0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1710314387,
-        "date_modified": 1740471517,
+        "date_modified": 1754675353,
         "id": 2870,
         "id_category": 11,
         "id_company": 0,
@@ -5471,16 +5925,18 @@
         "url_store": "",
         "uuid": "b364b092-7cd2-4f4e-96a9-819bd9d6690c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710314418,
-        "date_modified": 1740471518,
+        "date_modified": 1758149243,
         "id": 2871,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5490,21 +5946,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "keystone-jacket-silver",
         "url_store": "",
         "uuid": "4bb0c6a8-add3-4b66-ad44-d63fac24ad6d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710314832,
-        "date_modified": 1740471524,
+        "date_modified": 1758150269,
         "id": 2877,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5514,21 +5972,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cardona-jacket-sand",
         "url_store": "",
         "uuid": "37d289d8-c7f9-4b04-96d3-647465eb4146",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710314850,
-        "date_modified": 1740471525,
+        "date_modified": 1758150253,
         "id": 2878,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5538,18 +5998,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cardona-jacket-iron",
         "url_store": "",
         "uuid": "c78616f0-6bd7-48fc-ad17-dee9841635e2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1710314880,
-        "date_modified": 1740471525,
+        "date_modified": 1754675353,
         "id": 2879,
         "id_category": 11,
         "id_company": 0,
@@ -5567,16 +6029,18 @@
         "url_store": "",
         "uuid": "80056f51-1cbc-4339-90b1-ce8826bd6751",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710314907,
-        "date_modified": 1740471526,
+        "date_modified": 1758149332,
         "id": 2880,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5586,21 +6050,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "keystone-jacket-taupe",
         "url_store": "",
         "uuid": "4810a027-0914-4b2f-85c9-87582f63a3d0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710315346,
-        "date_modified": 1740471529,
+        "date_modified": 1758150236,
         "id": 2886,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5610,18 +6076,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cardona-jacket-carmine",
         "url_store": "",
         "uuid": "5a8a85c8-aa4f-423d-bb89-4348ecfcf736",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1710315382,
-        "date_modified": 1740471529,
+        "date_modified": 1754675353,
         "id": 2887,
         "id_category": 11,
         "id_company": 0,
@@ -5639,16 +6107,18 @@
         "url_store": "",
         "uuid": "05b4566e-8979-4269-ae7f-37babd08889d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710315404,
-        "date_modified": 1740471530,
+        "date_modified": 1758149357,
         "id": 2888,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5658,21 +6128,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "keystone-jacket-onyx",
         "url_store": "",
         "uuid": "0282627a-aeea-4c64-ac18-3afc7e27a2af",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710315420,
-        "date_modified": 1740471531,
+        "date_modified": 1758149303,
         "id": 2889,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5682,11 +6154,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "keystone-jacket-red",
         "url_store": "",
         "uuid": "d457e8da-3fbf-4bb3-8c6e-b9643bad279a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5711,6 +6185,8 @@
         "url_store": "",
         "uuid": "086214a4-3164-4a74-bf2e-80174a7730a2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5735,6 +6211,8 @@
         "url_store": "",
         "uuid": "718f8ba9-792c-40cd-a905-c689537c5203",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5759,6 +6237,8 @@
         "url_store": "",
         "uuid": "153c23bc-b453-4183-9139-f5dbd282dc22",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5783,6 +6263,8 @@
         "url_store": "",
         "uuid": "a1b11659-1f1a-4e6b-b5f7-66242442e641",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5807,6 +6289,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5831,6 +6315,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5855,6 +6341,8 @@
         "url_store": "",
         "uuid": "9b7fb756-93c9-4626-bebd-31f0005dd370",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5879,16 +6367,18 @@
         "url_store": "",
         "uuid": "dd1865f0-7246-4206-b5f4-3ce0481f08d2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1710484513,
-        "date_modified": 1740471539,
+        "date_modified": 1758143793,
         "id": 2911,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5898,11 +6388,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-red",
         "url_store": "",
         "uuid": "a737d3f7-dadb-4c60-b1cc-ba48a79376a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5927,6 +6419,8 @@
         "url_store": "",
         "uuid": "94cecfcb-7e58-433d-adf1-ad8fcaa92218",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5951,6 +6445,8 @@
         "url_store": "",
         "uuid": "53b5ba64-da21-4edc-b73c-ed3095a45699",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5975,13 +6471,15 @@
         "url_store": "",
         "uuid": "539f7797-f5fc-4793-ae35-0142f3522936",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1710485343,
-        "date_modified": 1740471546,
+        "date_modified": 1749550869,
         "id": 2926,
         "id_category": 11,
         "id_company": 0,
@@ -5999,13 +6497,15 @@
         "url_store": "",
         "uuid": "bb551027-74c9-4909-ba31-8ca8c981ce46",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "City Lights",
         "date_added": 1710496684,
-        "date_modified": 1740471616,
+        "date_modified": 1758150069,
         "id": 3182,
         "id_category": 11,
         "id_company": 51,
@@ -6018,18 +6518,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "prestige-murray-cup-racing-jacket",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Prestige-Murray-Cup-Racing-Jacket",
         "uuid": "1ef5ffb8-c584-47cd-8f23-e41e5f63eb8a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Vaporwear",
         "date_added": 1710497914,
-        "date_modified": 1740471641,
+        "date_modified": 1758149024,
         "id": 3224,
         "id_category": 11,
         "id_company": 263,
@@ -6038,22 +6540,24 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 1,
-        "name": "Creese Skullsnap Jacket",
+        "name": "Creese Jacket Skullsnap",
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
-        "slug": "creese-skullsnap-jacket",
+        "size": "",
+        "slug": "creese-jacket-skullsnap",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Skullsnap-Enforcer-Outfit",
         "uuid": "6dcd61c2-6a3b-437e-85cc-b3c4e33c6795",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Vaporwear",
         "date_added": 1710497999,
-        "date_modified": 1740471642,
+        "date_modified": 1758149077,
         "id": 3227,
         "id_category": 11,
         "id_company": 263,
@@ -6062,22 +6566,24 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 1,
-        "name": "Creese Toxic Fog Jacket",
+        "name": "Creese Jacket Toxic Fog",
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
-        "slug": "creese-toxic-fog-jacket",
+        "size": "",
+        "slug": "creese-jacket-toxic-fog",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Toxic-Fog-Enforcer-Outfit",
         "uuid": "9a8be734-4e84-493c-ad4b-daf8ba3af1f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Vaporwear",
         "date_added": 1710498067,
-        "date_modified": 1740471643,
+        "date_modified": 1758148805,
         "id": 3229,
         "id_category": 11,
         "id_company": 263,
@@ -6086,15 +6592,17 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 1,
-        "name": "Creese Copperhead Jacket",
+        "name": "Creese Jacket Copperhead",
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
-        "slug": "creese-copperhead-jacket",
+        "size": "",
+        "slug": "creese-jacket-copperhead",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Copperhead-Enforcer-Outfit",
         "uuid": "653afd3e-df71-47a9-b5c4-027ca1f1f4c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6119,6 +6627,8 @@
         "url_store": "",
         "uuid": "0aba253a-f590-4ea0-88ae-fa34a5c2d030",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6143,6 +6653,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -6167,6 +6679,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -6191,6 +6705,8 @@
         "url_store": "",
         "uuid": "f60a05d0-609f-4446-8a49-310bc6a777a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6215,6 +6731,8 @@
         "url_store": "",
         "uuid": "b7ede6b4-7379-4fb5-9680-ba8c7441ca66",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6239,6 +6757,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-White-Dress-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6263,6 +6783,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-Service-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6287,6 +6809,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-Red-Dress-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6311,6 +6835,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6335,6 +6861,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6359,6 +6887,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6383,6 +6913,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6407,6 +6939,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6431,6 +6965,8 @@
         "url_store": "",
         "uuid": "2f055639-b2e4-4482-a435-49d80706f6b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6455,6 +6991,8 @@
         "url_store": "",
         "uuid": "60f01e05-cacd-4671-8984-562760a6ad82",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6479,6 +7017,8 @@
         "url_store": "",
         "uuid": "cb1c403e-2718-43ed-af58-b634d0d806c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6503,6 +7043,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-Cordimon-Voyager-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6527,6 +7069,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-IndVest-Pathfinder-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6551,16 +7095,18 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Tuvic-Outerwear-Rust-Society-Jacket",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "987 Clothing",
         "date_added": 1715637370,
-        "date_modified": 1740471757,
+        "date_modified": 1758143192,
         "id": 3542,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 288,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -6570,11 +7116,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "faction-jacket-white",
         "url_store": "",
         "uuid": "d000b52d-ceb8-4e5d-acea-e610b7f36359",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6599,6 +7147,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6623,6 +7173,8 @@
         "url_store": "",
         "uuid": "9d8876f0-95da-4ed5-a70b-0febf3eba61b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6647,6 +7199,8 @@
         "url_store": "",
         "uuid": "e7f783d0-8772-4da8-aab2-dca84e417fcd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6671,6 +7225,8 @@
         "url_store": "",
         "uuid": "c7ac5259-82b4-4bb4-b376-1f5566a7c078",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6695,6 +7251,8 @@
         "url_store": "",
         "uuid": "6515e7ed-b1c5-4585-a744-9257bc37171c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6719,6 +7277,8 @@
         "url_store": "",
         "uuid": "07cdfeb5-cab1-49c1-9e86-754781bc437d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6743,6 +7303,8 @@
         "url_store": "",
         "uuid": "ae883eec-d5ce-480e-b7e7-2b1e36e66086",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6767,6 +7329,8 @@
         "url_store": "",
         "uuid": "4ceb0ca3-1ebd-41be-a5ff-bd1e57db89c0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6791,17 +7355,19 @@
         "url_store": "",
         "uuid": "11bf60b1-1734-462b-aedd-bf1ab56c9cc3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1715979810,
-        "date_modified": 1740471796,
+        "date_modified": 1758149950,
         "id": 3644,
         "id_category": 11,
         "id_company": 0,
-        "id_parent": 0,
+        "id_parent": 2477,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6810,11 +7376,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "invictus-flight-jacket-steel",
         "url_store": "",
         "uuid": "b9b8af89-265a-40a8-94a1-bba1340348cf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6839,6 +7407,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/TruBarrier-Hazard-Suit-And-Mask-Dark-Biohazard",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6863,6 +7433,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/TruBarrier-Hazard-Suit-And-Mask-Hi-Vis-Biohazard",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6887,6 +7459,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/TruBarrier-Hazard-Suit-And-Mask-Warning",
         "uuid": "ec1b1120-cee3-4c28-82cd-234515d52c13",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6911,6 +7485,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -6935,13 +7511,15 @@
         "url_store": "",
         "uuid": "c3880dcd-c3ec-4973-a3d6-edb923485c0a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Vaporwear",
         "date_added": 1719681546,
-        "date_modified": 1740471837,
+        "date_modified": 1758148940,
         "id": 3791,
         "id_category": 11,
         "id_company": 263,
@@ -6954,42 +7532,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "creese-jacket",
         "url_store": "",
         "uuid": "23b0a448-5c10-4f51-9b0c-5e10c4068d63",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
-      },
-      {
-        "category": "Jackets",
-        "company_name": "Shubin Interstellar",
-        "date_added": 1723533136,
-        "date_modified": 1731070857,
-        "id": 3877,
-        "id_category": 11,
-        "id_company": 223,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "Falston Jumpsuit \u0027Hurston Edition\u0027",
-        "notification": null,
-        "screenshot": "",
-        "section": "Clothing",
-        "size": null,
-        "slug": "falston-jumpsuit-hurston-edition-",
-        "url_store": "",
-        "uuid": null,
-        "vehicle_name": null,
-        "game_version": "3.24.2a"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1726745028,
-        "date_modified": 1740471864,
+        "date_modified": 1757552534,
         "id": 3921,
         "id_category": 11,
         "id_company": 0,
@@ -7002,11 +7558,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "rustic-jacket-brown",
         "url_store": "",
         "uuid": "3e4d3f71-f3ff-4ad5-8a39-97a9e71390ca",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7031,13 +7589,15 @@
         "url_store": "",
         "uuid": "b82224be-fb8c-40f2-afd4-02ddda33f1ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 0,
-        "date_modified": 1740471883,
+        "date_modified": 1754675100,
         "id": 3973,
         "id_category": 11,
         "id_company": 0,
@@ -7050,18 +7610,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "taberna-jacket-0tfb",
         "url_store": "",
         "uuid": "0bc1af6e-9d84-4365-a459-1141f2598673",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1730715893,
-        "date_modified": 1740471894,
+        "date_modified": 1754675229,
         "id": 4004,
         "id_category": 11,
         "id_company": 70,
@@ -7079,16 +7641,18 @@
         "url_store": "",
         "uuid": "47fcf5a3-c00d-4a75-906b-0183f1aa32e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1730716461,
-        "date_modified": 1740471895,
+        "date_modified": 1758144346,
         "id": 4005,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 10,
         "id_parent": 3973,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -7098,11 +7662,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "taberna-jacket-arctic",
         "url_store": "",
         "uuid": "424d7ac4-a5c0-46b2-b50f-728c4aa71cf8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7127,6 +7693,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -7151,6 +7719,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -7175,6 +7745,8 @@
         "url_store": "",
         "uuid": "1a7b010d-ac45-4749-bc2e-22ec924de710",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7199,6 +7771,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -7223,17 +7797,19 @@
         "url_store": "",
         "uuid": "283b7a94-accd-48e3-90e1-faf4215d1d3f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1732719541,
-        "date_modified": 1740471929,
+        "date_modified": 1758144265,
         "id": 4104,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 3973,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7242,22 +7818,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "taberna-jacket-tactical",
         "url_store": "",
         "uuid": "a2c1969c-c12f-4e62-8c8f-4ca3ec9c79dc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732719541,
-        "date_modified": 1740471929,
+        "date_modified": 1754675100,
         "id": 4105,
         "id_category": 11,
         "id_company": 0,
-        "id_parent": 0,
+        "id_parent": 3973,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7271,13 +7849,15 @@
         "url_store": "",
         "uuid": "0a2186df-58b5-48e3-b678-b0372b6e9578",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732719541,
-        "date_modified": 1740471930,
+        "date_modified": 1754675153,
         "id": 4106,
         "id_category": 11,
         "id_company": 0,
@@ -7290,22 +7870,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "marshal-sleeveless-vest",
         "url_store": "",
         "uuid": "968334d4-0dc5-44d0-89df-63b73579dfb1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1732719542,
-        "date_modified": 0,
+        "date_modified": 1758147596,
         "id": 4107,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 4106,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7314,21 +7896,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "marshal-sleeveless-vest-hunter-green",
-        "url_store": null,
-        "uuid": null,
+        "url_store": "",
+        "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471930,
+        "date_modified": 1758148638,
         "id": 4108,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -7338,21 +7922,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "silverton-jacket-onyx",
         "url_store": "",
         "uuid": "d48cdbef-41da-48e5-bd8b-4323216b6e2e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471931,
+        "date_modified": 1758150291,
         "id": 4109,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -7362,18 +7948,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cardona-jacket-yellow",
         "url_store": "",
         "uuid": "c841b95c-1b80-4738-9516-f06d2b4cf787",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732719542,
-        "date_modified": 1740471931,
+        "date_modified": 1754675353,
         "id": 4110,
         "id_category": 11,
         "id_company": 0,
@@ -7386,21 +7974,23 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "kaswal-jacket-iron",
         "url_store": "",
         "uuid": "a0f45272-8dcd-45b7-850a-ed4160d435c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471932,
+        "date_modified": 1758147787,
         "id": 4111,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -7410,22 +8000,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "carbide-jacket",
         "url_store": "",
         "uuid": "0938581e-1fb6-4b17-bddc-898bf10160f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471932,
+        "date_modified": 1758147851,
         "id": 4112,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4111,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7434,22 +8026,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "carbide-jacket-buckthorn",
         "url_store": "",
         "uuid": "7cfd4d7c-66c0-48a6-8db2-0b7c60d81add",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471933,
+        "date_modified": 1758147915,
         "id": 4113,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4111,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7458,22 +8052,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "carbide-jacket-sandpiper",
         "url_store": "",
         "uuid": "ccb97cb5-70c5-4977-b50a-ca27a40fce91",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471933,
+        "date_modified": 1758147885,
         "id": 4114,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4111,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7482,22 +8078,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "carbide-jacket-outback",
         "url_store": "",
         "uuid": "c4a34e0d-5716-4341-a6bc-580b9b04375e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471934,
+        "date_modified": 1758147824,
         "id": 4115,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4111,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7506,22 +8104,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "carbide-jacket-bramble",
         "url_store": "",
         "uuid": "0c55ab6d-33c6-46bf-8539-cfa512f96be0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471935,
+        "date_modified": 1758148350,
         "id": 4116,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4940,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7530,22 +8130,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "omnitrek-jacket-permafrost",
         "url_store": "",
         "uuid": "0ad851e9-678a-4a36-9af9-1f3818f1f142",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471935,
+        "date_modified": 1758148363,
         "id": 4117,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4940,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7554,22 +8156,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "omnitrek-jacket-frost-point",
         "url_store": "",
         "uuid": "c1132860-1c02-407c-a600-607bc44d605f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1732719542,
-        "date_modified": 1740471936,
+        "date_modified": 1758148385,
         "id": 4118,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 70,
+        "id_parent": 4940,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7578,18 +8182,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "omnitrek-jacket-backwoods",
         "url_store": "",
         "uuid": "00357d5f-9c55-4362-b1de-3be9b88c5ebe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732719542,
-        "date_modified": 1740471936,
+        "date_modified": 1754675585,
         "id": 4119,
         "id_category": 11,
         "id_company": 0,
@@ -7602,22 +8208,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "ridgely-jacket",
         "url_store": "",
         "uuid": "dce181cb-f4f4-47d6-aa19-12ae712e5cf0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "DMC",
         "date_added": 1732719542,
-        "date_modified": 1740471937,
+        "date_modified": 1758146030,
         "id": 4120,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 287,
+        "id_parent": 4119,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7626,22 +8234,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "ridgely-jacket-wavelength",
         "url_store": "",
         "uuid": "5687180c-e590-4d7d-9d61-fbf0ce7f238f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "DMC",
         "date_added": 1732719542,
-        "date_modified": 1740471937,
+        "date_modified": 1758145962,
         "id": 4121,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 287,
+        "id_parent": 4119,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7650,18 +8260,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "ridgely-jacket-highland",
         "url_store": "",
         "uuid": "fdd475c2-df2f-421a-b2f7-02116b19ed8c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732719542,
-        "date_modified": 1740471938,
+        "date_modified": 1754675669,
         "id": 4122,
         "id_category": 11,
         "id_company": 0,
@@ -7674,22 +8286,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "chada-collar-and-panniers-shale",
         "url_store": "",
         "uuid": "13b52b98-c02e-4be3-9e3e-1427c5bb479b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1732719543,
-        "date_modified": 1740471938,
+        "date_modified": 1758145264,
         "id": 4123,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 308,
+        "id_parent": 4150,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7698,22 +8312,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "brocius-waist-apron-daylight",
         "url_store": "",
         "uuid": "e7ca1dbc-d84f-4aac-b66a-b2f03c61fd02",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1732719543,
-        "date_modified": 1740471939,
+        "date_modified": 1758145292,
         "id": 4124,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 308,
+        "id_parent": 4150,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7722,22 +8338,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "brocius-waist-apron-finch",
         "url_store": "",
         "uuid": "08fbac01-4b7b-4553-9ef4-878a0b0d84f1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1732915406,
-        "date_modified": 1740471948,
+        "date_modified": 1754675100,
         "id": 4148,
         "id_category": 11,
         "id_company": 0,
-        "id_parent": 0,
+        "id_parent": 3973,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7751,6 +8369,8 @@
         "url_store": "",
         "uuid": "4f69045d-8af3-4f6c-9fa3-ebb32ab6fe72",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7775,16 +8395,18 @@
         "url_store": "",
         "uuid": "55865d5b-53cc-4335-9b49-aaac69519a28",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1732915407,
-        "date_modified": 1740471949,
+        "date_modified": 1758145352,
         "id": 4150,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 308,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -7794,18 +8416,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "brocius-waist-apron",
         "url_store": "",
         "uuid": "147536d0-7697-48cf-afd2-9abd7f879434",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Alejo Brothers",
         "date_added": 1732975526,
-        "date_modified": 1740471950,
+        "date_modified": 1749147960,
         "id": 4152,
         "id_category": 11,
         "id_company": 10,
@@ -7823,13 +8447,15 @@
         "url_store": "",
         "uuid": "45ef5db5-b81e-4a46-94b9-bca1c005545a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Alejo Brothers",
         "date_added": 1732975526,
-        "date_modified": 1740471952,
+        "date_modified": 1749148004,
         "id": 4153,
         "id_category": 11,
         "id_company": 10,
@@ -7847,13 +8473,15 @@
         "url_store": "",
         "uuid": "5a3ffc3c-0ca5-4648-bfb0-f890591b80dc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": "Alejo Brothers",
         "date_added": 1732975526,
-        "date_modified": 1740471952,
+        "date_modified": 1749148035,
         "id": 4154,
         "id_category": 11,
         "id_company": 10,
@@ -7871,6 +8499,8 @@
         "url_store": "",
         "uuid": "4b9b86da-af4d-4bc2-b9df-26977494681d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7895,6 +8525,8 @@
         "url_store": "",
         "uuid": "0e55f9a0-dfc6-4586-9d81-960056420ffd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7919,17 +8551,19 @@
         "url_store": "",
         "uuid": "7afc67af-f00f-47c3-bda2-867068cbb3ac",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "DMC",
         "date_added": 1734091792,
-        "date_modified": 1740471971,
+        "date_modified": 1758146742,
         "id": 4210,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 287,
+        "id_parent": 4119,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7938,22 +8572,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "ridgely-jacket-mafic",
         "url_store": "",
         "uuid": "06f1e34a-fead-41f7-a4dd-24b5a8bcfb89",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "DMC",
         "date_added": 1734091792,
-        "date_modified": 1740471972,
+        "date_modified": 1758145877,
         "id": 4211,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 287,
+        "id_parent": 4119,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -7962,11 +8598,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "ridgely-jacket-grotto",
         "url_store": "",
         "uuid": "82dac526-dedb-40d6-88cb-a597a82e76ba",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7991,6 +8629,8 @@
         "url_store": "",
         "uuid": "4465e84b-3244-4f8a-bb7e-0f84cf2d9a02",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8015,6 +8655,8 @@
         "url_store": "",
         "uuid": "61850441-da29-45fc-a443-7ab5d527746f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8039,6 +8681,8 @@
         "url_store": "",
         "uuid": "d9ab1663-805a-433c-b6c2-a4223ecba75d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8063,6 +8707,8 @@
         "url_store": "",
         "uuid": "fc251db0-c0ef-4df9-acf1-f5ee28b2f18f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8087,17 +8733,19 @@
         "url_store": "",
         "uuid": "c0a76c89-7b05-4f94-9c15-0fc31ecfdfc1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1734091793,
-        "date_modified": 1740471975,
+        "date_modified": 1758145323,
         "id": 4217,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 308,
+        "id_parent": 4150,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -8106,22 +8754,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "brocius-waist-apron-stonewall",
         "url_store": "",
         "uuid": "ecce4867-8598-46c6-9de9-5180a8127dcf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1734091793,
-        "date_modified": 1740471976,
+        "date_modified": 1758145218,
         "id": 4218,
         "id_category": 11,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 308,
+        "id_parent": 4150,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -8130,18 +8780,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "brocius-waist-apron-cloudcover",
         "url_store": "",
         "uuid": "7dc210ff-1164-47b9-b440-50b79e96ccbd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Jackets",
         "company_name": null,
         "date_added": 1734091793,
-        "date_modified": 1740471976,
+        "date_modified": 1758144762,
         "id": 4219,
         "id_category": 11,
         "id_company": 0,
@@ -8154,11 +8806,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "rustic-jacket-green",
         "url_store": "",
         "uuid": "8f2d2cbb-767b-44e3-a4eb-f70ccce6ae1c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8183,6 +8837,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -8207,6 +8863,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8231,6 +8889,8 @@
         "url_store": "",
         "uuid": "b82224be-fb8c-40f2-afd4-02ddda33f1ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -8255,16 +8915,18 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Wikelo-Emporium-Jacket",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Jackets",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1746250967,
-        "date_modified": 1746250974,
+        "date_modified": 1758144576,
         "id": 4480,
         "id_category": 11,
-        "id_company": 0,
+        "id_company": 308,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -8274,11 +8936,507 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "tulsi-jacket-conifer",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Fiore",
+        "date_added": 1748012560,
+        "date_modified": 1748012580,
+        "id": 4567,
+        "id_category": 11,
+        "id_company": 93,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Esteril Lab Coat",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "esteril-lab-coat",
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1749229482,
+        "date_modified": 1758149760,
+        "id": 4604,
+        "id_category": 11,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ASD Bomber Jacket",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "asd-bomber-jacket",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/ASDomber-Jacket",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Fiore",
+        "date_added": 1749514254,
+        "date_modified": 1749514299,
+        "id": 4617,
+        "id_category": 11,
+        "id_company": 93,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Esteril Lab Coat ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "esteril-lab-coat-asd-edition",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1751129150,
+        "date_modified": 1751129293,
+        "id": 4644,
+        "id_category": 11,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Falston Jumpsuit \u0022Crusader Edition\u0022",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "falston-jumpsuit-crusader-edition-",
+        "url_store": "",
+        "uuid": "f8380897-7204-4268-8a8f-cbbfc8bc2a09",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1751214182,
+        "date_modified": 1751214224,
+        "id": 4648,
+        "id_category": 11,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Falston Jumpsuit \u0022ArcCorp Edition\u0022",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "falston-jumpsuit-arccorp-edition-",
+        "url_store": "",
+        "uuid": "f8380897-7204-4268-8a8f-cbbfc8bc2a09",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1751214671,
+        "date_modified": 1751214705,
+        "id": 4651,
+        "id_category": 11,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Falston Jumpsuit \u0022Hurston Edition\u0022",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "falston-jumpsuit-hurston-edition-",
+        "url_store": "",
+        "uuid": "f8380897-7204-4268-8a8f-cbbfc8bc2a09",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1751214814,
+        "date_modified": 1751214852,
+        "id": 4652,
+        "id_category": 11,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Falston Jumpsuit \u0022microTech Edition\u0022",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "falston-jumpsuit-microtech-edition-",
+        "url_store": "",
+        "uuid": "f8380897-7204-4268-8a8f-cbbfc8bc2a09",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1754445702,
+        "date_modified": 1754445750,
+        "id": 4827,
+        "id_category": 11,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ThermoWeave Coat ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "thermoweave-coat-asd-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Greycat-ASD-Refinery-Suit",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": null,
+        "date_added": 1756340879,
+        "date_modified": 1757483355,
+        "id": 4876,
+        "id_category": 11,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Toolsafe Vest Falstaff",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "toolsafe-vest-falstaff",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Habidash",
+        "date_added": 1758140818,
+        "date_modified": 1758141427,
+        "id": 4934,
+        "id_category": 11,
+        "id_company": 308,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Detara Jacket Silvertusk",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "detara-jacket-silvertusk",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "DMC",
+        "date_added": 1758144912,
+        "date_modified": 1758145041,
+        "id": 4936,
+        "id_category": 11,
+        "id_company": 287,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Camion Jacket",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "camion-jacket",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "DMC",
+        "date_added": 1758145516,
+        "date_modified": 1758145656,
+        "id": 4937,
+        "id_category": 11,
+        "id_company": 287,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "600i Flight Jacket",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "600i-flight-jacket",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Alejo Brothers",
+        "date_added": 1758147434,
+        "date_modified": 1758147533,
+        "id": 4938,
+        "id_category": 11,
+        "id_company": 10,
+        "id_parent": 4106,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Marshal Sleeveless Vest Steel Blue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "marshal-sleeveless-vest-steel-blue",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Denim Manufacture Corporation",
+        "date_added": 1758148041,
+        "date_modified": 1758148328,
+        "id": 4939,
+        "id_category": 11,
+        "id_company": 70,
+        "id_parent": 4940,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Omnitrek Jacket Sandbar",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "omnitrek-jacket-sandbar",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Denim Manufacture Corporation",
+        "date_added": 1758148302,
+        "date_modified": 1758148497,
+        "id": 4940,
+        "id_category": 11,
+        "id_company": 70,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Omnitrek Jacket",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "omnitrek-jacket",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1758162801,
+        "date_modified": 1758162845,
+        "id": 4947,
+        "id_category": 11,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Falston Jumpsuit \u0026quot;ASD Edition\u0026quot;",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "falston-jumpsuit-quot-asd-edition-quot-",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "3.24.2a"
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Habidash",
+        "date_added": 1758376826,
+        "date_modified": 0,
+        "id": 4971,
+        "id_category": 11,
+        "id_company": 308,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Chada Collar and Panniers Spruce",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "chada-collar-and-panniers-spruce-j2hr",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Jackets",
+        "company_name": null,
+        "date_added": 1758795451,
+        "date_modified": 0,
+        "id": 5002,
+        "id_category": 11,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Silverton Jacket Tan",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "silverton-jacket-tan",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Jackets",
+        "company_name": "Vaporwear",
+        "date_added": 1759861179,
+        "date_modified": 1759861235,
+        "id": 5027,
+        "id_category": 11,
+        "id_company": 263,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Creese Yormandi Jacket",
+        "notification": "",
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "creese-yormandi-jacket",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Vaporwear-Creese-Yormandi-Jacket",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -8289,7 +9447,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:37 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -8297,50 +9455,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33f9897023fa-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=HZ9JaVdDSRKqCN3gpPYMIgjX8sMJFREHWMLA89mMKDgZI4DaxmEC79qgCTCPyjtlkbm1UQiP%2F%2FLrnC2eSq0i9gfHfUlF4N5Bf3XRyU5Q4FxSKaPuTnME95CWEFWp6sjzSyDp6w%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2008"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=9916\u0026min_rtt=3805\u0026rtt_var=10944\u0026sent=189\u0026recv=86\u0026lost=0\u0026retrans=0\u0026sent_bytes=253643\u0026recv_bytes=1141\u0026delivery_rate=26092136\u0026cwnd=301\u0026unsent_bytes=0\u0026cid=bc9f5fda215b8a87\u0026ts=987\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84392; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=tAn%2F7wLrCNMDE2hXVAWul8xo6mEuNhYjoL2wRmokSZOn%2FFTwGGuxejtNz2rGnaewzrXNtVoiFZe9dicuynzAIOoY3Mt5o1oAA9ZVPA%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9abecef97a-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:37 GMT"
+      "Sat, 11 Oct 2025 04:13:51 GMT"
     ]
   }
 }

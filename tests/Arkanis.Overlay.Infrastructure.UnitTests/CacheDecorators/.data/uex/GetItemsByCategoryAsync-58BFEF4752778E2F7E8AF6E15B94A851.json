@@ -1,37 +1,6 @@
 {
   "Result": {
-    "data": {
-      "commodity": {
-        "is_accepted": 1,
-        "is_temporary_enabled": 1,
-        "price_variation": 60,
-        "scu_variation": 5000,
-        "ttl": 15
-      },
-      "global": {
-        "evaluation_period_days": 90,
-        "game_version": "4.3.1",
-        "game_version_ptu": "4.3.2",
-        "is_accepting_ptu_reports": 1,
-        "is_accepting_reports": 1,
-        "is_datacenter_enabled": 1
-      },
-      "item": {
-        "is_accepted": 1,
-        "price_variation": 100,
-        "ttl": 60
-      },
-      "vehicle_buy": {
-        "is_accepted": 1,
-        "price_variation": 10,
-        "ttl": 60
-      },
-      "vehicle_rent": {
-        "is_accepted": 1,
-        "price_variation": 60,
-        "ttl": 60
-      }
-    },
+    "data": null,
     "http_code": 200,
     "message": "",
     "status": "ok"
@@ -39,7 +8,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Fri, 10 Oct 2025 04:47:18 GMT"
+      "Fri, 10 Oct 2025 04:49:40 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -51,7 +20,7 @@
       "*"
     ],
     "Age": [
-      "2608"
+      "2131"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
@@ -60,7 +29,7 @@
       "public, must-revalidate, max-age=86400"
     ],
     "cache-status": [
-      "ArkanisProxy; hit; ttl=83792; key=*****; detail=DEFAULT"
+      "ArkanisProxy; hit; ttl=84269; key=*****; detail=DEFAULT"
     ],
     "cf-cache-status": [
       "DYNAMIC"
@@ -78,7 +47,7 @@
       "strict-origin-when-cross-origin"
     ],
     "report-to": [
-      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=LRk7xMZLSMvp8qHR6bcK%2FfYikLxS9eRbiJBN0pMwIdQlvHkqxkIVN7bRw5y2HWD%2BMbb3s6%2FxdUdOXCGVl6jAkY2bdyXNe2L7%2F0Ap%2BbuK\u0022}]}"
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=%2BdWjy8VzCw%2B9M10mIzQMD%2BwSSD3n1sAFF3%2FSKW%2F0rmdPOCLS4rY9CIel%2FNJpmGr6q5W2bcU68OV%2FEwzJCnBt%2BoK6NV2p0MPfIsDcfA%3D%3D\u0022}]}"
     ],
     "Server": [
       "cloudflare"
@@ -100,13 +69,13 @@
       "9591"
     ],
     "CF-RAY": [
-      "98c37a9989fd2794-PRG"
+      "98c37e141990b377-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Sat, 11 Oct 2025 04:03:51 GMT"
+      "Sat, 11 Oct 2025 04:14:10 GMT"
     ]
   }
 }

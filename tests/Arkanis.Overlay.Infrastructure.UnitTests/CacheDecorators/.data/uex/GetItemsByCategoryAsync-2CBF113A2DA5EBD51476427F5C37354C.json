@@ -2,25 +2,25 @@
   "Result": {
     "data": [
       {
-        "category": "Point Defense Cannon",
-        "company_name": "Behring Applied Technology",
-        "date_added": 1746937835,
-        "date_modified": 1746937931,
-        "id": 4495,
-        "id_category": 79,
-        "id_company": 29,
+        "category": "Bomb Racks",
+        "company_name": null,
+        "date_added": 1747406187,
+        "date_modified": 1749118921,
+        "id": 4554,
+        "id_category": 90,
+        "id_company": 0,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "PPB-116 \u0022Pepperbox\u0022",
+        "name": "CST-313 \u0022Castillo\u0022",
         "notification": null,
         "screenshot": "",
         "section": "Vehicle Weapons",
         "size": null,
-        "slug": "ppb-116-pepperbox-",
-        "url_store": null,
+        "slug": "cst-313-castillo-",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Add-Ons/Bomb-Rack-Weapon-Kit-2-Pack",
         "uuid": null,
         "vehicle_name": null,
         "is_commodity": 0,
@@ -74,7 +74,7 @@
       "strict-origin-when-cross-origin"
     ],
     "report-to": [
-      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=c0%2BhhsBSNHoKtMjF3aOwOcM3ZnB5btt0J%2BwNR5b3TZDLWU4S1RR%2FobxIYp0hUREf0Omik0eibsZDW9R%2FtAuPIpNu6wbBC%2BvtcNhauQ%3D%3D\u0022}]}"
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=uQsmymHjH6EO4Ot20I4qcNc7uo9Gkipwi6JnBgesDSbT%2Bu3QPyutueDRM%2F1UvyWkHXTMBVJ4bzqea4pkeACjAjsqHnJ26%2F6%2F4aX50w%3D%3D\u0022}]}"
     ],
     "Server": [
       "cloudflare"
@@ -96,7 +96,7 @@
       "9591"
     ],
     "CF-RAY": [
-      "98c37e13d95fb377-PRG"
+      "98c37e141b2fdeac-PRG"
     ],
     "Content-Type": [
       "application/json"
