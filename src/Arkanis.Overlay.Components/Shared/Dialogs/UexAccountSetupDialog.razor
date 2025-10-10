@@ -1,4 +1,5 @@
 @using Arkanis.Overlay.Common.Extensions
+@using Arkanis.Overlay.Common.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
 @using Arkanis.Overlay.Infrastructure.Services.External
 @using FluentResults
@@ -223,7 +224,7 @@
 
         try
         {
-            var credentials = new UserPreferences.Credentials(ExternalService.UnitedExpress)
+            var credentials = new AccountApiTokenCredentials(ExternalService.UnitedExpress)
             {
                 UserIdentifier = null,
                 SecretToken = _token,

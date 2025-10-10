@@ -35,28 +35,28 @@ public record UserPreferences
 
     public KeyboardShortcut LaunchShortcut { get; set; } = new([KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyS]);
 
-    public List<Credentials> ExternalServiceCredentials { get; set; } = [];
+    public List<AccountCredentials> ExternalServiceCredentials { get; set; } = [];
 
-    public Credentials? GetCredentialsOrDefaultFor(string serviceId)
+    public AccountCredentials? GetCredentialsOrDefaultFor(string serviceId)
         => ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId);
 
-    public Credentials GetOrCreateCredentialsFor(string serviceId)
+    public AccountCredentials GetOrCreateCredentialsFor(string serviceId)
     {
         if (GetCredentialsOrDefaultFor(serviceId) is not { } credentials)
         {
-            ExternalServiceCredentials.Add(credentials = new Credentials(serviceId));
+            ExternalServiceCredentials.Add(credentials = new AccountCredentials(serviceId));
         }
 
         return credentials;
     }
 
     [Pure]
-    public UserPreferences SetCredentials(Credentials credentials)
+    public UserPreferences SetCredentials(AccountCredentials accountCredentials)
     {
-        ExternalServiceCredentials.RemoveAll(x => x.ServiceId == credentials.ServiceId);
+        ExternalServiceCredentials.RemoveAll(x => x.ServiceId == accountCredentials.ServiceId);
         return this with
         {
-            ExternalServiceCredentials = ExternalServiceCredentials.Append(credentials).ToList(),
+            ExternalServiceCredentials = ExternalServiceCredentials.Append(accountCredentials).ToList(),
         };
     }
 
@@ -66,14 +66,4 @@ public record UserPreferences
         {
             ExternalServiceCredentials = ExternalServiceCredentials.Where(x => x.ServiceId != serviceId).ToList(),
         };
-
-    public class Credentials(string serviceId)
-    {
-        public string ServiceId { get; init; } = serviceId;
-
-        public string? UserIdentifier { get; set; }
-        public string? SecretToken { get; set; }
-        public string? RefreshToken { get; set; }
-        public string? IdToken { get; set; }
-    }
 }

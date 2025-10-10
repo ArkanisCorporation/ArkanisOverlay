@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Components.Services;
 
-using Common.Options;
+using Common.Models;
 using Domain.Abstractions.Services;
 using LocalLink.Abstractions;
 using LocalLink.Models;
@@ -33,9 +33,8 @@ public class LocalLinkCommandProcessorWithConsent(
         await actionTask;
     }
 
-    private async Task SetExternalServiceCredentials(UserPreferences.Credentials credentials)
+    private async Task SetExternalServiceCredentials(AccountCredentials credentials)
     {
-
         var preferences = userPreferencesManager.CurrentPreferences.SetCredentials(credentials);
         await userPreferencesManager.SaveAndApplyUserPreferencesAsync(preferences);
     }
