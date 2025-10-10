@@ -12,12 +12,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 internal static class TypeResolverCache
 {
     private static readonly Dictionary<string, Assembly> AssemblyCache = AppDomain.CurrentDomain.GetAssemblies()
-        .ToDictionary(x => x.GetName().Name!, x => x);
+        .DistinctBy(assembly => assembly.GetName().Name)
+        .ToDictionary(assembly => assembly.GetName().Name!, assembly => assembly);
 
     private static readonly Dictionary<string, Type> TypeCache = AppDomain.CurrentDomain.GetAssemblies()
         .SelectMany(assembly => assembly.GetTypes())
-        .Where(x => x.FullName?.StartsWith("Arkanis", StringComparison.InvariantCulture) == true)
-        .ToDictionary(type => type.AssemblyQualifiedName ?? type.Name, type => type);
+        .Where(type => type.FullName?.StartsWith("Arkanis", StringComparison.InvariantCulture) == true)
+        .ToDictionary(GetNameByType, type => type);
+
+    public static string GetNameByType(Type type)
+        => type.AssemblyQualifiedName ?? type.FullName ?? $"{type.Namespace}.{type.Name}";
 
     public static Type GetTypeByName(string typeName)
     {
