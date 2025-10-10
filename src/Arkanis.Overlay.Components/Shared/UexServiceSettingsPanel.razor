@@ -3,7 +3,7 @@
 @inject UexAccountContext UexAccountContext
 
 
-<MudExpansionPanel Class="external-service-config" Disabled="@(!UexAccountContext.IsLinked)">
+<MudExpansionPanel Class="external-service-config" Disabled="@(!UexAccountContext.IsAuthenticated)">
     <TitleContent>
         <MudStack AlignItems="@AlignItems.Center"
                   Justify="@Justify.Center"
@@ -13,38 +13,13 @@
                 ContentId="@ContentId"/>
         </MudStack>
         <MudStack AlignItems="@AlignItems.Center" Row>
-            @if (UexAccountContext.LinkError is { } uexLinkError)
-            {
-                <MudChip T="string" Color="@Color.Error">
-                    Failed
-                </MudChip>
-                <MudText Class="text-secondary">
-                    @uexLinkError.Message
-                </MudText>
-            }
-            else if (UexAccountContext.IsLinked)
-            {
-                <MudChip T="string" Color="@Color.Success">
-                    Linked
-                </MudChip>
-                <MudAvatar Style="height: 32px; width: 32px;">
-                    <MudImage
-                        Src="@UexAccountContext.CurrentUser.Avatar"
-                        Alt="Avatar"/>
-                </MudAvatar>
-                <MudText>
-                    @UexAccountContext.CurrentUser.Name
-                </MudText>
-            }
-            else
-            {
-                <MudChip T="string" Color="@Color.Default">
-                    Inactive
-                </MudChip>
-            }
+            <ExternalAccountStatusBadge
+                Model="@UexAccountContext"/>
+            <ExternalAccountDetails
+                Model="@UexAccountContext"/>
             <MudSpacer/>
             <div class="my-n2">
-                @if (UexAccountContext.IsLinked)
+                @if (UexAccountContext.IsAuthenticated)
                 {
                     <MudButton Variant="@Variant.Outlined"
                                Color="@Color.Default"

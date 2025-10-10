@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure;
 using Common;
 using Common.Enums;
 using Common.Extensions;
+using Common.Models;
 using Data;
 using Domain.Abstractions.Services;
 using External.UEX;
@@ -15,10 +16,10 @@ using Quartz.Simpl;
 using Repositories;
 using Services;
 using Services.Abstractions;
-using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
+using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
 {
@@ -67,17 +68,23 @@ public static class DependencyInjection
             .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
         services
-            .AddSingleton<IStorageManager, StorageManager>()
-            .AddSingleton<ServiceDependencyResolver>()
+            .AddUexAccountAuthentication()
             .AddSingleton<IOptionsChangeTokenSource<UexApiOptions>, UserPreferencesBasedOptionsChangeTokenSource<UexApiOptions>>()
             .AddAllUexApiClients(provider => new ConfigureOptions<UexApiOptions>(uexApiOptions =>
                     {
                         var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();
-                        var credentials = userPreferences.CurrentPreferences.GetOrCreateCredentialsFor(ExternalService.UnitedExpress);
-                        uexApiOptions.UserToken = credentials.SecretToken;
+                        var credentials = userPreferences.CurrentPreferences.GetCredentialsOrDefaultFor(ExternalService.UnitedExpress);
+                        if (credentials is AccountApiTokenCredentials tokenCredentials)
+                        {
+                            uexApiOptions.UserToken = tokenCredentials.SecretToken;
+                        }
                     }
                 )
-            )
+            );
+
+        services
+            .AddSingleton<IStorageManager, StorageManager>()
+            .AddSingleton<ServiceDependencyResolver>()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -92,6 +99,12 @@ public static class DependencyInjection
 
         return services;
     }
+
+    public static IServiceCollection AddUexAccountAuthentication(this IServiceCollection services)
+        => services
+            .AddSingleton<UexAuthenticator>()
+            .AddSingleton<UexAccountContext>()
+            .Alias<IExternalAccountContext, UexAccountContext>();
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services
