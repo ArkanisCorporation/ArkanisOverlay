@@ -14,9 +14,9 @@
       },
       "MathEvaluator": {
         "type": "Direct",
-        "requested": "[2.4.2, )",
-        "resolved": "2.4.2",
-        "contentHash": "8pDtnRfyfREbg+Aw4c7OUniDGzq/Ja92D1EU5ObSD8fxunwzx1C4XWsCAvoMM04/skJbzRSQMAXtqkI/dnLiVA==",
+        "requested": "[2.4.3, )",
+        "resolved": "2.4.3",
+        "contentHash": "izdC7A/8U8RUHga+piMXuaS9a30Ak2RC2xGqJncm6eUeXUBB9iij+0m5lNesIWTYCXKPro2qeVEJUdB3LzG4iA==",
         "dependencies": {
           "MathTrigonometric": "1.2.0"
         }
