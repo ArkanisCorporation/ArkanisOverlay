@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Arkanis.Overlay.Common.Abstractions
+@using Arkanis.Overlay.Common.Options
 @using Arkanis.Overlay.Components.Views.Components
 @using Arkanis.Overlay.Components.Views.Trade.Components
 @using Arkanis.Overlay.Domain.Abstractions.Game
@@ -10,6 +11,8 @@
 @using Arkanis.Overlay.Domain.Models.Trade
 @using Arkanis.Overlay.Host.Server.Models
 @using Arkanis.Overlay.Host.Server.Services
+@using Arkanis.Overlay.LocalLink.Models.Commands
+@using Arkanis.Overlay.LocalLink.Services
 @using MoreLinq
 @inject IDialogService DialogService
 @inject IAppVersionProvider VersionProvider
@@ -19,6 +22,7 @@
 @inject IGameEntityRepository<GameItem> GameItemRepository
 @inject IGameEntityRepository<GameCommodity> GameCommodityRepository
 @inject IGameEntityRepository<GameTradeRoute> GameTradeRouteRepository
+@inject CustomProtocolClient CustomProtocolClient
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -439,7 +443,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.Location])"
+                        Groupings="@([InventoryEntryDataGrid.Column.LocationOrVehicle])"
                         ExpandAll/>
                 </MudPaper>
 
@@ -469,7 +473,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.List])"
+                        Groupings="@([InventoryEntryDataGrid.Column.List])"
                         ExpandAll/>
                 </MudPaper>
             </MudStack>
@@ -531,7 +535,7 @@
         new()
         {
             Name = "FatalMerlin",
-            AvatarLink = "https://cdn.discordapp.com/avatars/174617873182883841/b797e2c4b2a60a934704456655d13f7c.webp?size=64",
+            AvatarLink = "https://cdn.discordapp.com/avatars/174617873182883841/7116202533a547006f0b2bd4b4ee62e4.png?size=64",
             Link = "https://discord.com/users/174617873182883841",
         },
         new()
@@ -612,16 +616,16 @@
 
             InventoryEntries =
             [
-                InventoryEntry.Create(Commodities[0], NewScu(11), Locations[0], InventoryLists[0]),
-                InventoryEntry.Create(Commodities[1], NewScu(34), Locations[0], InventoryLists[1]),
-                InventoryEntry.Create(Commodities[1], NewScu(8), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Commodities[2], NewScu(27), Locations[1]),
-                InventoryEntry.Create(Items[0], new Quantity(3, Quantity.UnitType.Count), Locations[0], InventoryLists[0]),
-                InventoryEntry.Create(Items[0], new Quantity(4, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Items[0], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
-                InventoryEntry.Create(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
-                InventoryEntry.Create(Items[2], new Quantity(4, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Commodities[0], NewScu(11), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(34), Locations[0], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(8), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[2], NewScu(27), Locations[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(3, Quantity.UnitType.Count), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(4, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[2], new Quantity(4, Quantity.UnitType.Count), Locations[2]),
             ];
         }
 

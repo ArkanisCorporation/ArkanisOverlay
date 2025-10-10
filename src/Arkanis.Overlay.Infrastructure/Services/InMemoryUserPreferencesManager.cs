@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 
 public class InMemoryUserPreferencesManager : IUserPreferencesManager
 {

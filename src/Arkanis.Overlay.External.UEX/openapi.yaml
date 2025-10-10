@@ -3588,6 +3588,8 @@ components:
           type: string
         url_hotsite:
           type: string
+        url_photo:
+          type: string
         url_photos:
           type: string
         url_store:
@@ -24282,6 +24284,12 @@ paths:
   /user/:
     get:
       operationId: GetUser
+      parameters:
+      - in: query
+        name: username
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           content:

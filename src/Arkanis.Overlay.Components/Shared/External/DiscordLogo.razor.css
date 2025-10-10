@@ -1,0 +1,16 @@
+.discord-logo-wrapper {
+    display: flex;
+    height: 100%;
+    width: fit-content;
+    align-items: center;
+}
+
+::deep .discord-logo {
+    position: relative;
+}
+
+::deep .discord-logo > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

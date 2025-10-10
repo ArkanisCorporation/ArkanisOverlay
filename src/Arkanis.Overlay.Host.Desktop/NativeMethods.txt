@@ -29,6 +29,10 @@ GetWindowLong
 SetWindowLong
 GetParent
 GetAncestor
+GetWindowRect
+EnumWindows
+EnumChildWindows
+EnumThreadWindows
 
 WINDOW_LONG_PTR_INDEX
 WINDOW_EX_STYLE
@@ -64,6 +68,7 @@ HOT_KEY_MODIFIERS
 
 // Keyboard Virtual Key Codes
 VIRTUAL_KEY
+
 
 // Global Hotkey
 SetWindowsHookEx

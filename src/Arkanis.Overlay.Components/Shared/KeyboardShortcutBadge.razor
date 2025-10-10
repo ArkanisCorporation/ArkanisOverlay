@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Components.Services.Abstractions
 @implements IDisposable
 @inject IKeyboardProxy GlobalKeyboardProxy
@@ -25,6 +26,9 @@
 
     [Parameter]
     public IEnumerable<KeyboardKey>? Keys { get; set; }
+
+    [Parameter]
+    public KeyboardShortcut? Shortcut { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -76,9 +80,10 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        _shortcut = Keys is not null
-            ? new KeyboardShortcut(Keys)
-            : new KeyboardShortcut([Key]);
+        _shortcut = Shortcut
+                    ?? (Keys is not null
+                        ? new KeyboardShortcut(Keys)
+                        : new KeyboardShortcut([Key]));
     }
 
     private async void OnKeyboardShortcut(object? sender, KeyboardShortcut keyboardShortcut)

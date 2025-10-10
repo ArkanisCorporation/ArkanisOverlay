@@ -1,0 +1,57 @@
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject IDialogService DialogService
+@inject UexAccountContext UexAccountContext
+
+
+<MudExpansionPanel Class="external-service-config" Disabled="@(!UexAccountContext.IsAuthenticated)">
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <UexLogo
+                Style="height: 32px;"
+                ContentId="@ContentId"/>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <ExternalAccountStatusBadge
+                Model="@UexAccountContext"/>
+            <ExternalAccountDetails
+                Model="@UexAccountContext"/>
+            <MudSpacer/>
+            <div class="my-n2">
+                @if (UexAccountContext.IsAuthenticated)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Default"
+                               OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
+                        Connect different account
+                    </MudButton>
+                    <MudIconButton
+                        Variant="@Variant.Outlined"
+                        Color="@Color.Error"
+                        Icon="@Icons.Material.Filled.LinkOff"
+                        OnClick="@(() => UexAccountSetupDialog.UnlinkAsync(DialogService, UexAccountContext))"/>
+                }
+                else
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Info"
+                               OnClick="@(() => UexAccountSetupDialog.ShowAsync(DialogService))">
+                        Connect account
+                    </MudButton>
+                }
+            </div>
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+        <UexAccountSettings/>
+    </ChildContent>
+</MudExpansionPanel>
+
+@code
+{
+
+    [Parameter]
+    public string? ContentId { get; set; }
+
+}

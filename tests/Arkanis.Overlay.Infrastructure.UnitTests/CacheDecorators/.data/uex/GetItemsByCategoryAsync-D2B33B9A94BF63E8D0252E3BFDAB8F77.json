@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "f9c45e20-1522-4f87-9f9c-932d089514e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Urban-Collection-By-Element-Authority",
         "uuid": "70262488-00c4-4607-b735-7528736c799a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Urban-Collection-By-Element-Authority",
         "uuid": "eddd508a-ed10-4b07-bfc5-dad7ae6fa462",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Adventurer-Collection-By-Element-Authority",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Adventurer-Collection-By-Element-Authority",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Adventurer-Collection-By-Element-Authority",
         "uuid": "66b88d76-b20f-4880-9f98-11835398af3e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "ff0582a1-5a7d-40b4-b7bc-b1e9ead8f83f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Urban-Collection-By-Element-Authority",
         "uuid": "2ddeaeb6-fd84-450a-9dbb-9f9869ed68a3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       }
     ],
@@ -201,7 +217,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -209,50 +225,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34047bfe8176-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=amMCag%2BBSekllA9lOfP1GcNM6OfG4yyDP8adgqFMVzG59Gk4dsYwyUaG2mhFyCw8dbUWZ3FZ7paQHc8y2eB5%2BGXc4hcECkrEHI86GTO%2BEgYCOEUe8lPlbRZu9UyjlaAS8hT7fg%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1997"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=8150\u0026min_rtt=4232\u0026rtt_var=6566\u0026sent=351\u0026recv=138\u0026lost=0\u0026retrans=0\u0026sent_bytes=458647\u0026recv_bytes=1798\u0026delivery_rate=23925710\u0026cwnd=336\u0026unsent_bytes=0\u0026cid=495ace438151ab96\u0026ts=2716\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84403; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=7OyZMlFYj9XWhD3tCdu9sfctlRtvOH%2FhgMy3x5maQyCP35XXlaqN2WBrxcZyrmUGgct%2BFnVg9OOgdypQnJsLLH4mvHbQY1gUrOocBw%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9bce243009-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:02 GMT"
     ]
   }
 }

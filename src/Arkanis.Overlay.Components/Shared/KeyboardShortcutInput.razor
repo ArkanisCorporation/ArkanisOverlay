@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Components.Extensions
 @inject ILogger<KeyboardShortcutInput> Logger
 
@@ -69,12 +70,15 @@
 
     private async Task OnKeyDown(KeyboardEventArgs eventArgs)
     {
-        _shortcutBuilder!.AddKey(eventArgs);
+        _shortcutBuilder!.KeyPressed(eventArgs);
         await UpdateValueAsync(_shortcutBuilder.Value);
     }
 
-    private void OnKeyUp(KeyboardEventArgs eventArgs)
-        => _shortcutBuilder!.RemoveKey(eventArgs.GetKey());
+    private async Task OnKeyUp(KeyboardEventArgs eventArgs)
+    {
+        _shortcutBuilder!.RemoveKey(eventArgs.GetKey());
+        await UpdateValueAsync(_shortcutBuilder.Value);
+    }
 
     private async Task UpdatedAsync(KeyboardShortcut shortcut)
         => await InvokeAsync(() => UpdateValueAsync(shortcut));

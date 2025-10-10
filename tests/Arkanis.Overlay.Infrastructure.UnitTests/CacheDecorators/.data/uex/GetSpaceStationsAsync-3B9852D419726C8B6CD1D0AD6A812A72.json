@@ -1384,7 +1384,7 @@
       {
         "city_name": null,
         "date_added": 1705260382,
-        "date_modified": 1742084623,
+        "date_modified": 1754448614,
         "faction_name": "Rough \u0026 Ready",
         "has_cargo_center": 1,
         "has_clinic": 1,
@@ -1476,7 +1476,7 @@
       {
         "city_name": null,
         "date_added": 1705261260,
-        "date_modified": 1743505585,
+        "date_modified": 1754448634,
         "faction_name": "Citizens For Prosperity",
         "has_cargo_center": 0,
         "has_clinic": 1,
@@ -1522,7 +1522,7 @@
       {
         "city_name": null,
         "date_added": 1705261457,
-        "date_modified": 1742080216,
+        "date_modified": 1754447841,
         "faction_name": "Rough \u0026 Ready",
         "has_cargo_center": 0,
         "has_clinic": 1,
@@ -1706,7 +1706,7 @@
       {
         "city_name": null,
         "date_added": 1705261709,
-        "date_modified": 1742086412,
+        "date_modified": 1754447783,
         "faction_name": "Citizens For Prosperity",
         "has_cargo_center": 0,
         "has_clinic": 1,
@@ -1752,7 +1752,7 @@
       {
         "city_name": null,
         "date_added": 1705261745,
-        "date_modified": 1742081240,
+        "date_modified": 1754447862,
         "faction_name": null,
         "has_cargo_center": 0,
         "has_clinic": 1,
@@ -1890,7 +1890,7 @@
       {
         "city_name": null,
         "date_added": 1705261836,
-        "date_modified": 1742081745,
+        "date_modified": 1754448666,
         "faction_name": "Rough \u0026 Ready",
         "has_cargo_center": 0,
         "has_clinic": 1,
@@ -1936,7 +1936,7 @@
       {
         "city_name": null,
         "date_added": 1705261860,
-        "date_modified": 1742082507,
+        "date_modified": 1754447820,
         "faction_name": "Rough \u0026 Ready",
         "has_cargo_center": 1,
         "has_clinic": 1,
@@ -2074,7 +2074,7 @@
       {
         "city_name": null,
         "date_added": 1732196932,
-        "date_modified": 1742080758,
+        "date_modified": 1754448650,
         "faction_name": "Rough \u0026 Ready",
         "has_cargo_center": 1,
         "has_clinic": 1,
@@ -2258,7 +2258,7 @@
       {
         "city_name": null,
         "date_added": 1732903581,
-        "date_modified": 1742079358,
+        "date_modified": 1754447905,
         "faction_name": "United Empire of Earth",
         "has_cargo_center": 1,
         "has_clinic": 1,
@@ -2279,7 +2279,7 @@
         "id_faction": 23,
         "id_jurisdiction": 1,
         "id_moon": 0,
-        "id_orbit": 375,
+        "id_orbit": 360,
         "id_planet": 0,
         "id_star_system": 64,
         "is_armistice": 1,
@@ -2296,7 +2296,7 @@
         "moon_name": null,
         "name": "Stanton Gateway",
         "nickname": "Stanton Gateway",
-        "orbit_name": "Pyro (Star)",
+        "orbit_name": "Pyro Jump Point",
         "pad_types": "S,M,L",
         "planet_name": null,
         "star_system_name": "Pyro"
@@ -2447,7 +2447,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:44 GMT"
+      "Fri, 10 Oct 2025 04:47:28 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -2455,50 +2455,63 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a3422ee3ff98a-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=hsryoD9r6GurfR%2FKjr%2BCfwsf%2BUPMqx5BagCSLsOTwrbsTBphe%2FRcUf2OpKnfqYe4G4bCXSUdXxM1cMMtMz8BNtrQ2ju0Ph9CYkNfLzeU7vnV%2B%2BRAF4m%2FiHfVSwYfKEzw4K9UeQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "11480"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4300\u0026min_rtt=4125\u0026rtt_var=124\u0026sent=137\u0026recv=45\u0026lost=0\u0026retrans=0\u0026sent_bytes=171983\u0026recv_bytes=1048\u0026delivery_rate=15538662\u0026cwnd=287\u0026unsent_bytes=0\u0026cid=ebf27139304c8a74\u0026ts=953\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=74920; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=63knOL7SnrMfmcpnLb9UUWPpRtO9bp3zAxNfC%2FoWkfOQx7C1TTh15oJDegZDNSBhCmfmfyu1PBVlrqAM8TYoL2p%2BZMNEjfzcbtTVn2qP\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "CF-RAY": [
+      "98c37ad9c9e66e9a-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:44 GMT"
+      "Sat, 11 Oct 2025 01:36:09 GMT"
     ]
   }
 }

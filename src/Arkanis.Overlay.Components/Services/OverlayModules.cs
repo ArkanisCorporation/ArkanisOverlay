@@ -1,7 +1,8 @@
 namespace Arkanis.Overlay.Components.Services;
 
+using System.Diagnostics;
+using Common.Models.Keyboard;
 using Domain.Abstractions.Services;
-using Domain.Models.Keyboard;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -9,20 +10,50 @@ using Microsoft.Extensions.Primitives;
 using MudBlazor;
 using MudBlazor.FontIcons.MaterialSymbols;
 
-public class OverlayModules
+public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesManager preferencesManager)
 {
     private readonly ICollection<Entry> _modules =
     [
-        new()
+        new UrlEntry
         {
             Url = "/search",
             Name = "Search",
+            Description = "Find anything you're looking for.",
             Icon = Outlined.Search,
         },
-        new()
+        new UrlEntry
+        {
+            Url = "/hub",
+            Name = "Hub",
+            Description = "See what's going on around you.",
+            Icon = Outlined.Hub,
+            IsDisabled = true,
+            IsInDevelopment = true,
+        },
+        new ActionEntry
+        {
+            Name = "Close",
+            Description = "Close the Overlay.",
+            Icon = Outlined.Close,
+            Color = Color.Error,
+            ShortcutOverride = preferencesManager.CurrentPreferences.InGameLaunchShortcut,
+            Action = async (activationType, _) =>
+            {
+                // let the global keybindings close the overlay when invoked via hotkey
+                if (activationType == ActivationType.Hotkey)
+                {
+                    return false;
+                }
+
+                await overlayControls.HideAsync().ConfigureAwait(false);
+                return true;
+            },
+        },
+        new UrlEntry
         {
             Url = "/inventory",
             Name = "Inventory",
+            Description = "Track and manage your Inventory.",
             Icon = Icons.Material.Filled.Warehouse,
             GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<IInventoryManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
@@ -31,10 +62,11 @@ public class OverlayModules
                 return await inventoryManager.GetUnassignedCountAsync();
             },
         },
-        new()
+        new UrlEntry
         {
             Url = "/trade",
             Name = "Trade",
+            Description = "Plan your next Haul.",
             Icon = Outlined.Storefront,
             GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<ITradeRunManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
@@ -43,55 +75,72 @@ public class OverlayModules
                 return await inventoryManager.GetInProgressCountAsync();
             },
         },
-        new()
+        new UrlEntry
         {
             Url = "/mining",
             Name = "Mining",
+            Description = "Manage your Mining Operations.",
             Icon = Outlined.Deblur,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
-        new()
+        new UrlEntry
         {
             Url = "/market",
             Name = "Market",
+            Description = "Trade with other players.",
             Icon = Outlined.Store,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
-        new()
+        new UrlEntry
         {
             Url = "/hangar",
             Name = "Hangar",
+            Description = "Manage your Fleet.",
             Icon = Outlined.GarageDoor,
-            Disabled = true,
         },
-        new()
+        new UrlEntry
         {
             Url = "/org",
             Name = "Org",
+            Description = "Manage your Organization.",
             Icon = Icons.Material.Filled.Groups,
-            Disabled = true,
+            IsDisabled = true,
+            IsInDevelopment = true,
         },
-        new()
+        new UrlEntry
         {
             Url = "/settings",
             Name = "Settings",
+            Description = "Configure the Overlay.",
             Icon = Outlined.Settings,
-            ShortcutOverride = KeyboardKey.F12,
-            Disabled = true,
+            ShortcutOverride = new KeyboardShortcut([KeyboardKey.F12]),
         },
     ];
 
     public ICollection<Entry> GetAll()
         => _modules;
 
-    public class Entry
+    public enum ActivationType
     {
-        public required string Url { get; init; }
+        Click,
+        Hotkey,
+    }
+
+    [DebuggerDisplay("Entry {Name}")]
+    public abstract class Entry
+    {
         public required string Name { get; init; }
 
-        public bool Disabled { get; init; }
+        public required string Description { get; init; }
+
+        public Color Color { get; init; } = Color.Inherit;
+
+        public bool IsDisabled { get; init; }
+        public bool IsInDevelopment { get; init; }
         public string Icon { get; init; } = Icons.Material.Filled.ViewModule;
-        public KeyboardKey? ShortcutOverride { get; init; }
+        public KeyboardShortcut? ShortcutOverride { get; init; }
 
         public Func<IServiceProvider, IChangeToken> GetChangeToken { get; set; } =
             _ => NullChangeToken.Singleton;
@@ -99,7 +148,66 @@ public class OverlayModules
         public Func<IServiceProvider, ValueTask<int>> GetUpdateCountAsync { get; set; } =
             _ => ValueTask.FromResult(0);
 
-        public string GetAbsoluteUri(NavigationManager navigationManager)
-            => navigationManager.ToAbsoluteUri(Url).ToString();
+        public virtual bool CanActivate(NavigationManager navigationManager, string currentUri)
+            => !IsDisabled && !IsActive(navigationManager, currentUri);
+
+        protected virtual bool Activate(NavigationManager navigationManager, string currentUri)
+            => false;
+
+        // Automatic invoke of Activate if not overriden to simplify usage of sync/async implementations.
+        public virtual Task<bool> ActivateAsync(
+            NavigationManager navigationManager,
+            string currentUri,
+            ActivationType activationType = ActivationType.Click,
+            CancellationToken cancellationToken = default
+        )
+            => Task.FromResult(Activate(navigationManager, currentUri));
+
+        public abstract bool IsActive(NavigationManager navigationManager, string currentUri);
+    }
+
+    [DebuggerDisplay("UrlEntry - {Name} ({Url})")]
+    public class UrlEntry : Entry
+    {
+        public required string Url { get; init; }
+
+        protected override bool Activate(NavigationManager navigationManager, string currentUri)
+        {
+            if (!CanActivate(navigationManager, currentUri))
+            {
+                return false;
+            }
+
+            var url = navigationManager.ToAbsoluteUri(Url).ToString();
+            navigationManager.NavigateTo(url);
+            return true;
+        }
+
+        public override bool IsActive(NavigationManager navigationManager, string currentUri)
+            => currentUri.StartsWith(navigationManager.ToAbsoluteUri(Url).ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    [DebuggerDisplay("ActionEntry - {Name} {Action}")]
+    public class ActionEntry : Entry
+    {
+        public required Func<ActivationType, CancellationToken, Task<bool>> Action { get; init; }
+
+        public override async Task<bool> ActivateAsync(
+            NavigationManager navigationManager,
+            string currentUri,
+            ActivationType activationType = ActivationType.Click,
+            CancellationToken cancellationToken = default
+        )
+        {
+            if (!CanActivate(navigationManager, currentUri))
+            {
+                return false;
+            }
+
+            return await Action(activationType, cancellationToken);
+        }
+
+        public override bool IsActive(NavigationManager navigationManager, string currentUri)
+            => false;
     }
 }

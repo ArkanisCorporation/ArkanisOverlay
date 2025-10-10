@@ -10,17 +10,22 @@ set -eEuo pipefail
 #| `stderr`         | Can be used for logging.                                                 |
 
 [[ -z "${VERSION_TAG+x}" ]] && echo "VERSION_TAG is not set" && exit 2
+[[ -z "${GITHUB_REPOSITORY+x}" ]] && GITHUB_REPOSITORY="ArkanisCorporation/ArkanisOverlay"
 [[ -z "${REGISTRY+x}" ]] && REGISTRY="ghcr.io"
 [[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
->&2 echo "Building server web application container..."
-dotnet publish ./src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj \
-    --configuration "${CONFIGURATION}" \
-    --output publish-server \
-    -p:PublishProfile=DefaultContainer \
-    -p:ContainerImageTag="${VERSION_TAG}" \
-    -p:DebugType=None \
-    -p:DebugSymbols=false \
+IMAGE_NAME_BARE=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+IMAGE_NAME=$(echo "${REGISTRY}/${IMAGE_NAME_BARE}")
+
+>&2 echo "Building ${IMAGE_NAME_BARE}..."
+docker buildx build \
+    --load \
+    --cache-from type=gha \
+    --cache-from "${IMAGE_NAME}" \
+    --cache-to type=inline,mode=max \
+    --tag "${IMAGE_NAME_BARE}" \
+    --file ./src/Arkanis.Overlay.Host.Server/Dockerfile \
+    . \
     1>&2 # logging output must not go to stdout
 
->&2 echo "Successfully built the server web application container"
+>&2 echo "Successfully built ${IMAGE_NAME_BARE}!"

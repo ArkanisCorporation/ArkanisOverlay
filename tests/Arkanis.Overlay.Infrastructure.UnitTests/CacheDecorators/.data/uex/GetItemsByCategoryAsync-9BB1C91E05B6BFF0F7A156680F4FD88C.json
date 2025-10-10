@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "c4dc650a-3020-4a7b-8f71-5791abfb29c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "49b22154-6ff8-48af-9740-9b1122c64a07",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Salvaged-Skull-Lounge-Chair",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": "f997c5ec-51a7-4f5b-8e42-d3ec66d8db5a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Salvaged-Skull-Couch",
         "uuid": "e64fbbd8-4562-4a4b-a9ab-afa65a808af3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Salvaged-Skull-Table",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Crusader-Accent-Chair",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Accent-Chair",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Anvil-Accent-Chair",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sand-Nomad-Plant-Pot?_gl=1*1joi7te*_up*MQ..*_ga*MTE3ODY0MzYzLjE3MzYzMjY4MzI.*_ga_V6MWYXRQNP*MTczNjMyNjgzMS4xLjAuMTczNjMyNjgzMS42MC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Bronze-Mya-Vase?_gl=1*1joi7te*_up*MQ..*_ga*MTE3ODY0MzYzLjE3MzYzMjY4MzI.*_ga_V6MWYXRQNP*MTczNjMyNjgzMS4xLjAuMTczNjMyNjgzMS42MC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Baltazar-Stool?_gl=1*1joi7te*_up*MQ..*_ga*MTE3ODY0MzYzLjE3MzYzMjY4MzI.*_ga_V6MWYXRQNP*MTczNjMyNjgzMS4xLjAuMTczNjMyNjgzMS42MC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Red-Festival-Envelope-Display",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Coramor-55-Loveseat?_gl=1%2A1wq1y5g%2A_up%2AMQ..%2A_ga%2ANTU0OTYwNjY5LjE3Mzg3NTY3NDQ.%2A_ga_V6MWYXRQNP%2AMTczODc1Njc0My4xLjEuMTczODc1NjgyMC42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Heartseeker-Double-Bed?_gl=1%2A1yvo8of%2A_up%2AMQ..%2A_ga%2ANTU0OTYwNjY5LjE3Mzg3NTY3NDQ.%2A_ga_V6MWYXRQNP%2AMTczODc1Njc0My4xLjEuMTczODc1NjgyMC42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Hazardous-Cargo-Chair?_gl=1%2A1red3wc%2A_up%2AMQ..%2A_ga%2AOTc4MTg0NTY0LjE3NDExMzI4MDI.%2A_ga_V6MWYXRQNP%2AMTc0MTEzMjgwMi4xLjAuMTc0MTEzMjgwMi42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Wikelo-Emporium-Bust",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       }
     ],
@@ -777,7 +841,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:40 GMT"
+      "Fri, 10 Oct 2025 04:49:40 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -785,50 +849,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34073f31f97e-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=9D4NuDcJmwpCTlmC9tq0QHhGt9rGe22wUc51iux0l2tucHRNZRuPoXyvWn4JtAeZRt1ZTFViH%2FbWEyxht3TA213vzkzLCVJnTzZcbpa4Dlq363gw6HYHefDIeT4o6uQJxoKJ9A%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2139"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4276\u0026min_rtt=3944\u0026rtt_var=290\u0026sent=521\u0026recv=218\u0026lost=0\u0026retrans=0\u0026sent_bytes=692141\u0026recv_bytes=2030\u0026delivery_rate=26214030\u0026cwnd=471\u0026unsent_bytes=0\u0026cid=b557251b02aae575\u0026ts=3179\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84261; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=vCA9kqCFgh3FHo3oxjj4xjpd7qbugcRuzYB1TRmpMW8u%2Bro4sE1iEN%2FjCuG6%2BLY%2BAGotTGWFR4g1GdBs5u9rVQYxtLOD2WHgLVDmIQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37e13993bb377-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:40 GMT"
+      "Sat, 11 Oct 2025 04:14:02 GMT"
     ]
   }
 }

@@ -15,6 +15,9 @@
         <ServerGarbageCollection>false</ServerGarbageCollection>
         <PackageId>Arkanis.Overlay.Host.Desktop</PackageId>
         <AssemblyName>ArkanisOverlay</AssemblyName>
+
+        <!-- Allow building on non-windows platforms -->
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
 
     <PropertyGroup>

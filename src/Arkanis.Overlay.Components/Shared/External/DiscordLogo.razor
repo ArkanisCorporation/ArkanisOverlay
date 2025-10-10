@@ -1,0 +1,82 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+@if (WithoutLink)
+{
+    <div class="discord-logo-wrapper" style="@WrapperStyle">
+        @ImageContent
+    </div>
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetDiscordUrl(ContentId)" Target="_blank">
+        <div class="discord-logo-wrapper" style="@WrapperStyle">
+            @ImageContent
+        </div>
+    </MudLink>
+}
+
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="Discord"/>
+           </picture>;
+
+    private string AssetPath
+        => $"img/Discord-{SizeVariant:G}-{ColorVariant:G}.svg";
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("discord-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    [Parameter]
+    public Variant SizeVariant { get; set; } = Variant.Logo;
+
+    [Parameter]
+    public Color ColorVariant { get; set; } = Color.White;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? WrapperStyle { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    public enum Variant
+    {
+        Symbol,
+        Logo,
+    }
+
+    public enum Color
+    {
+        White,
+        Black,
+        Blurple,
+    }
+
+}

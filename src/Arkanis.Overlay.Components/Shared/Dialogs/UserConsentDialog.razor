@@ -1,0 +1,85 @@
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="@Typo.h6">
+            Please confirm the following…
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <DynamicComponent
+            Type="@Options.ContentComponentType"
+            Parameters="@Options.ContentComponentParameters"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">
+            Close
+        </MudButton>
+
+        <MudSpacer/>
+
+        <MudButton Color="@Color.Success"
+                   Variant="@Variant.Outlined"
+                   OnClick="@Consent">
+            I agree, continue
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public required ContentOptions Options { get; set; }
+
+    [Parameter]
+    public required IUserConsentDialogService.Context Context { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    private void Consent()
+        => MudDialog.Close(DialogResult.Ok(IUserConsentDialogService.Result.Consent));
+
+    protected override void OnInitialized()
+    {
+        Options.ContentComponentParameters.Add(nameof(IUserConsentDialogService.IContent.DialogContext), Context);
+        Options.ContentComponentParameters.Add(
+            nameof(IUserConsentDialogService.IContent.DialogContextChanged),
+            new EventCallbackFactory().Create<IUserConsentDialogService.Context>(this, x => Context = x)
+        );
+    }
+
+    public static async Task<IUserConsentDialogService.Result> ShowAsync(
+        IDialogService dialogService,
+        ContentOptions contentOptions
+    )
+    {
+        var options = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+        };
+
+        var consentContext = new IUserConsentDialogService.Context();
+        var parameters = new DialogParameters
+        {
+            [nameof(Options)] = contentOptions,
+            [nameof(Context)] = consentContext,
+        };
+
+        var dialogReference = await dialogService.ShowAsync<UserConsentDialog>(string.Empty, parameters, options);
+
+        return await dialogReference.GetReturnValueAsync<IUserConsentDialogService.Result>()
+               ?? IUserConsentDialogService.Result.Reject;
+    }
+
+    public class ContentOptions
+    {
+        public required Type ContentComponentType { get; set; }
+        public IDictionary<string, object> ContentComponentParameters { get; set; } = new Dictionary<string, object>();
+    }
+
+}

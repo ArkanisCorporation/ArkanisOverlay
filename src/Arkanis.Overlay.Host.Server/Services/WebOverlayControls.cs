@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Server.Services;
 
 using System.Globalization;
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using MudBlazor;
 
 internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvider, IOverlayEventControls, IDisposable
@@ -19,6 +19,9 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
 
     public void Dispose()
         => _preferencesProvider.ApplyPreferences -= ApplyUserPreferencesAsync;
+
+    public async Task ForceShowAsync()
+        => await ShowAsync();
 
     public ValueTask ShowAsync()
     {
@@ -65,11 +68,33 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     public void OnFocusLost()
         => OverlayBlurred?.Invoke(this, EventArgs.Empty);
 
+    public void OnGameWindowFound()
+        => GameWindowFound?.Invoke(this, EventArgs.Empty);
+
+    public void OnGameWindowLost()
+        => GameWindowLost?.Invoke(this, EventArgs.Empty);
+
+    public void OnGameWindowFocused()
+        => GameWindowFocused?.Invoke(this, EventArgs.Empty);
+
+    public void OnGameWindowBlurred()
+        => GameWindowBlurred?.Invoke(this, EventArgs.Empty);
+
+    public void OnOverlayWindowShown()
+        => OverlayShown?.Invoke(this, EventArgs.Empty);
+
+    public void OnOverlayWindowHidden()
+        => OverlayHidden?.Invoke(this, EventArgs.Empty);
+
     public event EventHandler? OverlayShown;
     public event EventHandler? OverlayHidden;
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
+    public event EventHandler? GameWindowFocused;
+    public event EventHandler? GameWindowBlurred;
+    public event EventHandler? GameWindowFound;
+    public event EventHandler? GameWindowLost;
 
     private void ApplyUserPreferencesAsync(object? sender, UserPreferences userPreferences)
     {

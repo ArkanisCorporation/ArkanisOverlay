@@ -1,16 +1,16 @@
-@using Arkanis.Overlay.Common.Abstractions
 @using Microsoft.AspNetCore.Http.Extensions
 @using Microsoft.JSInterop
 @inherits LayoutComponentBase
+@layout SharedLayoutBase
 @inject IAppVersionProvider VersionProvider
 @inject IJSRuntime JsRuntime
 
 <MudThemeProvider Theme="_currentTheme" IsDarkMode="true"/>
 <MudPopoverProvider/>
 <MudDialogProvider/>
-<MudSnackbarProvider/>
 <AnalyticEventSender/>
 <WebOverlayControlsInterop/>
+<UserConsentDialogProvider/>
 
 <ErrorBoundary @ref="_errorBoundary">
     <ChildContent>
