@@ -15,7 +15,6 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 
 DIRS=(
 publish-win64
-publish-server
 release-win64
 publish-nuget-locallink
 )
