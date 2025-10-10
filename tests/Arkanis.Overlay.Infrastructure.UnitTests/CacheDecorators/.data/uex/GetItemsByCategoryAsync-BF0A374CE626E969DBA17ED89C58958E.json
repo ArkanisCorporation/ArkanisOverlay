@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "d6415769-ff23-430c-a326-d40c6d62ca59",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "9d17991a-4f2b-4521-87a2-3b7d4e90bf94",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "97f26dc9-49a4-4b73-85b1-b8aaff88ffea",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "1f74b7b3-b774-4281-ac22-f11ecb823718",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "74c4ef6b-d3b6-4bff-a148-6330c12ed016",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "2d57b196-4c74-4f04-a7a4-186e437d677a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "fc9c3112-e2e3-48b0-b9d4-3484fd2dc6ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "df93b950-031f-4b7d-9710-ae0276b376d3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "dcc62706-c387-43b3-a8cf-83fbe36bbe9c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "e52145a2-c49d-4a96-b55d-5c51dd1fadd9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "746ba64e-08a2-434f-a5d9-eed795843f4b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "d5f52524-03c8-4f39-9549-95bdc3520573",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "6a0556e6-ac1c-4f07-a7de-4ab83aca909e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "23039d2b-596d-413f-b619-6042df1af3b3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "129dc3f2-f047-4eb9-a2bd-d556c70bed49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "03cdfb37-d44b-4a89-a323-f6526909217c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "0da5705b-b3c5-4041-b8f2-2533c58cf84f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "d27c5682-3b69-442a-8e9d-b4b4f3522734",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "",
         "uuid": "dd68c297-41d1-45db-bb80-db92fda0eb9b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "",
         "uuid": "523963bf-a1f5-4e5b-97bb-7a853a68f610",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "",
         "uuid": "4d7083e2-0d0e-4f21-aced-cbdda58343ad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "18109941-ef7c-425e-ab7c-df32ab75486a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "",
         "uuid": "496c9877-e606-4d98-b39b-71f249c069b4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "",
         "uuid": "28235dfd-a4bf-4cbb-bc15-4fa98cca132e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "737084cb-6bf5-463f-b964-136ab36b0cbb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": "4d74bedb-69e3-473f-bad8-7444355d73d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "33e97c30-96f4-4572-bfde-68958c24c3c7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "88ba53e2-b7f6-4866-9671-e6df9e6db7e1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "3faada6d-35f7-4372-9f34-f5b8e111f32f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "98385d8b-5d09-4195-9b44-e6c850fe4651",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "",
         "uuid": "81dbaf76-2972-4850-982a-d1966531795d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "",
         "uuid": "934ffc4e-2499-4c5b-a3b5-816bf0436ffc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +855,8 @@
         "url_store": "",
         "uuid": "417d11b3-3d1d-4700-ad57-1ebe612abbbe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -815,6 +881,8 @@
         "url_store": "",
         "uuid": "45c8f478-08ec-420e-89eb-a058874aed8e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +907,8 @@
         "url_store": "",
         "uuid": "a8309e5f-c7c3-401d-a5bd-5b2a0bb94da1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +933,8 @@
         "url_store": "",
         "uuid": "81a42eba-6c97-4f2c-b2e7-f5c1efe6be7c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,13 +959,15 @@
         "url_store": "",
         "uuid": "900c3839-b99a-4c30-8c54-934d262b3464",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": "Code Blue Apparel",
         "date_added": 1703555952,
-        "date_modified": 1740470593,
+        "date_modified": 1758151604,
         "id": 1005,
         "id_category": 13,
         "id_company": 55,
@@ -906,11 +980,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "cumulus-pants-red",
         "url_store": "",
         "uuid": "6ac8256f-bca6-4b7d-9506-65833bead805",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +1011,8 @@
         "url_store": "",
         "uuid": "f9c11af1-1b13-4694-836c-612fa23e867d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,6 +1037,8 @@
         "url_store": "",
         "uuid": "f0341939-97c7-46d9-8423-ad11adbcaa8a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -983,6 +1063,8 @@
         "url_store": "",
         "uuid": "05d2d567-0575-42b4-803b-88655162c6f0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1007,6 +1089,8 @@
         "url_store": "",
         "uuid": "29a1a3b7-ee1c-4884-9b7b-b7acd98623a8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1031,6 +1115,8 @@
         "url_store": "",
         "uuid": "f534460a-50bc-4b55-9687-92e4d6e1305c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1141,8 @@
         "url_store": "",
         "uuid": "da3a0745-38eb-464f-af0b-4969ab5ee02e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1167,8 @@
         "url_store": "",
         "uuid": "268dc38b-55aa-43c4-abe8-920110dbc24e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1193,8 @@
         "url_store": "",
         "uuid": "d8a56b78-c95d-4ed9-b6ae-f03a6ad37448",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1219,8 @@
         "url_store": "",
         "uuid": "db40dfef-4eac-4ad2-af15-48a6bbabc888",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1245,8 @@
         "url_store": "",
         "uuid": "fc5a3d45-543e-4ece-9b45-88ff1422ce08",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1175,6 +1271,8 @@
         "url_store": "",
         "uuid": "5f02e112-5dea-402f-9105-5eeaaa1eeb68",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,16 +1297,18 @@
         "url_store": "",
         "uuid": "217f7a33-6635-4006-be06-f1ecf238946c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
-        "date_modified": 1740470723,
+        "date_modified": 1758152075,
         "id": 1240,
         "id_category": 13,
-        "id_company": 0,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -1218,11 +1318,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "foundation-pants-black",
         "url_store": "",
         "uuid": "1413865b-d376-4724-8d54-16b8fce508b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1247,6 +1349,8 @@
         "url_store": "",
         "uuid": "ea8aa707-ceb2-4690-a418-ad3ab8f25b55",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1271,6 +1375,8 @@
         "url_store": "",
         "uuid": "5557b02e-d6c1-4b59-b1dd-8069f7ef15a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1295,11 +1401,13 @@
         "url_store": "",
         "uuid": "4d397ebd-29ac-4c32-84bc-d41ec06404f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470724,
         "id": 1244,
@@ -1319,13 +1427,15 @@
         "url_store": "",
         "uuid": "40d587f0-3929-4fef-b46b-4c3585f81a2e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
-        "date_modified": 1740470725,
+        "date_modified": 1758142415,
         "id": 1245,
         "id_category": 13,
         "id_company": 70,
@@ -1338,16 +1448,18 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "frontier-05-pants-winter",
         "url_store": "",
         "uuid": "e4abb70c-0d56-4549-be9f-58dceaf0f83a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470725,
         "id": 1246,
@@ -1367,11 +1479,13 @@
         "url_store": "",
         "uuid": "5831f7ee-1eca-46e5-a231-70380178773b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470726,
         "id": 1247,
@@ -1391,11 +1505,13 @@
         "url_store": "",
         "uuid": "b61678bc-4b05-4b15-ba60-7fbe22a88caa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470726,
         "id": 1248,
@@ -1415,11 +1531,13 @@
         "url_store": "",
         "uuid": "bb1acaec-70a1-487c-905a-e6ac5de1a680",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470726,
         "id": 1249,
@@ -1439,11 +1557,13 @@
         "url_store": "",
         "uuid": "24b20f66-0a75-471e-a03e-7ebd4d146a01",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470727,
         "id": 1250,
@@ -1463,11 +1583,13 @@
         "url_store": "",
         "uuid": "30711b13-cc9c-435e-977c-e2caf09cb1ce",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470727,
         "id": 1251,
@@ -1487,11 +1609,13 @@
         "url_store": "",
         "uuid": "63101831-4900-4a61-9f90-9fea0679f138",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470728,
         "id": 1252,
@@ -1511,11 +1635,13 @@
         "url_store": "",
         "uuid": "4266a145-86ea-4162-8731-b3ef03809b5f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470728,
         "id": 1253,
@@ -1535,11 +1661,13 @@
         "url_store": "",
         "uuid": "bf3859ac-bdd7-4b11-95f9-319d3b4eaecc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470728,
         "id": 1254,
@@ -1559,11 +1687,13 @@
         "url_store": "",
         "uuid": "c7db14ad-37c5-4745-a253-c4f577cedbdf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470729,
         "id": 1255,
@@ -1583,11 +1713,13 @@
         "url_store": "",
         "uuid": "9fe29632-ec8c-4748-b906-865278d00c6b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470729,
         "id": 1256,
@@ -1607,11 +1739,13 @@
         "url_store": "",
         "uuid": "055c3ff0-e24c-4d87-ab0d-274440b74be7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470730,
         "id": 1257,
@@ -1631,11 +1765,13 @@
         "url_store": "",
         "uuid": "df7b47f1-f6bc-4b0d-b315-eae6afc109f9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470730,
         "id": 1258,
@@ -1655,11 +1791,13 @@
         "url_store": "",
         "uuid": "f19e6228-940c-4a60-aace-266a930955c1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470731,
         "id": 1259,
@@ -1679,11 +1817,13 @@
         "url_store": "",
         "uuid": "d76fb7cd-cff4-4735-9667-d9dfa10e95db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470731,
         "id": 1260,
@@ -1703,11 +1843,13 @@
         "url_store": "",
         "uuid": "5e1f9272-492c-45dd-a57c-b2aaa22676a7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470731,
         "id": 1261,
@@ -1727,11 +1869,13 @@
         "url_store": "",
         "uuid": "eac33b3c-6a21-4e04-84e7-6f42e00110f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470732,
         "id": 1262,
@@ -1751,11 +1895,13 @@
         "url_store": "",
         "uuid": "26cac158-8e28-419e-a0e5-4e7419b14a1b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470732,
         "id": 1263,
@@ -1775,11 +1921,13 @@
         "url_store": "",
         "uuid": "dd8fc7fd-74d8-4492-9055-66bfcf3beb5b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470733,
         "id": 1264,
@@ -1799,11 +1947,13 @@
         "url_store": "",
         "uuid": "0edd3669-a5eb-405c-889b-3ce3b4660880",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470733,
         "id": 1265,
@@ -1823,11 +1973,13 @@
         "url_store": "",
         "uuid": "62f7b4b0-7737-46a8-9dc6-446ad0dd66e6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470734,
         "id": 1266,
@@ -1847,11 +1999,13 @@
         "url_store": "",
         "uuid": "7bc2c62b-4278-4349-89dd-22354c531496",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470734,
         "id": 1267,
@@ -1871,11 +2025,13 @@
         "url_store": "",
         "uuid": "09a03303-cc65-4fa3-9d23-160944399b06",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470735,
         "id": 1268,
@@ -1895,11 +2051,13 @@
         "url_store": "",
         "uuid": "57b6c0d2-23a4-4962-9712-ea488182b030",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470735,
         "id": 1269,
@@ -1919,11 +2077,13 @@
         "url_store": "",
         "uuid": "983bef68-e1cf-407c-af9e-f3913c870282",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470735,
         "id": 1270,
@@ -1943,17 +2103,19 @@
         "url_store": "",
         "uuid": "8f7dfb1e-6f79-4361-838f-fdd5fcc0f493",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
-        "date_modified": 1740470736,
+        "date_modified": 1758152500,
         "id": 1271,
         "id_category": 13,
         "id_company": 70,
-        "id_parent": 0,
+        "id_parent": 1269,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -1962,16 +2124,18 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "razorback-pants-orange",
         "url_store": "",
         "uuid": "c80ac343-70c2-485b-b624-20d74c0c83de",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470736,
         "id": 1272,
@@ -1991,11 +2155,13 @@
         "url_store": "",
         "uuid": "63adf032-98af-41fe-a4bd-34be9cc66a83",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470737,
         "id": 1273,
@@ -2015,11 +2181,13 @@
         "url_store": "",
         "uuid": "a7c713dc-b6d5-4fe7-a19f-ff50fd1a5c0d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470737,
         "id": 1274,
@@ -2039,11 +2207,13 @@
         "url_store": "",
         "uuid": "8f684f3a-c270-42c0-9ffe-eae8e3253659",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470737,
         "id": 1275,
@@ -2063,11 +2233,13 @@
         "url_store": "",
         "uuid": "7a568db7-76bd-46f9-9125-e80e3e35ef76",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470738,
         "id": 1276,
@@ -2087,11 +2259,13 @@
         "url_store": "",
         "uuid": "ede951e2-8a67-49a5-ab04-8b001761629c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470738,
         "id": 1277,
@@ -2111,11 +2285,13 @@
         "url_store": "",
         "uuid": "1d5a40cc-84c7-48e9-8bb0-8851e716a3aa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470739,
         "id": 1278,
@@ -2135,11 +2311,13 @@
         "url_store": "",
         "uuid": "065a00be-c9f9-4762-b44a-49ffecc6dbc0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470739,
         "id": 1279,
@@ -2159,11 +2337,13 @@
         "url_store": "",
         "uuid": "53a6ae6f-5113-4325-920f-b3681bcd0ebc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470740,
         "id": 1280,
@@ -2183,11 +2363,13 @@
         "url_store": "",
         "uuid": "446addf8-d821-4edb-a269-1da2d9caacd6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470740,
         "id": 1281,
@@ -2207,11 +2389,13 @@
         "url_store": "",
         "uuid": "b418034e-d9e9-43aa-9f43-1b50b85f2883",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470741,
         "id": 1282,
@@ -2231,11 +2415,13 @@
         "url_store": "",
         "uuid": "e2a49720-8110-43a7-a15f-28d048764e95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470741,
         "id": 1283,
@@ -2255,11 +2441,13 @@
         "url_store": "",
         "uuid": "f1234b24-a673-4748-8c0a-e92abb88a778",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470741,
         "id": 1284,
@@ -2279,11 +2467,13 @@
         "url_store": "",
         "uuid": "e754c08a-b7bd-4f50-a2df-350a923ec078",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470742,
         "id": 1285,
@@ -2303,11 +2493,13 @@
         "url_store": "",
         "uuid": "e339d52e-721c-4dab-9928-8e410ec2cf44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470742,
         "id": 1286,
@@ -2327,11 +2519,13 @@
         "url_store": "",
         "uuid": "6cde2140-e233-44f1-88a8-8af1690263ce",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470743,
         "id": 1287,
@@ -2351,11 +2545,13 @@
         "url_store": "",
         "uuid": "0df9b852-94b7-410c-86dc-a1643825dbe0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703560743,
         "date_modified": 1740470743,
         "id": 1288,
@@ -2375,6 +2571,8 @@
         "url_store": "",
         "uuid": "56135181-441b-4fc9-be12-5d2a3abe4294",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2597,8 @@
         "url_store": "",
         "uuid": "2ab42a6b-ba40-4783-bd77-e1538238032a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2423,6 +2623,8 @@
         "url_store": "",
         "uuid": "a85d4ed6-162b-4b0f-9984-88f738cae065",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2447,6 +2649,8 @@
         "url_store": "",
         "uuid": "11b2f120-6abc-416b-94ab-17a742cd7d9e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2471,6 +2675,8 @@
         "url_store": "",
         "uuid": "37878ec2-d955-48f9-9e0e-00bde650392b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2495,6 +2701,8 @@
         "url_store": "",
         "uuid": "64c50a1a-0ded-471a-9cb1-e7f55dfad39a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2519,6 +2727,8 @@
         "url_store": "",
         "uuid": "ace14a02-b505-4b2d-90d7-5fb100316ae2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2543,6 +2753,8 @@
         "url_store": "",
         "uuid": "634939f4-75a3-4c6d-aa53-351923296355",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2567,6 +2779,8 @@
         "url_store": "",
         "uuid": "4eb20a49-c6d2-4845-8b53-49d023145afe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2805,8 @@
         "url_store": "",
         "uuid": "fe92b60e-3388-4381-bc44-d4688b8bfc29",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2615,6 +2831,8 @@
         "url_store": "",
         "uuid": "3127a95b-ab41-4048-a80a-2dd9fdf9edc2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2639,6 +2857,8 @@
         "url_store": "",
         "uuid": "195165d6-af78-45ac-adef-26f9ea51d996",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2663,6 +2883,8 @@
         "url_store": "",
         "uuid": "7a561768-d9e7-41f1-83de-80499d028be9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2687,6 +2909,8 @@
         "url_store": "",
         "uuid": "6d3cc78d-f088-447e-b4ea-bd3cb88e07e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2711,6 +2935,8 @@
         "url_store": "",
         "uuid": "9307703b-1b9d-4f4e-a830-9d02cab47019",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2735,6 +2961,8 @@
         "url_store": "",
         "uuid": "c563262d-6c34-481e-bf39-0e82a76930bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2987,8 @@
         "url_store": "",
         "uuid": "45fb823f-f82b-4d3a-92a8-05226435d4d0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2783,6 +3013,8 @@
         "url_store": "",
         "uuid": "1e0609a7-d2be-4d13-b772-3de50283adc9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2807,6 +3039,8 @@
         "url_store": "",
         "uuid": "b5ecae98-7212-4178-bd13-31291b375347",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2831,6 +3065,8 @@
         "url_store": "",
         "uuid": "ccab5ae1-2ad5-4b7b-b47a-6857583e442b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3091,8 @@
         "url_store": "",
         "uuid": "d4a3cf7a-2f76-4283-afe7-200224eb9387",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3117,8 @@
         "url_store": "",
         "uuid": "dd41b53e-03fa-4084-ae19-d17b045dacdc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2903,6 +3143,8 @@
         "url_store": "",
         "uuid": "3562b50a-5ff3-4086-b949-f6330b4111ea",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2927,13 +3169,15 @@
         "url_store": "",
         "uuid": "4e87f809-96b3-4b9f-8e42-dc000b63b296",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": "CBD",
         "date_added": 1703640782,
-        "date_modified": 1740470841,
+        "date_modified": 1758152128,
         "id": 1465,
         "id_category": 13,
         "id_company": 44,
@@ -2946,11 +3190,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "skellig-pants-dirt",
         "url_store": "",
         "uuid": "10417679-641d-4ad9-bfc8-a504cf311601",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2975,6 +3221,8 @@
         "url_store": "",
         "uuid": "8de158da-dba4-4bb4-930f-79c48ce432ef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2999,6 +3247,8 @@
         "url_store": "",
         "uuid": "bcecfae6-323f-48d3-b371-94a8db842907",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3023,6 +3273,8 @@
         "url_store": "",
         "uuid": "f7bf395a-bee3-462b-92fd-12b79e1b02c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3047,6 +3299,8 @@
         "url_store": "",
         "uuid": "3e5146de-a75a-46b7-9a72-e20fda768476",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3071,6 +3325,8 @@
         "url_store": "",
         "uuid": "95dcff43-fbf6-4ea2-a55f-7f904273285f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3095,6 +3351,8 @@
         "url_store": "",
         "uuid": "c0abd32b-a4a7-41f5-8934-b780fedec69b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3119,6 +3377,8 @@
         "url_store": "",
         "uuid": "0b770ab5-ba03-4a1e-a77d-778703a9967f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3143,6 +3403,8 @@
         "url_store": "",
         "uuid": "2238c239-5b44-4645-86db-c0e0afd6c2ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3167,6 +3429,8 @@
         "url_store": "",
         "uuid": "4b6c615e-f196-476b-9639-580430587af0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3191,6 +3455,8 @@
         "url_store": "",
         "uuid": "18d2af08-b04a-4500-8041-50f361749e44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3215,6 +3481,8 @@
         "url_store": "",
         "uuid": "7f7b14af-fd4d-488a-bce5-2767771c2087",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3239,6 +3507,8 @@
         "url_store": "",
         "uuid": "6553d84f-d20e-42e5-84e5-77c91b9434b8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3263,6 +3533,8 @@
         "url_store": "",
         "uuid": "e9e980f2-5949-442b-83c9-d94adb627f1f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3287,6 +3559,8 @@
         "url_store": "",
         "uuid": "1dea02f9-7a4a-4c55-a899-22a6b2461b9b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3311,6 +3585,8 @@
         "url_store": "",
         "uuid": "10f73fb9-c725-4238-8625-3723714775e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3335,6 +3611,8 @@
         "url_store": "",
         "uuid": "334fe8d6-c86e-4491-89e8-c4b74eb46717",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3359,6 +3637,8 @@
         "url_store": "",
         "uuid": "55d4413e-35ce-412a-9904-6d6b7ed17c66",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3383,6 +3663,8 @@
         "url_store": "",
         "uuid": "6e85856e-02dc-47e5-8db0-1a5bad822081",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3407,6 +3689,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3431,6 +3715,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3455,6 +3741,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3479,6 +3767,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3503,6 +3793,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3527,6 +3819,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3551,6 +3845,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -3575,6 +3871,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3599,6 +3897,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3623,6 +3923,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -3647,6 +3949,8 @@
         "url_store": "",
         "uuid": "765597cb-b501-42e9-b42b-a3598dce5433",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3671,6 +3975,8 @@
         "url_store": "",
         "uuid": "f94e1082-a45e-432c-9dbe-24b096a91874",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3695,6 +4001,8 @@
         "url_store": "",
         "uuid": "c49230b7-fb17-49d4-85bf-3006284a399d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3719,6 +4027,8 @@
         "url_store": "",
         "uuid": "f9394ae7-6eab-4f45-b4c0-4bd6a10f2890",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3743,6 +4053,8 @@
         "url_store": "",
         "uuid": "f1a07fef-7357-45f6-846c-94b587ae8c28",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3767,6 +4079,8 @@
         "url_store": "",
         "uuid": "fe193701-90d8-4cfe-99a2-a845c82ec7c1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3791,6 +4105,8 @@
         "url_store": "",
         "uuid": "3ede508c-8658-43f0-b6c7-d30411d5262e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3815,6 +4131,8 @@
         "url_store": "",
         "uuid": "b1ce5cbf-e953-4061-b0ee-8e762b1aa545",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3839,6 +4157,8 @@
         "url_store": "",
         "uuid": "f0a14e29-c9a5-4b47-b682-1e2dc204b2bf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3863,6 +4183,8 @@
         "url_store": "",
         "uuid": "5e9de553-ae0b-42c0-b316-f61f6e71da69",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3887,6 +4209,8 @@
         "url_store": "",
         "uuid": "1cfbeee0-543d-4009-8100-a7f70dc14ae9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3911,6 +4235,8 @@
         "url_store": "",
         "uuid": "644ae5ed-28fb-423e-9f4a-c8f362f3ebc9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3935,6 +4261,8 @@
         "url_store": "",
         "uuid": "5a5053c4-6e28-4ab1-bc07-c00067ff8cc7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3959,6 +4287,8 @@
         "url_store": "",
         "uuid": "fe1d5689-24ed-43ae-8b92-260dbf5268db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3983,6 +4313,8 @@
         "url_store": "",
         "uuid": "e77cb123-af48-45f2-8b0b-64ec3e867a2d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4007,6 +4339,8 @@
         "url_store": "",
         "uuid": "3122a1ea-c354-42c5-a7b5-3a3e4222e0ce",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4031,6 +4365,8 @@
         "url_store": "",
         "uuid": "2ab53264-4365-4285-926a-96b5f8e698d2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4055,6 +4391,8 @@
         "url_store": "",
         "uuid": "29a81172-9a88-43cf-827d-db1006d03c20",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,6 +4417,8 @@
         "url_store": "",
         "uuid": "e80b04d2-24e5-4f01-9068-2920ca050b8e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4103,6 +4443,8 @@
         "url_store": "",
         "uuid": "4702b22c-c820-4a6f-a489-25f867ddae6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4127,6 +4469,8 @@
         "url_store": "",
         "uuid": "72764009-523d-4f75-bbc5-112302f2557b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4151,6 +4495,8 @@
         "url_store": "",
         "uuid": "c8ba470c-0bc4-4cd8-a9bc-01409ea52e64",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4175,6 +4521,8 @@
         "url_store": "",
         "uuid": "44139e7a-2b48-413f-b42e-9797b2dbda6e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4199,6 +4547,8 @@
         "url_store": "",
         "uuid": "c090a184-a48d-4706-b907-379ffdb81f4e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4573,8 @@
         "url_store": "",
         "uuid": "d87d68f4-d74a-4f2b-9d0e-185c8bc0f19f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4247,6 +4599,8 @@
         "url_store": "",
         "uuid": "14f5d0a2-1ab5-4b23-bf07-eb3f7d426b71",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4271,6 +4625,8 @@
         "url_store": "",
         "uuid": "676cb88a-f66d-491b-a67a-0b9f27a069eb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4295,6 +4651,8 @@
         "url_store": "",
         "uuid": "fe208346-a046-4942-b4aa-9fd035ea7af0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4319,6 +4677,8 @@
         "url_store": "",
         "uuid": "3a5774ab-4ffd-4adc-bd5f-a6cd20959a8c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4343,6 +4703,8 @@
         "url_store": "",
         "uuid": "6a5035b6-af8d-49a1-b5a1-efc7118918f6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4367,6 +4729,8 @@
         "url_store": "",
         "uuid": "c4771b30-57cb-40a4-acea-a8f3b9497892",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4391,6 +4755,8 @@
         "url_store": "",
         "uuid": "23e1e6d2-4d53-4fd0-9817-7f759aa6d759",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4415,6 +4781,8 @@
         "url_store": "",
         "uuid": "902b63b1-c288-4fee-ae5f-ca94101a66c5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4807,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-IndVest-Pathfinder-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24"
       },
       {
@@ -4463,11 +4833,13 @@
         "url_store": "",
         "uuid": "34927b3d-ca77-48d1-8fee-04fbaa598f5a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "Denim Manufacturing Company",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1710234107,
         "date_modified": 1740471501,
         "id": 2840,
@@ -4487,6 +4859,8 @@
         "url_store": "",
         "uuid": "f1ab7f13-671a-47d2-8e74-28adf80cb0fa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,6 +4885,8 @@
         "url_store": "",
         "uuid": "7911e8b2-06b3-4d81-a2f4-11ef40269f19",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4535,13 +4911,15 @@
         "url_store": "",
         "uuid": "cc3ce841-eb78-476c-bcee-1b000fe464b6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1710234302,
-        "date_modified": 1740471502,
+        "date_modified": 1758152252,
         "id": 2843,
         "id_category": 13,
         "id_company": 0,
@@ -4554,11 +4932,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "furtimo-pants",
         "url_store": "",
         "uuid": "57787f1a-4989-4ec1-8a6a-99c70dec9574",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4583,6 +4963,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -4607,6 +4989,8 @@
         "url_store": "",
         "uuid": "53dd1aa3-74c4-487f-90ba-7c2c8eeb6abb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4631,6 +5015,8 @@
         "url_store": "",
         "uuid": "8f2abcfc-4206-45e9-a693-7aa390993102",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4655,6 +5041,8 @@
         "url_store": "",
         "uuid": "10ef6de6-f333-41c8-8c8b-e01d87a19625",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4679,6 +5067,8 @@
         "url_store": "",
         "uuid": "18b194ba-a8ab-4c00-aa79-65e5bea59ea3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4703,6 +5093,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4727,6 +5119,8 @@
         "url_store": "",
         "uuid": "2e70e815-a09e-44ea-b897-db2789acffd0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4751,6 +5145,8 @@
         "url_store": "",
         "uuid": "290d5c7a-e71e-419e-9d7e-0b8973ddb82c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4775,6 +5171,8 @@
         "url_store": "",
         "uuid": "dbd9d3dd-e844-44ba-b1dd-28a42983796c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4799,6 +5197,8 @@
         "url_store": "",
         "uuid": "75a2e15a-60c1-49cd-838e-de3cad6c2037",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4823,6 +5223,8 @@
         "url_store": "",
         "uuid": "c37d4eb1-1ee1-4e31-ab3f-b14247f8a692",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4847,6 +5249,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Skullsnap-Enforcer-Outfit",
         "uuid": "8a656319-a8f6-4b38-8624-d02752aa66f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4871,6 +5275,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Toxic-Fog-Enforcer-Outfit",
         "uuid": "e1e1e991-ef23-4f2f-9034-bb0050be223a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4895,6 +5301,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Copperhead-Enforcer-Outfit",
         "uuid": "9f371afa-ec9f-40d9-a03e-f6efad04a7a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4919,6 +5327,8 @@
         "url_store": "",
         "uuid": "dd6b36aa-729d-4a5c-b89c-74e2d1b677ab",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4943,13 +5353,15 @@
         "url_store": "",
         "uuid": "89b497f7-3228-4c5e-95ed-f87d0e880dbd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1710847290,
-        "date_modified": 1740471673,
+        "date_modified": 1757553032,
         "id": 3291,
         "id_category": 13,
         "id_company": 0,
@@ -4962,11 +5374,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "restored-pants-brown",
         "url_store": "",
         "uuid": "1495dd9c-14e1-41cc-a5a9-c8377fb1e873",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4991,6 +5405,8 @@
         "url_store": "",
         "uuid": "6d0a9de6-5b40-461c-8221-b4358594befc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5015,13 +5431,15 @@
         "url_store": "",
         "uuid": "b874ec01-5f07-4e53-93f2-aa0b095c7c32",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1710861062,
-        "date_modified": 1740471687,
+        "date_modified": 1757553014,
         "id": 3316,
         "id_category": 13,
         "id_company": 0,
@@ -5039,6 +5457,8 @@
         "url_store": "",
         "uuid": "d205448c-45cd-4d71-a2bf-c303d94562bf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5063,13 +5483,15 @@
         "url_store": "",
         "uuid": "3093b322-1de0-4125-ade3-71cb55c5b9ca",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1710861652,
-        "date_modified": 1740471690,
+        "date_modified": 1757552646,
         "id": 3322,
         "id_category": 13,
         "id_company": 0,
@@ -5082,11 +5504,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "kavir-pants-conifer",
         "url_store": "",
         "uuid": "979da10e-c04c-45c6-8663-59fb6b3ae729",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5111,6 +5535,8 @@
         "url_store": "",
         "uuid": "8a31caa9-41b9-482c-bfd3-3f89876b12a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5135,6 +5561,8 @@
         "url_store": "",
         "uuid": "bdfed6de-7e10-4b47-a229-5493ab7576a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5159,6 +5587,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-White-Dress-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5183,6 +5613,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-Service-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5207,6 +5639,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Second-Tevarin-War-Red-Dress-Uniform",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5231,6 +5665,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-Cordimon-Voyager-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5255,6 +5691,8 @@
         "url_store": "",
         "uuid": "5259937d-54bf-454c-9fa5-44ff6bddaeb8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5279,6 +5717,8 @@
         "url_store": "",
         "uuid": "9901cce1-5d50-4a4f-8b14-d47816ac4fae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5303,6 +5743,8 @@
         "url_store": "",
         "uuid": "8656b5d0-0202-4bc6-846b-a0a55b2e5ea0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5327,6 +5769,8 @@
         "url_store": "",
         "uuid": "9acc4629-465b-4e08-b84d-f6d8edc3117c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -5351,6 +5795,8 @@
         "url_store": "",
         "uuid": "73882e93-2dbf-423a-b498-719f8e194876",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5375,6 +5821,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5399,6 +5847,8 @@
         "url_store": "",
         "uuid": "335cb29d-af24-46f0-bb07-f65286757e8b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5423,6 +5873,8 @@
         "url_store": "",
         "uuid": "1bc4abfc-9c0d-4132-8c0a-90dfe2ab8c13",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5447,6 +5899,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5471,6 +5925,8 @@
         "url_store": "",
         "uuid": "7472c418-104b-4ef3-8cf7-f6541e6e8efe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5495,6 +5951,8 @@
         "url_store": "",
         "uuid": "28236e4c-d685-412a-b007-ac11ed3c4df9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5519,13 +5977,15 @@
         "url_store": "",
         "uuid": "a610c3b8-3cf4-40cd-8237-8b9e34645ad8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": "CBD",
         "date_added": 0,
-        "date_modified": 1740471884,
+        "date_modified": 1754676012,
         "id": 3974,
         "id_category": 13,
         "id_company": 44,
@@ -5538,18 +5998,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "tekaw-pants-s8eh",
         "url_store": "",
         "uuid": "a59ca72b-9230-48f9-871f-a7e897da0067",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": "Alejo Brothers",
         "date_added": 1730716781,
-        "date_modified": 1740471895,
+        "date_modified": 1749148138,
         "id": 4006,
         "id_category": 13,
         "id_company": 10,
@@ -5567,16 +6029,18 @@
         "url_store": "",
         "uuid": "28e937a8-6d94-408f-bac2-e9f61b5484f1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": "DMC",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1730718551,
-        "date_modified": 1740471896,
+        "date_modified": 1758152186,
         "id": 4010,
         "id_category": 13,
-        "id_company": 287,
+        "id_company": 70,
         "id_parent": 4010,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5586,11 +6050,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "chamar-pants",
         "url_store": "",
         "uuid": "c7c2cb79-7923-4f43-b1d8-b2d08813e217",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5615,17 +6081,19 @@
         "url_store": "",
         "uuid": "c8c97418-ec43-4db4-aff5-93a69f3d959a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732719543,
-        "date_modified": 1740471939,
+        "date_modified": 1754676012,
         "id": 4125,
         "id_category": 13,
         "id_company": 0,
-        "id_parent": 0,
+        "id_parent": 3974,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5639,13 +6107,15 @@
         "url_store": "",
         "uuid": "f77ec3e0-bc04-4acc-9edc-dfb538101a7c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732719543,
-        "date_modified": 1740471940,
+        "date_modified": 1754676060,
         "id": 4126,
         "id_category": 13,
         "id_company": 0,
@@ -5658,18 +6128,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "silverton-pants-indigo",
         "url_store": "",
         "uuid": "d73fc595-1268-47fc-a965-c86522928e37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732719543,
-        "date_modified": 1740471940,
+        "date_modified": 1754676060,
         "id": 4127,
         "id_category": 13,
         "id_company": 0,
@@ -5687,13 +6159,15 @@
         "url_store": "",
         "uuid": "457f27cb-80a9-419f-b230-7c1a8fbfa033",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732719543,
-        "date_modified": 1740471940,
+        "date_modified": 1754675903,
         "id": 4128,
         "id_category": 13,
         "id_company": 0,
@@ -5706,18 +6180,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "canelo-pants-snow",
         "url_store": "",
         "uuid": "09772217-9340-4f3c-996e-5de87983aa8e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732719543,
-        "date_modified": 1740471941,
+        "date_modified": 1756341069,
         "id": 4129,
         "id_category": 13,
         "id_company": 0,
@@ -5735,16 +6211,18 @@
         "url_store": "",
         "uuid": "6a7f3a81-fe02-4ba7-b7be-67ae0630a285",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1732719543,
-        "date_modified": 1740471941,
+        "date_modified": 1758151272,
         "id": 4130,
         "id_category": 13,
-        "id_company": 0,
+        "id_company": 10,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5754,22 +6232,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "guerra-pants",
         "url_store": "",
         "uuid": "5ddb14b7-d659-4fbb-8811-14a641c9f169",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1732719543,
-        "date_modified": 1740471942,
+        "date_modified": 1758151217,
         "id": 4131,
         "id_category": 13,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 4130,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5778,22 +6258,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "guerra-pants-finch",
         "url_store": "",
         "uuid": "ac1063d5-1b00-4284-82e8-cedf64915eb1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1732719543,
-        "date_modified": 1740471942,
+        "date_modified": 1758151246,
         "id": 4132,
         "id_category": 13,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 4130,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5802,22 +6284,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "guerra-pants-stonewall",
         "url_store": "",
         "uuid": "08bc4ddc-87ec-4c29-8244-159b51efc406",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
         "company_name": null,
         "date_added": 1732915407,
-        "date_modified": 1740471950,
+        "date_modified": 1754676012,
         "id": 4151,
         "id_category": 13,
         "id_company": 0,
-        "id_parent": 0,
+        "id_parent": 3974,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5831,6 +6315,8 @@
         "url_store": "",
         "uuid": "0a4ab374-648d-4ebc-87eb-43c4a7ed3173",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5855,6 +6341,8 @@
         "url_store": "",
         "uuid": "9ecc270d-fcb6-4639-82b2-1d149b776230",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5879,16 +6367,18 @@
         "url_store": "",
         "uuid": "843a165d-31c2-4e1c-801c-5c83a01ce09f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1733268200,
-        "date_modified": 1740471963,
+        "date_modified": 1749148205,
         "id": 4189,
         "id_category": 13,
-        "id_company": 0,
+        "id_company": 10,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5903,6 +6393,8 @@
         "url_store": "",
         "uuid": "488e8177-44c4-431b-ae9e-2b5615f37282",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5927,6 +6419,8 @@
         "url_store": "",
         "uuid": "d2342185-bf81-4576-ae2b-626462471561",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5951,6 +6445,8 @@
         "url_store": "",
         "uuid": "90f48522-b1b5-4afe-b672-b03d6f296c80",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5975,6 +6471,8 @@
         "url_store": "",
         "uuid": "a3b0ef25-c188-49f4-9a70-30efad2b0818",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5999,6 +6497,8 @@
         "url_store": "",
         "uuid": "a92cab3c-d2a6-4a4c-8940-8ee722edeca9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6023,6 +6523,8 @@
         "url_store": "",
         "uuid": "73639b78-2bf1-40cf-9470-74335a3fe53f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6047,17 +6549,19 @@
         "url_store": "",
         "uuid": "5de8da89-6384-41b3-a3d8-9487768b9b6c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1734091794,
-        "date_modified": 1740471983,
+        "date_modified": 1758151184,
         "id": 4232,
         "id_category": 13,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 4130,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6066,22 +6570,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "guerra-pants-cloudcover",
         "url_store": "",
         "uuid": "3ec065c9-c66a-451d-8938-d3195ec3d74f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legwear",
-        "company_name": null,
+        "company_name": "Alejo Brothers",
         "date_added": 1734091794,
-        "date_modified": 1740471983,
+        "date_modified": 1758151077,
         "id": 4233,
         "id_category": 13,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 10,
+        "id_parent": 4130,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6090,11 +6596,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "guerra-pants-daylight",
         "url_store": "",
         "uuid": "4944bb64-99d0-42e1-b735-bc24948f23d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6119,6 +6627,8 @@
         "url_store": "",
         "uuid": "0d4f9ecf-e9df-47ac-88a3-e914b72e172e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6143,6 +6653,8 @@
         "url_store": "",
         "uuid": "8d67a382-7002-46a7-a2c6-fe31fd89c38b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6167,6 +6679,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -6191,7 +6705,191 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
+      },
+      {
+        "category": "Legwear",
+        "company_name": "Fiore",
+        "date_added": 1748012604,
+        "date_modified": 1749514389,
+        "id": 4568,
+        "id_category": 13,
+        "id_company": 93,
+        "id_parent": 2065,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Lillo Pants Esteril",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "lillo-pants-esteril",
+        "url_store": "",
+        "uuid": "10f73fb9-c725-4238-8625-3723714775e7",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Legwear",
+        "company_name": "Greycat Industrial",
+        "date_added": 1754445857,
+        "date_modified": 1758152354,
+        "id": 4829,
+        "id_category": 13,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ThermoWeave Pants ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "thermoweave-pants-asd-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Greycat-ASD-Refinery-Suit",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legwear",
+        "company_name": "987 Clothing",
+        "date_added": 1758150701,
+        "date_modified": 1758150909,
+        "id": 4941,
+        "id_category": 13,
+        "id_company": 288,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Union Pants Teal",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "union-pants-teal",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legwear",
+        "company_name": "Denim Manufacture Corporation",
+        "date_added": 1758151771,
+        "date_modified": 1758151854,
+        "id": 4942,
+        "id_category": 13,
+        "id_company": 70,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Frontier 11 Classic Brick",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "frontier-11-classic-brick",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legwear",
+        "company_name": null,
+        "date_added": 1758795533,
+        "date_modified": 0,
+        "id": 5003,
+        "id_category": 13,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Silverton Pants Charcoal",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "silverton-pants-charcoal",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legwear",
+        "company_name": null,
+        "date_added": 1758795533,
+        "date_modified": 0,
+        "id": 5004,
+        "id_category": 13,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Silverton Pants Sage",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "silverton-pants-sage",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legwear",
+        "company_name": null,
+        "date_added": 1758795533,
+        "date_modified": 0,
+        "id": 5005,
+        "id_category": 13,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Frontier 11 Classic Sand",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "frontier-11-classic-sand",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
       }
     ],
     "http_code": 200,
@@ -6201,7 +6899,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:37 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -6209,50 +6907,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33f98b438176-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=hOx5bMfqmkkz8fMI4lUDibENQAcRwH%2FIli6sv4NVPDr0hVbohmcsLXv2xX5lNSo4RRZPAZxMdyhhz9RPOxdo%2F1cuBHEqsf5UpiPuB02K92nQxXCM6spp23Ewm%2ByEgd2DT6vjig%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2007"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4474\u0026min_rtt=4232\u0026rtt_var=68\u0026sent=58\u0026recv=24\u0026lost=0\u0026retrans=0\u0026sent_bytes=71884\u0026recv_bytes=870\u0026delivery_rate=9208351\u0026cwnd=255\u0026unsent_bytes=0\u0026cid=495ace438151ab96\u0026ts=964\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84393; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=7B1JnwfIqpw9XXkFtTwY5XGsItvTdrBsub34xDYENH5zDSLwL1RICf1On5ZF522W8BJPVMQ6TvxxJNzO7odGRSQQESWDmFzx4XNLGg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9ad8dfb383-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:37 GMT"
+      "Sat, 11 Oct 2025 04:13:52 GMT"
     ]
   }
 }

@@ -5,7 +5,7 @@
         "category": "Bombs",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703795210,
-        "date_modified": 1740470999,
+        "date_modified": 1748416419,
         "id": 1743,
         "id_category": 70,
         "id_company": 94,
@@ -23,13 +23,15 @@
         "url_store": "",
         "uuid": "3c3f79ae-acb2-4472-a08d-2ddb1afcc700",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Bombs",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703795210,
-        "date_modified": 1740470999,
+        "date_modified": 1748416389,
         "id": 1744,
         "id_category": 70,
         "id_company": 94,
@@ -47,13 +49,15 @@
         "url_store": "",
         "uuid": "1b95523e-e2de-4de9-9b41-2cf79bfae59a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Bombs",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703795210,
-        "date_modified": 1740471000,
+        "date_modified": 1748416356,
         "id": 1745,
         "id_category": 70,
         "id_company": 94,
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "2b8a744d-c0a0-4f92-b0e6-bf4ae077cc11",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       }
     ],
@@ -81,7 +87,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -89,50 +95,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34056bf0cd2b-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=t%2BAtfgDr%2BqpimGZdWX9LWgAvVEssVuyu4UzhHDGONjUQytVRHSMUTdRfovAxI6qEhmBzbta1sFvhAFlw6h4wKY6mHAO7SZcDby7JKYKVlNTswHLi26v9kVd0bpYbj4RNSxntEQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1997"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4384\u0026min_rtt=4218\u0026rtt_var=121\u0026sent=426\u0026recv=182\u0026lost=0\u0026retrans=0\u0026sent_bytes=555727\u0026recv_bytes=2185\u0026delivery_rate=25768402\u0026cwnd=349\u0026unsent_bytes=0\u0026cid=e558bd9e947b5640\u0026ts=2890\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84403; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=CMQTUkwS%2FJM4x9H3UCvZvvRVadwtRXnVjjU5XuPet9YAqJqSJ2Np3TleMrwfTpAY2iCegz3ayxu9g0awkq%2FboBT2Cqgx83rmfUExmQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9beb79f976-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:02 GMT"
     ]
   }
 }

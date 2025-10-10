@@ -68,13 +68,22 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     public void OnFocusLost()
         => OverlayBlurred?.Invoke(this, EventArgs.Empty);
 
-    public void OnWindowFound()
-        => WindowFound?.Invoke(this, EventArgs.Empty);
+    public void OnGameWindowFound()
+        => GameWindowFound?.Invoke(this, EventArgs.Empty);
 
-    public void OnWindowShown()
+    public void OnGameWindowLost()
+        => GameWindowLost?.Invoke(this, EventArgs.Empty);
+
+    public void OnGameWindowFocused()
+        => GameWindowFocused?.Invoke(this, EventArgs.Empty);
+
+    public void OnGameWindowBlurred()
+        => GameWindowBlurred?.Invoke(this, EventArgs.Empty);
+
+    public void OnOverlayWindowShown()
         => OverlayShown?.Invoke(this, EventArgs.Empty);
 
-    public void OnWindowHidden()
+    public void OnOverlayWindowHidden()
         => OverlayHidden?.Invoke(this, EventArgs.Empty);
 
     public event EventHandler? OverlayShown;
@@ -82,7 +91,10 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
 
     public event EventHandler? OverlayFocused;
     public event EventHandler? OverlayBlurred;
-    public event EventHandler? WindowFound;
+    public event EventHandler? GameWindowFocused;
+    public event EventHandler? GameWindowBlurred;
+    public event EventHandler? GameWindowFound;
+    public event EventHandler? GameWindowLost;
 
     private void ApplyUserPreferencesAsync(object? sender, UserPreferences userPreferences)
     {

@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "70f6dd3a-790c-4b8b-b355-c256e09af19f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "a3d6dd14-85ee-4feb-baeb-e92ca171714c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "0eb8f884-d644-4c26-af5b-ec91b88b732c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "1c3a0ff1-a58b-4903-b242-ff3a84d0eabc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "21c17af8-5a87-4c56-ba1a-091926192b60",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "b43d3e2f-952a-4970-a4bd-b12018a3c80b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,13 +179,15 @@
         "url_store": "",
         "uuid": "1f9286a2-1181-4129-a2ac-450b63271082",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Clark Defense Systems",
         "date_added": 1703527969,
-        "date_modified": 1740441981,
+        "date_modified": 1750178629,
         "id": 367,
         "id_category": 4,
         "id_company": 53,
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "3b12c3bd-bfd9-4aab-b21b-092af0500bc8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,37 +231,41 @@
         "url_store": "",
         "uuid": "91e37b74-cbf8-4a72-82e4-419d0874a84e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Clark Defense Systems",
         "date_added": 1703527969,
-        "date_modified": 1740441982,
+        "date_modified": 1758386551,
         "id": 369,
         "id_category": 4,
         "id_company": 53,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
+        "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
         "name": "ORC-mkX Legs Iceborn",
-        "notification": null,
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "orc-mkx-legs-iceborn",
-        "url_store": "",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Medium",
         "uuid": "f8a4bdca-fbec-4b71-b593-dc4472eda053",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Clark Defense Systems",
         "date_added": 1703527969,
-        "date_modified": 1740441983,
+        "date_modified": 1750177047,
         "id": 370,
         "id_category": 4,
         "id_company": 53,
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "b400fde5-495b-47b1-a9d8-210b1d5cb4fd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "d8177e36-e202-470f-8465-8f57dbebd1d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "21e4238f-5563-4c25-9014-b0e64e3697b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "cd5f4f54-3426-4030-ae86-addf74c94d96",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "f77d51be-57d7-4761-bb56-4d0c7bfe8107",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "d8e8a84d-812a-4969-8965-95f7b96b0081",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "febdefcd-df09-43ef-8cae-436aa68867e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "1e1edec0-3bd3-45dd-a5c1-581ad4f12208",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "",
         "uuid": "38354858-f9cb-45ed-8d60-fc930ef43060",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "",
         "uuid": "f26950df-7f53-4afa-9575-397543dcbfbd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "",
         "uuid": "3d57d3c4-185a-4426-8d92-239fc8f0a59a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "15b9d1ac-2fe0-4d7b-aa6d-dc0d3fdb6e8e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "",
         "uuid": "79cc1609-86aa-428b-8763-64defc51302f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "",
         "uuid": "86968efd-3f2f-460e-947f-10f8d5de22ef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "85318886-74c4-484f-80ad-7482d4cea1a1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": "409def54-f7ff-468c-be29-2a7715091164",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "1d6987f1-51c0-4a3a-b564-0e599d24f905",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "acb79b6d-ad70-40c7-918b-5ec9da00284a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "00a7a4ee-b8b0-4731-9be8-2070ef48e22d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "b29cf453-505d-4b48-8944-d6deb6205037",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "",
         "uuid": "e76d0e26-cd03-4b93-8abd-e94813ccec43",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "",
         "uuid": "3c33ac15-c543-4462-86ce-75a2e965bfd0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +855,8 @@
         "url_store": "",
         "uuid": "360975a4-2088-452d-be3d-dc4bb7c2428b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -815,6 +881,8 @@
         "url_store": "",
         "uuid": "be1669d9-4b51-4971-8cbe-6828201c2916",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +907,8 @@
         "url_store": "",
         "uuid": "2bcfdf4f-091f-43db-8bb7-fad268eb3d52",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +933,8 @@
         "url_store": "",
         "uuid": "ba835a71-1bdb-4bac-9c59-e7105837ad3f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,6 +959,8 @@
         "url_store": "",
         "uuid": "5e9b758a-6189-4190-ba21-9e8fd258f3e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -911,6 +985,8 @@
         "url_store": "",
         "uuid": "3c38120f-ed09-4459-b8f8-3788665c83b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +1011,8 @@
         "url_store": "",
         "uuid": "f415b965-5e2c-4e43-a115-d1cf49e1cb1a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,6 +1037,8 @@
         "url_store": "",
         "uuid": "99202bc9-5db7-4e0d-b8c6-7c038e8053ab",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -983,6 +1063,8 @@
         "url_store": "",
         "uuid": "9a1f56b5-5cf2-4755-94a3-3e1d9a8d0efe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1007,6 +1089,8 @@
         "url_store": "",
         "uuid": "f7cff000-a26b-4f5b-a8ae-14c94b2ce9e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1031,6 +1115,8 @@
         "url_store": "",
         "uuid": "004c9406-31c4-45d4-a052-2d2453315726",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1141,8 @@
         "url_store": "",
         "uuid": "a514dfdf-fe27-4921-87ef-81b47b49b844",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1167,8 @@
         "url_store": "",
         "uuid": "4f7dae90-0366-431c-9f65-79b17f571512",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1193,8 @@
         "url_store": "",
         "uuid": "ee473fc2-9edd-4c01-adff-2f97a14a9d9c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1219,8 @@
         "url_store": "",
         "uuid": "6909c564-75b1-4b76-8673-efec8e7c3374",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1245,8 @@
         "url_store": "",
         "uuid": "cdf17d88-1408-42ea-8339-74e4078f80de",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1175,6 +1271,8 @@
         "url_store": "",
         "uuid": "a3509d0d-e42f-42aa-a3c3-b1e186e58821",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1297,8 @@
         "url_store": "",
         "uuid": "8e324694-2487-4ac2-83c0-63adea162d6b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,13 +1323,15 @@
         "url_store": "",
         "uuid": "b5c3262c-936a-4f82-8b4a-ff97c3d1cafe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Greycat Industrial",
         "date_added": 1703539901,
-        "date_modified": 1747181252,
+        "date_modified": 1750177105,
         "id": 804,
         "id_category": 4,
         "id_company": 123,
@@ -1247,6 +1349,8 @@
         "url_store": "",
         "uuid": "cd86a6ff-0abc-4bf0-bce3-00be8cc3643e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1271,6 +1375,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Thule-Armor",
         "uuid": "91639417-38c9-44fb-8571-9cb15f2676ff",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1295,13 +1401,15 @@
         "url_store": "",
         "uuid": "967d0beb-d88c-4b9f-8ad0-15a73b194486",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Roberts Space Industries",
         "date_added": 1703539901,
-        "date_modified": 1747181277,
+        "date_modified": 1750177171,
         "id": 814,
         "id_category": 4,
         "id_company": 217,
@@ -1319,6 +1427,8 @@
         "url_store": "",
         "uuid": "161db7cd-3351-43af-9961-972ec7e0ef39",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1343,6 +1453,8 @@
         "url_store": "",
         "uuid": "824428be-669c-43e0-a91d-3ac080afaff9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1367,6 +1479,8 @@
         "url_store": "",
         "uuid": "657d2013-11e3-4703-b7e9-0cf841d77e2d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1391,6 +1505,8 @@
         "url_store": "",
         "uuid": "b3ee21ef-a873-464d-a171-61f29cc40239",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1415,6 +1531,8 @@
         "url_store": "",
         "uuid": "286d9720-cdf9-48c3-b07b-12317153cf31",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1439,6 +1557,8 @@
         "url_store": "",
         "uuid": "cd2815a5-bc11-4327-8c8c-ad7a1db289e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1583,8 @@
         "url_store": "",
         "uuid": "19b443a4-b5d2-42f2-85a6-6849d9a4ca38",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,6 +1609,8 @@
         "url_store": "",
         "uuid": "d83b35bf-d498-4c13-bac8-b3d81ecabf0a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1511,6 +1635,8 @@
         "url_store": "",
         "uuid": "283f255c-75b7-4258-bdc0-ffd5f34d40c1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1535,6 +1661,8 @@
         "url_store": "",
         "uuid": "cc7aa50a-e09d-4d23-a417-1386a35b0a2b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1559,6 +1687,8 @@
         "url_store": "",
         "uuid": "7564647d-f877-44b1-bdbc-a0a38401a48c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1583,6 +1713,8 @@
         "url_store": "",
         "uuid": "b55128e3-2096-4c70-8ce6-b702145acb13",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1739,8 @@
         "url_store": "",
         "uuid": "02c66dca-b18d-4c2f-b6f2-125283a255c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1765,8 @@
         "url_store": "",
         "uuid": "3a9fc5f6-69f2-4e92-a67e-5b52d1933df9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1655,6 +1791,8 @@
         "url_store": "",
         "uuid": "a3f55b76-f6c2-4f06-a1d4-97748d88854f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1679,6 +1817,8 @@
         "url_store": "",
         "uuid": "959efb23-1a62-4c27-a37a-d92cdebc21d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1843,8 @@
         "url_store": "",
         "uuid": "79a22a44-b37a-4e6a-baa9-8561a41a50c4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1869,8 @@
         "url_store": "",
         "uuid": "db98eb3f-c53d-48e2-a922-6f067e119754",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1895,8 @@
         "url_store": "",
         "uuid": "f809e10f-f506-4885-af4d-cc68a49e29bb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1921,8 @@
         "url_store": "",
         "uuid": "f0e4f43a-a0fa-4388-b536-97f2343c02ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1947,8 @@
         "url_store": "",
         "uuid": "26d116dd-ae63-485f-9146-f4f4f5ae548d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,6 +1973,8 @@
         "url_store": "",
         "uuid": "1ffe9071-a197-4bb6-811c-fbf617514036",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1847,6 +1999,8 @@
         "url_store": "",
         "uuid": "2d1af572-a455-444f-83c6-3ea3b8e729f2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1871,6 +2025,8 @@
         "url_store": "",
         "uuid": "67985f0c-9d48-44f6-ab8c-ea9ba38b211a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,6 +2051,8 @@
         "url_store": "",
         "uuid": "3714af80-6da5-4c42-8b78-60166d1b5987",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1919,6 +2077,8 @@
         "url_store": "",
         "uuid": "bf9e7f98-fee7-4d17-8588-02238efcb637",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1943,6 +2103,8 @@
         "url_store": "",
         "uuid": "b42ecd28-d8e0-402e-aaf9-86c4a9d97169",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1967,6 +2129,8 @@
         "url_store": "",
         "uuid": "bc7fbd95-c07c-42b0-ad49-8d8a8fd2382d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1991,6 +2155,8 @@
         "url_store": "",
         "uuid": "176870b5-382f-4ac9-aea3-672534424433",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2015,6 +2181,8 @@
         "url_store": "",
         "uuid": "adfab1f7-6f7a-4fc5-9392-bf546601ee12",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2039,6 +2207,8 @@
         "url_store": "",
         "uuid": "a7a1807b-4ffa-420a-939c-d181cbabfc91",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2063,6 +2233,8 @@
         "url_store": "",
         "uuid": "ef59bc92-3b46-49c3-9064-e9ffe3310e90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2087,6 +2259,8 @@
         "url_store": "",
         "uuid": "98593fc3-d513-41bd-a713-ef9ed1ddd479",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2285,8 @@
         "url_store": "",
         "uuid": "d579625b-9d8f-4201-bf35-cb352087db88",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2135,6 +2311,8 @@
         "url_store": "",
         "uuid": "08aea7b0-b442-457d-8cbc-7f876e7eb5cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2159,6 +2337,8 @@
         "url_store": "",
         "uuid": "8e38d63c-a639-4976-abe6-0dc2b260ad06",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2183,6 +2363,8 @@
         "url_store": "",
         "uuid": "169f4e21-4b7b-42ba-ba7d-16edd1f5a4bf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2207,6 +2389,8 @@
         "url_store": "",
         "uuid": "3e535b8f-9ca3-457b-aad7-ee496e7c9fd0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2231,6 +2415,8 @@
         "url_store": "",
         "uuid": "a26b114d-646e-43c3-af7f-4b0b2bf6d2b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2255,6 +2441,8 @@
         "url_store": "",
         "uuid": "193991a2-0905-42b8-9076-468d07b76163",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2279,6 +2467,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Aftershock-Armor",
         "uuid": "974e7ba4-3434-493f-9dff-43ca935fdaea",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2303,6 +2493,8 @@
         "url_store": "",
         "uuid": "9010ca86-09f5-43de-9016-5aafc4cbb481",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2327,6 +2519,8 @@
         "url_store": "",
         "uuid": "c3aa9f68-1cbb-45d3-b78f-b0b0087c4c7d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2351,6 +2545,8 @@
         "url_store": "",
         "uuid": "132f3822-b981-4b61-8358-02df0f7c1f4d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2375,6 +2571,8 @@
         "url_store": "",
         "uuid": "40d591f3-e9ec-484c-8d3f-051917d293f2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2597,8 @@
         "url_store": "",
         "uuid": "d45f28b2-c1a6-4ddf-bb25-ec262c518610",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2423,17 +2623,19 @@
         "url_store": "",
         "uuid": "aa61c64c-d016-4830-9b19-5e5e834bf543",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1703686350,
-        "date_modified": 1740470901,
+        "date_modified": 1754674376,
         "id": 1566,
         "id_category": 4,
         "id_company": 151,
-        "id_parent": 0,
+        "id_parent": 1566,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -2447,6 +2649,8 @@
         "url_store": "",
         "uuid": "b75d74b1-312f-4d47-aec6-f9f767cf64a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2471,6 +2675,8 @@
         "url_store": "",
         "uuid": "c9ea8b31-e7e6-46ca-84e8-7c4dc7fee8da",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2495,6 +2701,8 @@
         "url_store": "",
         "uuid": "33ae835f-53c7-4131-85b0-82d2f75fb081",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2519,6 +2727,8 @@
         "url_store": "",
         "uuid": "355e287a-433f-4286-bff2-d7367008169a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2543,6 +2753,8 @@
         "url_store": "",
         "uuid": "7c72f1fb-e277-4d7c-9430-145937268ab2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2567,6 +2779,8 @@
         "url_store": "",
         "uuid": "c73f9e25-f10f-481e-8136-3eed451d5d62",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2805,8 @@
         "url_store": "",
         "uuid": "8d61cad9-e318-4c8a-8505-402456ec044e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2615,6 +2831,8 @@
         "url_store": "",
         "uuid": "0055d718-49f0-4225-90cd-81ba57875c00",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2639,6 +2857,8 @@
         "url_store": "",
         "uuid": "bbc4d982-f0ea-45f8-888d-a38111787a2c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2663,6 +2883,8 @@
         "url_store": "",
         "uuid": "d7a7cb0a-c39c-41a9-bb8e-fbbb555b1cf8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2687,6 +2909,8 @@
         "url_store": "",
         "uuid": "510ece79-69ee-4fe2-905e-4b1a7fab4b21",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2711,6 +2935,8 @@
         "url_store": "",
         "uuid": "fe103ec5-a4aa-4bf8-af45-f4f1b0256341",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2735,6 +2961,8 @@
         "url_store": "",
         "uuid": "351dfd89-9884-4489-8600-30a9208a74ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2987,8 @@
         "url_store": "",
         "uuid": "229667b8-fb14-465f-9113-2143b9fb0b94",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2783,6 +3013,8 @@
         "url_store": "",
         "uuid": "56877888-3a10-4fb0-a6b9-9aed03841763",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2807,6 +3039,8 @@
         "url_store": "",
         "uuid": "1034cccc-0a01-41aa-b0b5-76725a48e04a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2831,6 +3065,8 @@
         "url_store": "",
         "uuid": "61a4d74a-64c2-4332-b302-c8923f5d6bf9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3091,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Terracotta-Armor#",
         "uuid": "88eb6f3c-b507-4173-bb14-126c7ecd6d7b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3117,8 @@
         "url_store": "",
         "uuid": "69f4611b-0347-428f-be08-4636faa8d076",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2903,6 +3143,8 @@
         "url_store": "",
         "uuid": "3f4d46ba-9512-4277-8ff1-0c0b96904401",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2927,6 +3169,8 @@
         "url_store": "",
         "uuid": "6ccf55f7-b9b5-44c7-b05e-ed81c308b05d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2951,30 +3195,34 @@
         "url_store": "",
         "uuid": "d72c6cee-22a0-4fbb-9323-613eabf0eeaf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Roberts Space Industries",
         "date_added": 1703714717,
-        "date_modified": 1740470979,
+        "date_modified": 1758385966,
         "id": 1697,
         "id_category": 4,
         "id_company": 217,
         "id_parent": 173,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
+        "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
         "name": "Venture Legs White",
-        "notification": null,
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "venture-legs-white",
-        "url_store": "",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Light",
         "uuid": "8fa06ec9-953c-4de4-8038-abf5b332f7b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2999,6 +3247,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3023,6 +3273,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3047,6 +3299,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3071,6 +3325,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3095,6 +3351,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3119,6 +3377,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3143,6 +3403,8 @@
         "url_store": "",
         "uuid": "88ee3ada-6603-4a32-8479-c62e3d2728e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3167,6 +3429,8 @@
         "url_store": "",
         "uuid": "c0d49eda-3381-46a9-abfd-97e540a5a8aa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3191,6 +3455,8 @@
         "url_store": "",
         "uuid": "616f9de6-f29e-4de9-b827-1614a6fc0ff4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3215,6 +3481,8 @@
         "url_store": "",
         "uuid": "64012c1d-d762-4e5c-86af-33da8d775c2c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3239,6 +3507,8 @@
         "url_store": "",
         "uuid": "db1d1700-8ec0-43cf-9cfb-8bb68e191647",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3263,6 +3533,8 @@
         "url_store": "",
         "uuid": "1376ec64-6a00-4104-8fa6-d09648b4c323",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3287,6 +3559,8 @@
         "url_store": "",
         "uuid": "6de6cdd2-6087-4dbd-8a13-c950b5b572b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3311,6 +3585,8 @@
         "url_store": "",
         "uuid": "c0014f7f-a016-42c3-9c04-09aa39c62011",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3335,6 +3611,8 @@
         "url_store": "",
         "uuid": "10bd760e-5fef-4ca4-a767-d3911549ff69",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3359,6 +3637,8 @@
         "url_store": "",
         "uuid": "f8537aee-df0c-4d44-bdd8-340bdf4c2a30",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3383,6 +3663,8 @@
         "url_store": "",
         "uuid": "11f3c184-5fe3-4a5e-b807-8daf35d9f609",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3407,6 +3689,8 @@
         "url_store": "",
         "uuid": "915f57e4-a00b-416f-8c19-e4b88cd071e7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3431,6 +3715,8 @@
         "url_store": "",
         "uuid": "c5877f31-d277-442f-b7c0-aa4fd64e0382",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3455,6 +3741,8 @@
         "url_store": "",
         "uuid": "62bc456c-c815-4038-bf6b-4417c7b4eb58",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3479,6 +3767,8 @@
         "url_store": "",
         "uuid": "f4255f29-7e56-424e-9d1f-9ef52c7458a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3503,6 +3793,8 @@
         "url_store": "",
         "uuid": "ed0660db-04f2-4520-9486-645f113d686b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3527,6 +3819,8 @@
         "url_store": "",
         "uuid": "c4c73b17-28b2-4f81-be63-0ee903f67926",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3551,6 +3845,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3575,6 +3871,8 @@
         "url_store": "",
         "uuid": "7be74532-d5a3-46ba-85b5-6865f4bd88fe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3599,6 +3897,8 @@
         "url_store": "",
         "uuid": "5bfd0bd4-8aca-48dd-9b37-72817435cb29",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3623,13 +3923,15 @@
         "url_store": "",
         "uuid": "61ab724d-269e-4056-8ccf-17f3f4bd567e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1706728990,
-        "date_modified": 1740471255,
+        "date_modified": 1754674376,
         "id": 2292,
         "id_category": 4,
         "id_company": 151,
@@ -3647,6 +3949,8 @@
         "url_store": "",
         "uuid": "976c0c1e-3724-4d2b-9192-7b27d7f2e6b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3671,6 +3975,8 @@
         "url_store": "",
         "uuid": "b7ee874f-a7cf-4250-a190-64d59c771a3f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3695,6 +4001,8 @@
         "url_store": "",
         "uuid": "bc079d07-34ff-46c1-938b-d8a617118760",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3719,6 +4027,8 @@
         "url_store": "",
         "uuid": "04bd1d94-9240-4c63-91d9-8f9c76bbfd57",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3743,13 +4053,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Venture-Armor-Ascension",
         "uuid": "3e7ea8a4-9e62-454a-a528-fcae943d38ae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Clark Defense Systems",
         "date_added": 1707918651,
-        "date_modified": 1716977432,
+        "date_modified": 1750178731,
         "id": 2380,
         "id_category": 4,
         "id_company": 53,
@@ -3767,6 +4079,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CDS-ADP-Mk4-Red-Alert-Armor",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3791,17 +4105,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Red-Alert-Armor",
         "uuid": "025bfe80-0781-4d9c-a437-24171d50d3a7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1707918992,
-        "date_modified": 1740471299,
+        "date_modified": 1752794320,
         "id": 2390,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -3815,13 +4131,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Red-Alert-Armor",
         "uuid": "d4d203a9-5169-4b86-8b63-e169e8cbbb9d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Greycat Industrial",
         "date_added": 1707919192,
-        "date_modified": 1718814818,
+        "date_modified": 1751804081,
         "id": 2393,
         "id_category": 4,
         "id_company": 123,
@@ -3834,11 +4152,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "aril-red-alert-legs",
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Aril-Red-Alert-Armor",
-        "uuid": null,
+        "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3863,6 +4183,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Morozov-SH-Red-Alert-Armor",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -3887,6 +4209,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Rime-Armor",
         "uuid": "2a2d9018-d311-4966-b63f-b1480017c4a8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3911,17 +4235,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Archangel-Armor",
         "uuid": "746618f0-65d2-4b2c-af99-b9f5c732ba7f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1707919751,
-        "date_modified": 1740471310,
+        "date_modified": 1752794321,
         "id": 2414,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -3935,17 +4261,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Wildwood-Armor",
         "uuid": "8d57ed44-08f2-420b-9a35-deac7e6b09f9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1707921775,
-        "date_modified": 1740471313,
+        "date_modified": 1752794320,
         "id": 2418,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -3959,17 +4287,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Canuto-Armor",
         "uuid": "df77730e-1d7e-45ee-9364-3f86a38d7008",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1707921847,
-        "date_modified": 1740471316,
+        "date_modified": 1752794320,
         "id": 2423,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -3983,6 +4313,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Lodestone-Armor",
         "uuid": "559b8809-100e-4d9c-852d-ff40b9503939",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4007,6 +4339,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-MacFlex-Rust-Society-Armor-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4031,6 +4365,8 @@
         "url_store": "",
         "uuid": "bfb2fd12-6dec-4555-889e-5a46cd4e08f0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -4055,6 +4391,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Voyager-Armor-Set",
         "uuid": "3f19b893-7330-44d1-b38b-9bb52889e5c4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,13 +4417,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Galena-Armor",
         "uuid": "1b4d0522-5ac9-4e56-9d42-e229712ce88d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Clark Defense Systems",
         "date_added": 1707984944,
-        "date_modified": 1740471337,
+        "date_modified": 1750178519,
         "id": 2465,
         "id_category": 4,
         "id_company": 53,
@@ -4103,6 +4443,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Sea-Shiver-Helmet-With-Defiance-Armor-Hailstorm",
         "uuid": "09c87d53-c66b-4d07-bae0-4808f015fb5f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4127,6 +4469,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Helmet-With-Defiance-Armor-Charcoal",
         "uuid": "9847beac-0ce3-49fe-bccb-4c175517f512",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4151,6 +4495,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Supernova-Armor-Set",
         "uuid": "4fd216ed-b7b4-4c42-b6bf-ba12040a996a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4175,6 +4521,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CCC-Aves-Armor-And-Helmet-Set",
         "uuid": "74dd7626-27c8-4b4c-bda4-8192f251f4d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4199,6 +4547,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Tamarack-Armor",
         "uuid": "91e1da4a-faf8-4b4f-b583-babb996f170e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4573,8 @@
         "url_store": "https://support.robertsspaceindustries.com/hc/en-us/articles/360002542733-Concierge-Levels-and-Rewards",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -4247,6 +4599,8 @@
         "url_store": "",
         "uuid": "4822ce40-491f-4d30-9eb1-0a4b64837b98",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4271,6 +4625,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4295,6 +4651,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Riptide-Armor-Set",
         "uuid": "d838c170-efe0-4cea-8fc8-015a80243a38",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4319,6 +4677,8 @@
         "url_store": "",
         "uuid": "df13db2c-cb89-49b7-acb8-28f54e7ad1d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4343,6 +4703,8 @@
         "url_store": "",
         "uuid": "4cf3f9b9-4de9-41e2-bf33-3db65123cb7f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4367,13 +4729,15 @@
         "url_store": "",
         "uuid": "2f7d8640-708f-453b-89a3-1dc1acadadfb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710312986,
-        "date_modified": 1740471506,
+        "date_modified": 1754674241,
         "id": 2852,
         "id_category": 4,
         "id_company": 151,
@@ -4391,6 +4755,8 @@
         "url_store": "",
         "uuid": "caff87b5-1728-42bf-b9bb-5ae90297b8cd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4415,6 +4781,8 @@
         "url_store": "",
         "uuid": "cf694a72-5848-43b0-a3d2-1a570e029abd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4807,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Lovestruck-Armor-Set",
         "uuid": "23cb2160-f4b7-4f0f-8946-36211a5c29ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4463,6 +4833,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Starcrossed-Armor-Set",
         "uuid": "e0bcd754-53cb-4dae-a3a8-34fd5ce516f7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4487,6 +4859,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Envy-Armor-Set",
         "uuid": "ecd74081-045e-4b69-bbbe-57431d7bc9d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,6 +4885,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Predator-Armor-Set",
         "uuid": "0df0262a-6ec4-440a-9a14-d75c3fe36510",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4535,6 +4911,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Stinger-Armor-Set",
         "uuid": "d3b40c0e-e7b9-44b2-af5b-774df8685632",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4559,6 +4937,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Switchback-Armor-Set",
         "uuid": "575062c4-e14c-4353-bd3b-e3721a65faca",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4583,13 +4963,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Dust-Storm-Armor-Set",
         "uuid": "128daf5c-5035-4f73-b1d0-5fd4f4230308",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710844969,
-        "date_modified": 1710844994,
+        "date_modified": 1754674242,
         "id": 3261,
         "id_category": 4,
         "id_company": 151,
@@ -4598,7 +4980,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Microid Battlesuit Legs Lowland",
+        "name": "Microid Battle Suit Legs Lowland",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -4607,13 +4989,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710845538,
-        "date_modified": 1711521278,
+        "date_modified": 1754674241,
         "id": 3267,
         "id_category": 4,
         "id_company": 151,
@@ -4622,7 +5006,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Microid Battlesuit Legs Crucible",
+        "name": "Microid Battle Suit Legs Crucible",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -4631,13 +5015,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710845953,
-        "date_modified": 1711521278,
+        "date_modified": 1754674241,
         "id": 3274,
         "id_category": 4,
         "id_company": 151,
@@ -4646,7 +5032,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Microid Battlesuit Legs Lodestone",
+        "name": "Microid Battle Suit Legs Lodestone",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -4655,13 +5041,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710846145,
-        "date_modified": 1711521278,
+        "date_modified": 1754674241,
         "id": 3279,
         "id_category": 4,
         "id_company": 151,
@@ -4670,7 +5058,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Microid Battlesuit Legs",
+        "name": "Microid Battle Suit Legs",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -4679,6 +5067,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4703,13 +5093,15 @@
         "url_store": "",
         "uuid": "3ce9726c-05ed-4ad4-8b6e-50768040434f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710846774,
-        "date_modified": 1740471672,
+        "date_modified": 1754674376,
         "id": 3288,
         "id_category": 4,
         "id_company": 151,
@@ -4727,16 +5119,18 @@
         "url_store": "",
         "uuid": "f6d4f561-6919-44ae-9d07-21d52d67022b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
-        "company_name": null,
+        "company_name": "Tehachapi",
         "date_added": 1710847558,
-        "date_modified": 1740471675,
+        "date_modified": 1757552103,
         "id": 3295,
         "id_category": 4,
-        "id_company": 0,
+        "id_company": 241,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -4746,18 +5140,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "ixonia-pants-swamp-camo",
         "url_store": "",
         "uuid": "97b8f1c0-9932-4a89-8bff-a017e5f8a9a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710848009,
-        "date_modified": 1740471678,
+        "date_modified": 1754674376,
         "id": 3301,
         "id_category": 4,
         "id_company": 151,
@@ -4775,6 +5171,8 @@
         "url_store": "",
         "uuid": "fd1367e0-9c11-418f-8a34-bcbfad550b78",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4799,13 +5197,15 @@
         "url_store": "",
         "uuid": "304fbb02-3fd4-4d75-b39e-a4b1f7634d91",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710861282,
-        "date_modified": 1740471689,
+        "date_modified": 1754674376,
         "id": 3319,
         "id_category": 4,
         "id_company": 151,
@@ -4823,13 +5223,15 @@
         "url_store": "",
         "uuid": "02e2de94-5804-4d67-9ca9-cb70461488eb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1710861681,
-        "date_modified": 1740471690,
+        "date_modified": 1757921238,
         "id": 3323,
         "id_category": 4,
         "id_company": 151,
@@ -4842,11 +5244,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "lynx-legs-firebrick",
         "url_store": "",
         "uuid": "9fe4afb0-284a-48b4-bd9a-5fdc873d86a2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4871,6 +5275,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Sunbeam-Helmet-With-Defiance-Armor-Sunchaser",
         "uuid": "94beda1c-19cd-4212-ba3f-dcb497e7f911",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4895,13 +5301,15 @@
         "url_store": "",
         "uuid": "f52ae812-8273-4ebc-a571-093fcf70da8c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1712057775,
-        "date_modified": 1723111348,
+        "date_modified": 1754674376,
         "id": 3354,
         "id_category": 4,
         "id_company": 151,
@@ -4919,6 +5327,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -4943,6 +5353,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Armor",
         "uuid": "fd0cdccb-eb52-4c8e-a872-ebdaea337d5a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4967,6 +5379,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4991,6 +5405,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5015,6 +5431,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5039,6 +5457,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -5063,6 +5483,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Rust-Society-Armor-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -5087,6 +5509,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Pathfinder-Armor-Set",
         "uuid": "708be659-3f3d-4742-8ea4-fb69a1aa743b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5111,13 +5535,15 @@
         "url_store": "",
         "uuid": "31818b82-732f-4226-93e0-ad12f1bf8885",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1716009112,
-        "date_modified": 1740471799,
+        "date_modified": 1754674376,
         "id": 3657,
         "id_category": 4,
         "id_company": 151,
@@ -5135,6 +5561,8 @@
         "url_store": "",
         "uuid": "87d2313a-20fb-4b52-9e80-405b71008b64",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5159,6 +5587,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Quicksilver-Armor-Set",
         "uuid": "633ee9c9-44d2-4f41-a2d2-2a6d2ba74fe0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5183,6 +5613,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Harvester-Armor-Set",
         "uuid": "368801d1-f112-4813-ab17-3855939cfded",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5207,6 +5639,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Black-Cherry-Armor-Set",
         "uuid": "19cb730c-bf9a-401a-9284-63027b359ea1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5231,6 +5665,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Aves-Talon-Shrike-Armor-And-Helmet-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5255,6 +5691,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Aves-Talon-Armor-And-Helmet-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5279,6 +5717,8 @@
         "url_store": "",
         "uuid": "63d3e62b-d7ce-4309-ac5a-a3577247e9bd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5303,6 +5743,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5327,13 +5769,15 @@
         "url_store": "",
         "uuid": "6c53806f-80f6-48c8-8f6c-93d866948d5e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1726269121,
-        "date_modified": 1740471859,
+        "date_modified": 1754674376,
         "id": 3903,
         "id_category": 4,
         "id_company": 151,
@@ -5351,6 +5795,8 @@
         "url_store": "",
         "uuid": "bebdb237-80b4-4eb1-9f0d-9fc332b6b538",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5375,6 +5821,8 @@
         "url_store": "",
         "uuid": "f5213686-ee6e-4633-926a-b5fc4179f3b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5399,6 +5847,8 @@
         "url_store": "",
         "uuid": "9963a40c-cc78-4121-b0f5-d7fd204be497",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5423,16 +5873,18 @@
         "url_store": "",
         "uuid": "16bde033-8e67-44ae-bc79-b6e4859d4a43",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
-        "company_name": null,
+        "company_name": "Doomsday",
         "date_added": 1732719539,
-        "date_modified": 1745009946,
+        "date_modified": 1754674158,
         "id": 4086,
         "id_category": 4,
-        "id_company": 0,
+        "id_company": 73,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5442,35 +5894,39 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "stitcher-legs",
         "url_store": "",
         "uuid": "750ab5dc-ebea-46ec-a880-8a9498ce7198",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Legs",
-        "company_name": null,
+        "company_name": "Kastak Arms",
         "date_added": 1732719539,
-        "date_modified": 0,
+        "date_modified": 1754674241,
         "id": 4087,
         "id_category": 4,
-        "id_company": 0,
+        "id_company": 151,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Microid Battlesuit Legs Nomad",
+        "name": "Microid Battle Suit Legs Nomad",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "microid-battlesuit-legs-nomad",
-        "url_store": null,
-        "uuid": null,
+        "url_store": "",
+        "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -5495,17 +5951,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CCC-Aves-Starchaser-Armor",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1733074816,
-        "date_modified": 1740471959,
+        "date_modified": 1752794320,
         "id": 4176,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5519,17 +5977,19 @@
         "url_store": "",
         "uuid": "de6425e3-468e-499b-a0ba-f3e39b5ccee9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Quirinus Tech",
         "date_added": 1733074867,
-        "date_modified": 1740471959,
+        "date_modified": 1752794320,
         "id": 4177,
         "id_category": 4,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 4176,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -5543,6 +6003,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Starchaser-Armor",
         "uuid": "3f31149c-b9cc-4700-9585-f924cda83daf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5567,6 +6029,8 @@
         "url_store": "",
         "uuid": "2aaa174c-0af8-45bb-a26b-0587ddd60923",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5591,6 +6055,8 @@
         "url_store": "",
         "uuid": "c45d28e4-17fa-47a0-8c4c-7cb948e32935",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5615,13 +6081,15 @@
         "url_store": "",
         "uuid": "b25192ef-75ef-4705-a0d5-b12308605c27",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1740024157,
-        "date_modified": 1740472015,
+        "date_modified": 1752080428,
         "id": 4336,
         "id_category": 4,
         "id_company": 151,
@@ -5639,7 +6107,9 @@
         "url_store": "",
         "uuid": "157125aa-4309-4899-a47a-73b3a9d42af0",
         "vehicle_name": null,
-        "game_version": "4.0.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
       },
       {
         "category": "Legs",
@@ -5663,13 +6133,15 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Headhunters-Carnifex-Lucky-Break-Armor-Set?_gl=1%2A1red3wc%2A_up%2AMQ..%2A_ga%2AOTc4MTg0NTY0LjE3NDExMzI4MDI.%2A_ga_V6MWYXRQNP%2AMTc0MTEzMjgwMi4xLjAuMTc0MTEzMjgwMi42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
         "category": "Legs",
         "company_name": "Kastak Arms",
         "date_added": 1741746000,
-        "date_modified": 1741746095,
+        "date_modified": 1752076827,
         "id": 4365,
         "id_category": 4,
         "id_company": 151,
@@ -5687,7 +6159,9 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
-        "game_version": "4.0.2"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
       },
       {
         "category": "Legs",
@@ -5711,13 +6185,15 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Legs",
         "company_name": "Wikelo",
         "date_added": 1743137885,
-        "date_modified": 1743137950,
+        "date_modified": 1750178890,
         "id": 4424,
         "id_category": 4,
         "id_company": 313,
@@ -5735,6 +6211,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Downburst-Patch-Bundle-Warbond",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5759,6 +6237,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5783,6 +6263,8 @@
         "url_store": "",
         "uuid": "aa61c64c-d016-4830-9b19-5e5e834bf543",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5807,6 +6289,8 @@
         "url_store": "",
         "uuid": "a514dfdf-fe27-4921-87ef-81b47b49b844",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5831,6 +6315,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5855,13 +6341,15 @@
         "url_store": "",
         "uuid": "304fbb02-3fd4-4d75-b39e-a4b1f7634d91",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Legs",
         "company_name": null,
         "date_added": 1747403405,
-        "date_modified": 1747403450,
+        "date_modified": 1750178973,
         "id": 4511,
         "id_category": 4,
         "id_company": 0,
@@ -5870,15 +6358,17 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
-        "name": "DCP Armor True Valor Legs",
+        "name": "DCP Armor Legs True Valor",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
         "size": null,
-        "slug": "dcp-armor-true-valor-legs",
+        "slug": "dcp-armor-legs-true-valor",
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/True-Valor-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5903,6 +6393,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Clawed-Steel-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5927,7 +6419,737 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/New-Dawn-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Wikelo",
+        "date_added": 1748628499,
+        "date_modified": 1748628517,
+        "id": 4590,
+        "id_category": 4,
+        "id_company": 313,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Ana Armor Legs Endro",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "ana-armor-legs-endro",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Downburst-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751120989,
+        "date_modified": 1751121107,
+        "id": 4637,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Crusader Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "strata-legs-crusader-edition",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751215252,
+        "date_modified": 1751215281,
+        "id": 4656,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs ArcCorp Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-arccorp-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751215963,
+        "date_modified": 1751215999,
+        "id": 4663,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Hurston Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-hurston-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751216488,
+        "date_modified": 1751216528,
+        "id": 4668,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs microTech Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-microtech-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1751639536,
+        "date_modified": 1751639624,
+        "id": 4702,
+        "id_category": 4,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "GCD-Army Legs",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "gcd-army-legs",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Quirinus Tech",
+        "date_added": 1752794237,
+        "date_modified": 1752794336,
+        "id": 4739,
+        "id_category": 4,
+        "id_company": 207,
+        "id_parent": 4176,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Artimex Legs Hurston Dynamics Executive Security",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "artimex-legs-hurston-dynamics-executive-security",
+        "url_store": "",
+        "uuid": "de6425e3-468e-499b-a0ba-f3e39b5ccee9",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752887207,
+        "date_modified": 1752887249,
+        "id": 4751,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Greycat Industrial Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-greycat-industrial-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Greycat-Industrial-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752887834,
+        "date_modified": 1752887900,
+        "id": 4760,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Pyrotechnic Amalgamated Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-pyrotechnic-amalgamated-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Pyrotechnic-Amalgamated-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752887911,
+        "date_modified": 1752887964,
+        "id": 4761,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Shubin Interstellar Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-shubin-interstellar-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Shubin-Interstellar-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1754279233,
+        "date_modified": 1754279325,
+        "id": 4807,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Whiteout",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-whiteout",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1754367232,
+        "date_modified": 1754367244,
+        "id": 4815,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Rogue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-rogue",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1754367353,
+        "date_modified": 1754367364,
+        "id": 4820,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Forest",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-forest",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1755217921,
+        "date_modified": 1755217933,
+        "id": 4840,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-asd-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1755386386,
+        "date_modified": 1755386440,
+        "id": 4848,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Golden Blossom",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-golden-blossom",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Golden-Blossom-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Quirinus Tech",
+        "date_added": 1756339783,
+        "date_modified": 1756339792,
+        "id": 4869,
+        "id_category": 4,
+        "id_company": 207,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Antium Armor Legs Storm",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "antium-armor-legs-storm",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Quirinus Tech",
+        "date_added": 1756339797,
+        "date_modified": 1756339811,
+        "id": 4870,
+        "id_category": 4,
+        "id_company": 207,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Antium Armor Legs Maroon",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "antium-armor-legs-maroon",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1756339949,
+        "date_modified": 1756339959,
+        "id": 4875,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": null,
+        "date_added": 1756526498,
+        "date_modified": 1756526510,
+        "id": 4880,
+        "id_category": 4,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Desert",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-desert",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Tehachapi",
+        "date_added": 1757551963,
+        "date_modified": 1757552103,
+        "id": 4910,
+        "id_category": 4,
+        "id_company": 241,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Ixonia Pants Desert Camo",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "ixonia-pants-desert-camo",
+        "url_store": "",
+        "uuid": "97b8f1c0-9932-4a89-8bff-a017e5f8a9a5",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1757998866,
+        "date_modified": 1758060020,
+        "id": 4933,
+        "id_category": 4,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Legs Snow Camo",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-legs-snow-camo-5zfy",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.0"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Greycat Industrial",
+        "date_added": 1758214227,
+        "date_modified": 1758214264,
+        "id": 4955,
+        "id_category": 4,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Legs Hurston Dynamics Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-legs-hurston-dynamics-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Legs",
+        "company_name": "Quirinus Tech",
+        "date_added": 1758330017,
+        "date_modified": 1758721291,
+        "id": 4963,
+        "id_category": 4,
+        "id_company": 207,
+        "id_parent": 4176,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Artimex Legs Elysium",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "artimex-elysium-legs-a7r3",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Elysium-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1758330017,
+        "date_modified": 1758387006,
+        "id": 4968,
+        "id_category": 4,
+        "id_company": 218,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH-I Legs Lifeforce",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "morozov-sh-i-legs-lifeforce-4xwh",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Heavy",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765630,
+        "date_modified": 0,
+        "id": 4979,
+        "id_category": 4,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Legs Patina",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-legs-patina-dkwb",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765632,
+        "date_modified": 0,
+        "id": 4986,
+        "id_category": 4,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Legs Halcyon",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-legs-halcyon-7aro",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765633,
+        "date_modified": 0,
+        "id": 4990,
+        "id_category": 4,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Legs Smolder",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-legs-smolder-ko6f",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Legs",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765634,
+        "date_modified": 0,
+        "id": 4994,
+        "id_category": 4,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Legs Mire",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-legs-mire-9tfy",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
       }
     ],
     "http_code": 200,
@@ -5937,7 +7159,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:37 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -5945,50 +7167,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33f44e5523fa-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=XgHTAxKh3GSpWLR84azERNn63PPb4b3%2BpprRKy9%2FZ62FAoZ%2BRsLIYypANXm5sj%2Fvmq2hOs2fn2DRDGcMAli%2BhJaCPT56L1Mb7VZPAaO8u1CRqnu6CE9D568egS%2FYfX4wJAmytw%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2008"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4200\u0026min_rtt=4161\u0026rtt_var=1640\u0026sent=3\u0026recv=5\u0026lost=0\u0026retrans=0\u0026sent_bytes=219\u0026recv_bytes=910\u0026delivery_rate=325965\u0026cwnd=250\u0026unsent_bytes=0\u0026cid=bc9f5fda215b8a87\u0026ts=411\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84392; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=u1z5A8Ecv2ftMIgDrnZOOIYSAZv5ruAZcx%2FfLoD5z2IZO9PdYnjZq6fT%2BgSMC1D9nZHklK2zdXvrlwGeWjajmy75%2FB%2BLvOwpjIEtUg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9a7c673009-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:37 GMT"
+      "Sat, 11 Oct 2025 04:13:51 GMT"
     ]
   }
 }

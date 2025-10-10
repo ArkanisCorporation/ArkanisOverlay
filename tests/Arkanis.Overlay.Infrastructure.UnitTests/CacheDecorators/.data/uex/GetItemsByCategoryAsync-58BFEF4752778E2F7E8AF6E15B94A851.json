@@ -1,0 +1,81 @@
+{
+  "Result": {
+    "data": null,
+    "http_code": 200,
+    "message": "",
+    "status": "ok"
+  },
+  "StatusCode": 200,
+  "Headers": {
+    "Date": [
+      "Fri, 10 Oct 2025 04:49:40 GMT"
+    ],
+    "Transfer-Encoding": [
+      "chunked"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Age": [
+      "2131"
+    ],
+    "Alt-Svc": [
+      "h3=\u0022:443\u0022"
+    ],
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84269; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=%2BdWjy8VzCw%2B9M10mIzQMD%2BwSSD3n1sAFF3%2FSKW%2F0rmdPOCLS4rY9CIel%2FNJpmGr6q5W2bcU68OV%2FEwzJCnBt%2BoK6NV2p0MPfIsDcfA%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37e141990b377-PRG"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Expires": [
+      "Sat, 11 Oct 2025 04:14:10 GMT"
+    ]
+  }
+}

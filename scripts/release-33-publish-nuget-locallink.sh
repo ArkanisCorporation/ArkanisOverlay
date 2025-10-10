@@ -15,6 +15,7 @@ set -eEuo pipefail
 >&2 echo "Pushing the LocalLink library NuGet package to the remote API..."
 dotnet nuget push publish-nuget-locallink/* \
     --source ${NUGET_PUBLISH_SOURCE_URL} \
-    --api-key ${NUGET_PUBLISH_API_KEY}
+    --api-key ${NUGET_PUBLISH_API_KEY} \
+    --skip-duplicate
 
 >&2 echo "Successfully published the LocalLink library NuGet package"

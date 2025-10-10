@@ -1,5 +1,3 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
-@inject ILogger<OverlayControls> Logger
 @inject IDialogService DialogService
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
@@ -57,17 +55,12 @@
                 Color="@Color.Primary"
                 Class="action"
                 Icon="@MaterialSymbols.Outlined.Info"
-                OnClick="OpenAboutDialogAsync"/>
-            <MudIconButton
-                Color="@Color.Primary"
-                Class="action"
-                Icon="@MaterialSymbols.Outlined.Settings"
-                OnClick="OpenUserOptionsDialogAsync"/>
+                OnClick="@OpenAboutDialogAsync"/>
             <MudIconButton
                 Color="@Color.Error"
                 Class="action"
                 Icon="@MaterialSymbols.Outlined.PowerSettingsNew"
-                OnClick="OpenShutdownDialogAsync"/>
+                OnClick="@OpenShutdownDialogAsync"/>
         </MudStack>
     </div>
 </div>
@@ -89,9 +82,6 @@
 
 @code
 {
-
-    private async Task OpenUserOptionsDialogAsync()
-        => await UserPreferencesDialog.ShowAsync(DialogService);
 
     private async Task OpenAboutDialogAsync()
         => await AboutDialog.ShowAsync(DialogService);

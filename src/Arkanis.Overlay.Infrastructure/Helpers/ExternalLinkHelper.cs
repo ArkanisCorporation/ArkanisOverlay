@@ -1,8 +1,7 @@
-using Arkanis.Overlay.Common;
-using Arkanis.Overlay.External.UEX;
-
 namespace Arkanis.Overlay.Infrastructure.Helpers;
 
+using Common;
+using External.UEX;
 using Microsoft.AspNetCore.Http;
 
 public static class ExternalLinkHelper
@@ -45,6 +44,9 @@ public static class ExternalLinkHelper
     public static string GetUexUserLink(string username, string? contentId = null)
         => AddAttributionGoogleAnalyticsTo($"{UexConstants.WebBaseUrl}/@{username}", contentId);
 
+    public static string? GetUexAssetUrl(string? imageUrl)
+        => imageUrl?.Replace(UexConstants.AssetsBaseUrl, UexConstants.AssetsPreferredUrl);
+
     public static string GetErkulLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://www.erkul.games/", contentId);
 
@@ -69,6 +71,6 @@ public static class ExternalLinkHelper
     public static string GetMedRunnerPortalProfileLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://portal.medrunner.space/profile", contentId);
 
-    public static string? GetUexAssetUrl(string? imageUrl)
-        => imageUrl?.Replace(UexConstants.AssetsBaseUrl, UexConstants.AssetsPreferredUrl);
+    public static string GetDiscordUrl(string contentId)
+        => AddAttributionGoogleAnalyticsTo("https://discord.com", contentId);
 }

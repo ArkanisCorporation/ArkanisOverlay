@@ -226,11 +226,11 @@ public static class Program
         services.AddSingleton<WindowFactory>();
 
         // Workers
-        services.AddSingleton<WindowTracker>()
-            .Alias<IHostedService, WindowTracker>();
+        services.AddSingleton<GameWindowTracker>()
+            .Alias<IHostedService, GameWindowTracker>();
 
-        services.AddSingleton<GlobalHotkey>()
-            .Alias<IHostedService, GlobalHotkey>();
+        services.AddSingleton<GlobalKeyboardShortcutListener>()
+            .Alias<IHostedService, GlobalKeyboardShortcutListener>();
 
         return services;
     }

@@ -2,11 +2,15 @@ namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 public interface IOverlayEventControls
 {
-    void OnFocusGained();
-    void OnFocusLost();
+    public void OnFocusGained();
+    public void OnFocusLost();
 
-    void OnWindowFound();
+    public void OnOverlayWindowShown();
+    public void OnOverlayWindowHidden();
 
-    void OnWindowShown();
-    void OnWindowHidden();
+    public void OnGameWindowFound();
+    public void OnGameWindowLost();
+
+    public void OnGameWindowFocused();
+    public void OnGameWindowBlurred();
 }

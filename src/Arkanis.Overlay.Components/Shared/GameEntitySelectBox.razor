@@ -3,6 +3,7 @@
 @inject ISearchService SearchService
 
 <MudAutocomplete T="@(IGameEntity?)"
+                 @ref="@_field"
                  Label="@Label"
                  Placeholder="@Placeholder"
                  Value="@Value"
@@ -48,6 +49,7 @@
 @code
 {
 
+    private MudAutocomplete<IGameEntity>? _field;
     private HashSet<IGameEntity> _except = [];
     private HashSet<IGameEntity>? _only;
 
@@ -119,10 +121,10 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (firstRender)
+        if (_field?.Text != Text)
         {
-            // force render to update initially coerced display text for default values
-            await InvokeAsync(StateHasChanged);
+            // force field to update initially coerced display text for default values
+            await _field!.ForceUpdate();
         }
     }
 
