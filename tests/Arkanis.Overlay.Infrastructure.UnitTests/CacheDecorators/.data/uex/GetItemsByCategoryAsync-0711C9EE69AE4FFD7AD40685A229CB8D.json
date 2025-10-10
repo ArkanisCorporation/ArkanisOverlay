@@ -5,7 +5,7 @@
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1703517946,
-        "date_modified": 1740441797,
+        "date_modified": 1748620347,
         "id": 79,
         "id_category": 34,
         "id_company": 29,
@@ -23,13 +23,15 @@
         "url_store": "",
         "uuid": "1fcc8a40-af4a-4446-8a7a-354d9244b5d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Thermyte Concern",
         "date_added": 1703517946,
-        "date_modified": 1740441798,
+        "date_modified": 1748620498,
         "id": 80,
         "id_category": 34,
         "id_company": 244,
@@ -47,13 +49,15 @@
         "url_store": "",
         "uuid": "7561e67e-bb85-4dbc-a386-0555b67b02cc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1703517946,
-        "date_modified": 1740441798,
+        "date_modified": 1748620266,
         "id": 81,
         "id_category": 34,
         "id_company": 29,
@@ -71,13 +75,15 @@
         "url_store": "",
         "uuid": "37a5512d-e5c2-4b41-869d-44cd91d80eeb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Thermyte Concern",
         "date_added": 1703517946,
-        "date_modified": 1740441799,
+        "date_modified": 1748620469,
         "id": 82,
         "id_category": 34,
         "id_company": 244,
@@ -95,13 +101,15 @@
         "url_store": "",
         "uuid": "9b2c25cb-fc57-42b5-95cd-1ae89a622bd7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441799,
+        "date_modified": 1748620115,
         "id": 83,
         "id_category": 34,
         "id_company": 236,
@@ -119,13 +127,15 @@
         "url_store": "",
         "uuid": "67d6efbd-6b65-49d9-b319-041dc6a2675a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703517946,
-        "date_modified": 1740441799,
+        "date_modified": 1748620023,
         "id": 84,
         "id_category": 34,
         "id_company": 94,
@@ -143,13 +153,15 @@
         "url_store": "",
         "uuid": "dee6efca-71ef-438c-b762-624f9ce649f3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703517946,
-        "date_modified": 1740441800,
+        "date_modified": 1748620529,
         "id": 85,
         "id_category": 34,
         "id_company": 94,
@@ -167,13 +179,15 @@
         "url_store": "",
         "uuid": "9a741b0a-200d-4f1a-92a8-f917510804e1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Vanduul Clans",
         "date_added": 1703517946,
-        "date_modified": 1740441800,
+        "date_modified": 1748620089,
         "id": 86,
         "id_category": 34,
         "id_company": 280,
@@ -191,13 +205,15 @@
         "url_store": "",
         "uuid": "d4408421-e939-4e34-9902-0644fa6934be",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441801,
+        "date_modified": 1748620049,
         "id": 87,
         "id_category": 34,
         "id_company": 236,
@@ -215,13 +231,15 @@
         "url_store": "",
         "uuid": "ce8ef95e-edd9-45d7-8c21-5e644a8ba75e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441801,
+        "date_modified": 1748620370,
         "id": 88,
         "id_category": 34,
         "id_company": 236,
@@ -239,13 +257,15 @@
         "url_store": "",
         "uuid": "e1659bcf-0595-43ad-9376-386e4ca875e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1703517946,
-        "date_modified": 1740441802,
+        "date_modified": 1748620315,
         "id": 89,
         "id_category": 34,
         "id_company": 29,
@@ -263,13 +283,15 @@
         "url_store": "",
         "uuid": "77dc28bf-0742-490f-ac49-1d430cb6b48f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441802,
+        "date_modified": 1748620445,
         "id": 90,
         "id_category": 34,
         "id_company": 236,
@@ -287,13 +309,15 @@
         "url_store": "",
         "uuid": "9d2d7b0d-9f54-4fe1-8bff-c6ea2a5af5d3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441803,
+        "date_modified": 1748620421,
         "id": 92,
         "id_category": 34,
         "id_company": 236,
@@ -311,13 +335,15 @@
         "url_store": "",
         "uuid": "ffcf3d55-bc12-4244-b3c9-ebd709c5cd2e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441803,
+        "date_modified": 1748620554,
         "id": 93,
         "id_category": 34,
         "id_company": 236,
@@ -335,13 +361,15 @@
         "url_store": "",
         "uuid": "b74c05cb-0f60-403a-92cf-663a12268830",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1740441804,
+        "date_modified": 1748620147,
         "id": 94,
         "id_category": 34,
         "id_company": 236,
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "05f82726-6339-46e0-b8d4-c6b81a1db51c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,13 +413,15 @@
         "url_store": "",
         "uuid": "a53527ab-3c28-460d-bc96-dcfac76f1463",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703517946,
-        "date_modified": 1746936798,
+        "date_modified": 1748536873,
         "id": 97,
         "id_category": 34,
         "id_company": 236,
@@ -407,13 +439,15 @@
         "url_store": "",
         "uuid": "e26d0f6d-4ada-4eb0-9843-1b4d03178f90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703524223,
-        "date_modified": 1745391777,
+        "date_modified": 1754068340,
         "id": 225,
         "id_category": 34,
         "id_company": 94,
@@ -431,13 +465,15 @@
         "url_store": "",
         "uuid": "a655616b-772f-4760-b6a1-404497eb10ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Missiles",
         "company_name": "FireStorm Kinetics",
         "date_added": 1703524223,
-        "date_modified": 1740441885,
+        "date_modified": 1750158808,
         "id": 226,
         "id_category": 34,
         "id_company": 94,
@@ -455,13 +491,15 @@
         "url_store": "",
         "uuid": "d358cf84-9c78-4929-a2ad-b9caade81962",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Nova Pyrotechnica",
         "date_added": 1703524223,
-        "date_modified": 1745391777,
+        "date_modified": 1754068305,
         "id": 227,
         "id_category": 34,
         "id_company": 187,
@@ -479,13 +517,15 @@
         "url_store": "",
         "uuid": "8acc8f1f-47cb-46e4-bf58-bea2ac5ff52e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Missiles",
         "company_name": "Vanduul Clans",
         "date_added": 1703699003,
-        "date_modified": 1740470931,
+        "date_modified": 1750930935,
         "id": 1616,
         "id_category": 34,
         "id_company": 280,
@@ -494,7 +534,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "\u0027Bullet\u0027 II Missile",
+        "name": "\u0022Bullet\u0022 II Missile",
         "notification": null,
         "screenshot": "",
         "section": "Vehicle Weapons",
@@ -503,13 +543,15 @@
         "url_store": "",
         "uuid": "1754a3d4-4aa9-469d-8fb7-d8611bd3e9a1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1703699003,
-        "date_modified": 1740470931,
+        "date_modified": 1750931088,
         "id": 1617,
         "id_category": 34,
         "id_company": 29,
@@ -518,7 +560,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "\u0027Dragon\u0027 IV Missile",
+        "name": "\u0022Dragon\u0022 IV Missile",
         "notification": null,
         "screenshot": "",
         "section": "Vehicle Weapons",
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "bc9adaf0-90a2-45e8-ba1d-5e0b56a76c92",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,13 +595,15 @@
         "url_store": "",
         "uuid": "c01675d6-ad02-4c2d-b4a8-53b4a0b145dd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1703795210,
-        "date_modified": 1740471000,
+        "date_modified": 1748620396,
         "id": 1746,
         "id_category": 34,
         "id_company": 236,
@@ -575,13 +621,15 @@
         "url_store": "",
         "uuid": "918ad61c-ea99-4040-b05a-a42cd5436aed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Vanduul Clans",
         "date_added": 1703987449,
-        "date_modified": 1740471033,
+        "date_modified": 1750158772,
         "id": 1812,
         "id_category": 34,
         "id_company": 280,
@@ -599,13 +647,15 @@
         "url_store": "",
         "uuid": "082c2ffb-1c54-45e5-90bf-f411d9a06425",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "FireStorm Kinetics",
         "date_added": 1704312518,
-        "date_modified": 1745391779,
+        "date_modified": 1754068366,
         "id": 1916,
         "id_category": 34,
         "id_company": 94,
@@ -623,13 +673,15 @@
         "url_store": "",
         "uuid": "b86bd2f2-1f5e-4731-a286-74faa8cde646",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Missiles",
         "company_name": "Nova Pyrotechnica",
         "date_added": 1704312518,
-        "date_modified": 1745391778,
+        "date_modified": 1754068269,
         "id": 1917,
         "id_category": 34,
         "id_company": 187,
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "e5aa84b6-9b14-4eb3-949f-10e1cc8cd6cf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -671,13 +725,15 @@
         "url_store": "",
         "uuid": "840aa4bb-1e3f-46ca-a2d9-7ccb44b39379",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1734670454,
-        "date_modified": 1746935946,
+        "date_modified": 1748536226,
         "id": 4260,
         "id_category": 34,
         "id_company": 29,
@@ -695,13 +751,15 @@
         "url_store": "",
         "uuid": "bcdd8022-c2f4-49d0-8528-e4a3a7a01a03",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746072509,
-        "date_modified": 1746935788,
+        "date_modified": 1748536291,
         "id": 4472,
         "id_category": 34,
         "id_company": 236,
@@ -719,13 +777,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746072550,
-        "date_modified": 1746935518,
+        "date_modified": 1748536082,
         "id": 4473,
         "id_category": 34,
         "id_company": 29,
@@ -743,13 +803,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746935306,
-        "date_modified": 1746935424,
+        "date_modified": 1748536284,
         "id": 4485,
         "id_category": 34,
         "id_company": 236,
@@ -767,13 +829,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746935540,
-        "date_modified": 1746935604,
+        "date_modified": 1748536126,
         "id": 4486,
         "id_category": 34,
         "id_company": 29,
@@ -791,13 +855,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746935612,
-        "date_modified": 1746935692,
+        "date_modified": 1748536137,
         "id": 4487,
         "id_category": 34,
         "id_company": 29,
@@ -815,13 +881,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746935794,
-        "date_modified": 1746935866,
+        "date_modified": 1748536849,
         "id": 4488,
         "id_category": 34,
         "id_company": 236,
@@ -839,13 +907,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746935994,
-        "date_modified": 1746936063,
+        "date_modified": 1748536028,
         "id": 4489,
         "id_category": 34,
         "id_company": 29,
@@ -863,13 +933,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746936083,
-        "date_modified": 1746936145,
+        "date_modified": 1748536001,
         "id": 4490,
         "id_category": 34,
         "id_company": 29,
@@ -887,13 +959,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Behring Applied Technology",
         "date_added": 1746936161,
-        "date_modified": 1746936213,
+        "date_modified": 1748535978,
         "id": 4491,
         "id_category": 34,
         "id_company": 29,
@@ -911,13 +985,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746936272,
-        "date_modified": 1746936376,
+        "date_modified": 1748536180,
         "id": 4492,
         "id_category": 34,
         "id_company": 236,
@@ -935,13 +1011,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746936403,
-        "date_modified": 1746936498,
+        "date_modified": 1748535732,
         "id": 4493,
         "id_category": 34,
         "id_company": 236,
@@ -957,15 +1035,17 @@
         "size": null,
         "slug": "calamity-xii-ir-torpedo",
         "url_store": null,
-        "uuid": null,
+        "uuid": "f253a14d-26a1-4087-9b4a-2b2d96a179fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Missiles",
         "company_name": "Talon Weapons Systems",
         "date_added": 1746936503,
-        "date_modified": 1746936555,
+        "date_modified": 1748535896,
         "id": 4494,
         "id_category": 34,
         "id_company": 236,
@@ -983,6 +1063,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -993,7 +1075,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -1001,50 +1083,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a3401ac35cd2b-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=LhfvXbA7CPu%2FS7j4WmLbEJJFtiYXjRUNM1zTKhueVJdlfoseOiHBk%2F5ScB7TPcq%2F08E4okt1IB1tSK%2BbENls0Si98vqgEzMOdGHrCS8o9nvHmD5yZUtuk%2FYTiskvr2DdyBFZHQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1999"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4771\u0026min_rtt=4218\u0026rtt_var=510\u0026sent=387\u0026recv=164\u0026lost=0\u0026retrans=0\u0026sent_bytes=509795\u0026recv_bytes=1837\u0026delivery_rate=25768402\u0026cwnd=349\u0026unsent_bytes=0\u0026cid=e558bd9e947b5640\u0026ts=2294\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84401; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=KctEGQrmMlxnwmTkVOht6Oy8p5WPUjJOT66giZniCMcCAvWu9hOPMPcmTuZ4g6lSckhxQ8L5XTxquyd1MULXebjNLwRjOrAN928LVQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9b7ca5df72-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:00 GMT"
     ]
   }
 }

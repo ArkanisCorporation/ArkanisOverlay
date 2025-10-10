@@ -5,7 +5,7 @@
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1703522252,
-        "date_modified": 1740441850,
+        "date_modified": 1749551253,
         "id": 165,
         "id_category": 61,
         "id_company": 0,
@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "b0517e28-d542-41a1-9cb8-81937107fbc5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,13 +49,15 @@
         "url_store": "",
         "uuid": "75108e51-f04e-4f9a-a5e2-0dfbdf513728",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1703522252,
-        "date_modified": 1740441851,
+        "date_modified": 1749551136,
         "id": 167,
         "id_category": 61,
         "id_company": 0,
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "d6f8b191-d343-4b66-b611-8aa7802c7b42",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -119,13 +127,15 @@
         "url_store": "",
         "uuid": "6c242730-a4be-4e99-b73e-6003d9e38c2f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1703523016,
-        "date_modified": 1747181399,
+        "date_modified": 1757900828,
         "id": 213,
         "id_category": 61,
         "id_company": 0,
@@ -138,18 +148,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "pitambu",
         "url_store": "",
         "uuid": "7388e39d-b6e9-4dba-a4f2-68b924737c4f",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.1.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1703532038,
-        "date_modified": 1740442127,
+        "date_modified": 1749552829,
         "id": 565,
         "id_category": 61,
         "id_company": 0,
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "d783b246-49e2-4101-a189-22677a3a933b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "fdbe381a-957c-4e7f-b255-439f61821ae1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "4376fce2-c6fd-40fa-b42c-9b9ad80428e9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "25bfc3b1-0a9f-432d-bf20-5509b476739b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "d39fbbd5-1f33-4047-a75b-161889229bd2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -287,13 +309,15 @@
         "url_store": "",
         "uuid": "dc4631cd-3899-4024-8ef2-740679b2c373",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706454767,
-        "date_modified": 1747181399,
+        "date_modified": 1757900917,
         "id": 2196,
         "id_category": 61,
         "id_company": 0,
@@ -306,11 +330,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "jumping-limes",
         "url_store": "",
         "uuid": "8fc4e51f-59d2-4618-ae29-1f3a0a7f176c",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.1.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "047b4989-d570-43fa-ad08-fc8296834e95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "56b8e65f-b858-48d2-9915-c7d1a6e5d8b3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,13 +413,15 @@
         "url_store": "",
         "uuid": "3a6e04ed-9f93-48ca-aaa4-5d6ef5949a40",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471232,
+        "date_modified": 1757900163,
         "id": 2234,
         "id_category": 61,
         "id_company": 0,
@@ -402,18 +434,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "decari-pod",
         "url_store": "",
         "uuid": "2fc44c1e-cab0-4a28-80cb-49c49f2f03bd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471232,
+        "date_modified": 1757900180,
         "id": 2235,
         "id_category": 61,
         "id_company": 0,
@@ -426,18 +460,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "degnous-root",
         "url_store": "",
         "uuid": "739bd503-6280-45d1-ba93-460389902460",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471233,
+        "date_modified": 1757900501,
         "id": 2236,
         "id_category": 61,
         "id_company": 0,
@@ -450,18 +486,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "heart-of-the-woods",
         "url_store": "",
         "uuid": "cb1c1afb-1b0a-4c08-9329-e462731ce6e6",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471233,
+        "date_modified": 1757900813,
         "id": 2237,
         "id_category": 61,
         "id_company": 0,
@@ -474,18 +512,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "prota",
         "url_store": "",
         "uuid": "6c8b6ac2-4475-45b9-b6c6-ca5b92c86b1d",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471234,
+        "date_modified": 1757900565,
         "id": 2238,
         "id_category": 61,
         "id_company": 0,
@@ -498,11 +538,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "ranta-dung",
         "url_store": "",
         "uuid": "0eb081ac-5891-45e9-a61d-55ceeac8cb14",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -527,13 +569,15 @@
         "url_store": "",
         "uuid": "e4df22f0-79c2-46ff-84e5-4e9f36c262e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1706520767,
-        "date_modified": 1740471235,
+        "date_modified": 1757900656,
         "id": 2240,
         "id_category": 61,
         "id_company": 0,
@@ -546,11 +590,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "sunset-berries",
         "url_store": "",
         "uuid": "05c4fbfc-df66-4f1a-9139-b449bc08df52",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "37f8dba1-2ead-4587-bbd6-1204619d6998",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": "Mustang Alpha",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": "Caterpillar",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "62a52a44-d40f-4c77-ac98-fb62e9612e79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "d81691b2-10ef-4f51-b611-d6060b58b451",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "b3cc386a-6dc4-46fa-bc73-238a27d080f2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,30 +803,8 @@
         "url_store": "",
         "uuid": "6ceed597-ed94-4abb-828a-f493e0d0b374",
         "vehicle_name": null,
-        "game_version": "4.0.1"
-      },
-      {
-        "category": "Miscellaneous",
-        "company_name": null,
-        "date_added": 1708498782,
-        "date_modified": 1740471404,
-        "id": 2629,
-        "id_category": 61,
-        "id_company": 0,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "Tevarin War Service Marker (Pristine)",
-        "notification": null,
-        "screenshot": "",
-        "section": "Miscellaneous",
-        "size": null,
-        "slug": "tevarin-war-service-marker-pristine-",
-        "url_store": "",
-        "uuid": "523efc7f-9038-4531-95ea-9719308ae63b",
-        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +829,8 @@
         "url_store": "",
         "uuid": "747b7b5f-3fd2-42e3-acb3-7806149ce1d3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -815,6 +855,8 @@
         "url_store": "",
         "uuid": "adc5a48b-ff05-4a1e-8f13-cec792ed8a87",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +881,8 @@
         "url_store": "",
         "uuid": "197d85d6-f6e8-4e40-a7e3-e9668220af5f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +907,8 @@
         "url_store": "",
         "uuid": "b1f53744-0c95-4922-812b-ed795bd14b54",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,6 +933,8 @@
         "url_store": "",
         "uuid": "11970df0-5796-43b0-aff0-ad026cb61ca3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -911,6 +959,8 @@
         "url_store": "",
         "uuid": "90d6be79-89e5-4794-a0d1-f88ccb6c97a7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +985,8 @@
         "url_store": "",
         "uuid": "2b97bad0-3e80-4a77-9633-3ee764dbf466",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,13 +1011,15 @@
         "url_store": "",
         "uuid": "2bd06ca1-5b8b-4480-a349-f871a3c5688c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1708742221,
-        "date_modified": 1740471440,
+        "date_modified": 1751452318,
         "id": 2709,
         "id_category": 61,
         "id_company": 0,
@@ -983,13 +1037,15 @@
         "url_store": "",
         "uuid": "846fe080-035b-437f-b5a9-b11aa134d3ff",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1708943587,
-        "date_modified": 1740471445,
+        "date_modified": 1756007054,
         "id": 2720,
         "id_category": 61,
         "id_company": 0,
@@ -1007,6 +1063,8 @@
         "url_store": "",
         "uuid": "69ec5112-0ce4-4fc2-9b41-c6884cf9b15d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1031,6 +1089,8 @@
         "url_store": "",
         "uuid": "c6b9bf98-f832-4903-867a-7ec195222d7c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1115,8 @@
         "url_store": "",
         "uuid": "d14abc21-4ce8-49b2-aecc-a5d0efa0d4cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1141,8 @@
         "url_store": "",
         "uuid": "ac05017b-7a70-414f-b40c-3c36e1ab45a4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1167,8 @@
         "url_store": "",
         "uuid": "2feafc37-9768-4ac3-9631-d35ec6f3cd2f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1193,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Adventurers-Coloration-And-Hydration-Pack",
         "uuid": "028f5476-9f68-4d88-bd0c-2d6db79d3538",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1219,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Explorer-s-Coloration-And-Hydration-Pack",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1175,6 +1245,8 @@
         "url_store": "",
         "uuid": "119c6f43-c538-427a-869e-3713d900d7c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1271,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/2954-Tempt-Fate-Tankard",
         "uuid": "31142a63-5179-48e5-b382-a705d8d01672",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,6 +1297,8 @@
         "url_store": "",
         "uuid": "13f8566b-57c5-438e-882b-f5c24cf63ed8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1247,6 +1323,8 @@
         "url_store": "",
         "uuid": "c68abc93-7c00-4053-8b6f-c451edd0061e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1271,6 +1349,8 @@
         "url_store": "",
         "uuid": "387ad3ab-5d5f-49d4-bb44-c4357d2b0b8c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1295,6 +1375,8 @@
         "url_store": "",
         "uuid": "33a52ab8-c96f-4eac-9609-5cfa3b8d6f81",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1319,6 +1401,8 @@
         "url_store": "",
         "uuid": "f6b4c6f1-5e64-4775-8c07-469fc9c95cbe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1343,6 +1427,8 @@
         "url_store": "",
         "uuid": "da18492c-a6bf-4f76-a23a-c76ab92a339f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1367,6 +1453,8 @@
         "url_store": "",
         "uuid": "53cf3e26-8699-4d4d-b989-84d5590c5b30",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1391,6 +1479,8 @@
         "url_store": "",
         "uuid": "f2ddab21-a878-4faf-8314-e8bfcf361dcf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1415,6 +1505,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Coramor-Red-Festival-Poster-Set",
         "uuid": "2e155e0b-5dbc-44b8-aa2c-cd61db721c64",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1439,6 +1531,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Coramor-Red-Festival-Poster-Set",
         "uuid": "ec202f06-5dc2-4369-a591-99740c8db287",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1557,8 @@
         "url_store": "",
         "uuid": "8f5f5980-f254-4904-b2d6-be203a91e870",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,13 +1583,15 @@
         "url_store": "",
         "uuid": "f343cd34-ccd8-48cd-9843-4b1891a24e84",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1710031865,
-        "date_modified": 1740471487,
+        "date_modified": 1757900616,
         "id": 2814,
         "id_category": 61,
         "id_company": 0,
@@ -1506,11 +1604,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "year-of-the-dog-envelope",
         "url_store": "",
         "uuid": "ce32be63-b951-443d-aaed-fda8af3ca899",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -1535,6 +1635,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hello-Sunshine-Happy-Planter",
         "uuid": "017de65e-d996-44c1-92b7-738c3d05169b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1559,6 +1661,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hello-Sunshine-Cheeky-Planter",
         "uuid": "f9800f4f-922a-45be-85cf-fbf12e6a2d96",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1583,6 +1687,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/2954-Lucks-Favor-Tankard",
         "uuid": "2d01142c-0199-4ac2-9589-21096a16b98d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1713,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hello-Sunshine-Surprised-Planter",
         "uuid": "f2774a6d-14b6-4dd9-8d4f-e8446fa8a456",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1739,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Tears-Of-Fire-Painting?_gl=1*1r03vfa*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -1655,6 +1765,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Finley-The-Stormwal-Mug",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1679,6 +1791,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Star-Kitten-Mug",
         "uuid": "d5f2412c-e848-44ff-87a3-df1df8a5e824",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1817,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Big-Benny-s-Mug",
         "uuid": "6259d9a0-b449-4427-924a-e7713c5e15ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1843,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Cutlass-Black-Plushie",
         "uuid": "d6028d77-ccdf-44c2-b2e8-1bbe640b4e6a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1869,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Cutlass-Red-Plushie",
         "uuid": "9305a03f-8abc-421e-9d15-14af222b02e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1895,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Cutlass-Blue-Plushie",
         "uuid": "b81bad02-501e-4f2a-a0b4-1a173f6cb3f8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1921,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Cutlass-Steel-Plushie",
         "uuid": "0f574aeb-9fd3-4436-8ce0-4afa868a21ce",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,6 +1947,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/United-Empire-Of-Earth-Mini-Flag",
         "uuid": "0da6ef02-1468-4adf-bc88-79a62a931165",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1847,6 +1973,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/United-Planets-Of-Earth-Mini-Flag",
         "uuid": "9edbb4cd-ae1f-42e2-9884-072997d51378",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1871,6 +1999,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/United-Nations-Of-Earth-Mini-Flag",
         "uuid": "3de40834-b47a-4740-801b-b7344ef433e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,6 +2025,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sakura-Fun-Green-ORC-MkX-Armor-Bobblehead",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1919,6 +2051,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sakura-Fun-Blue-ORC-MkX-Armor-Bobblehead",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1943,6 +2077,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sakura-Fun-White-ORC-MkX-Armor-Bobblehead",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1967,6 +2103,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1991,6 +2129,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2015,6 +2155,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2039,13 +2181,15 @@
         "url_store": "",
         "uuid": "38cf68a5-9152-4ab7-8382-1c807d2c66b4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1712324448,
-        "date_modified": 1740471711,
+        "date_modified": 1757900625,
         "id": 3369,
         "id_category": 61,
         "id_company": 0,
@@ -2058,11 +2202,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "year-of-the-rooster-envelope",
         "url_store": "",
         "uuid": "9ebd94f1-9523-4e50-b2de-0fa5397b1899",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -2087,6 +2233,8 @@
         "url_store": "",
         "uuid": "8472968b-024e-4ce9-a258-fd78ebf9e9ae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2259,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/A2-Hercules-Starlifter-Plushie",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2135,6 +2285,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/M2-Hercules-Starlifter-Plushie",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2159,6 +2311,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/C2-Hercules-Starlifter-Plushie",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2183,6 +2337,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/The-Puglisi-Collection-AV8-Battle-Armor-Replica?_gl=1*19o7viq*_up*MQ..*_ga*NTg4ODMyNjM5LjE3MjI2MDA4NTg.*_ga_V6MWYXRQNP*MTcyMjYwMDg1OC4xLjEuMTcyMjYwMDg3NC40NC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2207,6 +2363,8 @@
         "url_store": "",
         "uuid": "f4e436a5-2418-4cff-b172-1dbdfe4537ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2231,6 +2389,8 @@
         "url_store": "",
         "uuid": "aa0b2693-e9b0-487a-843b-9862fb745e44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2255,13 +2415,15 @@
         "url_store": "",
         "uuid": "f99015af-289a-4999-b255-ce7216a767c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1713577986,
-        "date_modified": 1740471738,
+        "date_modified": 1757899994,
         "id": 3472,
         "id_category": 61,
         "id_company": 0,
@@ -2274,18 +2436,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "kopion-horn",
         "url_store": "",
         "uuid": "2c1e3183-28ee-4ab9-af4c-938ccec94754",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1713578023,
-        "date_modified": 1740471739,
+        "date_modified": 1757900677,
         "id": 3473,
         "id_category": 61,
         "id_company": 0,
@@ -2298,11 +2462,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "stone-bug-shell",
         "url_store": "",
         "uuid": "63cd8bfe-1b58-45aa-9e92-93271ecdbdee",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -2327,6 +2493,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Twenty-Sided-Plushie-Set",
         "uuid": "f9b203fe-3436-4ed5-a4db-4a7870e811cc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2351,6 +2519,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Twenty-Sided-Plushie-Set",
         "uuid": "1273b98d-6183-438f-8f2a-3e5caf258f49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2375,6 +2545,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Twenty-Sided-Plushie-Set",
         "uuid": "2dbbe5b5-e905-4535-a5bf-09aa0c6f8aa3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2571,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2423,6 +2597,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2447,6 +2623,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2471,6 +2649,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2495,6 +2675,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2519,6 +2701,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hab-Plant-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2543,13 +2727,15 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1715982217,
-        "date_modified": 1740471796,
+        "date_modified": 1757900894,
         "id": 3651,
         "id_category": 61,
         "id_company": 0,
@@ -2562,11 +2748,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "luminalia-gift",
         "url_store": "",
         "uuid": "ede927d8-e590-4e61-a4d5-0c0cbee1a03d",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2779,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Space-Globes-Glorious-Moments?_gl=1*1f8wxnk*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2615,6 +2805,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2639,6 +2831,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2663,6 +2857,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2687,6 +2883,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2711,6 +2909,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": "Carrack",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2735,6 +2935,8 @@
         "url_store": "",
         "uuid": "4fcb60a4-f56d-4c2d-88c3-3a43b16a3d55",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2961,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2783,54 +2987,8 @@
         "url_store": "",
         "uuid": "44c0e27b-70fc-486d-a8a6-858a0f118b2c",
         "vehicle_name": null,
-        "game_version": "4.0.1"
-      },
-      {
-        "category": "Miscellaneous",
-        "company_name": null,
-        "date_added": 1718316984,
-        "date_modified": 1740471832,
-        "id": 3768,
-        "id_category": 61,
-        "id_company": 0,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "Aphorite",
-        "notification": null,
-        "screenshot": "",
-        "section": "Miscellaneous",
-        "size": null,
-        "slug": "aphorite",
-        "url_store": "",
-        "uuid": "86c53bbf-adea-44af-924b-039a840ad703",
-        "vehicle_name": null,
-        "game_version": "4.0.1"
-      },
-      {
-        "category": "Miscellaneous",
-        "company_name": null,
-        "date_added": 1718316984,
-        "date_modified": 1740471833,
-        "id": 3769,
-        "id_category": 61,
-        "id_company": 0,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "Dolivine",
-        "notification": null,
-        "screenshot": "",
-        "section": "Miscellaneous",
-        "size": null,
-        "slug": "dolivine",
-        "url_store": "",
-        "uuid": "33377146-d4a7-4e68-8deb-41728b3ceb46",
-        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3013,8 @@
         "url_store": "",
         "uuid": "e55f1ab8-de81-4c07-aa03-047a9066f82d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3039,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Recon-Marine-Replica-Figure-Centurion?_gl=1*xj6wja*_up*MQ..*_ga*Mjk0NDQ2MTA2LjE3MTk5NjE4MjQ.*_ga_V6MWYXRQNP*MTcxOTk2Mzk4NS4yLjEuMTcxOTk2Mzk4OS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2903,6 +3065,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Recon-Marine-Replica-Figure-Imperator?_gl=1*1euzy32*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2927,6 +3091,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Armin-Trask-Replica-Figure-Centurion?_gl=1*1euzy32*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2951,6 +3117,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Armin-Trask-Replica-Figure-Imperator?_gl=1*1euzy32*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2975,6 +3143,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Vanduul-Shipkiller-Replica-Figure-Imperator?_gl=1*153mhr6*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -2999,6 +3169,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Vanduul-Shipkiller-Replica-Figure-Centurion?_gl=1*153mhr6*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3023,6 +3195,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Hoplite-MPUV?_gl=1*1g5a8bn*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3047,6 +3221,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Hoplite-MPUV?_gl=1*1g5a8bn*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3071,6 +3247,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Polaris-Razor?_gl=1*1g5a8bn*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3095,6 +3273,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Polaris-Razor?_gl=1*1g5a8bn*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3119,6 +3299,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Caterpillar-Dragonfly?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3143,6 +3325,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Caterpillar-Dragonfly?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3167,6 +3351,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Prospector-Herald?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3191,6 +3377,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Prospector-Herald?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3215,6 +3403,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Hurricane-Terrapin?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3239,6 +3429,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Masters-Of-Design-Series-Hurricane-Terrapin?_gl=1*1dpoajs*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3263,6 +3455,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/ICC-Port-Olisar-Holographic-Model?_gl=1*1ab6pgf*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3287,6 +3481,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/IMS-Bolliver-Holographic-Model?_gl=1*1ab6pgf*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3311,6 +3507,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Icarus-One-Holographic-Model?_gl=1*1h50c8y*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3335,6 +3533,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/ICC-Probe-Holographic-Model?_gl=1*1h50c8y*_up*MQ..*_ga*MTM1NzkzOTQ4Mi4xNzE5OTY1OTU0*_ga_V6MWYXRQNP*MTcxOTk2NTk1NC4xLjEuMTcxOTk2NTk5NS4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3359,6 +3559,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Hitbox-Magazine?_gl=1*1r03vfa*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3383,6 +3585,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Golden-Herald-Model?_gl=1*13j7dyh*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Herald",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3407,6 +3611,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Mustang-Gamma-Model?_gl=1*13j7dyh*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Mustang Alpha",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3431,6 +3637,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Mini-Reliant-Kore-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Reliant Kore",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3455,6 +3663,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Mini-Aegis-Sabre?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Sabre",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3479,6 +3689,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Mini-Hornet-F7C-R-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "F7C Hornet Mk II",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3503,6 +3715,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Series-Mustang-Beta?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Mustang Alpha",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3527,6 +3741,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Series-Aurora-ES?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Aurora MR",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3551,6 +3767,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-350r-Ship-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "M50",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3575,6 +3793,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Starfarer-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Starfarer",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3599,6 +3819,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Aegis-Avenger-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Avenger Titan",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3623,6 +3845,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Khartu-Al-Model?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Khartu-al",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3647,6 +3871,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Aegis-Gladius?_gl=1*1605bj5*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Gladius",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3671,6 +3897,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Space-Globes-Good-Health?_gl=1*1f8wxnk*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3695,6 +3923,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-Mustang-Delta-Model?_gl=1*a9a3uv*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Mustang Alpha",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3719,6 +3949,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/TAKUETSU-Origin-M50?_gl=1*a9a3uv*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "M50",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3743,6 +3975,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-RSI-Constellation-Phoenix-2944?_gl=1*a9a3uv*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Constellation Andromeda",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3767,6 +4001,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Takuetsu-MISC-Freelancer-MIS-2944?_gl=1*a9a3uv*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": "Freelancer",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3791,6 +4027,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Mr-Refinement-s-Cabinet-Of-Rare-Exquisite-Spirits?_gl=1*a9a3uv*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3815,6 +4053,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Locker-From-Another-Universe?_gl=1*33iaiu*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3839,6 +4079,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/StellarSonic-JukeBox?_gl=1*33iaiu*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3863,6 +4105,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/UEE-Calendar?_gl=1*33iaiu*_up*MQ..*_ga*MjEyNTM2OTY5NC4xNzIwNjIzODA4*_ga_V6MWYXRQNP*MTcyMDYyMzgwOC4xLjEuMTcyMDYyMzgyNy4wLjAuMA..",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3887,6 +4131,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": "Avenger Titan",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3911,6 +4157,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": "Constellation Andromeda",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3935,6 +4183,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Puglisi-Collection-Kamposi-Magnus-Skull?_gl=1*19o7viq*_up*MQ..*_ga*NTg4ODMyNjM5LjE3MjI2MDA4NTg.*_ga_V6MWYXRQNP*MTcyMjYwMDg1OC4xLjEuMTcyMjYwMDg3NC40NC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3959,6 +4209,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Puglisi-Collection-Vasli-Fragment-Stone?_gl=1*19o7viq*_up*MQ..*_ga*NTg4ODMyNjM5LjE3MjI2MDA4NTg.*_ga_V6MWYXRQNP*MTcyMjYwMDg1OC4xLjEuMTcyMjYwMDg3NC40NC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3983,6 +4235,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Puglisi-Collection-Vanduul-Scythe-Armor?_gl=1*1bskihl*_up*MQ..*_ga*NTg4ODMyNjM5LjE3MjI2MDA4NTg.*_ga_V6MWYXRQNP*MTcyMjYwMDg1OC4xLjEuMTcyMjYwMDg3NC40NC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -4007,6 +4261,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Puglisi-Collection-Planet-Artifact?_gl=1*1bskihl*_up*MQ..*_ga*NTg4ODMyNjM5LjE3MjI2MDA4NTg.*_ga_V6MWYXRQNP*MTcyMjYwMDg1OC4xLjEuMTcyMjYwMDg3NC40NC4wLjA.",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -4031,6 +4287,8 @@
         "url_store": "",
         "uuid": "8cf8dd1b-756e-496c-a1ae-e88ebbf999f7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4055,6 +4313,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Corsair-Plushie",
         "uuid": "e326628e-c328-4d4f-aa18-e345a0733d5e",
         "vehicle_name": "Corsair",
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,6 +4339,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Ornate-Drinking-Gourd",
         "uuid": "2258b64b-471e-480c-92d4-5420d532392c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4103,6 +4365,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Handmade-Glazed-Mug",
         "uuid": "0a8302c4-881e-4492-b8f5-f38341e86660",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4127,6 +4391,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": "f4adefef-7616-453e-a7a3-74eda64f80b1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4151,6 +4417,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -4175,6 +4443,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24"
       },
       {
@@ -4199,6 +4469,8 @@
         "url_store": "https://robertsspaceindustries.com/comm-link/transmission/20075-Pirate-Week-2024",
         "uuid": "755e9c47-374a-4bcb-9746-b5f9a97459cc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4495,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Killer-Creature-Double-Feature",
         "uuid": "a1d054e2-7900-4baf-a413-94f894c093d2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4247,6 +4521,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Killer-Creature-Double-Feature",
         "uuid": "82327138-d315-4ef1-aebd-579acd1c3663",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4271,31 +4547,9 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/The-Hill-Horror-Reborn-Movie-Poster",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
-      },
-      {
-        "category": "Miscellaneous",
-        "company_name": null,
-        "date_added": 1729485871,
-        "date_modified": 1740471890,
-        "id": 3992,
-        "id_category": 61,
-        "id_company": 0,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "Hadanite",
-        "notification": null,
-        "screenshot": "",
-        "section": "Miscellaneous",
-        "size": null,
-        "slug": "hadanite",
-        "url_store": "",
-        "uuid": "b9f3755d-125e-4af0-8876-5630fb5fcd9b",
-        "vehicle_name": null,
-        "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
@@ -4319,6 +4573,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -4343,6 +4599,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Twenty-Sided-Die-Ship-Manufacturers",
         "uuid": "d15b41ac-67b2-4325-845f-bf312153d7fe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4367,6 +4625,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond?utm_source=uexcorp\u0026utm_medium=organic\u0026utm_term=citizencon-2954-themed-double-bed",
         "uuid": "67ee408f-9246-40eb-860f-7f6ddc141246",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4391,6 +4651,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2a"
       },
       {
@@ -4415,6 +4677,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": "19fe6c47-06ab-4e40-bd74-02fdeb876855",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4703,8 @@
         "url_store": "",
         "uuid": "8a196a34-d46f-49cc-8d2b-3a690a18a31a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4463,6 +4729,8 @@
         "url_store": "",
         "uuid": "3114f50a-9bbb-4fd3-baea-f5cb03a0b2e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4487,6 +4755,8 @@
         "url_store": "",
         "uuid": "4702f97f-6c1d-4ed3-97b2-d546878b2f9d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,13 +4781,15 @@
         "url_store": "",
         "uuid": "00d16520-df84-4d78-9549-9f2056a2d5b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1734091796,
-        "date_modified": 1740471987,
+        "date_modified": 1748479508,
         "id": 4238,
         "id_category": 61,
         "id_company": 0,
@@ -4535,6 +4807,8 @@
         "url_store": "",
         "uuid": "b3f97a24-b941-4551-ba4b-161b5af139e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4559,6 +4833,8 @@
         "url_store": "",
         "uuid": "752524b3-2e18-4046-87f5-bff3f6877b87",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4583,6 +4859,8 @@
         "url_store": "",
         "uuid": "c685ec4c-a44b-4283-a713-4c8c1485a60f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4607,6 +4885,8 @@
         "url_store": "",
         "uuid": "3a74229d-4654-43f7-8148-8c135f62b82b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4631,6 +4911,8 @@
         "url_store": "",
         "uuid": "06b503b8-01c8-4447-80d5-843d61a5d2b6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4655,6 +4937,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Red-Heart-Plushie-Cushion-Set?_gl=1%2A1l2ewyd%2A_up%2AMQ..%2A_ga%2ANTU0OTYwNjY5LjE3Mzg3NTY3NDQ.%2A_ga_V6MWYXRQNP%2AMTczODc1Njc0My4xLjEuMTczODc1NjgyMC42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4679,13 +4963,15 @@
         "url_store": "",
         "uuid": "fb9672f8-8f25-47ea-b90e-9f0702958375",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1740025066,
-        "date_modified": 1740472016,
+        "date_modified": 1749552228,
         "id": 4338,
         "id_category": 61,
         "id_company": 0,
@@ -4703,6 +4989,8 @@
         "url_store": "",
         "uuid": "901efa69-b9c9-4136-90eb-f90f2f807687",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4727,6 +5015,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4751,6 +5041,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4775,6 +5067,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4799,6 +5093,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4823,6 +5119,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4847,13 +5145,15 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1741913946,
-        "date_modified": 1741913992,
+        "date_modified": 1757900592,
         "id": 4392,
         "id_category": 61,
         "id_company": 0,
@@ -4866,18 +5166,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "tundra-kopion-horn",
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 1,
+        "is_harvestable": 1,
         "game_version": "4.0.2"
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1741915788,
-        "date_modified": 1741915849,
+        "date_modified": 1757900113,
         "id": 4393,
         "id_category": 61,
         "id_company": 0,
@@ -4890,11 +5192,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
-        "size": null,
+        "size": "",
         "slug": "cave-kopion-horn",
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4919,6 +5223,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4943,6 +5249,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -4967,6 +5275,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -4991,13 +5301,15 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Miscellaneous",
         "company_name": "United Planets Of Earth",
         "date_added": 1745538243,
-        "date_modified": 1745538332,
+        "date_modified": 1749415836,
         "id": 4468,
         "id_category": 61,
         "id_company": 316,
@@ -5015,6 +5327,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5039,13 +5353,15 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Invictus-Patch-Collection",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Miscellaneous",
         "company_name": null,
         "date_added": 1747092371,
-        "date_modified": 0,
+        "date_modified": 1757106804,
         "id": 4500,
         "id_category": 61,
         "id_company": 0,
@@ -5054,15 +5370,875 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Juvernile Valakkar Fang",
+        "name": "Valakkar Fang (Juvenile)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "valakkar-fang-juvenile",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748012841,
+        "date_modified": 1756006947,
+        "id": 4569,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Finley the Stormwal Large Luminalia Plushie",
         "notification": null,
         "screenshot": "",
         "section": "Miscellaneous",
         "size": null,
-        "slug": "juvernile-valakkar-fang",
+        "slug": "finley-the-stormwal-large-luminalia-plushie",
+        "url_store": "",
+        "uuid": "4376fce2-c6fd-40fa-b42c-9b9ad80428e9",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748383120,
+        "date_modified": 1748383193,
+        "id": 4576,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Invictus Launch Week Coin",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "invictus-launch-week-coin",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Invictus-Launch-Week-Coin",
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748419510,
+        "date_modified": 1757900093,
+        "id": 4577,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Kopion Horn",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "irradiated-kopion-horn",
+        "url_store": "",
+        "uuid": "2c1e3183-28ee-4ab9-af4c-938ccec94754",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748519697,
+        "date_modified": 1748519723,
+        "id": 4580,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Valakkar Fang (Adult)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "irradiated-valakkar-fang-adult-",
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748562484,
+        "date_modified": 1757108136,
+        "id": 4581,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Valakkar Statue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "irradiated-valakkar-statue",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748626924,
+        "date_modified": 0,
+        "id": 4582,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Data Processing Access: Farro Data Center",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "data-processing-access-farro-data-center",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748627882,
+        "date_modified": 1748628132,
+        "id": 4583,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Valakkar Pearl",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "irradiated-valakkar-pearl",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748628085,
+        "date_modified": 1748628107,
+        "id": 4584,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Valakkar Fang (Juvenile)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "irradiated-valakkar-fang-juvenile-",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1748628340,
+        "date_modified": 1748628361,
+        "id": 4586,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Irradiated Valakkar Fang (Apex)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "irradiated-valakkar-fang-apex-",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1749229715,
+        "date_modified": 1749229741,
+        "id": 4605,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Irradiated Valakkar Diorama",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "irradiated-valakkar-diorama",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Irradiated-Valakkar-Diorama",
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1749255438,
+        "date_modified": 1757106951,
+        "id": 4606,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Valakkar Fang (Adult)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "valakkar-fang-adult",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1749552490,
+        "date_modified": 1749552681,
+        "id": 4618,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "E\u0022tam",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "etam",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452541,
+        "date_modified": 1751452582,
+        "id": 4688,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "UDM Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "udm-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452596,
+        "date_modified": 1751452611,
+        "id": 4689,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Ling Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "ling-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452615,
+        "date_modified": 1751452628,
+        "id": 4690,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Red Wind Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "red-wind-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452633,
+        "date_modified": 1751452666,
+        "id": 4691,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "TABA Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "taba-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452673,
+        "date_modified": 1751452795,
+        "id": 4692,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ITG Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "itg-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452817,
+        "date_modified": 1751452842,
+        "id": 4693,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "TABA Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "taba-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452847,
+        "date_modified": 1751452885,
+        "id": 4694,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Ling Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "ling-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452893,
+        "date_modified": 1751452901,
+        "id": 4695,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "UDM Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "udm-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751452906,
+        "date_modified": 1751452917,
+        "id": 4696,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Red Wind Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "red-wind-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751453136,
+        "date_modified": 1751453145,
+        "id": 4697,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Covalex Container Model",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "covalex-container-model",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Decorative-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751453216,
+        "date_modified": 1751453234,
+        "id": 4698,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ITG Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "itg-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1751453255,
+        "date_modified": 1751453264,
+        "id": 4699,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Covalex Cargo Plushie",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "covalex-cargo-plushie",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Cuddly-Cargo-Collection",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1754445526,
+        "date_modified": 1754445575,
+        "id": 4825,
+        "id_category": 61,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Valakkar Specimen Tank",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "valakkar-specimen-tank",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Valakkar-Specimen-Tank",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1754953178,
+        "date_modified": 0,
+        "id": 4831,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Advocacy Badge (Replica)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "advocacy-badge-replica-",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1754953800,
+        "date_modified": 1756199518,
+        "id": 4832,
+        "id_category": 61,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "ASD Memory Drive",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "asd-memory-drive",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": "United Planets Of Earth",
+        "date_added": 1755998801,
+        "date_modified": 1755998823,
+        "id": 4859,
+        "id_category": 61,
+        "id_company": 316,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Government Cartography Agency Medal (Worn)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "government-cartography-agency-medal-worn-",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": "United Planets Of Earth",
+        "date_added": 1755998827,
+        "date_modified": 1755998848,
+        "id": 4860,
+        "id_category": 61,
+        "id_company": 316,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Government Cartography Agency Medal (Pristine)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "government-cartography-agency-medal-pristine-",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1759823826,
+        "date_modified": 0,
+        "id": 5022,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Yormandi Eye",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "yormandi-eye",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1759823856,
+        "date_modified": 0,
+        "id": 5023,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Yormandi Tongue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "yormandi-tongue",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": null,
+        "date_added": 1759861246,
+        "date_modified": 1759861324,
+        "id": 5028,
+        "id_category": 61,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Yormandi Statue",
+        "notification": "",
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "yormandi-statue",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Yormandi-Diorama",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Miscellaneous",
+        "company_name": "Behring Applied Technology",
+        "date_added": 1760002991,
+        "date_modified": 0,
+        "id": 5030,
+        "id_category": 61,
+        "id_company": 29,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "XDL \u0026quot;Mark I\u0026quot; Monocular Rangefinder",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "xdl-quot-mark-i-quot-monocular-rangefinder",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -5073,7 +6249,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:39 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -5081,50 +6257,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a340389d78176-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=Anql3yVjDVi7fSlCF%2BcPOdGkZ%2FQ2rwFo6QuDrXD%2FPVTHHsp8nlCQ4Oi2LUCCW5ySJZNM5fehfVmoL%2BWMWrerfQhTXJAAFmuw%2FlLVesW5ZJeNuokE0J0JbtP%2BifaePNFtoQjtQA%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "1999"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=6448\u0026min_rtt=4232\u0026rtt_var=3674\u0026sent=265\u0026recv=111\u0026lost=0\u0026retrans=0\u0026sent_bytes=340349\u0026recv_bytes=1682\u0026delivery_rate=23925710\u0026cwnd=336\u0026unsent_bytes=0\u0026cid=495ace438151ab96\u0026ts=2569\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84401; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=RfZqpTZzUgUnLJQ4G1grgclhYOtCqYQk00iVsGvJElIwq3TFGEVMb%2B8NPPPTGtAqk9Q09H7WmUxJNFei7Sk%2BpzR7AGedVSe3GJSWHg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9b9df13009-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:39 GMT"
+      "Sat, 11 Oct 2025 04:14:00 GMT"
     ]
   }
 }

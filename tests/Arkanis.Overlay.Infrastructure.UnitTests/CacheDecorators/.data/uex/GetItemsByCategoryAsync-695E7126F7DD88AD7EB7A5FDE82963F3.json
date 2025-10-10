@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "62bb2ac1-d1e5-44e4-a0d0-1e66badaab59",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "06a90691-c551-46fa-977b-f7831222884f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "1abea099-a3b6-479f-a505-b213d7ee0dc2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "330e8aa0-9960-44b3-90f2-a3e878f52aa3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": "",
         "uuid": "f7ce4655-e424-45db-a948-156481ea2dcc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": "d1692bba-95d3-4a05-b893-3dcc4864382f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "bd59d65a-35af-45fc-b4f5-70af925537ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "5a402f2d-aedf-4708-b927-f8841a85167e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "353aeb58-30bc-42ee-9b36-066ad88153ef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "8e7e53fb-2179-40d4-ba72-f32d6d89604d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "80572af7-bdec-43a7-82f6-d0f545fe1f7a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "fc6502c1-5639-4037-a53a-a173f8c5feee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "f01890f1-f376-49a1-a7e4-27a844379ff8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "9deee6d1-b4b1-4f22-9d22-93f805250e51",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "d23be257-e6f2-41bb-a296-16c213bf8bc5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "2236ff93-0390-48ac-9a4b-7e88f719c924",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "404697e5-efac-4da8-9870-93166f942682",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "52c9cd37-feb3-4ec8-a6d5-254399d07dcf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "",
         "uuid": "f7ae1654-4eae-4627-a276-169fa67d40aa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "",
         "uuid": "866ee36e-eb00-4978-9f10-30d211168cdb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "",
         "uuid": "a802e1fc-4d88-4f4c-8a68-771fd175b56c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "3ae6f0bd-eafd-4873-ad7a-66ec0bb6262f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "",
         "uuid": "71bc2e14-5d75-49f8-92c9-ccf156b9a99a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "",
         "uuid": "20b0fb2e-fe01-4099-948b-69414127a08e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "91279c13-8b7c-4882-8cbc-5c9ec62f8ef1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": "dbb24699-ca91-4d0f-907f-d4cd48e60806",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "721a6324-9ccc-4364-ba2f-0af368fd444c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "70bfb07c-093b-43e6-973c-aade452664e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "eddaf0e9-ae2b-49b5-a803-ad58a6f86b0f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "bf08ee5b-9277-4f6d-a288-6770c32a2d7a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "",
         "uuid": "198e3353-ad3e-4474-ac9a-6253ff91cb25",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "",
         "uuid": "a9b72879-237b-4cf6-9287-e27544f94e81",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +855,8 @@
         "url_store": "",
         "uuid": "974fea21-5f6d-4bfb-a9ea-5c6209049f86",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -815,6 +881,8 @@
         "url_store": "",
         "uuid": "99549b34-5b60-4ae8-9623-96f66a6f8a24",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +907,8 @@
         "url_store": "",
         "uuid": "80577e81-1fa4-4db3-a7f9-5432a4e62b79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +933,8 @@
         "url_store": "",
         "uuid": "b3717896-ee23-4b0b-a2a7-0c0b959f6e54",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,6 +959,8 @@
         "url_store": "",
         "uuid": "db82ac99-1e30-4567-abb4-36a57c2a9417",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -911,6 +985,8 @@
         "url_store": "",
         "uuid": "443138f9-b7b7-4836-86b1-ad1267506a3e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +1011,8 @@
         "url_store": "",
         "uuid": "c889ba3d-3119-469c-9c5d-072f470e8045",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,6 +1037,8 @@
         "url_store": "",
         "uuid": "cdb7c21d-bdda-40f5-942c-b1fb1234e8cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -983,6 +1063,8 @@
         "url_store": "",
         "uuid": "c9e29740-b5cf-40d8-8e3c-90c8871daba8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1007,6 +1089,8 @@
         "url_store": "",
         "uuid": "b0e2153f-190c-4ae8-981e-2de0096cd6d4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1031,6 +1115,8 @@
         "url_store": "",
         "uuid": "83127ccc-80ff-4e38-8e92-59bf6cd2167a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1141,8 @@
         "url_store": "",
         "uuid": "b5f12620-8f8f-44ad-9880-943be43b1a1a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1167,8 @@
         "url_store": "",
         "uuid": "40dc3e8d-eccf-4baf-b605-07b27749c862",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1193,8 @@
         "url_store": "",
         "uuid": "5a5c7bb2-13a6-481e-bb0a-03513ea6426f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1219,8 @@
         "url_store": "",
         "uuid": "fc28e016-acc5-4b50-b732-0e843fb132a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1245,8 @@
         "url_store": "",
         "uuid": "846fc398-dbb0-4af7-98e3-f9d4aed7f371",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1175,6 +1271,8 @@
         "url_store": "",
         "uuid": "f73d6208-6df7-4100-9736-0e6269f4529e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1297,8 @@
         "url_store": "",
         "uuid": "6b15415e-fd25-4b68-a64c-fd92687fb0db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,6 +1323,8 @@
         "url_store": "",
         "uuid": "e6866305-a37e-4e63-b49f-56a29547e17b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1247,6 +1349,8 @@
         "url_store": "",
         "uuid": "14e008ab-b58b-4149-9892-d7c909ae331f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1271,6 +1375,8 @@
         "url_store": "",
         "uuid": "dac65e4a-9b35-41dd-8941-b9f9df71c2fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1295,6 +1401,8 @@
         "url_store": "",
         "uuid": "6f71ba7a-97a9-43d5-bb65-d6ac15fcff2b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1319,6 +1427,8 @@
         "url_store": "",
         "uuid": "af450721-ef5a-439b-9e1c-1535b2172d6a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1343,6 +1453,8 @@
         "url_store": "",
         "uuid": "629da527-2855-4870-a5b9-932006046fa7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1367,6 +1479,8 @@
         "url_store": "",
         "uuid": "7bbb1088-0369-425e-893f-0c5253545ee7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1391,6 +1505,8 @@
         "url_store": "",
         "uuid": "758633f1-9c0e-4031-99e3-fb91cc5bb743",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1415,6 +1531,8 @@
         "url_store": "",
         "uuid": "84702509-d7d1-4d0d-825d-9a72808401b4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1439,6 +1557,8 @@
         "url_store": "",
         "uuid": "304c8e73-b168-4082-8024-7002d71a4e3f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1583,8 @@
         "url_store": "",
         "uuid": "9414b128-c814-4e70-bac2-39c79704975f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,6 +1609,8 @@
         "url_store": "",
         "uuid": "ff024029-0ef0-4250-85cf-97561958356f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1511,6 +1635,8 @@
         "url_store": "",
         "uuid": "fa154e8e-44b1-402a-9000-56e6c0a119a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1535,6 +1661,8 @@
         "url_store": "",
         "uuid": "746bee07-54dd-4cb8-9c15-d09deb9e37e2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1559,6 +1687,8 @@
         "url_store": "",
         "uuid": "494e01b3-f990-4c73-b0fa-b7cb98d7dea1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1583,6 +1713,8 @@
         "url_store": "",
         "uuid": "98114206-c54f-4157-90c9-7e1781fdc10d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1739,8 @@
         "url_store": "",
         "uuid": "02406d0f-eb4d-4976-8764-2cfff4c56745",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1765,8 @@
         "url_store": "",
         "uuid": "7f967ac9-fd18-42ce-8002-9e86469cb7e1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1655,6 +1791,8 @@
         "url_store": "",
         "uuid": "6e57ffb9-9189-4e9e-ba6a-08eb29004e6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1679,6 +1817,8 @@
         "url_store": "",
         "uuid": "232b4111-aa78-4aa1-96da-eb3af77bb86f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1843,8 @@
         "url_store": "",
         "uuid": "97bc36f1-4e1e-4672-b137-10ce35f74a90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1869,8 @@
         "url_store": "",
         "uuid": "47aaf80f-c7ac-40df-8636-6b6a8bdf6503",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1895,8 @@
         "url_store": "",
         "uuid": "fec6388a-e902-41b2-a6e4-f0a6c8853e72",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1921,8 @@
         "url_store": "",
         "uuid": "936d7af8-f840-455f-be75-09e7726be39b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1947,8 @@
         "url_store": "",
         "uuid": "7d181def-1a79-4689-ad6e-e26ba97608ef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,6 +1973,8 @@
         "url_store": "",
         "uuid": "5415b6e8-4b70-40ef-9667-0c71b586a7ab",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1847,6 +1999,8 @@
         "url_store": "",
         "uuid": "54c52467-9f63-46a3-b71b-49831f494b42",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1871,6 +2025,8 @@
         "url_store": "",
         "uuid": "d85011cb-e47b-476c-95b5-ac3e2a1314f9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,6 +2051,8 @@
         "url_store": "",
         "uuid": "c6acb5a1-0b64-4202-871f-efd90d7ac42d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1919,6 +2077,8 @@
         "url_store": "",
         "uuid": "908a6214-090d-457c-964e-24509cdf0ed0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1943,6 +2103,8 @@
         "url_store": "",
         "uuid": "5a0e34e1-472f-4d94-a8ef-673be7d4cc53",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1967,6 +2129,8 @@
         "url_store": "",
         "uuid": "94dadfef-0c9f-47cc-96f6-9fa81fe6de12",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1991,6 +2155,8 @@
         "url_store": "",
         "uuid": "f50e99c9-0806-4fdc-b981-a640afe19bbe",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2015,16 +2181,18 @@
         "url_store": "",
         "uuid": "71a869a5-74ec-4fd8-85a6-e1a5813615fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Footwear",
-        "company_name": "DMC",
+        "company_name": "Denim Manufacture Corporation",
         "date_added": 1703559796,
-        "date_modified": 1740470699,
+        "date_modified": 1758153501,
         "id": 1180,
         "id_category": 8,
-        "id_company": 287,
+        "id_company": 70,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -2034,11 +2202,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "hardy-boots",
         "url_store": "",
         "uuid": "5825831c-7158-4300-81da-6520e384bd06",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2063,6 +2233,8 @@
         "url_store": "",
         "uuid": "568737c3-6dfc-4500-bac7-b7e7588a905d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2087,6 +2259,8 @@
         "url_store": "",
         "uuid": "ceb4434a-0c5d-41fc-bfa4-07bd68bd8a30",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2285,8 @@
         "url_store": "",
         "uuid": "a30f85f8-cac5-489e-83a3-4c80ab5cb11b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2135,6 +2311,8 @@
         "url_store": "",
         "uuid": "98590b81-8fd2-4069-9ff8-d1aa66a59c2d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2159,6 +2337,8 @@
         "url_store": "",
         "uuid": "0e5a9e57-7da9-4452-aa03-b2a20604f76a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2183,6 +2363,8 @@
         "url_store": "",
         "uuid": "224ecbae-a531-4da0-8226-f1970c57c0e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2207,6 +2389,8 @@
         "url_store": "",
         "uuid": "8cc29b89-44d7-4b31-8229-4c10173b78cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2231,6 +2415,8 @@
         "url_store": "",
         "uuid": "759b9c5e-1f30-436e-b91a-d86a8feaf1db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2255,6 +2441,8 @@
         "url_store": "",
         "uuid": "e914a57b-69a5-4d50-aaab-6be11891e7c7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2279,6 +2467,8 @@
         "url_store": "",
         "uuid": "72f0bcb6-ff7f-4f77-a6ba-b6a817d1729f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2303,6 +2493,8 @@
         "url_store": "",
         "uuid": "888adbc8-ccfc-4de6-99a5-abeccd65b468",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2327,6 +2519,8 @@
         "url_store": "",
         "uuid": "925e3e44-2c5e-4f77-a1b1-4e470018ca65",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2351,6 +2545,8 @@
         "url_store": "",
         "uuid": "6ff5cf07-4976-4bb8-8125-d3f1b6d69efc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2375,6 +2571,8 @@
         "url_store": "",
         "uuid": "9402e5e0-d045-4e31-b1a8-dcfab67bd7a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2597,8 @@
         "url_store": "",
         "uuid": "cc4874e4-0f51-4f88-ba2e-ff31360bb918",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2423,6 +2623,8 @@
         "url_store": "",
         "uuid": "a60cc9db-66fa-4d40-86ca-f3fc2715e9d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2447,6 +2649,8 @@
         "url_store": "",
         "uuid": "1e53d473-30a7-417b-bbf6-f482be36395b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2471,6 +2675,8 @@
         "url_store": "",
         "uuid": "79ffa833-298c-4ea1-8a47-191b632a23ee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2495,6 +2701,8 @@
         "url_store": "",
         "uuid": "04566a34-467a-4622-8a23-71f0f38cdfc7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2519,6 +2727,8 @@
         "url_store": "",
         "uuid": "7d1fa3ac-1a28-44b0-9700-49525f6311a0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2543,6 +2753,8 @@
         "url_store": "",
         "uuid": "f5aa7301-99a2-4f3a-b9e5-0920a741737a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2567,6 +2779,8 @@
         "url_store": "",
         "uuid": "fad15e5a-2946-4d78-ac9d-59ab16ac9d65",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2805,8 @@
         "url_store": "",
         "uuid": "20721828-1aa7-4f21-8caa-46d2f0809535",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2615,6 +2831,8 @@
         "url_store": "",
         "uuid": "20aa1ed2-f97c-48b4-96d6-8e7566a76922",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2639,6 +2857,8 @@
         "url_store": "",
         "uuid": "832a4625-b3e1-4ec2-b8e0-e20bb8a42dc8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2663,6 +2883,8 @@
         "url_store": "",
         "uuid": "246c0e79-d08d-4895-a7aa-5cb97fad80f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2687,6 +2909,8 @@
         "url_store": "",
         "uuid": "0bae913d-8a94-4f3f-8c37-1f2ccd1a874c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2711,6 +2935,8 @@
         "url_store": "",
         "uuid": "3e5e7ac1-f6bc-48c6-a7d8-20c739518e12",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2735,6 +2961,8 @@
         "url_store": "",
         "uuid": "8007dc34-fdae-4acd-9f45-c8bca11ad719",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2987,8 @@
         "url_store": "",
         "uuid": "0298b3c3-2766-4fec-8fdf-ef1134f318b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2783,6 +3013,8 @@
         "url_store": "",
         "uuid": "6d997d11-aea4-4341-8f30-9d4cdb7d2864",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2807,6 +3039,8 @@
         "url_store": "",
         "uuid": "ddc159b3-85b0-4a05-bc8f-6c7658666316",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2831,6 +3065,8 @@
         "url_store": "",
         "uuid": "3ca8f756-39ef-40aa-abff-8857be851f86",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3091,8 @@
         "url_store": "",
         "uuid": "9b0b4f88-dbdc-4559-90cb-8158535bb5fb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3117,8 @@
         "url_store": "",
         "uuid": "e43abcf9-4cfa-4587-a5b4-66dcd0e652e0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2903,6 +3143,8 @@
         "url_store": "",
         "uuid": "3bb3ea87-923f-4b9b-8f8e-0b519746e719",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2927,6 +3169,8 @@
         "url_store": "",
         "uuid": "3f4af48b-5d66-4e7d-a208-13b0670307db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2951,6 +3195,8 @@
         "url_store": "",
         "uuid": "8b9815ab-1500-4858-b9f1-38fd92b2121b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2975,6 +3221,8 @@
         "url_store": "",
         "uuid": "ac0dee23-9ba5-4a44-aaf5-d06df4bf0213",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2999,6 +3247,8 @@
         "url_store": "",
         "uuid": "f372934a-f016-4803-8b72-b0db18c11379",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3023,6 +3273,8 @@
         "url_store": "",
         "uuid": "b4ec294c-94e3-47cb-a1a8-fa48a223b7a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3047,6 +3299,8 @@
         "url_store": "",
         "uuid": "879b619e-05e1-4f2c-9f37-f6158fa7321b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3071,6 +3325,8 @@
         "url_store": "",
         "uuid": "de5247b1-ca7b-4af1-9079-bb4997168881",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3095,6 +3351,8 @@
         "url_store": "",
         "uuid": "a84ad620-a9ed-431c-9029-b6292e911d90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3119,6 +3377,8 @@
         "url_store": "",
         "uuid": "045a9c14-ad28-454d-ac98-843a983f9ec4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3143,6 +3403,8 @@
         "url_store": "",
         "uuid": "366a829c-7bf8-455b-b411-9240047ecdb1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3167,6 +3429,8 @@
         "url_store": "",
         "uuid": "6a6f3e8f-8c0d-49c0-8813-d44072cd573a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3191,6 +3455,8 @@
         "url_store": "",
         "uuid": "3baa5546-317b-4540-9734-e270f09c85c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3215,6 +3481,8 @@
         "url_store": "",
         "uuid": "a91f0fd9-8262-4cee-929e-307f6ac703f7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3239,6 +3507,8 @@
         "url_store": "",
         "uuid": "d5a7ee44-dc9d-46ec-8744-95fc20adf9f1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3263,6 +3533,8 @@
         "url_store": "",
         "uuid": "8fb106aa-af0d-4376-8b1b-946b731ab1c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3287,6 +3559,8 @@
         "url_store": "",
         "uuid": "2c23cdb4-43e3-4539-b3df-b7359a109963",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3311,6 +3585,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3335,6 +3611,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3359,6 +3637,8 @@
         "url_store": "",
         "uuid": "b5a80934-e847-435c-b8e8-a0a270d7ab05",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3383,6 +3663,8 @@
         "url_store": "",
         "uuid": "622465b1-7b08-4005-a063-67de13ea65be",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3407,6 +3689,8 @@
         "url_store": "",
         "uuid": "16bcf93e-f1ec-4aaa-bc21-ef6d0ae1b61e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3431,6 +3715,8 @@
         "url_store": "",
         "uuid": "8b387f1f-9f69-47f3-906f-53017c5253a0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3455,6 +3741,8 @@
         "url_store": "",
         "uuid": "bdbd5f67-2345-4c9e-a334-8bb49c45d37e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3479,13 +3767,15 @@
         "url_store": "",
         "uuid": "bda31c85-96fc-4ca6-b223-bbcc151c6e04",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "987 Clothing",
         "date_added": 1704327373,
-        "date_modified": 1740471111,
+        "date_modified": 1751843228,
         "id": 1998,
         "id_category": 8,
         "id_company": 288,
@@ -3498,11 +3788,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "urbex-boots-grey",
         "url_store": "",
         "uuid": "d69c8927-4518-4848-9727-21d3303429c8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3527,6 +3819,8 @@
         "url_store": "",
         "uuid": "92fca370-8578-4bcd-b13d-c063d0bf4afd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3551,6 +3845,8 @@
         "url_store": "",
         "uuid": "6df991fa-cb82-4e1f-b74f-c6acdad6adf5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3575,6 +3871,8 @@
         "url_store": "",
         "uuid": "dfc67794-2b20-40e1-a18a-d8d4023647d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3599,6 +3897,8 @@
         "url_store": "",
         "uuid": "b15a41bc-8e63-4762-9781-92d290b0a78e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3623,6 +3923,8 @@
         "url_store": "",
         "uuid": "63b41ddc-cc25-4e15-8f70-a5d2fa520c16",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3647,6 +3949,8 @@
         "url_store": "",
         "uuid": "96599ebc-03e6-4cc0-b28d-cd74eea5f138",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3671,6 +3975,8 @@
         "url_store": "",
         "uuid": "842d17bf-18be-4d47-b8ca-e92cf18507a4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3695,6 +4001,8 @@
         "url_store": "",
         "uuid": "9e85fa88-ab74-4368-a59a-f519c79a3bf6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3719,6 +4027,8 @@
         "url_store": "",
         "uuid": "aae2b8ad-5f86-46dd-9d8f-7a146c8928b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3743,6 +4053,8 @@
         "url_store": "",
         "uuid": "2fbff736-db29-4eda-9ac4-d7795f287b6c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3767,6 +4079,8 @@
         "url_store": "",
         "uuid": "cd1ecb82-8830-4a19-8a26-0e1361ebad79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3791,6 +4105,8 @@
         "url_store": "",
         "uuid": "c79300f5-c4e3-4c0c-b468-448c43e19e1d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3815,6 +4131,8 @@
         "url_store": "",
         "uuid": "45985c07-701e-4f41-8602-da2c7ad8fba4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3839,6 +4157,8 @@
         "url_store": "",
         "uuid": "2ac92162-0375-4f28-a38c-6d9b03eee863",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3863,6 +4183,8 @@
         "url_store": "",
         "uuid": "46e80a29-191c-4e64-8c64-4d45970e12cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3887,6 +4209,8 @@
         "url_store": "",
         "uuid": "273750b1-9ce4-4116-8a65-399ac773e890",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3911,6 +4235,8 @@
         "url_store": "",
         "uuid": "338bedd9-831e-4e7c-bb29-9e0a121100f1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3935,6 +4261,8 @@
         "url_store": "",
         "uuid": "32213912-dd36-4edd-8f07-ee57a2fc5deb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3959,6 +4287,8 @@
         "url_store": "",
         "uuid": "8f9511b4-bd32-48a1-bc14-a289e60fcba5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3983,6 +4313,8 @@
         "url_store": "",
         "uuid": "2348dc0a-1512-4aa0-a9aa-ff999c292ddd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4007,6 +4339,8 @@
         "url_store": "",
         "uuid": "33d41ef5-a992-4644-b6b2-761123fc6073",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4031,6 +4365,8 @@
         "url_store": "",
         "uuid": "753e394f-472a-4853-b91b-73a5802a2564",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4055,6 +4391,8 @@
         "url_store": "",
         "uuid": "dcf7ce46-6163-4684-96cc-5aa6e62318cd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,6 +4417,8 @@
         "url_store": "",
         "uuid": "fcd84a03-dfc3-4bc7-b5b5-d137ba9c1285",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4103,6 +4443,8 @@
         "url_store": "",
         "uuid": "156fa89f-34b1-47f2-9c66-6f02e890b29b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4127,6 +4469,8 @@
         "url_store": "",
         "uuid": "0d7ab0b1-d9af-40a7-897f-a48340410c29",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4151,6 +4495,8 @@
         "url_store": "",
         "uuid": "83d81a3f-f19e-4e8c-b6ff-a823e6d60074",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4175,6 +4521,8 @@
         "url_store": "",
         "uuid": "4ec61079-1f93-4b99-bb85-6841ef59af9e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4199,6 +4547,8 @@
         "url_store": "",
         "uuid": "5cf3de9e-7c7c-4dea-8b57-4152b85ece2b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4573,8 @@
         "url_store": "",
         "uuid": "125e9b76-2996-454d-86b8-a91062462d41",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4247,6 +4599,8 @@
         "url_store": "",
         "uuid": "603c4ea9-fe5b-4ca3-b515-55084d7ffad1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4271,6 +4625,8 @@
         "url_store": "",
         "uuid": "46788831-9ec2-4bf5-9e75-0b28e80c83f2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4295,6 +4651,8 @@
         "url_store": "",
         "uuid": "03a5a5a3-4458-432a-8192-99185b86752e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4319,6 +4677,8 @@
         "url_store": "",
         "uuid": "0c111e7a-f912-4e91-9472-08fad4920cc8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4343,17 +4703,19 @@
         "url_store": "",
         "uuid": "5a54cf93-f98d-494e-a735-8e8a7b7bb91e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "R6 Pro",
         "date_added": 1709054564,
-        "date_modified": 1740471457,
+        "date_modified": 1757552739,
         "id": 2736,
         "id_category": 8,
         "id_company": 208,
-        "id_parent": 0,
+        "id_parent": 4912,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -4367,6 +4729,8 @@
         "url_store": "",
         "uuid": "baecfe80-30a7-4e69-8c60-84ce0dd20e20",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4391,6 +4755,8 @@
         "url_store": "",
         "uuid": "600b0177-763b-4d45-85cf-24205d6e895d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4415,6 +4781,8 @@
         "url_store": "",
         "uuid": "ec4add03-cb59-4c8e-806f-341b7ea2033d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4807,8 @@
         "url_store": "",
         "uuid": "4a378cc9-435f-4703-af86-ca15ceaebe6a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4463,6 +4833,8 @@
         "url_store": "",
         "uuid": "c099e0e2-2bc3-4fe2-9e01-61f6f3875b3a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4487,6 +4859,8 @@
         "url_store": "",
         "uuid": "7c2c61b4-99b3-46f2-9b4e-a595ce082dd7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,6 +4885,8 @@
         "url_store": "",
         "uuid": "35630f33-308d-42f2-8e2b-268759ad1166",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4535,6 +4911,8 @@
         "url_store": "",
         "uuid": "b509215c-58f2-4754-b86e-9da5431f321e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4559,6 +4937,8 @@
         "url_store": "",
         "uuid": "bc842c39-1fbd-4a65-b466-351f6ec72069",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4583,6 +4963,8 @@
         "url_store": "",
         "uuid": "061dd6f4-adf6-4ec0-b667-0278807063ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4607,6 +4989,8 @@
         "url_store": "",
         "uuid": "a9c07f97-d02f-4b11-9c93-c8c1dba063e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4631,6 +5015,8 @@
         "url_store": "",
         "uuid": "13dc5de5-7e9a-49cf-9473-627c26ec5db5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4655,6 +5041,8 @@
         "url_store": "",
         "uuid": "cf59794d-9c57-46ff-8367-a78e061c1a63",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4679,6 +5067,8 @@
         "url_store": "",
         "uuid": "c2665234-c23e-4c30-976c-af29db9a4dbd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4703,6 +5093,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Vaporwear-Skullsnap-Enforcer-Outfit",
         "uuid": "ea73662f-7910-4156-836f-54944a569345",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4727,17 +5119,19 @@
         "url_store": "",
         "uuid": "41c0c5fc-6d1e-43bf-b921-5b737eb93ce7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "R6 Pro",
         "date_added": 1710845156,
-        "date_modified": 1740471660,
+        "date_modified": 1757552739,
         "id": 3264,
         "id_category": 8,
         "id_company": 208,
-        "id_parent": 0,
+        "id_parent": 4912,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -4751,17 +5145,19 @@
         "url_store": "",
         "uuid": "49403491-b488-4fce-8008-aff53c725ba7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "R6 Pro",
         "date_added": 1710845661,
-        "date_modified": 1740471664,
+        "date_modified": 1757552739,
         "id": 3269,
         "id_category": 8,
         "id_company": 208,
-        "id_parent": 0,
+        "id_parent": 4912,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -4775,6 +5171,8 @@
         "url_store": "",
         "uuid": "2d2bf13c-4f72-4679-a9ec-368898082193",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4799,6 +5197,8 @@
         "url_store": "",
         "uuid": "93436f11-e667-4f23-96c8-77f0f72a1017",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4823,13 +5223,15 @@
         "url_store": "",
         "uuid": "3928915d-8985-48b9-ab55-43afb14b7075",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "Grindstone",
         "date_added": 1710847497,
-        "date_modified": 1740471674,
+        "date_modified": 1757553076,
         "id": 3293,
         "id_category": 8,
         "id_company": 124,
@@ -4842,11 +5244,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "trekker-boots",
         "url_store": "",
         "uuid": "a2a10efe-30bb-4a6d-ab78-e86d0de2ee15",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4871,6 +5275,8 @@
         "url_store": "",
         "uuid": "2af84e58-ee56-41f9-9c0a-6415ee1fa15d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4895,6 +5301,8 @@
         "url_store": "",
         "uuid": "26929685-659d-460c-b6c9-d3286ff9ab44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4919,6 +5327,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-Cordimon-Voyager-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4943,6 +5353,8 @@
         "url_store": "",
         "uuid": "cd94dd46-a34d-4808-88e8-b0319c06515c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4967,6 +5379,8 @@
         "url_store": "",
         "uuid": "46c50b0b-9afe-4d93-81c4-ab839d81abdc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4991,6 +5405,8 @@
         "url_store": "",
         "uuid": "0ac0aebc-a0bc-4a91-837c-bcd1d26bc5d4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5015,6 +5431,8 @@
         "url_store": "",
         "uuid": "66bbbc9a-0e7c-4682-9df7-051b56b2a725",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5039,6 +5457,8 @@
         "url_store": "",
         "uuid": "d5cb70a3-7444-4a65-a807-a96218e661e2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5063,6 +5483,8 @@
         "url_store": "",
         "uuid": "b83dc29f-4c34-478f-88f5-ef70194fb245",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5087,6 +5509,8 @@
         "url_store": "",
         "uuid": "7e6e6071-12c0-4846-a245-471029c57ee4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5111,6 +5535,8 @@
         "url_store": "",
         "uuid": "94781c8f-eafc-4351-9bcb-b757502d96ec",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5135,6 +5561,8 @@
         "url_store": "",
         "uuid": "eb1a00fd-7204-4da9-8a63-6104ad438532",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -5159,6 +5587,8 @@
         "url_store": "",
         "uuid": "688a401f-d39d-4eba-8db9-28fd81c646d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5183,6 +5613,8 @@
         "url_store": "",
         "uuid": "5895e428-8dce-4ace-bfc5-cf60e84e236c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5207,6 +5639,8 @@
         "url_store": "",
         "uuid": "e3879057-edd4-4060-b240-8580813f8897",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5231,6 +5665,8 @@
         "url_store": "",
         "uuid": "0b7bfad8-0a69-4f44-8e9f-8f83cdca6099",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5255,6 +5691,8 @@
         "url_store": "",
         "uuid": "0ee382b2-0b3f-4c99-974a-93a8a82eebf6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5279,6 +5717,8 @@
         "url_store": "",
         "uuid": "2ccbd0c3-9d79-4734-97eb-1bb84d679031",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5303,6 +5743,8 @@
         "url_store": "",
         "uuid": "1885c7c5-0077-4f61-9aad-d99bf0de3cb8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5327,6 +5769,8 @@
         "url_store": "",
         "uuid": "3e59ed2b-93c3-4043-bac9-15c68212fb5d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5351,6 +5795,8 @@
         "url_store": "",
         "uuid": "0d0bf429-f318-41d5-beca-113d79bd7b15",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5375,6 +5821,8 @@
         "url_store": "",
         "uuid": "2e1b8cb3-ea8d-44f5-aeff-ed091d392b99",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5399,6 +5847,8 @@
         "url_store": "",
         "uuid": "37656f65-c75c-4b68-a09c-5c200392c98c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5423,6 +5873,8 @@
         "url_store": "",
         "uuid": "10d3f0ac-e8de-4200-a3c6-10582d66211a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5447,6 +5899,8 @@
         "url_store": "",
         "uuid": "faf58736-b8a2-46d4-bc59-5c92deced973",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5471,6 +5925,8 @@
         "url_store": "",
         "uuid": "a4c61f14-0d28-473a-a3b5-2aeeea391c08",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5495,6 +5951,8 @@
         "url_store": "",
         "uuid": "35610109-b8e8-4e69-a850-a14aff31a8da",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5519,6 +5977,8 @@
         "url_store": "",
         "uuid": "9bcb9887-69f5-4c03-bdf9-db9b043a7d15",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5543,6 +6003,8 @@
         "url_store": "",
         "uuid": "e0fdf553-9196-475a-882d-293f2fb3fea7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5567,6 +6029,8 @@
         "url_store": "",
         "uuid": "5fb0b2f2-e8c2-4d01-8ad8-f8663f23bf37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5591,6 +6055,8 @@
         "url_store": "",
         "uuid": "900153fe-e56d-4cd8-9b08-cd871970ed1d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5615,6 +6081,8 @@
         "url_store": "",
         "uuid": "fd2d927c-1a9c-4181-b661-428382189203",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5639,6 +6107,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Stegmans-IndVest-Pathfinder-Complete-Outfit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24"
       },
       {
@@ -5663,6 +6133,8 @@
         "url_store": "",
         "uuid": "cfcbf96e-8634-40ab-b6b1-beea1b4bce90",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5687,6 +6159,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5711,6 +6185,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.2"
       },
       {
@@ -5735,13 +6211,15 @@
         "url_store": "",
         "uuid": "2a208940-f250-4b5f-b352-1ed9463a9ab5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
         "company_name": "Alejo Brothers",
         "date_added": 1730718303,
-        "date_modified": 1740471896,
+        "date_modified": 1758153148,
         "id": 4009,
         "id_category": 8,
         "id_company": 10,
@@ -5754,11 +6232,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "nivala-shoes",
         "url_store": "",
         "uuid": "6e812753-7ef7-4241-aea3-adbfae4390bf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5783,6 +6263,8 @@
         "url_store": "",
         "uuid": "fa7b246c-c0b0-43c2-8cba-5592b9ad677d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -5807,6 +6289,8 @@
         "url_store": "",
         "uuid": "66242a93-b551-4966-a73c-10d1360e3590",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5831,6 +6315,8 @@
         "url_store": "",
         "uuid": "722e7191-5e99-4499-bae5-2ab817c8de17",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5855,6 +6341,8 @@
         "url_store": "",
         "uuid": "73affcbf-4f4a-4290-b4c9-3e261453c8cc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5879,6 +6367,8 @@
         "url_store": "",
         "uuid": "73329971-3bdd-46aa-87c7-38ccf6156f4c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5903,6 +6393,8 @@
         "url_store": "",
         "uuid": "309dec09-79be-4819-b9c0-6267e182d307",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5927,16 +6419,18 @@
         "url_store": "",
         "uuid": "0b9fb0aa-2489-4c5c-90ec-615efdcb0e88",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Habidash",
         "date_added": 1733612592,
-        "date_modified": 1740471968,
+        "date_modified": 1758152878,
         "id": 4202,
         "id_category": 8,
-        "id_company": 0,
+        "id_company": 308,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5946,11 +6440,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "taftan-boots-spruce",
         "url_store": "",
         "uuid": "8991458b-f4d4-45be-85c9-4a673fb4bcb2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5975,16 +6471,18 @@
         "url_store": "",
         "uuid": "527556a2-b385-4a76-9996-e77cf86df5c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Grindstone",
         "date_added": 1734091793,
-        "date_modified": 1740471977,
+        "date_modified": 1758153920,
         "id": 4220,
         "id_category": 8,
-        "id_company": 0,
+        "id_company": 124,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -5994,22 +6492,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "safecore-boots",
         "url_store": "",
         "uuid": "c1454b56-c40e-45b4-86a7-374d3112d355",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Grindstone",
         "date_added": 1734091793,
-        "date_modified": 1740471979,
+        "date_modified": 1758153992,
         "id": 4221,
         "id_category": 8,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 124,
+        "id_parent": 4220,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6018,22 +6518,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "safecore-boots-tosca",
         "url_store": "",
         "uuid": "4d5cb6e9-f10d-4852-b0e2-c8092021c963",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Grindstone",
         "date_added": 1734091793,
-        "date_modified": 1740471979,
+        "date_modified": 1758154026,
         "id": 4222,
         "id_category": 8,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 124,
+        "id_parent": 4220,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6042,22 +6544,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "safecore-boots-westar",
         "url_store": "",
         "uuid": "423341dc-1bba-4c4d-8470-9ad71187c8b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Grindstone",
         "date_added": 1734091793,
-        "date_modified": 1740471979,
+        "date_modified": 1758153786,
         "id": 4223,
         "id_category": 8,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 124,
+        "id_parent": 4220,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6066,22 +6570,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "safecore-boots-shuttle-gray",
         "url_store": "",
         "uuid": "1d6a9e0b-c5cc-48a2-ae18-cd2317ced5b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Footwear",
-        "company_name": null,
+        "company_name": "Grindstone",
         "date_added": 1734091793,
-        "date_modified": 1740471980,
+        "date_modified": 1758153955,
         "id": 4224,
         "id_category": 8,
-        "id_company": 0,
-        "id_parent": 0,
+        "id_company": 124,
+        "id_parent": 4220,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6090,11 +6596,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Clothing",
-        "size": null,
+        "size": "",
         "slug": "safecore-boots-armadillo",
         "url_store": "",
         "uuid": "009eb97b-d6bf-4e23-b525-2002227668b0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6119,6 +6627,8 @@
         "url_store": "",
         "uuid": "494768a3-e905-40c9-a826-7c798155db9a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6143,6 +6653,8 @@
         "url_store": "",
         "uuid": "fde433e4-d3b1-40fc-aa31-f294229ca5cc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6167,6 +6679,8 @@
         "url_store": "",
         "uuid": "2f1d6822-e9d9-48d0-bfdf-b98f9f27058e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6191,7 +6705,139 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
+      },
+      {
+        "category": "Footwear",
+        "company_name": "Greycat Industrial",
+        "date_added": 1754445917,
+        "date_modified": 1754445964,
+        "id": 4830,
+        "id_category": 8,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "ThermoWeave Boots ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "thermoweave-boots-asd-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Greycat-ASD-Refinery-Suit",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Footwear",
+        "company_name": "R6 Pro",
+        "date_added": 1757552689,
+        "date_modified": 1757552754,
+        "id": 4912,
+        "id_category": 8,
+        "id_company": 208,
+        "id_parent": 4912,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Campo Shoes",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "campo-shoes",
+        "url_store": "",
+        "uuid": "baecfe80-30a7-4e69-8c60-84ce0dd20e20",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Footwear",
+        "company_name": "R6 Pro",
+        "date_added": 1758152975,
+        "date_modified": 1758153299,
+        "id": 4943,
+        "id_category": 8,
+        "id_company": 208,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Varhey Boots Ochre",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": "",
+        "slug": "varhey-boots-ochre",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Footwear",
+        "company_name": null,
+        "date_added": 1758795188,
+        "date_modified": 0,
+        "id": 4997,
+        "id_category": 8,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corsti Boots",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "corsti-boots",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Footwear",
+        "company_name": null,
+        "date_added": 1758795188,
+        "date_modified": 0,
+        "id": 4998,
+        "id_category": 8,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Paradan Boots",
+        "notification": null,
+        "screenshot": "",
+        "section": "Clothing",
+        "size": null,
+        "slug": "paradan-boots",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
       }
     ],
     "http_code": 200,
@@ -6201,7 +6847,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:37 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -6209,50 +6855,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33f7be0223fa-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=%2FtyuxvwbqfEPIIJ94y4FnHKRzK9hB2LSFxrgGrNveolc2fGWvktI2%2FtUXn0ksAPj%2BZkEQkkkS1ENEXNqvcsg5WomBteg0BhA5p7EeVWd%2BtyoxwkhBKaGbttXgFDMbqJOOqDQeg%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2008"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4119\u0026min_rtt=3805\u0026rtt_var=129\u0026sent=97\u0026recv=40\u0026lost=0\u0026retrans=0\u0026sent_bytes=127546\u0026recv_bytes=1025\u0026delivery_rate=14233487\u0026cwnd=266\u0026unsent_bytes=0\u0026cid=bc9f5fda215b8a87\u0026ts=710\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84392; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=qgIfhjN3NY1QTmWLt%2FdjSo1tHpdcmsPAjv%2F44%2F641pmGPfRet3YDiP6Jrf1gguVODdjdaqCMfGp7qwtmKbrdLc4MjMmZInWglvZRYA%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9ab8cab383-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:37 GMT"
+      "Sat, 11 Oct 2025 04:13:51 GMT"
     ]
   }
 }

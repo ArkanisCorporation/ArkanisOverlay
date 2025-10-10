@@ -23,6 +23,8 @@
         "url_store": "",
         "uuid": "92f958c7-71c5-4997-a575-d6ea3a6e304b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "2308fcbc-cc02-41c1-9a5e-3a14507fc4f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -119,6 +127,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -143,6 +153,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -167,6 +179,8 @@
         "url_store": "",
         "uuid": "dffa4527-2748-4f52-a7da-e57aae1c293c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "d292ae90-a9bb-4a37-8651-27dd81b67ead",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "aff2521e-2e7a-40d5-98a1-9a6a379a2f01",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,31 +257,9 @@
         "url_store": "",
         "uuid": "b5f37920-ba9a-4a07-85e9-4d09f8e2f5ad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
-      },
-      {
-        "category": "Attachments",
-        "company_name": "Gemini",
-        "date_added": 1703523228,
-        "date_modified": 1711522487,
-        "id": 216,
-        "id_category": 17,
-        "id_company": 114,
-        "id_parent": 0,
-        "id_vehicle": 0,
-        "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
-        "is_exclusive_subscriber": 0,
-        "name": "LH86 Pistol Magazine (13 cap)",
-        "notification": null,
-        "screenshot": "",
-        "section": "Personal Weapons",
-        "size": null,
-        "slug": "lh86-pistol-magazine-13-cap-",
-        "url_store": null,
-        "uuid": null,
-        "vehicle_name": null,
-        "game_version": null
       },
       {
         "category": "Attachments",
@@ -287,6 +283,8 @@
         "url_store": "",
         "uuid": "3f4a69ef-0bcf-4cd6-a272-782f6641c242",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -311,6 +309,8 @@
         "url_store": "",
         "uuid": "da55ce5e-25dd-4160-9f04-fee8796c0b43",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -335,6 +335,8 @@
         "url_store": "",
         "uuid": "03b3db91-0063-4da2-99f7-16b20ede4209",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -359,6 +361,8 @@
         "url_store": "",
         "uuid": "e812e76a-4068-4e91-8511-45a26039aa12",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -383,6 +387,8 @@
         "url_store": "",
         "uuid": "a9d588a7-1023-410e-a001-73a973700faa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -407,6 +413,8 @@
         "url_store": "",
         "uuid": "28fa64a1-2a7b-4bcc-9581-9b86c6ccae16",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -431,6 +439,8 @@
         "url_store": "",
         "uuid": "db3a7de3-3e4c-49f6-98fd-7541c963f380",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -455,6 +465,8 @@
         "url_store": "",
         "uuid": "8ec810e2-2d9e-4bbf-9b64-c603aaef01db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -479,6 +491,8 @@
         "url_store": "",
         "uuid": "1f8845fb-22de-4c73-b6e6-ed1d1b066808",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -503,6 +517,8 @@
         "url_store": "",
         "uuid": "38555f2d-975f-4e3c-8d04-8196b59b17c6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -527,6 +543,8 @@
         "url_store": "",
         "uuid": "90adb28a-049e-4357-8000-a4bb75bb7f6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -551,6 +569,8 @@
         "url_store": "",
         "uuid": "b038fea7-2e2f-4b47-b90d-4bb39bde3229",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -575,6 +595,8 @@
         "url_store": "",
         "uuid": "daa0fe47-d6f7-44eb-a3d6-e3e13724a6ba",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -599,6 +621,8 @@
         "url_store": "",
         "uuid": "1fc5d1dc-1fbd-480b-9b1a-a5121963de78",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -623,6 +647,8 @@
         "url_store": "",
         "uuid": "b4ef17b2-60b9-4617-a6a4-60dd053a9e73",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -647,6 +673,8 @@
         "url_store": "",
         "uuid": "c12a76b1-80b2-4db5-9648-20a1cd0f4d67",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -671,6 +699,8 @@
         "url_store": "",
         "uuid": "aa9edf82-8a45-4088-b5de-14c646252f79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -695,6 +725,8 @@
         "url_store": "",
         "uuid": "b62224ba-5c56-4306-857a-70de7d570767",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -719,6 +751,8 @@
         "url_store": "",
         "uuid": "e15e874d-a0c1-4f91-939b-b04bf7a9e839",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -743,6 +777,8 @@
         "url_store": "",
         "uuid": "0988e9ce-5f5d-4eb8-83a7-dc70f187579d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -767,6 +803,8 @@
         "url_store": "",
         "uuid": "1d1e4e17-9258-4ee8-8461-fc866b6d332f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -791,6 +829,8 @@
         "url_store": "",
         "uuid": "66f0410b-bcd9-4be5-96ed-aab6f65f3420",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -815,6 +855,8 @@
         "url_store": "",
         "uuid": "90b873da-1d15-48ba-86f5-f5633e958c33",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -839,6 +881,8 @@
         "url_store": "",
         "uuid": "91cfb7dc-660b-4505-b86a-6028c9a3f54d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -863,6 +907,8 @@
         "url_store": "",
         "uuid": "3326f182-d089-45d5-b090-f438d6f65f17",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -887,6 +933,8 @@
         "url_store": "",
         "uuid": "86eec5f7-3dd0-40f2-a433-3dc143c0d231",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -911,6 +959,8 @@
         "url_store": "",
         "uuid": "31b73bfe-da55-4cb0-a19d-1c6543ca1fb9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -935,6 +985,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -959,6 +1011,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -983,6 +1037,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1007,6 +1063,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1031,13 +1089,15 @@
         "url_store": "",
         "uuid": "1217e61b-1a57-4d94-8aa4-16d5fcb59adf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
         "company_name": "Greycat Industrial",
         "date_added": 1703531242,
-        "date_modified": 1740442114,
+        "date_modified": 1757772635,
         "id": 541,
         "id_category": 17,
         "id_company": 123,
@@ -1050,11 +1110,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Personal Weapons",
-        "size": null,
+        "size": "",
         "slug": "oxytorch-cutter-attachment",
         "url_store": "",
         "uuid": "81d120b2-d7a4-413a-8f9e-a1ebbb8ae1e2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1141,8 @@
         "url_store": "",
         "uuid": "d84a7601-c246-4384-88c3-b3be0fe10680",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1103,6 +1167,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1127,6 +1193,8 @@
         "url_store": "",
         "uuid": "8177489f-ed83-44ac-afd4-2b32a80fa0a6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1151,6 +1219,8 @@
         "url_store": "",
         "uuid": "1b00b884-79eb-4b3b-916f-1b3ebe4c7c76",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1175,6 +1245,8 @@
         "url_store": "",
         "uuid": "60fab7a8-617c-4962-8391-69221ed761d6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1271,8 @@
         "url_store": "",
         "uuid": "6bbaa189-c154-4524-b2c1-6df305bb9533",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,6 +1297,8 @@
         "url_store": "",
         "uuid": "f10cba0e-bb94-4438-a628-5128913bb995",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1247,6 +1323,8 @@
         "url_store": "",
         "uuid": "5c19c75e-fe9c-438b-862a-3639cf187763",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1271,13 +1349,15 @@
         "url_store": "",
         "uuid": "03fc4136-a491-4713-b278-ef7e4333431d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Attachments",
         "company_name": "Greycat Industrial",
         "date_added": 1703543531,
-        "date_modified": 1747181265,
+        "date_modified": 1757772552,
         "id": 880,
         "id_category": 17,
         "id_company": 123,
@@ -1290,11 +1370,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Personal Weapons",
-        "size": null,
+        "size": "",
         "slug": "maxlift-tractor-beam-battery",
         "url_store": "",
         "uuid": "c3ba088f-3a92-412b-90a8-de468d76ec2c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1319,6 +1401,8 @@
         "url_store": "",
         "uuid": "c1de56e1-e20f-4c8c-bbb8-c0584e38725d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1343,6 +1427,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1367,6 +1453,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -1391,6 +1479,8 @@
         "url_store": "",
         "uuid": "99379aa0-7240-4014-813a-0ab460f885f5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1415,13 +1505,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Attachments",
         "company_name": "Kastak Arms",
         "date_added": 1705546465,
-        "date_modified": 1740471190,
+        "date_modified": 1751805547,
         "id": 2167,
         "id_category": 17,
         "id_company": 151,
@@ -1439,6 +1531,8 @@
         "url_store": "",
         "uuid": "71aac893-8957-42e2-8956-61985ab2c4a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1557,8 @@
         "url_store": "",
         "uuid": "fb88b0a1-b9f3-40cb-a683-509cf0e3641c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,13 +1583,15 @@
         "url_store": "",
         "uuid": "891a1422-3980-4756-84b2-04dd07ad7177",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Attachments",
         "company_name": "Behring Applied Technology",
         "date_added": 1706520767,
-        "date_modified": 1742835191,
+        "date_modified": 1751805626,
         "id": 2228,
         "id_category": 17,
         "id_company": 29,
@@ -1511,6 +1609,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -1535,6 +1635,8 @@
         "url_store": "",
         "uuid": "c75282e6-8b92-4398-ac27-bd6f56d627b2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1559,13 +1661,15 @@
         "url_store": "",
         "uuid": "1ba4ebda-fa61-45e7-928f-a543161c9276",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
         "company_name": "NV-TAC",
         "date_added": 1706520767,
-        "date_modified": 1740471230,
+        "date_modified": 1751805959,
         "id": 2231,
         "id_category": 17,
         "id_company": 188,
@@ -1583,6 +1687,8 @@
         "url_store": "",
         "uuid": "fd9d06a9-5cf8-4325-9149-538d576e5146",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1713,8 @@
         "url_store": "",
         "uuid": "208281d5-412b-46c3-b0b3-bea4c33bb17c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1739,8 @@
         "url_store": "",
         "uuid": "845dc675-ab4c-4bd5-8b14-11e9c29f3399",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -1655,6 +1765,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Tracer-Laser-Pointer-Orange",
         "uuid": "cdf4adaa-de1e-42cf-8b50-0fd3ad138a10",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1679,6 +1791,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Tracer-Laser-Pointer-Green",
         "uuid": "14bc8a2c-10f2-4f6e-a45e-eec476367d45",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1817,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Brightspot-Flashlight-Purple",
         "uuid": "9f4969d2-074c-448b-ae6b-0697c49cff81",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1843,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/FieldLite-Red",
         "uuid": "d7d93249-f0ef-4b50-803b-781a904a2cef",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1869,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/FieldLite-Yellow",
         "uuid": "1d6b428a-33a8-4074-bd41-fbc6a16c72d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1895,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/FieldLite-Blue",
         "uuid": "30c2a2e9-fba9-40b5-830c-0f9ad43b18ad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1921,8 @@
         "url_store": "",
         "uuid": "46e37a2b-36d3-48d9-9a77-f51ef4689943",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,13 +1947,15 @@
         "url_store": "",
         "uuid": "77521326-082c-44f9-a5b2-09dfb87f3f14",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
         "company_name": "Gemini",
         "date_added": 1710845597,
-        "date_modified": 1740471663,
+        "date_modified": 1756006536,
         "id": 3268,
         "id_category": 17,
         "id_company": 114,
@@ -1847,16 +1973,18 @@
         "url_store": "",
         "uuid": "718aca95-c774-4266-a0e2-50ba2a56088e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
-        "company_name": null,
+        "company_name": "Behring Applied Technology",
         "date_added": 1718316984,
-        "date_modified": 1740471829,
+        "date_modified": 1751805750,
         "id": 3765,
         "id_category": 17,
-        "id_company": 0,
+        "id_company": 29,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -1871,6 +1999,8 @@
         "url_store": "",
         "uuid": "a392c30b-5798-4b35-a70c-01264c6a083e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,13 +2025,15 @@
         "url_store": "",
         "uuid": "0dabf62d-9b3e-4968-a371-ae0cb44057a1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
         "company_name": "Gemini",
         "date_added": 1718316984,
-        "date_modified": 1744038816,
+        "date_modified": 1751805913,
         "id": 3767,
         "id_category": 17,
         "id_company": 114,
@@ -1919,6 +2051,8 @@
         "url_store": "",
         "uuid": "278fafef-c4e3-44d5-9b85-a225f6e97cb2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -1943,6 +2077,8 @@
         "url_store": "",
         "uuid": "4505b54f-0e2b-4dfa-8c15-3c9073561f93",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1967,6 +2103,8 @@
         "url_store": "",
         "uuid": "d5da6ad7-8013-4db0-a75e-3060f7d987db",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1991,6 +2129,8 @@
         "url_store": "",
         "uuid": "89ed520d-5514-49a5-bd11-2620f725b509",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2015,6 +2155,8 @@
         "url_store": "",
         "uuid": "009b533f-e818-4dc8-a81c-fafd40bb21ba",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2039,6 +2181,8 @@
         "url_store": "",
         "uuid": "495e07f0-3b09-49a7-857b-dccefca9f5d1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2063,6 +2207,8 @@
         "url_store": "",
         "uuid": "c1d28932-267f-4867-9d29-2d6f0aa50dd2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2087,6 +2233,8 @@
         "url_store": "",
         "uuid": "98dc4abb-8518-479e-a56d-f15d98e037df",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2259,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2135,6 +2285,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -2159,6 +2311,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -2183,6 +2337,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2207,6 +2363,8 @@
         "url_store": "",
         "uuid": "068c28b8-3ea3-409a-b08d-1d53ae1e3303",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2231,6 +2389,8 @@
         "url_store": "",
         "uuid": "10831736-4bdf-4465-b517-94281261d317",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2255,13 +2415,15 @@
         "url_store": "",
         "uuid": "be792212-0662-4351-95cb-31b4d3fe9a0d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Attachments",
         "company_name": null,
         "date_added": 1738779349,
-        "date_modified": 1740472009,
+        "date_modified": 1751388896,
         "id": 4315,
         "id_category": 17,
         "id_company": 0,
@@ -2279,6 +2441,8 @@
         "url_store": "",
         "uuid": "3468f853-8bcc-450c-a4fe-f70f6e391301",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2303,6 +2467,8 @@
         "url_store": "",
         "uuid": "ba30701c-bec0-4345-b5d9-ae869f34c126",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2327,6 +2493,8 @@
         "url_store": "",
         "uuid": "680e69e1-4bf5-4647-92bc-989d1e4a5faa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -2351,6 +2519,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2375,6 +2545,8 @@
         "url_store": "",
         "uuid": "70a1857b-69b1-4456-b29e-36c505f09eca",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2399,6 +2571,8 @@
         "url_store": "",
         "uuid": "be792212-0662-4351-95cb-31b4d3fe9a0d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -2408,7 +2582,7 @@
         "date_modified": 1745663976,
         "id": 4470,
         "id_category": 17,
-        "id_company": 290,
+        "id_company": 264,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -2423,6 +2597,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -2447,6 +2623,294 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Lightning Bolt Co.",
+        "date_added": 1748656668,
+        "date_modified": 1748656940,
+        "id": 4591,
+        "id_category": 17,
+        "id_company": 164,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Prism Laser Shotgun Battery (20 cap)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": null,
+        "slug": "prism-laser-shutgun-battery-20cap",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751804861,
+        "date_modified": 1751805302,
+        "id": 4709,
+        "id_category": 17,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Pyro RYT Multi-Tool Battery",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "pyro-ryt-multi-tool-battery",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Behring Applied Technology",
+        "date_added": 1752080427,
+        "date_modified": 0,
+        "id": 4717,
+        "id_category": 17,
+        "id_company": 29,
+        "id_parent": 0,
+        "id_vehicle": null,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "PT3 \u0022Deadfall\u0022 (3x Holographic)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "1",
+        "slug": "pt3-deadfall-3x-holographic-socu",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
+      },
+      {
+        "category": "Attachments",
+        "company_name": null,
+        "date_added": 1752788693,
+        "date_modified": 0,
+        "id": 4736,
+        "id_category": 17,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Pulse Laser Pistol Battery (20 Cap)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": null,
+        "slug": "pulse-laser-pistol-battery-20-cap-",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1752868323,
+        "date_modified": 1757776615,
+        "id": 4770,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Pulse Laser Pistol Battery (60 Cap)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "1",
+        "slug": "pulse-laser-pistol-battery-60-cap-",
+        "url_store": "",
+        "uuid": "b76f9795-28fe-40a3-9a60-ffdbc4e8c713",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1754326435,
+        "date_modified": 1754326513,
+        "id": 4809,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Zenith Laser Sniper Rifle Battery (22 Cap)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "zenith-laser-sniper-rifle-battery-22-cap-",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1754327216,
+        "date_modified": 1756555021,
+        "id": 4810,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "FarSight \u0026quot;Thunderstrike\u0026quot; (8x Telescopic)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "farsight-thunderstrike-8x-telescopic-",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1756553001,
+        "date_modified": 1756553170,
+        "id": 4883,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "FarSight (8x Telescopic)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "farsight-8x-telescopic",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1756553595,
+        "date_modified": 1756554070,
+        "id": 4884,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "FarSight \u0026quot;Darkwave\u0026quot; (8x Telescopic)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "farsight-darkwave-8x-telescopic",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1756554602,
+        "date_modified": 1756554725,
+        "id": 4885,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "FarSight \u0026quot;Landslide\u0026quot; (8x Telescopic)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "3",
+        "slug": "farsight-landslide-8x-telescopic",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Attachments",
+        "company_name": "Verified Offworld Laser Technologies",
+        "date_added": 1757173483,
+        "date_modified": 1757177093,
+        "id": 4898,
+        "id_category": 17,
+        "id_company": 264,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Fresnel Energy LMG Battery (165 Cap)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Personal Weapons",
+        "size": "",
+        "slug": "fresnel-energy-lmg-battery",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -2457,7 +2921,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:38 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -2465,50 +2929,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33fb5d0df97e-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=czAQuwJ28VWqyB4TzbDPtZglBJYWcII7n9TEzdhoz6UvyMRbkJOT9VdFM8wF8MSptgorIjUGEEkkx0XIdgurcrEteffta15g2RHuqqmRJKpTXgQrsl9NcgGKAqHKkaiOKO4t6g%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2007"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4393\u0026min_rtt=3944\u0026rtt_var=109\u0026sent=205\u0026recv=73\u0026lost=0\u0026retrans=0\u0026sent_bytes=271115\u0026recv_bytes=986\u0026delivery_rate=24216007\u0026cwnd=323\u0026unsent_bytes=0\u0026cid=b557251b02aae575\u0026ts=1282\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84393; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=v%2BEjk5sPYBGods4JYzS006B%2BUcxFMzOJPtapQyPMbyWIedHiOuiJPZE7xDlXJZEkBVENH056TJyu3acmPHyPhAD4EO7K70qvQeSwfQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9afc20df72-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:38 GMT"
+      "Sat, 11 Oct 2025 04:13:52 GMT"
     ]
   }
 }
