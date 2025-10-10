@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.LocalLink.Models.Commands;
 
-using Common.Options;
+using Common.Models;
 
 public class SetExternalServiceCredentialsCommand : LocalLinkCommandBase
 {
-    public required UserPreferences.Credentials Credentials { get; init; }
+    public required AccountCredentials Credentials { get; init; }
 }

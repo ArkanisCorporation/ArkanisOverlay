@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 using System.Security.Claims;
+using Common.Models;
 using Common.Options;
 using FluentResults;
 
@@ -12,7 +13,7 @@ public interface IExternalAccountContext
 
     public Result<ClaimsIdentity>? LastResult { get; }
 
-    public Task<Result<ClaimsIdentity>> ConfigureAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken);
+    public Task<Result<ClaimsIdentity>> ConfigureAsync(AccountCredentials credentials, CancellationToken cancellationToken);
 
     public Task UpdateAsync(CancellationToken cancellationToken);
 

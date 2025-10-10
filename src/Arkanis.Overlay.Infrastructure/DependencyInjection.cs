@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure;
 using Common;
 using Common.Enums;
 using Common.Extensions;
+using Common.Models;
 using Data;
 using Domain.Abstractions.Services;
 using External.UEX;
@@ -73,7 +74,10 @@ public static class DependencyInjection
                     {
                         var userPreferences = provider.GetRequiredService<IUserPreferencesProvider>();
                         var credentials = userPreferences.CurrentPreferences.GetCredentialsOrDefaultFor(ExternalService.UnitedExpress);
-                        uexApiOptions.UserToken = credentials?.SecretToken;
+                        if (credentials is AccountApiTokenCredentials tokenCredentials)
+                        {
+                            uexApiOptions.UserToken = tokenCredentials.SecretToken;
+                        }
                     }
                 )
             );

@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using Common.Models;
 using Common.Options;
 using Common.Services;
 using Domain.Abstractions.Services;
@@ -25,14 +26,14 @@ public class ExternalAccountContext(
     protected virtual ExternalAuthenticator.AuthTaskBase? CurrentAuthentication
         => _currentAuthentication;
 
-    public ClaimsIdentity Identity
-        => CurrentAuthentication?.Identity ?? new ClaimsIdentity();
-
     public void Dispose()
     {
         _semaphoreSlim.Dispose();
         GC.SuppressFinalize(this);
     }
+
+    public ClaimsIdentity Identity
+        => CurrentAuthentication?.Identity ?? new ClaimsIdentity();
 
     [MemberNotNullWhen(true, nameof(CurrentAuthentication))]
     public virtual bool IsAuthenticated
@@ -40,7 +41,37 @@ public class ExternalAccountContext(
 
     public Result<ClaimsIdentity>? LastResult { get; private set; }
 
-    public async Task<Result<ClaimsIdentity>> ConfigureAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken)
+    public async Task UpdateAsync(CancellationToken cancellationToken)
+    {
+        var serviceCredentials = userPreferences.CurrentPreferences.GetCredentialsOrDefaultFor(ServiceIdentifier);
+        var validationResult = authenticator.ValidateCredentials(serviceCredentials);
+        if (validationResult.IsFailed)
+        {
+            Logger.LogWarning("Credentials for {ServiceIdentifier} are invalid (clearing current auth): {@Errors}", ServiceIdentifier, validationResult.Errors);
+            _currentAuthentication = null;
+            await UpdateAsyncCore(cancellationToken);
+            return;
+        }
+
+        if (serviceCredentials is null)
+        {
+            Logger.LogDebug("No valid credentials for {ServiceIdentifier} found, clearing current auth", ServiceIdentifier);
+            _currentAuthentication = null;
+            await UpdateAsyncCore(cancellationToken);
+            return;
+        }
+
+        await UpdateAsync(serviceCredentials, cancellationToken);
+        //? regardless of the result, we do not update stored credentials here
+    }
+
+    public async Task UnlinkAsync(CancellationToken cancellationToken)
+    {
+        var updatedPreferences = userPreferences.CurrentPreferences.RemoveCredentialsFor(ServiceIdentifier);
+        await userPreferences.SaveAndApplyUserPreferencesAsync(updatedPreferences);
+    }
+
+    public async Task<Result<ClaimsIdentity>> ConfigureAsync(AccountCredentials credentials, CancellationToken cancellationToken)
     {
         await _semaphoreSlim.WaitAsync(cancellationToken);
         try
@@ -63,29 +94,9 @@ public class ExternalAccountContext(
         }
     }
 
-    public async Task UpdateAsync(CancellationToken cancellationToken)
-    {
-        if (userPreferences.CurrentPreferences.GetCredentialsOrDefaultFor(ServiceIdentifier) is not { SecretToken.Length: > 0 } credentials)
-        {
-            Logger.LogDebug("No stored credentials for {ServiceIdentifier}, clearing current authentication", ServiceIdentifier);
-            _currentAuthentication = null;
-            await UpdateAsyncCore(cancellationToken);
-            return;
-        }
-
-        await UpdateAsync(credentials, cancellationToken);
-        //? regardless of the result, we do not update stored credentials here
-    }
-
-    public async Task UnlinkAsync(CancellationToken cancellationToken)
-    {
-        var updatedPreferences = userPreferences.CurrentPreferences.RemoveCredentialsFor(ServiceIdentifier);
-        await userPreferences.SaveAndApplyUserPreferencesAsync(updatedPreferences);
-    }
-
 #pragma warning disable CS8774 // Member 'LastResult' must have a non-null value when exiting.
     [MemberNotNull(nameof(LastResult))]
-    protected async Task UpdateAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken)
+    protected async Task UpdateAsync(AccountCredentials credentials, CancellationToken cancellationToken)
     {
         _currentAuthentication = authenticator.AuthenticateAsync(credentials, cancellationToken);
         LastResult = await _currentAuthentication;

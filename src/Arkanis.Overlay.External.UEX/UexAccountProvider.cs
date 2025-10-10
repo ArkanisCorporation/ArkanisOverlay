@@ -8,7 +8,6 @@ using Abstractions;
 using Common.Errors;
 using Common.Extensions;
 using Common.Models;
-using Common.Options;
 using Common.Services;
 using Extensions;
 using FluentResults;
@@ -20,13 +19,21 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
     public override ExternalAuthenticatorInfo AuthenticatorInfo
         => UexConstants.ProviderInfo;
 
-    public override AuthenticationTask AuthenticateAsync(UserPreferences.Credentials credentials, CancellationToken cancellationToken)
+    public override Result ValidateCredentials(AccountCredentials? serviceCredentials)
+        => serviceCredentials switch
+        {
+            AccountApiTokenCredentials => Result.Ok(),
+            null => Result.Ok(), // no credentials are valid (means no authentication)
+            _ => Result.Fail("Provided credentials are not valid UEX API token credentials."),
+        };
+
+    public override AuthenticationTask AuthenticateAsync(AccountCredentials credentials, CancellationToken cancellationToken)
         => ActivatorUtilities.CreateInstance<AuthenticationTask>(serviceProvider, credentials, cancellationToken);
 
     public class AuthenticationTask(
         IUexUserApi userApi,
         ILogger<AuthenticationTask> logger,
-        UserPreferences.Credentials credentials,
+        AccountCredentials credentials,
         CancellationToken cancellationToken
     )
         : AuthTaskBase(credentials, cancellationToken)
@@ -44,7 +51,12 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
         {
             try
             {
-                var scopedApi = userApi.WithOverrideOptions(opts => opts.UserToken = Credentials.SecretToken);
+                if (Credentials is not AccountApiTokenCredentials tokenCredentials)
+                {
+                    return Result.Fail("Provided credentials are not valid UEX API token credentials.");
+                }
+
+                var scopedApi = userApi.WithOverrideOptions(opts => opts.UserToken = tokenCredentials.SecretToken);
                 var response = await scopedApi.GetUserAsync(null, CancellationToken.None);
                 AuthenticateCore(response);
 
