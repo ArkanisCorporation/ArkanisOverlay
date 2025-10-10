@@ -1,8 +1,7 @@
-@using Arkanis.Overlay.Common.Options
-@using Arkanis.Overlay.Domain
-@using Arkanis.Overlay.Infrastructure.Exceptions
+@using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Infrastructure.Helpers
 @using Arkanis.Overlay.Infrastructure.Services.External
+@using FluentResults
 @inject UexAccountContext UexAccountContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
@@ -106,7 +105,7 @@
                                     @bind-Value="_token"
                                     @bind-Value:after="CheckTokenAsync"
                                     Error="@TokenHasError"
-                                    ErrorText="@_tokenError"
+                                    ErrorText="@_tokenError?.Message"
                                     InputType="@InputType.Password"
                                     Disabled="@(_isLoading)"
                                     FullWidth
@@ -154,7 +153,7 @@
     private MudStepper? _stepper;
 
     private string? _token;
-    private string? _tokenError;
+    private IError? _tokenError;
     private bool _isLoading;
 
     private bool TokenHasError
@@ -174,14 +173,14 @@
 
     public static async Task<DialogResult> UnlinkAsync(IDialogService dialogService, UexAccountContext accountContext)
     {
-        if (!accountContext.IsLinked)
+        if (!accountContext.IsAuthenticated)
         {
             return DialogResult.Ok(true);
         }
 
         var options = new MessageBoxOptions
         {
-            Title = $"Unlink {accountContext.CurrentUser.Name} (United Express)",
+            Title = $"Unlink {accountContext.Identity.Name} (United Express)",
             Message = "This action cannot be undone. Are you sure?",
             YesText = "Unlink",
             CancelText = "Cancel",
@@ -191,7 +190,7 @@
             return DialogResult.Cancel();
         }
 
-        await accountContext.UnlinkAsync();
+        await accountContext.UnlinkAsync(CancellationToken.None);
         return DialogResult.Ok(true);
     }
 
@@ -212,7 +211,7 @@
     {
         _tokenError = _token switch
         {
-            { Length: not 40 } => "Provided secret key is not valid.",
+            { Length: not 40 } => new Error("Provided secret key is not valid."),
             _ => null,
         };
         if (_tokenError is not null || _token is null)
@@ -229,16 +228,18 @@
                 UserIdentifier = null,
                 SecretToken = _token,
             };
-            await UexAccountContext.ConfigureAsync(credentials, CancellationToken.None);
-            await _stepper!.NextStepAsync();
-        }
-        catch (ExternalLinkException exception)
-        {
-            _tokenError = exception.Message;
+
+            var result = await UexAccountContext.ConfigureAsync(credentials, CancellationToken.None);
+            if (UexAccountContext.IsAuthenticated)
+            {
+                await _stepper!.NextStepAsync();
+            }
+
+            result.MapErrors(error => _tokenError ??= error);
         }
         catch (Exception exception)
         {
-            _tokenError = exception.Message;
+            _tokenError = exception.ToError();
         }
         finally
         {

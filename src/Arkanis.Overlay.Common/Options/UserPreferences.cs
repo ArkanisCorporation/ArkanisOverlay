@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Common.Options;
 
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using Models;
 using Models.Keyboard;
@@ -36,9 +37,12 @@ public record UserPreferences
 
     public List<Credentials> ExternalServiceCredentials { get; set; } = [];
 
+    public Credentials? GetCredentialsOrDefaultFor(string serviceId)
+        => ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId);
+
     public Credentials GetOrCreateCredentialsFor(string serviceId)
     {
-        if (ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId) is not { } credentials)
+        if (GetCredentialsOrDefaultFor(serviceId) is not { } credentials)
         {
             ExternalServiceCredentials.Add(credentials = new Credentials(serviceId));
         }
@@ -46,6 +50,7 @@ public record UserPreferences
         return credentials;
     }
 
+    [Pure]
     public UserPreferences SetCredentials(Credentials credentials)
     {
         ExternalServiceCredentials.RemoveAll(x => x.ServiceId == credentials.ServiceId);
@@ -55,8 +60,12 @@ public record UserPreferences
         };
     }
 
-    public void RemoveCredentialsFor(string serviceId)
-        => ExternalServiceCredentials.RemoveAll(x => x.ServiceId == serviceId);
+    [Pure]
+    public UserPreferences RemoveCredentialsFor(string serviceId)
+        => this with
+        {
+            ExternalServiceCredentials = ExternalServiceCredentials.Where(x => x.ServiceId != serviceId).ToList(),
+        };
 
     public class Credentials(string serviceId)
     {

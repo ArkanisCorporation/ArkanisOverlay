@@ -9,10 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentResults"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
         <PackageReference Include="FuzzySharp"/>
         <PackageReference Include="Humanizer"/>
+        <PackageReference Include="JetBrains.Annotations"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
