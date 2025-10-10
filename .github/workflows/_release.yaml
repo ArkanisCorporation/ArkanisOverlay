@@ -76,6 +76,7 @@ jobs:
         id: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_PUBLISH_API_KEY: ${{ secrets.NUGET_PUBLISH_API_KEY }}
           DEBUG: ${{ inputs.dry_run && '*' || '' }}
         with:
           ci: ${{ ! inputs.dry_run }}
