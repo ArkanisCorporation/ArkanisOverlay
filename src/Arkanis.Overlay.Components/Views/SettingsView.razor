@@ -1,6 +1,5 @@
-@using Arkanis.Overlay.Common.Options
 @implements IDisposable
-@inject IUserPreferencesProvider UserPreferencesProvider
+@inject IUserPreferencesManager UserPreferencesManager
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -31,124 +30,41 @@
 
 <MudMainContent Class="pb-8 px-2">
     <MudContainer>
-        <MudPaper>
-            <div class="py-4 px-6">
-                <MudText Typo="@Typo.h5">
-                    External Services
-                </MudText>
-                <MudText Typo="@Typo.body1">
-                    Link your account to supported external services to enable additional or enhanced features.
-                </MudText>
-            </div>
+        <MudStack>
+            <MudPaper>
 
-            <MudDivider/>
+                <div class="py-4 px-6">
+                    <MudText Typo="@Typo.h5">
+                        Preferences
+                    </MudText>
+                    <MudText Typo="@Typo.body1">
+                        Customize your experience by adjusting application settings and preferences.
+                    </MudText>
+                </div>
 
-            <MudExpansionPanels>
-                <MudExpansionPanel Class="external-service-config" Disabled>
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <div style="height: 32px; margin-top: -4px;">
-                                <CitizenIdLogo
-                                    Style="max-height: 36px;"
-                                    Class="my-n1"
-                                    ContentId="@ContentId"/>
-                            </div>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
-                            <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
-                </MudExpansionPanel>
+                <MudDivider/>
 
-                <UexServiceSettingsPanel
+                <UserPreferencesControls
+                    Preferences="@UserPreferencesManager.CurrentPreferences"
+                    @bind-IsValid="@_isValid"/>
+            </MudPaper>
+
+            <MudPaper>
+                <div class="py-4 px-6">
+                    <MudText Typo="@Typo.h5">
+                        External Services
+                    </MudText>
+                    <MudText Typo="@Typo.body1">
+                        Link your account to supported external services to enable additional or enhanced features.
+                    </MudText>
+                </div>
+
+                <MudDivider/>
+
+                <ExternalAccountControls
                     ContentId="@ContentId"/>
-
-                <MudExpansionPanel Class="external-service-config" Disabled>
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <div style="height: 32px;">
-                                <FleetYardsLogo
-                                    Style="max-height: 38px;"
-                                    Class="my-n1"
-                                    ContentId="@ContentId"/>
-                            </div>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
-                            <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
-                </MudExpansionPanel>
-
-                <MudExpansionPanel Class="external-service-config" Disabled>
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <RegolithLogo
-                                Style="height: 40px;"
-                                Class="my-n1"
-                                ContentId="@ContentId"/>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
-                            <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
-                </MudExpansionPanel>
-
-                <MudExpansionPanel Class="external-service-config" Disabled>
-                    <TitleContent>
-                        <MudStack AlignItems="@AlignItems.Center"
-                                  Justify="@Justify.Center"
-                                  Row>
-                            <MedRunnerLogo
-                                Style="height: 40px;"
-                                Class="my-n1"
-                                OrientationVariant="@MedRunnerLogo.Orientation.Horizontal"
-                                ContentId="@ContentId"/>
-                        </MudStack>
-                        <MudStack AlignItems="@AlignItems.Center" Row>
-                            <MudChip T="string" Color="@Color.Default">
-                                Inactive
-                            </MudChip>
-                            <MudSpacer/>
-                            <MudText Class="text-secondary">
-                                Account connection not supported yet
-                            </MudText>
-                        </MudStack>
-                    </TitleContent>
-                    <ChildContent>
-                    </ChildContent>
-                </MudExpansionPanel>
-            </MudExpansionPanels>
-        </MudPaper>
+            </MudPaper>
+        </MudStack>
     </MudContainer>
 </MudMainContent>
 
@@ -156,6 +72,8 @@
 {
 
     private const string ContentId = "settings";
+
+    private bool _isValid;
 
     private async void PerformUpdate(object? _, UserPreferences preferences)
     {
@@ -171,12 +89,12 @@
 
     protected override void OnInitialized()
     {
-        UserPreferencesProvider.ApplyPreferences += PerformUpdate;
+        UserPreferencesManager.ApplyPreferences += PerformUpdate;
     }
 
     public void Dispose()
     {
-        UserPreferencesProvider.ApplyPreferences -= PerformUpdate;
+        UserPreferencesManager.ApplyPreferences -= PerformUpdate;
     }
 
 }
