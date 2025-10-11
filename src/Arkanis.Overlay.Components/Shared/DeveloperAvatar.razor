@@ -1,0 +1,41 @@
+<CustomAvatar
+    Size="@AvatarSize"
+    ImageUrl="@Model.AvatarLink"
+    ImageAlt="@Model.Name"
+    OutlineCustomColor="@OutlineCustomColor"/>
+
+@code
+{
+
+    public static readonly Entry Delta = new()
+    {
+        Name = "Delta",
+        AvatarLink = "https://cdn.discordapp.com/avatars/174617873182883841/7116202533a547006f0b2bd4b4ee62e4.png?size=64",
+        Link = "https://discord.com/users/174617873182883841",
+    };
+
+    public static readonly Entry KronnY = new()
+    {
+        Name = "TheKronnY",
+        AvatarLink = "https://robertsspaceindustries.com/media/vik3yf6mmx64tr/avatar/7c6031e0-1f66-47c0-A147-C801168e1c09.jpg",
+        Link = "https://discord.com/users/224580858432978944",
+    };
+
+    [Parameter]
+    [EditorRequired]
+    public required Entry Model { get; set; }
+
+    [Parameter]
+    public Size AvatarSize { get; set; } = Size.Medium;
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+    public class Entry
+    {
+        public required string Name { get; set; }
+        public required string AvatarLink { get; set; }
+        public string? Link { get; set; }
+    }
+
+}

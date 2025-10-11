@@ -1,0 +1,63 @@
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="@Typo.h6">
+            Arkanis Corporation celebrates its 1st anniversary! 🎉
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudStack>
+            <MudText>
+                Consider subscribing to get immediate access to the
+                <span style="color: #efbf04">supporter-exclusive</span>
+                perks, such as:
+            </MudText>
+
+            <DeveloperQuote Model="@DeveloperAvatar.Delta"
+                            Time="@_deltaQuoteTime.Humanize()">
+                ...
+            </DeveloperQuote>
+
+            <DeveloperQuote Model="@DeveloperAvatar.KronnY"
+                            Time="@_kronnyQuoteTime.Humanize()">
+                ...
+            </DeveloperQuote>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private const string ContentId = "anniversary-dialog";
+
+    private DateTime _deltaQuoteTime = new(2025, 10, 12);
+    private DateTime _kronnyQuoteTime = new(2025, 10, 12);
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+        };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
+        var dialogRef = await dialogService.ShowAsync<AnniversaryDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+}

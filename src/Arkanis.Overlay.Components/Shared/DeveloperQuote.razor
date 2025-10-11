@@ -1,0 +1,42 @@
+<MudChat ChatPosition="@Position">
+    <MudChatHeader Name="@Model.Name" Time="@Time"/>
+    <DeveloperAvatar
+        Model="@Model"
+        AvatarSize="@AvatarSize"
+        OutlineCustomColor="@OutlineCustomColor"/>
+    <MudChatBubble>
+        @ChildContent
+    </MudChatBubble>
+    @if (AdditionalContent is not null)
+    {
+        @AdditionalContent
+    }
+</MudChat>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required DeveloperAvatar.Entry Model { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? AdditionalContent { get; set; }
+
+    [Parameter]
+    public ChatBubblePosition Position { get; set; } = ChatBubblePosition.Start;
+
+    [Parameter]
+    public Size AvatarSize { get; set; } = Size.Medium;
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+    [Parameter]
+    public string? Time { get; set; }
+
+}

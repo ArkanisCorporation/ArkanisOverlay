@@ -1,0 +1,192 @@
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol -->
+<style>
+    .subscribe-dialog .mud-dialog-content {
+        max-height: 1100px;
+    }
+
+    .subscribe-dialog .service-logo {
+        width: 80%;
+    }
+</style>
+<MudDialog Class="subscribe-dialog">
+    <TitleContent>
+        <MudText Typo="@Typo.h6">
+            💖 Are you enjoying Arkanis Overlay?
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudStack AlignItems="@AlignItems.Center">
+            <MudText Align="@Align.Center">
+                There surely is a lot more you have yet to discover!
+                Consider subscribing to get immediate access to the
+                <span style="color: #efbf04">supporter-exclusive</span>
+                perks, such as:
+            </MudText>
+
+            <MudList T="string" ReadOnly>
+                <MudListItem Value="1"
+                             Icon="@Icons.Custom.Brands.Discord"
+                             Href="https://join.arkanis.cc"
+                             Target="_blank">
+                    <MudText>
+                        Exclusive community Discord role and icon
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Show your support and stand out in the Arkanis Corporation Discord server.
+                    </MudText>
+                </MudListItem>
+
+                <MudListItem Value="1"
+                             Icon="@Icons.Material.Filled.EmojiEmotions"
+                             Class="pointer-events-none">
+                    <MudText>
+                        Your name and avatar in the supporters list
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Be recognized for your support in the application itself.
+                        You have to join our Discord server to appear in the list at this time.
+                    </MudText>
+                </MudListItem>
+
+                <MudListItem Value="1"
+                             Icon="@Icons.Material.Filled.Newspaper"
+                             Href="https://discord.com/channels/1294685596991750277/1396282429404090430"
+                             Target="_blank">
+                    <MudText>
+                        Access to the <b>sneak-peek</b> Discord channel
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Discover upcoming features and changes before anyone else.
+                        Enjoy early development previews and exclusive behind-the-scenes content.
+                    </MudText>
+                </MudListItem>
+
+                <MudListItem Value="1"
+                             Icon="@Icons.Material.Filled.Chat"
+                             Href="https://discord.com/channels/1294685596991750277/1396282118623203418"
+                             Target="_blank">
+                    <MudText>
+                        Access to the <b>supporters-only</b> Discord channel
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Hang out with other supporters and the developers, ask questions, give feedback,
+                        and help shape the future of Arkanis Overlay.
+                    </MudText>
+                </MudListItem>
+
+                <MudListItem Value="1"
+                             Icon="@Icons.Material.Filled.Build"
+                             Class="pointer-events-none"
+                             Disabled>
+                    <MudText>
+                        (SOON) Access to the <b>nightly update channel</b>
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Get access to the latest and greatest features as soon as they are available,
+                        and help us test them before they are released to the public.
+                    </MudText>
+                </MudListItem>
+
+                <MudListItem Value="1"
+                             Icon="@Icons.Material.Filled.CloudDownload"
+                             Href="@ExternalLinkHelper.GetArkanisWebLink("/PatchWatch/", ContentId)"
+                             Target="_blank">
+                    <MudText>
+                        The fastest Star Citizen <b>patch notifications</b> on your server
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Add the Arkanis Patch Watch bot to your Discord server and get notified of new Star Citizen
+                        client patches as soon as they are available for download.
+                    </MudText>
+                </MudListItem>
+            </MudList>
+
+            <MudGrid Class="pt-4 pb-7">
+                <MudItem xs="12" sm="6">
+                    <MudStack Justify="@Justify.Center"
+                              AlignItems="@AlignItems.Center"
+                              Class="h-100 relative">
+                        <MudLink Href="@ExternalLinkHelper.GetKoFiUrl(ContentId)" Target="_blank"
+                                 Class="d-contents">
+                            <MudImage
+                                Class="service-logo shimmer"
+                                Style="width: 80%"
+                                Src="https://storage.ko-fi.com/cdn/fullLogoKofi.png"/>
+                        </MudLink>
+                        <MudText Typo="@Typo.caption" Class="text-secondary absolute" Style="bottom: -2em">
+                            (preferred)
+                        </MudText>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudStack Justify="@Justify.Center"
+                              AlignItems="@AlignItems.Center"
+                              Class="h-100">
+                        <MudLink Href="@ExternalLinkHelper.GetPatreonUrl(ContentId)" Target="_blank"
+                                 Class="d-contents">
+                            <MudImage
+                                Class="service-logo shimmer"
+                                Style="filter: invert(1)"
+                                Src="@LinkHelper.GetPathToAsset("img/patreon-horizontal-black.svg")"/>
+                        </MudLink>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+
+            <SubscriberAvatarsCurrent OutlineCustomColor="var(--mud-palette-surface)" GroupByTier>
+                <BeforeContent>
+                    <MudText Align="@Align.Center" Class="mb-4" Style="width: 60%">
+                        Select a preferred platform and join
+                        <span style="color: #efbf04">
+                            @context.Subscribers.Count other awesome supporters
+                        </span>
+                        right here!
+                    </MudText>
+                </BeforeContent>
+            </SubscriberAvatarsCurrent>
+        </MudStack>
+
+        <div class="mt-4">
+            <MudText Typo="@Typo.caption" Class="text-secondary">
+                Thank you all for being so awesome!<br/>
+                <i>—the developers behind the Arkanis Overlay</i>
+            </MudText>
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private const string ContentId = "subscribe-dialog";
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+        };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
+        var dialogRef = await dialogService.ShowAsync<SubscribeDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+}

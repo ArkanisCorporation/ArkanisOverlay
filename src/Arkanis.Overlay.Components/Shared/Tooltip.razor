@@ -1,4 +1,5 @@
 <MudTooltip Placement="@Placement"
+            RootClass="@Class"
             RootStyle="@Style">
     <TooltipContent>
         @if (TooltipContent is null)
@@ -27,6 +28,9 @@
 
     [Parameter]
     public string? Text { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
 
     [Parameter]
     public string? Style { get; set; }

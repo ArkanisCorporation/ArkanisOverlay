@@ -1,0 +1,111 @@
+@using Arkanis.Overlay.External.Backend
+@using Arkanis.Overlay.External.Backend.DTO
+@using StrawberryShake
+@inject IArkanisBackend ArkanisBackend
+
+@if (BeforeContent is not null)
+{
+    @BeforeContent(_currentContext)
+}
+
+@if (_currentContext.IsLoading)
+{
+    <MudProgressLinear Indeterminate/>
+}
+else if (_currentContext.Errors.Any())
+{
+    <MudAlert Severity="@Severity.Warning">
+        Sorry, we couldn't load the subscribers at this time.
+        <ul>
+            @foreach (var clientError in _currentContext.Errors)
+            {
+                <li>
+                    @clientError.Message
+                </li>
+            }
+        </ul>
+    </MudAlert>
+}
+else if (GroupByTier)
+{
+    foreach (var (tierIndex, subscriberTier) in _currentContext.Subscribers.GroupBy(x => x.SubscriptionTierName).Index())
+    {
+        <MudStack Spacing="2" AlignItems="@AlignItems.Center" Row>
+            <MudImage
+                Src="@LinkHelper.GetPathToAsset($"img/SubscriptionTier_{tierIndex}.png")"
+                Height="24"/>
+
+            <MudText Typo="@Typo.h6">
+                @subscriberTier.Key
+            </MudText>
+        </MudStack>
+
+        <SubscriberAvatars Models="@subscriberTier.ToArray()"
+                           Size="@GetSizeByTierName(subscriberTier.Key)"
+                           OutlineCustomColor="@OutlineCustomColor">
+            <NoEntriesContent>
+                <MudText Class="text-secondary">
+                    There is currently no one here, but you could be the first one!
+                </MudText>
+            </NoEntriesContent>
+        </SubscriberAvatars>
+    }
+}
+else
+{
+    <SubscriberAvatars Models="@_currentContext.Subscribers" OutlineCustomColor="@OutlineCustomColor">
+        <NoEntriesContent>
+            <MudText Class="text-secondary">
+                There is currently no one here, but you could be the first one!
+            </MudText>
+        </NoEntriesContent>
+    </SubscriberAvatars>
+}
+
+@if (AfterContent is not null)
+{
+    @AfterContent(_currentContext)
+}
+
+@code
+{
+
+    private readonly Context _currentContext = new();
+
+    private Size GetSizeByTierName(string tierName)
+        => tierName switch
+        {
+            "Executive Backer" => Size.Large,
+            "Shareholder" => Size.Medium,
+            _ => Size.Small,
+        };
+
+    [Parameter]
+    public bool GroupByTier { get; set; }
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; } = "var(--mud-palette-background)";
+
+    [Parameter]
+    public RenderFragment<Context>? BeforeContent { get; set; }
+
+    [Parameter]
+    public RenderFragment<Context>? AfterContent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var subscribersResult = await ArkanisBackend.GetActiveSubscribers.ExecuteAsync();
+        _currentContext.IsLoading = false;
+        _currentContext.Subscribers = subscribersResult.Data?.Subscribers.Select(x => x.MapToDTO()).ToArray() ?? [];
+        _currentContext.Errors = subscribersResult.Errors;
+    }
+
+    public class Context
+    {
+        public bool IsLoading = true;
+
+        public IReadOnlyList<IClientError> Errors { get; set; } = [];
+        public ICollection<SubscriberBrief> Subscribers { get; set; } = [];
+    }
+
+}
