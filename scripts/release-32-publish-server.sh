@@ -12,6 +12,7 @@ set -eEuo pipefail
 [[ -z "${VERSION_TAG+x}" ]] && echo "VERSION_TAG is not set" && exit 2
 [[ -z "${GITHUB_REPOSITORY+x}" ]] && GITHUB_REPOSITORY="ArkanisCorporation/ArkanisOverlay"
 [[ -z "${REGISTRY+x}" ]] && REGISTRY="ghcr.io"
+[[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
 IMAGE_NAME_BARE=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
 IMAGE_NAME=$(echo "${REGISTRY}/${IMAGE_NAME_BARE}")
@@ -23,6 +24,7 @@ docker buildx build \
     --tag "${IMAGE_NAME}:${VERSION_TAG}" \
     --tag "${IMAGE_NAME}:latest" \
     --file ./src/Arkanis.Overlay.Host.Server/Dockerfile \
+    --build-arg BUILD_CONFIGURATION=${CONFIGURATION} \
     . \
     1>&2 # logging output must not go to stdout
 
