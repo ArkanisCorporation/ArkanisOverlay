@@ -58,10 +58,6 @@ public static class DependencyInjection
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>();
 
-        // TODO: effectively disables refresh in Server hosting
-        services.AddSingleton<RepositorySyncGameTrackedStrategy>()
-            .Alias<IRepositorySyncStrategy, RepositorySyncGameTrackedStrategy>();
-
         services
             .AddSingleton<UserConsentDialogService>()
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
@@ -81,6 +77,9 @@ public static class DependencyInjection
                     }
                 )
             );
+
+        services.AddArkanisBackend()
+            .ConfigureHttpClient((_, client) => client.BaseAddress = new Uri("http://localhost:5045/graphql"));
 
         services
             .AddSingleton<IStorageManager, StorageManager>()
