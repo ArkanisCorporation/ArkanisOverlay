@@ -13,7 +13,9 @@
         background-color: transparent;
     }
 
-    .mud-toolbar .mud-tab span.mud-typography, div.mud-tab-slider {
+    .mud-toolbar .mud-tab:not(.mud-disabled) span.mud-typography:not(.mud-error-text),
+    .mud-toolbar .mud-tab:not(.mud-disabled) .mud-icon-root:not(.mud-error-text),
+    div.mud-tab-slider {
         --d: 100px;
         --angle: 120deg;
 
@@ -40,7 +42,8 @@
         animation: LoopingGradientBackground 2s linear infinite reverse;
     }
 
-    .mud-toolbar .mud-tab:not(.mud-tab-active) span.mud-typography {
+    .mud-toolbar .mud-tab:not(.mud-tab-active):not(.mud-disabled) span.mud-typography,
+    .mud-toolbar .mud-tab:not(.mud-tab-active):not(.mud-disabled) .mud-icon-root {
         animation: LoopingGradientBackground 3.1415926539s linear infinite reverse;
     }
 
@@ -67,12 +70,6 @@
         0% {
             background-position: calc(var(--d) / sin(var(--angle))) 0;
         }
-    }
-
-    .mud-disabled span.mud-typography {
-        -webkit-text-fill-color: initial !important;
-        color: var(--mud-palette-text-disabled) !important;
-        background: initial !important;
     }
 </style>
 
