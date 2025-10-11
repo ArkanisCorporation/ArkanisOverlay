@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Http;
 public static class ExternalLinkHelper
 {
     public const string DefaultAttributionCampaign = "Attribution";
-    public const string InternalAttributionCampaign = "internal";
+    public const string InternalCampaign = "internal";
+    public const string AnniversaryCampaign = "celebrating-1year";
 
     public static readonly Uri ArkanisWebUri = new("https://arkanis.cc/");
+    public static readonly Uri JoinArkanisUri = new("https://join.arkanis.cc");
 
     private static string AddAttributionGoogleAnalyticsTo(
         string url,
@@ -32,7 +34,7 @@ public static class ExternalLinkHelper
         return url + QueryString.Create(queryParams);
     }
 
-    public static string GetArkanisWebLink(string page = "/", string? contentId = null)
+    public static string GetArkanisWebLink(string page = "/", string? contentId = null, string? campaign = null)
         => AddAttributionGoogleAnalyticsTo(new Uri(ArkanisWebUri, page).ToString(), contentId);
 
     public static string GetArkanisGitHubLink(string? contentId = null)
@@ -89,8 +91,8 @@ public static class ExternalLinkHelper
         => AddAttributionGoogleAnalyticsTo("https://discord.com", contentId);
 
     public static string GetKoFiUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorp", contentId, InternalAttributionCampaign);
+        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorp", contentId, InternalCampaign);
 
     public static string GetPatreonUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorp", contentId, InternalAttributionCampaign);
+        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorp", contentId, InternalCampaign);
 }

@@ -1,26 +1,39 @@
+@using Arkanis.Overlay.Infrastructure.Helpers
 <MudDialog>
     <TitleContent>
         <MudText Typo="@Typo.h6">
-            Arkanis Corporation celebrates its 1st anniversary! 🎉
+            🎉 Arkanis Corporation celebrates its 1st birthday! 🎉
         </MudText>
     </TitleContent>
     <DialogContent>
         <MudStack>
             <MudText>
-                Consider subscribing to get immediate access to the
-                <span style="color: #efbf04">supporter-exclusive</span>
-                perks, such as:
+                Join us in celebrating a year of innovation, community, and growth at Arkanis Corporation!
+                A short word from organization directors:
             </MudText>
 
             <DeveloperQuote Model="@DeveloperAvatar.Delta"
-                            Time="@_deltaQuoteTime.Humanize()">
+                            Time="@_quoteTime.Humanize()">
                 ...
             </DeveloperQuote>
 
             <DeveloperQuote Model="@DeveloperAvatar.KronnY"
-                            Time="@_kronnyQuoteTime.Humanize()">
+                            Time="@_quoteTime.Humanize()">
                 ...
             </DeveloperQuote>
+
+            <DeveloperQuote Model="@DeveloperAvatar.Watch"
+                            Time="@_quoteTime.Humanize()">
+                ...
+            </DeveloperQuote>
+
+            <MudButton
+                Variant="@Variant.Outlined"
+                Color="@Color.Success"
+                Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                Target="_blank">
+                Join us at Arkanis Corporation
+            </MudButton>
         </MudStack>
     </DialogContent>
     <DialogActions>
@@ -33,8 +46,7 @@
 
     private const string ContentId = "anniversary-dialog";
 
-    private DateTime _deltaQuoteTime = new(2025, 10, 12);
-    private DateTime _kronnyQuoteTime = new(2025, 10, 12);
+    private DateTime _quoteTime = new(2025, 10, 12);
 
     [CascadingParameter]
     public required IMudDialogInstance MudDialog { get; set; }

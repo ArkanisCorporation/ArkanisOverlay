@@ -63,18 +63,23 @@
                 }
             </MudText>
 
-            @if (ThemeProvider?.IsDarkMode == true)
-            {
-                <MudImage
-                    Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
-                    Style="opacity: 70%; width: 40%"/>
-            }
-            else
-            {
-                <MudImage
-                    Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_White.png")"
-                    Style="opacity: 70%; width: 40%"/>
-            }
+            <MudStack Justify="@Justify.Center" Row>
+                <ArkanisCorpLogo
+                    WrapperStyle="opacity: 70%; width: 40%"/>
+
+                @if (ThemeProvider?.IsDarkMode == true)
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
+                        Style="opacity: 70%; width: 40%"/>
+                }
+                else
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_White.png")"
+                        Style="opacity: 70%; width: 40%"/>
+                }
+            </MudStack>
 
             <MudDivider DividerType="@DividerType.FullWidth"/>
             <MudStack AlignItems="@AlignItems.Center"
@@ -105,9 +110,10 @@
                     <img alt="Arkanis Website"
                          src="https://img.shields.io/badge/Arkanis.cc-website?logo=googlechrome&logoColor=white&label=website&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>
-                <a href="https://join.arkanis.cc/"
-                   target="_blank"
-                   class="badge">
+                <a
+                    href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                    target="_blank"
+                    class="badge">
                     <img alt="Arkanis Discord - Support"
                          src="https://img.shields.io/discord/1294685596991750277?logo=discord&logoColor=white&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>

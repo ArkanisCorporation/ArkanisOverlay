@@ -10,6 +10,7 @@
 @using Arkanis.Overlay.Domain.Models.Trade
 @using Arkanis.Overlay.Host.Server.Models
 @using Arkanis.Overlay.Host.Server.Services
+@using Arkanis.Overlay.Infrastructure.Helpers
 @using MoreLinq
 @inject IDialogService DialogService
 @inject IAppVersionProvider VersionProvider
@@ -97,14 +98,14 @@
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Material.Filled.Web"
-                               Href="https://arkanis.cc"
+                               Href="@ExternalLinkHelper.ArkanisWebUri.ToString()"
                                Target="_blank">
                         Visit Arkanis Website
                     </MudButton>
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Custom.Brands.Discord"
-                               Href="https://join.arkanis.cc"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
                                Target="_blank">
                         Join the Community
                     </MudButton>
@@ -481,7 +482,7 @@
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Custom.Brands.Discord"
-                               Href="@DiscordUrl"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
                                Target="_blank">
                         Join the Community
                     </MudButton>
@@ -522,7 +523,6 @@
 {
 
     private const string GitHubRepositoryUrl = ApplicationConstants.GitHubRepositoryUrl;
-    private const string DiscordUrl = "https://join.arkanis.cc";
 
     private AppRelease ReleaseAppRelease { get; set; } = AppReleaseMissing.Instance;
     private IGameLocation[] Locations { get; set; } = [];
