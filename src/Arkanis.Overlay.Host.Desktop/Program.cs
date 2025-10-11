@@ -176,7 +176,7 @@ public static class Program
         // Data
         services
             .AddWindowsOverlayControls()
-            .AddInfrastructure(options => options.HostingMode = HostingMode.LocalSingleUser);
+            .AddInfrastructure(configuration, options => options.HostingMode = HostingMode.LocalSingleUser);
 
         services.AddWpfBlazorWebView();
         services.AddMudServices(config =>

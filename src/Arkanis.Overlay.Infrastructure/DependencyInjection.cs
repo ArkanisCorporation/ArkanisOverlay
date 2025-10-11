@@ -6,6 +6,7 @@ using Common.Extensions;
 using Common.Models;
 using Data;
 using Domain.Abstractions.Services;
+using External.Backend.Options;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,11 @@ using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, Action<InfrastructureServiceOptions> configure)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Action<InfrastructureServiceOptions> configure
+    )
     {
         services.AddQuartz(options =>
             {
@@ -78,8 +83,15 @@ public static class DependencyInjection
                 )
             );
 
-        services.AddArkanisBackend()
-            .ConfigureHttpClient((_, client) => client.BaseAddress = new Uri("http://localhost:5045/graphql"));
+        services
+            .AddConfiguration<ArkanisBackendOptions>(configuration)
+            .AddArkanisBackend()
+            .ConfigureHttpClient((serviceProvider, client) =>
+                {
+                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisBackendOptions>>();
+                    client.BaseAddress = new Uri(backendOptions.Value.HttpClientBaseAddress);
+                }
+            );
 
         services
             .AddSingleton<IStorageManager, StorageManager>()
