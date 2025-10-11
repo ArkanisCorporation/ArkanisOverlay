@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.Backend.DTO;
 public class SubscriberBrief
 {
     public required string SubscriptionTierName { get; set; }
-    public required DateOnly SubscribedAt { get; set; }
+    public required DateTimeOffset SubscribedAt { get; set; }
 }
 
 public class SubscriberDiscordIdentity : SubscriberBrief

@@ -51,6 +51,8 @@ type Query {
 }
 
 type Mutation {
+  registerSubscriber(input: RegisterSubscriberInput!): RegisterSubscriberPayload!
+  unregisterSubscriber(input: UnregisterSubscriberInput!): UnregisterSubscriberPayload!
   "Submits a new message from the UEX trade negotiation associated with the given link.\nThis action acts as an immediate message bridge between UEX and Arkanis negotiations.\n            \n\n**Returns:**\nThe newly created TradeNegotiationMessage."
   submitMessageFromTradeNegotiation(input: SubmitMessageFromTradeNegotiationInput!): SubmitMessageFromTradeNegotiationPayload!
   "Sends a message to the given trade negotiation.\nThis action will forward the message to any corresponding external trade negotiation.\n            \n\n**Returns:**\nThe newly created TradeNegotiationMessage."
@@ -188,19 +190,19 @@ input IntOperationFilterInput {
 
 type AnonymousSubscriber implements Subscriber {
   subscriptionTier: SubscriptionTier!
-  subscribedAt: LocalDate!
+  subscribedAt: Instant!
 }
 
 type DiscordSubscriber implements Subscriber {
   displayName: String!
   avatarUrl: String
   subscriptionTier: SubscriptionTier!
-  subscribedAt: LocalDate!
+  subscribedAt: Instant!
 }
 
 interface Subscriber {
   subscriptionTier: SubscriptionTier!
-  subscribedAt: LocalDate!
+  subscribedAt: Instant!
 }
 
 type SubscriptionTier {
@@ -230,26 +232,13 @@ input SubscriberFilterInput {
   and: [SubscriberFilterInput!]
   or: [SubscriberFilterInput!]
   subscriptionTier: SubscriptionTierFilterInput
-  subscribedAt: LocalDateOperationFilterInput
+  subscribedAt: InstantFilterInput
 }
 
-input LocalDateOperationFilterInput {
-  eq: LocalDate
-  neq: LocalDate
-  in: [LocalDate]
-  nin: [LocalDate]
-  gt: LocalDate
-  ngt: LocalDate
-  gte: LocalDate
-  ngte: LocalDate
-  lt: LocalDate
-  nlt: LocalDate
-  lte: LocalDate
-  nlte: LocalDate
+input InstantFilterInput {
+  and: [InstantFilterInput!]
+  or: [InstantFilterInput!]
 }
-
-"The `LocalDate` scalar type represents a ISO date string, represented as UTF-8 character sequences YYYY-MM-DD. The scalar follows the specification defined in RFC3339"
-scalar LocalDate
 
 input ArkanisIdOfTradeNegotiationInput {
   typedIdentity: UUID!
@@ -307,6 +296,17 @@ type TradeNegotiation {
   discordThreadId: DiscordId
   discordAssigneeId: DiscordId
   isExternal: Boolean!
+  id: String!
+}
+
+type SubscriberRoleAssignment {
+  discordUserId: DiscordId!
+  discordRoleId: DiscordId!
+  displayName: String
+  avatarUrl: String
+  isActive: Boolean!
+  createdAt: Instant!
+  updatedAt: Instant
   id: String!
 }
 
@@ -378,6 +378,25 @@ scalar DateTime
 scalar UUID
 
 scalar URL
+
+input RegisterSubscriberInput {
+  discordUserId: ULong!
+  discordRoleId: ULong!
+  displayName: String!
+  avatarUrl: String
+}
+
+type RegisterSubscriberPayload {
+  subscriberRoleAssignment: SubscriberRoleAssignment
+}
+
+input UnregisterSubscriberInput {
+  discordUserId: ULong!
+}
+
+type UnregisterSubscriberPayload {
+  int: Int
+}
 
 input SubmitMessageFromTradeNegotiationInput {
   "The content of the message to submit, which must be in the UEX webhook content format."
