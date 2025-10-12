@@ -5,17 +5,78 @@
 @inject IOverlayEventProvider OverlayEventProvider
 @inject IAnalyticsEventReporter AnalyticsEventReporter
 @inject IUserPreferencesProvider UserPreferencesProvider
+@inject IDialogService DialogService
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     body {
         background-color: transparent;
     }
+
+    .mud-toolbar .mud-tab:not(.mud-disabled) span.mud-typography:not(.mud-error-text),
+    .mud-toolbar .mud-tab:not(.mud-disabled) .mud-icon-root:not(.mud-error-text),
+    div.mud-tab-slider {
+        --d: 100px;
+        --angle: 120deg;
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        background-image: repeating-linear-gradient(
+            var(--angle),
+            #c38826,
+            #e7b14f,
+            #f8c65d,
+            #e4b04d,
+            #fff1a3,
+            #ffffc2,
+            #fff1a3,
+            #e4b04d,
+            #f8c65d,
+            #e7b14f,
+            #c38826 var(--d)
+        );
+
+        background-size: calc(var(--d) / sin(var(--angle))) 100%;
+        filter: drop-shadow(0 0 1px rgba(255, 200, 0, .3));
+        animation: LoopingGradientBackground 2s linear infinite reverse;
+    }
+
+    .mud-toolbar .mud-tab:not(.mud-tab-active):not(.mud-disabled) span.mud-typography,
+    .mud-toolbar .mud-tab:not(.mud-tab-active):not(.mud-disabled) .mud-icon-root {
+        animation: LoopingGradientBackground 3.1415926539s linear infinite reverse;
+    }
+
+    div.mud-tab-slider.mud-tab-slider {
+        background: repeating-linear-gradient(
+            var(--angle),
+            #c38826,
+            #e7b14f,
+            #f8c65d,
+            #e4b04d,
+            #fff1a3,
+            #ffffc2,
+            #fff1a3,
+            #e4b04d,
+            #f8c65d,
+            #e7b14f,
+            #c38826 var(--d)
+        );
+
+        background-size: calc(var(--d) / sin(var(--angle))) 100%;
+    }
+
+    @@keyframes LoopingGradientBackground {
+        0% {
+            background-position: calc(var(--d) / sin(var(--angle))) 0;
+        }
+    }
 </style>
 
-<MudAppBar Style="background: var(--mud-palette-surface);"
-           Fixed="@false"
-           Dense>
+<MudAppBar
+    Style="background: var(--mud-palette-surface);"
+    Fixed="@false"
+    Dense>
 
     <MudStack Class="w-100"
               Justify="@Justify.SpaceBetween"
@@ -35,9 +96,22 @@
                   AlignItems="@AlignItems.Center"
                   Row>
             <SectionOutlet SectionId="@RenderSections.AppBar.UserMenu"/>
-            <MudIconButton
-                Icon="@MaterialSymbols.Outlined.Notifications"
-                Disabled/>
+            <MudMenu TransformOrigin="@Origin.TopRight"
+                     AnchorOrigin="@Origin.CenterCenter"
+                     OpenChanged="@(() => { _pendingNotifications = false; })">
+                <ActivatorContent>
+                    <MudBadge Color="@Color.Success" Visible="@_pendingNotifications" Dot Overlap>
+                        <MudIconButton
+                            Icon="@MaterialSymbols.Outlined.Notifications"/>
+                    </MudBadge>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem
+                        OnClick="@(() => AnniversaryDialog.ShowAsync(DialogService))">
+                        🎉 Celebrating 1 Year of Arkanis Corporation! 🎉
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
             <MudAvatar
                 Size="@Size.Small"/>
         </MudStack>
@@ -53,6 +127,9 @@
 
 @code
 {
+
+    private const string BellContentId = "notifications-bell";
+    private bool _pendingNotifications = true;
 
     private string ContainerBlurCss
         => UserPreferencesProvider.CurrentPreferences.BlurBackground

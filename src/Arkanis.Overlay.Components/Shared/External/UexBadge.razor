@@ -7,7 +7,7 @@
         inherits: false;
     }
 
-    .badge-container {
+    .uex-badge-container {
         width: fit-content;
         height: 2rem;
         padding: 0;
@@ -19,7 +19,7 @@
         &:hover {
             height: 4rem;
 
-            & .badge {
+            & .uex-badge {
                 &::after, &::before {
                     padding: 2px;
                     height: 100%;
@@ -34,7 +34,7 @@
     }
 
     /* Animation based on: https://www.coding2go.com/border-animation/ */
-    .badge {
+    .uex-badge {
         position: relative;
         height: 100%;
 
@@ -77,9 +77,9 @@
 
 </style>
 
-<div class="badge-container">
+<div class="uex-badge-container">
     <a href="@ExternalLinkHelper.GetUexLink("powered_by_badge")" target="_blank" rel="noopener noreferrer">
-        <div class="badge">
+        <div class="uex-badge">
             <img src="@LinkHelper.GetPathToAsset("/img/uex-api-badge-powered.png")"
                  alt="Powered by UEX API"/>
         </div>

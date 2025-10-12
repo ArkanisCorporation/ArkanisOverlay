@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.text-justify {
+    text-align: justify;
+}
+
 .text-primary {
     color: var(--mud-palette-text-primary);
 }
@@ -14,6 +18,8 @@
     color: var(--mud-palette-text-secondary);
 }
 
+.disabled .text-secondary,
+.mud-list-item-disabled .text-secondary,
 .text-disabled {
     color: var(--mud-palette-text-disabled);
 }
@@ -232,4 +238,18 @@
 .width-min-content {
     max-width: min-content !important;
     width: min-content !important;
+}
+
+.shimmer {
+    display: inline-block;
+    mask: linear-gradient(-60deg, #000 30%, #efbf04, #000 70%) right/350% 100%;
+    animation: shimmer 4s infinite;
+    font-size: 50px;
+    max-width: 200px;
+}
+
+@keyframes shimmer {
+    100% {
+        mask-position: left
+    }
 }

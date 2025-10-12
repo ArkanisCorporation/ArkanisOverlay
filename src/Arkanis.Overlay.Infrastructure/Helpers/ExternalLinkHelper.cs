@@ -6,13 +6,25 @@ using Microsoft.AspNetCore.Http;
 
 public static class ExternalLinkHelper
 {
-    private static string AddAttributionGoogleAnalyticsTo(string url, string? contentId = null, Dictionary<string, string>? queryParams = null)
+    public const string DefaultAttributionCampaign = "Attribution";
+    public const string InternalCampaign = "internal";
+    public const string AnniversaryCampaign = "celebrating-1year";
+
+    public static readonly Uri ArkanisWebUri = new("https://arkanis.cc/");
+    public static readonly Uri JoinArkanisUri = new("https://join.arkanis.cc");
+
+    private static string AddAttributionGoogleAnalyticsTo(
+        string url,
+        string? contentId = null,
+        string? campaign = null,
+        Dictionary<string, string>? queryParams = null
+    )
     {
         queryParams = new Dictionary<string, string>(queryParams ?? [])
         {
             ["utm_source"] = "Arkanis",
             ["utm_medium"] = "referral",
-            ["utm_campaign"] = "Attribution",
+            ["utm_campaign"] = campaign ?? DefaultAttributionCampaign,
         };
         if (contentId is not null)
         {
@@ -22,6 +34,9 @@ public static class ExternalLinkHelper
         return url + QueryString.Create(queryParams);
     }
 
+    public static string GetArkanisWebLink(string page = "/", string? contentId = null, string? campaign = null)
+        => AddAttributionGoogleAnalyticsTo(new Uri(ArkanisWebUri, page).ToString(), contentId);
+
     public static string GetArkanisGitHubLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo(ApplicationConstants.GitHubRepositoryUrl, contentId);
 
@@ -29,6 +44,7 @@ public static class ExternalLinkHelper
         => AddAttributionGoogleAnalyticsTo(
             $"{ApplicationConstants.GitHubRepositoryUrl}/issues/new",
             contentId,
+            null,
             new Dictionary<string, string>
             {
                 ["template"] = "bug_report.yml",
@@ -73,4 +89,10 @@ public static class ExternalLinkHelper
 
     public static string GetDiscordUrl(string contentId)
         => AddAttributionGoogleAnalyticsTo("https://discord.com", contentId);
+
+    public static string GetKoFiUrl(string contentId)
+        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorp", contentId, InternalCampaign);
+
+    public static string GetPatreonUrl(string contentId)
+        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorp", contentId, InternalCampaign);
 }
