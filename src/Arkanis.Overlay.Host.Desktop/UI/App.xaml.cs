@@ -34,18 +34,17 @@ public partial class App
     {
         base.OnStartup(e);
 
+        Resources.Add("services", _serviceProvider);
+
         if (!Debugger.IsAttached)
         {
-            var splashScreen = new SplashScreen("Resources\\ArkanisTransparent_512x512.png");
-            splashScreen.Show(true, true);
-
-            //? Splash Screen with fixed delay
-            // splashScreen.Show(false, true);
-            // close after 2 seconds()
-            // Task.Delay(2000).ContinueWith(_ => splashScreen.Close(TimeSpan.FromSeconds(0.5)));
+            var splashScreen = new SplashScreen(@"Resources\Logo\patent_name.png");
+            splashScreen.Show(false, true);
+            _ = Task.Run(async () => await Task.Delay(TimeSpan.FromSeconds(2))
+                .ContinueWith(_ => splashScreen.Close(TimeSpan.FromSeconds(1)))
+                .ConfigureAwait(false)
+            );
         }
-
-        Resources.Add("services", _serviceProvider);
 
         var overlayWindow = _serviceProvider.GetRequiredService<OverlayWindow>();
         var hudWindow = _serviceProvider.GetRequiredService<HudWindow>();
