@@ -42,7 +42,7 @@ public static class DependencyInjection
             .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, ServerAnalyticsPropertyProvider>()
             .AddServerOverlayControls()
-            .AddInfrastructure(options => options.HostingMode = HostingMode.Server)
+            .AddInfrastructure(configuration, options => options.HostingMode = HostingMode.Server)
             .AddInfrastructureConfiguration(configuration)
             .AddSingleton<GitHubReleasesService>()
             .AddSingleton<IAppVersionProvider, AssemblyAppVersionProvider>()

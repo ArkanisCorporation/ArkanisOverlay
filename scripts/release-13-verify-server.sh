@@ -25,6 +25,7 @@ docker buildx build \
     --cache-to type=inline,mode=max \
     --tag "${IMAGE_NAME_BARE}" \
     --file ./src/Arkanis.Overlay.Host.Server/Dockerfile \
+    --build-arg BUILD_CONFIGURATION=${CONFIGURATION} \
     . \
     1>&2 # logging output must not go to stdout
 

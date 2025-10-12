@@ -57,6 +57,11 @@
                 Icon="@MaterialSymbols.Outlined.Info"
                 OnClick="@OpenAboutDialogAsync"/>
             <MudIconButton
+                Color="@Color.Warning"
+                Class="action"
+                Icon="@MaterialSymbols.Rounded.Favorite"
+                OnClick="@OpenSubscribeDialogAsync"/>
+            <MudIconButton
                 Color="@Color.Error"
                 Class="action"
                 Icon="@MaterialSymbols.Outlined.PowerSettingsNew"
@@ -88,5 +93,8 @@
 
     private async Task OpenShutdownDialogAsync()
         => await ShutdownDialog.ShowAsync(DialogService);
+
+    private async Task OpenSubscribeDialogAsync()
+        => await SubscribeDialog.ShowAsync(DialogService);
 
 }

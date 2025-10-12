@@ -25,7 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Chapter.Net.WPF.SystemTray" />
+        <PackageReference Include="Chapter.Net.WPF.SystemTray"/>
         <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.AppServices"/>
         <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Plugins"/>
         <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Wpf"/>
@@ -56,9 +56,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\*.png"/>
+        <Resource Include="Resources\**\*.png"/>
         <Resource Include="Resources\favicon.ico"/>
-        <Resource Include="wwwroot\assets\img\uex-api-badge-powered.png"/>
     </ItemGroup>
 
     <ItemGroup>

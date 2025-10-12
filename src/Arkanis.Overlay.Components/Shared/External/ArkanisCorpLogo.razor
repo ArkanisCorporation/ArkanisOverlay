@@ -1,0 +1,99 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol -->
+<style>
+    .arkanis-logo-wrapper {
+        display: flex;
+        height: 100%;
+        width: fit-content;
+    }
+
+    .arkanis-logo {
+        position: relative;
+        display: flex;
+        align-items: center;
+        font-family: Arial, serif;
+        font-weight: 900;
+        line-height: 16px;
+    }
+
+    .arkanis-logo > img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    <div class="arkanis-logo-wrapper" style="@WrapperStyle">
+        @ImageContent
+    </div>
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetArkanisWebLink("", ContentId)"
+             Style="@WrapperStyle"
+             Class="arkanis-logo-wrapper"
+             Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
+                   Alt="Arkanis Corporation"/>
+           </picture>;
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("arkanis-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string AssetPath
+        => "arkanis/color_fill_no-margin.png";
+
+    [Parameter]
+    public Variant SizeVariant { get; set; } = Variant.HorizontalLogo;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? WrapperStyle { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public bool DevelopmentVariant { get; set; }
+
+    public enum Variant
+    {
+        HorizontalLogo,
+        Icon,
+    }
+
+}

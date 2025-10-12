@@ -1,0 +1,47 @@
+@using Arkanis.Overlay.External.Backend.DTO
+@if (Subscriber is SubscriberDiscordIdentity discordIdentity)
+{
+    <Tooltip Text="@discordIdentity.DisplayName" Class="@WrapperClass">
+        <CustomAvatar
+            Size="@Size"
+            OutlineCustomColor="@OutlineCustomColor"
+            ImageUrl="@($"{discordIdentity.AvatarUrl}?size={AvatarSizePixels}")"
+            ImageAlt="@discordIdentity.DisplayName"/>
+    </Tooltip>
+}
+else
+{
+    <MudAvatar Size="@Size" Class="@WrapperClass">
+        <CustomAvatar OutlineCustomColor="@OutlineCustomColor">
+            <MudIcon
+                Icon="@Icons.Material.Filled.Person"
+                Size="@Size"/>
+        </CustomAvatar>
+    </MudAvatar>
+}
+
+@code
+{
+
+    [Parameter]
+    public SubscriberBrief? Subscriber { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; } = Size.Medium;
+
+    [Parameter]
+    public string? WrapperClass { get; set; }
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+    private int AvatarSizePixels
+        => Size switch
+        {
+            Size.Small => 32,
+            Size.Medium => 40,
+            Size.Large => 56,
+            _ => 40,
+        };
+
+}

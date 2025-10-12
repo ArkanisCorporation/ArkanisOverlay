@@ -8,10 +8,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
 using MudBlazor;
-using MudBlazor.FontIcons.MaterialSymbols;
+using MudBlazor.FontIcons.MaterialIcons;
+using Outlined = MudBlazor.FontIcons.MaterialSymbols.Outlined;
 
 public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesManager preferencesManager)
 {
+    public enum ActivationType
+    {
+        Click,
+        Hotkey,
+    }
+
     private readonly ICollection<Entry> _modules =
     [
         new UrlEntry
@@ -54,7 +61,7 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             Url = "/inventory",
             Name = "Inventory",
             Description = "Track and manage your Inventory.",
-            Icon = Icons.Material.Filled.Warehouse,
+            Icon = Filled.Warehouse,
             GetChangeToken = serviceProvider => serviceProvider.GetRequiredService<IInventoryManager>().ChangeToken,
             GetUpdateCountAsync = async serviceProvider =>
             {
@@ -121,12 +128,6 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
 
     public ICollection<Entry> GetAll()
         => _modules;
-
-    public enum ActivationType
-    {
-        Click,
-        Hotkey,
-    }
 
     [DebuggerDisplay("Entry {Name}")]
     public abstract class Entry

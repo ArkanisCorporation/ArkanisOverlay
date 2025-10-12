@@ -1,0 +1,19 @@
+{
+    "schema": "schema.graphql",
+    "documents": "**/*.graphql",
+    "extensions": {
+        "strawberryShake": {
+            "name": "ArkanisBackend",
+            "namespace": "Arkanis.Overlay.External.Backend",
+            "url": "http://localhost:5045/graphql/",
+            "accessModifier": "public",
+            "dependencyInjection": true,
+            "transportProfiles": [
+                {
+                    "default": "Http",
+                    "subscription": "WebSocket"
+                }
+            ]
+        }
+    }
+}

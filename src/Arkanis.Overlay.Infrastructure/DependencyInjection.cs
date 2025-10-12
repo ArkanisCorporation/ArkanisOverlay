@@ -6,6 +6,7 @@ using Common.Extensions;
 using Common.Models;
 using Data;
 using Domain.Abstractions.Services;
+using External.Backend.Options;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,11 @@ using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, Action<InfrastructureServiceOptions> configure)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        Action<InfrastructureServiceOptions> configure
+    )
     {
         services.AddQuartz(options =>
             {
@@ -58,10 +63,6 @@ public static class DependencyInjection
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>();
 
-        // TODO: effectively disables refresh in Server hosting
-        services.AddSingleton<RepositorySyncGameTrackedStrategy>()
-            .Alias<IRepositorySyncStrategy, RepositorySyncGameTrackedStrategy>();
-
         services
             .AddSingleton<UserConsentDialogService>()
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
@@ -80,6 +81,16 @@ public static class DependencyInjection
                         }
                     }
                 )
+            );
+
+        services
+            .AddConfiguration<ArkanisBackendOptions>(configuration)
+            .AddArkanisBackend()
+            .ConfigureHttpClient((serviceProvider, client) =>
+                {
+                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisBackendOptions>>();
+                    client.BaseAddress = new Uri(backendOptions.Value.HttpClientBaseAddress);
+                }
             );
 
         services
