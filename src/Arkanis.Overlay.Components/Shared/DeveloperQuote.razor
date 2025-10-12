@@ -1,4 +1,15 @@
-<MudChat ChatPosition="@Position">
+<!--suppress CssUnusedSymbol -->
+<style>
+    .developer-quote .mud-avatar {
+        align-self: flex-start;
+    }
+
+    .developer-quote p {
+        margin-top: 4px;
+    }
+</style>
+
+<MudChat ChatPosition="@Position" Class="developer-quote">
     <MudChatHeader Name="@Model.Name" Time="@Time"/>
     <DeveloperAvatar
         Model="@Model"
