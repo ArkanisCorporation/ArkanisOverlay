@@ -85,7 +85,7 @@
 
     .animated-border-box:before,
     .animated-border-box-glow:before {
-        --d: 400px;
+        --d: 200px;
         --angle: 120deg;
         --animated-border-weight: 80px;
         content: '';
@@ -110,7 +110,7 @@
         background-size: calc(var(--d) / sin(var(--angle))) 100%;
         width: calc(100% + 4px);
         height: calc(100% + 4px);
-        animation: LoopingGradientBackground 6s linear infinite reverse;
+        animation: LoopingGradientBackground 3s linear infinite reverse;
     }
 
     @@keyframes LoopingGradientBackground {
