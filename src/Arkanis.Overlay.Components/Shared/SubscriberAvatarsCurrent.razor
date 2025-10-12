@@ -94,10 +94,20 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var subscribersResult = await ArkanisBackend.GetActiveSubscribers.ExecuteAsync();
-        _currentContext.IsLoading = false;
-        _currentContext.Subscribers = subscribersResult.Data?.Subscribers.Select(x => x.MapToDTO()).ToArray() ?? [];
-        _currentContext.Errors = subscribersResult.Errors;
+        try
+        {
+            var subscribersResult = await ArkanisBackend.GetActiveSubscribers.ExecuteAsync();
+            _currentContext.Subscribers = subscribersResult.Data?.Subscribers.Select(x => x.MapToDTO()).ToArray() ?? [];
+            _currentContext.Errors = subscribersResult.Errors;
+        }
+        catch (Exception e)
+        {
+            _currentContext.Errors = [new ClientError(e.Message, exception: e)];
+        }
+        finally
+        {
+            _currentContext.IsLoading = false;
+        }
     }
 
     public class Context
