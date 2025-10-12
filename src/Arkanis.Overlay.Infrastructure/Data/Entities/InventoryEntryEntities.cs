@@ -15,8 +15,6 @@ internal abstract class InventoryEntryEntityBase(InventoryEntryBase.EntryType en
 {
     public const string UexReferenceIdColumnName = "UexReferenceId";
 
-    private readonly string? _discriminator;
-
     public InventoryEntryBase.EntryType EntryType { get; private init; } = entryType;
 
     public required QuantityOfEntity Quantity { get; set; }
@@ -25,8 +23,8 @@ internal abstract class InventoryEntryEntityBase(InventoryEntryBase.EntryType en
     //   ReSharper disable once EntityFramework.ModelValidation.UnlimitedStringLength
     public string Discriminator
     {
-        get => _discriminator ?? CreateDiscriminatorValueFor(EntryType);
-        private init => _discriminator = value;
+        get => field ?? CreateDiscriminatorValueFor(EntryType);
+        private init;
     }
 
     public TradeRunId? TradeRunId { get; set; }

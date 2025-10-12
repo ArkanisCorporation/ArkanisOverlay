@@ -5,5 +5,5 @@ using Models.Game;
 
 public interface IGameItemTraitRepository : IGameEntityRepository<GameItemTrait>
 {
-    ValueTask<IEnumerable<GameItemTrait>> GetAllForItemAsync(IDomainId domainId, CancellationToken cancellationToken = default);
+    public ValueTask<IEnumerable<GameItemTrait>> GetAllForItemAsync(IDomainId domainId, CancellationToken cancellationToken = default);
 }

@@ -6,8 +6,8 @@ using Models.Trade;
 
 public interface IGameRentable : IGameEntity
 {
-    Bounds<PriceTag> LatestRentPrices { get; }
-    GameTerminalType TerminalType { get; }
+    public Bounds<PriceTag> LatestRentPrices { get; }
+    public GameTerminalType TerminalType { get; }
 
-    void UpdateRentPrices(Bounds<PriceTag> newPrices);
+    public void UpdateRentPrices(Bounds<PriceTag> newPrices);
 }

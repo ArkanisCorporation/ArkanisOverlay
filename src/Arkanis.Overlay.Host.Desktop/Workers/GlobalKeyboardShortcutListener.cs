@@ -1,13 +1,13 @@
 namespace Arkanis.Overlay.Host.Desktop.Workers;
 
 using System.Runtime.InteropServices;
-using Windows.Win32.Foundation;
-using Windows.Win32.UI.Input.KeyboardAndMouse;
-using Windows.Win32.UI.WindowsAndMessaging;
 using Domain.Abstractions.Services;
 using Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
+using Windows.Win32.UI.WindowsAndMessaging;
 using PInvoke = Windows.Win32.PInvoke;
 
 /// <summary>

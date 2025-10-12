@@ -14,14 +14,14 @@ public interface IGameEntityPart : IGameEntity
 /// </summary>
 public interface IGameEntityContainer : IGameEntity
 {
-    IEnumerable<IGameEntityPart> Parts { get; }
+    public IEnumerable<IGameEntityPart> Parts { get; }
 }
 
 /// <inheritdoc cref="IGameEntityContainer" />
 public interface IGameEntityContainer<out T> : IGameEntityContainer
     where T : IGameEntityPart
 {
-    new IEnumerable<T> Parts { get; }
+    public new IEnumerable<T> Parts { get; }
 
     IEnumerable<IGameEntityPart> IGameEntityContainer.Parts
         => Parts.OfType<IGameEntityPart>();

@@ -107,7 +107,7 @@ public static class MudBlazorIconMapping
 
             // Game entity icons (matching existing IconPicker.cs for visual consistency)
             OverlayIcons.GameEntity.Commodity => MudBlazor.Icons.Material.Filled.Diamond,
-            OverlayIcons.GameEntity.SpaceShip => MudBlazor.Icons.Material.Filled.RocketLaunch,
+            OverlayIcons.GameEntity.SpaceShip => MudBlazor.Icons.Material.Filled.Rocket,
             OverlayIcons.GameEntity.GroundVehicle => MudBlazor.Icons.Material.Filled.LocalShipping,
             OverlayIcons.GameEntity.Item => MudBlazor.Icons.Material.Filled.Category,
             OverlayIcons.GameEntity.ProductCategory => MudBlazor.Icons.Material.Filled.Topic,

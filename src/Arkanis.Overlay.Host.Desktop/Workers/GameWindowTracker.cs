@@ -4,15 +4,15 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Domain.Abstractions.Services;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.Accessibility;
 using Windows.Win32.UI.HiDpi;
-using Domain.Abstractions.Services;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Timer = System.Threading.Timer;
 
@@ -42,8 +42,8 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
 
     private const uint WindowSizeAndPositionDebounceMs = 120;
 
-    private static Dictionary<HWINEVENTHOOK, WINEVENTPROC> _registeredHooksDictionary = new();
-    private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = new();
+    private static Dictionary<HWINEVENTHOOK, WINEVENTPROC> _registeredHooksDictionary = [];
+    private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = [];
 
     private readonly ConcurrentQueue<Action> _actionQueue = new();
     private readonly IOverlayEventControls _overlayEventControls;
@@ -204,7 +204,8 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     {
         _actionQueue.Enqueue(action);
 
-        if (_thread == null) { return; }
+        if (_thread == null)
+        { return; }
 
         PInvoke.PostThreadMessage(_threadId, WmInvokeAction, UIntPtr.Zero, IntPtr.Zero);
     }
@@ -363,7 +364,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
             0, // not needed, we need to know if our window has been unfocused
             0, // not needed, we need to know if our window has been unfocused
             PInvoke.WINEVENT_OUTOFCONTEXT | PInvoke.WINEVENT_SKIPOWNPROCESS
-            // PInvoke.WINEVENT_OUTOFCONTEXT
+        // PInvoke.WINEVENT_OUTOFCONTEXT
         );
 
         RegisterWinEventHook(
@@ -406,7 +407,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
         }
 
         // just to be safe (should, ideally, be completely redundant and a waste of a re-allocation)
-        _registeredHooksDictionary = new Dictionary<HWINEVENTHOOK, WINEVENTPROC>();
+        _registeredHooksDictionary = [];
     }
 
     private void StartProcessExitWatcher()
@@ -647,7 +648,8 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
                                 .EndsWith(Constants.GameExecutableName, StringComparison.InvariantCulture)
                             ?? false;
 
-        if (!isStarCitizen) { return; }
+        if (!isStarCitizen)
+        { return; }
 
         DispatchFast(() =>
             _logger.LogDebug(
@@ -659,9 +661,11 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
             )
         );
 
-        if (windowClass != WindowClass) { return; }
+        if (windowClass != WindowClass)
+        { return; }
 
-        if (windowTitle != WindowName.Trim()) { return; }
+        if (windowTitle != WindowName.Trim())
+        { return; }
 
         if (!isTopLevelWindow)
         {

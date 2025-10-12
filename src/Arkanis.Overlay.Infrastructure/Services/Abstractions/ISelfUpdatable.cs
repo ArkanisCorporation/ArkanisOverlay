@@ -7,9 +7,9 @@ using Quartz;
 /// </summary>
 public interface ISelfUpdatable
 {
-    ITrigger Trigger { get; }
+    public ITrigger Trigger { get; }
 
-    Task UpdateAsync(CancellationToken cancellationToken);
+    public Task UpdateAsync(CancellationToken cancellationToken);
 
-    Task UpdateIfNecessaryAsync(CancellationToken cancellationToken);
+    public Task UpdateIfNecessaryAsync(CancellationToken cancellationToken);
 }

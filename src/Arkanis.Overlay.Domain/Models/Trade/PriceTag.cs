@@ -13,19 +13,19 @@ public abstract record PriceTag : IComparable<PriceTag>
             : -1;
 
     public static bool operator <(PriceTag left, PriceTag right)
-        => ReferenceEquals(left, null)
-            ? !ReferenceEquals(right, null)
+        => left is null
+            ? right is not null
             : left.CompareTo(right) < 0;
 
     public static bool operator <=(PriceTag left, PriceTag right)
-        => ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        => left is null || left.CompareTo(right) <= 0;
 
     public static bool operator >(PriceTag left, PriceTag right)
-        => !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        => left is not null && left.CompareTo(right) > 0;
 
     public static bool operator >=(PriceTag left, PriceTag right)
-        => ReferenceEquals(left, null)
-            ? ReferenceEquals(right, null)
+        => left is null
+            ? right is null
             : left.CompareTo(right) >= 0;
 
     public static PriceTag MissingFor(IGameLocation location)
@@ -66,19 +66,19 @@ public record KnownPriceTag(GameCurrency Price, DateTimeOffset UpdatedAt) : Bare
         => new(new GameCurrency(price), updatedAt);
 
     public static bool operator <(KnownPriceTag left, KnownPriceTag right)
-        => ReferenceEquals(left, null)
-            ? !ReferenceEquals(right, null)
+        => left is null
+            ? right is not null
             : left.CompareTo(right) < 0;
 
     public static bool operator <=(KnownPriceTag left, KnownPriceTag right)
-        => ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        => left is null || left.CompareTo(right) <= 0;
 
     public static bool operator >(KnownPriceTag left, KnownPriceTag right)
-        => !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        => left is not null && left.CompareTo(right) > 0;
 
     public static bool operator >=(KnownPriceTag left, KnownPriceTag right)
-        => ReferenceEquals(left, null)
-            ? ReferenceEquals(right, null)
+        => left is null
+            ? right is null
             : left.CompareTo(right) >= 0;
 }
 

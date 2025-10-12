@@ -6,9 +6,9 @@ using Models.Trade;
 
 public interface IRentPriceProvider : IDependable
 {
-    ValueTask UpdatePriceTagAsync(IGameRentable gameEntity);
+    public ValueTask UpdatePriceTagAsync(IGameRentable gameEntity);
 
-    ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGameRentable gameEntity, IGameLocation? gameLocation);
+    public ValueTask<ICollection<PriceTag>> GetPriceTagsWithinAsync(IGameRentable gameEntity, IGameLocation? gameLocation);
 
-    ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameRentable gameEntity, IGameLocation gameLocation);
+    public ValueTask<Bounds<PriceTag>> GetPriceTagAtAsync(IGameRentable gameEntity, IGameLocation gameLocation);
 }

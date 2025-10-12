@@ -196,6 +196,7 @@ public abstract class InventoryEntryBase : IIdentifiable, IInventoryPlacement
                 Quantity = Quantity,
                 List = List,
             },
+            VehicleInventoryType.Undefined => throw new NotImplementedException(),
             _ => this,
         };
 }
@@ -324,7 +325,7 @@ public sealed class VehicleInventoryEntry : InventoryEntryBase, IVehicleInventor
 
 public interface IInventoryPlacement
 {
-    IDomainId? LocationId
+    public IDomainId? LocationId
         => null;
 }
 
@@ -338,7 +339,7 @@ public sealed record InventoryPlacementLocation(IGameLocation Location) : ILocat
 
 public interface IVehicleInventory : IInventoryPlacement
 {
-    HangarInventoryEntry HangarEntry { get; }
+    public HangarInventoryEntry HangarEntry { get; }
 
     IDomainId IInventoryPlacement.LocationId
         => HangarEntry.Id;

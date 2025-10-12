@@ -56,7 +56,7 @@ public record UserPreferences
         ExternalServiceCredentials.RemoveAll(x => x.ServiceId == accountCredentials.ServiceId);
         return this with
         {
-            ExternalServiceCredentials = ExternalServiceCredentials.Append(accountCredentials).ToList(),
+            ExternalServiceCredentials = [.. ExternalServiceCredentials, accountCredentials],
         };
     }
 
@@ -64,6 +64,6 @@ public record UserPreferences
     public UserPreferences RemoveCredentialsFor(string serviceId)
         => this with
         {
-            ExternalServiceCredentials = ExternalServiceCredentials.Where(x => x.ServiceId != serviceId).ToList(),
+            ExternalServiceCredentials = [.. ExternalServiceCredentials.Where(x => x.ServiceId != serviceId)],
         };
 }
