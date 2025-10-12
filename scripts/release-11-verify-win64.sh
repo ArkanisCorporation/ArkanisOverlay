@@ -16,7 +16,6 @@ dotnet publish ./src/Arkanis.Overlay.Host.Desktop/Arkanis.Overlay.Host.Desktop.c
     --runtime win-x64 \
     --configuration "${CONFIGURATION}" \
     --output publish-win64 \
-    -p:EnableWindowsTargeting=true \
     -p:DebugType=None \
     -p:DebugSymbols=false \
     1>&2 # logging output must not go to stdout

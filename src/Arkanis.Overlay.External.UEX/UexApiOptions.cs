@@ -2,10 +2,10 @@ namespace Arkanis.Overlay.External.UEX;
 
 using System.ComponentModel.DataAnnotations;
 
-public class UexApiOptions
+public record UexApiOptions
 {
     [Url]
-    public string BaseUrl { get; set; } = UexConstants.BaseUrl;
+    public string BaseUrl { get; set; } = UexConstants.ApiBaseUrl;
 
     public string? ApplicationToken { get; set; }
 

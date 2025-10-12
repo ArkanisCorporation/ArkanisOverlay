@@ -1,10 +1,10 @@
 namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
-using Options;
+using Common.Options;
 
 public interface IUserPreferencesProvider
 {
-    UserPreferences CurrentPreferences { get; }
+    public UserPreferences CurrentPreferences { get; }
 
-    event EventHandler<UserPreferences> ApplyPreferences;
+    public event EventHandler<UserPreferences> ApplyPreferences;
 }

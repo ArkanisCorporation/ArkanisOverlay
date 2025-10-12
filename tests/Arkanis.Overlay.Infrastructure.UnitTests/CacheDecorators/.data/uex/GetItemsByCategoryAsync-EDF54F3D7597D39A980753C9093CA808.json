@@ -23,6 +23,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -33,7 +35,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:40 GMT"
+      "Fri, 10 Oct 2025 04:49:40 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -41,50 +43,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a34073f72cd2b-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=WQcmQWLeFh9UdnAFo3KxjH6xN4J2qhv%2BcvyVIXw1BiXCtMXgmnWrv5w7eAteTePvEh3gIir5UVmnpuPWPPce5eyL5bwrOjOrV7j4qfKocMhp%2BldliwX8xF%2BQLgmHzFFR7xFCdQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2131"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=10209\u0026min_rtt=4218\u0026rtt_var=11713\u0026sent=430\u0026recv=185\u0026lost=0\u0026retrans=0\u0026sent_bytes=558369\u0026recv_bytes=2301\u0026delivery_rate=25768402\u0026cwnd=349\u0026unsent_bytes=0\u0026cid=e558bd9e947b5640\u0026ts=3189\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84269; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=c0%2BhhsBSNHoKtMjF3aOwOcM3ZnB5btt0J%2BwNR5b3TZDLWU4S1RR%2FobxIYp0hUREf0Omik0eibsZDW9R%2FtAuPIpNu6wbBC%2BvtcNhauQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37e13d95fb377-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:40 GMT"
+      "Sat, 11 Oct 2025 04:14:10 GMT"
     ]
   }
 }

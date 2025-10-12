@@ -1,0 +1,45 @@
+@using Arkanis.Overlay.LocalLink.Models
+@using Arkanis.Overlay.LocalLink.Models.Commands
+@implements IUserConsentDialogService.IContent
+
+<MudStack>
+    @if (Command is SetExternalServiceCredentialsCommand setExternalServiceCredentialsCommand)
+    {
+        <MudAlert Severity="@Severity.Info">
+            An external application wants to make changes to configuration.
+        </MudAlert>
+        <MudText Typo="@Typo.body2">
+            An account will be linked for the
+            <b>@setExternalServiceCredentialsCommand.Credentials.ServiceId</b>
+            service.
+        </MudText>
+    }
+    else
+    {
+        <MudText Typo="@Typo.body2"
+                 Color="@Color.Warning">
+            There are no details available for this command.
+            Continue at your own risk.
+        </MudText>
+    }
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    public IUserConsentDialogService.Context DialogContext { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<IUserConsentDialogService.Context> DialogContextChanged { get; set; }
+
+    [Parameter]
+    public LocalLinkCommandBase? Command { get; set; }
+
+    public static IDictionary<string, object> GetParameters(LocalLinkCommandBase command)
+        => new Dictionary<string, object>
+        {
+            [nameof(Command)] = command,
+        };
+
+}

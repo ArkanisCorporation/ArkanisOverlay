@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Common.Abstractions
 @using Arkanis.Overlay.Infrastructure.Helpers
 @using Humanizer.Localisation
 @implements IDisposable
@@ -64,20 +63,26 @@
                 }
             </MudText>
 
-            @if (ThemeProvider?.IsDarkMode == true)
-            {
-                <MudImage
-                    Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
-                    Style="opacity: 70%; width: 50%"/>
-            }
-            else
-            {
-                <MudImage
-                    Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_White.png")"
-                    Style="opacity: 70%; width: 50%"/>
-            }
+            <MudStack Justify="@Justify.Center" Row>
+                <ArkanisCorpLogo
+                    WrapperStyle="opacity: 70%; width: 33%"/>
+
+                @if (ThemeProvider?.IsDarkMode == true)
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
+                        Style="opacity: 70%; width: 33%"/>
+                }
+                else
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_White.png")"
+                        Style="opacity: 70%; width: 33%"/>
+                }
+            </MudStack>
 
             <MudDivider DividerType="@DividerType.FullWidth"/>
+
             <MudStack AlignItems="@AlignItems.Center"
                       Justify="@Justify.Center"
                       Wrap="@Wrap.Wrap"
@@ -106,15 +111,42 @@
                     <img alt="Arkanis Website"
                          src="https://img.shields.io/badge/Arkanis.cc-website?logo=googlechrome&logoColor=white&label=website&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>
-                <a href="https://join.arkanis.cc/"
-                   target="_blank"
-                   class="badge">
+                <a
+                    href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                    target="_blank"
+                    class="badge">
                     <img alt="Arkanis Discord - Support"
                          src="https://img.shields.io/discord/1294685596991750277?logo=discord&logoColor=white&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>
             </MudStack>
 
             <MudDivider DividerType="@DividerType.FullWidth"/>
+
+            <MudText Align="@Align.Center">
+                Not a Star Citizen yet?
+                New pilots who join with our referral code receive 50,000 UEC to help jump-start their journey.
+            </MudText>
+            <MudButton Href="@RsiReferrals.RandomReferralLink"
+                       Target="_blank"
+                       Color="@Color.Success"
+                       Variant="@Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.OpenInNew"
+                       FullWidth>
+                Enlist now
+            </MudButton>
+
+            <MudDivider DividerType="@DividerType.FullWidth"/>
+
+            <MudText>
+                Made possible thanks to our awesome supporters:
+            </MudText>
+
+            <SubscriberAvatarsCurrent
+                OutlineCustomColor="var(--mud-palette-surface)"
+                GroupByTier/>
+
+            <MudDivider DividerType="@DividerType.FullWidth"/>
+
             <MudText Typo="@Typo.body2" Align="@Align.Justify" Class="text-disabled">
                 This is an unofficial Star Citizen tool, unaffiliated with the Cloud Imperium group of companies.
                 Some content on this site belongs to their respective owners.
@@ -125,7 +157,7 @@
                 <br>
                 Arkanis Corporation is a fictional entity within the Star Citizen universe and is not associated with
                 any real-world company.
-                Partnered with
+                Proud partners of
                 <a href="@ExternalLinkHelper.GetUexLink("about")" target="_blank">UEX Corporation</a>
                 .
             </MudText>

@@ -56,6 +56,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Common.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Desktop.UnitTests", "tests\Arkanis.Overlay.Host.Desktop.UnitTests\Arkanis.Overlay.Host.Desktop.UnitTests.csproj", "{81215169-EF34-4378-9DB6-85D62D481DEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.LocalLink", "src\Arkanis.Overlay.LocalLink\Arkanis.Overlay.LocalLink.csproj", "{5EFF492B-D5BA-4B47-9C85-46E0007D5D30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.LocalLink.UnitTests", "tests\Arkanis.Overlay.LocalLink.UnitTests\Arkanis.Overlay.LocalLink.UnitTests.csproj", "{7C85913D-448E-4343-B3D4-BB4E6C577793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Backend", "src\Arkanis.Overlay.External.Backend\Arkanis.Overlay.External.Backend.csproj", "{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +112,18 @@ Global
 		{81215169-EF34-4378-9DB6-85D62D481DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81215169-EF34-4378-9DB6-85D62D481DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81215169-EF34-4378-9DB6-85D62D481DEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C85913D-448E-4343-B3D4-BB4E6C577793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C85913D-448E-4343-B3D4-BB4E6C577793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C85913D-448E-4343-B3D4-BB4E6C577793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C85913D-448E-4343-B3D4-BB4E6C577793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{16AB4036-03A1-466D-83F0-56108C3E744F} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
@@ -120,5 +138,8 @@ Global
 		{6CC132FD-8633-46B0-B321-61067B544A75} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{E044AC17-E772-4DA6-A65D-ED5FADECF4FD} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{81215169-EF34-4378-9DB6-85D62D481DEF} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
+		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
+		{7C85913D-448E-4343-B3D4-BB4E6C577793} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
+		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 	EndGlobalSection
 EndGlobal

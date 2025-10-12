@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
-using Domain.Options;
+using Common.Options;
 using Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using NuGet.Versioning;
@@ -45,7 +45,7 @@ internal class WindowsNotifications : IDisposable
 
     public static void ShowWelcomeToast(UserPreferences userPreferences)
     {
-        var launchShortcut = userPreferences.LaunchShortcut.Description;
+        var launchShortcut = userPreferences.InGameLaunchShortcut.Description;
         new ToastContentBuilder()
             .SetToastDuration(ToastDuration.Long)
             .SetToastScenario(ToastScenario.Default)

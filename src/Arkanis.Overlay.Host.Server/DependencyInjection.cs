@@ -1,6 +1,5 @@
 namespace Arkanis.Overlay.Host.Server;
 
-using System.Globalization;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Services;
@@ -11,9 +10,6 @@ using MudBlazor;
 using MudBlazor.Services;
 using Overlay.Components.Helpers;
 using Overlay.Components.Services;
-using Serilog;
-using Serilog.Templates;
-using Serilog.Templates.Themes;
 using Services;
 
 public static class DependencyInjection
@@ -37,6 +33,8 @@ public static class DependencyInjection
             }
         );
 
+        services.AddEssentialComponentServices();
+
         services
             .AddJavaScriptEventInterop()
             .AddGlobalKeyboardProxyService()
@@ -44,7 +42,7 @@ public static class DependencyInjection
             .AddSharedComponentServices()
             .AddSingleton<SharedAnalyticsPropertyProvider, ServerAnalyticsPropertyProvider>()
             .AddServerOverlayControls()
-            .AddInfrastructure(options => options.HostingMode = HostingMode.Server)
+            .AddInfrastructure(configuration, options => options.HostingMode = HostingMode.Server)
             .AddInfrastructureConfiguration(configuration)
             .AddSingleton<GitHubReleasesService>()
             .AddSingleton<IAppVersionProvider, AssemblyAppVersionProvider>()

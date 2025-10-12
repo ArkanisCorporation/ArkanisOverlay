@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "nswag.consolecore": {
-      "version": "14.4.0",
+      "version": "14.6.1",
       "commands": [
         "nswag"
       ],
@@ -17,9 +17,16 @@
       "rollForward": false
     },
     "vpk": {
-      "version": "0.0.1251",
+      "version": "0.0.1298",
       "commands": [
         "vpk"
+      ],
+      "rollForward": false
+    },
+    "strawberryshake.tools": {
+      "version": "15.1.11",
+      "commands": [
+        "dotnet-graphql"
       ],
       "rollForward": false
     }

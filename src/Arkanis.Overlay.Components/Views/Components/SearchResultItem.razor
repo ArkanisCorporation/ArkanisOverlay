@@ -1,11 +1,12 @@
 @implements QuickAccessContainer.IEntry
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @implements IAsyncDisposable
 @inject IPriceProvider PriceProvider
 
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 focus" tabindex="0">
-        <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardShortcut])"
+        <KeyboardShortcutBadge Keys="@([KeyboardKey.AltLeft, KeyboardShortcut])"
                                Origin="@Origin.TopLeft"
                                Class="w-100"
                                IsActive="@(KeyboardShortcutActive)"
@@ -19,7 +20,9 @@
                 <MudDivider Vertical="true" FlexItem="true"></MudDivider>
 
                 <div class="my-n2">
-                    <GameEntityNameLabel Model="@Model.Name"/>
+                    <GameEntityNameLabel
+                        Model="@Model.Name"
+                        Bold/>
                 </div>
 
                 <GameEntitySearchDetails Model="@Model"/>

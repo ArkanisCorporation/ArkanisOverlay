@@ -1,6 +1,5 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
-using System.Reflection;
 using Infrastructure.Services.Abstractions;
 using Microsoft.Win32;
 

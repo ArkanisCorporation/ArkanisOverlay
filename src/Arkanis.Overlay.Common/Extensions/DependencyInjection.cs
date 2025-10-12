@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Formatting.Compact;
 using Serilog.Sinks.Seq;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
@@ -60,7 +59,7 @@ public static class DependencyInjection
                 {
                     a.Console(
                         new ExpressionTemplate(
-                            $"[{{@t:HH:mm:ss}} {{@l:u3}}] [{{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}}]{{@m}}{Environment.NewLine}{{@x}}",
+                            $"[{{@t:HH:mm:ss}} {{@l:u3}}] [{{Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)}}] {{@m}}{Environment.NewLine}{{@x}}",
                             CultureInfo.InvariantCulture,
                             applyThemeWhenOutputIsRedirected: true,
                             theme: TemplateTheme.Literate

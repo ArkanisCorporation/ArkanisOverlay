@@ -1,0 +1,18 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="@_currentTheme" IsDarkMode="true"/>
+
+@Body
+
+@code
+{
+
+    private readonly MudTheme _currentTheme = new()
+    {
+        PaletteDark = new PaletteDark
+        {
+            Surface = "#0e0f0f",
+        },
+    };
+
+}

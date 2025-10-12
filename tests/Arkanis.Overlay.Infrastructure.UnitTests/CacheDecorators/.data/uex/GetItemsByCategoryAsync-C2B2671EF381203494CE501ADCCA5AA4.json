@@ -5,24 +5,26 @@
         "category": "Helmets",
         "company_name": "Roberts Space Industries",
         "date_added": 1703522472,
-        "date_modified": 1747181302,
+        "date_modified": 1758385874,
         "id": 170,
         "id_category": 3,
         "id_company": 217,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
+        "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
         "name": "Venture Helmet White",
-        "notification": null,
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "venture-helmet-white",
-        "url_store": "",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Light",
         "uuid": "28c76343-8da9-495a-9339-3d5de02e6c3c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -47,6 +49,8 @@
         "url_store": "",
         "uuid": "60561eb9-5fe6-48cf-b00b-faf04ca3b139",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -71,6 +75,8 @@
         "url_store": "",
         "uuid": "bfe3e855-20f2-4712-b949-26904f03b16d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -95,6 +101,8 @@
         "url_store": "",
         "uuid": "a501cbcc-781c-4fbf-bb66-73a3f8b18522",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -119,13 +127,15 @@
         "url_store": "",
         "uuid": "68f9c769-41da-45bb-abfb-f76b8e35e497",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Helmets",
         "company_name": "Clark Defense Systems",
         "date_added": 1703529111,
-        "date_modified": 1747181421,
+        "date_modified": 1750181946,
         "id": 419,
         "id_category": 3,
         "id_company": 53,
@@ -143,37 +153,41 @@
         "url_store": "",
         "uuid": "464c599a-8bcf-482f-9ff9-60d12c133641",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Helmets",
         "company_name": "Clark Defense Systems",
         "date_added": 1703529111,
-        "date_modified": 1747181421,
+        "date_modified": 1758386518,
         "id": 420,
         "id_category": 3,
         "id_company": 53,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
+        "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
         "name": "ORC-mkX Helmet Iceborn",
-        "notification": null,
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "orc-mkx-helmet-iceborn",
-        "url_store": "",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Medium",
         "uuid": "3c6998f3-edcd-4098-a7eb-49ad75743bbf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Helmets",
         "company_name": "Clark Defense Systems",
         "date_added": 1703529111,
-        "date_modified": 1746935761,
+        "date_modified": 1750177276,
         "id": 421,
         "id_category": 3,
         "id_company": 53,
@@ -191,6 +205,8 @@
         "url_store": "",
         "uuid": "80fd0b3b-2ceb-4288-8867-ca30ffb7c4bd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -215,6 +231,8 @@
         "url_store": "",
         "uuid": "43ba9e3a-ed00-42db-95ac-dd7e14f3cb18",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -239,6 +257,8 @@
         "url_store": "",
         "uuid": "ec0a0668-d3aa-4665-b6b6-8b76a1c0aaf1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -263,6 +283,8 @@
         "url_store": "",
         "uuid": "2f0875e4-bb6c-4a07-90a3-7a5f49a7f043",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -287,6 +309,8 @@
         "url_store": "",
         "uuid": "985c8040-1405-45ca-85e8-cbc3a2d26827",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -311,6 +335,8 @@
         "url_store": "",
         "uuid": "a834a5db-1ff6-46e5-a336-39c06ad32e25",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -335,6 +361,8 @@
         "url_store": "",
         "uuid": "046ced2a-fe82-46f9-b5cf-c3d0942ab4a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -359,6 +387,8 @@
         "url_store": "",
         "uuid": "f44a56dd-522f-404f-800c-c501407252e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -383,6 +413,8 @@
         "url_store": "",
         "uuid": "aadb0b21-366b-41e5-94ad-3727235c2b36",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -407,6 +439,8 @@
         "url_store": "",
         "uuid": "6c8e29e3-a183-443f-9b8f-47275b689600",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -431,6 +465,8 @@
         "url_store": "",
         "uuid": "229cab57-75ea-49b2-b637-ebc7ccf140c4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -455,6 +491,8 @@
         "url_store": "",
         "uuid": "1044884e-a1df-4694-8242-b9b97a363033",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -479,6 +517,8 @@
         "url_store": "",
         "uuid": "92ce36b2-b41c-4e2f-bc61-29db7086c7e8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -503,6 +543,8 @@
         "url_store": "",
         "uuid": "bd9a0eba-9da9-46a6-a100-318e9f8c1da2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -527,6 +569,8 @@
         "url_store": "",
         "uuid": "9dede6cd-110d-45a9-aeeb-7dffe89883a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -551,6 +595,8 @@
         "url_store": "",
         "uuid": "54e02a42-5165-423e-b19d-6f964555f4c4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -575,6 +621,8 @@
         "url_store": "",
         "uuid": "5341b8bb-ad4e-4f4a-9a33-d5dc03b77cea",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -599,6 +647,8 @@
         "url_store": "",
         "uuid": "7cc35dc1-d184-4d5b-a397-8d62fc351890",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -623,6 +673,8 @@
         "url_store": "",
         "uuid": "c43bd2f8-3c3f-4d65-a60b-d47decd619bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -647,6 +699,8 @@
         "url_store": "",
         "uuid": "62ea6e32-bed9-4ce6-982c-d8a2a8ee328f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -671,6 +725,8 @@
         "url_store": "",
         "uuid": "9b653d3a-0a02-4a80-8a2f-b0e620cd8900",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -695,6 +751,8 @@
         "url_store": "",
         "uuid": "fdd6e566-eb08-4669-9994-2c33ed3f3a70",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -719,6 +777,8 @@
         "url_store": "",
         "uuid": "f5b4bf5c-5cf4-48e3-b421-f592f6cecff5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -743,6 +803,8 @@
         "url_store": "",
         "uuid": "bb7c704d-b9e0-4748-ab18-3ceb602a1788",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -767,6 +829,8 @@
         "url_store": "",
         "uuid": "85941c34-18b3-4142-92a5-e574180ffa28",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -791,6 +855,8 @@
         "url_store": "",
         "uuid": "62e76c40-c11e-4ed7-be4a-26e6847af960",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -815,6 +881,8 @@
         "url_store": "",
         "uuid": "ca6ecaf1-c4ef-4324-8584-9d16e54f9d71",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -839,6 +907,8 @@
         "url_store": "",
         "uuid": "a0916eed-a3b0-4e6f-9c32-f1b95fb6bbfb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -863,6 +933,8 @@
         "url_store": "",
         "uuid": "3b2ad422-e01d-4f09-b69b-25e93bf987ad",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -887,6 +959,8 @@
         "url_store": "",
         "uuid": "a8be87b7-182c-4429-b19c-4809f3e3a74e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -911,6 +985,8 @@
         "url_store": "",
         "uuid": "f86c916f-751d-4c69-9926-0066621acb1b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -935,6 +1011,8 @@
         "url_store": "",
         "uuid": "4cbdcb40-b22e-4418-a2c0-858d9fff8482",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -959,6 +1037,8 @@
         "url_store": "",
         "uuid": "0c18e5a2-e0c4-4e9b-855a-e9dfea9525d2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -983,6 +1063,8 @@
         "url_store": "",
         "uuid": "f7005fb4-3c8c-42df-b759-f41b10948e71",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1007,6 +1089,8 @@
         "url_store": "",
         "uuid": "9c28f894-4079-4ed0-8f5f-40741c47d138",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1031,6 +1115,8 @@
         "url_store": "",
         "uuid": "be40eecd-427b-485c-8010-83ef35e52386",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1055,6 +1141,8 @@
         "url_store": "",
         "uuid": "305ab561-6edf-48f0-9c49-c987e911e9ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1079,6 +1167,8 @@
         "url_store": "",
         "uuid": "def46478-4494-44f9-9f2c-e516a8780a95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1103,6 +1193,8 @@
         "url_store": "",
         "uuid": "63d5c4b1-7a41-42fc-b202-ea9b07fc6389",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1127,6 +1219,8 @@
         "url_store": "",
         "uuid": "35e498db-02e4-4963-9afa-ee08970c2036",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1151,6 +1245,8 @@
         "url_store": "",
         "uuid": "7d328d9e-a8dc-4279-b973-692964eb0fe9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1175,6 +1271,8 @@
         "url_store": "",
         "uuid": "ffba2a67-69ee-4a3b-9ca9-600b1983cc84",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1199,6 +1297,8 @@
         "url_store": "",
         "uuid": "9a26bc89-a35b-4317-adfd-ec4a285d7e72",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1223,13 +1323,15 @@
         "url_store": "",
         "uuid": "75a9f76a-0cb1-4a25-acda-263aad0deb5e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Helmets",
         "company_name": "Greycat Industrial",
         "date_added": 1703539901,
-        "date_modified": 1747181252,
+        "date_modified": 1750177393,
         "id": 803,
         "id_category": 3,
         "id_company": 123,
@@ -1247,6 +1349,8 @@
         "url_store": "",
         "uuid": "a9305217-006d-4e46-833e-dff89c913b25",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
@@ -1271,6 +1375,8 @@
         "url_store": "",
         "uuid": "cbccd69b-b3af-40a4-b71e-4d85a36923d4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1295,13 +1401,15 @@
         "url_store": "",
         "uuid": "6728738c-6b2f-487f-a71c-11005f1144ab",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roberts Space Industries",
         "date_added": 1703539901,
-        "date_modified": 1747181275,
+        "date_modified": 1750177481,
         "id": 815,
         "id_category": 3,
         "id_company": 217,
@@ -1319,13 +1427,15 @@
         "url_store": "",
         "uuid": "4ccfcbd2-c0a8-408e-82f0-8e58a35817d9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Helmets",
         "company_name": "Caldera",
         "date_added": 1703542744,
-        "date_modified": 1740445285,
+        "date_modified": 1759773006,
         "id": 818,
         "id_category": 3,
         "id_company": 41,
@@ -1335,14 +1445,16 @@
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
         "name": "Novikov Helmet",
-        "notification": null,
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "novikov-helmet",
         "url_store": "",
         "uuid": "924ac206-9122-4584-8682-af7d61f56929",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1367,6 +1479,8 @@
         "url_store": "",
         "uuid": "85cba80f-4284-4880-9070-fbbac78d9fd7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1391,6 +1505,8 @@
         "url_store": "",
         "uuid": "5fc35e71-19ff-4e2a-9f82-f9c968721838",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1415,6 +1531,8 @@
         "url_store": "",
         "uuid": "138c137e-9678-40ed-824e-eafeee5ef410",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1439,6 +1557,8 @@
         "url_store": "",
         "uuid": "78177158-4b2e-4d90-b1ff-b2173529697d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1463,6 +1583,8 @@
         "url_store": "",
         "uuid": "7431edb4-b0f1-4e2e-a42c-6a1fc05477a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1487,6 +1609,8 @@
         "url_store": "",
         "uuid": "963a2e3b-7a40-4678-83a9-3638a72e177a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1511,6 +1635,8 @@
         "url_store": "",
         "uuid": "17aae62d-5415-4bae-9d06-b991860dd156",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1535,6 +1661,8 @@
         "url_store": "",
         "uuid": "82070439-9c9d-46a5-9328-3c197b00bed7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1559,6 +1687,8 @@
         "url_store": "",
         "uuid": "70be6209-58ab-4e7f-927d-5d6f2755f168",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1583,6 +1713,8 @@
         "url_store": "",
         "uuid": "d960452f-a083-40ed-8e68-2150f13ede31",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1607,6 +1739,8 @@
         "url_store": "",
         "uuid": "74a449c4-e358-4f00-8fa9-531ede632ee5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1631,6 +1765,8 @@
         "url_store": "",
         "uuid": "bda1a03c-589e-4b09-a621-5a46feb3851a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1655,6 +1791,8 @@
         "url_store": "",
         "uuid": "850d09ee-c2c0-4a78-b14c-db5db1f54d66",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1679,6 +1817,8 @@
         "url_store": "",
         "uuid": "5d4c2654-3e4b-4a13-8d1b-cd3efcd32c0e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1703,6 +1843,8 @@
         "url_store": "",
         "uuid": "930b0e7e-3989-48ee-a0e5-12d346932137",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1727,6 +1869,8 @@
         "url_store": "",
         "uuid": "b4545643-195c-4b70-977c-55d680ec34c2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1751,6 +1895,8 @@
         "url_store": "",
         "uuid": "51e87c01-182f-4276-bc8c-149c31846def",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1775,6 +1921,8 @@
         "url_store": "",
         "uuid": "81471107-53e9-4978-9490-b242d5474f36",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1799,6 +1947,8 @@
         "url_store": "",
         "uuid": "3d06b920-80a4-4db2-b5be-51268afb09b5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1823,6 +1973,8 @@
         "url_store": "",
         "uuid": "bab1351e-a4c0-4f33-a1b2-ce9af62f2346",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1847,6 +1999,8 @@
         "url_store": "",
         "uuid": "53fe8f56-18f4-4039-bbc4-e0b96e44dd62",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1871,6 +2025,8 @@
         "url_store": "",
         "uuid": "5e00fc5d-1c87-4b53-92f9-fe619451bcb0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1895,6 +2051,8 @@
         "url_store": "",
         "uuid": "7b23197c-5629-4b5d-b915-1aed33e4625c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1919,6 +2077,8 @@
         "url_store": "",
         "uuid": "e65434a1-c517-4b0c-8746-bc914c2a3c86",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1943,6 +2103,8 @@
         "url_store": "",
         "uuid": "90361b62-f3ae-4a7d-9b57-ae2fd8addf8f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1967,6 +2129,8 @@
         "url_store": "",
         "uuid": "09b804c2-c3fd-4665-8fdb-04c202f499a2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -1991,6 +2155,8 @@
         "url_store": "",
         "uuid": "e7a4f683-25bf-4383-8505-b9397fcb44e4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2015,6 +2181,8 @@
         "url_store": "",
         "uuid": "b83ce333-31f9-4b1d-a0de-563c66d7d19b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2039,13 +2207,15 @@
         "url_store": "",
         "uuid": "1eab81fe-fd56-4fa8-bf0b-3bb222b9eddf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roberts Space Industries",
         "date_added": 1703637830,
-        "date_modified": 1740470809,
+        "date_modified": 1750182465,
         "id": 1406,
         "id_category": 3,
         "id_company": 217,
@@ -2063,6 +2233,8 @@
         "url_store": "",
         "uuid": "0190a637-936f-4834-812b-f945a0413467",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2087,6 +2259,8 @@
         "url_store": "",
         "uuid": "b1dad547-8423-4794-9071-f187929c5cee",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2111,6 +2285,8 @@
         "url_store": "",
         "uuid": "5c33e677-8c1a-4f54-bff0-e8d154a7cf65",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2135,6 +2311,8 @@
         "url_store": "",
         "uuid": "13a3a6db-0a80-4084-8292-3224b875bd06",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2159,6 +2337,8 @@
         "url_store": "",
         "uuid": "ca3c32d9-9575-482a-914d-17f5200de89b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2183,6 +2363,8 @@
         "url_store": "",
         "uuid": "ee2a6fca-ceb9-4b4b-80ab-560a1a1f4e8d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2207,6 +2389,8 @@
         "url_store": "",
         "uuid": "69e5c3b0-90d7-4269-a664-553169988519",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2231,6 +2415,8 @@
         "url_store": "",
         "uuid": "179656e2-e05b-4c16-b85a-50b4f6dc086e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2255,6 +2441,8 @@
         "url_store": "",
         "uuid": "c3574438-7686-4520-806b-e65d6a0aaabb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2279,13 +2467,15 @@
         "url_store": "",
         "uuid": "7ef751cd-1cab-4893-b582-19f1862ff960",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roussimoff Rehabilitation Systems",
         "date_added": 1703641359,
-        "date_modified": 1740470857,
+        "date_modified": 1750180868,
         "id": 1492,
         "id_category": 3,
         "id_company": 218,
@@ -2303,6 +2493,8 @@
         "url_store": "",
         "uuid": "ad9cc137-ea54-45d5-af8c-0b2efe96d3ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2327,6 +2519,8 @@
         "url_store": "",
         "uuid": "821a307e-63e9-4021-8d55-52ec35c9e592",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2351,6 +2545,8 @@
         "url_store": "",
         "uuid": "68d8a024-9d3b-4d9b-8746-8e7ae25b4475",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2375,6 +2571,8 @@
         "url_store": "",
         "uuid": "4fd61c96-a486-4c6d-99dd-96a0722b0f37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2399,6 +2597,8 @@
         "url_store": "",
         "uuid": "d3889502-12dd-47a9-b4f4-72e9543e79b7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2423,13 +2623,15 @@
         "url_store": "",
         "uuid": "5973794c-82dc-445a-a7f8-c95c5c73d0f0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1703641359,
-        "date_modified": 1740470861,
+        "date_modified": 1750179299,
         "id": 1498,
         "id_category": 3,
         "id_company": 0,
@@ -2447,13 +2649,15 @@
         "url_store": "",
         "uuid": "7edb4266-770c-4e29-8881-36d5b90637aa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1703685369,
-        "date_modified": 1740470892,
+        "date_modified": 1754673758,
         "id": 1552,
         "id_category": 3,
         "id_company": 151,
@@ -2471,6 +2675,8 @@
         "url_store": "",
         "uuid": "8b7770f5-b664-466b-80d8-1ed97923c0be",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2495,6 +2701,8 @@
         "url_store": "",
         "uuid": "161f76fd-32e2-4ca9-b458-bef34e242948",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2519,6 +2727,8 @@
         "url_store": "",
         "uuid": "fa13c56c-3664-46e8-8ed9-af6e4bac3b67",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2543,6 +2753,8 @@
         "url_store": "",
         "uuid": "a1e09caa-9629-4a99-88ec-76fc83b7c9b1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2567,6 +2779,8 @@
         "url_store": "",
         "uuid": "d748b325-21bb-49a4-9cbf-fbdd56eddf74",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2591,6 +2805,8 @@
         "url_store": "",
         "uuid": "3894f673-8a09-4d34-8722-02c09c00863e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2615,6 +2831,8 @@
         "url_store": "",
         "uuid": "fffce641-92d3-4973-9e98-65fa38d4196d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2639,6 +2857,8 @@
         "url_store": "",
         "uuid": "8d883e69-b5ac-469d-bdc0-3f3f564ba9e9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2663,6 +2883,8 @@
         "url_store": "",
         "uuid": "97ef1b42-3921-4897-a520-d4e4b1900c1c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2687,6 +2909,8 @@
         "url_store": "",
         "uuid": "d40342c9-3a45-4efb-87a7-52931287b1c2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2711,6 +2935,8 @@
         "url_store": "",
         "uuid": "0661d322-2761-4c0d-8aca-14490ec07975",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2735,6 +2961,8 @@
         "url_store": "",
         "uuid": "cddc5fb5-1989-4053-8b6e-474979132011",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2759,6 +2987,8 @@
         "url_store": "",
         "uuid": "44db8931-8c55-4206-b9f5-8d02686a8215",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2783,6 +3013,8 @@
         "url_store": "",
         "uuid": "073fca3a-e7a3-40b0-b32e-b7b1667306c5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2807,6 +3039,8 @@
         "url_store": "",
         "uuid": "95a78bfa-b2f0-430a-85ff-7ac35c3c93c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2831,6 +3065,8 @@
         "url_store": "",
         "uuid": "f94242b2-ff4d-4330-ad9f-4fbb95b6efb6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2855,6 +3091,8 @@
         "url_store": "",
         "uuid": "30f07ea7-ccd2-4afd-8c20-11c6cb660d1f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2879,6 +3117,8 @@
         "url_store": "",
         "uuid": "87495ffc-edf1-4c59-a071-daae21e9c3df",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2903,6 +3143,8 @@
         "url_store": "",
         "uuid": "579543ed-eea4-49f0-ad88-0ffc38fadb2d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2927,6 +3169,8 @@
         "url_store": "",
         "uuid": "977eed9f-c3d8-45c9-8c91-6bdd0f651584",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2951,6 +3195,8 @@
         "url_store": "",
         "uuid": "f514397f-ccd3-49a1-854c-09412542a58b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2975,6 +3221,8 @@
         "url_store": "",
         "uuid": "38438c64-646a-4555-8beb-8f82c437a81c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -2999,6 +3247,8 @@
         "url_store": "",
         "uuid": "441d03a3-dee1-48f4-bf9e-b803cb76e530",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3023,6 +3273,8 @@
         "url_store": "",
         "uuid": "928d2d7c-16fb-41bc-9601-201b42067945",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3047,6 +3299,8 @@
         "url_store": "",
         "uuid": "e9812df7-f461-4ae6-94df-5e682d50ef61",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3071,6 +3325,8 @@
         "url_store": "",
         "uuid": "a798e7ef-f394-4e10-8432-0c4145627238",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3095,6 +3351,8 @@
         "url_store": "",
         "uuid": "b04729d9-0f52-4587-9db4-a429a2ac9e8f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3119,6 +3377,8 @@
         "url_store": "",
         "uuid": "b97cb8af-5c2b-4d88-bdec-02c01457d72b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3143,6 +3403,8 @@
         "url_store": "",
         "uuid": "a7386a26-e974-47cd-a58e-1ca1a444e6f6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3167,13 +3429,15 @@
         "url_store": "",
         "uuid": "9ecd35a4-6866-4f3e-81a9-a6bbd52f08d7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roberts Space Industries",
         "date_added": 1704036516,
-        "date_modified": 1713880835,
+        "date_modified": 1750178252,
         "id": 1839,
         "id_category": 3,
         "id_company": 217,
@@ -3191,6 +3455,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3215,6 +3481,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3239,6 +3507,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3263,6 +3533,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3287,6 +3559,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -3311,13 +3585,15 @@
         "url_store": "",
         "uuid": "b3417970-c0e5-48fa-b568-4d070da3995d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roussimoff Rehabilitation Systems",
         "date_added": 1704306167,
-        "date_modified": 1740471052,
+        "date_modified": 1750179107,
         "id": 1886,
         "id_category": 3,
         "id_company": 218,
@@ -3335,6 +3611,8 @@
         "url_store": "",
         "uuid": "5661d6f0-43a3-43ad-8983-7c558b157fb4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3359,6 +3637,8 @@
         "url_store": "",
         "uuid": "0ba98032-2af4-4d78-ac95-c90b8075a59d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3383,6 +3663,8 @@
         "url_store": "",
         "uuid": "12190b6b-b00c-43bc-9486-503426d4129b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3407,6 +3689,8 @@
         "url_store": "",
         "uuid": "1e100031-060a-4821-a7f6-4d6c0c77e532",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3431,6 +3715,8 @@
         "url_store": "",
         "uuid": "7f7c93da-3b89-45f0-9f46-48af149a3668",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3455,6 +3741,8 @@
         "url_store": "",
         "uuid": "05553d1d-90b4-41a1-bb0e-fc36fce80849",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3479,6 +3767,8 @@
         "url_store": "",
         "uuid": "a8d6d619-15f8-4f9e-9bee-28f9ea0b2dce",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3503,6 +3793,8 @@
         "url_store": "",
         "uuid": "b403c4a7-136f-4b4e-897c-6dd9f9bba9f0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3527,6 +3819,8 @@
         "url_store": "",
         "uuid": "e1c3a946-afd5-4f53-93cd-9b9ec3122749",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3551,6 +3845,8 @@
         "url_store": "",
         "uuid": "8b4937e6-fceb-41dc-bfa0-2a8eeae72786",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3575,6 +3871,8 @@
         "url_store": "",
         "uuid": "9de3a559-0136-4baf-b2ce-ab7fdda4bec5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3599,6 +3897,8 @@
         "url_store": "",
         "uuid": "43112e68-7b11-4c73-86ef-43fb9f7df884",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3623,6 +3923,8 @@
         "url_store": "",
         "uuid": "d1556dc9-09e3-48ef-9484-a864e3b6b711",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3647,6 +3949,8 @@
         "url_store": "",
         "uuid": "98a596a5-b8d2-4664-911b-06c38715b8cb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3671,6 +3975,8 @@
         "url_store": "",
         "uuid": "ca6c62bf-9057-400a-8798-e1a68a7435fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3695,6 +4001,8 @@
         "url_store": "",
         "uuid": "b07c855e-79ac-4c5c-b7b7-aa8df9b1a987",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3719,6 +4027,8 @@
         "url_store": "",
         "uuid": "4f71177d-43c7-4347-9f85-763560a56395",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3743,6 +4053,8 @@
         "url_store": "",
         "uuid": "5aeaab89-2fe3-4efd-bada-83c9bea6f343",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3767,6 +4079,8 @@
         "url_store": "",
         "uuid": "7d32e5cc-e45e-4165-9e95-97fc6f02a3ed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3791,6 +4105,8 @@
         "url_store": "",
         "uuid": "cc01c925-9323-4150-aa7b-0538511b499b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3815,6 +4131,8 @@
         "url_store": "",
         "uuid": "53df0d95-c8f1-416d-8647-33fabbf24a1a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3839,6 +4157,8 @@
         "url_store": "",
         "uuid": "64e73b36-094d-4a12-88a4-a79bad548cb7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3863,6 +4183,8 @@
         "url_store": "",
         "uuid": "615b6668-69f5-4bb1-91e5-a142349ef390",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3887,13 +4209,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1706518406,
-        "date_modified": 1740471212,
+        "date_modified": 1754673758,
         "id": 2202,
         "id_category": 3,
         "id_company": 151,
@@ -3911,13 +4235,15 @@
         "url_store": "",
         "uuid": "acc632e0-5547-485a-8bb7-a11c4713709a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1706518406,
-        "date_modified": 1740471212,
+        "date_modified": 1754673758,
         "id": 2203,
         "id_category": 3,
         "id_company": 151,
@@ -3935,6 +4261,8 @@
         "url_store": "",
         "uuid": "1a984351-9e1b-43fa-a4bd-7c2ef7e4c5fc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -3959,6 +4287,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -3983,6 +4313,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Voyager-Armor-Set",
         "uuid": "760e495b-cfa3-40fc-87a5-abdb088fcb44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4007,6 +4339,8 @@
         "url_store": "",
         "uuid": "00752222-956f-4dbc-8d56-66ad980327fd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4031,6 +4365,8 @@
         "url_store": "",
         "uuid": "6e252804-db64-4ea6-a0c9-9b82034100d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4055,6 +4391,8 @@
         "url_store": "",
         "uuid": "26c7a438-af47-4bfd-b8ac-3c1378ca558d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4079,6 +4417,8 @@
         "url_store": "",
         "uuid": "d41fec31-ff74-4460-a217-260eaa869a65",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4103,13 +4443,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet-Guava",
         "uuid": "0090e00a-4340-4032-82b8-32def1b39d99",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1706526378,
-        "date_modified": 1740471246,
+        "date_modified": 1754673758,
         "id": 2266,
         "id_category": 3,
         "id_company": 151,
@@ -4127,13 +4469,15 @@
         "url_store": "",
         "uuid": "0907f3f9-ef08-446f-8a0c-003876d53bf9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1706526378,
-        "date_modified": 1740471246,
+        "date_modified": 1754673759,
         "id": 2267,
         "id_category": 3,
         "id_company": 151,
@@ -4151,6 +4495,8 @@
         "url_store": "",
         "uuid": "2534602c-060c-4739-8ee9-1f8c14ba6a54",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4175,6 +4521,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Archangel-Armor",
         "uuid": "7aa4bff2-98be-4cdc-ba87-15560ba4fe44",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4199,6 +4547,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Lovestruck-Armor-Set",
         "uuid": "274cb719-5b55-480c-b9c4-bc78baae20a9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4223,6 +4573,8 @@
         "url_store": "",
         "uuid": "1e05b29f-f430-4417-80c5-e053b595867a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4247,16 +4599,18 @@
         "url_store": "",
         "uuid": "297a6522-c957-4e52-9040-aa3049ebcd7a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
-        "company_name": null,
+        "company_name": "Doomsday",
         "date_added": 1706728808,
-        "date_modified": 1740471252,
+        "date_modified": 1750179458,
         "id": 2287,
         "id_category": 3,
-        "id_company": 0,
+        "id_company": 73,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -4271,6 +4625,8 @@
         "url_store": "",
         "uuid": "57637d2b-a480-4c22-8fd8-f9964f0c9088",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4295,6 +4651,8 @@
         "url_store": "",
         "uuid": "33e4f101-a485-4c39-b07c-b9fad15edfdc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4319,6 +4677,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Mandible-Sandcrawler-Helmet",
         "uuid": "95fed5c3-d40d-40b5-84e9-371458b0ff81",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4343,6 +4703,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Terracotta-Armor",
         "uuid": "f8f2f73d-6d59-402e-92f7-8fac760c39fa",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4367,6 +4729,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet-Grape",
         "uuid": "cd23a5c4-f027-4a49-baf4-40993a6b13ff",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4391,6 +4755,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet-Blueberry",
         "uuid": "312b9243-2d66-46d2-98f8-c46fbcf01fb3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4415,6 +4781,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet-Lime",
         "uuid": "e0985785-fc61-416f-8a6c-cf9b5db86bbc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4439,6 +4807,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet-Orange",
         "uuid": "762b1a5c-55c5-4976-8633-c438aa4d811a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4463,13 +4833,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Fieldsbury-Dark-Bear-Helmet",
         "uuid": "a58d72d2-8b98-4875-96c3-41db6dbc32e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1707872181,
-        "date_modified": 1740471279,
+        "date_modified": 1754673758,
         "id": 2342,
         "id_category": 3,
         "id_company": 151,
@@ -4487,6 +4859,8 @@
         "url_store": "",
         "uuid": "d3c1b1cf-47e9-4389-8bc2-382e5a88ce37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4511,6 +4885,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Thule-Armor",
         "uuid": "168ad48a-ca8b-4272-8c9c-fd0d863959fb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4535,6 +4911,8 @@
         "url_store": "",
         "uuid": "29b03c7a-8dbf-4411-8f2c-226266b94a31",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4559,13 +4937,15 @@
         "url_store": "",
         "uuid": "6fa313c5-6259-4b6f-9a09-a8e84e9ab109",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1707872731,
-        "date_modified": 1740471283,
+        "date_modified": 1754673758,
         "id": 2349,
         "id_category": 3,
         "id_company": 151,
@@ -4583,6 +4963,8 @@
         "url_store": "",
         "uuid": "3bb156ec-b515-4318-8633-4decddaac368",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4607,6 +4989,8 @@
         "url_store": "",
         "uuid": "06c21092-cc23-4e05-9193-a058908e2e3d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4631,13 +5015,15 @@
         "url_store": "",
         "uuid": "e0f3070a-4f62-4983-bcd8-f1a22f734af7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1707873220,
-        "date_modified": 1740471288,
+        "date_modified": 1754673759,
         "id": 2356,
         "id_category": 3,
         "id_company": 151,
@@ -4655,6 +5041,8 @@
         "url_store": "",
         "uuid": "c134cd92-c19e-49e6-9a7a-bc8ef272a5f8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4679,6 +5067,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Venture-Armor-Ascension",
         "uuid": "d59c2342-2612-4365-9ef3-e4caf4e5cda6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4703,13 +5093,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Xanthule-Ascension-Suit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Caldera",
         "date_added": 1707917494,
-        "date_modified": 1715788184,
+        "date_modified": 1750182146,
         "id": 2370,
         "id_category": 3,
         "id_company": 41,
@@ -4718,7 +5110,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
-        "name": "Novikov \u0027Ascension\u0027 Helmet",
+        "name": "Novikov \u0022Ascension\u0022 Helmet",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -4727,6 +5119,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Novikov-Ascension-Exploration-Suit",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4751,17 +5145,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Red-Alert-Armor",
         "uuid": "b20e69a0-5fe6-4d85-8ff7-2a2cb3b3efa9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1707918954,
-        "date_modified": 1740471297,
+        "date_modified": 1752794510,
         "id": 2387,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -4775,13 +5171,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Red-Alert-Armor",
         "uuid": "ec698d54-84bb-434e-859a-0fff62426618",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Greycat Industrial",
         "date_added": 1707919006,
-        "date_modified": 1740471299,
+        "date_modified": 1751804241,
         "id": 2391,
         "id_category": 3,
         "id_company": 123,
@@ -4794,11 +5192,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "aril-helmet-red-alert",
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Aril-Red-Alert-Armor",
         "uuid": "c486f51f-7557-457b-9314-9286f0771aed",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4823,6 +5223,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Morozov-SH-Red-Alert-Armor",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4847,17 +5249,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/RRS-Arden-SL-Rime-Armor",
         "uuid": "3dc34564-55db-4e7c-80c8-0b7c87dae244",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1707919722,
-        "date_modified": 1740471308,
+        "date_modified": 1752794510,
         "id": 2411,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -4871,17 +5275,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Wildwood-Armor",
         "uuid": "72717f0f-ff1c-4194-bca5-9899f0d4502d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1707921745,
-        "date_modified": 1740471311,
+        "date_modified": 1752794510,
         "id": 2415,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -4895,17 +5301,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Canuto-Armor",
         "uuid": "6e98c7be-f047-4d1e-b830-605d5036874a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1707921804,
-        "date_modified": 1740471314,
+        "date_modified": 1752794510,
         "id": 2420,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -4919,6 +5327,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Lodestone-Armor",
         "uuid": "e05f523f-2879-46a1-9d8e-5f236d18d46d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -4943,6 +5353,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-MacFlex-Rust-Society-Armor-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -4967,6 +5379,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -4991,6 +5405,8 @@
         "url_store": "",
         "uuid": "596f9763-3231-4ee2-8c74-50d2fc7f01c3",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5015,6 +5431,8 @@
         "url_store": "",
         "uuid": "cadb46d0-7009-4451-a984-6d79c7dd73ae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5039,13 +5457,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Galena-Armor",
         "uuid": "722c7f57-40f0-41b9-96ab-422462875edd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "CC\u0027s Conversions",
         "date_added": 1707984048,
-        "date_modified": 1740471326,
+        "date_modified": 1750185266,
         "id": 2448,
         "id_category": 3,
         "id_company": 45,
@@ -5063,6 +5483,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Parasite-Replica-Helmet-Dark-Birth",
         "uuid": "e33d093a-c1bf-4d60-96e8-7ecadff067a1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5087,6 +5509,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Sea-Shiver-Helmet-With-Defiance-Armor-Hailstorm",
         "uuid": "a761af5b-9971-48c0-9bc4-fd7547c899a4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5111,6 +5535,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Radioactive-Yellow-Lost-Plague-Helmet",
         "uuid": "0e4e810b-845d-4897-a23f-44c66cfbaef5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5135,6 +5561,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Biohazard-Blue-Lost-Plague-Helmet",
         "uuid": "bbfc48f5-b10b-4701-98ed-1c694bc32d49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5159,6 +5587,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Helmet-With-Defiance-Armor-Charcoal",
         "uuid": "3d3a79ad-af46-4d77-baf0-184c6d06844e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5183,6 +5613,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Sangar-Helmet-And-Morozov-Aftershock-Armor",
         "uuid": "d28e663f-32ee-496d-b475-4c84b17158df",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5207,6 +5639,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Supernova-Armor-Set",
         "uuid": "a173cc6f-4c6d-4f31-8ce7-67b9b6a0fe37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5231,6 +5665,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CCC-Aves-Armor-And-Helmet-Set",
         "uuid": "83462bdc-21c1-47e7-b315-76d505dfa1cf",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5255,6 +5691,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Tamarack-Armor",
         "uuid": "100ebcc3-6792-4d83-89d6-0ae4b42f4963",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5279,6 +5717,8 @@
         "url_store": "",
         "uuid": "726203eb-24e1-4430-bd80-20e7b86f8e41",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5303,6 +5743,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Giocoso-Helmet-Azure",
         "uuid": "fbb9f356-b016-4d2a-9a63-e20973d31e5b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5327,6 +5769,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Giocoso-Helmet-Ivory",
         "uuid": "d2585ecb-f52e-43fd-b4dd-3cf2bd09ca9a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5351,6 +5795,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Giocoso-Helmet-Obsidian",
         "uuid": "d674a92d-bcc0-4901-b5b1-3e335fdd9c38",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5375,6 +5821,8 @@
         "url_store": "",
         "uuid": "73bb82df-2fd1-489d-9037-c99c43065b94",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5399,6 +5847,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Mandible-Firestrike-Helmet",
         "uuid": "1d802d55-acca-416e-b4d0-4fc2f2cc08f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5423,6 +5873,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Mandible-Snowfly-Helmet",
         "uuid": "8f5262ca-06e0-4eee-893a-457c6bc0c260",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5447,6 +5899,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Neoni-Jami-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5471,6 +5925,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Neoni-Onna-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5495,17 +5951,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Neoni-Tengubi-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Virgil Ltd",
         "date_added": 1708404343,
-        "date_modified": 1715784074,
+        "date_modified": 1757925380,
         "id": 2586,
         "id_category": 3,
         "id_company": 266,
-        "id_parent": 0,
+        "id_parent": 2721,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5519,17 +5977,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Savior-Collection-Iceborn-Paladin-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Virgil Ltd",
         "date_added": 1708404356,
-        "date_modified": 1715784086,
+        "date_modified": 1757925380,
         "id": 2587,
         "id_category": 3,
         "id_company": 266,
-        "id_parent": 0,
+        "id_parent": 2721,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5543,17 +6003,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Savior-Collection-Nightfire-Paladin-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Virgil Ltd",
         "date_added": 1708404370,
-        "date_modified": 1715784063,
+        "date_modified": 1757925380,
         "id": 2588,
         "id_category": 3,
         "id_company": 266,
-        "id_parent": 0,
+        "id_parent": 2721,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -5567,6 +6029,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Savior-Collection-Singularity-Paladin-Helmet",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5591,13 +6055,15 @@
         "url_store": "",
         "uuid": "d6ed781b-4ca1-46ec-bd0f-23673bbc0ce5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Sakura Sun",
         "date_added": 1708404437,
-        "date_modified": 1740471387,
+        "date_modified": 1759341616,
         "id": 2590,
         "id_category": 3,
         "id_company": 220,
@@ -5610,12 +6076,14 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "star-kitten-damon-helmet",
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Star-Kitten-Damon-Helmet-And-Armor-Set",
         "uuid": "c2cff339-9b7d-48a7-84f8-7868e17e1f6a",
         "vehicle_name": null,
-        "game_version": "4.0.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
       },
       {
         "category": "Helmets",
@@ -5639,6 +6107,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Star-Kitten-Helmet-And-Armor-Set",
         "uuid": "7d74b158-27c6-49d2-b9ae-7542d087eb95",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5663,6 +6133,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Star-Kitten-Sally-Helmet-And-Armor-Set",
         "uuid": "f68d0f94-b843-44ba-ac94-ee54a2f218d5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5687,6 +6159,8 @@
         "url_store": "",
         "uuid": "a75d3d97-cff2-4a27-a8fe-ea6bb27bcf61",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5711,6 +6185,8 @@
         "url_store": "https://support.robertsspaceindustries.com/hc/en-us/articles/360002542733-Concierge-Levels-and-Rewards",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5735,6 +6211,8 @@
         "url_store": "",
         "uuid": "57a903e4-44a7-4af1-aebe-939af5718ab2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5759,6 +6237,8 @@
         "url_store": "",
         "uuid": "a490f534-4324-4fd9-8cc2-cab32a70fb71",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5783,6 +6263,8 @@
         "url_store": "",
         "uuid": "cd8b1a7b-9473-47c0-b52b-e24403cceec8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5807,6 +6289,8 @@
         "url_store": "",
         "uuid": "f7027963-d703-4fa6-8642-6abbba27605f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5831,13 +6315,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
         "category": "Helmets",
         "company_name": "Clark Defense Systems",
         "date_added": 1708405807,
-        "date_modified": 1740471392,
+        "date_modified": 1750182037,
         "id": 2605,
         "id_category": 3,
         "id_company": 53,
@@ -5855,13 +6341,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CDS-ADP-Mk4-Red-Alert-Armor",
         "uuid": "8fd7cb44-f692-499e-9769-77f40e916bd2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1708494173,
-        "date_modified": 1740471396,
+        "date_modified": 1754673758,
         "id": 2617,
         "id_category": 3,
         "id_company": 151,
@@ -5879,6 +6367,8 @@
         "url_store": "",
         "uuid": "144aac81-8453-4acb-89ea-3d9b5df06fba",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5903,6 +6393,8 @@
         "url_store": "",
         "uuid": "fe8b684e-e215-444c-89eb-91414a2604c0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5927,6 +6419,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-1-By-CCs-Conversions",
         "uuid": "e40998cd-017c-492f-bce2-086d2d2fd39f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5951,6 +6445,8 @@
         "url_store": "",
         "uuid": "c63eada9-f1d9-4217-800a-5f93df5fad6f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -5975,6 +6471,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Rust-Society-Armor-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -5999,6 +6497,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Riptide-Armor-Set",
         "uuid": "7b6e72c6-3207-4775-9e6e-a020f8aeb495",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6023,6 +6523,8 @@
         "url_store": "",
         "uuid": "4e2be512-e054-4453-a878-c139ddf0b8af",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6047,13 +6549,15 @@
         "url_store": "",
         "uuid": "2014ad88-72be-41a5-bfbb-5ea829c815d6",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1708542927,
-        "date_modified": 1740471421,
+        "date_modified": 1754673758,
         "id": 2661,
         "id_category": 3,
         "id_company": 151,
@@ -6071,6 +6575,8 @@
         "url_store": "",
         "uuid": "f6ceb4df-7a12-4224-b172-ca1a7b55ff69",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6095,17 +6601,19 @@
         "url_store": "",
         "uuid": "303d5646-8614-4d39-991c-78db6984632b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1708752686,
-        "date_modified": 1740471441,
+        "date_modified": 1752794510,
         "id": 2712,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6119,17 +6627,19 @@
         "url_store": "",
         "uuid": "7491b9a8-f601-47d4-97ff-148924704363",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Virgil Ltd",
         "date_added": 1708944065,
-        "date_modified": 1740471445,
+        "date_modified": 1757925380,
         "id": 2721,
         "id_category": 3,
         "id_company": 266,
-        "id_parent": 0,
+        "id_parent": 2721,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -6143,6 +6653,8 @@
         "url_store": "",
         "uuid": "7327ea89-c9dc-462b-9517-1739dbfaa184",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6167,6 +6679,8 @@
         "url_store": "",
         "uuid": "3645918b-e7ec-498a-9836-65a52e4a1471",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6191,6 +6705,8 @@
         "url_store": "",
         "uuid": "181f969a-41da-455b-9366-c68899d3631f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6215,6 +6731,8 @@
         "url_store": "",
         "uuid": "b0e84e8c-321d-4cd9-9d2c-33d657b05639",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6239,6 +6757,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Pembroke-RSI-Sunburst-Edition",
         "uuid": "125e6c46-0d4e-4b1c-a521-faad7dc01f74",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6263,6 +6783,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6287,6 +6809,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Pembroke-RSI-Graphite-Edition",
         "uuid": "89f443ed-9358-4f72-a728-f5841c36532c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6311,6 +6835,8 @@
         "url_store": "",
         "uuid": "2e97eb89-d976-48b5-acb2-455b69bba84b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6335,6 +6861,8 @@
         "url_store": "",
         "uuid": "40656389-c9a7-42aa-8a5a-f70d9368dddb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6359,6 +6887,8 @@
         "url_store": "",
         "uuid": "06cbc938-0b97-4c1b-a4e1-8c5334152deb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6383,13 +6913,15 @@
         "url_store": "",
         "uuid": "4d1b1131-572b-4db2-896f-8f7461f7902f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Gyson Inc.",
         "date_added": 1710313402,
-        "date_modified": 1740471509,
+        "date_modified": 1750179185,
         "id": 2856,
         "id_category": 3,
         "id_company": 127,
@@ -6407,13 +6939,15 @@
         "url_store": "",
         "uuid": "f8debb4d-3803-48b8-b225-74350be60751",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1710313791,
-        "date_modified": 1740471514,
+        "date_modified": 1754673758,
         "id": 2863,
         "id_category": 3,
         "id_company": 151,
@@ -6431,6 +6965,8 @@
         "url_store": "",
         "uuid": "ece98a67-cc49-4a28-882c-24959e1ffd50",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6455,6 +6991,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -6479,6 +7017,8 @@
         "url_store": "",
         "uuid": "c42cf235-268a-407c-ba7f-e586f37ed1e2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6503,6 +7043,8 @@
         "url_store": "",
         "uuid": "d780ced3-4826-40d5-b271-0eabff2dbd87",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6527,6 +7069,8 @@
         "url_store": "",
         "uuid": "d8f7b240-be67-4969-99c8-cd9bf54323c9",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6551,6 +7095,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Starcrossed-Armor-Set",
         "uuid": "006277f0-e535-469e-9784-6f4ac3ba89b1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6575,6 +7121,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Envy-Armor-Set",
         "uuid": "0d701b2d-e9c4-4772-bfde-139b7dfdacb8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6599,6 +7147,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Xanthule-Flight-Suit-And-Helmet",
         "uuid": "13a62c08-7324-47ac-be0d-885b6ef8a07d",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6623,6 +7173,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Xanthule-Sehya-Flight-Suit-And-Helmet",
         "uuid": "a672f906-b927-415e-959a-b558b0d43b6e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6647,6 +7199,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Xanthule-Tahn-Flight-Suit-And-Helmet",
         "uuid": "ae75691c-058e-4ad9-8ddb-64d4a9aa49f5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6671,6 +7225,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Zeus-Exploration-Suit-Solar",
         "uuid": "ed3c8d10-f2d1-4136-b547-2ef062f0ce15",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6695,6 +7251,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Zeus-Exploration-Suit-Starscape",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -6719,6 +7277,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Zeus-Exploration-Suit-Solar",
         "uuid": "0e5ef30a-0c2b-433c-9b77-f177c922ceb4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6743,6 +7303,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Predator-Armor-Set",
         "uuid": "9b51517f-80f1-49f2-b5bc-6e35fd3f5ab7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6767,6 +7329,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Stinger-Armor-Set",
         "uuid": "8648122f-b381-4090-9fc6-6829bc02cb91",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6791,6 +7355,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Switchback-Armor-Set",
         "uuid": "3f428b0b-1f9e-419b-8f95-79b0385496e4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6815,6 +7381,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Overlord-Dust-Storm-Armor-Set",
         "uuid": "afbade92-936a-495d-bbdc-f96559cdeb68",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6839,13 +7407,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Explosive-Orange-Lost-Plague-Helmet",
         "uuid": "6f6c2153-0e56-4f89-b958-2818538e343b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1710845987,
-        "date_modified": 1740471667,
+        "date_modified": 1754673758,
         "id": 3275,
         "id_category": 3,
         "id_company": 151,
@@ -6863,16 +7433,18 @@
         "url_store": "",
         "uuid": "08449933-d4ef-4c85-bcd2-bdcece18e824",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
-        "company_name": null,
+        "company_name": "Tehachapi",
         "date_added": 1710847643,
-        "date_modified": 1740471676,
+        "date_modified": 1757551774,
         "id": 3296,
         "id_category": 3,
-        "id_company": 0,
+        "id_company": 241,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -6882,18 +7454,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "ixonia-helmet-desert-camo",
         "url_store": "",
         "uuid": "6e01d995-1e0e-445d-b24d-bd0d4defb9f7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1710848514,
-        "date_modified": 1740471681,
+        "date_modified": 1754673759,
         "id": 3306,
         "id_category": 3,
         "id_company": 151,
@@ -6911,6 +7485,8 @@
         "url_store": "",
         "uuid": "3e48d826-1663-497e-8f21-3eaa67dab60f",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6935,6 +7511,8 @@
         "url_store": "",
         "uuid": "52a0a4b4-61c4-43a2-a423-342312070ac0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -6959,13 +7537,15 @@
         "url_store": "",
         "uuid": "2795e5a7-ac03-4790-9c70-371bbef1fd71",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1710861845,
-        "date_modified": 1740471692,
+        "date_modified": 1754673556,
         "id": 3327,
         "id_category": 3,
         "id_company": 151,
@@ -6978,11 +7558,13 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "microid-battle-suit-helmet-nomad",
         "url_store": "",
         "uuid": "c49f68c1-ecec-432d-9418-1f940952b131",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7007,6 +7589,8 @@
         "url_store": "",
         "uuid": "ae7a6249-33ae-42b0-bfa1-f3fa6f9ffa3e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7031,6 +7615,8 @@
         "url_store": "",
         "uuid": "5bad52f0-3c9e-40b1-b624-74cad3f5936c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7055,6 +7641,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Quicksilver-Armor-Set",
         "uuid": "619fe08f-92f0-405c-9ac0-3b986dd07cdd",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7079,6 +7667,8 @@
         "url_store": "",
         "uuid": "45df29fe-8932-40f1-843e-c0e2ce8371ae",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7103,6 +7693,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Voidripper-Sunbeam-Helmet-With-Defiance-Armor-Sunchaser",
         "uuid": "d7085b15-3e22-4815-b1d6-25ff520e8902",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7127,6 +7719,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Pembroke-RSI-Ivory-Edition",
         "uuid": "71657a75-3fb0-49ac-8cea-6ab010366dfb",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7151,6 +7745,8 @@
         "url_store": "",
         "uuid": "f4172480-cb86-4ce3-ae8e-e9c2733a8a4c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7175,6 +7771,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Aztalan-Armor",
         "uuid": "bccb4451-aee1-49a2-8262-87a58d372f19",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7199,6 +7797,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -7223,6 +7823,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -7247,13 +7849,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Parasite-Replica-Helmet-Original",
         "uuid": "afae5b5c-2b3c-48e2-90eb-e9ad2447656a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1712895908,
-        "date_modified": 1740471735,
+        "date_modified": 1754673759,
         "id": 3467,
         "id_category": 3,
         "id_company": 151,
@@ -7271,6 +7875,8 @@
         "url_store": "",
         "uuid": "94bb9fd0-a6d7-4015-bb42-8fb4acf3f793",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7295,6 +7901,8 @@
         "url_store": "",
         "uuid": "d53bfc07-aabf-4e6f-b7fa-74d41b343db8",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7319,6 +7927,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/RSI-Venture-Pathfinder-Armor-Set",
         "uuid": "be0e3f90-cbae-4d5f-bd45-d34795d045f0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7343,6 +7953,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-1-By-CCs-Conversions",
         "uuid": "71184ff8-6341-4f42-8dd0-64998b538bb5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7367,6 +7979,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-2-By-CCs-Conversions",
         "uuid": "1d0a8f9b-263b-4982-82ee-c4ef2502ae49",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7391,6 +8005,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-2-By-CCs-Conversions",
         "uuid": "20ee36c8-9005-49cf-b0f3-813aea98a54a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7415,6 +8031,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-3-By-CCs-Conversions",
         "uuid": "c801ca7e-3e0f-4477-ba86-d5b5b8cfb779",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7439,6 +8057,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Caudillo-Helmets-Pack-3-By-CCs-Conversions",
         "uuid": "d88356fe-cf40-4304-86b2-b97e4b0a66c5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7463,6 +8083,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.23.1a"
       },
       {
@@ -7487,6 +8109,8 @@
         "url_store": "",
         "uuid": "b5659236-51ac-49a2-9eca-fd3be2356bc7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7511,13 +8135,15 @@
         "url_store": "",
         "uuid": "fdd7ea9e-e6d4-42e0-b56e-8758dd440ea5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1715560803,
-        "date_modified": 1740471756,
+        "date_modified": 1758163021,
         "id": 3541,
         "id_category": 3,
         "id_company": 151,
@@ -7535,6 +8161,8 @@
         "url_store": "",
         "uuid": "c94881f7-6ce1-4fb3-8bd7-018e71d1d19a",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7559,6 +8187,8 @@
         "url_store": "",
         "uuid": "eff1fe07-a393-44f1-a096-bd6df57c3350",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7583,6 +8213,8 @@
         "url_store": "",
         "uuid": "d9423d1d-de54-4712-a8ec-418d95792184",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7607,6 +8239,8 @@
         "url_store": "",
         "uuid": "5d5ce445-0acb-45ca-adb5-4ec764fb33bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7631,6 +8265,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -7655,6 +8291,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Harvester-Armor-Set",
         "uuid": "f9376a41-f4a1-49ec-9863-dc7b3c427f79",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7679,6 +8317,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Greycat-Black-Cherry-Armor-Set",
         "uuid": "7799b79b-2753-4b6a-9965-c99cedff4924",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7703,6 +8343,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Aves-Talon-Shrike-Armor-And-Helmet-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
@@ -7727,13 +8369,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Aves-Talon-Armor-And-Helmet-Set",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1717800606,
-        "date_modified": 1740471822,
+        "date_modified": 1754673758,
         "id": 3737,
         "id_category": 3,
         "id_company": 151,
@@ -7751,6 +8395,8 @@
         "url_store": "",
         "uuid": "6d0485b9-f793-46aa-8b37-9413d588a6bc",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7775,6 +8421,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -7799,6 +8447,8 @@
         "url_store": "",
         "uuid": "2c66dda7-ffab-4f55-9a2d-edc1f25d2ac7",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7823,6 +8473,8 @@
         "url_store": "",
         "uuid": "713c5fd6-20ea-48e4-8c9b-a4c67db5e50c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7847,6 +8499,8 @@
         "url_store": "",
         "uuid": "3acf51a4-9e8f-406f-a857-7ecd3b53e1c0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7871,13 +8525,15 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CitizenCon-2954-Digital-Goodies-Pack-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1726269585,
-        "date_modified": 1740471859,
+        "date_modified": 1754673759,
         "id": 3904,
         "id_category": 3,
         "id_company": 151,
@@ -7895,6 +8551,8 @@
         "url_store": "",
         "uuid": "01159d0d-5212-4587-964e-595be7a73469",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -7919,20 +8577,22 @@
         "url_store": "",
         "uuid": "35a43d37-67fb-487a-b907-727d3737caf1",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1727318970,
-        "date_modified": 1727318989,
+        "date_modified": 1750181842,
         "id": 3935,
         "id_category": 3,
         "id_company": 0,
         "id_parent": 3893,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
-        "is_exclusive_pledge": 0,
+        "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
         "name": "OMNI AFS Sapphire Helmet Slate",
         "notification": null,
@@ -7943,6 +8603,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -7967,6 +8629,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -7991,6 +8655,8 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.1"
       },
       {
@@ -8015,6 +8681,8 @@
         "url_store": "",
         "uuid": "07ed2516-d212-41d0-8bad-0dadd8cfd507",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8039,6 +8707,8 @@
         "url_store": "",
         "uuid": "68007094-1e33-4cc2-bb04-361c76cdb8f2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8063,6 +8733,8 @@
         "url_store": "",
         "uuid": "23336c99-54c1-4c76-beac-ee1104ec3bba",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8087,13 +8759,15 @@
         "url_store": "",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1732719539,
-        "date_modified": 1740471918,
+        "date_modified": 1754673364,
         "id": 4080,
         "id_category": 3,
         "id_company": 0,
@@ -8106,22 +8780,24 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "ambrose-helmet-calico",
         "url_store": "",
         "uuid": "14e936e1-938c-46d6-8552-4958b43e33d2",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1732719539,
-        "date_modified": 1740471919,
+        "date_modified": 1754673556,
         "id": 4081,
         "id_category": 3,
         "id_company": 151,
-        "id_parent": 2602,
+        "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -8135,13 +8811,15 @@
         "url_store": "",
         "uuid": "b29afd36-4a02-4687-819f-f01146352e19",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1732719539,
-        "date_modified": 1740471920,
+        "date_modified": 1754673556,
         "id": 4082,
         "id_category": 3,
         "id_company": 151,
@@ -8159,13 +8837,15 @@
         "url_store": "",
         "uuid": "be6bd379-9f0c-44a7-be78-e2aafe93c7a5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1732719539,
-        "date_modified": 1740471920,
+        "date_modified": 1754673556,
         "id": 4083,
         "id_category": 3,
         "id_company": 151,
@@ -8183,13 +8863,15 @@
         "url_store": "",
         "uuid": "0ddf3144-5380-4f50-857a-bdcccebd7138",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1732719539,
-        "date_modified": 1740471921,
+        "date_modified": 1757921304,
         "id": 4084,
         "id_category": 3,
         "id_company": 151,
@@ -8207,13 +8889,15 @@
         "url_store": "",
         "uuid": "499cb769-9637-4782-940d-c8366c52d672",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1732719539,
-        "date_modified": 1740471921,
+        "date_modified": 1754673758,
         "id": 4085,
         "id_category": 3,
         "id_company": 0,
@@ -8226,18 +8910,20 @@
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
+        "size": "",
         "slug": "oracle-helmet-firebrick",
         "url_store": "",
         "uuid": "8bd6634f-b34a-4e31-b2c5-6e2b792b55f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1732757833,
-        "date_modified": 1740471945,
+        "date_modified": 1754673759,
         "id": 4138,
         "id_category": 3,
         "id_company": 151,
@@ -8255,13 +8941,15 @@
         "url_store": "",
         "uuid": "0e0a054a-a950-414a-bd49-aa600c59290c",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1732959248,
-        "date_modified": 1740471953,
+        "date_modified": 1750179381,
         "id": 4155,
         "id_category": 3,
         "id_company": 0,
@@ -8279,6 +8967,8 @@
         "url_store": "",
         "uuid": "cee7e534-e8f4-49a4-a224-60ce7512adc5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8303,17 +8993,19 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/CCC-Aves-Starchaser-Armor",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1733074749,
-        "date_modified": 1740471958,
+        "date_modified": 1752794510,
         "id": 4175,
         "id_category": 3,
         "id_company": 207,
-        "id_parent": 0,
+        "id_parent": 2712,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
@@ -8327,6 +9019,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Quirinus-Tech-Artimex-Starchaser-Armor",
         "uuid": "3e954276-5977-48d9-9385-fcc00cc8224b",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8351,6 +9045,8 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Gear/Caldera-Pembroke-Starchaser-Edition",
         "uuid": "b8b1992c-11ff-44b4-a381-11ca5a667c89",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8375,54 +9071,60 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "3.24.3"
       },
       {
         "category": "Helmets",
-        "company_name": null,
+        "company_name": "Greycat Industrial",
         "date_added": 1734091794,
-        "date_modified": 1740471985,
+        "date_modified": 1758804098,
         "id": 4235,
         "id_category": 3,
-        "id_company": 0,
+        "id_company": 123,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Ambrose Helmet Onyx",
-        "notification": null,
+        "name": "Strata Helmet Onyx",
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
-        "slug": "ambrose-helmet-onyx",
+        "size": "",
+        "slug": "strata-helmet-onyx",
         "url_store": "",
         "uuid": "93913c87-7031-4058-844b-21e6c4b00d7e",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
-        "company_name": null,
+        "company_name": "Greycat Industrial",
         "date_added": 1734091794,
-        "date_modified": 1740471985,
+        "date_modified": 1758804172,
         "id": 4236,
         "id_category": 3,
-        "id_company": 0,
+        "id_company": 123,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Ambrose Helmet Piston",
-        "notification": null,
+        "name": "Strata Helmet Piston",
+        "notification": "",
         "screenshot": "",
         "section": "Armor",
-        "size": null,
-        "slug": "ambrose-helmet-piston",
+        "size": "",
+        "slug": "strata-helmet-piston",
         "url_store": "",
         "uuid": "86323e60-13a2-40c9-a3bc-3c164ffc1e99",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8447,6 +9149,8 @@
         "url_store": "",
         "uuid": "69e83c93-c4bc-4aba-8ec7-f9a786727ce0",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8471,17 +9175,19 @@
         "url_store": "",
         "uuid": "57386b72-68c8-4d08-ab87-2e2c9e1380e5",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Kastak Arms",
         "date_added": 1739694809,
-        "date_modified": 1740472014,
+        "date_modified": 1754673758,
         "id": 4335,
         "id_category": 3,
         "id_company": 151,
-        "id_parent": 0,
+        "id_parent": 1552,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
@@ -8495,6 +9201,8 @@
         "url_store": "",
         "uuid": "097ee243-84b4-4f9e-8e33-07ad43efdc88",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
@@ -8519,6 +9227,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Headhunters-Carnifex-Lucky-Break-Armor-Set?_gl=1%2A1red3wc%2A_up%2AMQ..%2A_ga%2AOTc4MTg0NTY0LjE3NDExMzI4MDI.%2A_ga_V6MWYXRQNP%2AMTc0MTEzMjgwMi4xLjAuMTc0MTEzMjgwMi42MC4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -8543,6 +9253,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Origin-Racing-Gear-Pack?_gl=1%2A1gv6tr%2A_up%2AMQ..%2A_ga%2AMTQ1MTQ4NTIyMy4xNzQxNzk3Mzky%2A_ga_V6MWYXRQNP%2AMTc0MTc5OTM1NS4yLjEuMTc0MTc5OTM3OS4zNi4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -8567,16 +9279,18 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Murray-Cup-Racing-Gear-Pack?_gl=1%2A1gv6tr%2A_up%2AMQ..%2A_ga%2AMTQ1MTQ4NTIyMy4xNzQxNzk3Mzky%2A_ga_V6MWYXRQNP%2AMTc0MTc5OTM1NS4yLjEuMTc0MTc5OTM3OS4zNi4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
         "category": "Helmets",
-        "company_name": null,
+        "company_name": "Mirai",
         "date_added": 1741800569,
-        "date_modified": 1741810273,
+        "date_modified": 1750182829,
         "id": 4379,
         "id_category": 3,
-        "id_company": 0,
+        "id_company": 281,
         "id_parent": 0,
         "id_vehicle": 0,
         "is_exclusive_concierge": 0,
@@ -8591,13 +9305,15 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Mirai-Racing-Suit-And-Helmet?_gl=1%2A1gv6tr%2A_up%2AMQ..%2A_ga%2AMTQ1MTQ4NTIyMy4xNzQxNzk3Mzky%2A_ga_V6MWYXRQNP%2AMTc0MTc5OTM1NS4yLjEuMTc0MTc5OTM3OS4zNi4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1741800774,
-        "date_modified": 1741800805,
+        "date_modified": 1750182657,
         "id": 4381,
         "id_category": 3,
         "id_company": 0,
@@ -8615,6 +9331,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Star-Kitten-Racing-Gear-Pack?_gl=1%2A1un7w8b%2A_up%2AMQ..%2A_ga%2AMTQ1MTQ4NTIyMy4xNzQxNzk3Mzky%2A_ga_V6MWYXRQNP%2AMTc0MTc5OTM1NS4yLjEuMTc0MTc5OTM3OS4zNi4wLjA.",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
@@ -8639,13 +9357,15 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.2"
       },
       {
         "category": "Helmets",
         "company_name": "Wikelo",
         "date_added": 1743137661,
-        "date_modified": 1743137782,
+        "date_modified": 1750182365,
         "id": 4422,
         "id_category": 3,
         "id_company": 313,
@@ -8663,6 +9383,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Downburst-Patch-Bundle-Warbond",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8687,6 +9409,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8711,6 +9435,8 @@
         "url_store": "",
         "uuid": "d28e663f-32ee-496d-b475-4c84b17158df",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8735,6 +9461,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8759,6 +9487,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8783,13 +9513,15 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Helmets",
         "company_name": "Virgil Ltd",
         "date_added": 1744120978,
-        "date_modified": 0,
+        "date_modified": 1752076827,
         "id": 4442,
         "id_category": 3,
         "id_company": 266,
@@ -8798,7 +9530,7 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Argus Helmet \u0022Scorched\u0022",
+        "name": "Argus Helmet Scorched",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
@@ -8807,7 +9539,9 @@
         "url_store": "",
         "uuid": "acf39e6f-3d0b-4a71-b006-5163e6e9ccff",
         "vehicle_name": null,
-        "game_version": "4.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
       },
       {
         "category": "Helmets",
@@ -8831,6 +9565,8 @@
         "url_store": "",
         "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8855,13 +9591,15 @@
         "url_store": "",
         "uuid": "4fd61c96-a486-4c6d-99dd-96a0722b0f37",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
         "category": "Helmets",
         "company_name": "Roussimoff Rehabilitation Systems",
         "date_added": 1745009565,
-        "date_modified": 1745009615,
+        "date_modified": 1752076828,
         "id": 4463,
         "id_category": 3,
         "id_company": 218,
@@ -8879,7 +9617,9 @@
         "url_store": "",
         "uuid": "6728738c-6b2f-487f-a71c-11005f1144ab",
         "vehicle_name": null,
-        "game_version": "4.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
       },
       {
         "category": "Helmets",
@@ -8903,6 +9643,8 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1"
       },
       {
@@ -8927,37 +9669,41 @@
         "url_store": "https://robertsspaceindustries.com/pledge/Subscribers-Store/Mandible-Firestrike-Helmet",
         "uuid": "1d802d55-acca-416e-b4d0-4fc2f2cc08f4",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.0.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1747181428,
-        "date_modified": 0,
+        "date_modified": 1756339698,
         "id": 4504,
         "id_category": 3,
         "id_company": 207,
         "id_parent": 0,
-        "id_vehicle": null,
+        "id_vehicle": 0,
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 0,
         "is_exclusive_subscriber": 0,
-        "name": "Antium Amor Helmet Storm",
+        "name": "Antium Armor Helmet Storm",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
-        "size": null,
-        "slug": "antium-amor-helmet-storm-83sz",
-        "url_store": null,
-        "uuid": null,
+        "size": "",
+        "slug": "antium-armor-helmet-storm",
+        "url_store": "",
+        "uuid": "",
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": "4.1.1"
       },
       {
         "category": "Helmets",
         "company_name": "Quirinus Tech",
         "date_added": 1747181428,
-        "date_modified": 0,
+        "date_modified": 1758163466,
         "id": 4505,
         "id_category": 3,
         "id_company": 207,
@@ -8975,13 +9721,15 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
-        "game_version": "4.1.1"
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.0"
       },
       {
         "category": "Helmets",
         "company_name": null,
         "date_added": 1747403204,
-        "date_modified": 1747403266,
+        "date_modified": 1750182715,
         "id": 4509,
         "id_category": 3,
         "id_company": 0,
@@ -8990,15 +9738,17 @@
         "is_exclusive_concierge": 0,
         "is_exclusive_pledge": 1,
         "is_exclusive_subscriber": 0,
-        "name": "DCP Armor True Valor Helmet",
+        "name": "DCP Armor Helmet True Valor",
         "notification": null,
         "screenshot": "",
         "section": "Armor",
         "size": null,
-        "slug": "dcp-armor-true-valor-helmet",
+        "slug": "dcp-armor-helmet-true-valor",
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/True-Valor-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -9023,6 +9773,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Clawed-Steel-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -9047,6 +9799,8 @@
         "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/New-Dawn-Patch-Bundle-Warbond",
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       },
       {
@@ -9071,6 +9825,1178 @@
         "url_store": null,
         "uuid": null,
         "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Caldera",
+        "date_added": 1748012119,
+        "date_modified": 1750180606,
+        "id": 4564,
+        "id_category": 3,
+        "id_company": 41,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Stirling Exploration Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "stirling-exploration-helmet",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Wikelo",
+        "date_added": 1748628448,
+        "date_modified": 1748628576,
+        "id": 4589,
+        "id_category": 3,
+        "id_company": 313,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Ana Armor Helmet Endro",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "ana-armor-helmet-endro",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Downburst-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Caldera",
+        "date_added": 1748720283,
+        "date_modified": 1750180561,
+        "id": 4599,
+        "id_category": 3,
+        "id_company": 41,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Stirling Exploration Helmet ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "stirling-exploration-helmet-asd-edition",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Caldera",
+        "date_added": 1750179951,
+        "date_modified": 1750180433,
+        "id": 4628,
+        "id_category": 3,
+        "id_company": 41,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Stirling Exploration Helmet Tungsten Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "stirling-exploration-helmet-tungsten-edition",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Caldera",
+        "date_added": 1750407881,
+        "date_modified": 1750407999,
+        "id": 4631,
+        "id_category": 3,
+        "id_company": 41,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Stirling Hazard Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "stirling-hazard-helmet",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Hazard-Patch-Bundle-Warbond",
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751121118,
+        "date_modified": 1751121215,
+        "id": 4638,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Crusader Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "strata-helmet-crusader-edition",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751215426,
+        "date_modified": 1751215469,
+        "id": 4658,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet ArcCorp Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-arccorp-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751215903,
+        "date_modified": 1751215939,
+        "id": 4662,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Hurston Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-hurston-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1751216380,
+        "date_modified": 1751216419,
+        "id": 4667,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet microTech Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-microtech-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1751639636,
+        "date_modified": 1751639721,
+        "id": 4703,
+        "id_category": 3,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "GCD-Army Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "gcd-army-helmet",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1751648422,
+        "date_modified": 1758733233,
+        "id": 4706,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 4434,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH-I Helmet Pyrotechnic - IceFlow",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "morozov-sh-i-helmet-pyrotechnic---white-yw4m",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1751648422,
+        "date_modified": 1758765630,
+        "id": 4707,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 4434,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH-I Helmet Pyrotechnic - Spite",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "morozov-sh-i-helmet-pyrotechnic---yellow-fqsu",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1751648422,
+        "date_modified": 0,
+        "id": 4708,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 4434,
+        "id_vehicle": null,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH-I Helmet Pyrotechnic - Blue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "morozov-sh-i-helmet-pyrotechnic---blue-exec",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1752076827,
+        "date_modified": 1752091243,
+        "id": 4714,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 0,
+        "id_vehicle": null,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH Helmet Scorched",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "morozov-sh-helmet-scorched-1szp",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1752080427,
+        "date_modified": 1752091243,
+        "id": 4719,
+        "id_category": 3,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": null,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "CBH-3 Helmet Executive",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "cbh-3-helmet-executive-us7d",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.2"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Quirinus Tech",
+        "date_added": 1752794361,
+        "date_modified": 1752794534,
+        "id": 4740,
+        "id_category": 3,
+        "id_company": 207,
+        "id_parent": 2712,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Artimex Helmet Hurston Dynamics",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "artimex-helmet-hurston-dynamics",
+        "url_store": "",
+        "uuid": "7491b9a8-f601-47d4-97ff-148924704363",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752887146,
+        "date_modified": 1752887192,
+        "id": 4750,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Greycat Industrial Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-greycat-industrial-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Greycat-Industrial-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752887783,
+        "date_modified": 1752887822,
+        "id": 4759,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Pyrotechnic Amalgamated Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-pyrotechnic-amalgamated-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Pyrotechnic-Amalgamated-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1752888165,
+        "date_modified": 1752888217,
+        "id": 4765,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Shubin Interstellar Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-shubin-interstellar-edition",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Shubin-Interstellar-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1754279116,
+        "date_modified": 1758163329,
+        "id": 4806,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Rogue",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-rogue",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1754366717,
+        "date_modified": 1758163329,
+        "id": 4813,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Whiteout",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-whiteout",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1754367330,
+        "date_modified": 1758163329,
+        "id": 4819,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Forest",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-forest",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1755217803,
+        "date_modified": 1758163329,
+        "id": 4838,
+        "id_category": 3,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet ASD Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-asd-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.0"
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1755386327,
+        "date_modified": 1758163329,
+        "id": 4847,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Golden Blossom",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-golden-blossom",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Golden-Blossom-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1756059930,
+        "date_modified": 0,
+        "id": 4862,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morningstar Helmet White",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "morningstar-helmet-white",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1756059930,
+        "date_modified": 0,
+        "id": 4863,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morningstar Helmet Red",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "morningstar-helmet-red",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1756339928,
+        "date_modified": 1758163329,
+        "id": 4874,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1756526477,
+        "date_modified": 1758163329,
+        "id": 4879,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Desert",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-desert",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Quirinus Tech",
+        "date_added": 1756854315,
+        "date_modified": 1756854372,
+        "id": 4893,
+        "id_category": 3,
+        "id_company": 207,
+        "id_parent": 4281,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 1,
+        "name": "Calva Helmet Daybreaker",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "calva-helmet-daybreaker",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Subscribers-Store/Quirinus-Tech-Daybreaker-Undersuit-And-Helmet",
+        "uuid": "57386b72-68c8-4d08-ab87-2e2c9e1380e5",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1757111434,
+        "date_modified": 1757111662,
+        "id": 4897,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Heatwave",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-heatwave",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Tehachapi",
+        "date_added": 1757551508,
+        "date_modified": 1757551761,
+        "id": 4908,
+        "id_category": 3,
+        "id_company": 241,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Ixonia Helmet Verdant Steel",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "ixonia-helmet-verdant-steel",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Virgil Ltd",
+        "date_added": 1757924906,
+        "date_modified": 1757925448,
+        "id": 4928,
+        "id_category": 3,
+        "id_company": 266,
+        "id_parent": 2721,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Paladin Helmet Black/Gold/Red",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "paladin-helmet-black-gold-red",
+        "url_store": "",
+        "uuid": "7327ea89-c9dc-462b-9517-1739dbfaa184",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1757998866,
+        "date_modified": 1758163329,
+        "id": 4929,
+        "id_category": 3,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Geist Armor Helmet Snow Camo",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "geist-armor-helmet-snow-camo-grsd",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.0"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Caldera",
+        "date_added": 1758161883,
+        "date_modified": 1758162091,
+        "id": 4945,
+        "id_category": 3,
+        "id_company": 41,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Stirling Exploration Helmet Chroma Edition",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "stirling-exploration-helmet-chroma-edition",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1758214177,
+        "date_modified": 1758214210,
+        "id": 4954,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Hurston Dynamics Black",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-hurston-dynamics-black",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1758230062,
+        "date_modified": 0,
+        "id": 4958,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Oracle Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": null,
+        "slug": "oracle-helmet",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Quirinus Tech",
+        "date_added": 1758330017,
+        "date_modified": 1758721336,
+        "id": 4960,
+        "id_category": 3,
+        "id_company": 207,
+        "id_parent": 2712,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Artimex Helmet Elysium",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "artimex-helmet-elysium",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Elysium-Patch-Bundle-Warbond",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1758330017,
+        "date_modified": 1758386964,
+        "id": 4965,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 1,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov-SH-I Helmet Lifeforce",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "morozov-sh-i-helmet-lifeforce-u6qc",
+        "url_store": "https://robertsspaceindustries.com/en/pledge/Gear/Medical-Career-Kit-Heavy",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Roussimoff Rehabilitation Systems",
+        "date_added": 1758733233,
+        "date_modified": 0,
+        "id": 4977,
+        "id_category": 3,
+        "id_company": 218,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Morozov SH-I Pyrotechnic - Spitfire",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "morozov-sh-i-pyrotechnic---spitfire-ysh5",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765631,
+        "date_modified": 0,
+        "id": 4981,
+        "id_category": 3,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Helmet Patina",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-helmet-patina-kalw",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1758765632,
+        "date_modified": 0,
+        "id": 4985,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Helmet Halcyon",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-helmet-halcyon-czap",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 1,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765633,
+        "date_modified": 0,
+        "id": 4989,
+        "id_category": 3,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Helmet Smolder",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-helmet-smolder-h1wm",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Clark Defense Systems",
+        "date_added": 1758765634,
+        "date_modified": 0,
+        "id": 4996,
+        "id_category": 3,
+        "id_company": 53,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Corbel Helmet Mire",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "corbel-helmet-mire-mqly",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.3.1"
+      },
+      {
+        "category": "Helmets",
+        "company_name": null,
+        "date_added": 1759836629,
+        "date_modified": 0,
+        "id": 5024,
+        "id_category": 3,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Palatino Helmet",
+        "notification": null,
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "palatino-helmet",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Helmets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1759937409,
+        "date_modified": 1759937731,
+        "id": 5029,
+        "id_category": 3,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Strata Helmet Calico",
+        "notification": "",
+        "screenshot": "",
+        "section": "Armor",
+        "size": "",
+        "slug": "strata-helmet-calico",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
         "game_version": null
       }
     ],
@@ -9081,7 +11007,7 @@
   "StatusCode": 200,
   "Headers": {
     "Date": [
-      "Thu, 22 May 2025 06:19:37 GMT"
+      "Fri, 10 Oct 2025 04:47:18 GMT"
     ],
     "Transfer-Encoding": [
       "chunked"
@@ -9089,50 +11015,66 @@
     "Connection": [
       "keep-alive"
     ],
-    "Server": [
-      "cloudflare"
-    ],
-    "Nel": [
-      "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-    ],
-    "Cf-Ray": [
-      "943a33f44c91f97e-PRG"
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000"
-    ],
-    "Cf-Cache-Status": [
-      "DYNAMIC"
-    ],
-    "Cache-Control": [
-      "public, must-revalidate, max-age=86400"
-    ],
     "Access-Control-Allow-Origin": [
       "*"
     ],
-    "X-Frame-Options": [
-      "SAMEORIGIN"
-    ],
-    "Content-Security-Policy": [
-      "frame-ancestors \u0027self\u0027"
-    ],
-    "Vary": [
-      "Accept-Encoding"
-    ],
-    "Report-To": [
-      "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=f9ZdyeqgV2FPqsr4c7mKD%2FSwj4BC7KSySGi4TZeVyG4sxVaMpyfxZMBj4nXKIspwrlrd6HFuZIPAng6flek%2F33a%2BISyZrW009LPGnap99DGYXM6egsGj0ruENHSoSyi4cBUwVQ%3D%3D\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
+    "Age": [
+      "2008"
     ],
     "Alt-Svc": [
       "h3=\u0022:443\u0022"
     ],
-    "Server-Timing": [
-      "cfL4;desc=\u0022?proto=TCP\u0026rtt=4174\u0026min_rtt=4044\u0026rtt_var=1609\u0026sent=4\u0026recv=6\u0026lost=0\u0026retrans=0\u0026sent_bytes=2832\u0026recv_bytes=639\u0026delivery_rate=722057\u0026cwnd=251\u0026unsent_bytes=0\u0026cid=b557251b02aae575\u0026ts=404\u0026x=0\u0022"
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84392; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=hOrMCdth12IbdJgZKNp0GJ2fWMhaWxHVhbXr0ubbuoAX0KNgthLhi%2BImSwWD2wNYOKfaYJEIzjd9y3Fiwfnb%2BARxts3efhV%2FaJoZOA%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9a7e5bf97a-PRG"
     ],
     "Content-Type": [
       "application/json"
     ],
     "Expires": [
-      "Fri, 23 May 2025 06:19:37 GMT"
+      "Sat, 11 Oct 2025 04:13:51 GMT"
     ]
   }
 }

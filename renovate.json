@@ -1,0 +1,21 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended"
+    ],
+    "labels": [
+        "automated",
+        "build/publish"
+    ],
+    "reviewers": [
+        "team:overlay-maintainers"
+    ],
+    "lockFileMaintenance": {
+        "enabled": true
+    },
+    "packageRules": [
+        {
+            "matchDatasources": ["nuget"]
+        }
+    ]
+}

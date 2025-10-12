@@ -6,6 +6,7 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Quartz;
 
@@ -17,11 +18,18 @@ using Quartz;
 /// <param name="logger">A logger</param>
 /// <typeparam name="T">Internal entity domain type</typeparam>
 internal sealed class GameEntityRepositorySyncManager<T>(
+    IRepositorySyncStrategy syncStrategy,
+    IHostApplicationLifetime hostApplicationLifetime,
     IEnumerable<IGameEntityExternalSyncRepository<T>> syncRepositories,
     IGameEntityRepository<T> repository,
     ILogger<GameEntityRepositorySyncManager<T>> logger
-) : SelfInitializableServiceBase, ISelfUpdatable where T : class, IGameEntity
+) : SelfInitializableServiceBase, ISelfUpdatable, IDisposable where T : class, IGameEntity
 {
+    private bool _refreshQueued;
+
+    public void Dispose()
+        => syncStrategy.ShouldUpdateNowChanged -= OnShouldUpdateNowChanged;
+
     public ITrigger Trigger { get; } = TriggerBuilder.Create()
         .StartAt(DateTimeOffset.UtcNow + TimeSpan.FromMinutes(10))
         .WithSimpleSchedule(schedule => schedule.WithInterval(TimeSpan.FromMinutes(10)).RepeatForever())
@@ -35,6 +43,14 @@ internal sealed class GameEntityRepositorySyncManager<T>(
 
     private async Task UpdateAsync(bool onlyWhenNecessary, CancellationToken cancellationToken)
     {
+        if (repository.DataState is not DataMissing && onlyWhenNecessary && syncStrategy.ShouldNotUpdateNow)
+        {
+            logger.LogDebug("Preventing repository update when idling, will refresh on next state change");
+            QueueRefreshOnChange();
+            return;
+        }
+
+        RefreshPerformed();
         var currentDataState = repository.DataState;
         if (!onlyWhenNecessary && currentDataState is DataCached cached)
         {
@@ -71,11 +87,41 @@ internal sealed class GameEntityRepositorySyncManager<T>(
         await repository.UpdateAllAsync(aggregateSyncData, cancellationToken);
     }
 
+    private void QueueRefreshOnChange()
+    {
+        lock (this)
+        {
+            _refreshQueued = true;
+        }
+    }
+
+    private void RefreshPerformed()
+    {
+        lock (this)
+        {
+            _refreshQueued = false;
+        }
+    }
+
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
     {
+        syncStrategy.ShouldUpdateNowChanged += OnShouldUpdateNowChanged;
+
         // runs initial data update - this is fast-tracked with whatever cache is available based on initial repository state
         await UpdateIfNecessaryAsync(cancellationToken);
         // launches secondary data update to update expired data on the background
         _ = Task.Run(() => UpdateIfNecessaryAsync(cancellationToken), cancellationToken);
+    }
+
+    private void OnShouldUpdateNowChanged(object? sender, bool shouldUpdate)
+    {
+        lock (this)
+        {
+            if (_refreshQueued && shouldUpdate)
+            {
+                var cancellationToken = hostApplicationLifetime.ApplicationStopping;
+                _ = Task.Run(() => UpdateIfNecessaryAsync(cancellationToken), cancellationToken);
+            }
+        }
     }
 }

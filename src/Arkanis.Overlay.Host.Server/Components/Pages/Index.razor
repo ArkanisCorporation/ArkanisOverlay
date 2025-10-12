@@ -10,6 +10,7 @@
 @using Arkanis.Overlay.Domain.Models.Trade
 @using Arkanis.Overlay.Host.Server.Models
 @using Arkanis.Overlay.Host.Server.Services
+@using Arkanis.Overlay.Infrastructure.Helpers
 @using MoreLinq
 @inject IDialogService DialogService
 @inject IAppVersionProvider VersionProvider
@@ -57,23 +58,18 @@
                 </MudButton>
 
                 <MudSpacer/>
-                @foreach (var contributor in Contributors)
-                {
-                    <MudLink Href="@contributor.Link" Target="_blank">
-                        <MudTooltip Text="@contributor.Name">
-                            <MudAvatar>
-                                <MudImage
-                                    Src="@contributor.AvatarLink"
-                                    alt="avatar"/>
-                            </MudAvatar>
-                        </MudTooltip>
-                    </MudLink>
-                }
+                <DeveloperAvatars
+                    OutlineCustomColor="var(--mud-palette-appbar-background)"/>
                 <MudIconButton
                     Icon="@Icons.Material.Outlined.Info"
-                    Color="Color.Inherit"
-                    Edge="Edge.End"
+                    Color="@Color.Inherit"
+                    Edge="@Edge.End"
                     OnClick="@(() => AboutDialog.ShowAsync(DialogService))"/>
+                <MudIconButton
+                    Icon="@MaterialSymbols.Rounded.Favorite"
+                    Color="@Color.Warning"
+                    Edge="@Edge.End"
+                    OnClick="@(() => SubscribeDialog.ShowAsync(DialogService))"/>
             </MudStack>
         </MudContainer>
     </MudAppBar>
@@ -102,14 +98,14 @@
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Material.Filled.Web"
-                               Href="https://arkanis.cc"
+                               Href="@ExternalLinkHelper.ArkanisWebUri.ToString()"
                                Target="_blank">
                         Visit Arkanis Website
                     </MudButton>
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Custom.Brands.Discord"
-                               Href="https://join.arkanis.cc"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
                                Target="_blank">
                         Join the Community
                     </MudButton>
@@ -439,7 +435,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.Location])"
+                        Groupings="@([InventoryEntryDataGrid.Column.LocationOrVehicle])"
                         ExpandAll/>
                 </MudPaper>
 
@@ -469,7 +465,7 @@
                     <InventoryEntryDataGrid
                         Models="@InventoryEntries"
                         Lists="@InventoryLists"
-                        Groupings="@( [InventoryEntryDataGrid.Column.List])"
+                        Groupings="@([InventoryEntryDataGrid.Column.List])"
                         ExpandAll/>
                 </MudPaper>
             </MudStack>
@@ -477,8 +473,8 @@
             <MudDivider Class="my-8"/>
 
             <MudPaper Elevation="0" Class="pa-6">
-                <MudText Typo="Typo.h5" Class="mb-2">Built with the Community in Mind</MudText>
-                <MudText Typo="Typo.body1" Class="mb-4">
+                <MudText Typo="@Typo.h5" Class="mb-2">Built with the Community in Mind</MudText>
+                <MudText Typo="@Typo.body1" Class="mb-4">
                     Arkanis Overlay is free to use and open source.
                     Contribute, test, or suggest improvements on GitHub or Discord.
                 </MudText>
@@ -486,7 +482,7 @@
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Secondary"
                                StartIcon="@Icons.Custom.Brands.Discord"
-                               Href="@DiscordUrl"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
                                Target="_blank">
                         Join the Community
                     </MudButton>
@@ -502,6 +498,19 @@
 
             <MudDivider Class="my-8"/>
 
+            <MudStack AlignItems="@AlignItems.Center">
+                <SubscriberAvatarsCurrent OutlineCustomColor="var(--mud-palette-background)">
+                    <BeforeContent>
+                        <MudText Typo="@Typo.h5" Class="mb-2">
+                            Huge thanks to all our current and past supporters!
+                        </MudText>
+
+                    </BeforeContent>
+                </SubscriberAvatarsCurrent>
+            </MudStack>
+
+            <MudDivider Class="my-8"/>
+
             <div class="text-center">
                 @VersionProvider.CurrentVersion.ToNormalizedString()
             </div>
@@ -514,7 +523,6 @@
 {
 
     private const string GitHubRepositoryUrl = ApplicationConstants.GitHubRepositoryUrl;
-    private const string DiscordUrl = "https://join.arkanis.cc";
 
     private AppRelease ReleaseAppRelease { get; set; } = AppReleaseMissing.Instance;
     private IGameLocation[] Locations { get; set; } = [];
@@ -525,22 +533,6 @@
 
     private InventoryEntryBase[] InventoryEntries { get; set; } = [];
     private InventoryEntryList[] InventoryLists { get; set; } = [];
-
-    private ContributorEntry[] Contributors { get; } =
-    [
-        new()
-        {
-            Name = "FatalMerlin",
-            AvatarLink = "https://cdn.discordapp.com/avatars/174617873182883841/b797e2c4b2a60a934704456655d13f7c.webp?size=64",
-            Link = "https://discord.com/users/174617873182883841",
-        },
-        new()
-        {
-            Name = "TheKronnY",
-            AvatarLink = "https://robertsspaceindustries.com/media/vik3yf6mmx64tr/avatar/7c6031e0-1f66-47c0-A147-C801168e1c09.jpg",
-            Link = "https://discord.com/users/224580858432978944",
-        },
-    ];
 
     protected override async Task OnInitializedAsync()
     {
@@ -612,16 +604,16 @@
 
             InventoryEntries =
             [
-                InventoryEntry.Create(Commodities[0], NewScu(11), Locations[0], InventoryLists[0]),
-                InventoryEntry.Create(Commodities[1], NewScu(34), Locations[0], InventoryLists[1]),
-                InventoryEntry.Create(Commodities[1], NewScu(8), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Commodities[2], NewScu(27), Locations[1]),
-                InventoryEntry.Create(Items[0], new Quantity(3, Quantity.UnitType.Count), Locations[0], InventoryLists[0]),
-                InventoryEntry.Create(Items[0], new Quantity(4, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Items[0], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
-                InventoryEntry.Create(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
-                InventoryEntry.Create(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
-                InventoryEntry.Create(Items[2], new Quantity(4, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Commodities[0], NewScu(11), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(34), Locations[0], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(8), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[2], NewScu(27), Locations[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(3, Quantity.UnitType.Count), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(4, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[2], new Quantity(4, Quantity.UnitType.Count), Locations[2]),
             ];
         }
 
@@ -629,13 +621,6 @@
 
         Quantity NewScu(int amount)
             => new(amount, Quantity.UnitType.StandardCargoUnit);
-    }
-
-    private class ContributorEntry
-    {
-        public required string Name { get; set; }
-        public required string AvatarLink { get; set; }
-        public required string Link { get; set; }
     }
 
 }

@@ -77,7 +77,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count));
         await inventoryManager.AddOrUpdateEntryAsync(source);
 
-        var updatedSource = source.SetLocation(GameEntityFixture.Outpost);
+        var updatedSource = source.TransferTo(GameEntityFixture.Outpost);
         await inventoryManager.AddOrUpdateEntryAsync(updatedSource);
 
         var databaseEntries = await inventoryManager.GetAllEntriesAsync();
@@ -208,11 +208,11 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         await SetUp();
 
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
-        var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count)).SetLocation(GameEntityFixture.Outpost);
+        var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count)).TransferTo(GameEntityFixture.Outpost);
 
         await inventoryManager.AddOrUpdateEntryAsync(source);
 
-        var updated = source.SetLocation(GameEntityFixture.City);
+        var updated = source.TransferTo(GameEntityFixture.City);
         await inventoryManager.AddOrUpdateEntryAsync(updated);
 
         var dbEntry = (await inventoryManager.GetAllEntriesAsync()).Single(x => x.Id == source.Id);

@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Watch: Server" type="RunDotNetWatch" factoryName="RunDotNetWatch">
+    <option name="envs">
+      <map>
+        <entry key="DOTNET_ENVIRONMENT" value="Development" />
+      </map>
+    </option>
+    <option name="exePath" value="$PROJECT_DIR$/artifacts/bin/Arkanis.Overlay.Host.Server/debug/Arkanis.Overlay.Host.Server.exe" />
+    <option name="programParameters" value="" />
+    <option name="projectFilePath" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj" />
+    <option name="projectTfm" value="net8.0" />
+    <option name="restartOnRudeEditEditor" value="true" />
+    <option name="useExternalConsole" value="true" />
+    <option name="watchParameters" value="" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Server" />
+    <method v="2" />
+  </configuration>
+</component>

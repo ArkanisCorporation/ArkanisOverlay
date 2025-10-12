@@ -1,0 +1,42 @@
+@using MudBlazor.Utilities
+<MudAvatar Size="@Size" Style="@StyleBuilder.Build()">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else if (ImageUrl is not null)
+    {
+        <MudImage Src="@ImageUrl" Alt="@ImageAlt"/>
+    }
+    else
+    {
+        <MudText>
+            @ImageAlt
+        </MudText>
+    }
+</MudAvatar>
+
+@code
+{
+
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public string? ImageAlt { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; } = Size.Medium;
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private StyleBuilder StyleBuilder
+        => new StyleBuilder()
+            .AddStyle("background-color", OutlineCustomColor, () => OutlineCustomColor is not null)
+            .AddStyle("border-color", OutlineCustomColor, () => OutlineCustomColor is not null);
+
+}

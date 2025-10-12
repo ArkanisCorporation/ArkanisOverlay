@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using Common;
+using Common.Options;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -30,6 +30,7 @@ public class WindowsAutoStartManager(
     public Task StartAsync(CancellationToken cancellationToken)
     {
         userPreferencesProvider.ApplyPreferences += OnUserApplyPreferences;
+        OnUserApplyPreferences(null, userPreferencesProvider.CurrentPreferences);
         return Task.CompletedTask;
     }
 

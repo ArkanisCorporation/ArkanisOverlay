@@ -66,7 +66,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(13)
+                        .HasMaxLength(21)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EntryType")
@@ -242,18 +242,72 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.HangarInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<bool>("IsPledged")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LocationId")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("LocationId");
+
+                    b.Property<string>("NameTag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UexHangarEntryId")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("UexReferenceId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasDiscriminator().HasValue("Hangar");
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.LocationInventoryEntryEntity", b =>
                 {
                     b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
 
                     b.Property<string>("LocationId")
                         .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("TEXT")
                         .HasColumnName("LocationId");
 
                     b.HasIndex("LocationId");
 
                     b.HasDiscriminator().HasValue("Location");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VehicleInventoryEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<Guid>("HangarEntryId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("HangarEntryId");
+
+                    b.HasIndex("HangarEntryId");
+
+                    b.HasDiscriminator().HasValue("VehicleInventory");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VehicleModuleEntryEntity", b =>
+                {
+                    b.HasBaseType("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase");
+
+                    b.Property<Guid>("HangarEntryId")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("HangarEntryId");
+
+                    b.HasIndex("HangarEntryId");
+
+                    b.HasDiscriminator().HasValue("VehicleModule");
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VirtualInventoryEntryEntity", b =>
@@ -418,6 +472,28 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VehicleInventoryEntryEntity", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.HangarInventoryEntryEntity", "HangarEntry")
+                        .WithMany("Inventory")
+                        .HasForeignKey("HangarEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HangarEntry");
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.VehicleModuleEntryEntity", b =>
+                {
+                    b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.HangarInventoryEntryEntity", "HangarEntry")
+                        .WithMany("Modules")
+                        .HasForeignKey("HangarEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HangarEntry");
+                });
+
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+AcquisitionStage", b =>
                 {
                     b.HasOne("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity", null)
@@ -464,6 +540,13 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                 {
                     b.Navigation("Quantity")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.HangarInventoryEntryEntity", b =>
+                {
+                    b.Navigation("Inventory");
+
+                    b.Navigation("Modules");
                 });
 #pragma warning restore 612, 618
         }
