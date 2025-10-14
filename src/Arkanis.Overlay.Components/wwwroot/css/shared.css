@@ -121,6 +121,11 @@
     overflow: visible;
 }
 
+/* Allow badges to overflow popovers (keyboard shortcuts) */
+.mud-popover:has(>.mud-menu-list>.mud-badge-root) {
+    overflow: visible;
+}
+
 .mud-data-grid .mud-table-row .mud-table-cell.mud-datagrid-group,
 .mud-table .mud-table-row th.mud-table-cell {
     background-color: var(--mud-palette-surface);
