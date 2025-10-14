@@ -9,7 +9,7 @@ public static class UexConstants
     public const string ApiBaseUrl = "https://uex-proxy.arkanis.space/2.0";
 
     public const string AssetsBaseUrl = "https://assets.uexcorp.space/img";
-    public const string AssetsPreferredUrl = "https://assets.uexcorp.space/img";
+    public const string AssetsPreferredUrl = "https://d3a1t0pe7zmm0w.cloudfront.net";
 
     public static readonly ExternalAuthenticatorInfo ProviderInfo = new()
     {
