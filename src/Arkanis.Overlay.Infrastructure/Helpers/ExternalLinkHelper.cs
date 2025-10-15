@@ -91,8 +91,8 @@ public static class ExternalLinkHelper
         => AddAttributionGoogleAnalyticsTo("https://discord.com", contentId);
 
     public static string GetKoFiUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorp", contentId, InternalCampaign);
+        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorporation", contentId, InternalCampaign);
 
     public static string GetPatreonUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorp", contentId, InternalCampaign);
+        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorporation", contentId, InternalCampaign);
 }
