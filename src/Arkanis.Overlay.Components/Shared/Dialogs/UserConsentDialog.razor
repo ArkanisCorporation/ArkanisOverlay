@@ -18,6 +18,7 @@
 
         <MudButton Color="@Color.Success"
                    Variant="@Variant.Outlined"
+                   Disabled="@(!Context.CanConsent)"
                    OnClick="@Consent">
             I agree, continue
         </MudButton>
