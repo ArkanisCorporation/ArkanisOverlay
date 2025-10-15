@@ -4,6 +4,7 @@ using Common;
 using Common.Enums;
 using Common.Extensions;
 using Common.Models;
+using Common.Services;
 using Data;
 using Domain.Abstractions.Services;
 using External.Backend.Options;
@@ -68,6 +69,7 @@ public static class DependencyInjection
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
             .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
+        services.AddSingleton<ExternalAuthenticatorProvider>();
         services
             .AddUexAccountAuthentication()
             .AddSingleton<IOptionsChangeTokenSource<UexApiOptions>, UserPreferencesBasedOptionsChangeTokenSource<UexApiOptions>>()
@@ -114,6 +116,7 @@ public static class DependencyInjection
     public static IServiceCollection AddUexAccountAuthentication(this IServiceCollection services)
         => services
             .AddSingleton<UexAuthenticator>()
+            .Alias<ExternalAuthenticator, UexAuthenticator>()
             .AddSingleton<UexAccountContext>()
             .Alias<IExternalAccountContext, UexAccountContext>();
 
