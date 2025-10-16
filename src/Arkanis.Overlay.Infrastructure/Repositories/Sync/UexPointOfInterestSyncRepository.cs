@@ -7,6 +7,7 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Services;
 
 internal class UexPointOfInterestSyncRepository(
@@ -28,9 +29,16 @@ internal class UexPointOfInterestSyncRepository(
             .AlsoDependsOn<GameCity>()
             .AlsoDependsOn<GameOutpost>();
 
-    protected override async Task<UexApiResponse<ICollection<PointOfInterestDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+
+    protected override async Task<UexApiResponse<ICollection<PointOfInterestDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await gameApi.GetPoiAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await gameApi.GetPoiAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data?.Where(x => x.Is_available > 0).ToList());
     }
 

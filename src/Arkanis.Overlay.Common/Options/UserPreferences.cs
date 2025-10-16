@@ -44,7 +44,7 @@ public record UserPreferences
     {
         if (GetCredentialsOrDefaultFor(serviceId) is not { } credentials)
         {
-            ExternalServiceCredentials.Add(credentials = new AccountCredentials(serviceId));
+            ExternalServiceCredentials.Add(credentials = new AccountEmptyCredentials(serviceId));
         }
 
         return credentials;

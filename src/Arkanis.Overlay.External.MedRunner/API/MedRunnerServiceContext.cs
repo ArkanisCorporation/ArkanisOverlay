@@ -2,10 +2,11 @@ namespace Arkanis.Overlay.External.MedRunner.API;
 
 using System.Security.Claims;
 using Abstractions;
+using Common;
+using Common.Models;
+using Common.Options;
 using Common.Services;
-using Domain;
 using Domain.Abstractions.Services;
-using Domain.Options;
 using Microsoft.Extensions.Logging;
 using Models;
 
@@ -106,11 +107,14 @@ public sealed class MedRunnerServiceContext : SelfInitializableServiceBase, IMed
     private async void OnUpdatePreferences(object? sender, UserPreferences currentPreferences)
     {
         var credentials = currentPreferences.GetOrCreateCredentialsFor(ExternalService.MedRunner);
-        if (credentials.SecretToken is { Length: > 0 } token)
+
+        if (credentials is not AccountApiTokenCredentials tokenCredentials)
         {
-            _clientConfig.SetApiToken(token);
-            await RefreshAsync(CancellationToken.None);
+            return;
         }
+
+        _clientConfig.SetApiToken(tokenCredentials.SecretToken);
+        await RefreshAsync(CancellationToken.None);
     }
 
     private async Task RefreshClientStatusAsync()

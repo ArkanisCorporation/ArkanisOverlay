@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 [JsonDerivedType(typeof(AccountOidcCredentials), "v1/oidc")]
 [JsonDerivedType(typeof(AccountOAuth2Credentials), "v1/oauth2")]
 [JsonDerivedType(typeof(AccountApiTokenCredentials), "v1/token")]
-public record AccountCredentials(string ServiceId);
+public abstract record AccountCredentials(string ServiceId);
 
 public sealed record AccountEmptyCredentials(string ServiceId) : AccountCredentials(ServiceId);
 

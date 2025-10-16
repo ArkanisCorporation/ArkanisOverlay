@@ -22,7 +22,7 @@ public class ClientEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvid
     /// <inheritdoc />
     public async Task<ApiResponse<ApiPaginatedResponse<ClientHistory>>> GetHistoryAsync(int limit, string? paginationToken = null)
     {
-        var queryParams = new Dictionary<string, string>
+        var queryParams = new Dictionary<string, string?>
         {
             ["limit"] = limit.ToString(CultureInfo.InvariantCulture),
         };

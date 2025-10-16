@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local;
 
 using System.Runtime.CompilerServices;
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
@@ -8,7 +9,6 @@ using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using MoreAsyncLINQ;
-using Services;
 using Services.Abstractions;
 
 /// <summary>
