@@ -23,7 +23,7 @@ public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenP
     /// <inheritdoc />
     public async Task<ApiResponse<ApiPaginatedResponse<ChatMessage>>> GetMessageHistoryAsync(string emergencyId, int limit, string? paginationToken = null)
     {
-        var queryParams = new Dictionary<string, string>
+        var queryParams = new Dictionary<string, string?>
         {
             ["limit"] = limit.ToString(CultureInfo.InvariantCulture),
         };

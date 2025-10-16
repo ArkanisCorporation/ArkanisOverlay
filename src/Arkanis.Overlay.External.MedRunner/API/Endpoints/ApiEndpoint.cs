@@ -60,7 +60,7 @@ public abstract class ApiEndpoint(
     /// <summary>
     ///     Builds the full URL for a request.
     /// </summary>
-    protected string BuildUrl(string endpoint, Dictionary<string, string>? queryParams = null)
+    protected string BuildUrl(string endpoint, Dictionary<string, string?>? queryParams = null)
     {
         var baseUrl = EndpointUrl().TrimEnd('/');
         var url = $"{baseUrl}/{endpoint.TrimStart('/')}";
@@ -104,7 +104,7 @@ public abstract class ApiEndpoint(
     /// </summary>
     protected async Task<ApiResponse<T>> GetRequestAsync<T>(
         string endpoint,
-        Dictionary<string, string>? queryParams = null,
+        Dictionary<string, string?>? queryParams = null,
         RequestOptions? requestOptions = null
     )
     {
@@ -176,7 +176,7 @@ public abstract class ApiEndpoint(
     /// </summary>
     protected async Task<ApiResponse<T>> DeleteRequestAsync<T>(
         string endpoint,
-        Dictionary<string, string>? queryParams = null,
+        Dictionary<string, string?>? queryParams = null,
         RequestOptions? requestOptions = null
     )
     {
