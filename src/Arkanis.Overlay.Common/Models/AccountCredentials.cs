@@ -26,5 +26,5 @@ public record AccountOAuth2Credentials(string ServiceId) : AccountCredentials(Se
 
 public sealed record AccountOidcCredentials(string ServiceId) : AccountOAuth2Credentials(ServiceId)
 {
-    public required string IdToken { get; set; }
+    public string? IdToken { get; set; }
 }

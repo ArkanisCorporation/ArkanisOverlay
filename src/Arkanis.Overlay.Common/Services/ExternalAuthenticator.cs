@@ -57,7 +57,7 @@ public abstract class ExternalAuthenticator
     {
         public override ExternalAuthenticatorInfo ProviderInfo { get; } = new()
         {
-            Identifier = credentials.ServiceId,
+            ServiceId = credentials.ServiceId,
             DisplayName = "Unknown",
             Description = "Unknown Authenticator",
         };

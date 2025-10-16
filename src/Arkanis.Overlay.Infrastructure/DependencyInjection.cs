@@ -5,6 +5,7 @@ using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
 using Common.Models;
+using Common.Options;
 using Common.Services;
 using Data;
 using Domain.Abstractions.Services;
@@ -65,15 +66,11 @@ public static class DependencyInjection
         }
 
         services
-            .AddSingleton<UexAccountContext>()
-            .Alias<ISelfInitializable, UexAccountContext>();
-
-        services
             .AddSingleton<UserConsentDialogService>()
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
             .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
-        services.AddCitizenIdAccountAuthentication();
+        services.AddCitizenIdAccountAuthentication(configuration);
         // TODO: Schedule credentials refresh job for Citizen ID
 
         services.AddSingleton<ExternalAuthenticatorProvider>();
@@ -93,11 +90,12 @@ public static class DependencyInjection
             );
 
         services
-            .AddConfiguration<ArkanisBackendOptions>(configuration)
+            .AddConfiguration<ArkanisRestBackendOptions>(configuration)
+            .AddConfiguration<ArkanisGraphqlBackendOptions>(configuration)
             .AddArkanisBackend()
             .ConfigureHttpClient((serviceProvider, client) =>
                 {
-                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisBackendOptions>>();
+                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisGraphqlBackendOptions>>();
                     client.BaseAddress = new Uri(backendOptions.Value.HttpClientBaseAddress);
                 }
             );
@@ -120,10 +118,12 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddCitizenIdAccountAuthentication(this IServiceCollection services)
+    public static IServiceCollection AddCitizenIdAccountAuthentication(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddCitizenIdAuthenticatorServices()
+            .AddCitizenIdLinkHelper()
+            .AddCitizenIdAuthenticatorServices(configuration)
             .AddSingleton<CitizenIdAccountContext>()
+            .Alias<ISelfInitializable, CitizenIdAccountContext>()
             .Alias<IExternalAccountContext, CitizenIdAccountContext>();
 
     public static IServiceCollection AddUexAccountAuthentication(this IServiceCollection services)
@@ -131,6 +131,7 @@ public static class DependencyInjection
             .AddUexAuthenticatorServices()
             .Alias<ExternalAuthenticator, UexAuthenticator>()
             .AddSingleton<UexAccountContext>()
+            .Alias<ISelfInitializable, UexAccountContext>()
             .Alias<IExternalAccountContext, UexAccountContext>();
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)

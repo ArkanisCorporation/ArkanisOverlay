@@ -1,9 +1,10 @@
 @using Arkanis.Overlay.External.CitizenId
 @using Arkanis.Overlay.Infrastructure.Services.External
 @inject IDialogService DialogService
+@inject CitizenIdLinkHelper CitizenIdLinkHelper
 @inject CitizenIdAccountContext CitizenIdAccountContext
 
-<MudExpansionPanel Class="external-service-config" Disabled>
+<MudExpansionPanel Class="external-service-config" Disabled="@(!CitizenIdAccountContext.IsAuthenticated)">
     <TitleContent>
         <MudStack AlignItems="@AlignItems.Center"
                   Justify="@Justify.Center"
@@ -27,7 +28,7 @@
                     <MudButton Variant="@Variant.Outlined"
                                Color="@Color.Default"
                                StartIcon="@Icons.Material.Filled.OpenInNew"
-                               Href="@CitizenIdConstants.LinkAccountUrl"
+                               Href="@CitizenIdLinkHelper.GetLinkAccountUrl()"
                                Target="_blank">
                         Connect different account
                     </MudButton>
@@ -42,7 +43,7 @@
                     <MudButton Variant="@Variant.Outlined"
                                Color="@Color.Info"
                                StartIcon="@Icons.Material.Filled.OpenInNew"
-                               Href="@CitizenIdConstants.LinkAccountUrl"
+                               Href="@CitizenIdLinkHelper.GetLinkAccountUrl()"
                                Target="_blank">
                         Connect account
                     </MudButton>

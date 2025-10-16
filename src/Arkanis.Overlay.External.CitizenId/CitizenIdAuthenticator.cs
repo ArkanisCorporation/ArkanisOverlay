@@ -1,23 +1,33 @@
 namespace Arkanis.Overlay.External.CitizenId;
 
-using Common;
+using System.Diagnostics.CodeAnalysis;
 using Common.Models;
 using Common.Services;
 using Duende.IdentityModel.OidcClient;
+using Microsoft.Extensions.Options;
+using Options;
 
-public class CitizenIdAuthenticator(IServiceProvider serviceProvider) : OidcAuthenticator(serviceProvider)
+public class CitizenIdAuthenticator(IServiceProvider serviceProvider, IOptionsMonitor<CitizenIdOptions> options) : OidcAuthenticator(serviceProvider)
 {
     public override ExternalAuthenticatorInfo AuthenticatorInfo
         => CitizenIdConstants.ProviderInfo;
 
+    public override Options CurrentOptions { get; } = new()
+    {
+        AvatarUrlClaimTypes = ["urn:user:rsi:avatar:url", "urn:user:discord:avatar:url", "picture"],
+    };
+
     public override OidcClient OidcClient
         => new(OidcOptions);
 
-    private static OidcClientOptions OidcOptions { get; } = new()
-    {
-        Authority = CitizenIdConstants.Authority,
-        ClientId = "arkaniscorp",
-        Scope = "openid profile rsi.profile",
-        RedirectUri = $"{ApplicationConstants.Protocol.Schema}://citizenid.space/sign-in",
-    };
+    [field: MaybeNull]
+    private OidcClientOptions OidcOptions
+        => field
+           ?? new OidcClientOptions
+           {
+               Authority = options.CurrentValue.Authority.ToString(),
+               ClientId = options.CurrentValue.ClientId,
+               Scope = string.Join(" ", options.CurrentValue.Scopes),
+               LoadProfile = false,
+           };
 }

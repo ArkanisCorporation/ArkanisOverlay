@@ -21,6 +21,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
+        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens"/>
         <PackageReference Include="MoreAsyncLINQ"/>
         <PackageReference Include="morelinq"/>
         <PackageReference Include="NuGet.Versioning"/>

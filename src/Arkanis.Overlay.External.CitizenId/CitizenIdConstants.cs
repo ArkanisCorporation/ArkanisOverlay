@@ -5,10 +5,6 @@ using Common.Models;
 
 public static class CitizenIdConstants
 {
-    public const string WebBaseUrl = "https://citizenid.space";
-    public const string LinkAccountUrl = "https://api.arkanis.cc/api/v1/overlay/connect/link-account";
-    public const string Authority = WebBaseUrl;
-
     public static readonly ExternalAuthenticatorInfo ProviderInfo = new()
     {
         ServiceId = ExternalService.CitizenId,
