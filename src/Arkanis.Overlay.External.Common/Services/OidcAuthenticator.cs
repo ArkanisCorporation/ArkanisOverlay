@@ -52,6 +52,8 @@ public abstract class OidcAuthenticator(IServiceProvider serviceProvider) : Exte
         CancellationToken cancellationToken
     ) : AuthTaskBase(credentials, cancellationToken)
     {
+        private readonly JsonWebTokenHandler _tokenHandler = new();
+
         public override ExternalAuthenticatorInfo ProviderInfo
             => authenticator.AuthenticatorInfo;
 
@@ -60,8 +62,6 @@ public abstract class OidcAuthenticator(IServiceProvider serviceProvider) : Exte
 
         private TokenValidationParameters ValidationParameters
             => authenticator.ValidationParameters;
-
-        private JsonWebTokenHandler _tokenHandler = new();
 
         protected override async Task<Result<ClaimsIdentity>> RunAsync(CancellationToken cancellationToken)
         {

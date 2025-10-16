@@ -55,6 +55,91 @@
     </ChildContent>
 </MudExpansionPanel>
 
+<MudExpansionPanel Class="external-service-config" HeaderClass="typo-ignore-disabled-parent" Disabled>
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px;">
+                <RsiLogo
+                    Style="max-height: 32px;"
+                    Class="mb-1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            @if (CitizenIdAccountContext.RsiIdentity.IsAuthenticated)
+            {
+                <MudChip T="string" Color="@Color.Success">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudLink
+                    Href="@($"https://robertsspaceindustries.com/citizens/{CitizenIdAccountContext.RsiIdentity.Name}")"
+                    Color="@Color.Default"
+                    Underline="@Underline.None"
+                    Target="_blank">
+                    <MudStack AlignItems="@AlignItems.Center" Row>
+                        <ExternalAccountIdentityDetails
+                            Model="@CitizenIdAccountContext.RsiIdentity"/>
+                    </MudStack>
+                </MudLink>
+            }
+            else if (CitizenIdAccountContext.IsAuthenticated)
+            {
+                <MudChip T="string" Color="@Color.Warning">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your RSI account, verify your Citizen iD account.
+                </MudText>
+            }
+            else
+            {
+                <MudChip T="string" Color="@Color.Default">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your RSI account, connect your Citizen iD account.
+                </MudText>
+            }
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
+<MudExpansionPanel Class="external-service-config" Disabled>
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px;">
+                <ArkanisCorpLogo
+                    SizeVariant="@ArkanisCorpLogo.Variant.HorizontalLogo"
+                    Style="max-height: 46px;"
+                    Class="my-n1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <MudChip T="string" Color="@(CitizenIdAccountContext.IsAuthenticated ? Color.Success : Color.Default)">
+                Provided by Citizen iD
+            </MudChip>
+            @if (!CitizenIdAccountContext.IsAuthenticated)
+            {
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your Arkanis account, connect your Citizen iD account.
+                </MudText>
+            }
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
 @code
 {
 

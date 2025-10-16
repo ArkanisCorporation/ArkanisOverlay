@@ -2,40 +2,33 @@
 @using Arkanis.Overlay.Infrastructure.Helpers
 <!--suppress CssUnusedSymbol -->
 <style>
-    .arkanis-logo-wrapper {
-        display: flex;
+    .rsi-logo-wrapper {
         height: 100%;
-        width: fit-content;
+        display: contents;
     }
 
-    .arkanis-logo {
+    .rsi-logo {
         position: relative;
         display: flex;
         align-items: center;
-        font-family: Arial, serif;
-        font-weight: 900;
-        line-height: 16px;
     }
 
-    .arkanis-logo > img {
+    .rsi-logo > img {
         display: block;
         width: 100%;
-        height: auto;
+        height: 100%;
     }
 </style>
 
 @if (WithoutLink)
 {
-    <div class="arkanis-logo-wrapper" style="@WrapperStyle">
+    <div class="rsi-logo-wrapper" style="@WrapperStyle">
         @ImageContent
     </div>
 }
 else
 {
-    <MudLink Href="@ExternalLinkHelper.GetArkanisWebLink("", ContentId)"
-             Style="@WrapperStyle"
-             Class="arkanis-logo-wrapper"
-             Target="_blank">
+    <MudLink Href="@ExternalLinkHelper.GetRsiLink(ContentId)" Class="rsi-logo-wrapper" Target="_blank">
         @ImageContent
     </MudLink>
 }
@@ -47,15 +40,15 @@ else
         => @<picture class="@ClassContent">
                <MudImage
                    Style="@Style"
-                   Src="@LinkHelper.GetPathToAsset(AssetPath)"
-                   Alt="Arkanis Corporation"/>
+                   Src="@AssetPath"
+                   Alt="Roberts Space Industries"/>
            </picture>;
 
     private string ClassContent
     {
         get
         {
-            var builder = new StringBuilder("arkanis-logo");
+            var builder = new StringBuilder("rsi-logo");
             if (Class is not null)
             {
                 builder.Append(' ');
@@ -67,15 +60,7 @@ else
     }
 
     private string AssetPath
-        => SizeVariant switch
-        {
-            Variant.HorizontalLogo => "arkanis/color_glow_name-horizontal.svg",
-            Variant.VerticalLogo => "arkanis/color_glow_name.svg",
-            _ => "arkanis/color_fill_no-margin.png",
-        };
-
-    [Parameter]
-    public Variant SizeVariant { get; set; } = Variant.Icon;
+        => LinkHelper.GetPathToAsset("img/rsi.svg");
 
     [Parameter]
     public string? Class { get; set; }
@@ -94,12 +79,5 @@ else
 
     [Parameter]
     public bool DevelopmentVariant { get; set; }
-
-    public enum Variant
-    {
-        HorizontalLogo,
-        VerticalLogo,
-        Icon,
-    }
 
 }

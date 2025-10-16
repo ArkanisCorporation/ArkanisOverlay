@@ -108,7 +108,7 @@ public class ExternalAccountContext(
     }
 #pragma warning restore CS8774
 
-    protected Task UpdateAsyncCore(CancellationToken cancellationToken)
+    protected virtual Task UpdateAsyncCore(CancellationToken cancellationToken)
         => Task.CompletedTask;
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
