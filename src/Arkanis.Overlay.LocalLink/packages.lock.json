@@ -476,6 +476,8 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
           "MoreAsyncLINQ": "[0.8.0, )",
           "NuGet.Versioning": "[6.14.0, )",
+          "Quartz": "[3.15.0, )",
+          "Quartz.Jobs": "[3.15.0, )",
           "Riok.Mapperly": "[4.2.1, )",
           "Serilog": "[4.3.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02301, )",
@@ -669,6 +671,24 @@
         "requested": "[6.14.0, )",
         "resolved": "6.14.0",
         "contentHash": "4v4blkhCv8mpKtfx+z0G/X0daVCzdIaHSC51GkUspugi5JIMn2Bo8xm5PdZYF0U68gOBfz/+aPWMnpRd85Jbow=="
+      },
+      "Quartz": {
+        "type": "CentralTransitive",
+        "requested": "[3.15.0, )",
+        "resolved": "3.15.0",
+        "contentHash": "seV76VI/OW9xdsEHJlfErciicfMmmU8lcGde2SJIYxVK+k4smAaBkm0FY8a4AiVb6MMpjTvH252438ol/OOUwQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        }
+      },
+      "Quartz.Jobs": {
+        "type": "CentralTransitive",
+        "requested": "[3.15.0, )",
+        "resolved": "3.15.0",
+        "contentHash": "k7gpdqsKdZ30mI/h9yrb+igPK5tsCsZVxtJPuskEjBlgaomJNQHpMQhZ6HOB93xoERGsUKN1sDIxM9hmGgEHHg==",
+        "dependencies": {
+          "Quartz": "3.15.0"
+        }
       },
       "Riok.Mapperly": {
         "type": "CentralTransitive",
@@ -1237,6 +1257,8 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
           "MoreAsyncLINQ": "[0.8.0, )",
           "NuGet.Versioning": "[6.14.0, )",
+          "Quartz": "[3.15.0, )",
+          "Quartz.Jobs": "[3.15.0, )",
           "Riok.Mapperly": "[4.2.1, )",
           "Serilog": "[4.3.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02301, )",
@@ -1430,6 +1452,24 @@
         "requested": "[6.14.0, )",
         "resolved": "6.14.0",
         "contentHash": "4v4blkhCv8mpKtfx+z0G/X0daVCzdIaHSC51GkUspugi5JIMn2Bo8xm5PdZYF0U68gOBfz/+aPWMnpRd85Jbow=="
+      },
+      "Quartz": {
+        "type": "CentralTransitive",
+        "requested": "[3.15.0, )",
+        "resolved": "3.15.0",
+        "contentHash": "seV76VI/OW9xdsEHJlfErciicfMmmU8lcGde2SJIYxVK+k4smAaBkm0FY8a4AiVb6MMpjTvH252438ol/OOUwQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        }
+      },
+      "Quartz.Jobs": {
+        "type": "CentralTransitive",
+        "requested": "[3.15.0, )",
+        "resolved": "3.15.0",
+        "contentHash": "k7gpdqsKdZ30mI/h9yrb+igPK5tsCsZVxtJPuskEjBlgaomJNQHpMQhZ6HOB93xoERGsUKN1sDIxM9hmGgEHHg==",
+        "dependencies": {
+          "Quartz": "3.15.0"
+        }
       },
       "Riok.Mapperly": {
         "type": "CentralTransitive",

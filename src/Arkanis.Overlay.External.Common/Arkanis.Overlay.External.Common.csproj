@@ -4,16 +4,15 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <PackageId>Arkanis.Overlay.External.Backend</PackageId>
+        <PackageId>Arkanis.Overlay.External.Common</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Riok.Mapperly"/>
-        <PackageReference Include="StrawberryShake.Server"/>
+        <PackageReference Include="Duende.IdentityModel.OidcClient"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
     </ItemGroup>
 
 </Project>

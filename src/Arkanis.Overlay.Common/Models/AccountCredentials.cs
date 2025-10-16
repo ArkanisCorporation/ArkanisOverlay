@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 [JsonDerivedType(typeof(AccountOidcCredentials), "v1/oidc")]
 [JsonDerivedType(typeof(AccountOAuth2Credentials), "v1/oauth2")]
 [JsonDerivedType(typeof(AccountApiTokenCredentials), "v1/token")]
-public record AccountCredentials(string ServiceId);
+public record AccountCredentials([property: JsonRequired] string ServiceId);
 
 public sealed record AccountEmptyCredentials(string ServiceId) : AccountCredentials(ServiceId);
 
@@ -20,6 +20,7 @@ public sealed record AccountApiTokenCredentials(string ServiceId) : AccountCrede
 public record AccountOAuth2Credentials(string ServiceId) : AccountCredentials(ServiceId)
 {
     public required string AccessToken { get; set; }
+    public DateTimeOffset? AccessTokenExpiresAt { get; set; }
     public string? RefreshToken { get; set; }
 }
 

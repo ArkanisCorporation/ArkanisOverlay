@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using Common.Abstractions;
 using Common.Models;
 using Common.Options;
 using Common.Services;
@@ -21,7 +22,10 @@ public class ExternalAccountContext(
     protected ILogger Logger { get; } = logger;
 
     protected string ServiceIdentifier
-        => authenticator.AuthenticatorInfo.Identifier;
+        => AuthenticatorInfo.ServiceId;
+
+    public virtual ExternalAuthenticatorInfo AuthenticatorInfo
+        => authenticator.AuthenticatorInfo;
 
     protected virtual ExternalAuthenticator.AuthTaskBase? CurrentAuthentication
         => _currentAuthentication;

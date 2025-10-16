@@ -274,6 +274,11 @@
           "Microsoft.Extensions.Hosting": "7.0.1"
         }
       },
+      "Duende.IdentityModel": {
+        "type": "Transitive",
+        "resolved": "7.0.0",
+        "contentHash": "h6xvWQi9bASgroNh+6Z/BpSUpKTy/sSuc2l4twi0igSY0X0z7Y8eYMGMHB7trwdT56EGlWeXLA6qAb8VOg8ATA=="
+      },
       "HotChocolate.Language.SyntaxTree": {
         "type": "Transitive",
         "resolved": "15.1.11",
@@ -1401,6 +1406,8 @@
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
           "MoreAsyncLINQ": "[0.8.0, )",
           "NuGet.Versioning": "[6.14.0, )",
+          "Quartz": "[3.15.0, )",
+          "Quartz.Jobs": "[3.15.0, )",
           "Riok.Mapperly": "[4.2.1, )",
           "Serilog": "[4.3.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02301, )",
@@ -1436,15 +1443,28 @@
       "arkanis.overlay.external.backend": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
           "Riok.Mapperly": "[4.2.1, )",
           "StrawberryShake.Server": "[15.1.11, )"
+        }
+      },
+      "arkanis.overlay.external.citizenid": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.External.Common": "[1.0.0, )"
+        }
+      },
+      "arkanis.overlay.external.common": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Duende.IdentityModel.OidcClient": "[6.0.1, )"
         }
       },
       "arkanis.overlay.external.uex": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.Common": "[1.0.0, )",
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
           "Microsoft.Extensions.Http": "[8.0.1, )"
         }
       },
@@ -1453,6 +1473,7 @@
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.Backend": "[1.0.0, )",
+          "Arkanis.Overlay.External.CitizenId": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
           "Arkanis.Overlay.LocalLink": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.2, )",
@@ -1462,10 +1483,8 @@
           "Microsoft.Extensions.Http": "[8.0.1, )",
           "Polly": "[8.6.4, )",
           "Polly.RateLimiting": "[8.6.4, )",
-          "Quartz": "[3.15.0, )",
           "Quartz.Extensions.DependencyInjection": "[3.15.0, )",
           "Quartz.Extensions.Hosting": "[3.15.0, )",
-          "Quartz.Jobs": "[3.15.0, )",
           "Scrutor": "[6.1.0, )"
         }
       },
@@ -1484,6 +1503,16 @@
         "dependencies": {
           "Microsoft.AspNetCore.Components": "3.1.8",
           "Microsoft.AspNetCore.Components.Web": "3.1.8"
+        }
+      },
+      "Duende.IdentityModel.OidcClient": {
+        "type": "CentralTransitive",
+        "requested": "[6.0.1, )",
+        "resolved": "6.0.1",
+        "contentHash": "9+1O6HKnEpzUAu6/v0h35cwNRNUQa2EbZnbwczO2Nr34MkrDa2BmRKoHV2tOH6VuIv0zAAJohInEIapFZAuplQ==",
+        "dependencies": {
+          "Duende.IdentityModel": "7.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
         }
       },
       "FluentResults": {

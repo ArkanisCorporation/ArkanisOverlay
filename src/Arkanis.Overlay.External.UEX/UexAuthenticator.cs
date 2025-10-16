@@ -129,7 +129,7 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
                 claims.Add(new Claim(ClaimTypes.Webpage, user.Website_url));
             }
 
-            return new ClaimsIdentity(claims, ProviderInfo.Identifier);
+            return new ClaimsIdentity(claims, ProviderInfo.ServiceId);
         }
     }
 }

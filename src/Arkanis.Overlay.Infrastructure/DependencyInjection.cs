@@ -1,13 +1,16 @@
 namespace Arkanis.Overlay.Infrastructure;
 
 using Common;
+using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
 using Common.Models;
 using Common.Services;
 using Data;
 using Domain.Abstractions.Services;
+using Domain.Services;
 using External.Backend.Options;
+using External.CitizenId;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,7 @@ using Quartz.Simpl;
 using Repositories;
 using Services;
 using Services.Abstractions;
+using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
@@ -69,6 +73,9 @@ public static class DependencyInjection
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
             .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
+        services.AddCitizenIdAccountAuthentication();
+        // TODO: Schedule credentials refresh job for Citizen ID
+
         services.AddSingleton<ExternalAuthenticatorProvider>();
         services
             .AddUexAccountAuthentication()
@@ -113,9 +120,15 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IServiceCollection AddCitizenIdAccountAuthentication(this IServiceCollection services)
+        => services
+            .AddCitizenIdAuthenticatorServices()
+            .AddSingleton<CitizenIdAccountContext>()
+            .Alias<IExternalAccountContext, CitizenIdAccountContext>();
+
     public static IServiceCollection AddUexAccountAuthentication(this IServiceCollection services)
         => services
-            .AddSingleton<UexAuthenticator>()
+            .AddUexAuthenticatorServices()
             .Alias<ExternalAuthenticator, UexAuthenticator>()
             .AddSingleton<UexAccountContext>()
             .Alias<IExternalAccountContext, UexAccountContext>();

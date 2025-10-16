@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using Common;
+using Common.Abstractions;
 using Common.Options;
-using Domain.Abstractions.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;

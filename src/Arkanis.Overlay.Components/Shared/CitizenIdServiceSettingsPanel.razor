@@ -1,0 +1,86 @@
+@using Arkanis.Overlay.External.CitizenId
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject IDialogService DialogService
+@inject CitizenIdAccountContext CitizenIdAccountContext
+
+<MudExpansionPanel Class="external-service-config" Disabled>
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px; margin-top: -4px;">
+                <CitizenIdLogo
+                    Style="max-height: 36px;"
+                    Class="my-n1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <ExternalAccountStatusBadge
+                Model="@CitizenIdAccountContext"/>
+            <ExternalAccountDetails
+                Model="@CitizenIdAccountContext"/>
+            <MudSpacer/>
+            <div class="my-n2">
+                @if (CitizenIdAccountContext.IsAuthenticated)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Default"
+                               StartIcon="@Icons.Material.Filled.OpenInNew"
+                               Href="@CitizenIdConstants.LinkAccountUrl"
+                               Target="_blank">
+                        Connect different account
+                    </MudButton>
+                    <MudIconButton
+                        Variant="@Variant.Outlined"
+                        Color="@Color.Error"
+                        Icon="@Icons.Material.Filled.LinkOff"
+                        OnClick="@UnlinkAsync"/>
+                }
+                else
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Info"
+                               StartIcon="@Icons.Material.Filled.OpenInNew"
+                               Href="@CitizenIdConstants.LinkAccountUrl"
+                               Target="_blank">
+                        Connect account
+                    </MudButton>
+                }
+            </div>
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
+@code
+{
+
+    [Parameter]
+    public string? ContentId { get; set; }
+
+    public async Task<DialogResult> UnlinkAsync()
+    {
+        if (!CitizenIdAccountContext.IsAuthenticated)
+        {
+            return DialogResult.Ok(true);
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = $"Unlink {CitizenIdAccountContext.Identity.Name} ({CitizenIdAccountContext.AuthenticatorInfo.DisplayName} account)",
+            Message = "This action cannot be undone. Are you sure?",
+            YesText = "Unlink",
+            CancelText = "Cancel",
+        };
+        if (await DialogService.ShowMessageBox(options) is not true)
+        {
+            return DialogResult.Cancel();
+        }
+
+        await CitizenIdAccountContext.UnlinkAsync(CancellationToken.None);
+        return DialogResult.Ok(true);
+    }
+
+}

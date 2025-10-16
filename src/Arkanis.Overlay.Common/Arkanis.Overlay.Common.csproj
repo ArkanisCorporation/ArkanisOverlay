@@ -24,6 +24,8 @@
         <PackageReference Include="MoreAsyncLINQ"/>
         <PackageReference Include="morelinq"/>
         <PackageReference Include="NuGet.Versioning"/>
+        <PackageReference Include="Quartz"/>
+        <PackageReference Include="Quartz.Jobs"/>
         <PackageReference Include="Riok.Mapperly"/>
         <PackageReference Include="Serilog"/>
         <PackageReference Include="Serilog.Expressions"/>

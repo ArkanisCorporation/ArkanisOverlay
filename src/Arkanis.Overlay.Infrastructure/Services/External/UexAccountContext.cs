@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services.External;
 
-using Domain.Abstractions.Services;
+using Common.Abstractions;
 using Microsoft.Extensions.Logging;
 using Overlay.External.UEX;
 

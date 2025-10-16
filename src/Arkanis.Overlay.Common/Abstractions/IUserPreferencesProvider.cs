@@ -1,6 +1,6 @@
-namespace Arkanis.Overlay.Domain.Abstractions.Services;
+namespace Arkanis.Overlay.Common.Abstractions;
 
-using Common.Options;
+using Options;
 
 public interface IUserPreferencesProvider
 {
