@@ -1,0 +1,51 @@
+@using System.Security.Claims
+@using Arkanis.Overlay.Common.Models
+@if (Model?.IsAuthenticated == true)
+{
+    <MudAvatar Style="height: 32px; width: 32px;">
+        @if (Model.FindFirst(AccountClaimTypes.AvatarUrl) is { } avatarClaim)
+        {
+            <MudImage
+                Src="@avatarClaim.Value"
+                Alt="Account Avatar"/>
+        }
+        else
+        {
+            <MudIcon
+                Icon="@Icons.Material.Filled.Person"
+                Size="@Size.Medium"/>
+        }
+    </MudAvatar>
+
+    <MudText>
+        @if (Model.Name is { } name)
+        {
+            @name
+        }
+        else
+        {
+            <span class="text-secondary">Unknown Account</span>
+        }
+    </MudText>
+}
+else if (Model is null)
+{
+    <MudAvatar Style="height: 32px; width: 32px;">
+        <MudSkeleton
+            SkeletonType="@SkeletonType.Circle"
+            Width="32px"
+            Height="32px"/>
+    </MudAvatar>
+
+    <MudSkeleton
+        SkeletonType="@SkeletonType.Rectangle"
+        Width="80px"/>
+}
+
+@code
+{
+
+    [Parameter]
+    public ClaimsIdentity? Model { get; set; }
+
+}

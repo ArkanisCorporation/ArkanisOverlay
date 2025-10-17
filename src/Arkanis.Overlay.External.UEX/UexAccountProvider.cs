@@ -71,7 +71,7 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
                 var causedBy = exception.ToError();
                 var error = exception.StatusCode switch
                 {
-                    (int)HttpStatusCode.NotFound => new ExternalAccountNotFoundError("Account with the provided username does not exist.", causedBy),
+                    (int)HttpStatusCode.NotFound => new ExternalAccountNotFoundError("Account with the provided credentials could not be found.", causedBy),
                     (int)HttpStatusCode.Unauthorized => new ExternalAccountUnauthorizedError("Provided secret key is not valid.", causedBy),
                     _ => new ExternalAccountError("Could not verify account with the provided secret key.", causedBy),
                 };
