@@ -21,4 +21,7 @@ public abstract class GameEntity(UexApiGameEntityId id, GameEntityCategory entit
     {
         yield return new SearchableEntityCategory(EntityCategory);
     }
+
+    public override string ToString()
+        => Name.MainContent.FullName;
 }
