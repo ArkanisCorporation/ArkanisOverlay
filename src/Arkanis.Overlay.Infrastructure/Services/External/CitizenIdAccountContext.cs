@@ -7,11 +7,18 @@ using Common.Services;
 using Microsoft.Extensions.Logging;
 using Overlay.External.CitizenId;
 
-public class CitizenIdAccountContext(CitizenIdAuthenticator authenticator, IUserPreferencesManager userPreferences, ILogger<UexAccountContext> logger)
+public class CitizenIdAccountContext(
+    CitizenIdAuthenticator authenticator,
+    CitizenIdLinkHelper linkHelper,
+    IUserPreferencesManager userPreferences,
+    ILogger<UexAccountContext> logger
+)
     : ExternalAccountContext<OidcAuthenticator.AuthenticationTask>(authenticator, userPreferences, logger)
 {
     private const string RsiUsernameClaim = "urn:user:rsi:username";
     private const string RsiAvatarClaim = "urn:user:rsi:avatar:url";
+
+    public CitizenIdLinkHelper Links { get; } = linkHelper;
 
     public ClaimsIdentity RsiIdentity { get; private set; } = new();
 

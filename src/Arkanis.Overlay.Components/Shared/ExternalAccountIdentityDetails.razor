@@ -1,21 +1,8 @@
 @using System.Security.Claims
-@using Arkanis.Overlay.Common.Models
 @if (Model?.IsAuthenticated == true)
 {
-    <MudAvatar Style="height: 32px; width: 32px;">
-        @if (Model.FindFirst(AccountClaimTypes.AvatarUrl) is { } avatarClaim)
-        {
-            <MudImage
-                Src="@avatarClaim.Value"
-                Alt="Account Avatar"/>
-        }
-        else
-        {
-            <MudIcon
-                Icon="@Icons.Material.Filled.Person"
-                Size="@Size.Medium"/>
-        }
-    </MudAvatar>
+    <ExternalAccountAvatar
+        Model="@Model"/>
 
     <MudText>
         @if (Model.Name is { } name)
@@ -30,12 +17,7 @@
 }
 else if (Model is null)
 {
-    <MudAvatar Style="height: 32px; width: 32px;">
-        <MudSkeleton
-            SkeletonType="@SkeletonType.Circle"
-            Width="32px"
-            Height="32px"/>
-    </MudAvatar>
+    <ExternalAccountAvatar/>
 
     <MudSkeleton
         SkeletonType="@SkeletonType.Rectangle"

@@ -1,0 +1,46 @@
+@using System.Security.Claims
+@using Arkanis.Overlay.Common.Models
+@using Arkanis.Overlay.Components.Extensions
+@if (Model is not null)
+{
+    <MudAvatar Style="@AvatarStyle">
+        @if (Model.IsAuthenticated && Model.FindFirst(AccountClaimTypes.AvatarUrl) is { } avatarClaim)
+        {
+            <MudImage
+                Src="@avatarClaim.Value"
+                Alt="Account Avatar"/>
+        }
+        else
+        {
+            <MudIcon
+                Icon="@Icons.Material.Filled.Person"
+                Size="@Size"/>
+        }
+    </MudAvatar>
+}
+else
+{
+    <MudAvatar Style="@AvatarStyle">
+        <MudSkeleton
+            SkeletonType="@SkeletonType.Circle"
+            Width="@CssSize"
+            Height="@CssSize"/>
+    </MudAvatar>
+}
+
+@code
+{
+
+    private string AvatarStyle
+        => $"height: {CssSize}; width: {CssSize};";
+
+    private string CssSize
+        => $"{Size.ToPixels()}px";
+
+    [Parameter]
+    public ClaimsIdentity? Model { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; } = Size.Medium;
+
+}
