@@ -9,7 +9,7 @@ function publish_nuget() {
     local source_dir="$2"
 
     [[ -z "${project_name+x}" ]] && echo "project_name was not set for publish_nuget()" && exit 2
-    [[ -z "${source_url+x}" ]] && echo "source_url was not set for publish_nuget()" && exit 2
+    [[ -z "${source_dir+x}" ]] && echo "source_dir was not set for publish_nuget()" && exit 2
 
     >&2 echo "Pushing the ${project_name} NuGet package to the remote API..."
     dotnet nuget push ${source_dir}/* \
