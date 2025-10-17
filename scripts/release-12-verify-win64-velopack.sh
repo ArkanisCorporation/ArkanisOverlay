@@ -42,4 +42,4 @@ dotnet vpk [win] pack \
     --mainExe ArkanisOverlay.exe \
     1>&2 # logging output must not go to stdout
 
->&2 echo "Successfully packed the Overlay application to: $(realpath release)"
+>&2 echo "Successfully packed the Overlay application to: $(realpath release-win64)"

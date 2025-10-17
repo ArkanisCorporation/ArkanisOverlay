@@ -11,7 +11,7 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 #| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 #| `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error. |
 #| `stdout`         | Can be used for logging.                                                                                            |
-#| `stderr`         | Can be used for logging.                     
+#| `stderr`         | Can be used for logging.
 
 [[ -z "${VERSION_TAG+x}" ]] && >&2 echo "VERSION_TAG is not set" && exit 2
 [[ -z "${VERSION_CHANNEL+x}" ]] && >&2 echo "VERSION_CHANNEL is not set" && exit 2
@@ -21,7 +21,10 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 DIRS=(
 publish-win64
 release-win64
+publish-nuget-common
+publish-nuget-domain
 publish-nuget-locallink
+publish-nuget-external_common
 )
 RETURN=0
 
