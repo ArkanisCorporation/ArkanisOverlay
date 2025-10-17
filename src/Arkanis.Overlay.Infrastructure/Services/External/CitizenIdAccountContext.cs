@@ -12,8 +12,7 @@ public class CitizenIdAccountContext(
     CitizenIdLinkHelper linkHelper,
     IUserPreferencesManager userPreferences,
     ILogger<UexAccountContext> logger
-)
-    : ExternalAccountContext<OidcAuthenticator.AuthenticationTask>(authenticator, userPreferences, logger)
+) : ExternalAccountContext<OidcAuthenticator.AuthenticationTask>(authenticator, userPreferences, logger)
 {
     private const string RsiUsernameClaim = "urn:user:rsi:username";
     private const string RsiAvatarClaim = "urn:user:rsi:avatar:url";

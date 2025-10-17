@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.External.CitizenId.Options;
 
-using Common.Abstractions;
+using Overlay.Common.Abstractions;
 
 public class CitizenIdOptions : ISelfBindableOptions
 {

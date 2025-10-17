@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Common.Models;
 
 using System.Text.Json.Serialization;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 [JsonPolymorphic]
 [JsonDerivedType(typeof(AccountEmptyCredentials), "v1/none")]
@@ -22,6 +23,18 @@ public record AccountOAuth2Credentials(string ServiceId) : AccountCredentials(Se
     public required string AccessToken { get; set; }
     public DateTimeOffset? AccessTokenExpiresAt { get; set; }
     public string? RefreshToken { get; set; }
+
+    public JsonWebToken? ReadAccessTokenAsJwt()
+    {
+        try
+        {
+            return new JsonWebToken(AccessToken);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }
 
 public sealed record AccountOidcCredentials(string ServiceId) : AccountOAuth2Credentials(ServiceId)

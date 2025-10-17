@@ -1,10 +1,10 @@
 namespace Arkanis.Overlay.External.UEX;
 
 using Abstractions;
-using Common.Extensions;
-using Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Overlay.Common.Extensions;
+using Overlay.Common.Services;
 
 public static class DependencyInjection
 {

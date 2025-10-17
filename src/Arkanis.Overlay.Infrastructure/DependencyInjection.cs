@@ -114,6 +114,7 @@ public static class DependencyInjection
             .AddUexHydrationServices();
 
         services.AddHostedService<InitializeServicesHostedService>();
+        services.AddHostedService<JobScheduleProviderScheduler>();
 
         return services;
     }

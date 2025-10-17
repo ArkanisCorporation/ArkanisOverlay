@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.External.UEX;
 
-using Common;
-using Common.Models;
+using Overlay.Common;
+using Overlay.Common.Models;
 
 public static class UexConstants
 {

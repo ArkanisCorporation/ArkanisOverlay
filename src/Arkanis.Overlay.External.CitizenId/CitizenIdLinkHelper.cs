@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.External.CitizenId;
 
-using Common.Options;
 using Microsoft.Extensions.Options;
 using Options;
+using Overlay.Common.Options;
 
 public class CitizenIdLinkHelper(IOptionsMonitor<CitizenIdOptions> citizenIdOptions, IOptionsMonitor<ArkanisRestBackendOptions> backendOptions)
 {

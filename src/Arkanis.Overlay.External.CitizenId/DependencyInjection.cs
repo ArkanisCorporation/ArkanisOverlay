@@ -1,10 +1,10 @@
 namespace Arkanis.Overlay.External.CitizenId;
 
-using Common.Extensions;
-using Common.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Options;
+using Overlay.Common.Extensions;
+using Overlay.Common.Services;
 
 public static class DependencyInjection
 {
@@ -15,5 +15,6 @@ public static class DependencyInjection
         => services
             .AddConfiguration<CitizenIdOptions>(configuration)
             .AddSingleton<CitizenIdAuthenticator>()
-            .Alias<ExternalAuthenticator, CitizenIdAuthenticator>();
+            .Alias<ExternalAuthenticator, CitizenIdAuthenticator>()
+            .AddSingleton(CitizenIdAuthenticator.CreateRefreshJobScheduleProvider());
 }

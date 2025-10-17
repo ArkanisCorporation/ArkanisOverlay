@@ -1,6 +1,6 @@
 ﻿namespace Arkanis.Overlay.External.Backend.Options;
 
-using Common.Abstractions;
+using Overlay.Common.Abstractions;
 
 public class ArkanisGraphqlBackendOptions : ISelfBindableOptions
 {
