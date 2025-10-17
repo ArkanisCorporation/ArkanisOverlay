@@ -79,7 +79,7 @@ public class InMemorySearchService(
                     .FallbackIfEmpty(SearchMatchResult.CreateEmpty(entity))
                     .Aggregate((result1, result2) => result1.Merge(result2))
                 )
-                .Where(result => result.ShouldBeExcluded == false)
+                .Where(result => !result.ShouldBeExcluded)
                 .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
                 .Where(result => !result.ContainsUnmatched<TextSearch>());
 

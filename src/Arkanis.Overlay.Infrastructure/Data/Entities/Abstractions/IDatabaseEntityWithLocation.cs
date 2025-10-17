@@ -4,5 +4,5 @@ using Domain.Models.Game;
 
 internal interface IDatabaseEntityWithLocation
 {
-    UexApiGameEntityId LocationId { get; set; }
+    public UexApiGameEntityId LocationId { get; set; }
 }

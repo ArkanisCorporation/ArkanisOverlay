@@ -2,5 +2,5 @@ namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 public interface IStorageManager
 {
-    ValueTask WipeAsync(CancellationToken cancellationToken = default);
+    public ValueTask WipeAsync(CancellationToken cancellationToken = default);
 }

@@ -295,9 +295,7 @@ public static class KeyboardKeyUtils
     };
 
     private static readonly HashSet<KeyboardKey> ValidStandalone =
-        FunctionKeys
-            .Union(MediaKeys)
-            .ToHashSet();
+        [.. FunctionKeys.Union(MediaKeys)];
 
     public static HashSet<KeyboardKey> GetKeys(KeyboardKeyCategory category)
         => category switch

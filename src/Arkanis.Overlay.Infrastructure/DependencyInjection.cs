@@ -30,16 +30,8 @@ public static class DependencyInjection
         Action<InfrastructureServiceOptions> configure
     )
     {
-        services.AddQuartz(options =>
-            {
-                options.UseJobFactory<MicrosoftDependencyInjectionJobFactory>();
-            }
-        );
-        services.AddQuartzHostedService(options =>
-            {
-                options.WaitForJobsToComplete = false;
-            }
-        );
+        services.AddQuartz(options => options.UseJobFactory<MicrosoftDependencyInjectionJobFactory>());
+        services.AddQuartzHostedService(options => options.WaitForJobsToComplete = false);
 
         var options = new InfrastructureServiceOptions();
         configure(options);
@@ -102,6 +94,7 @@ public static class DependencyInjection
             .AddInMemorySearchServices()
             .AddLocalInventoryManagementServices()
             .AddLocalTradeRunManagementServices()
+            .AddIconManagementServices()
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();

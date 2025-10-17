@@ -2,7 +2,6 @@ namespace Arkanis.Overlay.Domain.Abstractions.Services;
 
 using System.Security.Claims;
 using Common.Models;
-using Common.Options;
 using FluentResults;
 
 public interface IExternalAccountContext

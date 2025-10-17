@@ -5,6 +5,6 @@ using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 public interface IDependencyInjectionTestBed
 {
-    TestBedFixture Fixture { get; }
-    ITestOutputHelper OutputHelper { get; }
+    public TestBedFixture Fixture { get; }
+    public ITestOutputHelper OutputHelper { get; }
 }

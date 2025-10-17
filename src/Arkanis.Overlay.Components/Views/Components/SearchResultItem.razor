@@ -1,8 +1,10 @@
 @implements QuickAccessContainer.IEntry
 @using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
 @implements IAsyncDisposable
 @inject IPriceProvider PriceProvider
+@inject IIconPicker IconPicker
 
 <FocusRegion @ref="_focusRegion" Class="search-result-container">
     <MudPaper Class="w-100 search-result px-4 focus" tabindex="0">
