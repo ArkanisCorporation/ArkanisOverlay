@@ -17,6 +17,7 @@ public sealed class GameSpaceStation(int id, string fullName, string shortName, 
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);
+        yield return new SearchableName(shortName);
         foreach (var searchableAttribute in base.CollectSearchableTraits())
         {
             yield return searchableAttribute;

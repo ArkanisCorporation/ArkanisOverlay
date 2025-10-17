@@ -39,6 +39,7 @@ public sealed class GameTerminal(
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);
+        yield return new SearchableName(shortName);
         yield return new SearchableCode(codeName);
         foreach (var searchableAttribute in base.CollectSearchableTraits())
         {

@@ -17,6 +17,7 @@ public sealed class GameOutpost(int id, string fullName, string shortName, GameL
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);
+        yield return new SearchableName(shortName);
         foreach (var searchableAttribute in base.CollectSearchableTraits())
         {
             yield return searchableAttribute;
