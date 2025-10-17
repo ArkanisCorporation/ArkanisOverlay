@@ -1,0 +1,65 @@
+@using Arkanis.Overlay.Common.Models
+@using Arkanis.Overlay.LocalLink.Abstractions
+@using Arkanis.Overlay.LocalLink.Models.Commands
+@inject ILocalLinkCommandPublisher LocalLinkCommandPublisher
+
+<MudDialog Gutters="false"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        Search
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12" md="6" lg="4" xl="3">
+                <MudText Typo="@Typo.h6">
+                    Simulate
+                </MudText>
+                <MudStack>
+                    <MudButton Variant="@Variant.Outlined"
+                               OnClick="@LinkExternalAccount">
+                        Link External Account
+                    </MudButton>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    private async Task LinkExternalAccount()
+    {
+        var command = new SetExternalServiceCredentialsCommand
+        {
+            Credentials = new AccountOidcCredentials(ExternalService.CitizenId)
+            {
+                AccessToken = "xxx",
+            },
+        };
+        await LocalLinkCommandPublisher.PublishAsync(command, CancellationToken.None);
+    }
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<DebugDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+}

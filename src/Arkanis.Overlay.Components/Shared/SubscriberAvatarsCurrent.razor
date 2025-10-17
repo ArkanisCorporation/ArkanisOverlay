@@ -16,7 +16,7 @@ else if (_currentContext.Errors.Any())
 {
     <MudAlert Severity="@Severity.Warning">
         Sorry, we couldn't load the subscribers at this time.
-        <ul>
+        <ul class="pl-4">
             @foreach (var clientError in _currentContext.Errors)
             {
                 <li>

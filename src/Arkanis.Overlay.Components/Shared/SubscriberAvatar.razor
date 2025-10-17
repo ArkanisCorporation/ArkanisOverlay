@@ -1,3 +1,4 @@
+@using Arkanis.Overlay.Components.Extensions
 @using Arkanis.Overlay.External.Backend.DTO
 @if (Subscriber is SubscriberDiscordIdentity discordIdentity)
 {
@@ -5,7 +6,7 @@
         <CustomAvatar
             Size="@Size"
             OutlineCustomColor="@OutlineCustomColor"
-            ImageUrl="@($"{discordIdentity.AvatarUrl}?size={AvatarSizePixels}")"
+            ImageUrl="@($"{discordIdentity.AvatarUrl}?size={Size.ToPixels()}")"
             ImageAlt="@discordIdentity.DisplayName"/>
     </Tooltip>
 }
@@ -35,13 +36,5 @@ else
     [Parameter]
     public string? OutlineCustomColor { get; set; }
 
-    private int AvatarSizePixels
-        => Size switch
-        {
-            Size.Small => 32,
-            Size.Medium => 40,
-            Size.Large => 56,
-            _ => 40,
-        };
 
 }

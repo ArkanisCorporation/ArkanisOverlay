@@ -6,6 +6,12 @@
     height: 100%;
 }
 
+.mud-button:not(.mud-disabled) .mud-svg-icon,
+.mud-button:not(.mud-disabled) .mud-icon-root,
+.mud-disabled > .mud-expand-panel-header.typo-ignore-disabled-parent {
+    color: inherit;
+}
+
 .text-justify {
     text-align: justify;
 }

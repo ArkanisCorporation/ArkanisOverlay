@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.External.UEX;
 
-using Common;
-using Common.Models;
+using Overlay.Common;
+using Overlay.Common.Models;
 
 public static class UexConstants
 {
@@ -13,7 +13,7 @@ public static class UexConstants
 
     public static readonly ExternalAuthenticatorInfo ProviderInfo = new()
     {
-        Identifier = ExternalService.UnitedExpress,
+        ServiceId = ExternalService.UnitedExpress,
         DisplayName = "United Express (UEX)",
         Description
             = "United Express (UEX) plays the role of an interstellar trade and data provider corporation established in 2950."

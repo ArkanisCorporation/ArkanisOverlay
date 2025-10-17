@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Common;
+using Common.Abstractions;
 using Common.Converters.Json;
 using Common.Models.Keyboard;
 using Common.Options;

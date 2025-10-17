@@ -1,6 +1,7 @@
-namespace Arkanis.Overlay.Domain.Abstractions.Services;
+namespace Arkanis.Overlay.Domain.Services;
 
 using System.Collections.Concurrent;
+using Abstractions.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 

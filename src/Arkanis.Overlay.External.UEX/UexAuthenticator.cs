@@ -5,14 +5,14 @@ using System.Globalization;
 using System.Net;
 using System.Security.Claims;
 using Abstractions;
-using Common.Errors;
-using Common.Extensions;
-using Common.Models;
-using Common.Services;
 using Extensions;
 using FluentResults;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Overlay.Common.Errors;
+using Overlay.Common.Extensions;
+using Overlay.Common.Models;
+using Overlay.Common.Services;
 
 public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthenticator<UexAuthenticator.AuthenticationTask>
 {
@@ -129,7 +129,7 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
                 claims.Add(new Claim(ClaimTypes.Webpage, user.Website_url));
             }
 
-            return new ClaimsIdentity(claims, ProviderInfo.Identifier);
+            return new ClaimsIdentity(claims, ProviderInfo.ServiceId, AccountClaimTypes.DisplayName, null);
         }
     }
 }
