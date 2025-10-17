@@ -5,7 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
-        <PackageId>Arkanis.Overlay.Common</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -37,6 +36,24 @@
         <PackageReference Include="Serilog.Sinks.Console"/>
         <PackageReference Include="Serilog.Sinks.File"/>
         <PackageReference Include="Serilog.Sinks.Seq"/>
+    </ItemGroup>
+
+    <!-- NuGet Publishing Configuration -->
+    <PropertyGroup>
+        <PackageId>Arkanis.Overlay.Common</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageDescription>Contains common utilities, extensions, and shared components used across different parts of the Arkanis Overlay.</PackageDescription>
+        <PackageProjectUrl>https://arkanis.cc/overlay</PackageProjectUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ArkanisCorporation/ArkanisOverlay</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="../../LICENSE.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
