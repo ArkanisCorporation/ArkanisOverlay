@@ -2,7 +2,7 @@
 set -eEuo pipefail
 
 function publish_nuget() {
-    [[ -z "${NUGET_PUBLISH_API_KEY+x}" ]] && echo "NUGET_PUBLISH_API_KEY is not set" && exit 2
+    [[ -z "${NUGET_PUBLISH_API_KEY+x}" ]] && >&2 echo "NUGET_PUBLISH_API_KEY is not set" && exit 2
     [[ -z "${NUGET_PUBLISH_SOURCE_URL+x}" ]] && NUGET_PUBLISH_SOURCE_URL="https://api.nuget.org/v3/index.json"
 
     local project_name="$1"
