@@ -718,7 +718,7 @@
           "NuGet.Versioning": "[6.14.0, )",
           "Quartz": "[3.15.0, )",
           "Quartz.Jobs": "[3.15.0, )",
-          "Riok.Mapperly": "[4.2.1, )",
+          "Riok.Mapperly": "[4.3.0, )",
           "Serilog": "[4.3.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02301, )",
           "Serilog.Extensions.Hosting": "[8.0.0, )",
@@ -941,9 +941,9 @@
       },
       "Riok.Mapperly": {
         "type": "CentralTransitive",
-        "requested": "[4.2.1, )",
-        "resolved": "4.2.1",
-        "contentHash": "UZeQSieVlHr48t64J4k2s/lvbMeCXvzsXqV2A/0wyNdPpW8Cyn47+9mfWFJjouPxoSFfEhDbxg+WRbFIHvq4Zw=="
+        "requested": "[4.3.0, )",
+        "resolved": "4.3.0",
+        "contentHash": "9M60fNhHAx4Gzm3ebavQn60UT8uuFBM9kSfhepEWlEMoPhd/4mAdJAtBZmi+6RZJWTHil/VC/DrzihhPq39xhg=="
       },
       "Serilog": {
         "type": "CentralTransitive",
