@@ -15,4 +15,7 @@ THIS_DIR="$(dirname "$(realpath "$0")")"
 
 run_sub "$THIS_DIR/release-31-publish-win64-velopack.sh"
 run_sub "$THIS_DIR/release-32-publish-server.sh"
-run_sub "$THIS_DIR/release-33-publish-nuget-locallink.sh"
+run_sub "$THIS_DIR/release-33-publish-nuget-common.sh"
+run_sub "$THIS_DIR/release-34-publish-nuget-domain.sh"
+run_sub "$THIS_DIR/release-35-publish-nuget-locallink.sh"
+run_sub "$THIS_DIR/release-36-publish-nuget-external_common.sh"

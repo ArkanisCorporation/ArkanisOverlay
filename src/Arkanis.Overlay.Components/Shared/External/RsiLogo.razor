@@ -1,0 +1,83 @@
+@using System.Text
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol -->
+<style>
+    .rsi-logo-wrapper {
+        height: 100%;
+        display: contents;
+    }
+
+    .rsi-logo {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .rsi-logo > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@if (WithoutLink)
+{
+    <div class="rsi-logo-wrapper" style="@WrapperStyle">
+        @ImageContent
+    </div>
+}
+else
+{
+    <MudLink Href="@ExternalLinkHelper.GetRsiLink(ContentId)" Class="rsi-logo-wrapper" Target="_blank">
+        @ImageContent
+    </MudLink>
+}
+
+@code
+{
+
+    private RenderFragment ImageContent
+        => @<picture class="@ClassContent">
+               <MudImage
+                   Style="@Style"
+                   Src="@AssetPath"
+                   Alt="Roberts Space Industries"/>
+           </picture>;
+
+    private string ClassContent
+    {
+        get
+        {
+            var builder = new StringBuilder("rsi-logo");
+            if (Class is not null)
+            {
+                builder.Append(' ');
+                builder.Append(Class);
+            }
+
+            return builder.ToString();
+        }
+    }
+
+    private string AssetPath
+        => LinkHelper.GetPathToAsset("img/rsi.svg");
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public string? WrapperStyle { get; set; }
+
+    [Parameter]
+    public string ContentId { get; set; } = "logo";
+
+    [Parameter]
+    public bool WithoutLink { get; set; }
+
+    [Parameter]
+    public bool DevelopmentVariant { get; set; }
+
+}

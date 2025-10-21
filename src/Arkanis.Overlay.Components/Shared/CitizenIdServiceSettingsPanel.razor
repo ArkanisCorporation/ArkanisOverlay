@@ -1,0 +1,172 @@
+@using Arkanis.Overlay.External.CitizenId
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject IDialogService DialogService
+@inject CitizenIdLinkHelper CitizenIdLinkHelper
+@inject CitizenIdAccountContext CitizenIdAccountContext
+
+<MudExpansionPanel Class="external-service-config" Disabled="@(!CitizenIdAccountContext.IsAuthenticated)">
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px; margin-top: -4px;">
+                <CitizenIdLogo
+                    Style="max-height: 36px;"
+                    Class="my-n1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <ExternalAccountStatusBadge
+                Model="@CitizenIdAccountContext"/>
+            <ExternalAccountDetails
+                Model="@CitizenIdAccountContext"/>
+            <MudSpacer/>
+            <div class="my-n2">
+                @if (CitizenIdAccountContext.IsAuthenticated)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Default"
+                               StartIcon="@Icons.Material.Filled.OpenInNew"
+                               Href="@CitizenIdLinkHelper.GetLinkAccountUrl()"
+                               Target="_blank">
+                        Connect different account
+                    </MudButton>
+                    <MudIconButton
+                        Variant="@Variant.Outlined"
+                        Color="@Color.Error"
+                        Icon="@Icons.Material.Filled.LinkOff"
+                        OnClick="@UnlinkAsync"/>
+                }
+                else
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Info"
+                               StartIcon="@Icons.Material.Filled.OpenInNew"
+                               Href="@CitizenIdLinkHelper.GetLinkAccountUrl()"
+                               Target="_blank">
+                        Connect account
+                    </MudButton>
+                }
+            </div>
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
+<MudExpansionPanel Class="external-service-config" HeaderClass="typo-ignore-disabled-parent" Disabled>
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px;">
+                <RsiLogo
+                    Style="max-height: 32px;"
+                    Class="mb-1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            @if (CitizenIdAccountContext.RsiIdentity.IsAuthenticated)
+            {
+                <MudChip T="string" Color="@Color.Success">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudLink
+                    Href="@($"https://robertsspaceindustries.com/citizens/{CitizenIdAccountContext.RsiIdentity.Name}")"
+                    Color="@Color.Default"
+                    Underline="@Underline.None"
+                    Target="_blank">
+                    <MudStack AlignItems="@AlignItems.Center" Row>
+                        <ExternalAccountIdentityDetails
+                            Model="@CitizenIdAccountContext.RsiIdentity"/>
+                    </MudStack>
+                </MudLink>
+            }
+            else if (CitizenIdAccountContext.IsAuthenticated)
+            {
+                <MudChip T="string" Color="@Color.Warning">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your RSI account, verify your Citizen iD account.
+                </MudText>
+            }
+            else
+            {
+                <MudChip T="string" Color="@Color.Default">
+                    Provided by Citizen iD
+                </MudChip>
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your RSI account, connect your Citizen iD account.
+                </MudText>
+            }
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
+<MudExpansionPanel Class="external-service-config" Disabled>
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <div style="height: 32px;">
+                <ArkanisCorpLogo
+                    SizeVariant="@ArkanisCorpLogo.Variant.HorizontalLogo"
+                    Style="max-height: 46px;"
+                    Class="my-n1"
+                    ContentId="@ContentId"/>
+            </div>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <MudChip T="string" Color="@(CitizenIdAccountContext.IsAuthenticated ? Color.Success : Color.Default)">
+                Provided by Citizen iD
+            </MudChip>
+            @if (!CitizenIdAccountContext.IsAuthenticated)
+            {
+                <MudSpacer/>
+                <MudText Class="text-secondary">
+                    To link your Arkanis account, connect your Citizen iD account.
+                </MudText>
+            }
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+    </ChildContent>
+</MudExpansionPanel>
+
+@code
+{
+
+    [Parameter]
+    public string? ContentId { get; set; }
+
+    public async Task<DialogResult> UnlinkAsync()
+    {
+        if (!CitizenIdAccountContext.IsAuthenticated)
+        {
+            return DialogResult.Ok(true);
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = $"Unlink {CitizenIdAccountContext.Identity.Name} ({CitizenIdAccountContext.AuthenticatorInfo.DisplayName} account)",
+            Message = "This action cannot be undone. Are you sure?",
+            YesText = "Unlink",
+            CancelText = "Cancel",
+        };
+        if (await DialogService.ShowMessageBox(options) is not true)
+        {
+            return DialogResult.Cancel();
+        }
+
+        await CitizenIdAccountContext.UnlinkAsync(CancellationToken.None);
+        return DialogResult.Ok(true);
+    }
+
+}

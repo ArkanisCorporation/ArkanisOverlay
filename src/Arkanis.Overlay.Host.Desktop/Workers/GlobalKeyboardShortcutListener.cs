@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Domain.Abstractions.Services;
+using Common.Abstractions;
 using Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
