@@ -58,10 +58,10 @@
         <PackageVersion Include="Octokit" Version="14.0.0"/>
         <PackageVersion Include="Polly" Version="8.6.4"/>
         <PackageVersion Include="Polly.RateLimiting" Version="8.6.4"/>
-        <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.15.0"/>
-        <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.0"/>
-        <PackageVersion Include="Quartz.Jobs" Version="3.15.0"/>
-        <PackageVersion Include="Quartz" Version="3.15.0"/>
+        <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.15.1"/>
+        <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1"/>
+        <PackageVersion Include="Quartz.Jobs" Version="3.15.1"/>
+        <PackageVersion Include="Quartz" Version="3.15.1"/>
         <PackageVersion Include="Riok.Mapperly" Version="4.3.0"/>
         <PackageVersion Include="Scrutor" Version="6.1.0"/>
         <PackageVersion Include="Serilog" Version="4.3.0"/>
