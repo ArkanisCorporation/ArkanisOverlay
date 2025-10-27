@@ -815,8 +815,8 @@
           "Microsoft.IdentityModel.JsonWebTokens": "[8.14.0, )",
           "MoreAsyncLINQ": "[0.8.0, )",
           "NuGet.Versioning": "[6.14.0, )",
-          "Quartz": "[3.15.0, )",
-          "Quartz.Jobs": "[3.15.0, )",
+          "Quartz": "[3.15.1, )",
+          "Quartz.Jobs": "[3.15.1, )",
           "Riok.Mapperly": "[4.3.0, )",
           "Serilog": "[4.3.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02301, )",
@@ -892,8 +892,8 @@
           "Microsoft.Extensions.Http": "[8.0.1, )",
           "Polly": "[8.6.4, )",
           "Polly.RateLimiting": "[8.6.4, )",
-          "Quartz.Extensions.DependencyInjection": "[3.15.0, )",
-          "Quartz.Extensions.Hosting": "[3.15.0, )",
+          "Quartz.Extensions.DependencyInjection": "[3.15.1, )",
+          "Quartz.Extensions.Hosting": "[3.15.1, )",
           "Scrutor": "[6.1.0, )"
         }
       },
@@ -1256,41 +1256,41 @@
       },
       "Quartz": {
         "type": "CentralTransitive",
-        "requested": "[3.15.0, )",
-        "resolved": "3.15.0",
-        "contentHash": "seV76VI/OW9xdsEHJlfErciicfMmmU8lcGde2SJIYxVK+k4smAaBkm0FY8a4AiVb6MMpjTvH252438ol/OOUwQ==",
+        "requested": "[3.15.1, )",
+        "resolved": "3.15.1",
+        "contentHash": "XIbhzUAKSm3xdl1ORLPnK7mc5XANP3cuvYQhCtuX/8888IN41e9OXJak4R9OlmAGRnyAMqHE40yojVa89NS1wg==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "CentralTransitive",
-        "requested": "[3.15.0, )",
-        "resolved": "3.15.0",
-        "contentHash": "4g+QSG84cHlffLXoiHC7I/zkw223GUtdj0ZYrY+sxYq45Dd3Rti4uKIn0dWeotyEiJZNpn028bspf8njSJdnUg==",
+        "requested": "[3.15.1, )",
+        "resolved": "3.15.1",
+        "contentHash": "LinB9z54aPn49C/DGM1v3OflX2nosrEo4zNz10vfYqcCndFJ8MNU9k++Ap9T7vxeZc355WStPDggpX60TYj1Lg==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
-          "Quartz": "3.15.0"
+          "Quartz": "3.15.1"
         }
       },
       "Quartz.Extensions.Hosting": {
         "type": "CentralTransitive",
-        "requested": "[3.15.0, )",
-        "resolved": "3.15.0",
-        "contentHash": "p9Fy67yAXxwjL/FxfVtmxwXbVtMOVZX+hNnONKT11adugK6kqgdfYvb0IP5pBBHW1rJSq88MpNkQ0EkyMCUhWg==",
+        "requested": "[3.15.1, )",
+        "resolved": "3.15.1",
+        "contentHash": "svqLTEnVLb0VPUcNCd/khRqagwxM/yybUZ2sEOd7HFdPO+5dAOttL+ARtXSyBeaGWPWAaxY4VvU7pJTZzYhORw==",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
-          "Quartz.Extensions.DependencyInjection": "3.15.0"
+          "Quartz.Extensions.DependencyInjection": "3.15.1"
         }
       },
       "Quartz.Jobs": {
         "type": "CentralTransitive",
-        "requested": "[3.15.0, )",
-        "resolved": "3.15.0",
-        "contentHash": "k7gpdqsKdZ30mI/h9yrb+igPK5tsCsZVxtJPuskEjBlgaomJNQHpMQhZ6HOB93xoERGsUKN1sDIxM9hmGgEHHg==",
+        "requested": "[3.15.1, )",
+        "resolved": "3.15.1",
+        "contentHash": "7zdCIwRnxX7vksRptOhxy/I5d1pkJWn+Pi+CYObHvYMWy4/hX0VuKf2e+m54ytNJzL0FTTNo+avg4Lwm3BQvHg==",
         "dependencies": {
-          "Quartz": "3.15.0"
+          "Quartz": "3.15.1"
         }
       },
       "Riok.Mapperly": {
