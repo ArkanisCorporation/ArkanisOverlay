@@ -1,0 +1,69 @@
+@using Arkanis.Overlay.Common.Models
+@if (Model?.ServiceId == ExternalService.UnitedExpress)
+{
+    @WrapWithTooltip(@<UexLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.CitizenId)
+{
+    @WrapWithTooltip(@<CitizenIdLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.FleetYards)
+{
+    @WrapWithTooltip(@<FleetYardsLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.Regolith)
+{
+    @WrapWithTooltip(@<RegolithLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.Erkul)
+{
+    @WrapWithTooltip(@<ErkulLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.MedRunner)
+{
+    @WrapWithTooltip(@<MedRunnerLogo/>
+    )
+}
+else if (Model?.ServiceId == ExternalService.Discord)
+{
+    @WrapWithTooltip(@<DiscordLogo/>
+    )
+}
+else if (Model is not null)
+{
+    <Tooltip Text="@Model.Description">
+        <MudText>
+            @Model.DisplayName
+        </MudText>
+    </Tooltip>
+}
+else
+{
+    <MudSkeleton
+        SkeletonType="@SkeletonType.Rectangle"
+        Width="80px"/>
+}
+
+@code
+{
+
+    [Parameter]
+    public ExternalAuthenticatorInfo? Model { get; set; }
+
+    private RenderFragment<RenderFragment> WrapWithTooltip
+        => content =>
+        {
+            if (Model is null)
+            {
+                return content;
+            }
+
+            return @<Tooltip Text="@Model.DisplayName" Style="height: 32px">@content</Tooltip>;
+        };
+
+}

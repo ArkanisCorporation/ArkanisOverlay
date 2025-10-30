@@ -12,6 +12,7 @@
         <WarningsNotAsErrors>
             $(WarningsNotAsErrors);
             NU1900; <!-- Error occurred while getting package vulnerability data: Unable to load the service index for source... -->
+            NU5104; <!-- A stable release of a package should not have a prerelease dependency. Either modify the version spec of dependency "XXX" or update the version field in the nuspec. -->
         </WarningsNotAsErrors>
     </PropertyGroup>
 

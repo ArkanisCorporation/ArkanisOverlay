@@ -5,14 +5,10 @@
 <MudStack>
     @if (Command is SetExternalServiceCredentialsCommand setExternalServiceCredentialsCommand)
     {
-        <MudAlert Severity="@Severity.Info">
-            An external application wants to make changes to configuration.
-        </MudAlert>
-        <MudText Typo="@Typo.body2">
-            An account will be linked for the
-            <b>@setExternalServiceCredentialsCommand.Credentials.ServiceId</b>
-            service.
-        </MudText>
+        <LocalLinkSetExternalServiceCredentialsCommandDetails
+            Model="@setExternalServiceCredentialsCommand"
+            DialogContext="@DialogContext"
+            DialogContextChanged="@DialogContextChanged"/>
     }
     else
     {

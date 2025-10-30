@@ -5,7 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
-        <PackageId>Arkanis.Overlay.Common</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,9 +20,12 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
+        <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens"/>
         <PackageReference Include="MoreAsyncLINQ"/>
         <PackageReference Include="morelinq"/>
         <PackageReference Include="NuGet.Versioning"/>
+        <PackageReference Include="Quartz"/>
+        <PackageReference Include="Quartz.Jobs"/>
         <PackageReference Include="Riok.Mapperly"/>
         <PackageReference Include="Serilog"/>
         <PackageReference Include="Serilog.Expressions"/>
@@ -34,6 +36,24 @@
         <PackageReference Include="Serilog.Sinks.Console"/>
         <PackageReference Include="Serilog.Sinks.File"/>
         <PackageReference Include="Serilog.Sinks.Seq"/>
+    </ItemGroup>
+
+    <!-- NuGet Publishing Configuration -->
+    <PropertyGroup>
+        <PackageId>Arkanis.Overlay.Common</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageDescription>Contains common utilities, extensions, and shared components used across different parts of the Arkanis Overlay.</PackageDescription>
+        <PackageProjectUrl>https://arkanis.cc/overlay</PackageProjectUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ArkanisCorporation/ArkanisOverlay</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="../../LICENSE.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>

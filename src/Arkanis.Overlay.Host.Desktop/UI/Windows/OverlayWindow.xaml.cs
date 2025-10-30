@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using Common;
+using Common.Abstractions;
 using Common.Options;
 using Domain.Abstractions.Services;
 using global::Windows.Win32.Foundation;

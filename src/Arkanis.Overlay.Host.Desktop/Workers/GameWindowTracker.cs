@@ -9,6 +9,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.Accessibility;
 using Windows.Win32.UI.HiDpi;
+using Common.Abstractions;
 using Domain.Abstractions.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -46,10 +47,10 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
     private static readonly Dictionary<HWINEVENTHOOK, Thread> ThreadMap = new();
 
     private readonly ConcurrentQueue<Action> _actionQueue = new();
-    private readonly IOverlayEventControls _overlayEventControls;
     private readonly IHostApplicationLifetime _applicationLifetime;
 
     private readonly ILogger _logger;
+    private readonly IOverlayEventControls _overlayEventControls;
     private readonly IUserPreferencesProvider _userPreferencesProvider;
 
     private readonly Timer _windowSizeAndPositionDebounceTimer;
@@ -486,7 +487,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
 
     /// <summary>
     ///     Notifies listeners if the window size or position changed.
-    ///     This method invokes the <see cref="WindowPositionChanged"/> and <see cref="WindowSizeChanged"/> events as needed.
+    ///     This method invokes the <see cref="WindowPositionChanged" /> and <see cref="WindowSizeChanged" /> events as needed.
     /// </summary>
     private void UpdateWindowSizeAndPosition()
     {
@@ -552,7 +553,7 @@ public sealed class GameWindowTracker : IHostedService, IDisposable
 
     /// <summary>
     ///     Raised when the tracked window handle changes.
-    ///     Only reports a valid <see cref="HWND"/> corresponding to an active and currently tracked window.
+    ///     Only reports a valid <see cref="HWND" /> corresponding to an active and currently tracked window.
     /// </summary>
     internal event EventHandler<HWND>? WindowFound;
 

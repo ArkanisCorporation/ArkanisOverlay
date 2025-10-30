@@ -87,12 +87,15 @@ public static class ExternalLinkHelper
     public static string GetMedRunnerPortalProfileLink(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://portal.medrunner.space/profile", contentId);
 
-    public static string GetDiscordUrl(string contentId)
+    public static string GetDiscordUrl(string? contentId = null)
         => AddAttributionGoogleAnalyticsTo("https://discord.com", contentId);
 
-    public static string GetKoFiUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorp", contentId, InternalCampaign);
+    public static string GetKoFiUrl(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://ko-fi.com/ArkanisCorporation", contentId, InternalCampaign);
 
-    public static string GetPatreonUrl(string contentId)
-        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorp", contentId, InternalCampaign);
+    public static string GetPatreonUrl(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://patreon.com/ArkanisCorporation", contentId, InternalCampaign);
+
+    public static string GetRsiLink(string? contentId = null)
+        => AddAttributionGoogleAnalyticsTo("https://robertsspaceindustries.com", contentId);
 }
