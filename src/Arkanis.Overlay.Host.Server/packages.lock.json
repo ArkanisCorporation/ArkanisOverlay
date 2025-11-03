@@ -801,7 +801,7 @@
         "type": "Project",
         "dependencies": {
           "FluentResults": "[4.0.0, )",
-          "FluentValidation": "[12.0.0, )",
+          "FluentValidation": "[12.1.0, )",
           "FluentValidation.DependencyInjectionExtensions": "[12.0.0, )",
           "FuzzySharp": "[2.0.2, )",
           "Humanizer": "[2.14.1, )",
@@ -936,9 +936,9 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[12.0.0, )",
-        "resolved": "12.0.0",
-        "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
+        "requested": "[12.1.0, )",
+        "resolved": "12.1.0",
+        "contentHash": "FqWEn8BdbbFEHGanj9K8SVo+LyBeFWy2rolaE+e1TNUbifr8M7Iss+I1AqTSc8kjKtvjl/WN4XIHiRpslh42bA=="
       },
       "FluentValidation.DependencyInjectionExtensions": {
         "type": "CentralTransitive",
