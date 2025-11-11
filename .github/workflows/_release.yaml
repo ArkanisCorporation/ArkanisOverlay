@@ -5,6 +5,7 @@ permissions:
   issues: write         # for commenting on released issues
   pull-requests: write  # for commenting on released pull requests and creating release backpropagation PRs
   packages: write       # for publishing packages in repository registry
+  id-token: write       # for Azure Code Signing & Credential Federation
 
 on:
   workflow_dispatch:
@@ -36,6 +37,10 @@ env:
 
 jobs:
   release:
+    environment:
+      # Required for Federated Credential for Azure Code Signing
+      # https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Credentials/appId/b6acf5c1-f282-4eb0-a3a4-4e87e95fe051/isMSAApp~/false
+      name: ProductionCodeSigning
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -80,6 +85,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_PUBLISH_API_KEY: ${{ secrets.NUGET_PUBLISH_API_KEY }}
           DEBUG: ${{ inputs.dry_run && '*' || '' }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         with:
           ci: ${{ ! inputs.dry_run }}
           dry_run: ${{ inputs.dry_run }}
