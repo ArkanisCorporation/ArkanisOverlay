@@ -15,6 +15,7 @@ permissions:
   issues: write         # for commenting on released issues
   pull-requests: write  # for commenting on released pull requests and creating release backpropagation PRs
   packages: write       # for publishing packages in repository registry
+  id-token: write       # for Azure Code Signing & Credential Federation
 
 env:
   # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
