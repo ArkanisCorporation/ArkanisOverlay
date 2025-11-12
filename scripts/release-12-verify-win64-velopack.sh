@@ -40,7 +40,7 @@ dotnet vpk [win] pack \
     --packDir publish-win64 \
     --outputDir release-win64 \
     --mainExe ArkanisOverlay.exe \
-    --azureTrustedSignFile azure-code-signing.metadata.json \
+    --signTemplate "jsign --storetype TRUSTEDSIGNING --keystore weu.codesigning.azure.net --storepass $AZURE_API_ACCESS_TOKEN --alias ArkanisOverlay/ArkanisOverlay {{file}}" \
     1>&2 # logging output must not go to stdout
 
 >&2 echo "Successfully packed the Overlay application to: $(realpath release-win64)"

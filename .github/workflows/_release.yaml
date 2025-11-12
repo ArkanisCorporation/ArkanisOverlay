@@ -48,6 +48,21 @@ jobs:
         with:
           fetch-tags: true
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Azure API Access Token
+        uses: azure/cli@v2
+        with:
+          azcliversion: 'latest'
+          # used for Azure Code Signing in `scripts/release-12-verify-win64-velopack.sh`
+          inlineScript: |
+            echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --query accessToken -o tsv)" >> $GITHUB_ENV
+
       - name: Setup .NET
         id: setup-dotnet
         uses: actions/setup-dotnet@v5
@@ -61,6 +76,15 @@ jobs:
       - run: echo "Using .NET ${{ steps.setup-dotnet.outputs.dotnet-version }}"
 
       - run: echo "Cache hit - ${{ steps.setup-dotnet.outputs.cache-hit }}"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Download Jsign
+        run: wget https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
 
       - name: Restore dependencies
         run: dotnet restore --locked-mode
