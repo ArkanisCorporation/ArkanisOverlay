@@ -1066,7 +1066,7 @@
           "Quartz.Jobs": "[3.15.1, )",
           "Riok.Mapperly": "[4.3.0, )",
           "Serilog": "[4.3.0, )",
-          "Serilog.Expressions": "[5.1.0-dev-02301, )",
+          "Serilog.Expressions": "[5.1.0-dev-02309, )",
           "Serilog.Extensions.Hosting": "[8.0.0, )",
           "Serilog.Formatting.Compact": "[3.0.0, )",
           "Serilog.Settings.Configuration": "[8.0.4, )",
@@ -1415,9 +1415,9 @@
       },
       "Serilog.Expressions": {
         "type": "CentralTransitive",
-        "requested": "[5.1.0-dev-02301, )",
-        "resolved": "5.1.0-dev-02301",
-        "contentHash": "hW7OKCr8m/5h84oTFeXSnnfqFozn05h9BfU+1kMLLFvSmJPjRhaxqVqR/zs2+g9kD8s0d9CSRCwhtZAshbyvUg==",
+        "requested": "[5.1.0-dev-02309, )",
+        "resolved": "5.1.0-dev-02309",
+        "contentHash": "4qCLmH3u1Xr73IjjsCOlABjtrVuJvMPCvWyrtS79azMnAXgkxpWvecs75KUN6ypvOqBe67kkHsHdZVBWGUVnaA==",
         "dependencies": {
           "Serilog": "4.2.0"
         }
