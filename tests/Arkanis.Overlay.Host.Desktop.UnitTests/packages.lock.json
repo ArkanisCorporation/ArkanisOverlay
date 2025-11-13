@@ -953,6 +953,16 @@
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
+      "OpenIddict.Abstractions": {
+        "type": "Transitive",
+        "resolved": "7.1.0",
+        "contentHash": "nHITUrygfjQuX0ki7IBojFq3BrUCvZdDeS8gCDrmUjBOgG/NsfUxLFdzCA3OWUaipLLwOY1bGF+vuWnPL7xmyg==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "Microsoft.IdentityModel.Tokens": "8.14.0"
+        }
+      },
       "Polly.Core": {
         "type": "Transitive",
         "resolved": "8.6.4",
@@ -1205,7 +1215,7 @@
           "JetBrains.Annotations": "[2025.2.2, )",
           "Microsoft.Extensions.Configuration.Abstractions": "[8.0.0, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.2, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.10, )",
           "Microsoft.Extensions.Hosting.Abstractions": "[8.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.3, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
@@ -1273,7 +1283,8 @@
       "arkanis.overlay.external.citizenid": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.External.Common": "[1.0.0, )"
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
+          "CitizenId.Domain.Shared": "[1.7.20, )"
         }
       },
       "arkanis.overlay.external.common": {
@@ -1362,6 +1373,19 @@
         "contentHash": "Zbpek1+VsrBfvsccyjCE5c98k0XNHhklsvswSwi0wCGlBXXSrUeMPyR7tnumrn+b6WuqA8VuAYVil85sZA157Q==",
         "dependencies": {
           "Chapter.Net.WPF": "3.3.0"
+        }
+      },
+      "CitizenId.Domain.Shared": {
+        "type": "CentralTransitive",
+        "requested": "[1.7.20, )",
+        "resolved": "1.7.20",
+        "contentHash": "/KQ9vef1aIcLgySrn7eWWEZlE563x5LRI7TfKqrPpg1CNxes+0qMR5L3tGUDTQvFFEb9q5gXizvh6V0/MIqT8A==",
+        "dependencies": {
+          "FluentResults": "4.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
+          "Microsoft.IdentityModel.Abstractions": "8.14.0",
+          "OpenIddict.Abstractions": "7.1.0",
+          "morelinq": "4.4.0"
         }
       },
       "Dapplo.Microsoft.Extensions.Hosting.AppServices": {
@@ -1613,9 +1637,9 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[8.0.2, )",
-        "resolved": "8.0.2",
-        "contentHash": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg=="
+        "requested": "[9.0.10, )",
+        "resolved": "9.0.10",
+        "contentHash": "r9waLiOPe9ZF1PvzUT+RDoHvpMmY8MW+lb4lqjYGObwKpnyPMLI3odVvlmshwuZcdoHynsGWOrCPA0hxZ63lIA=="
       },
       "Microsoft.Extensions.FileProviders.Physical": {
         "type": "CentralTransitive",
