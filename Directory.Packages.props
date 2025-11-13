@@ -65,7 +65,7 @@
         <PackageVersion Include="Riok.Mapperly" Version="4.3.0"/>
         <PackageVersion Include="Scrutor" Version="6.1.0"/>
         <PackageVersion Include="Serilog" Version="4.3.0"/>
-        <PackageVersion Include="Serilog.Expressions" Version="5.1.0-dev-02301"/>
+        <PackageVersion Include="Serilog.Expressions" Version="5.1.0-dev-02309"/>
         <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0"/>
         <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.4"/>
         <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1"/>
