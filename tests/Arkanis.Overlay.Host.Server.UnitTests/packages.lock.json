@@ -815,6 +815,16 @@
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
+      "OpenIddict.Abstractions": {
+        "type": "Transitive",
+        "resolved": "7.1.0",
+        "contentHash": "nHITUrygfjQuX0ki7IBojFq3BrUCvZdDeS8gCDrmUjBOgG/NsfUxLFdzCA3OWUaipLLwOY1bGF+vuWnPL7xmyg==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "Microsoft.IdentityModel.Tokens": "8.14.0"
+        }
+      },
       "Polly.Core": {
         "type": "Transitive",
         "resolved": "8.6.4",
@@ -1001,14 +1011,14 @@
         "type": "Project",
         "dependencies": {
           "FluentResults": "[4.0.0, )",
-          "FluentValidation": "[12.0.0, )",
-          "FluentValidation.DependencyInjectionExtensions": "[12.0.0, )",
+          "FluentValidation": "[12.1.0, )",
+          "FluentValidation.DependencyInjectionExtensions": "[12.1.0, )",
           "FuzzySharp": "[2.0.2, )",
           "Humanizer": "[2.14.1, )",
           "JetBrains.Annotations": "[2025.2.2, )",
           "Microsoft.Extensions.Configuration.Abstractions": "[8.0.0, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.2, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.10, )",
           "Microsoft.Extensions.Hosting.Abstractions": "[8.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.3, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[8.0.0, )",
@@ -1024,7 +1034,7 @@
           "Serilog.Formatting.Compact": "[3.0.0, )",
           "Serilog.Settings.Configuration": "[8.0.4, )",
           "Serilog.Sinks.Async": "[2.1.0, )",
-          "Serilog.Sinks.Console": "[6.0.0, )",
+          "Serilog.Sinks.Console": "[6.1.1, )",
           "Serilog.Sinks.File": "[7.0.0, )",
           "Serilog.Sinks.Seq": "[9.0.0, )",
           "morelinq": "[4.4.0, )"
@@ -1054,7 +1064,7 @@
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.4.3, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.21, )",
-          "MudBlazor": "[8.13.0, )"
+          "MudBlazor": "[8.14.0, )"
         }
       },
       "arkanis.overlay.domain": {
@@ -1076,7 +1086,8 @@
       "arkanis.overlay.external.citizenid": {
         "type": "Project",
         "dependencies": {
-          "Arkanis.Overlay.External.Common": "[1.0.0, )"
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
+          "CitizenId.Domain.Shared": "[1.7.20, )"
         }
       },
       "arkanis.overlay.external.common": {
@@ -1138,6 +1149,19 @@
           "Microsoft.AspNetCore.Components.Web": "3.1.8"
         }
       },
+      "CitizenId.Domain.Shared": {
+        "type": "CentralTransitive",
+        "requested": "[1.7.20, )",
+        "resolved": "1.7.20",
+        "contentHash": "/KQ9vef1aIcLgySrn7eWWEZlE563x5LRI7TfKqrPpg1CNxes+0qMR5L3tGUDTQvFFEb9q5gXizvh6V0/MIqT8A==",
+        "dependencies": {
+          "FluentResults": "4.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
+          "Microsoft.IdentityModel.Abstractions": "8.14.0",
+          "OpenIddict.Abstractions": "7.1.0",
+          "morelinq": "4.4.0"
+        }
+      },
       "Duende.IdentityModel.OidcClient": {
         "type": "CentralTransitive",
         "requested": "[6.0.1, )",
@@ -1160,17 +1184,17 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[12.0.0, )",
-        "resolved": "12.0.0",
-        "contentHash": "8NVLxtMUXynRHJIX3Hn1ACovaqZIJASufXIIFkD0EUbcd5PmMsL1xUD5h548gCezJ5BzlITaR9CAMrGe29aWpA=="
+        "requested": "[12.1.0, )",
+        "resolved": "12.1.0",
+        "contentHash": "FqWEn8BdbbFEHGanj9K8SVo+LyBeFWy2rolaE+e1TNUbifr8M7Iss+I1AqTSc8kjKtvjl/WN4XIHiRpslh42bA=="
       },
       "FluentValidation.DependencyInjectionExtensions": {
         "type": "CentralTransitive",
-        "requested": "[12.0.0, )",
-        "resolved": "12.0.0",
-        "contentHash": "B28fBRL1UjhGsBC8fwV6YBZosh+SiU1FxdD7l7p5dGPgRlVI7UnM+Lgzmg+unZtV1Zxzpaw96UY2MYfMaAd8cg==",
+        "requested": "[12.1.0, )",
+        "resolved": "12.1.0",
+        "contentHash": "p9ZnpVCUvkelSfqFYZP9aMtnuRlDRkrAAPqjQGG+1mVVn8zxE0bc1/RAFRBZKsPglbMBQOx8wXOZhg2fGstacQ==",
         "dependencies": {
-          "FluentValidation": "12.0.0",
+          "FluentValidation": "12.1.0",
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
@@ -1326,9 +1350,9 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "CentralTransitive",
-        "requested": "[8.0.2, )",
-        "resolved": "8.0.2",
-        "contentHash": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg=="
+        "requested": "[9.0.10, )",
+        "resolved": "9.0.10",
+        "contentHash": "r9waLiOPe9ZF1PvzUT+RDoHvpMmY8MW+lb4lqjYGObwKpnyPMLI3odVvlmshwuZcdoHynsGWOrCPA0hxZ63lIA=="
       },
       "Microsoft.Extensions.FileProviders.Physical": {
         "type": "CentralTransitive",
@@ -1427,9 +1451,9 @@
       },
       "MudBlazor": {
         "type": "CentralTransitive",
-        "requested": "[8.13.0, )",
-        "resolved": "8.13.0",
-        "contentHash": "Y6JW93zf8tiVhMSkkL0mZ3ruqjOTNftvVoX3sik6NEnIye+Gs0FXI8rhXfrH2LU79Mw/fOtT5ms3L/Q4TKx2kA==",
+        "requested": "[8.14.0, )",
+        "resolved": "8.14.0",
+        "contentHash": "cYqG3YvVZxYl0MtLaivYI2ilgd88Rv2noiVR/l6rkH71cBMtOOOD/zYxvF8haf5KAEjc/RGYJ0EpnV9rQn7MXw==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "8.0.12",
           "Microsoft.AspNetCore.Components.Web": "8.0.12",
@@ -1599,9 +1623,9 @@
       },
       "Serilog.Sinks.Console": {
         "type": "CentralTransitive",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "fQGWqVMClCP2yEyTXPIinSr5c+CBGUvBybPxjAGcf7ctDhadFhrQw03Mv8rJ07/wR5PDfFjewf2LimvXCDzpbA==",
+        "requested": "[6.1.1, )",
+        "resolved": "6.1.1",
+        "contentHash": "8jbqgjUyZlfCuSTaJk6lOca465OndqOz3KZP6Cryt/IqZYybyBu7GP0fE/AXBzrrQB3EBmQntBFAvMVz1COvAA==",
         "dependencies": {
           "Serilog": "4.0.0"
         }

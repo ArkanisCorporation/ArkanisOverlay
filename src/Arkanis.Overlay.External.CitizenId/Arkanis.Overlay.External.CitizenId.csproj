@@ -11,4 +11,8 @@
         <ProjectReference Include="..\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="CitizenId.Domain.Shared"/>
+    </ItemGroup>
+
 </Project>
