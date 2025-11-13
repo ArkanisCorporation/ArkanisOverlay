@@ -10,5 +10,5 @@ public class CitizenIdLinkHelper(IOptionsMonitor<CitizenIdOptions> citizenIdOpti
         => citizenIdOptions.CurrentValue.Authority.ToString();
 
     public string GetLinkAccountUrl()
-        => new Uri(backendOptions.CurrentValue.BaseAddress, "/api/v1/overlay/connect/link-account").ToString();
+        => new Uri(backendOptions.CurrentValue.BaseAddress, "/api/v1/overlay/connect/link-account/overlay").ToString();
 }
