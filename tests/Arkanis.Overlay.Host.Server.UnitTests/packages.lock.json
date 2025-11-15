@@ -1087,7 +1087,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.External.Common": "[1.0.0, )",
-          "CitizenId.Domain.Shared": "[1.7.20, )"
+          "CitizenId.Domain.Shared": "[1.7.23, )"
         }
       },
       "arkanis.overlay.external.common": {
@@ -1151,9 +1151,9 @@
       },
       "CitizenId.Domain.Shared": {
         "type": "CentralTransitive",
-        "requested": "[1.7.20, )",
-        "resolved": "1.7.20",
-        "contentHash": "/KQ9vef1aIcLgySrn7eWWEZlE563x5LRI7TfKqrPpg1CNxes+0qMR5L3tGUDTQvFFEb9q5gXizvh6V0/MIqT8A==",
+        "requested": "[1.7.23, )",
+        "resolved": "1.7.23",
+        "contentHash": "U4Qx23Yfqv6CiK+PFcPttllz9IamcR6Y4VWxYZiE/E0pFwvYD89RC3JOo4K40uESaiXzJAKXpgH2GzUGnsVuaA==",
         "dependencies": {
           "FluentResults": "4.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
