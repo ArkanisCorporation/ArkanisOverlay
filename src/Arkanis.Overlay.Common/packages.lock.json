@@ -116,9 +116,9 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Direct",
-        "requested": "[9.0.10, )",
-        "resolved": "9.0.10",
-        "contentHash": "r9waLiOPe9ZF1PvzUT+RDoHvpMmY8MW+lb4lqjYGObwKpnyPMLI3odVvlmshwuZcdoHynsGWOrCPA0hxZ63lIA=="
+        "requested": "[9.0.11, )",
+        "resolved": "9.0.11",
+        "contentHash": "+ZxxZzcVU+IEzq12GItUzf/V3mEc5nSLiXijwvDc4zyhbjvSZZ043giSZqGnhakrjwRWjkerIHPrRwm9okEIpw=="
       },
       "Microsoft.Extensions.Hosting.Abstractions": {
         "type": "Direct",
@@ -181,9 +181,9 @@
       },
       "NuGet.Versioning": {
         "type": "Direct",
-        "requested": "[6.14.0, )",
-        "resolved": "6.14.0",
-        "contentHash": "4v4blkhCv8mpKtfx+z0G/X0daVCzdIaHSC51GkUspugi5JIMn2Bo8xm5PdZYF0U68gOBfz/+aPWMnpRd85Jbow=="
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "vMEhpystjAmHzWARE09PjYMWOiGgM+f9rJYMcXGs8soz9/url4qmU9O9Y+hy22kPuqozCMoGcJt0JzKRZ1woZg=="
       },
       "Quartz": {
         "type": "Direct",
@@ -217,9 +217,9 @@
       },
       "Serilog.Expressions": {
         "type": "Direct",
-        "requested": "[5.1.0-dev-02301, )",
-        "resolved": "5.1.0-dev-02301",
-        "contentHash": "hW7OKCr8m/5h84oTFeXSnnfqFozn05h9BfU+1kMLLFvSmJPjRhaxqVqR/zs2+g9kD8s0d9CSRCwhtZAshbyvUg==",
+        "requested": "[5.1.0-dev-02309, )",
+        "resolved": "5.1.0-dev-02309",
+        "contentHash": "4qCLmH3u1Xr73IjjsCOlABjtrVuJvMPCvWyrtS79azMnAXgkxpWvecs75KUN6ypvOqBe67kkHsHdZVBWGUVnaA==",
         "dependencies": {
           "Serilog": "4.2.0"
         }
