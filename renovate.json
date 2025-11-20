@@ -15,7 +15,13 @@
     },
     "packageRules": [
         {
-            "matchDatasources": ["nuget"]
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ],
+            "automerge": true
         }
     ]
 }
