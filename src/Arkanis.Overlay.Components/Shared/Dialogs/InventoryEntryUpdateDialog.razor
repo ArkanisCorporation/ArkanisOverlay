@@ -21,7 +21,7 @@
             <MudItem xs="12">
                 <MudStack Spacing="0">
                     <InventoryEntrySelectBox
-                        T="@(InventoryEntryBase?)"
+                        T="@InventoryEntryBase"
                         Label="Inventory Entity"
                         @bind-Value="@SourceModel"
                         @bind-Value:after="@ConfigureDefaults"

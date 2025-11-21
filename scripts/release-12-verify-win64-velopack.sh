@@ -35,7 +35,7 @@ dotnet vpk [win] pack \
     --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/Logo/color_fill_blur_name_bg.png \
     --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico \
     --packVersion "${VERSION}" \
-    --framework net8.0-x64-desktop \
+    --framework net10.0-x64-desktop \
     --channel "${VERSION_CHANNEL}" \
     --packDir publish-win64 \
     --outputDir release-win64 \

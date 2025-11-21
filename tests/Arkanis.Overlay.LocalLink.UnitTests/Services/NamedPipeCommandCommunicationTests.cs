@@ -32,10 +32,10 @@ public class NamedPipeCommandCommunicationTests
 
         // Act
         var sendTask = client.SendAsync(command, CancellationToken.None);
-        await server.WaitForConnectionAsync();
+        await server.WaitForConnectionAsync(TestContext.Current.CancellationToken);
 
         // Assert
-        var receivedCommand = await JsonSerializer.DeserializeAsync<LocalLinkCommandBase>(server);
+        var receivedCommand = await JsonSerializer.DeserializeAsync<LocalLinkCommandBase>(server, cancellationToken: TestContext.Current.CancellationToken);
         receivedCommand.ShouldNotBeNull();
 
         var typedCommand = receivedCommand.ShouldBeOfType<TestCommand>();
@@ -60,9 +60,9 @@ public class NamedPipeCommandCommunicationTests
 
         // Act
         var receiveTask = server.ReceiveAsync(TimeSpan.FromSeconds(2), CancellationToken.None);
-        await clientPipe.ConnectAsync();
+        await clientPipe.ConnectAsync(TestContext.Current.CancellationToken);
 
-        await JsonSerializer.SerializeAsync<LocalLinkCommandBase>(clientPipe, command);
+        await JsonSerializer.SerializeAsync<LocalLinkCommandBase>(clientPipe, command, cancellationToken: TestContext.Current.CancellationToken);
         await clientPipe.DisposeAsync();
 
         // Assert
@@ -83,9 +83,9 @@ public class NamedPipeCommandCommunicationTests
 
         // Act
         var receiveTask = server.ReceiveAsync(communicationTimeout, CancellationToken.None);
-        await clientPipe.ConnectAsync();
+        await clientPipe.ConnectAsync(TestContext.Current.CancellationToken);
 
-        await Task.Delay(communicationTimeout * 2);
+        await Task.Delay(communicationTimeout * 2, TestContext.Current.CancellationToken);
 
         // Assert
         await Assert.ThrowsAsync<LocalLinkConnectionException>(() => receiveTask);

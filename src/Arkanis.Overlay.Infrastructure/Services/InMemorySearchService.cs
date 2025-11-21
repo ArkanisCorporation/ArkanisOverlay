@@ -2,12 +2,12 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 
 using System.Diagnostics;
 using System.Threading.Channels;
+using Common.Extensions;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using Domain.Models.Search;
 using Microsoft.Extensions.Logging;
-using MoreAsyncLINQ;
 using MoreLinq;
 
 public class InMemorySearchService(
@@ -53,13 +53,13 @@ public class InMemorySearchService(
         logger.LogDebug("Searching all entities for matches with {@SearchQuery}", queries);
 
         var searchMatchChannel = Channel.CreateBounded<SearchMatchResult<IGameEntity>>(100);
-        var gameEntityBatches = aggregateRepository.GetAllAsync(cancellationToken).Batch(250);
+        var gameEntityBatches = aggregateRepository.GetAllAsync(cancellationToken).Batch(250, cancellationToken);
         var parallelOptions = new ParallelOptions
         {
             CancellationToken = cancellationToken,
         };
 
-        var searchProcess = Task.Run(() => Parallel.ForEachAsync(gameEntityBatches, parallelOptions, PerformSearchOnBatch), cancellationToken)
+        var searchProcess = Task.Run<Task>(() => Parallel.ForEachAsync(gameEntityBatches, parallelOptions, PerformSearchOnBatch), cancellationToken)
             .ContinueWith(_ => searchMatchChannel.Writer.Complete(), cancellationToken);
 
         var matches = await searchMatchChannel.Reader.ReadAllAsync(cancellationToken)
@@ -79,7 +79,7 @@ public class InMemorySearchService(
                     .FallbackIfEmpty(SearchMatchResult.CreateEmpty(entity))
                     .Aggregate((result1, result2) => result1.Merge(result2))
                 )
-                .Where(result => result.ShouldBeExcluded == false)
+                .Where(result => !result.ShouldBeExcluded)
                 .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
                 .Where(result => !result.ContainsUnmatched<TextSearch>());
 
