@@ -47,6 +47,7 @@ public static class DependencyInjection
             }
         );
 
+        services.Configure(configure);
         var options = new InfrastructureServiceOptions();
         configure(options);
 
@@ -138,9 +139,4 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services
             .AddConfiguration<ConfigurationOptions>(configuration);
-
-    public class InfrastructureServiceOptions
-    {
-        public HostingMode HostingMode { get; set; }
-    }
 }
