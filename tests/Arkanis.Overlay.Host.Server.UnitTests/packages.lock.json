@@ -1062,7 +1062,7 @@
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
-          "MathEvaluator": "[2.4.3, )",
+          "MathEvaluator": "[2.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.22, )",
           "MudBlazor": "[8.14.0, )"
         }
@@ -1268,9 +1268,9 @@
       },
       "MathEvaluator": {
         "type": "CentralTransitive",
-        "requested": "[2.4.3, )",
-        "resolved": "2.4.3",
-        "contentHash": "izdC7A/8U8RUHga+piMXuaS9a30Ak2RC2xGqJncm6eUeXUBB9iij+0m5lNesIWTYCXKPro2qeVEJUdB3LzG4iA==",
+        "requested": "[2.5.0, )",
+        "resolved": "2.5.0",
+        "contentHash": "RXfKirCOmGGkw/x1SRqxzGz/RZck3ctzIMTPMmkOhcI1PGzWsKMK2kYjYjG55w90j3c2RDxDzwgFTddGpuduxw==",
         "dependencies": {
           "MathTrigonometric": "1.2.0"
         }
