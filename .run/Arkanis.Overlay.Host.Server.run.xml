@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Arkanis.Overlay.Host.Server" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
     <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj" />
-    <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
+    <option name="LAUNCH_PROFILE_TFM" value="net10.0" />
     <option name="LAUNCH_PROFILE_NAME" value="http" />
     <option name="USE_EXTERNAL_CONSOLE" value="1" />
     <option name="USE_MONO" value="0" />
@@ -35,7 +35,7 @@
     <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
     <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
     <option name="PROJECT_KIND" value="DotNetCore" />
-    <option name="PROJECT_TFM" value="net8.0" />
+    <option name="PROJECT_TFM" value="net10.0" />
     <browser url="http://localhost:5341/#/events?deletionEnabled&amp;tail" start="true" />
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Seq Log Viewer" run_configuration_type="docker-deploy" />

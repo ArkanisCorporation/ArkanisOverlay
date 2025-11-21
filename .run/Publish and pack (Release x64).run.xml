@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Publish and pack (Release x64)" type="ShConfigurationType" focusToolWindowBeforeRun="true">
-    <option name="SCRIPT_TEXT" value="dotnet vpk [win] pack --packId ArkanisOverlay --packTitle &quot;Arkanis Overlay&quot; --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/Logo/color_fill_blur_name_bg.png --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico --packVersion 0.0.1-dev.0+20250101000000 --framework net8.0-x64-desktop --channel dev --packDir ./publish --outputDir ./Releases" />
+    <option name="SCRIPT_TEXT" value="dotnet vpk [win] pack --packId ArkanisOverlay --packTitle &quot;Arkanis Overlay&quot; --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/Logo/color_fill_blur_name_bg.png --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico --packVersion 0.0.1-dev.0+20250101000000 --framework net10.0-x64-desktop --channel dev --packDir ./publish --outputDir ./Releases" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />
