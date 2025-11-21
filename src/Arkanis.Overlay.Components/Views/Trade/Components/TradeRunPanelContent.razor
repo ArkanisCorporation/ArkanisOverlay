@@ -1,4 +1,3 @@
-@using Arkanis.Overlay.Components.Shared.Dialogs
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @inherits TradeRunComponent
 @inject NavigationManager NavigationManager
@@ -22,6 +21,7 @@
 
         <MudExpansionPanel Tag="@stage"
                            Gutters="false"
+                           HeaderClass="pa-4"
                            Disabled="@isIncomplete"
                            Expanded="@isCurrentlyInProgress"
                            HideIcon="@isIncomplete">
@@ -69,6 +69,7 @@
     }
 
     <MudExpansionPanel Gutters="false"
+                       HeaderClass="pa-4"
                        Expanded="@AllStagesComplete"
                        Disabled="@AllStagesComplete"
                        HideIcon="@AllStagesComplete">
@@ -92,26 +93,26 @@
                         @if (TradeRun.HasUnsoldCargo)
                         {
                             <MudButton Class="w-100"
-                                       OnClick="FinalizeRunAsync"
+                                       OnClick="@FinalizeRunAsync"
                                        Color="@Color.Error"
                                        Disabled="@(Disabled)">
                                 Finalize - remaining cargo lost
                             </MudButton>
                             <MudButton Class="w-100"
-                                       OnClick="FinalizeRunCargoKeptAsync"
+                                       OnClick="@FinalizeRunCargoKeptAsync"
                                        Color="@Color.Warning"
                                        Disabled="@(Disabled || (IsInProgress && !TradeRun.HasUnsoldCargo))">
                                 Finalize - keep cargo in the inventory
                             </MudButton>
                             <MudButton Class="w-100"
-                                       OnClick="ContinueAtLastLocationAsync"
+                                       OnClick="@ContinueAtLastLocationAsync"
                                        Variant="@Variant.Outlined"
                                        Color="@Color.Success"
                                        Disabled="@(Disabled || IsInProgress)">
                                 Continue at the current location and wait
                             </MudButton>
                             <MudButton Class="w-100"
-                                       OnClick="ContinueToDifferentLocationAsync"
+                                       OnClick="@ContinueToDifferentLocationAsync"
                                        Variant="@Variant.Outlined"
                                        Color="@Color.Success"
                                        Disabled="@(Disabled || IsInProgress)">
@@ -121,7 +122,7 @@
                         else
                         {
                             <MudButton Class="w-100"
-                                       OnClick="FinalizeRunAsync"
+                                       OnClick="@FinalizeRunAsync"
                                        Variant="@Variant.Outlined"
                                        Color="@Color.Success"
                                        Disabled="@(Disabled || IsInProgress)">
