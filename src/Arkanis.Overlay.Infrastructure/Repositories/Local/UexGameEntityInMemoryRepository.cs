@@ -7,7 +7,6 @@ using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using MoreAsyncLINQ;
 using Services;
 using Services.Abstractions;
 
@@ -71,7 +70,7 @@ public class UexGameEntityInMemoryRepository<T>(IChangeTokenManager changeTokenM
             DataState = loadedSyncData.DataState with { RefreshRequired = false };
             Entities = await loadedSyncData.GameEntities
                 .DistinctBy(x => x.Id)
-                .ToDictionaryAsync(x => x.Id, cancellationToken)
+                .ToDictionaryAsync(x => x.Id, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
             await changeTokenManager.TriggerChangeForAsync(this);

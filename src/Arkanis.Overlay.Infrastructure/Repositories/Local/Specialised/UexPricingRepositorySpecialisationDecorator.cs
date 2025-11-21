@@ -21,10 +21,10 @@ internal class UexPricingRepositorySpecialisationDecorator<TSource, TTarget>(IGa
         => EntitiesByDomainId = await DecoratedRepository.GetAllAsync(cancellationToken)
             .OfType<TTarget>()
             .GroupBy(entity => entity.EntityId)
-            .ToDictionaryAwaitAsync(
-                group => ValueTask.FromResult(group.Key),
-                group => group.ToArrayAsync(cancellationToken),
-                cancellationToken
+            .ToDictionaryAsync(
+                group => group.Key,
+                group => group.ToArray(),
+                cancellationToken: cancellationToken
             );
 }
 

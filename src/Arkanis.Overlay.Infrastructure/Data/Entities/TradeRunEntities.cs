@@ -130,6 +130,16 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
             {
                 builder.HasBaseType<AcquisitionStage>();
 
+                builder.ComplexProperty(
+                    x => x.UserSourcedData,
+                    opts =>
+                    {
+                        opts.Property(x => x.MaxContainerSize).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.MaxContainerSize)}");
+                        opts.Property(x => x.StockStatus).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.StockStatus)}");
+                        opts.Property(x => x.UserConfirmed).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.UserConfirmed)}");
+                    }
+                );
+
                 builder.Property(x => x.TerminalId)
                     .HasConversion<UexApiDomainIdConverter<GameTerminal>>();
             }
@@ -162,6 +172,16 @@ public class TradeRunEntity : IDatabaseEntity<TradeRunId>
             public void Configure(EntityTypeBuilder<TerminalSaleStage> builder)
             {
                 builder.HasBaseType<SaleStage>();
+
+                builder.ComplexProperty(
+                    x => x.UserSourcedData,
+                    opts =>
+                    {
+                        opts.Property(x => x.MaxContainerSize).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.MaxContainerSize)}");
+                        opts.Property(x => x.StockStatus).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.StockStatus)}");
+                        opts.Property(x => x.UserConfirmed).HasColumnName($"{nameof(UserSourcedData)}_{nameof(UserSourcedData.UserConfirmed)}");
+                    }
+                );
 
                 builder.Property(x => x.TerminalId)
                     .HasConversion<UexApiDomainIdConverter<GameTerminal>>();

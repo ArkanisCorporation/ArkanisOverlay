@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using System.Collections.Concurrent;
 using System.Globalization;
+using Common.Extensions;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Services;
@@ -10,7 +11,6 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
-using MoreAsyncLINQ;
 using Polly;
 using Services;
 
@@ -42,7 +42,7 @@ internal class UexItemSyncRepository(
         var responseDetectedAsNull = false;
         UexApiResponse<GetItemsOkResponse>? response = null;
 
-        await foreach (var categoryBatch in categories.Batch(UexSharedResiliency.ApiRequestBatchSize).WithCancellation(cancellationToken))
+        await foreach (var categoryBatch in categories.Batch(UexSharedResiliency.ApiRequestBatchSize, cancellationToken))
         {
             await Task.WhenAll(categoryBatch.Select(LoadForCategoryAsync));
         }

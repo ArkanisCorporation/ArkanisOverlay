@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit.Microsoft.DependencyInjection;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
-using Xunit.Sdk;
+using Xunit.v3;
 
 public class DesktopHostTestFixture : TestBedFixture
 {

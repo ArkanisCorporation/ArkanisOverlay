@@ -2,8 +2,9 @@ namespace Arkanis.Overlay.LocalLink.Services;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Models;
 
-public class NamedPipeCommandCallForwarder(
+public partial class NamedPipeCommandCallForwarder(
     IConfiguration configuration,
     CustomProtocolClient customProtocolClient,
     NamedPipeCommandClient namedPipeCommandClient,
@@ -15,7 +16,7 @@ public class NamedPipeCommandCallForwarder(
         try
         {
             var command = endpointCall.Command;
-            logger.LogInformation("Forwarding command endpoint call: {@Command}", command);
+            LogCommandForward(logger, command);
             await namedPipeCommandClient.SendAsync(command, cancellationToken);
             return true;
         }
@@ -25,4 +26,7 @@ public class NamedPipeCommandCallForwarder(
             return false;
         }
     }
+
+    [LoggerMessage(LogLevel.Information, "Forwarding command endpoint call: {@Command}")]
+    static partial void LogCommandForward(ILogger<NamedPipeCommandCallForwarder> logger, LocalLinkCommandBase command);
 }

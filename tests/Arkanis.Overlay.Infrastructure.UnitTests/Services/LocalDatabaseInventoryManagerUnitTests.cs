@@ -9,7 +9,6 @@ using Infrastructure.Data.Mappers;
 using Infrastructure.Services;
 using MoreLinq;
 using Shouldly;
-using Xunit.Abstractions;
 
 [Collection(TestConstants.Collections.DbContext)]
 public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutputHelper, LocalDatabaseServiceTestBedFixture fixture)
@@ -61,9 +60,9 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         var source = InventoryEntry.Create(GameEntityFixture.Item1, new Quantity(1, Quantity.UnitType.Count));
 
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
-        var databaseList = await inventoryManager.GetAllEntriesAsync();
+        var databaseList = await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken);
         databaseList.Single(x => x.Id == source.Id).ShouldBeEquivalentTo(source);
     }
 
@@ -75,12 +74,12 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
 
         var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count));
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
         var updatedSource = source.TransferTo(GameEntityFixture.Outpost);
-        await inventoryManager.AddOrUpdateEntryAsync(updatedSource);
+        await inventoryManager.AddOrUpdateEntryAsync(updatedSource, TestContext.Current.CancellationToken);
 
-        var databaseEntries = await inventoryManager.GetAllEntriesAsync();
+        var databaseEntries = await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken);
         var databaseEntry = databaseEntries.SingleOrDefault(x => x.Id == source.Id).ShouldNotBeNull();
         databaseEntry.ShouldBeEquivalentTo(updatedSource);
     }
@@ -98,9 +97,9 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
             Entries = [DomainInventoryEntriesFixture.LocationCommodity1],
         };
 
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
-        var databaseList = await inventoryManager.GetListAsync(sourceList.Id);
+        var databaseList = await inventoryManager.GetListAsync(sourceList.Id, TestContext.Current.CancellationToken);
         ShouldBeEquivalent(databaseList, sourceList);
     }
 
@@ -118,13 +117,13 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         };
 
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
         sourceList.Entries.Add(DomainInventoryEntriesFixture.LocationItem1);
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
-        var databaseList = await inventoryManager.GetListAsync(sourceList.Id);
+        var databaseList = await inventoryManager.GetListAsync(sourceList.Id, TestContext.Current.CancellationToken);
         ShouldBeEquivalent(databaseList, sourceList);
     }
 
@@ -148,14 +147,14 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         };
 
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
         sourceList.Entries.Remove(DomainInventoryEntriesFixture.LocationItem1);
         sourceList.Entries.Remove(DomainInventoryEntriesFixture.LocationItem2);
         sourceList.Entries.Sort(DomainInventoryEntriesFixture.Comparison);
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
-        var databaseList = await inventoryManager.GetListAsync(sourceList.Id);
+        var databaseList = await inventoryManager.GetListAsync(sourceList.Id, TestContext.Current.CancellationToken);
         ShouldBeEquivalent(databaseList, sourceList);
     }
 
@@ -172,13 +171,13 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
             Entries = [DomainInventoryEntriesFixture.LocationCommodity1],
         };
 
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
         sourceList.Name = "Different name";
         sourceList.Notes = "Different notes";
-        await inventoryManager.AddOrUpdateListAsync(sourceList);
+        await inventoryManager.AddOrUpdateListAsync(sourceList, TestContext.Current.CancellationToken);
 
-        var databaseList = await inventoryManager.GetListAsync(sourceList.Id);
+        var databaseList = await inventoryManager.GetListAsync(sourceList.Id, TestContext.Current.CancellationToken);
         ShouldBeEquivalent(databaseList, sourceList);
     }
 
@@ -190,15 +189,15 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
         var source = InventoryEntry.Create(GameEntityFixture.Item1, new Quantity(1, Quantity.UnitType.Count));
 
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
         source.Quantity = source.Quantity with
         {
             Amount = 6,
         };
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
-        var dbEntry = (await inventoryManager.GetAllEntriesAsync()).Single(x => x.Id == source.Id);
+        var dbEntry = (await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken)).Single(x => x.Id == source.Id);
         dbEntry.Quantity.ShouldBeEquivalentTo(source.Quantity);
     }
 
@@ -210,12 +209,12 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
         var source = InventoryEntry.Create(GameEntityFixture.Item2, new Quantity(1, Quantity.UnitType.Count)).TransferTo(GameEntityFixture.Outpost);
 
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
         var updated = source.TransferTo(GameEntityFixture.City);
-        await inventoryManager.AddOrUpdateEntryAsync(updated);
+        await inventoryManager.AddOrUpdateEntryAsync(updated, TestContext.Current.CancellationToken);
 
-        var dbEntry = (await inventoryManager.GetAllEntriesAsync()).Single(x => x.Id == source.Id);
+        var dbEntry = (await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken)).Single(x => x.Id == source.Id);
         dbEntry.ShouldBeEquivalentTo(updated);
     }
 
@@ -227,11 +226,11 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
         var source = InventoryEntry.Create(GameEntityFixture.Item1, new Quantity(1, Quantity.UnitType.Count));
 
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
-        await inventoryManager.DeleteEntryAsync(source.Id);
+        await inventoryManager.DeleteEntryAsync(source.Id, TestContext.Current.CancellationToken);
 
-        var dbEntries = await inventoryManager.GetAllEntriesAsync();
+        var dbEntries = await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken);
         dbEntries.ShouldNotContain(x => x.Id == source.Id);
     }
 
@@ -254,9 +253,9 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
         var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
         var source = InventoryEntry.Create(GameEntityFixture.Item3, new Quantity(2, Quantity.UnitType.Count));
 
-        await inventoryManager.AddOrUpdateEntryAsync(source);
+        await inventoryManager.AddOrUpdateEntryAsync(source, TestContext.Current.CancellationToken);
 
-        var dbEntry = (await inventoryManager.GetAllEntriesAsync()).SingleOrDefault(x => x.Id == source.Id);
+        var dbEntry = (await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken)).SingleOrDefault(x => x.Id == source.Id);
         dbEntry.ShouldNotBeNull();
         dbEntry.ShouldBeEquivalentTo(source);
     }

@@ -2,7 +2,7 @@ namespace Arkanis.Overlay.Domain.Enums;
 
 using System.ComponentModel;
 
-public enum GameContainerSize
+public enum GameContainerSize : byte
 {
     Unknown = 0,
 

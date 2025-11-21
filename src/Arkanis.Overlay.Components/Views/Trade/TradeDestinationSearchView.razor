@@ -1,5 +1,6 @@
 @using Arkanis.Overlay.Components.Views.Components
 @using Arkanis.Overlay.Domain.Abstractions.Game
+@using MoreLinq
 @inject IGameEntityRepository<GameTradeRoute> TradeRouteRepository
 @inject ITradeRunManager TradeRunManager
 
@@ -281,7 +282,7 @@
             .Where(_filterContext.FilterDestination)
             .Select(x => x.Origin.Terminal)
             .Distinct()
-            .SelectMany(x => (IEnumerable<IGameLocation>) [x, ..x.Parents])
+            .SelectMany(x => (IEnumerable<IGameLocation>)[x, ..x.Parents])
             .Distinct()
             .ToArray();
 
@@ -292,7 +293,7 @@
             .Where(_filterContext.FilterDestination)
             .Select(x => x.Destination.Terminal)
             .Distinct()
-            .SelectMany(x => (IEnumerable<IGameLocation>) [x, ..x.Parents])
+            .SelectMany(x => (IEnumerable<IGameLocation>)[x, ..x.Parents])
             .Distinct()
             .ToArray();
 
