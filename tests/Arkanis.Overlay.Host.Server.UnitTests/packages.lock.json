@@ -932,6 +932,11 @@
           "Serilog": "4.2.0"
         }
       },
+      "Slugify.Core": {
+        "type": "Transitive",
+        "resolved": "5.1.1",
+        "contentHash": "9dsxewpdgnLgOVN6dIRX3XvlEy1XpLbE2nd2bFebcW0XPdysU1WgQUXChFcAfjHpdfImBxMUe33PTwZOuU531Q=="
+      },
       "SQLitePCLRaw.bundle_e_sqlite3": {
         "type": "Transitive",
         "resolved": "2.1.11",
@@ -1165,7 +1170,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.External.Common": "[1.0.0, )",
-          "CitizenId.Domain.Shared": "[1.7.23, )"
+          "CitizenId.Domain.Shared": "[1.8.0, )"
         }
       },
       "arkanis.overlay.external.common": {
@@ -1230,14 +1235,15 @@
       },
       "CitizenId.Domain.Shared": {
         "type": "CentralTransitive",
-        "requested": "[1.7.23, )",
-        "resolved": "1.7.23",
-        "contentHash": "U4Qx23Yfqv6CiK+PFcPttllz9IamcR6Y4VWxYZiE/E0pFwvYD89RC3JOo4K40uESaiXzJAKXpgH2GzUGnsVuaA==",
+        "requested": "[1.8.0, )",
+        "resolved": "1.8.0",
+        "contentHash": "qexxAbwIr8gnLtG56TCPHlKVjbcbnef7VdiRkvU1lJyRDDgTcJFT/boRotC4HKluYbQCRz082fwelGJCZtRsrg==",
         "dependencies": {
           "FluentResults": "4.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
           "Microsoft.IdentityModel.Abstractions": "8.14.0",
           "OpenIddict.Abstractions": "7.1.0",
+          "Slugify.Core": "5.1.1",
           "morelinq": "4.4.0"
         }
       },
