@@ -41,6 +41,7 @@ public partial class OidcAuthenticatorRefreshJob<TAuthenticator>(
         if (result.IsError)
         {
             LogRefreshFailed(logger, ServiceId, result.Error, result.ErrorDescription);
+            authenticator.RequestRefresh();
             return;
         }
 

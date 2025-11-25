@@ -10,6 +10,11 @@ public abstract class ExternalAuthenticator
 {
     public abstract ExternalAuthenticatorInfo AuthenticatorInfo { get; }
 
+    public event EventHandler? RefreshRequested;
+
+    public virtual void RequestRefresh()
+        => RefreshRequested?.Invoke(this, EventArgs.Empty);
+
     /// <summary>
     ///     Validates the provided service credentials.
     /// </summary>
