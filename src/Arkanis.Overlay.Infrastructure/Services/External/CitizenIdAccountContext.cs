@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Security.Claims;
+using CitizenId.Domain.Shared.Authorization;
 using Common.Abstractions;
 using Common.Models;
 using Common.Services;
@@ -14,8 +15,8 @@ public class CitizenIdAccountContext(
     ILogger<UexAccountContext> logger
 ) : ExternalAccountContext<OidcAuthenticator.AuthenticationTask>(authenticator, userPreferences, logger)
 {
-    private const string RsiUsernameClaim = "urn:user:rsi:username";
-    private const string RsiAvatarClaim = "urn:user:rsi:avatar:url";
+    private const string RsiUsernameClaim = CitizenIdClaims.User.Rsi.Username;
+    private const string RsiAvatarClaim = CitizenIdClaims.User.Rsi.AvatarUrl;
 
     public CitizenIdLinkHelper Links { get; } = linkHelper;
 
