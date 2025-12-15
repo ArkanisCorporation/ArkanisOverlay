@@ -26,10 +26,10 @@
 {
 
     [Parameter]
-    public InventoryEntryList? Value { get; set; }
+    public InventoryEntryListBrief? Value { get; set; }
 
     [Parameter]
-    public EventCallback<InventoryEntryList?> ValueChanged { get; set; }
+    public EventCallback<InventoryEntryListBrief?> ValueChanged { get; set; }
 
     [Parameter]
     public string? HelperText { get; set; }
@@ -37,7 +37,7 @@
     [Parameter]
     public bool Required { get; set; }
 
-    private ICollection<InventoryEntryList> Lists { get; set; } = [];
+    private ICollection<InventoryEntryListBrief> Lists { get; set; } = [];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

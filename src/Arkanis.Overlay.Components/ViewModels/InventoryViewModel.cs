@@ -221,7 +221,7 @@ public class InventoryViewModel(
         }
     }
 
-    public async Task EditListAsync(InventoryEntryList list)
+    public async Task EditListAsync(InventoryEntryListBrief list)
     {
         if (await InventoryListDialog.ShowAsync(dialogService, list) is not null)
         {
@@ -229,7 +229,7 @@ public class InventoryViewModel(
         }
     }
 
-    public async Task DeleteForeverAsync(InventoryEntryList list)
+    public async Task DeleteForeverAsync(InventoryEntryListBrief list)
     {
         var options = new MessageBoxOptions
         {

@@ -10,7 +10,7 @@ public record InventoryEntryListId(Guid Identity) : TypedDomainId<Guid>(Identity
         => new(Guid.NewGuid());
 }
 
-public class InventoryEntryList : IIdentifiable
+public class InventoryEntryListBrief : IIdentifiable
 {
     public InventoryEntryListId Id { get; init; } = InventoryEntryListId.CreateNew();
 
@@ -20,8 +20,11 @@ public class InventoryEntryList : IIdentifiable
     [MaxLength(10000)]
     public string Notes { get; set; } = string.Empty;
 
-    public List<InventoryEntryBase> Entries { get; init; } = [];
-
     IDomainId IIdentifiable.Id
         => Id;
+}
+
+public class InventoryEntryList : InventoryEntryListBrief
+{
+    public List<InventoryEntryBase> Entries { get; init; } = [];
 }
