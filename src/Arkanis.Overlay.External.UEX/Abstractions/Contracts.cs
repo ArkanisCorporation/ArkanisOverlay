@@ -6113,7 +6113,7 @@ namespace Arkanis.Overlay.External.UEX.Abstractions
         public string? Photos { get; set; } = default!;
 
         [System.Text.Json.Serialization.JsonPropertyName("price")]
-        public double? Price { get; set; } = default!;
+        public string? Price { get; set; } = default!;
 
         [System.Text.Json.Serialization.JsonPropertyName("slug")]
         public string? Slug { get; set; } = default!;

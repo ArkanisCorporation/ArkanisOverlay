@@ -37,5 +37,5 @@ internal class UexMarketPriceSyncRepository(
     ///     Only process prices which have a non-zero value and a valid item id.
     /// </remarks>
     protected override bool IncludeSourceModel(MarketplaceListingDTO sourceModel)
-        => sourceModel is { Id_item: > 0, Price: > 0 };
+        => sourceModel is { Id_item: > 0, Price: { Length: > 0 } and not "0", Operation: "buy" or "sell" };
 }
