@@ -125,6 +125,12 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             return CreateSyncData(currentData.Data, currentData.State.SourcedState);
         }
 
+        if (cachedData is UnprocessableDataCache<UexApiResponse<ICollection<TSource>>> unprocessableData)
+        {
+            Logger.LogError(unprocessableData.Exception, "Could not load cached {Type} entities: {@CachedData}", DomainType.Name, cachedData);
+            return GameEntitySyncData<TDomain>.Missing;
+        }
+
         Logger.LogWarning("Could not load cached {Type} entities: {@CachedData}", DomainType.Name, cachedData);
         return GameEntitySyncData<TDomain>.Missing;
     }
