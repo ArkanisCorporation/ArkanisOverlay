@@ -44,6 +44,7 @@ jobs:
     with:
       application_name: web demo
       environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
+    environment: Production
     secrets:
       # configured by the environmental secrets in the repo settings
       COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
