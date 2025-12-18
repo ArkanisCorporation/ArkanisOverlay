@@ -22,6 +22,10 @@ on:
         description: "The interval for the deployment checks"
         type: number
         default: 5
+      gh_environment:
+        description: "The GitHub environment to deploy to"
+        type: string
+        required: true
     secrets:
       COOLIFY_URL:
         required: true
