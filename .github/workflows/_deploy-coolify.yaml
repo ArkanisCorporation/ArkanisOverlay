@@ -37,6 +37,8 @@ jobs:
   deploy:
     name: Deploy ${{ inputs.application_name }} to ${{ inputs.environment_name }} (Coolify)
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.gh_environment }}
     steps:
     -   name: Deploy to Coolify
         run: |
