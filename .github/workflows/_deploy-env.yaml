@@ -24,6 +24,6 @@ jobs:
       application_name: web demo
       environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
     secrets:
-      COOLIFY_DEPLOY_URL: ${{ secrets.COOLIFY_DEPLOY_URL }}
+      COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
       COOLIFY_DEPLOY_UUID: ${{ secrets.COOLIFY_DEPLOY_UUID }}
       COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}
