@@ -17,6 +17,7 @@
     <ItemGroup>
         <PackageReference Include="Blazor-Analytics"/>
         <PackageReference Include="MathEvaluator"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
         <PackageReference Include="MudBlazor"/>
         <PackageReference Include="System.Linq.Async">

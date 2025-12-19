@@ -1140,6 +1140,7 @@
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.5.0, )",
+          "Microsoft.AspNetCore.Components.Authorization": "[10.0.0, )",
           "Microsoft.AspNetCore.Components.Web": "[10.0.0, )",
           "MudBlazor": "[8.14.0, )",
           "System.Linq.Async": "[7.0.0, )"
@@ -1354,6 +1355,16 @@
         "contentHash": "RXfKirCOmGGkw/x1SRqxzGz/RZck3ctzIMTPMmkOhcI1PGzWsKMK2kYjYjG55w90j3c2RDxDzwgFTddGpuduxw==",
         "dependencies": {
           "MathTrigonometric": "1.2.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.Authorization": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "z/4yuTmCD1A3x++Dr8s2H3yD6nUGglqxvjsPL65BUynJlEO0ZaOaI0TIQ58+OyU8IAw98eprHlezix8UyRMqKg==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "10.0.0",
+          "Microsoft.AspNetCore.Components": "10.0.0"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
