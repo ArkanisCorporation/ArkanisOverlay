@@ -29,8 +29,8 @@ IMAGE_NAME_LATEST_TAGGED="${IMAGE_NAME}:latest"
 docker buildx build \
     --push \
     --cache-to type=gha \
-    --tag "${IMAGE_NAME}:${VERSION_TAG}" \
-    --tag "${IMAGE_NAME}:latest" \
+    --tag "${IMAGE_NAME_VERSION_TAGGED}" \
+    --tag "${IMAGE_NAME_CHANNEL_TAGGED}" \
     --file "${DOCKERFILE_PATH}" \
     --build-arg BUILD_CONFIGURATION=${CONFIGURATION} \
     . \
