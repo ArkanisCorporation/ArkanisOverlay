@@ -1,0 +1,73 @@
+name: Coolify Deployment
+
+permissions:
+  packages: read
+
+on:
+  workflow_call:
+    inputs:
+      application_name:
+        description: "Name of the application that will be deployed"
+        required: true
+        type: string
+      environment_name:
+        description: "Name of the environment that will be deployed to"
+        type: string
+        default: "unknown environment"
+      timeout:
+        description: "The timeout for the coolify deployment"
+        type: number
+        default: 300
+      interval:
+        description: "The interval for the deployment checks"
+        type: number
+        default: 5
+    secrets:
+      COOLIFY_URL:
+        required: true
+      COOLIFY_DEPLOY_UUID:
+        required: true
+      COOLIFY_DEPLOY_TOKEN:
+        required: true
+
+env:
+  REGISTRY_NAME: ghcr.io
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.application_name }} to ${{ inputs.environment_name }} (Coolify)
+    runs-on: ubuntu-latest
+    steps:
+    -   name: Deploy to Coolify
+        run: |
+          DEPLOYMENT_UUID=$(curl \
+            --request GET '${{ secrets.COOLIFY_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_DEPLOY_UUID }}' \
+            --header 'Authorization: Bearer ${{ secrets.COOLIFY_DEPLOY_TOKEN }}' \
+            --fail-with-body --silent \
+            | jq -r '.deployments[0].deployment_uuid')
+
+          TIMEOUT=${{ inputs.timeout }}
+          INTERVAL=${{ inputs.interval }}
+
+          echo "Waiting for deployment to succeed: Timeout=$TIMEOUT seconds, Interval=$INTERVAL seconds"
+          SECONDS=0
+          while [[ $SECONDS -lt $TIMEOUT ]]; do
+            DEPLOYMENT_STATUS=$(curl \
+              --request GET "${{ secrets.COOLIFY_URL }}/api/v1/deployments/$DEPLOYMENT_UUID" \
+              --header 'Authorization: Bearer ${{ secrets.COOLIFY_DEPLOY_TOKEN }}' \
+              --fail-with-body --silent \
+              | jq -r '.status')
+
+            echo "Deployment: $DEPLOYMENT_STATUS"
+
+            if [[ "$DEPLOYMENT_STATUS" == "finished" ]]; then
+              exit 0
+            elif [[ "$DEPLOYMENT_STATUS" == "failed" ]]; then
+              exit 1
+            fi
+
+            sleep $INTERVAL
+          done
+
+          echo "Deployment: timeout"
+          exit 2

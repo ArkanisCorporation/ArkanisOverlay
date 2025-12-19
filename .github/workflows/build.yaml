@@ -34,10 +34,18 @@ jobs:
     with:
       dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' }}
 
-  deploy-production:
+  # delpoyment target is selected by the active environment
+  deploy:
     name: Deployment
+    # deploy whenever there is a new release
+    if: ${{ needs.release.outputs.new_tag != '' }}
     needs: release
-    if: ${{ github.ref == 'refs/heads/release/stable' && needs.release.outputs.new_tag != '' }}
-    uses: ./.github/workflows/_deploy-production.yaml
+    uses: ./.github/workflows/_deploy-coolify.yaml
     with:
-      image_ref: ${{ needs.release.outputs.new_tag }}
+      application_name: web demo
+      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
+    secrets:
+      # configured by the environmental secrets in the repo settings
+      COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
+      COOLIFY_DEPLOY_UUID: ${{ secrets.COOLIFY_DEPLOY_UUID }}
+      COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}

@@ -14,18 +14,37 @@ set -eEuo pipefail
 [[ -z "${REGISTRY+x}" ]] && REGISTRY="ghcr.io"
 [[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
 
+DOCKERFILE_PATH=./src/Arkanis.Overlay.Host.Server/Dockerfile
 IMAGE_NAME_BARE=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
 IMAGE_NAME=$(echo "${REGISTRY}/${IMAGE_NAME_BARE}")
 
+IMAGE_NAME_VERSION_TAGGED="${IMAGE_NAME}:${VERSION_TAG}"
+IMAGE_NAME_CHANNEL_TAGGED="${IMAGE_NAME}:${VERSION_CHANNEL}-latest"
+IMAGE_NAME_LATEST_TAGGED="${IMAGE_NAME}:latest"
+
 >&2 echo "Publishing ${IMAGE_NAME}..."
+>&2 echo -e "\tas ${IMAGE_NAME_VERSION_TAGGED}"
+>&2 echo -e "\tas ${IMAGE_NAME_CHANNEL_TAGGED}"
+
 docker buildx build \
     --push \
     --cache-to type=gha \
     --tag "${IMAGE_NAME}:${VERSION_TAG}" \
     --tag "${IMAGE_NAME}:latest" \
-    --file ./src/Arkanis.Overlay.Host.Server/Dockerfile \
+    --file "${DOCKERFILE_PATH}" \
     --build-arg BUILD_CONFIGURATION=${CONFIGURATION} \
     . \
     1>&2 # logging output must not go to stdout
+
+if [[ "${VERSION_CHANNEL}" == "stable" ]]; then
+    >&2 echo -e "\tas ${IMAGE_NAME_LATEST_TAGGED}"
+    docker buildx build \
+        --push \
+        --tag "${IMAGE_NAME_LATEST_TAGGED}" \
+        --file "${DOCKERFILE_PATH}" \
+        --build-arg BUILD_CONFIGURATION=${CONFIGURATION} \
+        . \
+        1>&2 # logging output must not go to stdout
+fi
 
 >&2 echo "Successfully published ${IMAGE_NAME}!"
