@@ -1,3 +1,7 @@
+@inject IJSRuntime JsRuntime
+@inject IHostEnvironment HostEnvironment
+@inject IUserPreferencesManager PreferencesManager
+@inject IOptionsMonitor<PostHogOptions> PostHogOptions
 @using System.Security.Claims
 @using Arkanis.Overlay.Infrastructure.Options
 @using Microsoft.AspNetCore.Components.Authorization
@@ -5,10 +9,6 @@
 @using Microsoft.Extensions.Options
 @using Microsoft.JSInterop
 @using OpenIddict.Abstractions
-@inject IJSRuntime JsRuntime
-@inject IHostEnvironment HostEnvironment
-@inject IUserPreferencesManager PreferencesManager
-@inject IOptionsMonitor<PostHogOptions> PostHogOptions
 @implements IDisposable
 
 <script>
@@ -44,21 +44,6 @@
     protected override void OnInitialized()
         => PreferencesManager.ApplyPreferences += ApplyPreferences;
 
-    private async void ApplyPreferences(object? _, UserPreferences preferences)
-    {
-        try
-        {
-            await JsRuntime.InvokeVoidAsync(
-                "posthog.set_config",
-                CreateConfiguration(PreferencesManager.CurrentPreferences)
-            );
-        }
-        catch
-        {
-            // ignore
-        }
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
@@ -73,6 +58,7 @@
                 PostHogOptions.CurrentValue.ProjectApiKey,
                 CreateConfiguration(PreferencesManager.CurrentPreferences)
             );
+            await OptInOutAsync();
 
             var user = AuthenticationState is not null
                 ? (await AuthenticationState).User
@@ -90,6 +76,34 @@
         }
     }
 
+    private async void ApplyPreferences(object? _, UserPreferences preferences)
+    {
+        try
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "posthog.set_config",
+                CreateConfiguration(PreferencesManager.CurrentPreferences)
+            );
+            await OptInOutAsync();
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    private async Task OptInOutAsync()
+    {
+        if (PreferencesManager.CurrentPreferences.PostHogOptions.Enabled)
+        {
+            await JsRuntime.InvokeVoidAsync("posthog.opt_in_capturing");
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("posthog.opt_out_capturing");
+        }
+    }
+
     private object CreateConfiguration(UserPreferences preferences)
         => new
         {
@@ -99,7 +113,18 @@
             debug = !HostEnvironment.IsProduction(),
             person_profiles = "identified_only",
             cookieless_mode = "on_reject",
-            opt_out_capturing_by_default = preferences.DisableAnalytics,
+            disable_persistence = true,
+            autocapture = preferences.PostHogOptions.Enabled,
+            opt_out_capturing_by_default = !preferences.PostHogOptions.Enabled,
+            opt_in_capturing_by_default = preferences.PostHogOptions.Enabled,
+            error_tracking = preferences.PostHogOptions is { Enabled: true, ErrorReportingEnabled: true },
+            capture_pageview = preferences.PostHogOptions is { Enabled: true, PageViewsEnabled: true },
+            capture_pageleave = preferences.PostHogOptions is { Enabled: true, PageViewsEnabled: true },
+            capture_dead_clicks = preferences.PostHogOptions is { Enabled: true, ClicksEnabled: true },
+            rageclick = preferences.PostHogOptions is { Enabled: true, ClicksEnabled: true },
+            disable_surveys = preferences.PostHogOptions is { Enabled: false } or { SurveysEnabled: false },
+            enable_heatmaps = preferences.PostHogOptions is { Enabled: true, HeatmapsEnabled: true },
+            disable_session_recording = preferences.PostHogOptions is { Enabled: false } or { RecordingsEnabled: false },
             bootstrap = new
             {
                 distinctID = preferences.InstallationId.ToString(),
