@@ -1,6 +1,5 @@
 @using System.Security.Claims
 @using Arkanis.Overlay.Infrastructure.Options
-@using CitizenId.Domain.Shared.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.Extensions.Hosting
 @using Microsoft.Extensions.Options
@@ -8,7 +7,9 @@
 @using OpenIddict.Abstractions
 @inject IJSRuntime JsRuntime
 @inject IHostEnvironment HostEnvironment
+@inject IUserPreferencesManager PreferencesManager
 @inject IOptionsMonitor<PostHogOptions> PostHogOptions
+@implements IDisposable
 
 <script>
     !function (t, e) {
@@ -40,6 +41,24 @@
     [CascadingParameter]
     public Task<AuthenticationState>? AuthenticationState { get; set; }
 
+    protected override void OnInitialized()
+        => PreferencesManager.ApplyPreferences += ApplyPreferences;
+
+    private async void ApplyPreferences(object? _, UserPreferences preferences)
+    {
+        try
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "posthog.set_config",
+                CreateConfiguration(PreferencesManager.CurrentPreferences)
+            );
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
@@ -52,21 +71,7 @@
             await JsRuntime.InvokeVoidAsync(
                 "posthog.init",
                 PostHogOptions.CurrentValue.ProjectApiKey,
-                new
-                {
-                    api_host = PostHogOptions.CurrentValue.ProjectApiHost,
-                    ui_host = PostHogOptions.CurrentValue.ProjectUiHost,
-                    defaults = "2025-11-30",
-                    debug = !HostEnvironment.IsProduction(),
-                    person_profiles = "identified_only",
-                    cookieless_mode = "always",
-                    respect_dnt = true,
-                    session_recording = new
-                    {
-                        maskAllInputs = true,
-                        maskTextSelector = ".pii",
-                    },
-                }
+                CreateConfiguration(PreferencesManager.CurrentPreferences)
             );
 
             var user = AuthenticationState is not null
@@ -75,23 +80,39 @@
 
             if (user?.Identity is { IsAuthenticated: true })
             {
+                // TODO: new sign-ins won't be tracked
                 await JsRuntime.InvokeVoidAsync("posthog.identify", user.GetClaim(ClaimTypes.NameIdentifier));
-                await JsRuntime.InvokeVoidAsync(
-                    "posthog.setPersonProperties",
-                    new
-                    {
-                        is_verified = user.IsInRole(CitizenIdRoles.Status.Verified),
-                    }
-                );
             }
-
-            await JsRuntime.InvokeAsync<string>("posthog.get_explicit_consent_status");
-            // await JsRuntime.InvokeVoidAsync("posthog.opt_in_capturing");
-            // await JsRuntime.InvokeVoidAsync("posthog.opt_out_capturing");
         }
         catch (JSException)
         {
             // ignore
         }
     }
+
+    private object CreateConfiguration(UserPreferences preferences)
+        => new
+        {
+            api_host = PostHogOptions.CurrentValue.ProjectApiHost,
+            ui_host = PostHogOptions.CurrentValue.ProjectUiHost,
+            defaults = "2025-11-30",
+            debug = !HostEnvironment.IsProduction(),
+            person_profiles = "identified_only",
+            cookieless_mode = "on_reject",
+            opt_out_capturing_by_default = preferences.DisableAnalytics,
+            bootstrap = new
+            {
+                distinctID = preferences.InstallationId.ToString(),
+                isIdentifiedID = false,
+            },
+            session_recording = new
+            {
+                maskAllInputs = true,
+                maskTextSelector = ".pii",
+            },
+        };
+
+    public void Dispose()
+        => PreferencesManager.ApplyPreferences -= ApplyPreferences;
+
 }

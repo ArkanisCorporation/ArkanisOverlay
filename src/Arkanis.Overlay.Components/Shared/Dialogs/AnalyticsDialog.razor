@@ -1,0 +1,118 @@
+@using System.Diagnostics.CodeAnalysis
+@inject IUserPreferencesManager UserPreferencesManager
+
+<MudDialog Gutters="false"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        Usage Analytics
+    </TitleContent>
+    <DialogContent>
+        <MudText>
+
+        </MudText>
+        <DeveloperQuote Model="@DeveloperAvatar.KronnY">
+            This will help us improve Arkanis Overlay by understanding how users interact with the application.
+            We respect your privacy and ensure that no personally identifiable information is collected.
+        </DeveloperQuote>
+        <MudStack>
+            <MudSwitch @bind-Value="@AllEnabled"
+                       @bind-Value:after="@UpdateOptions">
+                All usage analytics
+            </MudSwitch>
+            <MudStack Class="pl-4">
+                <MudSwitch @bind-Value="@PageViewsEnabled"
+                           @bind-Value:after="@UpdateOptions">
+                    capture_pageview, capture_pageleave
+                </MudSwitch>
+                <MudSwitch @bind-Value="@ClicksEnabled"
+                           @bind-Value:after="@UpdateOptions">
+                    capture_dead_clicks, rageclick
+                </MudSwitch>
+                <MudSwitch @bind-Value="@SurveysEnabled"
+                           @bind-Value:after="@UpdateOptions">
+                    disable_surveys
+                </MudSwitch>
+                <MudSwitch @bind-Value="@HeatmapsEnabled"
+                           @bind-Value:after="@UpdateOptions">
+                    enable_heatmaps
+                </MudSwitch>
+                <MudSwitch @bind-Value="@RecordingsEnabled"
+                           @bind-Value:after="@UpdateOptions">
+                    disable_session_recording
+                </MudSwitch>
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [field: MaybeNull]
+    private UserPreferences CurrentPreferences
+        => field ??= UserPreferencesManager.CurrentPreferences;
+
+    private bool AllEnabled
+    {
+        get => !CurrentPreferences.DisableAnalytics;
+        set => CurrentPreferences.DisableAnalytics = !value;
+    }
+
+    private bool PageViewsEnabled
+    {
+        get => AllEnabled && field;
+        set;
+    }
+
+    private bool ClicksEnabled
+    {
+        get => AllEnabled && field;
+        set;
+    }
+
+    private bool SurveysEnabled
+    {
+        get => AllEnabled && field;
+        set;
+    }
+
+    private bool HeatmapsEnabled
+    {
+        get => AllEnabled && field;
+        set;
+    }
+
+    private bool RecordingsEnabled
+    {
+        get => AllEnabled && field;
+        set;
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<AnalyticsDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    private async Task UpdateOptions()
+    {
+        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(CurrentPreferences);
+    }
+}
