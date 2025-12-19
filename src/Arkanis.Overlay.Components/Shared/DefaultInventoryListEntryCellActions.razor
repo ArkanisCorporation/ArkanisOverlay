@@ -23,10 +23,10 @@
 
     [Parameter]
     [EditorRequired]
-    public required InventoryEntryList Model { get; set; }
+    public required InventoryEntryListBrief Model { get; set; }
 
     [Parameter]
-    public EventCallback<InventoryEntryList?> ModelChanged { get; set; }
+    public EventCallback<InventoryEntryListBrief?> ModelChanged { get; set; }
 
     protected override void OnInitialized()
     {

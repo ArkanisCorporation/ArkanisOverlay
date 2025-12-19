@@ -55,7 +55,8 @@ public static class DependencyInjection
         {
             services.AddServicesForInMemoryUserPreferences();
 
-            services.AddSingleton<IRepositorySyncStrategy, FakeRepositorySyncStrategy>();
+            services.AddSingleton<StaticRepositorySyncStrategy>(_ => new StaticRepositorySyncStrategy(true))
+                .Alias<IRepositorySyncStrategy, StaticRepositorySyncStrategy>();
         }
         else
         {

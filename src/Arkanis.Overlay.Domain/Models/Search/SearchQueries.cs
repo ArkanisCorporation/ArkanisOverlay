@@ -63,8 +63,7 @@ public sealed record FuzzyTextSearch(string Content) : TextSearch(Content)
         {
             SearchableCode data =>
             [
-                //! Location Codes for partial but case-sensitive exact match
-                GetStringComparisonScore(data.Code, Content, StringComparison.Ordinal) is > 0 and var score
+                GetStringComparisonScore(data.Code, Content, StringComparison.OrdinalIgnoreCase) is > 0 and var score
                     ? new ScoredMatch(score, depth, trait, this)
                     : new NoMatch(trait, this),
             ],

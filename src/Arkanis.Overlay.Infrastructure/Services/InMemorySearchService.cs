@@ -59,14 +59,17 @@ public class InMemorySearchService(
             CancellationToken = cancellationToken,
         };
 
-        var searchProcess = Task.Run<Task>(() => Parallel.ForEachAsync(gameEntityBatches, parallelOptions, PerformSearchOnBatch), cancellationToken)
-            .ContinueWith(_ => searchMatchChannel.Writer.Complete(), cancellationToken);
+        var matches = new List<SearchMatchResult<IGameEntity>>();
+        await Task.WhenAll(
+            Parallel.ForEachAsync(gameEntityBatches, parallelOptions, PerformSearchOnBatch)
+                .ContinueWith(_ => searchMatchChannel.Writer.Complete(), cancellationToken),
+            searchMatchChannel.Reader.ReadAllAsync(cancellationToken)
+                .OrderByDescending(result => result)
+                .ToListAsync(cancellationToken)
+                .AsTask()
+                .ContinueWith(result => matches = result.Result, cancellationToken)
+        );
 
-        var matches = await searchMatchChannel.Reader.ReadAllAsync(cancellationToken)
-            .OrderByDescending(result => result)
-            .ToListAsync(cancellationToken);
-
-        await searchProcess;
         var searchElapsed = stopwatch.Elapsed;
         logger.LogDebug("Search yielded {SearchMatches} results in {SearchLengthMs}ms", matches.Count, searchElapsed.TotalMilliseconds);
 
@@ -83,9 +86,16 @@ public class InMemorySearchService(
                 .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
                 .Where(result => !result.ContainsUnmatched<TextSearch>());
 
-            foreach (var matchResult in matchResults)
+            try
             {
-                await searchMatchChannel.Writer.WriteAsync(matchResult, ct);
+                foreach (var matchResult in matchResults)
+                {
+                    await searchMatchChannel.Writer.WriteAsync(matchResult, ct);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Error occurred while searching entity batch");
             }
         }
     }

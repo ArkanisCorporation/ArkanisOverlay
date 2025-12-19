@@ -44,5 +44,5 @@ internal class UexGroundVehicleSyncRepository(
     ///     Exception is raised otherwise on type disparity after domain object mapping.
     /// </remarks>
     protected override bool IncludeSourceModel(VehicleDTO sourceModel)
-        => sourceModel is { Is_spaceship: 0, Is_ground_vehicle: 1 };
+        => sourceModel is { Is_ground_vehicle: 1 };
 }

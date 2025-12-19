@@ -97,7 +97,7 @@ else
     private IEnumerable<IGrouping<IDomainId?, InventoryEntryBase>> ModelsByPlacementId
         => Models.GroupBy(entry => (entry as IInventoryPlacement).LocationId);
 
-    private IEnumerable<IGrouping<InventoryEntryList?, InventoryEntryBase>> ModelsByList
+    private IEnumerable<IGrouping<InventoryEntryListBrief?, InventoryEntryBase>> ModelsByList
         => Models.GroupBy(entry => entry.List)
             .OrderBy(group => group.Key?.Name);
 

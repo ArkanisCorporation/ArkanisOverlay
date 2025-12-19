@@ -131,7 +131,6 @@
     {
         base.OnParametersSet();
         _locationsWithParents = GameLocationHelper.CollectUniqueLocationsWithParents(FilteredLocations);
-
     }
 
     public void Dispose()
@@ -156,7 +155,7 @@
     {
         public string? Text;
         public IGameEntity? LocationEntity;
-        public InventoryEntryList? InventoryList;
+        public InventoryEntryListBrief? InventoryList;
 
         public IGameLocation? Location
             => LocationEntity as IGameLocation;
