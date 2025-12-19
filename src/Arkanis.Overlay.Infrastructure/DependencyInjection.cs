@@ -139,5 +139,6 @@ public static class DependencyInjection
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddConfiguration<ConfigurationOptions>(configuration);
+            .AddConfiguration<ConfigurationOptions>(configuration)
+            .AddConfiguration<PostHogOptions>(configuration);
 }

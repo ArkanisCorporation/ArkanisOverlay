@@ -25,6 +25,7 @@
 }
 
 .disabled .text-secondary,
+.mud-disabled .text-secondary,
 .mud-list-item-disabled .text-secondary,
 .text-disabled {
     color: var(--mud-palette-text-disabled);

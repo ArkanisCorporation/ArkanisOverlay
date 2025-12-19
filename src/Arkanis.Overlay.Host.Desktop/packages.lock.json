@@ -1448,6 +1448,7 @@
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.5.0, )",
+          "Microsoft.AspNetCore.Components.Authorization": "[10.0.0, )",
           "Microsoft.AspNetCore.Components.Web": "[10.0.0, )",
           "MudBlazor": "[8.14.0, )",
           "System.Linq.Async": "[7.0.0, )"
