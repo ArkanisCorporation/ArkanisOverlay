@@ -100,8 +100,8 @@
     private int ActiveModuleIndex
         => OverlayModules.GetAll()
             .Index()
-            .Where(x => IsActive(x.Value))
-            .Select(x => x.Key)
+            .Where(x => IsActive(x.Item))
+            .Select(x => x.Index)
             .First();
 
     [Parameter]

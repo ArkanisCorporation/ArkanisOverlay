@@ -5,6 +5,7 @@ permissions:
   issues: write         # for commenting on released issues
   pull-requests: write  # for commenting on released pull requests and creating release backpropagation PRs
   packages: write       # for publishing packages in repository registry
+  id-token: write       # for Azure Code Signing & Credential Federation
 
 on:
   workflow_dispatch:
@@ -36,24 +37,52 @@ env:
 
 jobs:
   release:
+    environment:
+      # Required for Federated Credential for Azure Code Signing
+      # https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Credentials/appId/b6acf5c1-f282-4eb0-a3a4-4e87e95fe051/isMSAApp~/false
+      name: ProductionCodeSigning
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-tags: true
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Azure API Access Token
+        uses: azure/cli@v2
+        with:
+          azcliversion: 'latest'
+          # used for Azure Code Signing in `scripts/release-12-verify-win64-velopack.sh`
+          inlineScript: |
+            echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --resource https://codesigning.azure.net --query accessToken --output tsv)" >> $GITHUB_ENV
 
       - name: Setup .NET
         id: setup-dotnet
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
       - run: echo "Using .NET ${{ steps.setup-dotnet.outputs.dotnet-version }}"
 
       - run: echo "Cache hit - ${{ steps.setup-dotnet.outputs.cache-hit }}"
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Download Jsign
+        run: wget https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
 
       - name: Restore dependencies
         run: dotnet restore --locked-mode

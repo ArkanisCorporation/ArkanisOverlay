@@ -5,14 +5,14 @@ using System.Globalization;
 using System.Net;
 using System.Security.Claims;
 using Abstractions;
-using Common.Errors;
-using Common.Extensions;
-using Common.Models;
-using Common.Services;
 using Extensions;
 using FluentResults;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Overlay.Common.Errors;
+using Overlay.Common.Extensions;
+using Overlay.Common.Models;
+using Overlay.Common.Services;
 
 public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthenticator<UexAuthenticator.AuthenticationTask>
 {
@@ -71,7 +71,7 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
                 var causedBy = exception.ToError();
                 var error = exception.StatusCode switch
                 {
-                    (int)HttpStatusCode.NotFound => new ExternalAccountNotFoundError("Account with the provided username does not exist.", causedBy),
+                    (int)HttpStatusCode.NotFound => new ExternalAccountNotFoundError("Account with the provided credentials could not be found.", causedBy),
                     (int)HttpStatusCode.Unauthorized => new ExternalAccountUnauthorizedError("Provided secret key is not valid.", causedBy),
                     _ => new ExternalAccountError("Could not verify account with the provided secret key.", causedBy),
                 };
@@ -129,7 +129,7 @@ public class UexAuthenticator(IServiceProvider serviceProvider) : ExternalAuthen
                 claims.Add(new Claim(ClaimTypes.Webpage, user.Website_url));
             }
 
-            return new ClaimsIdentity(claims, ProviderInfo.Identifier);
+            return new ClaimsIdentity(claims, ProviderInfo.ServiceId, AccountClaimTypes.DisplayName, null);
         }
     }
 }

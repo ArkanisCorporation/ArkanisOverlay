@@ -2369,7 +2369,7 @@ components:
         photos:
           type: string
         price:
-          type: number
+          type: string
         slug:
           type: string
         title:

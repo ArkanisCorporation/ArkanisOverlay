@@ -26,7 +26,7 @@ public interface IInventoryManager
 
     public Task<InventoryEntryList?> GetListAsync(InventoryEntryListId listId, CancellationToken cancellationToken = default);
 
-    public Task<ICollection<InventoryEntryList>> GetAllListsAsync(CancellationToken cancellationToken = default);
+    public Task<ICollection<InventoryEntryListBrief>> GetAllListsAsync(CancellationToken cancellationToken = default);
 
     public Task AddOrUpdateListAsync(InventoryEntryList list, CancellationToken cancellationToken = default);
 

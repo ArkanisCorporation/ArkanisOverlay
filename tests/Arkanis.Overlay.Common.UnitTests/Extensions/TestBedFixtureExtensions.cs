@@ -1,7 +1,6 @@
 namespace Arkanis.Overlay.Common.UnitTests.Extensions;
 
 using Shouldly;
-using Xunit.Abstractions;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 public static class TestBedFixtureExtensions

@@ -19,10 +19,19 @@ public class NamedPipeCommandServerBackgroundPublisherService(
                 var command = await commandServer.ReceiveAsync(TimeSpan.FromSeconds(5), stoppingToken);
                 await commandPublisher.PublishAsync(command, stoppingToken);
             }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
+            }
             catch (IOException e)
             {
                 logger.LogError(e, "Could not start the LocalLink command server");
                 break;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Unhandled exception while receiving/publishing a LocalLink command");
+                await Task.Delay(TimeSpan.FromSeconds(4), stoppingToken);
             }
         }
     }

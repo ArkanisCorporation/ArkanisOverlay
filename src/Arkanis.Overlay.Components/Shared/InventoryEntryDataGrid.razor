@@ -318,7 +318,7 @@
     public ICollection<InventoryEntryBase> Models { get; set; } = [];
 
     [Parameter]
-    public ICollection<InventoryEntryList> Lists { get; set; } = [];
+    public ICollection<InventoryEntryListBrief> Lists { get; set; } = [];
 
     [Parameter]
     public HashSet<InventoryEntryBase> SelectedModels { get; set; } = [];
@@ -330,7 +330,7 @@
     public RenderFragment<CellContext<InventoryEntryBase>>? EntryActionsContent { get; set; }
 
     [Parameter]
-    public RenderFragment<InventoryEntryList>? ListActionsContent { get; set; }
+    public RenderFragment<InventoryEntryListBrief>? ListActionsContent { get; set; }
 
     [Parameter]
     public string? Class { get; set; } = "bg-gray";

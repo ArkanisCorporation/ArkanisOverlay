@@ -12,13 +12,6 @@ using UI.WindowsAndMessaging;
 
 internal partial class PInvoke
 {
-    public readonly record struct GuardResult
-    {
-        public bool Success { get; init; }
-        public int ErrorCode { get; init; }
-        public string? ErrorMessage { get; init; }
-    }
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static GuardResult Guard(BOOL result, ILogger? logger = null, string? pInvokeMethodName = null)
     {
@@ -43,23 +36,8 @@ internal partial class PInvoke
         {
             Success = false,
             ErrorCode = errorCode,
-            ErrorMessage = errorMessage
+            ErrorMessage = errorMessage,
         };
-    }
-
-    /// <summary>
-    ///     Workaround for unsafe pointer access.
-    ///     See: https://github.com/microsoft/CsWin32/issues/137#issuecomment-1879493081
-    /// </summary>
-    /// <param name="hWnd">Target window handle</param>
-    /// <param name="processId">Process ID of the window</param>
-    /// <returns></returns>
-    internal static unsafe uint GetWindowThreadProcessId(HWND hWnd, out uint processId)
-    {
-        fixed (uint* lpdwProcessId = &processId)
-        {
-            return GetWindowThreadProcessId(hWnd, lpdwProcessId);
-        }
     }
 
     public static string? GetClassName(HWND hWnd)
@@ -90,8 +68,7 @@ internal partial class PInvoke
 
     public static bool IsTopLevelWindow(HWND hWnd)
     {
-        if (hWnd == HWND.Null)
-        { return false; }
+        if (hWnd == HWND.Null) { return false; }
 
         return GetAncestor(hWnd, GET_ANCESTOR_FLAGS.GA_ROOT) == hWnd;
     }
@@ -120,8 +97,7 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, uint length)
     {
-        if (length == 0 || buffer.IsEmpty)
-        { return null; }
+        if (length == 0 || buffer.IsEmpty) { return null; }
 
         // we do not need to check for overflow here
         // because `buffer.Length` is always less than or equal to `Int32.MaxValue`.
@@ -136,11 +112,17 @@ internal partial class PInvoke
 
     private static string? SpanToString(Span<char> buffer, int length)
     {
-        if (length == 0 || buffer.IsEmpty)
-        { return null; }
+        if (length == 0 || buffer.IsEmpty) { return null; }
 
         var safeLength = Math.Min(buffer.Length, length);
 
         return new string(buffer[..safeLength]);
+    }
+
+    public record struct GuardResult
+    {
+        public bool Success { get; init; }
+        public int ErrorCode { get; init; }
+        public string? ErrorMessage { get; init; }
     }
 }

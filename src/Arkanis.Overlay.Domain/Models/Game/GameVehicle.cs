@@ -62,6 +62,7 @@ public abstract class GameVehicle(
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);
+        yield return new SearchableName(shortName);
         yield return new SearchableManufacturer(manufacturer);
         foreach (var searchableAttribute in base.CollectSearchableTraits())
         {

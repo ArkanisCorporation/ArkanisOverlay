@@ -465,7 +465,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapPropertyFromSource(nameof(GameEntityPrice.Id), Use = nameof(GetEntityIdForMarketplaceListing))]
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetReferencedEntityIdForMarketplaceListing))]
     [MapProperty(nameof(MarketplaceListingDTO.Date_added), nameof(GameEntityPrice.UpdatedAt), Use = nameof(MapInternalDate))]
-    [MapProperty(nameof(MarketplaceListingDTO.Price), nameof(GameEntityMarketPurchasePrice.PurchasePrice), Use = nameof(MapInternalMoney))]
+    [MapProperty(nameof(MarketplaceListingDTO.Price), nameof(GameEntityMarketPurchasePrice.PurchasePrice), Use = nameof(MapInternalMoneyFromString))]
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetEntityForMarketPrice))]
     private partial GameEntityMarketPurchasePrice MapInternalPurchasePrice(MarketplaceListingDTO source);
 
@@ -474,7 +474,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapPropertyFromSource(nameof(GameEntityPrice.Id), Use = nameof(GetEntityIdForMarketplaceListing))]
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetReferencedEntityIdForMarketplaceListing))]
     [MapProperty(nameof(MarketplaceListingDTO.Date_added), nameof(GameEntityPrice.UpdatedAt), Use = nameof(MapInternalDate))]
-    [MapProperty(nameof(MarketplaceListingDTO.Price), nameof(GameEntityMarketSalePrice.SalePrice), Use = nameof(MapInternalMoney))]
+    [MapProperty(nameof(MarketplaceListingDTO.Price), nameof(GameEntityMarketSalePrice.SalePrice), Use = nameof(MapInternalMoneyFromString))]
     [MapPropertyFromSource(nameof(GameEntityPrice.OwnerId), Use = nameof(GetEntityForMarketPrice))]
     private partial GameEntityMarketSalePrice MapInternalSalePrice(MarketplaceListingDTO source);
 
@@ -492,6 +492,12 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [UserMapping(Default = true)]
     private static GameCurrency MapInternalMoney(double? amount)
         => new((int)(amount ?? 0));
+
+    [UserMapping(Default = true)]
+    private static GameCurrency MapInternalMoneyFromString(string? amount)
+        => int.TryParse(amount, out var price)
+            ? new GameCurrency(price)
+            : new GameCurrency(0);
 
     [UserMapping(Default = true)]
     private static bool MapInternalBoolean(double? boolean)
@@ -561,6 +567,8 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     private GameLocationEntity GetGameLocationForCity(UniverseCityDTO city)
         => ResolveCachedGameEntity<GamePlanet>(city.Id_planet) as GameLocationEntity
            ?? ResolveCachedGameEntity<GameMoon>(city.Id_moon)
+           // TODO: Levski is on an asteroid, not in a star system directly, but we have no asteroid entity type yet
+           ?? ResolveCachedGameEntity<GameStarSystem>(city.Id_star_system)
            ?? ThrowMissingMappingException<GameLocationEntity, UniverseCityDTO>(city.Id);
 
     private GameLocationEntity GetGameLocationForOutpost(UniverseOutpostDTO outpost)

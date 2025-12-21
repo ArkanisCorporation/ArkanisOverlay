@@ -1,12 +1,17 @@
 namespace Arkanis.Overlay.Infrastructure;
 
 using Common;
+using Common.Abstractions;
 using Common.Enums;
 using Common.Extensions;
 using Common.Models;
+using Common.Options;
+using Common.Services;
 using Data;
 using Domain.Abstractions.Services;
+using Domain.Services;
 using External.Backend.Options;
+using External.CitizenId;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +22,7 @@ using Quartz.Simpl;
 using Repositories;
 using Services;
 using Services.Abstractions;
+using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
@@ -33,6 +39,7 @@ public static class DependencyInjection
         services.AddQuartz(options => options.UseJobFactory<MicrosoftDependencyInjectionJobFactory>());
         services.AddQuartzHostedService(options => options.WaitForJobsToComplete = false);
 
+        services.Configure(configure);
         var options = new InfrastructureServiceOptions();
         configure(options);
 
@@ -40,7 +47,8 @@ public static class DependencyInjection
         {
             services.AddServicesForInMemoryUserPreferences();
 
-            services.AddSingleton<IRepositorySyncStrategy, FakeRepositorySyncStrategy>();
+            services.AddSingleton<StaticRepositorySyncStrategy>(_ => new StaticRepositorySyncStrategy(true))
+                .Alias<IRepositorySyncStrategy, StaticRepositorySyncStrategy>();
         }
         else
         {
@@ -52,14 +60,14 @@ public static class DependencyInjection
         }
 
         services
-            .AddSingleton<UexAccountContext>()
-            .Alias<ISelfInitializable, UexAccountContext>();
-
-        services
             .AddSingleton<UserConsentDialogService>()
             .Alias<IUserConsentDialogService, UserConsentDialogService>()
             .Alias<IUserConsentDialogService.IConnector, UserConsentDialogService>();
 
+        services.AddCitizenIdAccountAuthentication(configuration);
+        // TODO: Schedule credentials refresh job for Citizen ID
+
+        services.AddSingleton<ExternalAuthenticatorProvider>();
         services
             .AddUexAccountAuthentication()
             .AddSingleton<IOptionsChangeTokenSource<UexApiOptions>, UserPreferencesBasedOptionsChangeTokenSource<UexApiOptions>>()
@@ -76,11 +84,12 @@ public static class DependencyInjection
             );
 
         services
-            .AddConfiguration<ArkanisBackendOptions>(configuration)
+            .AddConfiguration<ArkanisRestBackendOptions>(configuration)
+            .AddConfiguration<ArkanisGraphqlBackendOptions>(configuration)
             .AddArkanisBackend()
             .ConfigureHttpClient((serviceProvider, client) =>
                 {
-                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisBackendOptions>>();
+                    var backendOptions = serviceProvider.GetRequiredService<IOptions<ArkanisGraphqlBackendOptions>>();
                     client.BaseAddress = new Uri(backendOptions.Value.HttpClientBaseAddress);
                 }
             );
@@ -100,22 +109,29 @@ public static class DependencyInjection
             .AddUexHydrationServices();
 
         services.AddHostedService<InitializeServicesHostedService>();
+        services.AddHostedService<JobScheduleProviderScheduler>();
 
         return services;
     }
 
+    public static IServiceCollection AddCitizenIdAccountAuthentication(this IServiceCollection services, IConfiguration configuration)
+        => services
+            .AddCitizenIdLinkHelper()
+            .AddCitizenIdAuthenticatorServices(configuration)
+            .AddSingleton<CitizenIdAccountContext>()
+            .Alias<ISelfInitializable, CitizenIdAccountContext>()
+            .Alias<IExternalAccountContext, CitizenIdAccountContext>();
+
     public static IServiceCollection AddUexAccountAuthentication(this IServiceCollection services)
         => services
-            .AddSingleton<UexAuthenticator>()
+            .AddUexAuthenticatorServices()
+            .Alias<ExternalAuthenticator, UexAuthenticator>()
             .AddSingleton<UexAccountContext>()
+            .Alias<ISelfInitializable, UexAccountContext>()
             .Alias<IExternalAccountContext, UexAccountContext>();
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddConfiguration<ConfigurationOptions>(configuration);
-
-    public class InfrastructureServiceOptions
-    {
-        public HostingMode HostingMode { get; set; }
-    }
+            .AddConfiguration<ConfigurationOptions>(configuration)
+            .AddConfiguration<PostHogOptions>(configuration);
 }

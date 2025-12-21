@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
-using Arkanis.Overlay.Common.Options;
-using Arkanis.Overlay.Domain.Abstractions.Services;
+using Common.Abstractions;
+using Common.Options;
 using Common.Services;
 
 public class UserPreferencesBasedOptionsChangeTokenSource<TOptions> : OptionsChangeTokenSourceProvider<TOptions>

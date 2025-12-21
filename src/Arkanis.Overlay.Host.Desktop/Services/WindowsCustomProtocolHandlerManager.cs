@@ -1,8 +1,8 @@
 namespace Arkanis.Overlay.Host.Desktop.Services;
 
 using Common;
+using Common.Abstractions;
 using Common.Options;
-using Domain.Abstractions.Services;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
@@ -36,12 +36,16 @@ public class WindowsCustomProtocolHandlerManager(
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Registers our custom protocol handler in the registry.
+    /// <see href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa767914(v=vs.85)">MSDN</see>
+    /// </summary>
     private static void EnableProtocolHandler()
     {
         using var protocolHandlerKey = Registry.CurrentUser.OpenSubKey(ProtocolHandlerKeyPath, true)
                                        ?? Registry.CurrentUser.CreateSubKey(ProtocolHandlerKeyPath);
 
-        protocolHandlerKey.SetValue(null, $"{ApplicationConstants.ApplicationName} Protocol");
+        protocolHandlerKey.SetValue(null, $"URL:{ApplicationConstants.ApplicationName} Protocol");
         protocolHandlerKey.SetValue(UrlProtocolKeyName, string.Empty);
 
         using var applicationKey = protocolHandlerKey.OpenSubKey(ApplicationKeySubPath, true)

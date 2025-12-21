@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using Common.Abstractions;
 using Common.Models;
 using Common.Options;
 using Common.Services;
@@ -21,13 +22,18 @@ public class ExternalAccountContext(
     protected ILogger Logger { get; } = logger;
 
     protected string ServiceIdentifier
-        => authenticator.AuthenticatorInfo.Identifier;
+        => AuthenticatorInfo.ServiceId;
+
+    public virtual ExternalAuthenticatorInfo AuthenticatorInfo
+        => authenticator.AuthenticatorInfo;
 
     protected virtual ExternalAuthenticator.AuthTaskBase? CurrentAuthentication
         => _currentAuthentication;
 
     public void Dispose()
     {
+        userPreferences.ApplyPreferences -= OnApplyPreferences;
+        authenticator.RefreshRequested -= AuthenticatorOnRefreshRequested;
         _semaphoreSlim.Dispose();
         GC.SuppressFinalize(this);
     }
@@ -104,17 +110,24 @@ public class ExternalAccountContext(
     }
 #pragma warning restore CS8774
 
-    protected Task UpdateAsyncCore(CancellationToken cancellationToken)
+    protected virtual Task UpdateAsyncCore(CancellationToken cancellationToken)
         => Task.CompletedTask;
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
     {
         userPreferences.ApplyPreferences += OnApplyPreferences;
+        authenticator.RefreshRequested += AuthenticatorOnRefreshRequested;
         await UpdateAsync(cancellationToken);
     }
 
+    private void AuthenticatorOnRefreshRequested(object? _, EventArgs args)
+        => UpdateExternal();
+
+    private void OnApplyPreferences(object? _, UserPreferences preferences)
+        => UpdateExternal();
+
     [SuppressMessage("ReSharper", "AsyncVoidMethod")]
-    private async void OnApplyPreferences(object? _, UserPreferences preferences)
+    private async void UpdateExternal()
     {
         if (_semaphoreSlim.CurrentCount < 1)
         {

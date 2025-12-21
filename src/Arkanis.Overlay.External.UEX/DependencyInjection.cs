@@ -3,6 +3,8 @@ namespace Arkanis.Overlay.External.UEX;
 using Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Overlay.Common.Extensions;
+using Overlay.Common.Services;
 
 public static class DependencyInjection
 {
@@ -23,4 +25,9 @@ public static class DependencyInjection
             .AddSingleton<IUexStaticApi, UexStaticApi>()
             .AddSingleton<IUexUserApi, UexUserApi>()
             .AddSingleton<IUexVehiclesApi, UexVehiclesApi>();
+
+    public static IServiceCollection AddUexAuthenticatorServices(this IServiceCollection services)
+        => services
+            .AddSingleton<UexAuthenticator>()
+            .Alias<ExternalAuthenticator, UexAuthenticator>();
 }

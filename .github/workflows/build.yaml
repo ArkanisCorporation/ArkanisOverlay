@@ -15,6 +15,7 @@ permissions:
   issues: write         # for commenting on released issues
   pull-requests: write  # for commenting on released pull requests and creating release backpropagation PRs
   packages: write       # for publishing packages in repository registry
+  id-token: write       # for Azure Code Signing & Credential Federation
 
 env:
   # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
@@ -33,10 +34,15 @@ jobs:
     with:
       dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' }}
 
-  deploy-production:
+  # delpoyment target is selected by the active environment
+  deploy:
     name: Deployment
+    # deploy whenever there is a new release
+    if: ${{ needs.release.outputs.new_tag != '' }}
     needs: release
-    if: ${{ github.ref == 'refs/heads/release/stable' && needs.release.outputs.new_tag != '' }}
-    uses: ./.github/workflows/_deploy-production.yaml
+    uses: ./.github/workflows/_deploy-coolify.yaml
+    secrets: inherit
     with:
-      image_ref: ${{ needs.release.outputs.new_tag }}
+      application_name: web demo
+      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
+      gh_environment: Production

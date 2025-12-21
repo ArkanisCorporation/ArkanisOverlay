@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eEuo pipefail
 
+THIS_DIR="$(dirname "$(realpath "$0")")"
+
+. "${THIS_DIR}/common-verify.sh"
+
 ### verifyReleaseCmd
 #
 #| Command property | Description                                                              |
@@ -9,15 +13,5 @@ set -eEuo pipefail
 #| `stdout`         | Only the reason for the verification to fail can be written to `stdout`. |
 #| `stderr`         | Can be used for logging.                                                 |
 
-[[ -z "${CONFIGURATION+x}" ]] && CONFIGURATION="Release"
-
->&2 echo "Building LocalLink library NuGet package..."
-dotnet pack ./src/Arkanis.Overlay.LocalLink/Arkanis.Overlay.LocalLink.csproj \
-    --configuration "${CONFIGURATION}" \
-    --output publish-nuget-locallink \
-    --include-symbols \
-    --include-source \
-    --no-restore \
-    1>&2 # logging output must not go to stdout
-
->&2 echo "Successfully built the LocalLink library NuGet package"
+# calling shared function from common-verify.sh
+build_nuget "Arkanis.Overlay.Common" "publish-nuget-common"

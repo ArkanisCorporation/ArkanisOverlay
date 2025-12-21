@@ -15,13 +15,13 @@ jobs:
     runs-on: windows-latest
     steps:
       -   name: Git checkout
-          uses: actions/checkout@v5
+          uses: actions/checkout@v6
 
       -   name: Setup .NET
           id: setup-dotnet
           uses: actions/setup-dotnet@v5
           with:
-            dotnet-version: 9.0.x
+            dotnet-version: 10.0.x
             cache: true
             cache-dependency-path: "**/packages.lock.json"
 

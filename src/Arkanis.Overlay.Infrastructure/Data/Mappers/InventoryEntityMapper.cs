@@ -33,6 +33,8 @@ internal partial class InventoryEntityMapper(
 
     public partial InventoryEntryList Map(InventoryEntryListEntity list);
 
+    public partial InventoryEntryListBrief MapBrief(InventoryEntryListEntity list);
+
     #endregion
 
     #region (To Database) Inventory Entry Mapping

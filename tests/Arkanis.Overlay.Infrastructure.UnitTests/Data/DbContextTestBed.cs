@@ -3,7 +3,6 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Data;
 using Common.UnitTests.Abstractions;
 using Common.UnitTests.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Xunit.Abstractions;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 public abstract class DbContextTestBed<TFixture, TContext>

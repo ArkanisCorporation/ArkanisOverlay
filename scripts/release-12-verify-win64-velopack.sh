@@ -32,14 +32,15 @@ dotnet vpk [win] pack \
     --packTitle "Arkanis Overlay" \
     --packId ArkanisOverlay \
     --packAuthors "FatalMerlin, TheKronnY, and contributors" \
-    --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/Logo/color_fill_blur_name.png \
+    --splashImage ./src/Arkanis.Overlay.Host.Desktop/Resources/Logo/color_fill_blur_name_bg.png \
     --icon ./src/Arkanis.Overlay.Host.Desktop/Resources/favicon.ico \
     --packVersion "${VERSION}" \
-    --framework net8.0-x64-desktop \
+    --framework net10.0-x64-desktop \
     --channel "${VERSION_CHANNEL}" \
     --packDir publish-win64 \
     --outputDir release-win64 \
     --mainExe ArkanisOverlay.exe \
+    --signTemplate "java -jar jsign-7.4.jar --storetype TRUSTEDSIGNING --keystore weu.codesigning.azure.net --storepass $AZURE_API_ACCESS_TOKEN --alias ArkanisOverlay/ArkanisOverlay {{file...}}" \
     1>&2 # logging output must not go to stdout
 
->&2 echo "Successfully packed the Overlay application to: $(realpath release)"
+>&2 echo "Successfully packed the Overlay application to: $(realpath release-win64)"

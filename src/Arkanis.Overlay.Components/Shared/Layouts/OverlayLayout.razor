@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@using Arkanis.Overlay.Infrastructure.Services.External
 @implements IDisposable
 @layout MainLayout
 
@@ -6,6 +7,7 @@
 @inject IAnalyticsEventReporter AnalyticsEventReporter
 @inject IUserPreferencesProvider UserPreferencesProvider
 @inject IDialogService DialogService
+@inject CitizenIdAccountContext CitizenIdAccountContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -112,8 +114,16 @@
                     </MudMenuItem>
                 </ChildContent>
             </MudMenu>
-            <MudAvatar
-                Size="@Size.Small"/>
+            <MudLink Href="@CitizenIdAccountContext.Links.GetLinkAccountUrl()"
+                     Target="_blank"
+                     Disabled="@(CitizenIdAccountContext.IsAuthenticated)"
+                     Class="d-contents">
+                <Tooltip Text="@AccountTooltipText" Placement="@Placement.Bottom">
+                    <ExternalAccountAvatar
+                        Model="@CitizenIdAccountContext.Identity"
+                        Size="@Size.Small"/>
+                </Tooltip>
+            </MudLink>
         </MudStack>
     </MudStack>
 </MudAppBar>
@@ -130,6 +140,11 @@
 
     private const string BellContentId = "notifications-bell";
     private bool _pendingNotifications = true;
+
+    private string? AccountTooltipText
+        => CitizenIdAccountContext.IsAuthenticated
+            ? CitizenIdAccountContext.Identity.Name
+            : "Link your Citizen iD";
 
     private string ContainerBlurCss
         => UserPreferencesProvider.CurrentPreferences.BlurBackground

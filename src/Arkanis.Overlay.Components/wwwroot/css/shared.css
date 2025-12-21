@@ -6,6 +6,12 @@
     height: 100%;
 }
 
+.mud-button:not(.mud-disabled) .mud-svg-icon,
+.mud-button:not(.mud-disabled) .mud-icon-root,
+.mud-disabled > .mud-expand-panel-header.typo-ignore-disabled-parent {
+    color: inherit;
+}
+
 .text-justify {
     text-align: justify;
 }
@@ -19,6 +25,7 @@
 }
 
 .disabled .text-secondary,
+.mud-disabled .text-secondary,
 .mud-list-item-disabled .text-secondary,
 .text-disabled {
     color: var(--mud-palette-text-disabled);
@@ -61,6 +68,14 @@
 
 .mud-badge {
     z-index: 100;
+}
+
+.mud-paper .mud-expand-panel.mud-panel-next-expanded {
+    border-bottom: 1px solid var(--mud-palette-lines-default);
+}
+
+.mud-paper .mud-expand-panel.mud-panel-expanded {
+    margin-top: 0;
 }
 
 .mud-paper:not(.mud-paper-square) .mud-table-root:first-child tr:last-of-type > :first-child {
@@ -118,6 +133,11 @@
 }
 
 .mud-popover .mud-list.mud-menu-list {
+    overflow: visible;
+}
+
+/* Allow badges to overflow popovers (keyboard shortcuts) */
+.mud-popover:has(>.mud-menu-list>.mud-badge-root) {
     overflow: visible;
 }
 

@@ -25,6 +25,8 @@ public record UserPreferences
 
     public bool DisableAnalytics { get; set; }
 
+    public PostHogAnalytics PostHogOptions { get; set; } = new();
+
     public bool BlurBackground { get; set; }
 
     public CultureInfo? CustomCultureInfo { get; set; } = CultureInfo.GetCultureInfo("en");
@@ -66,4 +68,20 @@ public record UserPreferences
         {
             ExternalServiceCredentials = [.. ExternalServiceCredentials.Where(x => x.ServiceId != serviceId)],
         };
+
+    public record PostHogAnalytics
+    {
+        public const int CurrentVersion = 1;
+
+        public bool Enabled { get; set; }
+        public int Version { get; set; }
+
+        public bool PageViewsEnabled { get; set; } = true;
+        public bool CustomEventsEnabled { get; set; } = true;
+        public bool ClicksEnabled { get; set; } = true;
+        public bool HeatmapsEnabled { get; set; } = true;
+        public bool SurveysEnabled { get; set; } = true;
+        public bool ErrorReportingEnabled { get; set; } = true;
+        public bool RecordingsEnabled { get; set; }
+    }
 }

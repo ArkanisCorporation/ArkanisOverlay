@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.External.UEX;
 
-using Common;
-using Common.Models;
+using Overlay.Common;
+using Overlay.Common.Models;
 
 public static class UexConstants
 {
@@ -9,11 +9,11 @@ public static class UexConstants
     public const string ApiBaseUrl = "https://uex-proxy.arkanis.space/2.0";
 
     public const string AssetsBaseUrl = "https://assets.uexcorp.space/img";
-    public const string AssetsPreferredUrl = "https://assets.uexcorp.space/img";
+    public const string AssetsPreferredUrl = "https://d3a1t0pe7zmm0w.cloudfront.net";
 
     public static readonly ExternalAuthenticatorInfo ProviderInfo = new()
     {
-        Identifier = ExternalService.UnitedExpress,
+        ServiceId = ExternalService.UnitedExpress,
         DisplayName = "United Express (UEX)",
         Description
             = "United Express (UEX) plays the role of an interstellar trade and data provider corporation established in 2950."

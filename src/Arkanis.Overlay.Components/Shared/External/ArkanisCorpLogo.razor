@@ -67,10 +67,15 @@ else
     }
 
     private string AssetPath
-        => "arkanis/color_fill_no-margin.png";
+        => SizeVariant switch
+        {
+            Variant.HorizontalLogo => "arkanis/color_glow_name-horizontal.svg",
+            Variant.VerticalLogo => "arkanis/color_glow_name.svg",
+            _ => "arkanis/color_fill_no-margin.png",
+        };
 
     [Parameter]
-    public Variant SizeVariant { get; set; } = Variant.HorizontalLogo;
+    public Variant SizeVariant { get; set; } = Variant.Icon;
 
     [Parameter]
     public string? Class { get; set; }
@@ -93,6 +98,7 @@ else
     public enum Variant
     {
         HorizontalLogo,
+        VerticalLogo,
         Icon,
     }
 

@@ -1,29 +1,20 @@
+@using Arkanis.Overlay.Infrastructure.Options
+@using Microsoft.Extensions.Options
+@inject IOptions<InfrastructureServiceOptions> ServiceOptions
+
 <MudExpansionPanels>
-    <MudExpansionPanel Class="external-service-config" Disabled>
-        <TitleContent>
-            <MudStack AlignItems="@AlignItems.Center"
-                      Justify="@Justify.Center"
-                      Row>
-                <div style="height: 32px; margin-top: -4px;">
-                    <CitizenIdLogo
-                        Style="max-height: 36px;"
-                        Class="my-n1"
-                        ContentId="@ContentId"/>
-                </div>
-            </MudStack>
-            <MudStack AlignItems="@AlignItems.Center" Row>
-                <MudChip T="string" Color="@Color.Default">
-                    Inactive
-                </MudChip>
-                <MudSpacer/>
-                <MudText Class="text-secondary">
-                    Account connection not supported yet
-                </MudText>
-            </MudStack>
-        </TitleContent>
-        <ChildContent>
-        </ChildContent>
-    </MudExpansionPanel>
+    @if (ServiceOptions.Value.HostingMode is HostingMode.Server)
+    {
+        <MudAlert Severity="@Severity.Error">
+            <b>Do not link your personal accounts!</b>
+            This is a publicly available and shared instance.
+            Other users <u>will be able</u> to use features using linked accounts <u>on behalf of your accounts</u>.
+        </MudAlert>
+        <MudDivider/>
+    }
+
+    <CitizenIdServiceSettingsPanel
+        ContentId="@ContentId"/>
 
     <UexServiceSettingsPanel
         ContentId="@ContentId"/>

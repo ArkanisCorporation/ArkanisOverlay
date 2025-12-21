@@ -10,6 +10,11 @@ public abstract class ExternalAuthenticator
 {
     public abstract ExternalAuthenticatorInfo AuthenticatorInfo { get; }
 
+    public event EventHandler? RefreshRequested;
+
+    public virtual void RequestRefresh()
+        => RefreshRequested?.Invoke(this, EventArgs.Empty);
+
     /// <summary>
     ///     Validates the provided service credentials.
     /// </summary>
@@ -51,6 +56,22 @@ public abstract class ExternalAuthenticator
 
         public TaskAwaiter<Result<ClaimsIdentity>> GetAwaiter()
             => Task.GetAwaiter();
+    }
+
+    public class AuthenticatorMissingTask(AccountCredentials credentials) : AuthTaskBase(credentials, CancellationToken.None)
+    {
+        public override ExternalAuthenticatorInfo ProviderInfo { get; } = new()
+        {
+            ServiceId = credentials.ServiceId,
+            DisplayName = "Unknown",
+            Description = "Unknown Authenticator",
+        };
+
+        protected override Task<Result<ClaimsIdentity>> RunAsync(CancellationToken cancellationToken)
+        {
+            var result = Result.Fail<ClaimsIdentity>($"Unable to authenticate with '{Credentials.ServiceId}. No corresponding authenticator is available.'");
+            return Task.FromResult(result);
+        }
     }
 }
 

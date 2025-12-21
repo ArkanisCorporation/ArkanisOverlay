@@ -65,10 +65,10 @@
 
     private record Entry(int Index, SearchMatchResult<IGameEntity> Result)
     {
-        public static Entry Create(KeyValuePair<int, SearchMatchResult<IGameEntity>> item)
+        public static Entry Create((int Key, SearchMatchResult<IGameEntity> Value) item)
             => new(item.Key, item.Value);
 
-        public static Entry CreateWithOffset(KeyValuePair<int, SearchMatchResult<IGameEntity>> item, int offset)
+        public static Entry CreateWithOffset((int Key, SearchMatchResult<IGameEntity> Value) item, int offset)
             => new(item.Key + offset, item.Value);
     }
 }

@@ -12,6 +12,12 @@
         <WarningsNotAsErrors>
             $(WarningsNotAsErrors);
             NU1900; <!-- Error occurred while getting package vulnerability data: Unable to load the service index for source... -->
+            NU5104; <!-- A stable release of a package should not have a prerelease dependency. Either modify the version spec of dependency "XXX" or update the version field in the nuspec. -->
+            NU1901; <!-- Package 'X' Y has a known Z severity vulnerability. -->
+            NU1902; <!-- Package 'X' Y has a known Z severity vulnerability. -->
+            NU1903; <!-- Package 'X' Y has a known Z severity vulnerability. -->
+            NU1904; <!-- Package 'X' Y has a known Z severity vulnerability. -->
+            CA1873; <!-- Evaluation of this argument may be expensive and unnecessary if logging is disabled. -->
         </WarningsNotAsErrors>
     </PropertyGroup>
 

@@ -83,36 +83,44 @@ public static class Program
         {
             using var appMutex = new SystemAppMutexManager();
             var host = hostBuilder.Build();
-            var preventLaunch = host.Services.GetRequiredService<IConfiguration>()
-                .GetSection(ApplicationConstants.Args.Config.GetKeyFor(ApplicationConstants.Args.PreventLaunch))
-                .Exists();
 
-            if (!appMutex.TryAcquire() || preventLaunch)
+            try
             {
-                Log.Warning("Another application instance is already running");
-                var hostApplicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
-                var protocolCallHandler = host.Services.GetRequiredService<NamedPipeCommandCallForwarder>();
+                var preventLaunch = host.Services.GetRequiredService<IConfiguration>()
+                    .GetSection(ApplicationConstants.Args.Config.GetKeyFor(ApplicationConstants.Args.PreventLaunch))
+                    .Exists();
 
-                if (await protocolCallHandler.TryProcessCustomProtocolCallFromConfigurationAsync(hostApplicationLifetime.ApplicationStopping))
+                if (!appMutex.TryAcquire() || preventLaunch)
                 {
-                    // custom protocol invocation was successfully processed, do not continue to launch
+                    Log.Warning("Another application instance is already running");
+                    var hostApplicationLifetime = host.Services.GetRequiredService<IHostApplicationLifetime>();
+                    var protocolCallHandler = host.Services.GetRequiredService<NamedPipeCommandCallForwarder>();
+
+                    if (await protocolCallHandler.TryProcessCustomProtocolCallFromConfigurationAsync(hostApplicationLifetime.ApplicationStopping))
+                    {
+                        // custom protocol invocation was successfully processed, do not continue to launch
+                        return;
+                    }
+                }
+
+                if (preventLaunch)
+                {
                     return;
                 }
-            }
 
-            if (preventLaunch)
+                //? force acquire or throw
+                appMutex.Acquire();
+                await host.MigrateDatabaseAsync<OverlayDbContext>().ConfigureAwait(false);
+                await host.RunAsync().ConfigureAwait(false);
+            }
+            catch (OperationCanceledException e)
             {
-                return;
+                Log.Warning(e, "Host terminated");
             }
-
-            //? force acquire or throw
-            appMutex.Acquire();
-            await host.MigrateDatabaseAsync<OverlayDbContext>().ConfigureAwait(false);
-            await host.RunAsync().ConfigureAwait(false);
-        }
-        catch (ApplicationAlreadyRunningException e)
-        {
-            Log.Fatal(e, "Another instance is already running");
+            catch (ApplicationAlreadyRunningException e)
+            {
+                Log.Fatal(e, "Another instance is already running");
+            }
         }
         catch (Exception ex)
         {

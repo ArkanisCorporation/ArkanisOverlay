@@ -6,7 +6,6 @@ using Domain.Models;
 using Domain.Models.Game;
 using Microsoft.Extensions.Logging;
 using Shouldly;
-using Xunit.Abstractions;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHelper testOutputHelper, TFixture fixture)

@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
-        <PackageId>Arkanis.Overlay.Domain</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,6 +14,24 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
+    </ItemGroup>
+
+    <!-- NuGet Publishing Configuration -->
+    <PropertyGroup>
+        <PackageId>Arkanis.Overlay.Domain</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageDescription>Contains the core domain models and business logic for the Arkanis Overlay.</PackageDescription>
+        <PackageProjectUrl>https://arkanis.cc/overlay</PackageProjectUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ArkanisCorporation/ArkanisOverlay</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+        <None Include="../../LICENSE.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
