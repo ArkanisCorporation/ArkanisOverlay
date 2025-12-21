@@ -579,6 +579,11 @@
           "Humanizer.Core": "[3.0.1]"
         }
       },
+      "MathTrigonometric": {
+        "type": "Transitive",
+        "resolved": "1.2.0",
+        "contentHash": "5Mr4SCGevBHpYI2MBkqVtbwtiW/Nr/gi9P323NhgAToJP06DgcHDlKqZ5qfrV0VoQSNHuSaAz6uGCcJqdwsQdA=="
+      },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
         "resolved": "2.23.0",
@@ -778,6 +783,22 @@
         "type": "Transitive",
         "resolved": "10.0.0",
         "contentHash": "5hfVl/e+bx1px2UkN+1xXhd3hu7Ui6ENItBzckFaRDQXfr+SHT/7qrCDrlQekCF/PBtEu2vtk87U2+gDEF8EhQ=="
+      },
+      "Microsoft.Extensions.Localization": {
+        "type": "Transitive",
+        "resolved": "9.0.1",
+        "contentHash": "UgvX4Yb2T3tEsKT30ktZr0H7kTRPapCgEH0bdTwxiEGSdA39/hAQMvvb+vgHpqmevDU5+puyI9ujRkmmbF946w==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Localization.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.1",
+          "Microsoft.Extensions.Options": "9.0.1"
+        }
+      },
+      "Microsoft.Extensions.Localization.Abstractions": {
+        "type": "Transitive",
+        "resolved": "9.0.1",
+        "contentHash": "CABog43lyaZQMjmlktuImCy6zmAzRBaXqN81uPaMQjlp//ISDVYItZPh6KWpWRF4MY/B67X5oDc3JTUpfdocZw=="
       },
       "Microsoft.Extensions.ObjectPool": {
         "type": "Transitive",
@@ -1121,6 +1142,19 @@
           "xunit.v3": "[3.2.0, )"
         }
       },
+      "arkanis.overlay.components": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.Domain": "[1.0.0, )",
+          "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
+          "Blazor-Analytics": "[4.0.0, )",
+          "MathEvaluator": "[2.5.0, )",
+          "Microsoft.AspNetCore.Components.Authorization": "[10.0.0, )",
+          "Microsoft.AspNetCore.Components.Web": "[10.0.0, )",
+          "MudBlazor": "[8.14.0, )",
+          "System.Linq.Async": "[7.0.0, )"
+        }
+      },
       "arkanis.overlay.domain": {
         "type": "Project",
         "dependencies": {
@@ -1184,6 +1218,16 @@
         "dependencies": {
           "Arkanis.Overlay.Common": "[1.0.0, )",
           "Microsoft.Extensions.Hosting.Abstractions": "[10.0.0, )"
+        }
+      },
+      "Blazor-Analytics": {
+        "type": "CentralTransitive",
+        "requested": "[4.0.0, )",
+        "resolved": "4.0.0",
+        "contentHash": "118lqRYqjxAc/lPldPdZGTo17cEQ8rYdgGupB1auci3+UeV1EZ5B43XBaajgU8cLYLbgCwyJl0+Vme7IJTAz5A==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.1.8",
+          "Microsoft.AspNetCore.Components.Web": "3.1.8"
         }
       },
       "CitizenId.Domain.Shared": {
@@ -1304,6 +1348,25 @@
         "requested": "[2025.2.2, )",
         "resolved": "2025.2.2",
         "contentHash": "0X56ZRizuHdrnPpgXjWV7f2tQO1FlQg5O1967OGKnI/4ZRNOK642J8L7brM1nYvrxTTU5TP1yRyXLRLaXLPQ8A=="
+      },
+      "MathEvaluator": {
+        "type": "CentralTransitive",
+        "requested": "[2.5.0, )",
+        "resolved": "2.5.0",
+        "contentHash": "RXfKirCOmGGkw/x1SRqxzGz/RZck3ctzIMTPMmkOhcI1PGzWsKMK2kYjYjG55w90j3c2RDxDzwgFTddGpuduxw==",
+        "dependencies": {
+          "MathTrigonometric": "1.2.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.Authorization": {
+        "type": "CentralTransitive",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "z/4yuTmCD1A3x++Dr8s2H3yD6nUGglqxvjsPL65BUynJlEO0ZaOaI0TIQ58+OyU8IAw98eprHlezix8UyRMqKg==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "10.0.0",
+          "Microsoft.AspNetCore.Components": "10.0.0"
+        }
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",
@@ -1474,6 +1537,17 @@
         "requested": "[4.4.0, )",
         "resolved": "4.4.0",
         "contentHash": "QX3bsK9oFeUXk8tFsc9NkI6NnCr8Ar/ex027p+ZZ/jdLCdX2RlryDtxUqZW5j45NVwn4E4Z4hzupsoMQd6Yxtg=="
+      },
+      "MudBlazor": {
+        "type": "CentralTransitive",
+        "requested": "[8.14.0, )",
+        "resolved": "8.14.0",
+        "contentHash": "cYqG3YvVZxYl0MtLaivYI2ilgd88Rv2noiVR/l6rkH71cBMtOOOD/zYxvF8haf5KAEjc/RGYJ0EpnV9rQn7MXw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "9.0.1",
+          "Microsoft.AspNetCore.Components.Web": "9.0.1",
+          "Microsoft.Extensions.Localization": "9.0.1"
+        }
       },
       "MudBlazor.FontIcons.MaterialIcons": {
         "type": "CentralTransitive",

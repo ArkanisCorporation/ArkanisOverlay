@@ -51,13 +51,16 @@ public static class MudBlazorIconMapping
             return materialIcon;
         }
 
-        // Fallback to Material Symbols
+        // Fallback to Material Symbols only if Material Icons didn't find a match
+        // Check if Material Symbols has a specific mapping (not its default)
         var materialSymbol = GetMaterialSymbolString(iconName);
-        if (materialSymbol != defaultIcon)
+        var materialSymbolDefault = Outlined.Square;
+        if (materialSymbol != materialSymbolDefault)
         {
             return materialSymbol;
         }
 
+        // Both returned defaults, so return our default
         return defaultIcon;
     }
 
