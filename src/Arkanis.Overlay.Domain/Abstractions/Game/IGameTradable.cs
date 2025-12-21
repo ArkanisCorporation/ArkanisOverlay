@@ -4,7 +4,7 @@ using Enums;
 
 public interface IGameTradable : IGamePurchasable, IGameSellable
 {
-    new GameTerminalType TerminalType { get; }
+    public new GameTerminalType TerminalType { get; }
 
     GameTerminalType IGamePurchasable.TerminalType
         => TerminalType;

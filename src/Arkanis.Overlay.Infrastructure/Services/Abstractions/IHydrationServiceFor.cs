@@ -7,7 +7,7 @@ using Domain.Abstractions;
 /// </summary>
 public interface IHydrationServiceFor
 {
-    bool Matches<T>(T entity);
+    public bool Matches<T>(T entity);
 
     /// <summary>
     ///     Hydrates the given entity.
@@ -16,7 +16,7 @@ public interface IHydrationServiceFor
     /// <param name="cancellationToken">A process cancellation token</param>
     /// <typeparam name="T">A type of the entity provided</typeparam>
     /// <returns>A process task fulfilled when the entity hydration has been finished</returns>
-    Task HydrateAsync<T>(T entity, CancellationToken cancellationToken = default);
+    public Task HydrateAsync<T>(T entity, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -49,5 +49,5 @@ public interface IHydrationServiceFor<in T> : IHydrationServiceFor, IDependable
     /// <param name="entity">An entity of targeted type</param>
     /// <param name="cancellationToken">A process cancellation token</param>
     /// <returns>A process task fulfilled when the entity hydration has been finished</returns>
-    Task HydrateAsync(T entity, CancellationToken cancellationToken = default);
+    public Task HydrateAsync(T entity, CancellationToken cancellationToken = default);
 }

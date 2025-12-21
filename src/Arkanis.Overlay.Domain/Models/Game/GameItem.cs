@@ -70,6 +70,6 @@ public class GameItem(int id, string fullName, GameCompany manufacturer, GamePro
             => GetEnumerator();
 
         public void Update(IEnumerable<GameItemTrait> traits)
-            => _traits = traits.ToList();
+            => _traits = [.. traits];
     }
 }

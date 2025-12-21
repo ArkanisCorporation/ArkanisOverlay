@@ -12,7 +12,7 @@ using Models.Game;
 /// <typeparam name="T">The entity model provided</typeparam>
 public interface IGameEntityExternalSyncRepository<T> where T : class, IGameEntity
 {
-    ValueTask<GameEntitySyncData<T>> GetAllAsync(InternalDataState internalDataState, CancellationToken cancellationToken = default);
+    public ValueTask<GameEntitySyncData<T>> GetAllAsync(InternalDataState internalDataState, CancellationToken cancellationToken = default);
 
-    Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default);
+    public Task<T?> GetAsync(IDomainId id, CancellationToken cancellationToken = default);
 }

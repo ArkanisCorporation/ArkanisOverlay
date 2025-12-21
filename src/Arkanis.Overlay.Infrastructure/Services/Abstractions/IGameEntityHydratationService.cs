@@ -7,5 +7,5 @@ using Domain.Abstractions.Game;
 /// </summary>
 public interface IGameEntityHydrationService
 {
-    Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken = default) where T : IGameEntity;
+    public Task HydrateAsync<T>(T gameEntity, CancellationToken cancellationToken = default) where T : IGameEntity;
 }

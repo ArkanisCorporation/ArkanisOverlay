@@ -1,4 +1,4 @@
-﻿namespace Arkanis.Overlay.External.Backend.Serializers;
+namespace Arkanis.Overlay.External.Backend.Serializers;
 
 using StrawberryShake.Serialization;
 

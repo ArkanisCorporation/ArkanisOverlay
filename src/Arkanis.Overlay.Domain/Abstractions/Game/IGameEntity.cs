@@ -5,11 +5,11 @@ using Models.Game;
 
 public interface IGameEntity : IIdentifiable, ISearchable
 {
-    new UexApiGameEntityId Id { get; }
+    public new UexApiGameEntityId Id { get; }
 
-    GameEntityName Name { get; }
+    public GameEntityName Name { get; }
 
-    GameEntityCategory EntityCategory { get; }
+    public GameEntityCategory EntityCategory { get; }
 
     IDomainId IIdentifiable.Id
         => Id;

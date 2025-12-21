@@ -23,63 +23,45 @@ public partial class HudWindow
 
         InitializeComponent();
 
-        IsVisibleChanged += (_, _) =>
-        {
-            _logger.LogDebug("HudWindow: VisibilityChanged: {IsVisible}", IsVisible);
-        };
+        IsVisibleChanged += (_, _) => _logger.LogDebug("HudWindow: VisibilityChanged: {IsVisible}", IsVisible);
 
-        _gameWindowTracker.WindowSizeChanged += (_, size) =>
-        {
-            Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowSizeChanged += (_, size) => Dispatcher.Invoke(() =>
                 {
                     // _logger.LogDebug("HudWindow: WindowSize: {Width}x{Height}", size.Width, size.Height);
                     MaxWidth = MinWidth = size.Width;
                     MaxHeight = MinHeight = size.Height;
                 }
             );
-        };
 
-        _gameWindowTracker.WindowPositionChanged += (_, position) =>
-        {
-            Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowPositionChanged += (_, position) => Dispatcher.Invoke(() =>
                 {
                     // _logger.LogDebug("HudWindow: WindowPosition: {X},{Y}", position.X, position.Y);
                     Left = position.X;
                     Top = position.Y;
                 }
             );
-        };
 
-        _gameWindowTracker.WindowFocusChanged += (_, focused) =>
-        {
-            Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowFocusChanged += (_, focused) => Dispatcher.Invoke(() =>
                 {
                     Visibility = focused ? Visibility.Visible : Visibility.Collapsed;
                 }
             );
-        };
 
         var visibilityBeforeWindowSizeOrPositionChange = Visibility;
-        _gameWindowTracker.WindowSizeOrPositionChangeStart += (_, _) =>
-        {
-            Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowSizeOrPositionChangeStart += (_, _) => Dispatcher.Invoke(() =>
                 {
                     _logger.LogDebug("HudWindow: WindowSizeOrPositionChanging");
                     visibilityBeforeWindowSizeOrPositionChange = Visibility;
                     Visibility = Visibility.Collapsed;
                 }
             );
-        };
 
-        _gameWindowTracker.WindowSizeOrPositionChangeEnd += (_, _) =>
-        {
-            Dispatcher.Invoke(() =>
+        _gameWindowTracker.WindowSizeOrPositionChangeEnd += (_, _) => Dispatcher.Invoke(() =>
                 {
                     // _logger.LogDebug("HudWindow: WindowSizeOrPositionChanged");
                     Visibility = visibilityBeforeWindowSizeOrPositionChange;
                 }
             );
-        };
 
         LocationChanged += (_, __) => NudgePopup();
     }
@@ -94,7 +76,7 @@ public partial class HudWindow
             this,
             WINDOW_EX_STYLE.WS_EX_TRANSPARENT
             | WINDOW_EX_STYLE.WS_EX_NOACTIVATE
-            //|  WINDOW_EX_STYLE.WS_EX_LAYERED
+        //|  WINDOW_EX_STYLE.WS_EX_LAYERED
         );
 
         Top = _gameWindowTracker.CurrentWindowPosition.Y;

@@ -6,7 +6,7 @@ namespace Arkanis.Overlay.Domain.Abstractions;
 /// </summary>
 public interface IDependable
 {
-    bool IsReady { get; }
+    public bool IsReady { get; }
 
-    Task WaitUntilReadyAsync(CancellationToken cancellationToken = default);
+    public Task WaitUntilReadyAsync(CancellationToken cancellationToken = default);
 }

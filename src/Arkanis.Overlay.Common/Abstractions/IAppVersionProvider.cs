@@ -5,12 +5,12 @@ using NuGet.Versioning;
 
 public interface IAppVersionProvider
 {
-    SemanticVersion CurrentVersion { get; }
+    public SemanticVersion CurrentVersion { get; }
 
-    UpdateChannel CurrentUpdateChannel
+    public UpdateChannel CurrentUpdateChannel
         => UpdateChannel.ByVelopackChannelId(CurrentVelopackChannelId);
 
-    string CurrentVelopackChannelId { get; }
+    public string CurrentVelopackChannelId { get; }
 
-    DateTimeOffset? AutoUpdateCheckAt { get; }
+    public DateTimeOffset? AutoUpdateCheckAt { get; }
 }

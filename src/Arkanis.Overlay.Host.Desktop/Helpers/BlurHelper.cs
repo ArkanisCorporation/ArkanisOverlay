@@ -3,9 +3,9 @@ namespace Arkanis.Overlay.Host.Desktop.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-using Windows.Win32.Foundation;
 using Microsoft.Extensions.Logging;
 using UI.Windows;
+using Windows.Win32.Foundation;
 
 /// <summary>
 ///     Helper class for setting window composition attributes to enable blur effects.
@@ -14,8 +14,6 @@ using UI.Windows;
 /// </summary>
 public class BlurHelper(WindowProvider<OverlayWindow> windowProvider, ILogger<BlurHelper> logger)
 {
-    private const uint BlurOpacity = 0;
-
     [SuppressMessage(
         "Interoperability",
         "SYSLIB1054:Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time"
