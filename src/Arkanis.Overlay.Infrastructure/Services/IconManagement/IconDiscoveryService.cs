@@ -73,14 +73,13 @@ public sealed class IconDiscoveryService : IIconDiscoveryService
             foreach (var constant in constants)
             {
                 var iconIdentifier = (string)constant.GetValue(null)!;
-                var iconName = ExtractIconName(iconIdentifier);
 
                 icons.Add(new IconSelectionObject
                 {
                     Category = category,
-                    Type = DetermineIconType(iconName),
-                    IconName = iconName,
-                    Description = GetDescriptionForIconName(iconName),
+                    Type = DetermineIconType(iconIdentifier),
+                    IconName = iconIdentifier, // Store full identifier like "Navigation.Search"
+                    Description = GetDescriptionForField(constant),
                     IsActive = true,
                     Priority = 0,
                     FallbackIcons = []
@@ -91,66 +90,29 @@ public sealed class IconDiscoveryService : IIconDiscoveryService
         return [.. icons.OrderBy(i => i.Category).ThenBy(i => i.IconName)];
     }
 
-    private static IconCategory DetermineCategoryFromType(Type type) => type.Name switch
+    private static IconCategory DetermineCategoryFromType(Type type)
     {
-        nameof(OverlayIcons.Navigation) => IconCategory.Navigation,
-        nameof(OverlayIcons.Actions) => IconCategory.Action,
-        nameof(OverlayIcons.System) => IconCategory.System,
-        nameof(OverlayIcons.GameEntity) => IconCategory.GameEntity,
-        nameof(OverlayIcons.Trade) => IconCategory.Trade,
-        nameof(OverlayIcons.Status) => IconCategory.Status,
-        _ => IconCategory.Status
-    };
+        // Read the IconCategoryAttribute from the nested class
+        var attribute = type.GetCustomAttribute<IconCategoryAttribute>();
+        return attribute?.Category ?? IconCategory.Undefined;
+    }
 
-    private static IconType DetermineIconType(string iconName) =>
+    private static IconType DetermineIconType(string iconIdentifier) =>
         // For now, default to MaterialIcons
-        // This could be enhanced to determine type based on icon name patterns
+        // This could be enhanced to determine type based on icon identifier patterns
         IconType.MaterialIcons;
 
-    private static string ExtractIconName(string iconIdentifier)
+    private static string GetDescriptionForField(FieldInfo field)
     {
-        // Extract the actual icon name from the identifier
-        var parts = iconIdentifier.Split('.');
-        return parts.Length >= 2 ? parts[^1] : iconIdentifier;
-    }
-
-    private static string GetDescriptionForIconName(string iconName)
-    {
-        // Use reflection to find the field with IconDescriptionAttribute
-        var field = FindFieldWithIconName(iconName);
-        if (field != null)
+        // Read the IconDescriptionAttribute directly from the field
+        var attribute = field.GetCustomAttribute<IconDescriptionAttribute>();
+        if (attribute != null)
         {
-            var attribute = field.GetCustomAttribute<IconDescriptionAttribute>();
-            if (attribute != null)
-            {
-                return attribute.Description;
-            }
+            return attribute.Description;
         }
 
-        // Fallback to default description if no attribute found
-        return $"Icon: {iconName}";
-    }
-
-    private static FieldInfo? FindFieldWithIconName(string iconName)
-    {
-        // Get all nested types from OverlayIcons
-        var nestedTypes = typeof(OverlayIcons).GetNestedTypes(BindingFlags.Public | BindingFlags.Static);
-
-        foreach (var type in nestedTypes)
-        {
-            // Get all public static fields (constants) from this type
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
-
-            foreach (var field in fields)
-            {
-                if (field.FieldType == typeof(string) && field.GetValue(null) is string fieldValue && fieldValue == iconName)
-                {
-                    return field;
-                }
-            }
-        }
-
-        return null;
+        // Fallback to field name if no attribute found
+        return $"Icon: {field.Name}";
     }
 }
 

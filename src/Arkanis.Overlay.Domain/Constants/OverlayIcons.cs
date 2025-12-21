@@ -8,6 +8,75 @@ using Models.IconSelection;
 /// </summary>
 public static class OverlayIcons
 {
+    #region Flat Access Aliases (Quick Access)
+    // These provide direct access to commonly used icons without needing to specify the category.
+    // You can use either: OverlayIcons.Search OR OverlayIcons.Navigation.Search
+
+    // Navigation
+    public const string Search = Navigation.Search;
+    public const string ChevronLeft = Navigation.ChevronLeft;
+    public const string OpenInBrowser = Navigation.OpenInBrowser;
+    public const string Web = Navigation.Web;
+
+    // Actions
+    public const string Add = Actions.Add;
+    public const string Remove = Actions.Remove;
+    public const string Calculate = Actions.Calculate;
+    public const string ContentCopy = Actions.ContentCopy;
+    public const string FrameReload = Actions.FrameReload;
+    public const string Refresh = Actions.FrameReload; // Alias
+
+    // System
+    public const string Settings = System.Settings;
+    public const string ScreenshotMonitor = System.ScreenshotMonitor;
+    public const string Monitor = System.ScreenshotMonitor; // Alias
+    public const string InstallDesktop = System.InstallDesktop;
+    public const string Notifications = System.Notifications;
+    public const string Deblur = System.Deblur;
+
+    // Game Entities
+    public const string Commodity = GameEntity.Commodity;
+    public const string SpaceShip = GameEntity.SpaceShip;
+    public const string Ship = GameEntity.SpaceShip; // Alias
+    public const string GroundVehicle = GameEntity.GroundVehicle;
+    public const string Vehicle = GameEntity.GroundVehicle; // Alias
+    public const string Item = GameEntity.Item;
+    public const string ProductCategory = GameEntity.ProductCategory;
+    public const string Category = GameEntity.ProductCategory; // Alias
+    public const string Company = GameEntity.Company;
+    public const string Organization = GameEntity.Company; // Alias
+    public const string EntityLocation = GameEntity.Location; // Using prefix to avoid conflict with Location class
+    public const string Place = GameEntity.Location; // Alias
+    public const string Flight = GameEntity.Flight;
+    public const string Store = GameEntity.Store;
+    public const string Shop = GameEntity.Store; // Alias
+    public const string GarageDoor = GameEntity.GarageDoor;
+    public const string Hangar = GameEntity.GarageDoor; // Alias for hangar
+    public const string Garage = GameEntity.GarageDoor; // Alias
+
+    // Trade
+    public const string AddShoppingCart = Trade.AddShoppingCart;
+    public const string Buy = Trade.AddShoppingCart; // Alias
+    public const string RemoveShoppingCart = Trade.RemoveShoppingCart;
+    public const string Sell = Trade.RemoveShoppingCart; // Alias
+    public const string CarRental = Trade.CarRental;
+    public const string Rent = Trade.CarRental; // Alias
+    public const string Storefront = Trade.Storefront;
+    public const string Warehouse = Trade.Warehouse;
+
+    // Location
+    public const string LocationOn = Location.LocationOn;
+    public const string LocationOff = Location.LocationOff;
+
+    // Status
+    public const string Info = Status.Info;
+    public const string Square = Status.Square;
+
+    // Social
+    public const string Groups = Social.Groups;
+
+    #endregion
+
     /// <summary>
     /// Navigation and UI-related icons.
     /// </summary>
