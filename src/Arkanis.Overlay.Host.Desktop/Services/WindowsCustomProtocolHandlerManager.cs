@@ -75,13 +75,8 @@ public class WindowsCustomProtocolHandlerManager(
     private static void DisableProtocolHandler()
     {
         using var protocolHandlerKey = Registry.CurrentUser.OpenSubKey(ProtocolHandlerKeyPath, true);
-        if (protocolHandlerKey is null)
-        {
-            return;
-        }
 
-        protocolHandlerKey.DeleteValue(UrlProtocolKeyName);
-        protocolHandlerKey.DeleteSubKeyTree(HandlerKeySubPath);
+        protocolHandlerKey?.DeleteSubKeyTree("");
     }
 
     private void OnUserApplyPreferences(object? sender, UserPreferences userPreferences)
