@@ -322,9 +322,24 @@ public sealed partial class OverlayWindow : IDisposable
     private void OnAboutCommand(object sender, RoutedEventArgs e)
         => _windowFactory.CreateWindow<AboutWindow>().ShowDialog();
 
+    /// <summary>
+    /// Exits the Overlay application by stopping the host application lifetime.
+    /// </summary>
+    /// <remarks>
+    /// This previously used <c>Application.Current.Shutdown()</c> but that ceased working recently for unknown reasons.
+    /// Presumably something changed in .NET 10 that broke it.
+    /// </remarks>
     private void OnExitCommand(object sender, RoutedEventArgs e)
-        => _hostApplicationLifetime.StopApplication(); // Application.Current.Shutdown();
+        => _hostApplicationLifetime.StopApplication();
 
+    /// <summary>
+    /// Dispatches the exit command to the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// This is a public method so that it can be called from non-UI threads.
+    /// It's not clear if it's still necessary, but it's kept for safety.
+    /// See the Remarks section on the <see cref="OnExitCommand"/> method for more details.
+    /// </remarks>
     public void Exit()
         => Dispatcher.Invoke(() => OnExitCommand(this, new RoutedEventArgs()));
 }
