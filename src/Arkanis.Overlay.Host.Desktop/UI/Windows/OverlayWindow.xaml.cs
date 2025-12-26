@@ -15,6 +15,7 @@ using global::Windows.Win32.Foundation;
 using global::Windows.Win32.UI.WindowsAndMessaging;
 using Helpers;
 using Microsoft.AspNetCore.Components.WebView;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
 using Services.Factories;
@@ -35,6 +36,7 @@ public sealed partial class OverlayWindow : IDisposable
     private readonly IOverlayEventControls _overlayEventControls;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly WindowFactory _windowFactory;
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
     private HWND _currentWindowHWnd = HWND.Null;
 
@@ -45,7 +47,9 @@ public sealed partial class OverlayWindow : IDisposable
         GlobalKeyboardShortcutListener globalKeyboardShortcutListener,
         BlurHelper blurHelper,
         WindowFactory windowFactory,
-        IOverlayEventControls overlayEventControls
+        IOverlayEventControls overlayEventControls,
+        IHostApplicationLifetime hostApplicationLifetime
+
     )
     {
         Instance = this;
@@ -57,6 +61,7 @@ public sealed partial class OverlayWindow : IDisposable
         _blurHelper = blurHelper;
         _windowFactory = windowFactory;
         _overlayEventControls = overlayEventControls;
+        _hostApplicationLifetime = hostApplicationLifetime;
 
         SetupWorkerEventListeners();
         InitializeComponent();
@@ -318,7 +323,7 @@ public sealed partial class OverlayWindow : IDisposable
         => _windowFactory.CreateWindow<AboutWindow>().ShowDialog();
 
     private void OnExitCommand(object sender, RoutedEventArgs e)
-        => Application.Current.Shutdown();
+        => _hostApplicationLifetime.StopApplication(); // Application.Current.Shutdown();
 
     public void Exit()
         => Dispatcher.Invoke(() => OnExitCommand(this, new RoutedEventArgs()));
