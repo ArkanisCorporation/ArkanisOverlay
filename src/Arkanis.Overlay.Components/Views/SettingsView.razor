@@ -45,8 +45,9 @@
                 <MudDivider/>
 
                 <UserPreferencesControls
-                    Preferences="@UserPreferencesManager.CurrentPreferences"
-                    @bind-IsValid="@_isValid"/>
+                    Preferences="@_preferences"
+                    @bind-IsValid="@_isValid"
+                    ShowSaveCancelButtons/>
             </MudPaper>
 
             <MudPaper>
@@ -70,6 +71,7 @@
 
 @code
 {
+    private UserPreferences _preferences = new();
 
     private const string ContentId = "settings";
 
@@ -91,6 +93,9 @@
     {
         UserPreferencesManager.ApplyPreferences += PerformUpdate;
     }
+
+    protected override void OnParametersSet()
+        => _preferences = UserPreferencesManager.CurrentPreferences with { };
 
     public void Dispose()
     {
