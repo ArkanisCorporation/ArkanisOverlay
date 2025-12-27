@@ -120,6 +120,15 @@
                             @bind-Value:after="@ValidateAsync"
                             Required/>
                     </MudItem>
+                    @if (ShowSaveCancelButtons)
+                    {
+                        <MudItem xs="12">
+                            <MudStack Justify="Justify.FlexEnd" Row>
+                                <MudButton OnClick="@Cancel">Cancel</MudButton>
+                                <MudButton Color="@Color.Success" OnClick="@SaveAsync" Disabled="@(!IsValid)">Save</MudButton>
+                            </MudStack>
+                        </MudItem>
+                    }
                 </MudGrid>
             </MudForm>
         </ChildContent>
@@ -136,7 +145,6 @@
 
 @code
 {
-
     private MudForm? _form;
 
     private static readonly CultureInfo[] Cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures)
@@ -170,6 +178,9 @@
     [Parameter]
     public bool ExpandInitially { get; set; }
 
+    [Parameter]
+    public bool ShowSaveCancelButtons { get; set; }
+
     private async Task ValidateAsync()
     {
         if (_form is not null)
@@ -187,4 +198,22 @@
     private Task<IEnumerable<RegionInfo>> SearchRegion(string? searchTerm, CancellationToken ct)
         => Task.FromResult(Regions.FuzzySearch(culture => culture.EnglishName, searchTerm ?? string.Empty));
 
+    private async Task SaveAsync()
+    {
+        if (!IsValid)
+        {
+            return;
+        }
+
+        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(Preferences);
+        // reset validity state to disable save button until next change
+        IsValid = false;
+    }
+
+    private void Cancel()
+    {
+        Preferences = UserPreferencesManager.CurrentPreferences with { };
+        // reset validity state to disable save button until next change
+        IsValid = false;
+    }
 }
