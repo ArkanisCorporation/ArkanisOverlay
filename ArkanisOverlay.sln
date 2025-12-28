@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{BAB8C1A2-5814-45A1-BC19-8C3661D7E566}"
 	ProjectSection(SolutionItems) = preProject
@@ -67,6 +67,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.CitizenId", "src\Arkanis.Overlay.External.CitizenId\Arkanis.Overlay.External.CitizenId.csproj", "{628A5975-DCE5-447B-B41A-F361C79BA887}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Common", "src\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj", "{760043DE-623A-4B58-9B85-279BF6EA0F85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.UI", "src\AvaloniaApplication1\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj", "{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.DesktopNew", "src\AvaloniaApplication1\Arkanis.Overlay.Host.DesktopNew\Arkanis.Overlay.Host.DesktopNew.csproj", "{B434785C-4303-4174-BCB9-33C3BB955520}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Browser", "src\AvaloniaApplication1\Arkanis.Overlay.Host.Browser\Arkanis.Overlay.Host.Browser.csproj", "{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +144,18 @@ Global
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B434785C-4303-4174-BCB9-33C3BB955520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B434785C-4303-4174-BCB9-33C3BB955520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B434785C-4303-4174-BCB9-33C3BB955520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B434785C-4303-4174-BCB9-33C3BB955520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CED78CB3-F5FA-49D6-ACBC-565E986BC665} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
@@ -158,5 +176,8 @@ Global
 		{16AB4036-03A1-466D-83F0-56108C3E744F} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{628A5975-DCE5-447B-B41A-F361C79BA887} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{760043DE-623A-4B58-9B85-279BF6EA0F85} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
+		{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
+		{B434785C-4303-4174-BCB9-33C3BB955520} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
+		{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
 	EndGlobalSection
 EndGlobal
