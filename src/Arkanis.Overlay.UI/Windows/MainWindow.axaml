@@ -9,8 +9,10 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Arkanis.Overlay.UI.Windows.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Arkanis.Overlay.UI"
-        x:DataType="vm:MainViewModel">
+        Title="Arkanis Overlay"
+        x:DataType="vm:MainViewModel"
+        Background="Transparent">
+
     <views:MainView/>
 
 </Window>
