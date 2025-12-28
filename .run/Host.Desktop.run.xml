@@ -10,7 +10,7 @@
     <option name="USE_MONO" value="0" />
     <option name="RUNTIME_ARGUMENTS" value="" />
     <option name="AUTO_ATTACH_CHILDREN" value="0" />
-    <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/AvaloniaApplication1/Arkanis.Overlay.Host.DesktopNew/Arkanis.Overlay.Host.DesktopNew.csproj" />
+    <option name="PROJECT_PATH" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.DesktopNew/Arkanis.Overlay.Host.DesktopNew.csproj" />
     <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
     <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
     <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />

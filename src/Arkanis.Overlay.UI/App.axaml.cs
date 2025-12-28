@@ -8,6 +8,7 @@ namespace Arkanis.Overlay.UI;
 
 using ViewModels;
 using Views;
+using MainWindow = Windows.MainWindow;
 
 public partial class App : Application
 {

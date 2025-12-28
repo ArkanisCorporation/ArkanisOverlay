@@ -1,4 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:rxui="http://reactiveui.net"
+             xmlns:app="clr-namespace:Arkanis.Overlay.UI"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,11 +8,56 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Arkanis.Overlay.UI.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <DockPanel LastChildFill="True">
+        <Menu HorizontalAlignment="Center"
+              DockPanel.Dock="Top">
+            <MenuItem Header="Search"
+                      HotKey="F1"
+                      Command="{Binding GoToSearchPage}"/>
+            <MenuItem Header="Hub"
+                      HotKey="F2"
+                      IsEnabled="False"/>
+            <MenuItem Header="Close"
+                      HotKey="F3"/>
+            <MenuItem Header="Inventory"
+                      HotKey="F4"
+                      Command="{Binding GoToInventoryPage}"/>
+            <MenuItem Header="Trade"
+                      HotKey="F5"
+                      IsEnabled="False"/>
+            <MenuItem Header="Mining"
+                      HotKey="F6"
+                      IsEnabled="False"/>
+            <MenuItem Header="Market"
+                      HotKey="F7"
+                      IsEnabled="False"/>
+            <MenuItem Header="Hangar"
+                      HotKey="F8"
+                      IsEnabled="False"/>
+            <MenuItem Header="Org"
+                      HotKey="F9"
+                      IsEnabled="False"/>
+            <MenuItem Header="BACK"
+                      Command="{Binding GoBack}"/>
+            <Separator/>
+            <MenuItem Header="Settings"
+                      HotKey="F12"/>
+        </Menu>
+        <Panel>
+            <rxui:RoutedViewHost Router="{Binding Router}">
+                <rxui:RoutedViewHost.DefaultContent>
+                    <TextBlock Text="Default content"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </rxui:RoutedViewHost.DefaultContent>
+                <rxui:RoutedViewHost.ViewLocator>
+                    <app:AppViewLocator />
+                </rxui:RoutedViewHost.ViewLocator>
+            </rxui:RoutedViewHost>
+        </Panel>
+    </DockPanel>
 </UserControl>

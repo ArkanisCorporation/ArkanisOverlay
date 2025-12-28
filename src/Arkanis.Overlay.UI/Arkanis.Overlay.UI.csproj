@@ -25,4 +25,25 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Pages\Inventory\Page.axaml.cs">
+        <DependentUpon>Page.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\InventoryPageView.axaml.cs">
+        <DependentUpon>InventoryPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Pages\SearchPageView.axaml.cs">
+        <DependentUpon>SearchPageView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\Components\" />
+      <Folder Include="ViewModels\Components\" />
+      <Folder Include="Views\Components\" />
+    </ItemGroup>
 </Project>

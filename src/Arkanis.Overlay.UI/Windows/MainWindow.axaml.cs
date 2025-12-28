@@ -1,15 +1,13 @@
-using Avalonia.Controls;
+namespace Arkanis.Overlay.UI.Windows;
 
-namespace Arkanis.Overlay.UI.Views;
-
+using ViewModels;
 using Avalonia.Markup.Xaml;
 using ReactiveUI;
 using ReactiveUI.Avalonia;
-using ViewModels;
 
-public partial class MainView : ReactiveUserControl<MainViewModel>
+public partial class MainWindow : ReactiveWindow<MainViewModel>
 {
-    public MainView()
+    public MainWindow()
     {
         this.WhenActivated(disposables => { });
         AvaloniaXamlLoader.Load(this);
