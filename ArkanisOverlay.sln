@@ -70,7 +70,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.UI", "src\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj", "{C7507740-AFE7-4FF4-99D3-AB14D8ED0BA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.DesktopNew", "src\Arkanis.Overlay.Host.DesktopNew\Arkanis.Overlay.Host.DesktopNew.csproj", "{B434785C-4303-4174-BCB9-33C3BB955520}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Desktop.Windows", "src\Arkanis.Overlay.Host.Desktop.Windows\Arkanis.Overlay.Host.Desktop.Windows.csproj", "{B434785C-4303-4174-BCB9-33C3BB955520}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Browser", "src\Arkanis.Overlay.Host.Browser\Arkanis.Overlay.Host.Browser.csproj", "{4A21B54D-6F30-4DCE-BDE1-033B2CD55D5C}"
 EndProject

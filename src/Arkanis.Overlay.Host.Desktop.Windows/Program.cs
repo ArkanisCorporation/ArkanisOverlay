@@ -2,25 +2,28 @@
 using Avalonia;
 using ReactiveUI.Avalonia;
 
-namespace Arkanis.Overlay.Host.DesktopNew;
+namespace Arkanis.Overlay.Host.Desktop.Windows;
 
+using Microsoft.Extensions.Hosting;
+using Services;
 using UI;
 
-sealed class Program
+public static class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
     [STAThread]
     public static void Main(string[] args)
         => BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);
 
-    // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+        => AppBuilder.Configure(() => new App(ConfigureServices))
             .UsePlatformDetect()
             .WithInterFont()
             .UseReactiveUI()
             .LogToTrace();
+
+    public static void ConfigureServices(IHostApplicationBuilder builder)
+    {
+        builder.Services.AddNativeServices();
+    }
 }

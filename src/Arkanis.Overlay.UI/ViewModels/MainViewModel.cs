@@ -1,11 +1,14 @@
 ﻿namespace Arkanis.Overlay.UI.ViewModels;
 
+using System;
 using System.Reactive;
 using Pages;
 using ReactiveUI;
 
 public class MainViewModel : ViewModelBase, IScreen
 {
+    public required IServiceProvider Services { get; init; }
+
     public RoutingState Router { get; } = new();
 
     public ReactiveCommand<Unit, IRoutableViewModel> GoToSearchPage { get; }
@@ -21,5 +24,7 @@ public class MainViewModel : ViewModelBase, IScreen
         GoToInventoryPage = ReactiveCommand.CreateFromObservable(
             () => Router.Navigate.Execute(new InventoryPageViewModel(this))
         );
+
+
     }
 }

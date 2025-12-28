@@ -19,11 +19,12 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="ReactiveUI.Avalonia"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj" />
+        <ProjectReference Include="..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
