@@ -21,4 +21,8 @@
         </PackageReference>
         <PackageReference Include="ReactiveUI.Avalonia"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj" />
+    </ItemGroup>
 </Project>
