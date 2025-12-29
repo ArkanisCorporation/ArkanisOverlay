@@ -12,7 +12,7 @@
             <MudItem xs="12">
                 <GameEntitySelectBox
                     Label="Item or commodity"
-                    EntityCategories="@( [GameEntityCategory.Item, GameEntityCategory.Commodity])"
+                    EntityCategories="@([GameEntityCategory.Item, GameEntityCategory.Commodity])"
                     @bind-Value="@TargetEntity"
                     @bind-Value:after="UpdateDefaults"
                     Required/>
@@ -83,7 +83,7 @@
     public HangarInventoryEntry? TargetHangarEntry { get; set; }
 
     [Parameter]
-    public InventoryEntryList? TargetList { get; set; }
+    public InventoryEntryListBrief? TargetList { get; set; }
 
     public IGameLocation? TargetLocation
         => TargetLocationEntity as IGameLocation;

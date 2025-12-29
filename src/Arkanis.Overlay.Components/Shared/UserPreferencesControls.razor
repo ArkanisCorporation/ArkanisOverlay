@@ -2,6 +2,7 @@
 @using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Common.Models
 @inject IUserPreferencesManager UserPreferencesManager
+@inject IDialogService DialogService
 
 <MudExpansionPanels MultiExpansion Outlined Square Dense>
     <MudExpansionPanel Expanded="@ExpandInitially" Dense>
@@ -58,19 +59,11 @@
                         }
                     </MudItem>
                     <MudItem xs="12" sm="6">
-                        <MudStack Spacing="0">
-                            <MudSwitch
-                                @bind-Value="@Preferences.DisableAnalytics"
-                                @bind-Value:after="@ValidateAsync"
-                                Color="@Color.Error"
-                                Label="Disable usage analytics"/>
-                            @if (UserPreferencesManager.CurrentPreferences.DisableAnalytics != Preferences.DisableAnalytics)
-                            {
-                                <MudText Typo="@Typo.caption" Color="@Color.Warning">
-                                    App restart may be necessary to fully apply
-                                </MudText>
-                            }
-                        </MudStack>
+                        <MudButton OnClick="@(() => AnalyticsDialog.ShowAsync(DialogService))"
+                                   Variant="@Variant.Outlined"
+                                   Color="@Color.Primary">
+                            Configure the usage analytics options
+                        </MudButton>
                     </MudItem>
                     <MudItem xs="12">
                         <MudText Typo="@Typo.caption">Overlay</MudText>

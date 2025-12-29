@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
 using System.Collections.Concurrent;
 using System.Globalization;
+using Common.Extensions;
 using Data.Mappers;
 using Domain.Abstractions;
 using Domain.Abstractions.Services;
@@ -9,7 +10,6 @@ using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
-using MoreAsyncLINQ;
 using Polly;
 using Services;
 
@@ -39,7 +39,7 @@ internal class UexTradeRouteSyncRepository(
         var items = new ConcurrentBag<CommodityRouteDTO>();
         UexApiResponse<GetCommoditiesRoutesOkResponse>? response = null;
 
-        await foreach (var commodityBatch in commodities.Batch(UexSharedResiliency.ApiRequestBatchSize).WithCancellation(cancellationToken))
+        await foreach (var commodityBatch in commodities.Batch(UexSharedResiliency.ApiRequestBatchSize, cancellationToken))
         {
             await Task.WhenAll(commodityBatch.Select(LoadForPlanetOrbitAsync));
         }
@@ -51,7 +51,7 @@ internal class UexTradeRouteSyncRepository(
             var commodityEntityId = commodity.Id;
             var commodityId = commodityEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await pipeline.ExecuteAsync(
-                async ct => await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, cancellationToken: ct).ConfigureAwait(false),
+                async ct => await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, ct).ConfigureAwait(false),
                 cancellationToken
             );
             foreach (var dto in response.Result.Data ?? ThrowCouldNotParseResponse())

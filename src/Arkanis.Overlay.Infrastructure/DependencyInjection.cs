@@ -47,6 +47,7 @@ public static class DependencyInjection
             }
         );
 
+        services.Configure(configure);
         var options = new InfrastructureServiceOptions();
         configure(options);
 
@@ -54,7 +55,8 @@ public static class DependencyInjection
         {
             services.AddServicesForInMemoryUserPreferences();
 
-            services.AddSingleton<IRepositorySyncStrategy, FakeRepositorySyncStrategy>();
+            services.AddSingleton<StaticRepositorySyncStrategy>(_ => new StaticRepositorySyncStrategy(true))
+                .Alias<IRepositorySyncStrategy, StaticRepositorySyncStrategy>();
         }
         else
         {
@@ -137,10 +139,6 @@ public static class DependencyInjection
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddConfiguration<ConfigurationOptions>(configuration);
-
-    public class InfrastructureServiceOptions
-    {
-        public HostingMode HostingMode { get; set; }
-    }
+            .AddConfiguration<ConfigurationOptions>(configuration)
+            .AddConfiguration<PostHogOptions>(configuration);
 }

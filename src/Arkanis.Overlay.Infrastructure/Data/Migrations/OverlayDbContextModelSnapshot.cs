@@ -16,7 +16,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.0");
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache", b =>
                 {
@@ -41,7 +41,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.ComplexProperty<Dictionary<string, object>>("DataAvailableState", "Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache.DataAvailableState#ServiceAvailableState", b1 =>
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "DataAvailableState", "Arkanis.Overlay.Infrastructure.Data.Entities.ExternalSourceDataCache.DataAvailableState#ServiceAvailableState", b1 =>
                         {
                             b1.IsRequired();
 
@@ -56,7 +56,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExternalSourceDataCache");
+                    b.ToTable("ExternalSourceDataCache", (string)null);
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.InventoryEntryEntityBase", b =>
@@ -84,7 +84,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasIndex("TradeRunId");
 
-                    b.ToTable("InventoryEntries");
+                    b.ToTable("InventoryEntries", (string)null);
 
                     b.HasDiscriminator().HasValue("Undefined");
 
@@ -108,7 +108,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InventoryLists");
+                    b.ToTable("InventoryLists", (string)null);
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.OwnableEntityReferenceEntity", b =>
@@ -190,7 +190,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
 
                     b.HasIndex("Version");
 
-                    b.ToTable("TradeRuns");
+                    b.ToTable("TradeRuns", (string)null);
                 });
 
             modelBuilder.Entity("Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+Stage", b =>
@@ -354,7 +354,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("TerminalId");
 
-                    b.ComplexProperty<Dictionary<string, object>>("UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData", b1 =>
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData", b1 =>
                         {
                             b1.IsRequired();
 
@@ -370,7 +370,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 .ValueGeneratedOnUpdateSometimes()
                                 .HasColumnType("INTEGER");
 
-                            b1.ComplexProperty<Dictionary<string, object>>("Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
+                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalPurchaseStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
                                 {
                                     b2.IsRequired();
 
@@ -399,7 +399,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("TerminalId");
 
-                    b.ComplexProperty<Dictionary<string, object>>("UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData", b1 =>
+                    b.ComplexProperty(typeof(Dictionary<string, object>), "UserSourcedData", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData", b1 =>
                         {
                             b1.IsRequired();
 
@@ -415,7 +415,7 @@ namespace Arkanis.Overlay.Infrastructure.Data.Migrations
                                 .ValueGeneratedOnUpdateSometimes()
                                 .HasColumnType("INTEGER");
 
-                            b1.ComplexProperty<Dictionary<string, object>>("Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
+                            b1.ComplexProperty(typeof(Dictionary<string, object>), "Stock", "Arkanis.Overlay.Infrastructure.Data.Entities.TradeRunEntity+TerminalSaleStage.UserSourcedData#TerminalData.Stock#Quantity", b2 =>
                                 {
                                     b2.IsRequired();
 

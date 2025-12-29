@@ -60,7 +60,12 @@ internal class GameEntitySearchAggregateRepository(
         yield break;
 
         async Task PassToOutputAsync(IAsyncEnumerable<IGameEntity> entities)
-            => await entities.ForEachAwaitAsync(async entity => await outputChannel.Writer.WriteAsync(entity, cancellationToken), cancellationToken);
+        {
+            await foreach (var entity in entities.WithCancellation(cancellationToken))
+            {
+                await outputChannel.Writer.WriteAsync(entity, cancellationToken);
+            }
+        }
     }
 
     public bool IsReady { get; private set; }

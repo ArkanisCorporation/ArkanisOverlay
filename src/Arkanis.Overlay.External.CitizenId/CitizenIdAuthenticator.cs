@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.External.CitizenId;
 using System.Diagnostics.CodeAnalysis;
 using Common.Services;
 using Duende.IdentityModel.OidcClient;
+using global::CitizenId.Domain.Shared.Authorization;
 using Microsoft.Extensions.Options;
 using Options;
 using Overlay.Common.Abstractions;
@@ -17,7 +18,7 @@ public class CitizenIdAuthenticator(IServiceProvider serviceProvider, IOptionsMo
 
     public override Options CurrentOptions { get; } = new()
     {
-        AvatarUrlClaimTypes = ["urn:user:rsi:avatar:url", "urn:user:discord:avatar:url", "picture"],
+        AvatarUrlClaimTypes = [CitizenIdClaims.User.Rsi.AvatarUrl, CitizenIdClaims.User.Discord.AvatarUrl, "picture"],
     };
 
     public override OidcClient OidcClient

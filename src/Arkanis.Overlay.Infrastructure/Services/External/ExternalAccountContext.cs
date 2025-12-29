@@ -32,6 +32,8 @@ public class ExternalAccountContext(
 
     public void Dispose()
     {
+        userPreferences.ApplyPreferences -= OnApplyPreferences;
+        authenticator.RefreshRequested -= AuthenticatorOnRefreshRequested;
         _semaphoreSlim.Dispose();
         GC.SuppressFinalize(this);
     }
@@ -114,11 +116,18 @@ public class ExternalAccountContext(
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
     {
         userPreferences.ApplyPreferences += OnApplyPreferences;
+        authenticator.RefreshRequested += AuthenticatorOnRefreshRequested;
         await UpdateAsync(cancellationToken);
     }
 
+    private void AuthenticatorOnRefreshRequested(object? _, EventArgs args)
+        => UpdateExternal();
+
+    private void OnApplyPreferences(object? _, UserPreferences preferences)
+        => UpdateExternal();
+
     [SuppressMessage("ReSharper", "AsyncVoidMethod")]
-    private async void OnApplyPreferences(object? _, UserPreferences preferences)
+    private async void UpdateExternal()
     {
         if (_semaphoreSlim.CurrentCount < 1)
         {

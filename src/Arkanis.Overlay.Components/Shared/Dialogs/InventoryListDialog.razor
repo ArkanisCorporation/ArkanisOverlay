@@ -61,7 +61,7 @@
     private void Cancel()
         => MudDialog.Cancel();
 
-    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService, InventoryEntryList? model = null)
+    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService, InventoryEntryListBrief? model = null)
     {
         var dialogParameters = new DialogParameters<InventoryListDialog>
         {

@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Report a problem or unexpected behavior
+description: Report a problem or unexpected behaviour
 title: "fix: "
 type: Bug
 labels: ["needs triage"]
@@ -43,11 +43,18 @@ body:
       required: true
 
   - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Include any screenshots if available.
+      placeholder: You can drag and drop images here.
+
+  - type: textarea
     id: logs
     attributes:
-      label: Logs, Screenshots, or Error Messages
-      description: Paste any logs or include screenshots if available.
-      placeholder: You can drag and drop images or copy-paste logs here.
+      label: Logs, or Error Messages
+      description: Paste any logs or visible error messages if available.
+      placeholder: You can copy-paste logs here.
       render: text
 
   - type: dropdown

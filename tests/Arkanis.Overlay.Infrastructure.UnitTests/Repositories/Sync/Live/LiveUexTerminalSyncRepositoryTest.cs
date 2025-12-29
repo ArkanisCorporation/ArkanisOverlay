@@ -1,7 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Repositories.Sync.Live;
 
 using Domain.Models.Game;
-using Xunit.Abstractions;
 
 /// <remarks>
 ///     This is the most dependency-complex test.
