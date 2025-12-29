@@ -14,6 +14,7 @@
 
     <DockPanel LastChildFill="True">
         <Menu HorizontalAlignment="Center"
+              Background="#0E0E0F"
               DockPanel.Dock="Top">
             <MenuItem Header="Search"
                       HotKey="F1"
