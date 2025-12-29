@@ -4,5 +4,6 @@ using Avalonia.Controls;
 
 public interface IWindowUtils
 {
-    public void SetExtendedStyle(Window window, WindowStyle extendedStyle);
+    public void EnableClickThrough(Window window);
+    public void DisableClickThrough(Window window);
 }

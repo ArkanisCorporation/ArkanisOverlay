@@ -18,9 +18,10 @@ public partial class MainWindow : ReactiveWindow<MainViewModel>
 
         this.WhenActivated(disposables =>
         {
+            // currently just a test, will be used later for HUD mode / window
             var windowUtils = Services.GetRequiredService<IWindowUtils>();
-            windowUtils.SetExtendedStyle(this, WindowStyle.Transparent);
-            // windowUtils.SetExtendedStyle(this, WindowStyle.ToolWindow);
+            windowUtils.EnableClickThrough(this);
+            windowUtils.DisableClickThrough(this);
         });
         AvaloniaXamlLoader.Load(this);
     }

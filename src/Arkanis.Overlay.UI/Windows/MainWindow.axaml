@@ -11,7 +11,13 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Arkanis Overlay"
         x:DataType="vm:MainViewModel"
-        Background="{x:Null}">
+        TransparencyLevelHint="Transparent"
+        TransparencyBackgroundFallback="Transparent"
+        Background="Transparent"
+        >
+        <!-- Enable these for "Overlay" mode = topmost frameless window without title bar -->
+        <!-- SystemDecorations="None" -->
+        <!-- Topmost="True" -->
 
     <views:MainView/>
 

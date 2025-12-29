@@ -11,20 +11,29 @@ using Serilog;
 
 public class WindowUtils : IWindowUtils
 {
-    public void SetExtendedStyle(Window window, WindowStyle extendedStyle)
+    private const WINDOW_EX_STYLE ClickThroughStyle = WINDOW_EX_STYLE.WS_EX_TRANSPARENT | WINDOW_EX_STYLE.WS_EX_LAYERED;
+
+    public void EnableClickThrough(Window window)
     {
-        var iHandle = window.TryGetPlatformHandle();
-        if (iHandle is null)
-        {
-            throw new NotSupportedException("Window does not have a native platform handle.");
-        }
+        var hwnd = GetHwnd(window);
+        SetExtendedStyle(hwnd, ClickThroughStyle);
+    }
 
-        var nativeStyle = ConvertToNativeStyle(extendedStyle);
+    public void DisableClickThrough(Window window)
+    {
+        var hwnd = GetHwnd(window);
+        SetExtendedStyle(hwnd, ClickThroughStyle, true);
+    }
 
-        var handle = (HWND)iHandle.Handle;
-        var exStyle = PInvoke.GetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
-        var newStyle = exStyle | (int)nativeStyle;
-        var result = PInvoke.SetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, newStyle);
+    private static void SetExtendedStyle(HWND hwnd, WINDOW_EX_STYLE extendedStyle, bool remove = false)
+    {
+        var exStyle = PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+
+        var newStyle = remove ?
+            exStyle & ~(int)extendedStyle :
+            exStyle | (int)extendedStyle;
+
+        var result = PInvoke.SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, newStyle);
 
         if (result != exStyle)
         {
@@ -32,13 +41,14 @@ public class WindowUtils : IWindowUtils
         }
     }
 
-    private static WINDOW_EX_STYLE ConvertToNativeStyle(WindowStyle style)
-        => style switch
+    private static HWND GetHwnd(Window window)
+    {
+        var iHandle = window.TryGetPlatformHandle();
+        if (iHandle is not { Handle: var handle })
         {
-            WindowStyle.Transparent => WINDOW_EX_STYLE.WS_EX_TRANSPARENT,
-            WindowStyle.ToolWindow => WINDOW_EX_STYLE.WS_EX_TOOLWINDOW,
-            WindowStyle.Layered => WINDOW_EX_STYLE.WS_EX_LAYERED,
-            WindowStyle.NoActivate => WINDOW_EX_STYLE.WS_EX_NOACTIVATE,
-            _ => throw new ArgumentOutOfRangeException(nameof(style), style, null),
-        };
+            throw new NotSupportedException("Window does not have a native platform handle.");
+        }
+
+        return (HWND)handle;
+    }
 }
