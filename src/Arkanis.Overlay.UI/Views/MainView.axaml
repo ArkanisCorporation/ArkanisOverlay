@@ -1,53 +1,50 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:rxui="http://reactiveui.net"
              xmlns:app="clr-namespace:Arkanis.Overlay.UI"
+             xmlns:vm="clr-namespace:Arkanis.Overlay.UI.ViewModels"
+             xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:Arkanis.Overlay.UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="450"
              x:Class="Arkanis.Overlay.UI.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             x:Name="View">
+
     <Design.DataContext>
         <vm:MainViewModel />
     </Design.DataContext>
 
+    <UserControl.DataTemplates>
+        <!-- Defines how the menu items will be displayed. -->
+        <DataTemplate DataType="models:CommandActionEntry">
+            <StackPanel Orientation="Horizontal"
+                        Margin="4,0"
+                        Spacing="4">
+                <ContentPresenter
+                    Content="{Binding Icon}" />
+                <MenuItem
+                    Header="{Binding Name}"
+                    HotKey="{Binding Shortcut}"
+                    Command="{Binding Command}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Padding="0,0,-24,0" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="models:SeparatorActionEntry">
+            <Separator />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
     <DockPanel LastChildFill="True">
-        <Menu HorizontalAlignment="Center"
-              Background="#0E0E0F"
+        <Grid ColumnDefinitions="*,Auto,*"
+              Background="{DynamicResource BackgroundBrush}"
               DockPanel.Dock="Top">
-            <MenuItem Header="Search"
-                      HotKey="F1"
-                      Command="{Binding GoToSearchPage}"/>
-            <MenuItem Header="Hub"
-                      HotKey="F2"
-                      IsEnabled="False"/>
-            <MenuItem Header="Close"
-                      HotKey="F3"/>
-            <MenuItem Header="Inventory"
-                      HotKey="F4"
-                      Command="{Binding GoToInventoryPage}"/>
-            <MenuItem Header="Trade"
-                      HotKey="F5"
-                      IsEnabled="False"/>
-            <MenuItem Header="Mining"
-                      HotKey="F6"
-                      IsEnabled="False"/>
-            <MenuItem Header="Market"
-                      HotKey="F7"
-                      IsEnabled="False"/>
-            <MenuItem Header="Hangar"
-                      HotKey="F8"
-                      IsEnabled="False"/>
-            <MenuItem Header="Org"
-                      HotKey="F9"
-                      IsEnabled="False"/>
-            <MenuItem Header="BACK"
-                      Command="{Binding GoBack}"/>
-            <Separator/>
-            <MenuItem Header="Settings"
-                      HotKey="F12"/>
-        </Menu>
+
+            <Menu Grid.Column="1" ItemsSource="{Binding MenuItems}" />
+
+        </Grid>
+
         <Panel>
             <rxui:RoutedViewHost Router="{Binding Router}">
                 <rxui:RoutedViewHost.DefaultContent>
@@ -56,7 +53,7 @@
                                VerticalAlignment="Center" />
                 </rxui:RoutedViewHost.DefaultContent>
                 <rxui:RoutedViewHost.ViewLocator>
-                    <app:AppViewLocator />
+                    <app:ViewLocator />
                 </rxui:RoutedViewHost.ViewLocator>
             </rxui:RoutedViewHost>
         </Panel>

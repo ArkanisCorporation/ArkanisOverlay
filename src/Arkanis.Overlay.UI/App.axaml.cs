@@ -1,30 +1,31 @@
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Markup.Xaml;
-
 namespace Arkanis.Overlay.UI;
 
 using System;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Markup.Xaml;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Utils;
 using ViewModels;
 using Views;
 using MainWindow = Windows.MainWindow;
 
-public partial class App : Application
+public class App : Application
 {
+    private readonly IHost _hostApplication;
+
     [UsedImplicitly]
     public App() : this(_ => { })
     {
     }
 
-    private readonly IHost _hostApplication;
-
     public App(Action<HostApplicationBuilder> configureHost)
     {
         var applicationBuilder = Host.CreateApplicationBuilder();
         configureHost(applicationBuilder);
+        ConfigureHost(applicationBuilder);
         _hostApplication = applicationBuilder.Build();
     }
 
@@ -56,4 +57,7 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    private void ConfigureHost(HostApplicationBuilder applicationBuilder)
+        => applicationBuilder.Services.AddSingleton<PageViewModelFactory>();
 }

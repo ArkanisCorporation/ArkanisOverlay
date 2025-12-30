@@ -1,15 +1,94 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Arkanis.Overlay.UI"
+             xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:templates="clr-namespace:Arkanis.Overlay.UI.Templates"
+             xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
              x:Class="Arkanis.Overlay.UI.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ForegroundBrush" Color="{x:Static models:Brand+Colors+Arkanis.Black}" />
+                    <SolidColorBrush x:Key="BackgroundBrush" Color="{x:Static models:Brand+Colors+Arkanis.White}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ForegroundBrush" Color="{x:Static models:Brand+Colors+Arkanis.White}" />
+                    <SolidColorBrush x:Key="BackgroundBrush" Color="{x:Static models:Brand+Colors+Arkanis.Black}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <templates:IconLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme DensityStyle="Compact">
+            <FluentTheme.Palettes>
+                <ColorPaletteResources
+                    x:Key="Light"
+                    Accent="{x:Static models:Brand+Colors+Arkanis.Purple}"
+                    AltHigh="White"
+                    AltLow="White"
+                    AltMedium="White"
+                    AltMediumHigh="White"
+                    AltMediumLow="White"
+                    BaseHigh="Black"
+                    BaseLow="#ffcccccc"
+                    BaseMedium="#ff898989"
+                    BaseMediumHigh="#ff5d5d5d"
+                    BaseMediumLow="#ff737373"
+                    ChromeAltLow="#ff5d5d5d"
+                    ChromeBlackHigh="Black"
+                    ChromeBlackLow="#ffcccccc"
+                    ChromeBlackMedium="#ff5d5d5d"
+                    ChromeBlackMediumLow="#ff898989"
+                    ChromeDisabledHigh="#ffcccccc"
+                    ChromeDisabledLow="#ff898989"
+                    ChromeGray="#ff737373"
+                    ChromeHigh="#ffcccccc"
+                    ChromeLow="#ffececec"
+                    ChromeMedium="#ffe6e6e6"
+                    ChromeMediumLow="#ffececec"
+                    ChromeWhite="White"
+                    ListLow="#ffe6e6e6"
+                    ListMedium="#ffcccccc"
+                    RegionColor="{x:Static models:Brand+Colors+Arkanis.White}" />
+                <ColorPaletteResources
+                    x:Key="Dark"
+                    Accent="{x:Static models:Brand+Colors+Arkanis.Purple}"
+                    AltHigh="Black"
+                    AltLow="Black"
+                    AltMedium="Black"
+                    AltMediumHigh="Black"
+                    AltMediumLow="Black"
+                    BaseHigh="White"
+                    BaseLow="#ff333333"
+                    BaseMedium="#ff9a9a9a"
+                    BaseMediumHigh="#ffb4b4b4"
+                    BaseMediumLow="#ff676767"
+                    ChromeAltLow="#ffb4b4b4"
+                    ChromeBlackHigh="Black"
+                    ChromeBlackLow="#ffb4b4b4"
+                    ChromeBlackMedium="Black"
+                    ChromeBlackMediumLow="Black"
+                    ChromeDisabledHigh="#ff333333"
+                    ChromeDisabledLow="#ff9a9a9a"
+                    ChromeGray="Gray"
+                    ChromeHigh="Gray"
+                    ChromeLow="#ff151515"
+                    ChromeMedium="#ff1d1d1d"
+                    ChromeMediumLow="#ff2c2c2c"
+                    ChromeWhite="White"
+                    ListLow="#ff1d1d1d"
+                    ListMedium="#ff333333"
+                    RegionColor="{x:Static models:Brand+Colors+Arkanis.Black}" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+        <icons:MaterialIconStyles />
     </Application.Styles>
+
 </Application>

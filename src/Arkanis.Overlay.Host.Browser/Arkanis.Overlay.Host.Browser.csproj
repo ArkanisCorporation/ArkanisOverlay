@@ -11,6 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj" />
+        <ProjectReference Include="..\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj"/>
     </ItemGroup>
 </Project>

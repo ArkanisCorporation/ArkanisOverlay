@@ -1,5 +1,3 @@
-using Avalonia.Controls;
-
 namespace Arkanis.Overlay.UI.Views;
 
 using Avalonia.Markup.Xaml;

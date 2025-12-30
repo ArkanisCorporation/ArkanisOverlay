@@ -1247,6 +1247,8 @@
           "Avalonia.Diagnostics": "[11.3.10, )",
           "Avalonia.Fonts.Inter": "[11.3.10, )",
           "Avalonia.Themes.Fluent": "[11.3.10, )",
+          "Material.Icons": "[2.4.1, )",
+          "Material.Icons.Avalonia": "[2.4.1, )",
           "Microsoft.Extensions.Hosting": "[10.0.0, )",
           "ReactiveUI.Avalonia": "[11.3.8, )"
         }
@@ -1398,6 +1400,22 @@
         "requested": "[2025.2.2, )",
         "resolved": "2025.2.2",
         "contentHash": "0X56ZRizuHdrnPpgXjWV7f2tQO1FlQg5O1967OGKnI/4ZRNOK642J8L7brM1nYvrxTTU5TP1yRyXLRLaXLPQ8A=="
+      },
+      "Material.Icons": {
+        "type": "CentralTransitive",
+        "requested": "[2.4.1, )",
+        "resolved": "2.4.1",
+        "contentHash": "5/8ekF4GXqpluBF+kPfv3TytBpV5Z+h4CUU5iNCDC7+A9hPQvtn08ZUjMUXtcRGxGyfScHYDqzshzTvYiPTCdA=="
+      },
+      "Material.Icons.Avalonia": {
+        "type": "CentralTransitive",
+        "requested": "[2.4.1, )",
+        "resolved": "2.4.1",
+        "contentHash": "bJZzJCHfZDBg33ZyiSxvexMs2qMGkkv1XEgkAJkqLK9I8WNIUGLCnXcjoBrpSh2Sd2ytoD1IEjV72Zy54St3zA==",
+        "dependencies": {
+          "Avalonia": "11.0.0",
+          "Material.Icons": "2.4.1"
+        }
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",

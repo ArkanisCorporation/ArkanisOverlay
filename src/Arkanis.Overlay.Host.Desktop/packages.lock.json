@@ -834,8 +834,7 @@
         "dependencies": {
           "Microsoft.Build.Framework": "17.14.28",
           "Microsoft.Build.Utilities.Core": "17.14.28",
-          "Microsoft.NET.StringTools": "17.14.28",
-          "System.Formats.Nrbf": "9.0.0"
+          "Microsoft.NET.StringTools": "17.14.28"
         }
       },
       "Microsoft.Build.Utilities.Core": {
@@ -1111,8 +1110,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
           "Microsoft.Extensions.Logging": "10.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Options": "10.0.0",
-          "System.Diagnostics.EventLog": "10.0.0"
+          "Microsoft.Extensions.Options": "10.0.0"
         }
       },
       "Microsoft.Extensions.Logging.EventSource": {
@@ -1375,16 +1373,6 @@
           "System.Composition.Hosting": "9.0.0",
           "System.Composition.Runtime": "9.0.0"
         }
-      },
-      "System.Diagnostics.EventLog": {
-        "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "uaFRda9NjtbJRkdx311eXlAA3n2em7223c1A8d1VWyl+4FL9vkG7y2lpPfBU9HYdj/9KgdRNdn1vFK8ZYCYT/A=="
-      },
-      "System.Formats.Nrbf": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "F/6tNE+ckmdFeSQAyQo26bQOqfPFKEfZcuqnp4kBE6/7jP26diP+QTHCJJ6vpEfaY6bLy+hBLiIQUSxSmNwLkA=="
       },
       "System.Interactive.Async": {
         "type": "Transitive",
