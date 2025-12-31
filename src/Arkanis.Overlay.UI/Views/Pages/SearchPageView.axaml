@@ -2,15 +2,89 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:Arkanis.Overlay.UI.ViewModels.Pages"
              xmlns:viewModels="clr-namespace:Arkanis.Overlay.UI.ViewModels.Pages"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ext="clr-namespace:Arkanis.Overlay.UI.MarkupExtensions"
+             xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
+             xmlns:game="clr-namespace:Arkanis.Overlay.Domain.Abstractions.Game;assembly=Arkanis.Overlay.Domain"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="450"
              x:Class="Arkanis.Overlay.UI.Views.Pages.SearchPageView"
              x:DataType="vm:SearchPageViewModel">
     <Design.DataContext>
         <viewModels:SearchPageViewModel />
     </Design.DataContext>
 
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-        <TextBlock Text="Hi, I'm the search view!" />
-        <TextBlock Text="{Binding UrlPathSegment}" />
-    </StackPanel>
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="game:IGameEntity">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="{Binding Name.MainContent.FullName}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <Grid RowDefinitions="Auto,*"
+          Margin="16">
+        <Grid ColumnDefinitions="1*,2*,1*">
+            <TextBox
+                Grid.Column="1"
+                Watermark="Type to search"
+                Text="{Binding QueryText, Mode=TwoWay}"
+                FontSize="16"
+                Padding="8" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="1"
+                      Margin="0,16,0,0">
+            <StackPanel Spacing="16">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Text="{ext:Humanize {Binding Results.SearchTime}}" />
+
+                <Grid ColumnDefinitions="1*,4*,1*">
+                    <ListBox Grid.Column="1"
+                             ItemsSource="{Binding Results.GameEntities}"
+                             Background="Transparent">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Margin" Value="0,1" />
+                            </Style>
+                            <Style Selector="ListBoxItem Grid">
+                                <Setter Property="Height" Value="50" />
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="-1,1"
+                                        Background="{DynamicResource SystemChromeLowColor}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+
+                                        <ContentControl HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                            <models:MaterialLibrarySymbol
+                                                Kind="DiamondStone" />
+                                        </ContentControl>
+
+                                        <ContentControl
+                                            Grid.Column="1"
+                                            Content="{Binding Subject}" />
+
+                                        <StackPanel Grid.Column="2"
+                                                    Orientation="Horizontal">
+                                            <Button IsEnabled="False">
+                                                <ContentControl HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center">
+                                                    <models:MaterialLibrarySymbol
+                                                        Kind="CursorDefaultClick" />
+                                                </ContentControl>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

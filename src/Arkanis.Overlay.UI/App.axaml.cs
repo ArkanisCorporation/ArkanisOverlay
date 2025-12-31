@@ -59,5 +59,8 @@ public class App : Application
     }
 
     private void ConfigureHost(HostApplicationBuilder applicationBuilder)
-        => applicationBuilder.Services.AddSingleton<PageViewModelFactory>();
+    {
+        applicationBuilder.Services.AddSingleton<PageViewModelFactory>();
+        applicationBuilder.Services.AddSingleton(EmptySearchService.Instance);
+    }
 }
