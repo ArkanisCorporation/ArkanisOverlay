@@ -12,14 +12,14 @@ public class IconLocator : IDataTemplate
     public Control Build(object? param)
         => param switch
         {
-            MaterialSymbol.Library materialSymbol => new MaterialIconText
+            MaterialLibrarySymbol materialSymbol => new MaterialIconText
             {
                 Kind = materialSymbol.Kind,
                 Text = materialSymbol.Text,
             },
             _ => new MaterialIcon
             {
-                Kind = MaterialIconKind.Square,
+                Kind = MaterialIconKind.WarningBoxOutline,
                 Foreground = Brushes.Red,
             },
         };

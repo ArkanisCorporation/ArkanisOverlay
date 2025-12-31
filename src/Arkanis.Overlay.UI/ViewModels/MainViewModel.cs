@@ -22,14 +22,14 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Search",
                 Description = "Find anything you're looking for.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Search),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Search),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<SearchPageViewModel>),
             },
             new CommandActionEntry
             {
                 Name = "Hub",
                 Description = "See what's going on around you.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Hub),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Hub),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<HubPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -37,14 +37,14 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Close",
                 Description = "Close the Overlay.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Close),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Close),
                 // TODO: Implement Close Command
             },
             new CommandActionEntry
             {
                 Name = "Inventory",
                 Description = "Track and manage your Inventory.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Warehouse),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Warehouse),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<InventoryPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -52,7 +52,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Trade",
                 Description = "Plan your next Haul.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Trolley),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Trolley),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<TradePageViewModel>),
                 IsInDevelopment = true,
             },
@@ -60,7 +60,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Mining",
                 Description = "Manage your Mining Operations.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Pickaxe),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Pickaxe),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<MiningPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -68,7 +68,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Market",
                 Description = "Trade with other players.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Store),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Store),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<MarketPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -76,7 +76,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Hangar",
                 Description = "Manage your Fleet.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Garage),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Garage),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<HangarPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -84,7 +84,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Org",
                 Description = "Manage your Organization.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.PeopleGroup),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.PeopleGroup),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<OrgPageViewModel>),
                 IsInDevelopment = true,
             },
@@ -93,7 +93,7 @@ public class MainViewModel : ViewModelBase, IScreen
             {
                 Name = "Settings",
                 Description = "Configure the Overlay.",
-                Icon = new MaterialSymbol.Library(MaterialIconKind.Settings),
+                Icon = new MaterialLibrarySymbol(MaterialIconKind.Settings),
                 Command = ReactiveCommand.CreateFromObservable(CreateAndNavigateWith<SettingsPageViewModel>),
                 Shortcut = new KeyGesture(Key.F12),
                 IsInDevelopment = true,

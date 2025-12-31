@@ -21,7 +21,7 @@
             <StackPanel Orientation="Horizontal"
                         Margin="4,0"
                         Spacing="4">
-                <ContentPresenter
+                <ContentControl
                     Content="{Binding Icon}" />
                 <MenuItem
                     Header="{Binding Name}"
