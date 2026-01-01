@@ -45,6 +45,11 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-tags: true
+          
+      - name: Debug
+        run: |
+          echo "github.ref_name=${{ github.ref_name }}"
+          echo "ENABLE_CODE_SIGNING=${{ env.ENABLE_CODE_SIGNING }}"
 
       - name: Azure Login
         uses: azure/login@v2
