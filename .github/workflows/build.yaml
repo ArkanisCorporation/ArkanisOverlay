@@ -25,6 +25,7 @@ jobs:
   test:
     name: Tests
     uses: ./.github/workflows/_test.yaml
+    if: ${{ github.ref != 'refs/heads/ci' }}
 
   release:
     name: Release
