@@ -1,8 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:icons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             xmlns:templates="clr-namespace:Arkanis.Overlay.UI.Templates"
              xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
+             xmlns:components="clr-namespace:Arkanis.Overlay.UI.Views.Components"
              x:Class="Arkanis.Overlay.UI.App"
              RequestedThemeVariant="Dark">
 
@@ -22,10 +22,13 @@
     </Application.Resources>
 
     <Application.DataTemplates>
-        <templates:IconLocator />
+        <DataTemplate DataType="models:Icon">
+            <components:IconDisplay Icon="{Binding}" />
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>
+        <StyleInclude Source="avares://Arkanis.Overlay.UI/Views/Components/Components.axaml" />
         <FluentTheme DensityStyle="Compact">
             <FluentTheme.Palettes>
                 <ColorPaletteResources

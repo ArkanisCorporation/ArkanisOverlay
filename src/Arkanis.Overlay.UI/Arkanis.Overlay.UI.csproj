@@ -45,7 +45,6 @@
 
     <ItemGroup>
         <Folder Include="Models\Components\"/>
-        <Folder Include="ViewModels\Components\"/>
-        <Folder Include="Views\Components\"/>
+        <Folder Include="Templates\"/>
     </ItemGroup>
 </Project>

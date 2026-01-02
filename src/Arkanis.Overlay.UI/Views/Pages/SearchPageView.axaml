@@ -7,6 +7,7 @@
              xmlns:ext="clr-namespace:Arkanis.Overlay.UI.MarkupExtensions"
              xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
              xmlns:game="clr-namespace:Arkanis.Overlay.Domain.Abstractions.Game;assembly=Arkanis.Overlay.Domain"
+             xmlns:components="clr-namespace:Arkanis.Overlay.UI.Views.Components"
              mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="450"
              x:Class="Arkanis.Overlay.UI.Views.Pages.SearchPageView"
              x:DataType="vm:SearchPageViewModel">
@@ -47,9 +48,12 @@
                         <ListBox.Styles>
                             <Style Selector="ListBoxItem">
                                 <Setter Property="Margin" Value="0,1" />
-                            </Style>
-                            <Style Selector="ListBoxItem Grid">
-                                <Setter Property="Height" Value="50" />
+                                <Style Selector="^ Grid">
+                                    <Setter Property="Height" Value="50" />
+                                </Style>
+                                <Style Selector="^ components|IconDisplay">
+                                    <Setter Property="IconSize" Value="40" />
+                                </Style>
                             </Style>
                         </ListBox.Styles>
                         <ListBox.ItemTemplate>
@@ -58,11 +62,13 @@
                                         Background="{DynamicResource SystemChromeLowColor}">
                                     <Grid ColumnDefinitions="Auto,*,Auto">
 
-                                        <ContentControl HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center">
-                                            <models:MaterialLibrarySymbol
-                                                Kind="DiamondStone" />
-                                        </ContentControl>
+                                        <components:IconDisplay Text="Override Text">
+                                            <components:IconDisplay.Icon>
+                                                <models:MaterialLibrarySymbol
+                                                    Kind="AccountCircle"
+                                                    Text="Any Text" />
+                                            </components:IconDisplay.Icon>
+                                        </components:IconDisplay>
 
                                         <ContentControl
                                             Grid.Column="1"

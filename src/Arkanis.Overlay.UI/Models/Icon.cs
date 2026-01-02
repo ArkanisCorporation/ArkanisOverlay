@@ -9,6 +9,11 @@ public abstract record Icon
     public IBrush? Color { get; init; }
 }
 
+public sealed record MissingIcon : Icon
+{
+    public static readonly  MissingIcon Instance = new();
+}
+
 public abstract record MaterialSymbol : Icon
 {
     public string? Text { get; init; }
