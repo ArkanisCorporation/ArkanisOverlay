@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageVersion Include="Blazor-Analytics" Version="4.0.0" />
     <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0" />
-    <PackageVersion Include="CitizenId.Domain.Shared" Version="1.7.23" />
+    <PackageVersion Include="CitizenId.Domain.Shared" Version="1.8.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="1.0.14" />
     <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Plugins" Version="1.0.14" />
