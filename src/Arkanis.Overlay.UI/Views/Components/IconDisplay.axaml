@@ -55,6 +55,15 @@
                         Text="FontSize = 32" />
                 </components:IconDisplay.Icon>
             </components:IconDisplay>
+
+            <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left">
+                <components:IconDisplay FontSize="32">
+                    <components:IconDisplay.Icon>
+                        <models:MaterialLibrarySymbol
+                            Kind="AccountCircle" />
+                    </components:IconDisplay.Icon>
+                </components:IconDisplay>
+            </Border>
         </StackPanel>
     </Design.PreviewWith>
 
@@ -71,10 +80,16 @@
     </Styles.Resources>
 
     <Style Selector="components|IconDisplay">
+
         <Style Selector="^:has-text">
+
             <Style Selector="^ materialIcons|MaterialIconText">
                 <Setter Property="Text" Value="{Binding $parent[components:IconDisplay].Text}" />
             </Style>
+        </Style>
+
+        <Style Selector="^ materialIcons|MaterialIconText TextBlock">
+            <Setter Property="IsVisible" Value="{Binding $parent[components:IconDisplay].HasText}" />
         </Style>
 
         <Style Selector="^:invalid">

@@ -61,12 +61,9 @@
                                 <Border Margin="-1,1"
                                         Background="{DynamicResource SystemChromeLowColor}">
                                     <Grid ColumnDefinitions="Auto,*,Auto">
-
-                                        <components:IconDisplay Text="Override Text">
+                                        <components:IconDisplay>
                                             <components:IconDisplay.Icon>
-                                                <models:MaterialLibrarySymbol
-                                                    Kind="AccountCircle"
-                                                    Text="Any Text" />
+                                                <models:MaterialLibrarySymbol Kind="Tools" />
                                             </components:IconDisplay.Icon>
                                         </components:IconDisplay>
 

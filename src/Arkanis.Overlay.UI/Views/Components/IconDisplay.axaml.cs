@@ -66,6 +66,9 @@ public class IconDisplay : TemplatedControl
         private set => SetValue(EffectiveIconSizeProperty, value);
     }
 
+    internal bool HasText
+        => Text is not null || Icon is MaterialSymbol { Text.Length: > 0 };
+
     private void SetIconPseudoClasses(object? icon)
         => PseudoClasses.Set(":invalid", icon is null);
 
