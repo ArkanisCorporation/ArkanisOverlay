@@ -5,6 +5,7 @@
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     <ItemGroup>
+        <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.1"/>
         <PackageVersion Include="Blazor-Analytics" Version="4.0.0"/>
         <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0"/>
         <PackageVersion Include="CitizenId.Domain.Shared" Version="1.7.23"/>

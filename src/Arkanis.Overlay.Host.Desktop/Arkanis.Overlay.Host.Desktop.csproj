@@ -71,10 +71,6 @@
 
     <ItemGroup>
         <Content Remove="packages.lock.json"/>
-        <None Include="packages.lock.json">
-            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
     </ItemGroup>
 
 </Project>

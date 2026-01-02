@@ -42,6 +42,17 @@
           "Avalonia": "11.3.10"
         }
       },
+      "AvaloniaUI.DiagnosticsSupport": {
+        "type": "Direct",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "o6ASMKGbVZX0e98ozBanx4LY8JuNXSY60lP0GaujGdhgCqPGdu1iv8AdAUDZk90L1bwDHG0NeUu7z+4qM9vIRA==",
+        "dependencies": {
+          "Avalonia": "11.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.IO.RecyclableMemoryStream": "3.0.1"
+        }
+      },
       "Material.Icons.Avalonia": {
         "type": "Direct",
         "requested": "[2.4.1, )",
@@ -883,6 +894,11 @@
           "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
           "Microsoft.IdentityModel.Logging": "8.15.0"
         }
+      },
+      "Microsoft.IO.RecyclableMemoryStream": {
+        "type": "Transitive",
+        "resolved": "3.0.1",
+        "contentHash": "s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g=="
       },
       "Microsoft.JSInterop": {
         "type": "Transitive",

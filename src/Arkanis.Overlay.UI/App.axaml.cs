@@ -33,6 +33,10 @@ public class App : Application
     {
         AvaloniaXamlLoader.Load(this);
         _hostApplication.Start();
+
+#if DEBUG
+        this.AttachDeveloperTools();
+#endif
     }
 
     public override void OnFrameworkInitializationCompleted()

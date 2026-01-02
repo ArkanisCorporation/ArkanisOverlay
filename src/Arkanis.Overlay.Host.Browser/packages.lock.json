@@ -866,6 +866,11 @@
           "Microsoft.IdentityModel.Logging": "8.15.0"
         }
       },
+      "Microsoft.IO.RecyclableMemoryStream": {
+        "type": "Transitive",
+        "resolved": "3.0.1",
+        "contentHash": "s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g=="
+      },
       "Microsoft.JSInterop": {
         "type": "Transitive",
         "resolved": "10.0.0",
@@ -1169,7 +1174,7 @@
           "Avalonia.Diagnostics": "[11.3.10, )",
           "Avalonia.Fonts.Inter": "[11.3.10, )",
           "Avalonia.Themes.Fluent": "[11.3.10, )",
-          "Material.Icons": "[2.4.1, )",
+          "AvaloniaUI.DiagnosticsSupport": "[2.1.1, )",
           "Material.Icons.Avalonia": "[2.4.1, )",
           "Microsoft.Extensions.Hosting": "[10.0.0, )",
           "ReactiveUI.Avalonia": "[11.3.8, )"
@@ -1213,6 +1218,17 @@
         "contentHash": "K5QkJZYKbKUqLY9FbtSfihzO7n35cDcisQY9ohTfKBe/GQpmEqhy6BdazBDu8Iq/o7DfLUaNINbqCysvouiJIw==",
         "dependencies": {
           "Avalonia": "11.3.10"
+        }
+      },
+      "AvaloniaUI.DiagnosticsSupport": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "o6ASMKGbVZX0e98ozBanx4LY8JuNXSY60lP0GaujGdhgCqPGdu1iv8AdAUDZk90L1bwDHG0NeUu7z+4qM9vIRA==",
+        "dependencies": {
+          "Avalonia": "11.2.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.IO.RecyclableMemoryStream": "3.0.1"
         }
       },
       "CitizenId.Domain.Shared": {
