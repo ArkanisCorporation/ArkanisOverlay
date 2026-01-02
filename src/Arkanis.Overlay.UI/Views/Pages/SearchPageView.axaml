@@ -53,6 +53,17 @@
                                 </Style>
                                 <Style Selector="^ components|IconDisplay">
                                     <Setter Property="IconSize" Value="40" />
+
+                                    <Style Selector="^:nth-child(1)">
+                                        <Setter Property="Margin" Value="5" />
+                                    </Style>
+                                </Style>
+                                <Style Selector="^ Button">
+                                    <Setter Property="Margin" Value="4" />
+
+                                    <Style Selector="^ components|IconDisplay">
+                                        <Setter Property="IconSize" Value="32" />
+                                    </Style>
                                 </Style>
                             </Style>
                         </ListBox.Styles>
