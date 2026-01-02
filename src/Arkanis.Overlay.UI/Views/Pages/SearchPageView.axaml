@@ -1,0 +1,16 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Arkanis.Overlay.UI.ViewModels.Pages"
+             xmlns:viewModels="clr-namespace:Arkanis.Overlay.UI.ViewModels.Pages"
+             x:Class="Arkanis.Overlay.UI.Views.Pages.SearchPageView"
+             x:DataType="vm:SearchPageViewModel">
+    <Design.DataContext>
+        <viewModels:SearchPageViewModel />
+    </Design.DataContext>
+
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+        <TextBlock Text="Hi, I'm the search view!" />
+        <TextBlock Text="{Binding UrlPathSegment}" />
+    </StackPanel>
+</UserControl>

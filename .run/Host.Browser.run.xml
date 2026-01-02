@@ -1,0 +1,19 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Host.Browser" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+    <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/Arkanis.Overlay.Host.Browser/Arkanis.Overlay.Host.Browser.csproj" />
+    <option name="LAUNCH_PROFILE_TFM" value="net10.0-browser" />
+    <option name="LAUNCH_PROFILE_NAME" value="Arkanis.Overlay.Host.Browser" />
+    <option name="USE_MONO" value="0" />
+    <option name="RUNTIME_ARGUMENTS" value="" />
+    <browser name="d461e6d9-915a-41cc-84ca-ba19bd354106" />
+    <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+    <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+    <option name="SEND_DEBUG_REQUEST" value="1" />
+    <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+    <option name="AUTO_ATTACH_CHILDREN" value="0" />
+    <option name="MIXED_MODE_DEBUG" value="0" />
+    <method v="2">
+      <option name="Build" />
+    </method>
+  </configuration>
+</component>

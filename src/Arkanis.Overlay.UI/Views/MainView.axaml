@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:rxui="http://reactiveui.net"
+             xmlns:app="clr-namespace:Arkanis.Overlay.UI"
+             xmlns:vm="clr-namespace:Arkanis.Overlay.UI.ViewModels"
+             xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="450"
+             x:Class="Arkanis.Overlay.UI.Views.MainView"
+             x:DataType="vm:MainViewModel"
+             x:Name="View">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <UserControl.DataTemplates>
+        <!-- Defines how the menu items will be displayed. -->
+        <DataTemplate DataType="models:CommandActionEntry">
+            <StackPanel Orientation="Horizontal"
+                        Margin="4,0"
+                        Spacing="4">
+                <ContentPresenter
+                    Content="{Binding Icon}" />
+                <MenuItem
+                    Header="{Binding Name}"
+                    HotKey="{Binding Shortcut}"
+                    Command="{Binding Command}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Padding="0,0,-24,0" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate DataType="models:SeparatorActionEntry">
+            <Separator />
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <DockPanel LastChildFill="True">
+        <Grid ColumnDefinitions="*,Auto,*"
+              Background="{DynamicResource BackgroundBrush}"
+              DockPanel.Dock="Top">
+
+            <Menu Grid.Column="1" ItemsSource="{Binding MenuItems}" />
+
+        </Grid>
+
+        <Panel>
+            <rxui:RoutedViewHost Router="{Binding Router}">
+                <rxui:RoutedViewHost.DefaultContent>
+                    <TextBlock Text="Default content"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </rxui:RoutedViewHost.DefaultContent>
+                <rxui:RoutedViewHost.ViewLocator>
+                    <app:ViewLocator />
+                </rxui:RoutedViewHost.ViewLocator>
+            </rxui:RoutedViewHost>
+        </Panel>
+    </DockPanel>
+</UserControl>

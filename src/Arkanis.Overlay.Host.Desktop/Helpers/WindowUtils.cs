@@ -25,10 +25,14 @@ public static class WindowUtils
     internal static void SetExtendedStyle(Window window, WINDOW_EX_STYLE extendedStyle)
     {
         var wndHelper = new WindowInteropHelper(window);
+        SetExtendedStyle((HWND)wndHelper.Handle, extendedStyle);
+    }
 
-        var exStyle = PInvoke.GetWindowLong((HWND)wndHelper.Handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+    internal static void SetExtendedStyle(HWND handle, WINDOW_EX_STYLE extendedStyle)
+    {
+        var exStyle = PInvoke.GetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
         var newStyle = exStyle | (int)extendedStyle;
-        var result = PInvoke.SetWindowLong((HWND)wndHelper.Handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, newStyle);
+        var result = PInvoke.SetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, newStyle);
 
         if (result != exStyle)
         {
