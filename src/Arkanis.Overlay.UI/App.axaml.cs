@@ -33,6 +33,10 @@ public class App : Application
     {
         AvaloniaXamlLoader.Load(this);
         _hostApplication.Start();
+
+#if DEBUG
+        this.AttachDeveloperTools();
+#endif
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -59,5 +63,8 @@ public class App : Application
     }
 
     private void ConfigureHost(HostApplicationBuilder applicationBuilder)
-        => applicationBuilder.Services.AddSingleton<PageViewModelFactory>();
+    {
+        applicationBuilder.Services.AddSingleton<PageViewModelFactory>();
+        applicationBuilder.Services.AddSingleton(EmptySearchService.Instance);
+    }
 }

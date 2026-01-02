@@ -1,0 +1,137 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:components="using:Arkanis.Overlay.UI.Views.Components"
+        xmlns:models="clr-namespace:Arkanis.Overlay.UI.Models"
+        xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
+
+    <Design.PreviewWith>
+        <StackPanel Margin="10" Spacing="16">
+            <components:IconDisplay Text="Icon Not Specified" />
+
+            <components:IconDisplay>
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="Default" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <components:IconDisplay Text="Override Text">
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="Any Text" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <components:IconDisplay IconSize="24" FontSize="12">
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="IconSize = 24, FontSize = 12" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <components:IconDisplay IconSize="32">
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="IconSize = 32" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <components:IconDisplay IconSizeRatio="2" FontSize="16">
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="IconSizeRatio = 2, FontSize = 16" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <components:IconDisplay FontSize="32">
+                <components:IconDisplay.Icon>
+                    <models:MaterialLibrarySymbol
+                        Kind="AccountCircle"
+                        Text="FontSize = 32" />
+                </components:IconDisplay.Icon>
+            </components:IconDisplay>
+
+            <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left">
+                <components:IconDisplay FontSize="32">
+                    <components:IconDisplay.Icon>
+                        <models:MaterialLibrarySymbol
+                            Kind="AccountCircle" />
+                    </components:IconDisplay.Icon>
+                </components:IconDisplay>
+            </Border>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <DataTemplate x:Key="MissingIconTemplate"
+                      DataType="models:Icon">
+            <materialIcons:MaterialIconText
+                Kind="SquareOutline"
+                Text="{Binding $parent[components:IconDisplay].Text}"
+                Foreground="Red"
+                Background="Black"
+                IconSize="{Binding $parent[components:IconDisplay].EffectiveIconSize}" />
+        </DataTemplate>
+    </Styles.Resources>
+
+    <Style Selector="components|IconDisplay">
+
+        <Style Selector="^:has-text">
+
+            <Style Selector="^ materialIcons|MaterialIconText">
+                <Setter Property="Text" Value="{Binding $parent[components:IconDisplay].Text}" />
+            </Style>
+        </Style>
+
+        <Style Selector="^ materialIcons|MaterialIconText TextBlock">
+            <Setter Property="IsVisible" Value="{Binding $parent[components:IconDisplay].HasText}" />
+        </Style>
+
+        <Style Selector="^:invalid">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="components:IconDisplay">
+                        <ContentPresenter
+                            Content="{x:Static models:MissingIcon.Instance}"
+                            ContentTemplate="{StaticResource MissingIconTemplate}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style Selector="^ materialIcons|MaterialIconText">
+            <Setter Property="IconSize" Value="{Binding $parent[components:IconDisplay].EffectiveIconSize}" />
+        </Style>
+
+        <Setter Property="Template">
+            <ControlTemplate TargetType="components:IconDisplay">
+                <ContentPresenter Content="{TemplateBinding Icon}">
+                    <ContentPresenter.DataTemplates>
+
+                        <DataTemplate DataType="models:MaterialLibrarySymbol">
+                            <materialIcons:MaterialIconText Kind="{Binding Kind}">
+                                <materialIcons:MaterialIconText.Styles>
+                                    <Style Selector="materialIcons|MaterialIconText">
+                                        <Setter Property="Text" Value="{Binding Text}" />
+                                    </Style>
+                                </materialIcons:MaterialIconText.Styles>
+                            </materialIcons:MaterialIconText>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="models:Icon">
+                            <ContentPresenter
+                                Content="{Binding}"
+                                ContentTemplate="{StaticResource MissingIconTemplate}" />
+                        </DataTemplate>
+
+                    </ContentPresenter.DataTemplates>
+                </ContentPresenter>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

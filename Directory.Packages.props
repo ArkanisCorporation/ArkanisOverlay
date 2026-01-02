@@ -5,6 +5,7 @@
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     <ItemGroup>
+        <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.1.1"/>
         <PackageVersion Include="Blazor-Analytics" Version="4.0.0"/>
         <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0"/>
         <PackageVersion Include="CitizenId.Domain.Shared" Version="1.7.23"/>
@@ -17,6 +18,8 @@
         <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0"/>
         <PackageVersion Include="FluentValidation" Version="12.1.0"/>
         <PackageVersion Include="FuzzySharp" Version="2.0.2"/>
+        <PackageVersion Include="HotAvalonia" Version="3.0.2"/>
+        <PackageVersion Include="HotAvalonia.Core" Version="3.0.2"/>
         <PackageVersion Include="Humanizer" Version="3.0.1"/>
         <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2"/>
         <PackageVersion Include="Material.Icons" Version="2.4.1"/>

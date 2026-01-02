@@ -19,14 +19,15 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True"/>
         <PackageReference Include="Microsoft.Windows.CsWin32">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Velopack" />
+        <PackageReference Include="Velopack"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj" />
+        <ProjectReference Include="..\Arkanis.Overlay.UI\Arkanis.Overlay.UI.csproj"/>
     </ItemGroup>
 </Project>
