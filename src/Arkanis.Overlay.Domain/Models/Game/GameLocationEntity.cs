@@ -17,11 +17,11 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
     public string? ImageAuthor { get; set; }
 
     public HashSet<UexApiGameEntityId> ParentIds { get; } = parent is not null
-        ? [parent.Id, ..parent.ParentIds]
+        ? [parent.Id, .. parent.ParentIds]
         : [];
 
     public IEnumerable<IGameLocation> Parents { get; } = parent is not null
-        ? [parent, ..parent.Parents]
+        ? [parent, .. parent.Parents]
         : [];
 
     IGameLocation? IGameLocation.ParentLocation

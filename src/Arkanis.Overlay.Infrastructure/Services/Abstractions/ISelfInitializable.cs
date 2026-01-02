@@ -8,5 +8,5 @@ using Domain.Abstractions;
 /// </summary>
 public interface ISelfInitializable : IDependable
 {
-    Task InitializeAsync(CancellationToken cancellationToken);
+    public Task InitializeAsync(CancellationToken cancellationToken);
 }

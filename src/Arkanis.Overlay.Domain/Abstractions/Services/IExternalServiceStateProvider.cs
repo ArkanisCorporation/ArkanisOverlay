@@ -4,5 +4,5 @@ using Models;
 
 public interface IExternalServiceStateProvider
 {
-    Task<ExternalServiceState> LoadCurrentServiceStateAsync(CancellationToken cancellationToken);
+    public Task<ExternalServiceState> LoadCurrentServiceStateAsync(CancellationToken cancellationToken);
 }

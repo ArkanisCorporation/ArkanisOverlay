@@ -1,4 +1,4 @@
-﻿namespace Arkanis.Overlay.External.Backend.Options;
+namespace Arkanis.Overlay.External.Backend.Options;
 
 using Overlay.Common.Abstractions;
 

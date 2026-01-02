@@ -29,11 +29,17 @@ public record QuantityOf(OwnableEntityReference Reference, int Amount, Quantity.
             FormatWithReferenceName => Unit switch
             {
                 UnitType.Count => $"{base.ToString()} {ReferenceFullName}",
+                UnitType.Undefined => throw new NotImplementedException(),
+                UnitType.CentiStandardCargoUnit => throw new NotImplementedException(),
+                UnitType.StandardCargoUnit => throw new NotImplementedException(),
                 _ => $"{base.ToString()} of {ReferenceFullName}",
             },
             FormatWithReferenceCode => Unit switch
             {
                 UnitType.Count => $"{base.ToString()} {ReferenceCode}",
+                UnitType.Undefined => throw new NotImplementedException(),
+                UnitType.CentiStandardCargoUnit => throw new NotImplementedException(),
+                UnitType.StandardCargoUnit => throw new NotImplementedException(),
                 _ => $"{base.ToString()} of {ReferenceCode}",
             },
             _ => base.ToString(),
