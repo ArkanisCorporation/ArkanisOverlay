@@ -2,8 +2,10 @@
 @using Microsoft.JSInterop
 @inherits LayoutComponentBase
 @layout SharedLayoutBase
+@inject IUserPreferencesProvider UserPreferencesProvider
 @inject IAppVersionProvider VersionProvider
 @inject IJSRuntime JsRuntime
+@inject IDialogService DialogService
 
 <MudThemeProvider Theme="_currentTheme" IsDarkMode="true"/>
 <MudPopoverProvider/>
@@ -75,6 +77,14 @@
     private void TryRecover()
     {
         _errorBoundary?.Recover();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (UserPreferencesProvider.CurrentPreferences.PostHogOptions.Version != UserPreferences.PostHogAnalytics.CurrentVersion)
+        {
+            await AnalyticsDialog.ShowOnUpdateAsync(DialogService);
+        }
     }
 
     private async Task NavigateToPrevious()

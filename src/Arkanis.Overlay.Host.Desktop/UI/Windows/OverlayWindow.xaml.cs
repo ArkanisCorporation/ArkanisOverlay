@@ -15,6 +15,7 @@ using global::Windows.Win32.Foundation;
 using global::Windows.Win32.UI.WindowsAndMessaging;
 using Helpers;
 using Microsoft.AspNetCore.Components.WebView;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
 using Services.Factories;
@@ -26,6 +27,7 @@ using Color = Color;
 /// </summary>
 public sealed partial class OverlayWindow : IDisposable
 {
+    private const string WebViewDisposedExceptionMessage = "CoreWebView2 members cannot be accessed after the WebView2 control is disposed.";
     private readonly BlurHelper _blurHelper;
     private readonly GameWindowTracker _gameWindowTracker;
     private readonly GlobalKeyboardShortcutListener _globalKeyboardShortcutListener;
@@ -34,6 +36,7 @@ public sealed partial class OverlayWindow : IDisposable
     private readonly IOverlayEventControls _overlayEventControls;
     private readonly IUserPreferencesProvider _preferencesProvider;
     private readonly WindowFactory _windowFactory;
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
 
     private HWND _currentWindowHWnd = HWND.Null;
 
@@ -44,7 +47,9 @@ public sealed partial class OverlayWindow : IDisposable
         GlobalKeyboardShortcutListener globalKeyboardShortcutListener,
         BlurHelper blurHelper,
         WindowFactory windowFactory,
-        IOverlayEventControls overlayEventControls
+        IOverlayEventControls overlayEventControls,
+        IHostApplicationLifetime hostApplicationLifetime
+
     )
     {
         Instance = this;
@@ -56,6 +61,7 @@ public sealed partial class OverlayWindow : IDisposable
         _blurHelper = blurHelper;
         _windowFactory = windowFactory;
         _overlayEventControls = overlayEventControls;
+        _hostApplicationLifetime = hostApplicationLifetime;
 
         SetupWorkerEventListeners();
         InitializeComponent();
@@ -70,6 +76,15 @@ public sealed partial class OverlayWindow : IDisposable
         _preferencesProvider.ApplyPreferences += ApplyUserPreferences;
 
         LocationChanged += (_, __) => NudgePopup();
+
+        Dispatcher.UnhandledException += (_, e) =>
+        {
+            //? swallow this specific exception that happens when the WebView2 is disposed while navigating
+            if (e.Exception.InnerException is InvalidOperationException { Message: WebViewDisposedExceptionMessage })
+            {
+                e.Handled = true;
+            }
+        };
     }
 
     public static OverlayWindow? Instance { get; private set; }
@@ -78,14 +93,7 @@ public sealed partial class OverlayWindow : IDisposable
     {
         _globalKeyboardShortcutListener.Dispose();
         _gameWindowTracker.Dispose();
-        if (BlazorWebView is IDisposable blazorWebViewDisposable)
-        {
-            blazorWebViewDisposable.Dispose();
-        }
-        else if (BlazorWebView != null)
-        {
-            _ = BlazorWebView.DisposeAsync().AsTask();
-        }
+        BlazorWebView?.DisposeAsync().AsTask().GetAwaiter().GetResult();
     }
 
     private void ApplyUserPreferences(object? sender, UserPreferences newPreferences)
@@ -314,9 +322,24 @@ public sealed partial class OverlayWindow : IDisposable
     private void OnAboutCommand(object sender, RoutedEventArgs e)
         => _windowFactory.CreateWindow<AboutWindow>().ShowDialog();
 
+    /// <summary>
+    /// Exits the Overlay application by stopping the host application lifetime.
+    /// </summary>
+    /// <remarks>
+    /// This previously used <c>Application.Current.Shutdown()</c> but that ceased working recently for unknown reasons.
+    /// Presumably something changed in .NET 10 that broke it.
+    /// </remarks>
     private void OnExitCommand(object sender, RoutedEventArgs e)
-        => Application.Current.Shutdown();
+        => _hostApplicationLifetime.StopApplication();
 
+    /// <summary>
+    /// Dispatches the exit command to the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// This is a public method so that it can be called from non-UI threads.
+    /// It's not clear if it's still necessary, but it's kept for safety.
+    /// See the Remarks section on the <see cref="OnExitCommand"/> method for more details.
+    /// </remarks>
     public void Exit()
         => Dispatcher.Invoke(() => OnExitCommand(this, new RoutedEventArgs()));
 }

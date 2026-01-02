@@ -1,4 +1,18 @@
+@using Arkanis.Overlay.Infrastructure.Options
+@using Microsoft.Extensions.Options
+@inject IOptions<InfrastructureServiceOptions> ServiceOptions
+
 <MudExpansionPanels>
+    @if (ServiceOptions.Value.HostingMode is HostingMode.Server)
+    {
+        <MudAlert Severity="@Severity.Error">
+            <b>Do not link your personal accounts!</b>
+            This is a publicly available and shared instance.
+            Other users <u>will be able</u> to use features using linked accounts <u>on behalf of your accounts</u>.
+        </MudAlert>
+        <MudDivider/>
+    }
+
     <CitizenIdServiceSettingsPanel
         ContentId="@ContentId"/>
 

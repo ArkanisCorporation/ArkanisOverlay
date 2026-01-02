@@ -167,7 +167,7 @@ internal class LocalDatabaseInventoryManager(
             }
         );
 
-    public async Task<ICollection<InventoryEntryList>> GetAllListsAsync(CancellationToken cancellationToken = default)
+    public async Task<ICollection<InventoryEntryListBrief>> GetAllListsAsync(CancellationToken cancellationToken = default)
         => await memoryCache.GetOrCreateAsync(
                CacheId.AllListsQuery,
                async entry =>
@@ -177,7 +177,7 @@ internal class LocalDatabaseInventoryManager(
 
                    await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
                    var entities = await dbContext.InventoryLists.ToArrayAsync(cancellationToken);
-                   return entities.Select(mapper.Map).ToArray();
+                   return entities.Select(mapper.MapBrief).ToArray();
                }
            )
            ?? [];

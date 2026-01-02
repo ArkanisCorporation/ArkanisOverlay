@@ -22,7 +22,7 @@
     public required IMudDialogInstance MudDialog { get; set; }
 
     [Parameter]
-    public InventoryEntryList? InventoryList { get; set; }
+    public InventoryEntryListBrief? InventoryList { get; set; }
 
     [Parameter]
     public string SubmitLabel { get; set; } = "Continue";
@@ -33,7 +33,7 @@
     private void Cancel()
         => MudDialog.Cancel();
 
-    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService)
+    public static async Task<InventoryEntryListBrief?> ShowAsync(IDialogService dialogService)
     {
         var dialogOptions = new DialogOptions
         {
@@ -42,7 +42,7 @@
             CloseButton = true,
         };
         var dialogRef = await dialogService.ShowAsync<SelectInventoryListDialog>(null, dialogOptions);
-        return await dialogRef.GetReturnValueAsync<InventoryEntryList>();
+        return await dialogRef.GetReturnValueAsync<InventoryEntryListBrief>();
     }
 
 }

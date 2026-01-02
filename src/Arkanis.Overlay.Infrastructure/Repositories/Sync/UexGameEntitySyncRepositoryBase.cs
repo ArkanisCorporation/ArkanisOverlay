@@ -125,6 +125,12 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
             return CreateSyncData(currentData.Data, currentData.State.SourcedState);
         }
 
+        if (cachedData is UnprocessableDataCache<UexApiResponse<ICollection<TSource>>> unprocessableData)
+        {
+            Logger.LogError(unprocessableData.Exception, "Could not load cached {Type} entities: {@CachedData}", DomainType.Name, cachedData);
+            return GameEntitySyncData<TDomain>.Missing;
+        }
+
         Logger.LogWarning("Could not load cached {Type} entities: {@CachedData}", DomainType.Name, cachedData);
         return GameEntitySyncData<TDomain>.Missing;
     }
@@ -134,14 +140,20 @@ internal abstract class UexGameEntitySyncRepositoryBase<TSource, TDomain>(
         var responseHeaders = response.CreateResponseHeaders();
         var cacheUntil = responseHeaders.GetCacheUntil(factor: CacheTimeFactor);
         var requestTime = responseHeaders.GetRequestTime();
-        var domainEntities = FilterSourceModels(response.Result.Where(IncludeSourceModel))
-            .ToAsyncEnumerable()
-            .SelectAwait(MapToDomainAsync)
-            .Where(model => model is not null)
-            .Select(model => model!);
 
         var dataState = new DataCached(serviceState, requestTime, cacheUntil);
-        return new LoadedSyncData<TDomain>(domainEntities, dataState);
+        return new LoadedSyncData<TDomain>(ProcessModels(response.Result), dataState);
+    }
+
+    private async IAsyncEnumerable<TDomain> ProcessModels(ICollection<TSource> sourceModels)
+    {
+        foreach (var sourceModel in FilterSourceModels(sourceModels.Where(IncludeSourceModel)))
+        {
+            if (await MapToDomainAsync(sourceModel) is { } domainModel)
+            {
+                yield return domainModel;
+            }
+        }
     }
 
     protected virtual IEnumerable<TSource> FilterSourceModels(IEnumerable<TSource> models)

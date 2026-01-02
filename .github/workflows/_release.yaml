@@ -34,22 +34,23 @@ env:
   # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   REGISTRY: ghcr.io
+  # See: https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Credentials/appId/b6acf5c1-f282-4eb0-a3a4-4e87e95fe051/isMSAApp~/false
+  # `true` if the current branch is `main`, `release/rc` or `release/stable`
+  # empty string otherwise, to ensure conditions evaluate to `false`
+  ENABLE_CODE_SIGNING: ${{ contains(fromJson('["main", "release/rc", "release/stable", "ci"]'), github.ref_name) && 'true' || '' }}
 
 jobs:
   release:
-    environment:
-      # Required for Federated Credential for Azure Code Signing
-      # https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationMenuBlade/~/Credentials/appId/b6acf5c1-f282-4eb0-a3a4-4e87e95fe051/isMSAApp~/false
-      name: ProductionCodeSigning
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-tags: true
 
       - name: Azure Login
         uses: azure/login@v2
+        if: env.ENABLE_CODE_SIGNING
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -57,6 +58,7 @@ jobs:
 
       - name: Get Azure API Access Token
         uses: azure/cli@v2
+        if: env.ENABLE_CODE_SIGNING
         with:
           azcliversion: 'latest'
           # used for Azure Code Signing in `scripts/release-12-verify-win64-velopack.sh`
@@ -67,9 +69,7 @@ jobs:
         id: setup-dotnet
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
+          global-json-file: global.json
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
@@ -79,11 +79,13 @@ jobs:
 
       - name: Set up Java
         uses: actions/setup-java@v5
+        if: env.ENABLE_CODE_SIGNING
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Download Jsign
+        if: env.ENABLE_CODE_SIGNING
         run: wget https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
 
       - name: Restore dependencies

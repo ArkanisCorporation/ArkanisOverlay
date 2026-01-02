@@ -100,8 +100,8 @@
     private int ActiveModuleIndex
         => OverlayModules.GetAll()
             .Index()
-            .Where(x => IsActive(x.Value))
-            .Select(x => x.Key)
+            .Where(x => IsActive(x.Item))
+            .Select(x => x.Index)
             .First();
 
     [Parameter]
@@ -168,7 +168,7 @@
         var changes = await Task.WhenAll(updateTasks);
         if (changes.Any())
         {
-            _tabs?.ActivatePanel(ActiveModuleIndex);
+            await (_tabs?.ActivatePanelAsync(ActiveModuleIndex) ?? Task.CompletedTask);
             await InvokeAsync(StateHasChanged);
         }
     }

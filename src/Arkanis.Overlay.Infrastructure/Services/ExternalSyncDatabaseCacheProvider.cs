@@ -90,26 +90,34 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
         var cachedServiceState = cacheRecord.DataAvailableState;
         var cachedDataState = new DataCached(cachedServiceState, cachedServiceState.UpdatedAt, cacheRecord.CachedUntil);
 
-        if (cacheRecord.Content.Deserialize<TSource>() is not { } cachedData)
+        try
+        {
+            if (cacheRecord.Content.Deserialize<TSource>() is not { } cachedData)
+            {
+                // the cached data is not valid
+                return new UnprocessableDataCache<TSource>(null);
+            }
+
+            if (currentDataState is not DataLoaded loadedData
+                || currentServiceState is not ServiceAvailableState availableState)
+            {
+                return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
+            }
+
+            if (loadedData.SourcedState.Version != availableState.Version)
+            {
+                // the repository already has some data, but the sourced game version does not match
+                return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
+            }
+
+            // the repository already has some data, cache did not expire yet and the sourced game version matches
+            return new AlreadyUpToDateWithCache<TSource>(cachedData, cachedDataState);
+        }
+        catch (Exception e)
         {
             // the cached data is not valid
-            return new UnprocessableDataCache<TSource>();
+            return new UnprocessableDataCache<TSource>(e);
         }
-
-        if (currentDataState is not DataLoaded loadedData
-            || currentServiceState is not ServiceAvailableState availableState)
-        {
-            return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
-        }
-
-        if (loadedData.SourcedState.Version != availableState.Version)
-        {
-            // the repository already has some data, but the sourced game version does not match
-            return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
-        }
-
-        // the repository already has some data, cache did not expire yet and the sourced game version matches
-        return new AlreadyUpToDateWithCache<TSource>(cachedData, cachedDataState);
     }
 
     private string CreateKey<TSource>()

@@ -1,0 +1,29 @@
+name: Deploy pipeline
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      image_ref:
+        type: string
+        required: true
+
+jobs:
+  deploy:
+    name: Deployment
+    uses: ./.github/workflows/_deploy-coolify.yaml
+    with:
+      application_name: web demo
+      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
+    secrets:
+      COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
+      COOLIFY_DEPLOY_UUID: ${{ secrets.COOLIFY_DEPLOY_UUID }}
+      COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}

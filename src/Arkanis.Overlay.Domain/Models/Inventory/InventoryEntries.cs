@@ -14,22 +14,14 @@ public record InventoryEntryId(Guid Identity) : TypedDomainId<Guid>(Identity)
 
 public static class InventoryEntry
 {
-    public static VirtualInventoryEntry Create(QuantityOf quantityOf, InventoryEntryList? list = null)
+    public static VirtualInventoryEntry Create(QuantityOf quantityOf, InventoryEntryListBrief? list = null)
         => new()
         {
             Quantity = quantityOf,
             List = list,
         };
 
-    public static LocationInventoryEntry Create(QuantityOf quantityOf, IGameLocation location, InventoryEntryList? list = null)
-        => new()
-        {
-            Quantity = quantityOf,
-            Location = location,
-            List = list,
-        };
-
-    public static HangarInventoryEntry CreateInHangar(QuantityOf quantityOf, IGameLocation location, InventoryEntryList? list = null)
+    public static LocationInventoryEntry Create(QuantityOf quantityOf, IGameLocation location, InventoryEntryListBrief? list = null)
         => new()
         {
             Quantity = quantityOf,
@@ -37,7 +29,15 @@ public static class InventoryEntry
             List = list,
         };
 
-    public static VehicleInventoryEntry CreateVehicleCargo(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+    public static HangarInventoryEntry CreateInHangar(QuantityOf quantityOf, IGameLocation location, InventoryEntryListBrief? list = null)
+        => new()
+        {
+            Quantity = quantityOf,
+            Location = location,
+            List = list,
+        };
+
+    public static VehicleInventoryEntry CreateVehicleCargo(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryListBrief? list = null)
         => new()
         {
             Quantity = quantityOf,
@@ -45,7 +45,7 @@ public static class InventoryEntry
             List = list,
         };
 
-    public static VehicleModuleEntry CreateVehicleModule(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+    public static VehicleModuleEntry CreateVehicleModule(QuantityOf quantityOf, HangarInventoryEntry hangarEntry, InventoryEntryListBrief? list = null)
         => new()
         {
             Quantity = quantityOf,
@@ -53,36 +53,36 @@ public static class InventoryEntry
             List = list,
         };
 
-    public static VirtualInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryList? list = null)
+    public static VirtualInventoryEntry Create(GameItem item, Quantity quantity, InventoryEntryListBrief? list = null)
         => Create(QuantityOf.Create(item, quantity), list);
 
-    public static VirtualInventoryEntry Create(GameCommodity item, Quantity quantity, InventoryEntryList? list = null)
+    public static VirtualInventoryEntry Create(GameCommodity item, Quantity quantity, InventoryEntryListBrief? list = null)
         => Create(QuantityOf.Create(item, quantity), list);
 
-    public static HangarInventoryEntry Create(GameVehicle vehicle, InventoryEntryList? list = null)
+    public static HangarInventoryEntry Create(GameVehicle vehicle, InventoryEntryListBrief? list = null)
         => CreateAt(vehicle, GameLocationEntity.Unknown, list);
 
-    public static LocationInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
+    public static LocationInventoryEntry CreateAt(GameItem item, Quantity quantity, IGameLocation location, InventoryEntryListBrief? list = null)
         => Create(QuantityOf.Create(item, quantity), location, list);
 
-    public static LocationInventoryEntry CreateAt(GameCommodity item, Quantity quantity, IGameLocation location, InventoryEntryList? list = null)
+    public static LocationInventoryEntry CreateAt(GameCommodity item, Quantity quantity, IGameLocation location, InventoryEntryListBrief? list = null)
         => Create(QuantityOf.Create(item, quantity), location, list);
 
-    public static HangarInventoryEntry CreateAt(GameVehicle vehicle, IGameLocation location, InventoryEntryList? list = null)
+    public static HangarInventoryEntry CreateAt(GameVehicle vehicle, IGameLocation location, InventoryEntryListBrief? list = null)
         => CreateInHangar(QuantityOf.Create(vehicle, Quantity.Default), location, list);
 
-    public static VehicleInventoryEntry CreateCargo(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+    public static VehicleInventoryEntry CreateCargo(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryListBrief? list = null)
         => CreateVehicleCargo(QuantityOf.Create(item, quantity), hangarEntry, list);
 
     public static VehicleInventoryEntry CreateCargo(
         GameCommodity commodity,
         Quantity quantity,
         HangarInventoryEntry hangarEntry,
-        InventoryEntryList? list = null
+        InventoryEntryListBrief? list = null
     )
         => CreateVehicleCargo(QuantityOf.Create(commodity, quantity), hangarEntry, list);
 
-    public static VehicleModuleEntry CreateModule(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryList? list = null)
+    public static VehicleModuleEntry CreateModule(GameItem item, Quantity quantity, HangarInventoryEntry hangarEntry, InventoryEntryListBrief? list = null)
         => CreateVehicleModule(QuantityOf.Create(item, quantity), hangarEntry, list);
 
     public static InventoryEntryBase Create(IGameEntity source, Quantity quantity, Context? context = null)
@@ -115,7 +115,7 @@ public static class InventoryEntry
         IGameLocation? location = null,
         HangarInventoryEntry? hangarEntry = null,
         VehicleInventoryType? vehicleInventoryType = null,
-        InventoryEntryList? list = null
+        InventoryEntryListBrief? list = null
     )
     {
         quantity ??= source.Quantity;
@@ -143,7 +143,7 @@ public static class InventoryEntry
         public IGameLocation? Location { get; set; }
         public HangarInventoryEntry? HangarEntry { get; set; }
         public VehicleInventoryType VehicleInventoryType { get; set; }
-        public InventoryEntryList? List { get; set; }
+        public InventoryEntryListBrief? List { get; set; }
     }
 }
 
@@ -168,7 +168,7 @@ public abstract class InventoryEntryBase : IIdentifiable, IInventoryPlacement
         => Quantity.Reference.Entity;
 
     public TradeRun? TradeRun { get; set; }
-    public InventoryEntryList? List { get; set; }
+    public InventoryEntryListBrief? List { get; set; }
 
     public abstract EntryType Type { get; }
 
@@ -324,7 +324,7 @@ public sealed class VehicleInventoryEntry : InventoryEntryBase, IVehicleInventor
 
 public interface IInventoryPlacement
 {
-    IDomainId? LocationId
+    public IDomainId? LocationId
         => null;
 }
 
@@ -338,7 +338,7 @@ public sealed record InventoryPlacementLocation(IGameLocation Location) : ILocat
 
 public interface IVehicleInventory : IInventoryPlacement
 {
-    HangarInventoryEntry HangarEntry { get; }
+    public HangarInventoryEntry HangarEntry { get; }
 
     IDomainId IInventoryPlacement.LocationId
         => HangarEntry.Id;

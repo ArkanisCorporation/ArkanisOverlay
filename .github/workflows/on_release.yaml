@@ -1,0 +1,26 @@
+﻿# from: https://github.com/marketplace/actions/virustotal-github-action#scan-assets-of-a-published-release
+name: on_release
+
+permissions:
+  contents: read
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  virustotal:
+    runs-on: ubuntu-latest
+    permissions:
+      # required to write GitHub Release body
+      contents: write
+    steps:
+      - name: VirusTotal Scan
+        uses: crazy-max/ghaction-virustotal@v4
+        with:
+          vt_api_key: ${{ secrets.VT_API_KEY }}
+          update_release_body: true
+          files: |
+            .exe$
+            .zip$

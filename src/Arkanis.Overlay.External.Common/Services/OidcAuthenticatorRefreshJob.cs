@@ -6,7 +6,7 @@ using Overlay.Common.Models;
 using Overlay.Common.Services;
 using Quartz;
 
-public class OidcAuthenticatorRefreshJob<TAuthenticator>(
+public partial class OidcAuthenticatorRefreshJob<TAuthenticator>(
     TAuthenticator authenticator,
     IUserPreferencesManager preferencesManager,
     ILogger<OidcAuthenticatorRefreshJob<TAuthenticator>> logger
@@ -20,7 +20,7 @@ public class OidcAuthenticatorRefreshJob<TAuthenticator>(
         var credentials = preferencesManager.CurrentPreferences.GetCredentialsOrDefaultFor(ServiceId);
         if (credentials is not AccountOidcCredentials { RefreshToken.Length: > 0 } oidcCredentials)
         {
-            logger.LogDebug("No OIDC credentials with refresh token found for {ServiceId}, skipping refresh", ServiceId);
+            LogNoValidCredentialsFound(logger, ServiceId);
             return;
         }
 
@@ -33,19 +33,15 @@ public class OidcAuthenticatorRefreshJob<TAuthenticator>(
         if (oidcCredentials.AccessTokenExpiresAt > minimumValidDate
             || (oidcCredentials.ReadAccessTokenAsJwt() is { } jwt && jwt.ValidTo > minimumValidDate))
         {
-            logger.LogDebug("OIDC access token for {ServiceId} is not expiring soon, skipping refresh", ServiceId);
+            LogNotExpiringSoon(logger, ServiceId);
             return;
         }
 
         var result = await authenticator.OidcClient.RefreshTokenAsync(oidcCredentials.RefreshToken);
         if (result.IsError)
         {
-            logger.LogError(
-                "Could not refresh OIDC credentials for {ServiceId}: {Error} - {ErrorDescription}",
-                ServiceId,
-                result.Error,
-                result.ErrorDescription
-            );
+            LogRefreshFailed(logger, ServiceId, result.Error, result.ErrorDescription);
+            authenticator.RequestRefresh();
             return;
         }
 
@@ -59,6 +55,15 @@ public class OidcAuthenticatorRefreshJob<TAuthenticator>(
         var updatedPreferences = preferencesManager.CurrentPreferences.SetCredentials(updatedCredentials);
         await preferencesManager.SaveAndApplyUserPreferencesAsync(updatedPreferences);
     }
+
+    [LoggerMessage(LogLevel.Debug, "No OIDC credentials with refresh token found for {serviceId}, skipping refresh")]
+    static partial void LogNoValidCredentialsFound(ILogger<OidcAuthenticatorRefreshJob<TAuthenticator>> logger, string serviceId);
+
+    [LoggerMessage(LogLevel.Debug, "OIDC access token for {serviceId} is not expiring soon, skipping refresh")]
+    static partial void LogNotExpiringSoon(ILogger<OidcAuthenticatorRefreshJob<TAuthenticator>> logger, string serviceId);
+
+    [LoggerMessage(LogLevel.Error, "Could not refresh OIDC credentials for {serviceId}: {error} - {errorDescription}")]
+    static partial void LogRefreshFailed(ILogger<OidcAuthenticatorRefreshJob<TAuthenticator>> logger, string serviceId, string error, string errorDescription);
 }
 
 public static class OidcAuthenticatorRefreshJob
