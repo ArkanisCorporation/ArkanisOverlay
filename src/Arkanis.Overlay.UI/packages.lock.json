@@ -53,6 +53,18 @@
           "Microsoft.IO.RecyclableMemoryStream": "3.0.1"
         }
       },
+      "HotAvalonia": {
+        "type": "Direct",
+        "requested": "[3.0.2, )",
+        "resolved": "3.0.2",
+        "contentHash": "VzTekt+vLLkyKOXJZfIO8FHjsUMV5pfXZtLK3sUzHGTpfMD3c4QHYwAVHh1IfoOdkulfvISvUkDxNGFauZ0Y5w==",
+        "dependencies": {
+          "Avalonia.Markup.Xaml.Loader": "11.0.0",
+          "HotAvalonia.Core": "3.0.2",
+          "HotAvalonia.Extensions": "3.0.2",
+          "HotAvalonia.Fody": "3.0.2"
+        }
+      },
       "Material.Icons.Avalonia": {
         "type": "Direct",
         "requested": "[2.4.1, )",
@@ -118,6 +130,14 @@
           "Avalonia.Remote.Protocol": "11.3.10"
         }
       },
+      "Avalonia.Markup.Xaml.Loader": {
+        "type": "Transitive",
+        "resolved": "11.0.0",
+        "contentHash": "SDcf5qvleyTb0R24vzZBhFJV9ONlGz0ftOBRxXiSy7R6c513Rjnae0IImuUXSIj+Bmn8AjU6x9eDFRJO78pYVA==",
+        "dependencies": {
+          "Avalonia": "11.0.0"
+        }
+      },
       "Avalonia.Remote.Protocol": {
         "type": "Transitive",
         "resolved": "11.3.10",
@@ -142,6 +162,24 @@
         "contentHash": "+SoDTbuzY9j0K+sZfRbbVpGjjylkVMhUQnw6qiPhxzYLBJlwxFpmunXSaNBtTxwC2C9d/XIp0kO7VhMAVuUt7w==",
         "dependencies": {
           "System.Reactive": "6.0.1"
+        }
+      },
+      "Fody": {
+        "type": "Transitive",
+        "resolved": "6.9.2",
+        "contentHash": "YBHobPGogb0vYhGYIxn/ndWqTjNWZveDi5jdjrcshL2vjwU3gQGyDeI7vGgye+2rAM5fGRvlLgNWLW3DpviS/w=="
+      },
+      "HotAvalonia.Extensions": {
+        "type": "Transitive",
+        "resolved": "3.0.2",
+        "contentHash": "PuAk1aGyScsWuBQ2jnbGpFMC0thnWZSzz11vtHrKaNp5ExiASqHGsqjssD3+hwrt9MYwS5C3iiwJZj1R+CKq2g=="
+      },
+      "HotAvalonia.Fody": {
+        "type": "Transitive",
+        "resolved": "3.0.2",
+        "contentHash": "4+3CRqVUQtdIq/AFKbZRejAJXjFNHuunHuHB+qOW2hFiTn4GIzmuhuprWWt/PvZF8muJfQ8Zwl75pAmt8Ynf/w==",
+        "dependencies": {
+          "Fody": "6.9.2"
         }
       },
       "HotChocolate.Language.SyntaxTree": {
@@ -1216,6 +1254,12 @@
         "requested": "[2.0.2, )",
         "resolved": "2.0.2",
         "contentHash": "sBKqWxw3g//peYxDZ8JipRlyPbIyBtgzqBVA5GqwHVeqtIrw75maGXAllztf+1aJhchD+drcQIgf2mFho8ZV8A=="
+      },
+      "HotAvalonia.Core": {
+        "type": "CentralTransitive",
+        "requested": "[3.0.2, )",
+        "resolved": "3.0.2",
+        "contentHash": "WAtXZdrHNa4mF/U0BP27Xtsj9nY9dn/UsA76lr49eCxcEU9v9E3bAPABSkMPeObQycn3eYZI2epKI2bVrrRyiw=="
       },
       "Humanizer": {
         "type": "CentralTransitive",

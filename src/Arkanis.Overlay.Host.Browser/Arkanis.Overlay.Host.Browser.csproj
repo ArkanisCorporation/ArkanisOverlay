@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia.Browser"/>
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True"/>
     </ItemGroup>
 
     <ItemGroup>

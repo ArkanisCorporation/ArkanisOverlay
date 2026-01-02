@@ -20,6 +20,7 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport"/>
+        <PackageReference Include="HotAvalonia" PrivateAssets="All" Publish="True"/>
         <PackageReference Include="Material.Icons.Avalonia"/>
         <PackageReference Include="Microsoft.Extensions.Hosting"/>
         <PackageReference Include="ReactiveUI.Avalonia"/>
