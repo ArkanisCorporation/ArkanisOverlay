@@ -139,3 +139,18 @@ publish-*/
 release-*/
 artifacts/
 Releases/
+
+# Visual Studio
+.vs/
+
+# Claude Code
+.claude/
+
+# Windows reserved names
+nul
+
+# Backup folders
+Backup/
+
+# Visual Studio upgrade logs
+UpgradeLog.htm

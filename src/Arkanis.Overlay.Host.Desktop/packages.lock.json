@@ -834,8 +834,7 @@
         "dependencies": {
           "Microsoft.Build.Framework": "17.14.28",
           "Microsoft.Build.Utilities.Core": "17.14.28",
-          "Microsoft.NET.StringTools": "17.14.28",
-          "System.Formats.Nrbf": "9.0.0"
+          "Microsoft.NET.StringTools": "17.14.28"
         }
       },
       "Microsoft.Build.Utilities.Core": {
@@ -1111,8 +1110,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1",
           "Microsoft.Extensions.Logging": "10.0.1",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.1",
-          "Microsoft.Extensions.Options": "10.0.1",
-          "System.Diagnostics.EventLog": "10.0.1"
+          "Microsoft.Extensions.Options": "10.0.1"
         }
       },
       "Microsoft.Extensions.Logging.EventSource": {
@@ -1381,16 +1379,6 @@
           "System.Composition.Runtime": "9.0.0"
         }
       },
-      "System.Diagnostics.EventLog": {
-        "type": "Transitive",
-        "resolved": "10.0.1",
-        "contentHash": "xfaHEHVDkMOOZR5S6ZGezD0+vekdH1Nx/9Ih8/rOqOGSOk1fxiN3u94bYkBW/wigj0Uw2Wt3vvRj9mtYdgwEjw=="
-      },
-      "System.Formats.Nrbf": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "F/6tNE+ckmdFeSQAyQo26bQOqfPFKEfZcuqnp4kBE6/7jP26diP+QTHCJJ6vpEfaY6bLy+hBLiIQUSxSmNwLkA=="
-      },
       "System.Interactive.Async": {
         "type": "Transitive",
         "resolved": "7.0.0",
@@ -1450,6 +1438,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.5.0, )",
@@ -1489,6 +1478,13 @@
           "Duende.IdentityModel.OidcClient": "[7.0.0, )"
         }
       },
+      "arkanis.overlay.external.regolith": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
+          "Microsoft.Extensions.Http": "[10.0.1, )"
+        }
+      },
       "arkanis.overlay.external.uex": {
         "type": "Project",
         "dependencies": {
@@ -1502,6 +1498,7 @@
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.Backend": "[1.0.0, )",
           "Arkanis.Overlay.External.CitizenId": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
           "Arkanis.Overlay.LocalLink": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.4, )",

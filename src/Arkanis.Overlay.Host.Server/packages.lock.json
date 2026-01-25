@@ -4,9 +4,9 @@
     "net10.0": {
       "Microsoft.AspNetCore.App.Internal.Assets": {
         "type": "Direct",
-        "requested": "[10.0.0, )",
-        "resolved": "10.0.0",
-        "contentHash": "0gZrESKwnlmbE8Br8XIy3kk7Pj0++9T2Ly+A8BFYYgo5EgfqWEln26cho+l92KOaHUzclhvz314RiwE910s24g=="
+        "requested": "[10.0.2, )",
+        "resolved": "10.0.2",
+        "contentHash": "fMAqrUm+aspxRAsCJ6Hlgs96XSHwNIr9HBNt7wyBAzQkPlfE7w+0C4NzDoJnso5YZyDI0VcRtEXxG9odt3KiZA=="
       },
       "Octokit": {
         "type": "Direct",
@@ -662,6 +662,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.5.0, )",
@@ -699,6 +700,12 @@
           "Duende.IdentityModel.OidcClient": "[7.0.0, )"
         }
       },
+      "arkanis.overlay.external.regolith": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.External.Common": "[1.0.0, )"
+        }
+      },
       "arkanis.overlay.external.uex": {
         "type": "Project",
         "dependencies": {
@@ -711,6 +718,7 @@
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.Backend": "[1.0.0, )",
           "Arkanis.Overlay.External.CitizenId": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
           "Arkanis.Overlay.LocalLink": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.4, )",

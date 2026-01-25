@@ -1251,6 +1251,13 @@
           "Duende.IdentityModel.OidcClient": "[7.0.0, )"
         }
       },
+      "arkanis.overlay.external.regolith": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
+          "Microsoft.Extensions.Http": "[10.0.1, )"
+        }
+      },
       "arkanis.overlay.external.uex": {
         "type": "Project",
         "dependencies": {
