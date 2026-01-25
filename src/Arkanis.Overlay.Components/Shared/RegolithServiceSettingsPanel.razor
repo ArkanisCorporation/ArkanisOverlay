@@ -1,0 +1,50 @@
+@using Arkanis.Overlay.External.Regolith
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject IDialogService DialogService
+@inject RegolithAccountContext RegolithAccountContext
+
+<MudExpansionPanel Class="external-service-config">
+    <TitleContent>
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.Center"
+                  Row>
+            <MudIcon Icon="@Icons.Material.Filled.Diamond" Color="@Color.Primary" Size="@Size.Large"/>
+            <MudText Typo="@Typo.h6">Regolith Co.</MudText>
+        </MudStack>
+        <MudStack AlignItems="@AlignItems.Center" Row>
+            <ExternalAccountStatusBadge
+                Model="@RegolithAccountContext"/>
+            <ExternalAccountDetails
+                Model="@RegolithAccountContext"/>
+            <MudSpacer/>
+            <div class="my-n2">
+                @if (RegolithAccountContext.IsAuthenticated)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Default"
+                               OnClick="@(() => RegolithAccountSetupDialog.ShowAsync(DialogService))">
+                        Update API Key
+                    </MudButton>
+                    <MudIconButton
+                        Variant="@Variant.Outlined"
+                        Color="@Color.Error"
+                        Icon="@Icons.Material.Filled.LinkOff"
+                        OnClick="@(() => RegolithAccountSetupDialog.UnlinkAsync(DialogService, RegolithAccountContext))"/>
+                }
+                else
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Info"
+                               OnClick="@(() => RegolithAccountSetupDialog.ShowAsync(DialogService))">
+                        Connect account
+                    </MudButton>
+                }
+            </div>
+        </MudStack>
+    </TitleContent>
+    <ChildContent>
+        <MudText Typo="@Typo.body2" Class="pa-4">
+            @RegolithConstants.ProviderInfo.Description
+        </MudText>
+    </ChildContent>
+</MudExpansionPanel>

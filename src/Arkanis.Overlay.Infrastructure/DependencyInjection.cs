@@ -12,6 +12,7 @@ using Domain.Abstractions.Services;
 using Domain.Services;
 using External.Backend.Options;
 using External.CitizenId;
+using External.Regolith;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
+using RegolithAccountContext = Services.External.RegolithAccountContext;
 using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
@@ -91,6 +93,8 @@ public static class DependencyInjection
                 )
             );
 
+        services.AddRegolithAccountAuthentication();
+
         services
             .AddConfiguration<ArkanisRestBackendOptions>(configuration)
             .AddConfiguration<ArkanisGraphqlBackendOptions>(configuration)
@@ -136,6 +140,15 @@ public static class DependencyInjection
             .AddSingleton<UexAccountContext>()
             .Alias<ISelfInitializable, UexAccountContext>()
             .Alias<IExternalAccountContext, UexAccountContext>();
+
+    public static IServiceCollection AddRegolithAccountAuthentication(this IServiceCollection services)
+        => services
+            .AddRegolithApiClient()
+            .AddRegolithAuthenticator()
+            .AddSingleton<RegolithAccountContext>()
+            .AddSingleton<RegolithDataCacheService>()
+            .Alias<ISelfInitializable, RegolithAccountContext>()
+            .Alias<IExternalAccountContext, RegolithAccountContext>();
 
     public static IServiceCollection AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         => services

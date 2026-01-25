@@ -1,5 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{BAB8C1A2-5814-45A1-BC19-8C3661D7E566}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -31,8 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{9AC34A40-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8BB043D2-BDE7-461C-8D9C-5184A0A0C185}"
 	ProjectSection(SolutionItems) = preProject
-		tests\README.md = tests\README.md
 		tests\Directory.Build.props = tests\Directory.Build.props
+		tests\README.md = tests\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Infrastructure.UnitTests", "tests\Arkanis.Overlay.Infrastructure.UnitTests\Arkanis.Overlay.Infrastructure.UnitTests.csproj", "{06F00A11-3606-43F2-B6F5-907586C606B8}"
@@ -44,10 +46,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{8115
 		.gitignore = .gitignore
 		.releaserc = .releaserc
 		Directory.Build.props = Directory.Build.props
-		global.json = global.json
-		package.json = package.json
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		package.json = package.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Server.UnitTests", "tests\Arkanis.Overlay.Host.Server.UnitTests\Arkanis.Overlay.Host.Server.UnitTests.csproj", "{6CC132FD-8633-46B0-B321-61067B544A75}"
@@ -67,6 +69,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.CitizenId", "src\Arkanis.Overlay.External.CitizenId\Arkanis.Overlay.External.CitizenId.csproj", "{628A5975-DCE5-447B-B41A-F361C79BA887}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Common", "src\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj", "{760043DE-623A-4B58-9B85-279BF6EA0F85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Regolith", "src\Arkanis.Overlay.External.Regolith\Arkanis.Overlay.External.Regolith.csproj", "{A1B2C3D4-E5F6-4789-ABCD-EF0123456789}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,25 +142,36 @@ Global
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-ABCD-EF0123456789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-ABCD-EF0123456789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B2C3D4-E5F6-4789-ABCD-EF0123456789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B2C3D4-E5F6-4789-ABCD-EF0123456789}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{E6EBE3BA-EA3E-4A72-AD29-6E7AFF4F1B25} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
+		{16AB4036-03A1-466D-83F0-56108C3E744F} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{CED78CB3-F5FA-49D6-ACBC-565E986BC665} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{6BD8A5F9-6D9E-4C13-86A2-1C9C7A170D04} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{B5EC96A2-1FBF-440B-A0E0-7E33925015F8} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
+		{AB77121D-856C-4A53-B964-3BEE7BC1D8FC} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
 		{6E475819-2732-4C87-9F55-CA8777332642} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{9AC34A40-36D7-4D0C-A667-508A386B76D5} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
-		{E6EBE3BA-EA3E-4A72-AD29-6E7AFF4F1B25} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
-		{AB77121D-856C-4A53-B964-3BEE7BC1D8FC} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
 		{06F00A11-3606-43F2-B6F5-907586C606B8} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{6CC132FD-8633-46B0-B321-61067B544A75} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{E044AC17-E772-4DA6-A65D-ED5FADECF4FD} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{81215169-EF34-4378-9DB6-85D62D481DEF} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 		{5EFF492B-D5BA-4B47-9C85-46E0007D5D30} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{7C85913D-448E-4343-B3D4-BB4E6C577793} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
-		{D4DFACE5-E4CC-4D26-8DA5-D6608EE45885} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{F21FD73B-47BB-467E-8EED-5AEAADEA0FDA} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
-		{16AB4036-03A1-466D-83F0-56108C3E744F} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
+		{D4DFACE5-E4CC-4D26-8DA5-D6608EE45885} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{628A5975-DCE5-447B-B41A-F361C79BA887} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{760043DE-623A-4B58-9B85-279BF6EA0F85} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
+		{A1B2C3D4-E5F6-4789-ABCD-EF0123456789} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57C29AAC-7A9F-4B55-AEBC-B6C655CB01E9}
 	EndGlobalSection
 EndGlobal
