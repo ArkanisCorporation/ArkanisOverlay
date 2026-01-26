@@ -1,4 +1,6 @@
-# Pull Request
+> [!WARNING]
+> ⚠️ Do not rebase or force-push after creating your PR. ⚠️
+> It makes it impossible to keep track of changes and to review them properly.
 
 <!--
 ## Checklist (this section is here as a checklist for you; you can remove it before submitting your PR)
