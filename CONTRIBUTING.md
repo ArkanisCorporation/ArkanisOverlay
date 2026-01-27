@@ -9,6 +9,7 @@ We welcome contributions from the community and aim to maintain a clean and cons
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [AI Usage](#ai-usage)
 - [Branching & Workflow](#branching--workflow)
 - [Semantic Commits](#semantic-commits)
 - [Code Style](#code-style)
@@ -38,6 +39,27 @@ We welcome contributions from the community and aim to maintain a clean and cons
    ```bash
    dotnet --version
    ```
+
+---
+
+## AI Usage
+
+We recognize the utility of AI tools in software development.
+While we appreciate the benevolent intentions behind AI-generated contributions, it often leads to issues such as:
+* Inconsistent or very low code quality
+* Incomplete or complete lack of understanding of the generated code
+* Introduction of subtle bugs or security vulnerabilities
+* Introduction of unmaintainable code
+* Required time and effort to review, refactor, and test the generated code outweighing the benefits
+
+Therefore, we allow the use of AI-assisted code generation tools ***only*** under the following conditions:
+* You have reviewed the generated code in detail and understand it in its entirety.
+* You ensure that the generated code adheres to our coding standards and project guidelines.
+* You do not submit AI-generated code without proper review and testing.
+* You disclose the use of AI tools in the PR description when applicable.
+
+AI-powered auto-completion tools are permitted for code suggestions, provided the above conditions are met.
+You do not need to disclose the use of such tools unless they generated significant portions of code.
 
 ---
 
