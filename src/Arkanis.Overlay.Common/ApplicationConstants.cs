@@ -47,9 +47,10 @@ public static class ApplicationConstants
     {
         private const string AppName = "Overlay";
 
-        public const string Schema = $"{Company.Slug}-{AppName}";
+        public const string OldSchema = $"{Company.Slug}-{AppName}";
+        public static readonly string Schema = $"{Company.Slug}-{AppName}".ToLowerInvariant();
 
-        private static readonly Uri BaseUri = new($"{Schema.ToLowerInvariant()}://");
+        private static readonly Uri BaseUri = new($"{Schema}://");
 
         public static Uri CreateUriFor(string path)
             => new(BaseUri, path);
