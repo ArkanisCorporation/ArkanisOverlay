@@ -1,0 +1,1261 @@
+@using Arkanis.Overlay.Common
+@using Arkanis.Overlay.External.Regolith.Abstractions
+@using Arkanis.Overlay.External.Regolith.Models
+@using Arkanis.Overlay.Infrastructure.Services.External
+@using MudBlazor.FontIcons.MaterialSymbols
+@using Microsoft.Extensions.Logging
+@implements IDisposable
+@inject IRegolithApiClient RegolithApiClient
+@inject RegolithAccountContext RegolithAccountContext
+@inject RegolithDataCacheService CacheService
+@inject ILogger<MiningView> Logger
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mining-view .mud-paper,
+    .mining-view .mud-tabs {
+        animation: 250ms fadeInDown;
+    }
+
+    .mining-view .ore-card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .mining-view .ore-card:hover {
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="mining-view">
+    <MudMainContent Class="pb-8 px-2">
+        <MudContainer MaxWidth="@MaxWidth.ExtraLarge">
+            @if (!RegolithAccountContext.IsAuthenticated)
+            {
+                <MudAlert Severity="@Severity.Info" Class="mb-4">
+                    <MudText>
+                        Connect your <b>Regolith Co.</b> account to access mining data.
+                        You can get an API key from your
+                        <MudLink Href="https://regolith.rocks/profile/settings" Target="_blank">
+                            Regolith account settings
+                        </MudLink>.
+                    </MudText>
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Primary"
+                               Class="mt-2"
+                               Href="/settings">
+                        Configure in Settings
+                    </MudButton>
+                </MudAlert>
+            }
+            else if (_isLoading)
+            {
+                <MudStack AlignItems="@AlignItems.Center" Justify="@Justify.Center" Class="pa-8">
+                    <MudProgressCircular Indeterminate Size="@Size.Large"/>
+                    <MudText Typo="@Typo.body1">Loading mining data...</MudText>
+                </MudStack>
+            }
+            else if (_lookups is null)
+            {
+                <MudAlert Severity="@Severity.Error" Class="mb-4">
+                    <MudText>Failed to load mining data. Please check your API key and try again.</MudText>
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@Color.Error"
+                               Class="mt-2"
+                               OnClick="@LoadDataAsync">
+                        Retry
+                    </MudButton>
+                </MudAlert>
+            }
+            else
+            {
+                <MudTabs Elevation="2"
+                         Rounded
+                         ApplyEffectsToContainer
+                         PanelClass="pa-4">
+                    <MudTabPanel Text="Ores" Icon="@Outlined.Diamond">
+                        <MudText Typo="@Typo.h5" Class="mb-4">Mineable Ores</MudText>
+                        <MudText Typo="@Typo.body2" Class="mb-4 mud-text-secondary">
+                            Browse all mineable ores with their densities, processing values, and best locations. Click an ore to see the best mining locations.
+                        </MudText>
+                        @if (_lookups.Cig?.DensitiesLookups is { } densities)
+                        {
+                            <MudTable Items="@densities.OrderBy(x => x.Key).ToList()" Hover Dense Striped>
+                                <HeaderContent>
+                                    <MudTh Style="width: 40px;"></MudTh>
+                                    <MudTh>Ore</MudTh>
+                                    <MudTh>Max Price</MudTh>
+                                    <MudTh>Density</MudTh>
+                                    <MudTh>Refinery Yield</MudTh>
+                                    <MudTh>Multiplier</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    @{
+                                        var oreCode = context.Key;
+                                        var density = context.Value;
+                                        var processing = _lookups.Cig.OreProcessingLookup?.GetValueOrDefault(oreCode);
+                                        var maxPrice = _lookups.Uex?.MaxPrices?.OreRefined?.GetValueOrDefault(oreCode)?.GetMaxPrice()
+                                                       ?? _lookups.Uex?.MaxPrices?.OreRaw?.GetValueOrDefault(oreCode)?.GetMaxPrice();
+                                        var isSelected = _selectedOre == oreCode;
+                                        var miningLocations = _bestMiningLocations?.GetValueOrDefault(oreCode);
+                                        var hasLocations = miningLocations?.Count > 0;
+                                    }
+                                    <MudTd Style="cursor: pointer; width: 40px;" @onclick="@(() => ToggleOreSelection(oreCode))">
+                                        @if (hasLocations)
+                                        {
+                                            <MudIcon Icon="@(isSelected ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+                                                     Size="@Size.Small"/>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Ore" Style="cursor: pointer;" @onclick="@(() => ToggleOreSelection(oreCode))">
+                                        <b>@FormatOreName(oreCode)</b>
+                                    </MudTd>
+                                    <MudTd DataLabel="Max Price">
+                                        @if (maxPrice.HasValue)
+                                        {
+                                            <MudText Color="@Color.Success">@maxPrice.Value.ToString("N0") aUEC</MudText>
+                                        }
+                                        else
+                                        {
+                                            <MudText Class="mud-text-secondary">-</MudText>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Density">@density.ToString("F2")</MudTd>
+                                    <MudTd DataLabel="Refinery Yield">
+                                        @if (processing is { Length: >= 1 })
+                                        {
+                                            <span>@((processing[0] * 100).ToString("F0"))%</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="mud-text-secondary">-</span>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Multiplier">
+                                        @if (processing is { Length: >= 2 })
+                                        {
+                                            <span>@(processing[1].ToString("F1"))x</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="mud-text-secondary">-</span>
+                                        }
+                                    </MudTd>
+                                </RowTemplate>
+                                <ChildRowContent>
+                                    @{
+                                        var oreCode = context.Key;
+                                        var miningLocations = _bestMiningLocations?.GetValueOrDefault(oreCode);
+                                    }
+                                    @if (_selectedOre == oreCode && miningLocations is { Count: > 0 })
+                                    {
+                                        <MudTr>
+                                            <td colspan="6">
+                                                <MudCard Elevation="0" Class="ma-2 pa-3" Style="background: var(--mud-palette-background-grey);">
+                                                    <MudText Typo="@Typo.subtitle2" Class="mb-2">
+                                                        <MudIcon Icon="@Outlined.Map" Size="@Size.Small" Class="mr-1"/>
+                                                        Best Mining Locations for @FormatOreName(oreCode)
+                                                    </MudText>
+                                                    <MudSimpleTable Dense Hover Striped Style="background: transparent;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Location</th>
+                                                                <th>Probability</th>
+                                                                <th>Top Deposit Types</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var (location, index) in miningLocations.Select((l, i) => (l, i + 1)))
+                                                            {
+                                                                var depositsAtLocation = GetTopDepositsForOreAtLocation(oreCode, location.LocationId);
+                                                                <tr>
+                                                                    <td>@index</td>
+                                                                    <td>@location.LocationName</td>
+                                                                    <td>
+                                                                        <MudText Color="@Color.Success">
+                                                                            @((location.Probability * 100).ToString("F1"))%
+                                                                        </MudText>
+                                                                    </td>
+                                                                    <td>
+                                                                        @if (depositsAtLocation.Count > 0)
+                                                                        {
+                                                                            <MudStack Row Spacing="1">
+                                                                                @foreach (var deposit in depositsAtLocation)
+                                                                                {
+                                                                                    <MudChip T="string" Size="@Size.Small" Variant="@Variant.Outlined">
+                                                                                        @FormatDepositName(deposit)
+                                                                                    </MudChip>
+                                                                                }
+                                                                            </MudStack>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <MudText Typo="@Typo.caption" Class="mud-text-secondary">-</MudText>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </MudSimpleTable>
+                                                </MudCard>
+                                            </td>
+                                        </MudTr>
+                                    }
+                                    else if (_selectedOre == oreCode)
+                                    {
+                                        <MudTr>
+                                            <td colspan="6">
+                                                <MudCard Elevation="0" Class="ma-2 pa-3" Style="background: var(--mud-palette-background-grey);">
+                                                    <MudText Typo="@Typo.body2" Class="mud-text-secondary">
+                                                        No mining location data available for this ore.
+                                                    </MudText>
+                                                </MudCard>
+                                            </td>
+                                        </MudTr>
+                                    }
+                                </ChildRowContent>
+                            </MudTable>
+                        }
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Deposits" Icon="@Outlined.Layers">
+                        <MudText Typo="@Typo.h5" Class="mb-4">Asteroid Types & Ground Deposit Types</MudText>
+                        <MudText Typo="@Typo.body2" Class="mb-4 mud-text-secondary">
+                            Discover the different types of mineable asteroids and ground deposits, and what ores they contain.
+                            Each solar system has different ore compositions.
+                        </MudText>
+
+                        @if (_rockClassDataBySystem is { Count: > 0 })
+                        {
+                            @* System Selector *@
+                            <MudChipSet T="string" @bind-SelectedValue="_selectedDepositSystem" SelectionMode="@SelectionMode.SingleSelection" Class="mb-4">
+                                @foreach (var system in _rockClassDataBySystem.Keys.OrderBy(s => s))
+                                {
+                                    <MudChip T="string" Value="@system" Color="@Color.Primary" Variant="@Variant.Text">
+                                        @FormatSystemName(system)
+                                    </MudChip>
+                                }
+                            </MudChipSet>
+
+                            var selectedSystemData = _rockClassDataBySystem.GetValueOrDefault(_selectedDepositSystem);
+
+                            @if (selectedSystemData is { Count: > 0 })
+                            {
+                                @* Asteroid Types (Ship Mining) *@
+                                var asteroidDeposits = selectedSystemData.Where(r => IsAsteroidDeposit(r.Key)).OrderBy(r => r.Key).ToList();
+                                @if (asteroidDeposits.Count > 0)
+                                {
+                                    <MudText Typo="@Typo.h6" Class="mb-3 mt-4">
+                                        <MudIcon Icon="@Outlined.Rocket" Size="@Size.Small" Class="mr-2"/>
+                                        Asteroid Types (Ship Mining)
+                                    </MudText>
+                                    <MudGrid>
+                                        @foreach (var rockClass in asteroidDeposits)
+                                        {
+                                            var rockName = rockClass.Key;
+                                            var rockData = rockClass.Value;
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudCard Elevation="2">
+                                                    <MudCardHeader>
+                                                        <CardHeaderContent>
+                                                            <MudText Typo="@Typo.h6">@FormatDepositName(rockName)</MudText>
+                                                        </CardHeaderContent>
+                                                    </MudCardHeader>
+                                                    <MudCardContent>
+                                                        @if (rockData.Ores.Count > 0)
+                                                        {
+                                                            <MudSimpleTable Dense Hover Style="background: transparent;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Ore</th>
+                                                                        <th>Prob</th>
+                                                                        <th>Median</th>
+                                                                        <th>ProbMed</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var ore in rockData.Ores.Where(o => !IsInertMaterial(o.Key)).OrderBy(o => o.Key))
+                                                                    {
+                                                                        var probMed = ore.Value.Probability * ore.Value.MedianPercent * 100;
+                                                                        <tr>
+                                                                            <td>@FormatOreName(ore.Key)</td>
+                                                                            <td>@((ore.Value.Probability * 100).ToString("F1"))%</td>
+                                                                            <td>@((ore.Value.MedianPercent * 100).ToString("F1"))%</td>
+                                                                            <td>
+                                                                                <MudText Color="@Color.Success">
+                                                                                    @(probMed.ToString("F2"))%
+                                                                                </MudText>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </MudSimpleTable>
+                                                        }
+                                                        else
+                                                        {
+                                                            <MudText Typo="@Typo.body2" Class="mud-text-secondary">No ore data available.</MudText>
+                                                        }
+                                                    </MudCardContent>
+                                                </MudCard>
+                                            </MudItem>
+                                        }
+                                    </MudGrid>
+                                }
+
+                                @* Ground Deposits *@
+                                var groundDeposits = selectedSystemData.Where(r => IsGroundDeposit(r.Key)).OrderBy(r => r.Key).ToList();
+                                @if (groundDeposits.Count > 0)
+                                {
+                                    <MudText Typo="@Typo.h6" Class="mb-3 mt-6">
+                                        <MudIcon Icon="@Outlined.Landscape" Size="@Size.Small" Class="mr-2"/>
+                                        Ground Deposits
+                                    </MudText>
+                                    <MudGrid>
+                                        @foreach (var rockClass in groundDeposits)
+                                        {
+                                            var rockName = rockClass.Key;
+                                            var rockData = rockClass.Value;
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudCard Elevation="2">
+                                                    <MudCardHeader>
+                                                        <CardHeaderContent>
+                                                            <MudText Typo="@Typo.h6">@FormatDepositName(rockName)</MudText>
+                                                        </CardHeaderContent>
+                                                    </MudCardHeader>
+                                                    <MudCardContent>
+                                                        @if (rockData.Ores.Count > 0)
+                                                        {
+                                                            <MudSimpleTable Dense Hover Style="background: transparent;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Ore</th>
+                                                                        <th>Prob</th>
+                                                                        <th>Median</th>
+                                                                        <th>ProbMed</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var ore in rockData.Ores.Where(o => !IsInertMaterial(o.Key)).OrderBy(o => o.Key))
+                                                                    {
+                                                                        var probMed = ore.Value.Probability * ore.Value.MedianPercent * 100;
+                                                                        <tr>
+                                                                            <td>@FormatOreName(ore.Key)</td>
+                                                                            <td>@((ore.Value.Probability * 100).ToString("F1"))%</td>
+                                                                            <td>@((ore.Value.MedianPercent * 100).ToString("F1"))%</td>
+                                                                            <td>
+                                                                                <MudText Color="@Color.Success">
+                                                                                    @(probMed.ToString("F2"))%
+                                                                                </MudText>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </MudSimpleTable>
+                                                        }
+                                                        else
+                                                        {
+                                                            <MudText Typo="@Typo.body2" Class="mud-text-secondary">No ore data available.</MudText>
+                                                        }
+                                                    </MudCardContent>
+                                                </MudCard>
+                                            </MudItem>
+                                        }
+                                    </MudGrid>
+                                }
+                            }
+                            else
+                            {
+                                <MudAlert Severity="@Severity.Info" Class="mt-4">
+                                    No deposit data available for @FormatSystemName(_selectedDepositSystem).
+                                </MudAlert>
+                            }
+                        }
+                        else
+                        {
+                            <MudAlert Severity="@Severity.Info">
+                                Deposit data is not available. This data comes from community survey scans.
+                            </MudAlert>
+                        }
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Locations" Icon="@Outlined.Map">
+                        <MudText Typo="@Typo.h5" Class="mb-4">Mining Locations</MudText>
+                        <MudText Typo="@Typo.body2" Class="mb-4 mud-text-secondary">
+                            Explore mining locations and discover what ores can be found at each location. Click a location to see deposit types.
+                        </MudText>
+                        @if (_lookups.Uex?.Bodies is { } bodies)
+                        {
+                            <MudStack Row Spacing="2" Class="mb-4" AlignItems="@AlignItems.End">
+                                <MudTextField @bind-Value="_locationFilter"
+                                              Placeholder="Filter by name..."
+                                              Adornment="@Adornment.Start"
+                                              AdornmentIcon="@Icons.Material.Filled.Search"
+                                              Style="max-width: 250px;"
+                                              Immediate/>
+                                <MudSelect T="string" @bind-Value="_typeFilter" Label="Type" Clearable Style="max-width: 150px;">
+                                    @foreach (var wellType in bodies.Select(b => b.WellType).Distinct().OrderBy(t => t))
+                                    {
+                                        <MudSelectItem Value="@wellType">@FormatWellType(wellType)</MudSelectItem>
+                                    }
+                                </MudSelect>
+                                <MudSelect T="string" @bind-Value="_systemFilter" Label="System" Clearable Style="max-width: 150px;">
+                                    @foreach (var system in bodies.Select(b => b.System).Where(s => !string.IsNullOrEmpty(s)).Distinct().OrderBy(s => s))
+                                    {
+                                        <MudSelectItem Value="@system">@FormatSystemName(system)</MudSelectItem>
+                                    }
+                                </MudSelect>
+                                <MudSelect T="string" @bind-Value="_parentFilter" Label="Parent" Clearable Style="max-width: 200px;">
+                                    @foreach (var parent in bodies.Select(b => b.Parent).Where(p => !string.IsNullOrEmpty(p)).Distinct().OrderBy(p => GetParentLabel(p)))
+                                    {
+                                        <MudSelectItem Value="@parent">@GetParentLabel(parent)</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudStack>
+                            <MudTable Items="@FilteredBodies" Hover Dense Striped>
+                                <HeaderContent>
+                                    <MudTh Style="width: 40px;"></MudTh>
+                                    <MudTh>Location</MudTh>
+                                    <MudTh>Type</MudTh>
+                                    <MudTh>System</MudTh>
+                                    <MudTh>Parent</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    @{
+                                        var hasDepositData = _locationDeposits?.ContainsKey(context.Id) == true;
+                                        var isExpanded = _selectedLocation == context.Id;
+                                    }
+                                    <MudTd Style="cursor: pointer; width: 40px;" @onclick="@(() => ToggleLocationSelection(context.Id))">
+                                        @if (hasDepositData)
+                                        {
+                                            <MudIcon Icon="@(isExpanded ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+                                                     Size="@Size.Small"/>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Location" Style="cursor: pointer;" @onclick="@(() => ToggleLocationSelection(context.Id))">
+                                        <b>@context.Label</b>
+                                    </MudTd>
+                                    <MudTd DataLabel="Type">
+                                        <MudChip T="string" Size="@Size.Small" Color="@GetWellTypeColor(context.WellType)">
+                                            @FormatWellType(context.WellType)
+                                        </MudChip>
+                                    </MudTd>
+                                    <MudTd DataLabel="System">@FormatSystemName(context.System)</MudTd>
+                                    <MudTd DataLabel="Parent">@GetParentLabel(context.Parent)</MudTd>
+                                </RowTemplate>
+                                <ChildRowContent>
+                                    @if (_selectedLocation == context.Id && _locationDeposits?.TryGetValue(context.Id, out var depositInfo) == true)
+                                    {
+                                        <MudTr>
+                                            <td colspan="5">
+                                                <MudCard Elevation="0" Class="ma-2 pa-3" Style="background: var(--mud-palette-background-grey);">
+                                                    <MudText Typo="@Typo.subtitle2" Class="mb-2">
+                                                        <MudIcon Icon="@Outlined.Layers" Size="@Size.Small" Class="mr-1"/>
+                                                        Deposit Types at @context.Label
+                                                        <MudChip T="string" Size="@Size.Small" Class="ml-2">@depositInfo.TotalScans.ToString("N0") scans</MudChip>
+                                                    </MudText>
+                                                    @if (depositInfo.RockTypes.Count > 0)
+                                                    {
+                                                        <MudSimpleTable Dense Hover Style="background: transparent;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Deposit Type</th>
+                                                                    <th>Probability</th>
+                                                                    <th>Contains Ores</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var rock in depositInfo.RockTypes.OrderByDescending(r => r.Value))
+                                                                {
+                                                                    var rockOres = _rockClassData?.GetValueOrDefault(rock.Key)?.Ores;
+                                                                    <tr>
+                                                                        <td><b>@FormatDepositName(rock.Key)</b></td>
+                                                                        <td>
+                                                                            <MudText Color="@Color.Success">
+                                                                                @((rock.Value * 100).ToString("F1"))%
+                                                                            </MudText>
+                                                                        </td>
+                                                                        <td>
+                                                                            @if (rockOres?.Count > 0)
+                                                                            {
+                                                                                <MudStack Row Spacing="1" Class="flex-wrap">
+                                                                                    @foreach (var ore in rockOres.OrderByDescending(o => o.Value.Probability).Take(5))
+                                                                                    {
+                                                                                        <MudTooltip Text="@($"{(ore.Value.Probability * 100):F0}% chance, {(ore.Value.MedianPercent * 100):F1}% median")">
+                                                                                            <MudChip T="string" Size="@Size.Small" Variant="@Variant.Outlined">
+                                                                                                @FormatOreName(ore.Key)
+                                                                                            </MudChip>
+                                                                                        </MudTooltip>
+                                                                                    }
+                                                                                    @if (rockOres.Count > 5)
+                                                                                    {
+                                                                                        <MudChip T="string" Size="@Size.Small" Variant="@Variant.Text">
+                                                                                            +@(rockOres.Count - 5) more
+                                                                                        </MudChip>
+                                                                                    }
+                                                                                </MudStack>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <MudText Typo="@Typo.caption" Class="mud-text-secondary">No data</MudText>
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </MudSimpleTable>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MudText Typo="@Typo.body2" Class="mud-text-secondary">
+                                                            No deposit data available for this location.
+                                                        </MudText>
+                                                    }
+                                                </MudCard>
+                                            </td>
+                                        </MudTr>
+                                    }
+                                </ChildRowContent>
+                            </MudTable>
+                        }
+                    </MudTabPanel>
+
+                    <MudTabPanel Text="Refineries" Icon="@Outlined.Factory">
+                        <MudText Typo="@Typo.h5" Class="mb-4">Refinery Bonuses</MudText>
+                        <MudText Typo="@Typo.body2" Class="mb-4 mud-text-secondary">
+                            Compare refinery yield bonuses across different locations to maximize your profits.
+                        </MudText>
+                        @if (_lookups.Uex?.RefineryBonuses is { } refineryBonuses)
+                        {
+                            <MudTable Items="@refineryBonuses.OrderBy(x => x.Key).ToList()" Hover Dense Striped>
+                                <HeaderContent>
+                                    <MudTh Style="width: 40px;"></MudTh>
+                                    <MudTh>Refinery</MudTh>
+                                    <MudTh>Best Ore</MudTh>
+                                    <MudTh>Bonus</MudTh>
+                                    <MudTh>Total Ores</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    @{
+                                        var refineryCode = context.Key;
+                                        var bestOre = context.Value.OrderByDescending(x => x.Value).FirstOrDefault();
+                                        var isExpanded = _selectedRefinery == refineryCode;
+                                    }
+                                    <MudTd Style="cursor: pointer; width: 40px;" @onclick="@(() => ToggleRefinerySelection(refineryCode))">
+                                        <MudIcon Icon="@(isExpanded ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+                                                 Size="@Size.Small"/>
+                                    </MudTd>
+                                    <MudTd DataLabel="Refinery" Style="cursor: pointer;" @onclick="@(() => ToggleRefinerySelection(refineryCode))">
+                                        <MudText Typo="@Typo.body2"><b>@GetRefineryName(refineryCode)</b></MudText>
+                                    </MudTd>
+                                    <MudTd DataLabel="Best Ore">
+                                        @if (bestOre.Key is not null)
+                                        {
+                                            <MudChip T="string" Size="@Size.Small" Color="@Color.Primary">
+                                                @FormatOreName(bestOre.Key)
+                                            </MudChip>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Bonus">
+                                        @if (bestOre.Value > 0)
+                                        {
+                                            <MudText Color="@Color.Success">+@(((bestOre.Value - 1) * 100).ToString("F0"))%</MudText>
+                                        }
+                                    </MudTd>
+                                    <MudTd DataLabel="Total Ores">
+                                        @context.Value.Count ores
+                                    </MudTd>
+                                </RowTemplate>
+                                <ChildRowContent>
+                                    @if (_selectedRefinery == context.Key)
+                                    {
+                                        <MudTr>
+                                            <td colspan="5">
+                                                <MudCard Elevation="0" Class="ma-2 pa-3" Style="background: var(--mud-palette-background-grey);">
+                                                    <MudText Typo="@Typo.subtitle2" Class="mb-2">
+                                                        All Ore Bonuses at @GetRefineryName(context.Key)
+                                                    </MudText>
+                                                    <MudSimpleTable Dense Hover Striped Style="background: transparent;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Ore</th>
+                                                                <th>Bonus</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var bonus in context.Value.OrderByDescending(x => x.Value))
+                                                            {
+                                                                <tr>
+                                                                    <td>@FormatOreName(bonus.Key)</td>
+                                                                    <td>
+                                                                        <MudText Color="@Color.Success">+@(((bonus.Value - 1) * 100).ToString("F1"))%</MudText>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </MudSimpleTable>
+                                                </MudCard>
+                                            </td>
+                                        </MudTr>
+                                    }
+                                </ChildRowContent>
+                            </MudTable>
+                        }
+
+                        <MudText Typo="@Typo.h6" Class="mt-6 mb-4">Refinery Methods</MudText>
+                        @if (_lookups.Cig?.MethodsBonusLookup is { } methods)
+                        {
+                            <MudTable Items="@methods.OrderBy(x => x.Key)" Hover Dense Striped>
+                                <HeaderContent>
+                                    <MudTh>Method</MudTh>
+                                    <MudTh>Yield Bonus</MudTh>
+                                    <MudTh>Time Multiplier</MudTh>
+                                    <MudTh>Cost Multiplier</MudTh>
+                                </HeaderContent>
+                                <RowTemplate>
+                                    @{
+                                        var values = context.Value;
+                                        var yieldBonus = values.Length > 0 ? values[0] : 0;
+                                        var timeMultiplier = values.Length > 1 ? values[1] : 0;
+                                        var costMultiplier = values.Length > 2 ? values[2] : 0;
+                                    }
+                                    <MudTd DataLabel="Method">
+                                        <MudText Typo="@Typo.body2"><b>@FormatMethodName(context.Key)</b></MudText>
+                                    </MudTd>
+                                    <MudTd DataLabel="Yield Bonus">
+                                        <MudText Color="@Color.Success">@((yieldBonus * 100).ToString("F1"))%</MudText>
+                                    </MudTd>
+                                    <MudTd DataLabel="Time Multiplier">@timeMultiplier.ToString("F2")x</MudTd>
+                                    <MudTd DataLabel="Cost Multiplier">@costMultiplier.ToString("F0")x</MudTd>
+                                </RowTemplate>
+                            </MudTable>
+                        }
+                    </MudTabPanel>
+
+                </MudTabs>
+            }
+        </MudContainer>
+    </MudMainContent>
+</div>
+
+@code {
+    private bool _isLoading;
+    private RegolithLookups? _lookups;
+    private string? _locationFilter;
+    private string? _typeFilter;
+    private string? _systemFilter;
+    private string? _parentFilter;
+    private Dictionary<string, RegolithBody>? _bodiesById;
+    private Dictionary<string, List<OreMiningLocation>>? _bestMiningLocations;
+    private Dictionary<string, RockClassInfo>? _rockClassData;
+    private Dictionary<string, Dictionary<string, RockClassInfo>>? _rockClassDataBySystem;
+    private Dictionary<string, LocationDepositInfo>? _locationDeposits;
+    private string? _selectedOre;
+    private string? _selectedLocation;
+    private string? _selectedRefinery;
+    private string _selectedDepositSystem = "STANTON";
+
+    private IEnumerable<RegolithBody> FilteredBodies
+        => _lookups?.Uex?.Bodies?
+               .Where(b => b.WellType != RegolithWellType.System) // Exclude star systems
+               .Where(b => string.IsNullOrEmpty(_locationFilter)
+                           || b.Label.Contains(_locationFilter, StringComparison.OrdinalIgnoreCase)
+                           || b.Id.Contains(_locationFilter, StringComparison.OrdinalIgnoreCase))
+               .Where(b => string.IsNullOrEmpty(_typeFilter) || b.WellType == _typeFilter)
+               .Where(b => string.IsNullOrEmpty(_systemFilter) || b.System == _systemFilter)
+               .Where(b => string.IsNullOrEmpty(_parentFilter) || b.Parent == _parentFilter)
+               .OrderBy(b => b.System)
+               .ThenBy(b => b.Depth)
+               .ThenBy(b => b.Label)
+           ?? Enumerable.Empty<RegolithBody>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (RegolithAccountContext.IsAuthenticated)
+        {
+            await LoadDataAsync();
+        }
+    }
+
+    private async Task LoadDataAsync()
+    {
+        _isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            _lookups = await CacheService.GetLookupsAsync();
+
+            // Build lookup dictionary for resolving parent names (use first occurrence if duplicates)
+            _bodiesById = _lookups?.Uex?.Bodies?
+                .GroupBy(b => b.Id)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            // Load survey data for best mining locations
+            await LoadSurveyDataAsync();
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadSurveyDataAsync()
+    {
+        // Load ore probability by location data
+        try
+        {
+            Logger.LogInformation("Fetching ore probability survey data...");
+            var surveyData = await CacheService.GetSurveyDataAsync(RegolithSurveyDataName.ShipOreByGravProb, "4.4");
+
+            Logger.LogInformation("Survey data received: {DataName}, Data type: {DataType}",
+                surveyData?.DataName,
+                surveyData?.Data?.GetType().Name ?? "null");
+
+            if (surveyData?.Data is System.Text.Json.JsonElement jsonData)
+            {
+                Logger.LogInformation("Parsing survey data, JsonValueKind: {Kind}", jsonData.ValueKind);
+                _bestMiningLocations = ParseOreProbabilityData(jsonData);
+                Logger.LogInformation("Parsed {Count} ores with mining locations", _bestMiningLocations?.Count ?? 0);
+            }
+            else
+            {
+                Logger.LogWarning("Survey data is not a JsonElement or is null");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load ore probability survey data");
+            _bestMiningLocations = null;
+        }
+
+        // Load rock class data (deposit types and their ore contents) - per system
+        try
+        {
+            Logger.LogInformation("Fetching rock class survey data...");
+            var rockClassData = await CacheService.GetSurveyDataAsync(RegolithSurveyDataName.ShipOreByRockClassProb, "4.4");
+
+            if (rockClassData?.Data is System.Text.Json.JsonElement jsonData)
+            {
+                Logger.LogInformation("Parsing rock class data, JsonValueKind: {Kind}", jsonData.ValueKind);
+                _rockClassDataBySystem = ParseRockClassDataBySystem(jsonData);
+                // For backwards compatibility, also populate flat _rockClassData from Stanton
+                _rockClassData = _rockClassDataBySystem?.GetValueOrDefault("STANTON");
+                Logger.LogInformation("Parsed rock classes for {Count} systems", _rockClassDataBySystem?.Count ?? 0);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load rock class survey data");
+            _rockClassData = null;
+            _rockClassDataBySystem = null;
+        }
+
+        // Load rock class by location data (what deposits are found where)
+        try
+        {
+            Logger.LogInformation("Fetching rock class by location survey data...");
+            var locationData = await CacheService.GetSurveyDataAsync(RegolithSurveyDataName.ShipRockClassByGravProb, "4.4");
+
+            if (locationData?.Data is System.Text.Json.JsonElement jsonData)
+            {
+                Logger.LogInformation("Parsing location deposit data, JsonValueKind: {Kind}", jsonData.ValueKind);
+                _locationDeposits = ParseLocationDepositData(jsonData);
+                Logger.LogInformation("Parsed {Count} locations with deposit data", _locationDeposits?.Count ?? 0);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load location deposit survey data");
+            _locationDeposits = null;
+        }
+    }
+
+    private Dictionary<string, List<OreMiningLocation>> ParseOreProbabilityData(System.Text.Json.JsonElement data)
+    {
+        var result = new Dictionary<string, List<OreMiningLocation>>();
+
+        // Data structure: { "LOCATION_ID": { "ores": { "ORE_NAME": { "prob": 0.5, "finds": 100 } } } }
+        foreach (var locationProperty in data.EnumerateObject())
+        {
+            var locationId = locationProperty.Name;
+            var locationLabel = GetBodyLabel(locationId);
+
+            if (!locationProperty.Value.TryGetProperty("ores", out var oresElement))
+            {
+                continue;
+            }
+
+            foreach (var oreProperty in oresElement.EnumerateObject())
+            {
+                var oreName = oreProperty.Name;
+                if (!oreProperty.Value.TryGetProperty("prob", out var probElement))
+                {
+                    continue;
+                }
+
+                var probability = probElement.GetDouble();
+                var finds = 0;
+                if (oreProperty.Value.TryGetProperty("finds", out var findsElement))
+                {
+                    finds = findsElement.GetInt32();
+                }
+
+                if (!result.ContainsKey(oreName))
+                {
+                    result[oreName] = [];
+                }
+
+                result[oreName].Add(new OreMiningLocation
+                {
+                    LocationId = locationId,
+                    LocationName = locationLabel,
+                    Probability = probability,
+                    SampleSize = finds,
+                });
+            }
+        }
+
+        // Sort each ore's locations by probability descending and take top 10
+        foreach (var oreName in result.Keys.ToList())
+        {
+            result[oreName] = result[oreName]
+                .OrderByDescending(l => l.Probability)
+                .Take(10)
+                .ToList();
+        }
+
+        return result;
+    }
+
+    private string GetBodyLabel(string bodyId)
+    {
+        if (_bodiesById?.TryGetValue(bodyId, out var body) == true)
+        {
+            return body.Label;
+        }
+
+        return FormatOreName(bodyId);
+    }
+
+    private record OreMiningLocation
+    {
+        public required string LocationId { get; init; }
+        public required string LocationName { get; init; }
+        public required double Probability { get; init; }
+        public required int SampleSize { get; init; }
+    }
+
+    private record RockClassInfo
+    {
+        public Dictionary<string, OreInRockInfo> Ores { get; init; } = new();
+    }
+
+    private record OreInRockInfo
+    {
+        public required double Probability { get; init; }
+        public required double MedianPercent { get; init; }
+    }
+
+    private record LocationDepositInfo
+    {
+        public int TotalScans { get; init; }
+        public Dictionary<string, double> RockTypes { get; init; } = new();
+    }
+
+    private Dictionary<string, LocationDepositInfo> ParseLocationDepositData(System.Text.Json.JsonElement data)
+    {
+        var result = new Dictionary<string, LocationDepositInfo>();
+
+        // Structure: { "LOCATION_ID": { "scans": 100, "rockTypes": { "ROCK_TYPE": { "prob": 0.5 } } } }
+        foreach (var locationProperty in data.EnumerateObject())
+        {
+            // Skip null values
+            if (locationProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+            {
+                continue;
+            }
+
+            var locationId = locationProperty.Name;
+            var scans = 0;
+            var rockTypes = new Dictionary<string, double>();
+
+            if (locationProperty.Value.TryGetProperty("scans", out var scansElement) &&
+                scansElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+            {
+                scans = scansElement.GetInt32();
+            }
+
+            if (locationProperty.Value.TryGetProperty("rockTypes", out var rockTypesElement) &&
+                rockTypesElement.ValueKind == System.Text.Json.JsonValueKind.Object)
+            {
+                foreach (var rockProperty in rockTypesElement.EnumerateObject())
+                {
+                    // Skip null rock type values
+                    if (rockProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+                    {
+                        continue;
+                    }
+
+                    var rockType = rockProperty.Name;
+                    if (rockProperty.Value.TryGetProperty("prob", out var probElement) &&
+                        probElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                    {
+                        rockTypes[rockType] = probElement.GetDouble();
+                    }
+                }
+            }
+
+            if (rockTypes.Count > 0 || scans > 0)
+            {
+                result[locationId] = new LocationDepositInfo
+                {
+                    TotalScans = scans,
+                    RockTypes = rockTypes,
+                };
+            }
+        }
+
+        return result;
+    }
+
+    private Dictionary<string, RockClassInfo> ParseRockClassData(System.Text.Json.JsonElement data)
+    {
+        var result = new Dictionary<string, RockClassInfo>();
+
+        // Data structure varies by system, try to get STANTON first
+        // Structure: { "STANTON": { "ROCK_TYPE": { "ores": { "ORE": { "prob": 0.5, "medPct": 0.1 } } } } }
+        System.Text.Json.JsonElement systemData = default;
+        var foundSystem = false;
+
+        if (data.TryGetProperty("STANTON", out var stantonData) && stantonData.ValueKind == System.Text.Json.JsonValueKind.Object)
+        {
+            systemData = stantonData;
+            foundSystem = true;
+        }
+        else if (data.ValueKind == System.Text.Json.JsonValueKind.Object)
+        {
+            // Try to use the first non-null system's data
+            foreach (var prop in data.EnumerateObject())
+            {
+                if (prop.Value.ValueKind == System.Text.Json.JsonValueKind.Object)
+                {
+                    systemData = prop.Value;
+                    foundSystem = true;
+                    Logger.LogInformation("Using rock class data from system: {System}", prop.Name);
+                    break;
+                }
+            }
+        }
+
+        if (!foundSystem)
+        {
+            Logger.LogWarning("No valid system data found in rock class data");
+            return result;
+        }
+
+        foreach (var rockProperty in systemData.EnumerateObject())
+        {
+            var rockType = rockProperty.Name;
+
+            // Skip if the value is null or not an object
+            if (rockProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+            {
+                continue;
+            }
+
+            var ores = new Dictionary<string, OreInRockInfo>();
+
+            if (rockProperty.Value.TryGetProperty("ores", out var oresElement) &&
+                oresElement.ValueKind == System.Text.Json.JsonValueKind.Object)
+            {
+                foreach (var oreProperty in oresElement.EnumerateObject())
+                {
+                    // Skip null ore entries
+                    if (oreProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+                    {
+                        continue;
+                    }
+
+                    var oreName = oreProperty.Name;
+                    var prob = 0.0;
+                    var medPct = 0.0;
+
+                    if (oreProperty.Value.TryGetProperty("prob", out var probElement) &&
+                        probElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                    {
+                        prob = probElement.GetDouble();
+                    }
+
+                    if (oreProperty.Value.TryGetProperty("medPct", out var medPctElement) &&
+                        medPctElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                    {
+                        medPct = medPctElement.GetDouble();
+                    }
+
+                    ores[oreName] = new OreInRockInfo
+                    {
+                        Probability = prob,
+                        MedianPercent = medPct,
+                    };
+                }
+            }
+
+            result[rockType] = new RockClassInfo
+            {
+                Ores = ores,
+            };
+        }
+
+        Logger.LogInformation("Parsed {Count} rock classes with ore data", result.Count);
+        return result;
+    }
+
+    private Dictionary<string, Dictionary<string, RockClassInfo>> ParseRockClassDataBySystem(System.Text.Json.JsonElement data)
+    {
+        var result = new Dictionary<string, Dictionary<string, RockClassInfo>>();
+
+        // Data structure: { "STANTON": { "ROCK_TYPE": { "ores": { ... } } }, "PYRO": { ... }, "NYX": { ... } }
+        if (data.ValueKind != System.Text.Json.JsonValueKind.Object)
+        {
+            return result;
+        }
+
+        foreach (var systemProperty in data.EnumerateObject())
+        {
+            var systemName = systemProperty.Name;
+
+            if (systemProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+            {
+                continue;
+            }
+
+            var systemRocks = new Dictionary<string, RockClassInfo>();
+
+            foreach (var rockProperty in systemProperty.Value.EnumerateObject())
+            {
+                var rockType = rockProperty.Name;
+
+                if (rockProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+                {
+                    continue;
+                }
+
+                var ores = new Dictionary<string, OreInRockInfo>();
+
+                if (rockProperty.Value.TryGetProperty("ores", out var oresElement) &&
+                    oresElement.ValueKind == System.Text.Json.JsonValueKind.Object)
+                {
+                    foreach (var oreProperty in oresElement.EnumerateObject())
+                    {
+                        if (oreProperty.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+                        {
+                            continue;
+                        }
+
+                        var prob = 0.0;
+                        var medPct = 0.0;
+
+                        if (oreProperty.Value.TryGetProperty("prob", out var probElement) &&
+                            probElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                        {
+                            prob = probElement.GetDouble();
+                        }
+
+                        if (oreProperty.Value.TryGetProperty("medPct", out var medPctElement) &&
+                            medPctElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                        {
+                            medPct = medPctElement.GetDouble();
+                        }
+
+                        ores[oreProperty.Name] = new OreInRockInfo
+                        {
+                            Probability = prob,
+                            MedianPercent = medPct,
+                        };
+                    }
+                }
+
+                if (ores.Count > 0)
+                {
+                    systemRocks[rockType] = new RockClassInfo { Ores = ores };
+                }
+            }
+
+            if (systemRocks.Count > 0)
+            {
+                result[systemName] = systemRocks;
+                Logger.LogInformation("Parsed {Count} rock classes for system {System}", systemRocks.Count, systemName);
+            }
+        }
+
+        return result;
+    }
+
+    private void ToggleOreSelection(string oreCode)
+    {
+        _selectedOre = _selectedOre == oreCode ? null : oreCode;
+    }
+
+    private void ToggleLocationSelection(string locationId)
+    {
+        _selectedLocation = _selectedLocation == locationId ? null : locationId;
+    }
+
+    private void ToggleRefinerySelection(string refineryCode)
+    {
+        _selectedRefinery = _selectedRefinery == refineryCode ? null : refineryCode;
+    }
+
+    private List<string> GetTopDepositsForOreAtLocation(string oreCode, string locationId)
+    {
+        var result = new List<string>();
+
+        if (_locationDeposits?.TryGetValue(locationId, out var locationInfo) != true || locationInfo is null)
+        {
+            return result;
+        }
+
+        // Find deposit types at this location that contain this ore
+        foreach (var (rockType, prob) in locationInfo.RockTypes.OrderByDescending(r => r.Value))
+        {
+            if (_rockClassData?.TryGetValue(rockType, out var rockInfo) == true &&
+                rockInfo.Ores.ContainsKey(oreCode))
+            {
+                result.Add(rockType);
+                if (result.Count >= 3)
+                {
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private static bool IsAsteroidDeposit(string rockType)
+    {
+        // Asteroids are any deposit that has "type" in their name (like "Ctype", "Etype")
+        var upper = rockType.ToUpperInvariant();
+        return upper.Contains("TYPE");
+    }
+
+    private static bool IsGroundDeposit(string rockType)
+    {
+        // Ground deposits are any deposit that does NOT have "type" in their name
+        var upper = rockType.ToUpperInvariant();
+        return !upper.Contains("TYPE");
+    }
+
+    private static bool IsInertMaterial(string oreName)
+    {
+        // Inert material should be excluded from ore lists
+        var upper = oreName.ToUpperInvariant();
+        return upper.Contains("INERT");
+    }
+
+    private static IEnumerable<string> GetHandMinableGems()
+    {
+        // Known hand-mineable gems in Star Citizen
+        return new[]
+        {
+            "HADANITE",
+            "APHORITE",
+            "DOLIVINE",
+            "JANALITE",
+        };
+    }
+
+    private static string FormatDepositName(string rockType)
+    {
+        // Format asteroid type names: "Ctype" -> "C-Type Asteroid", "Etype" -> "E-Type Asteroid"
+        var upper = rockType.ToUpperInvariant();
+        if (upper.Contains("TYPE"))
+        {
+            // Extract the letter(s) before "type"
+            var typeIndex = upper.IndexOf("TYPE", StringComparison.Ordinal);
+            if (typeIndex > 0)
+            {
+                var prefix = rockType[..typeIndex].ToUpperInvariant();
+                return $"{prefix}-Type Asteroid";
+            }
+        }
+
+        // For non-asteroid deposits, use standard formatting
+        return FormatOreName(rockType);
+    }
+
+    private static string FormatOreName(string oreCode)
+        => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oreCode.ToLowerInvariant().Replace("_", " "));
+
+    private static string FormatMethodName(string methodName)
+        => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(methodName.ToLowerInvariant().Replace("_", " "));
+
+    private static string GetRefineryName(string refineryCode)
+        => refineryCode switch
+        {
+            "HURL1" => "HUR-L1 (Stanton)",
+            "HURL2" => "HUR-L2 (Stanton)",
+            "ARCL1" => "ARC-L1 (Stanton)",
+            "ARCL2" => "ARC-L2 (Stanton)",
+            "MICL1" => "MIC-L1 (Stanton)",
+            "MICL2" => "MIC-L2 (Stanton)",
+            "MICL5" => "MIC-L5 (Stanton)",
+            "CRU_L1" => "CRU-L1 (Stanton)",
+            "NYX_LEVSKI" => "Levski (Nyx)",
+            _ => refineryCode,
+        };
+
+    private static Color GetWellTypeColor(string wellType)
+        => wellType switch
+        {
+            RegolithWellType.System => Color.Primary,
+            RegolithWellType.Planet => Color.Success,
+            RegolithWellType.Satellite => Color.Info,
+            RegolithWellType.Lagrange => Color.Warning,
+            RegolithWellType.Belt => Color.Secondary,
+            RegolithWellType.Cluster => Color.Tertiary,
+            _ => Color.Default,
+        };
+
+    private static string FormatWellType(string wellType)
+        => wellType switch
+        {
+            RegolithWellType.Planet => "Planet",
+            RegolithWellType.Satellite => "Moon",
+            RegolithWellType.Lagrange => "Lagrange Point",
+            RegolithWellType.Belt => "Asteroid Belt",
+            RegolithWellType.Cluster => "Cluster",
+            _ => wellType,
+        };
+
+    private static string FormatSystemName(string systemCode)
+        => systemCode switch
+        {
+            "STANTON" => "Stanton",
+            "PYRO" => "Pyro",
+            "NYX" => "Nyx",
+            _ => systemCode,
+        };
+
+    private string GetParentLabel(string? parentId)
+    {
+        if (string.IsNullOrEmpty(parentId))
+        {
+            return "-";
+        }
+
+        if (_bodiesById?.TryGetValue(parentId, out var parent) == true)
+        {
+            return parent.Label;
+        }
+
+        // Fallback: format the ID as a readable name
+        return FormatOreName(parentId);
+    }
+
+    public void Dispose()
+    {
+        // Cleanup if needed
+    }
+}

@@ -28,6 +28,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.Regolith\Arkanis.Overlay.External.Regolith.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.Infrastructure\Arkanis.Overlay.Infrastructure.csproj"/>
     </ItemGroup>
 

@@ -2,7 +2,7 @@
     "sdk": {
         // 10.0.101 causes this error:
         // https://github.com/ArkanisCorporation/ArkanisOverlay/actions/runs/20591700386/job/59171325972?pr=508
-        "version": "10.0.100",
+        "version": "10.0.102",
         // temporarily disabled
         // "rollForward": "latestMinor",
         "rollForward": "disable",

@@ -89,8 +89,6 @@ public class OverlayModules(IOverlayControls overlayControls, IUserPreferencesMa
             Name = "Mining",
             Description = "Manage your Mining Operations.",
             Icon = Outlined.Deblur,
-            IsDisabled = true,
-            IsInDevelopment = true,
         },
         new UrlEntry
         {

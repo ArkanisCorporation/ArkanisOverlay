@@ -1304,6 +1304,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.Domain": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[2.5.0, )",
@@ -1341,6 +1342,13 @@
         "dependencies": {
           "Arkanis.Overlay.Common": "[1.0.0, )",
           "Duende.IdentityModel.OidcClient": "[7.0.0, )"
+        }
+      },
+      "arkanis.overlay.external.regolith": {
+        "type": "Project",
+        "dependencies": {
+          "Arkanis.Overlay.External.Common": "[1.0.0, )",
+          "Microsoft.Extensions.Http": "[10.0.1, )"
         }
       },
       "arkanis.overlay.external.uex": {
@@ -1383,6 +1391,7 @@
           "Arkanis.Overlay.Domain": "[1.0.0, )",
           "Arkanis.Overlay.External.Backend": "[1.0.0, )",
           "Arkanis.Overlay.External.CitizenId": "[1.0.0, )",
+          "Arkanis.Overlay.External.Regolith": "[1.0.0, )",
           "Arkanis.Overlay.External.UEX": "[1.0.0, )",
           "Arkanis.Overlay.LocalLink": "[1.0.0, )",
           "JetBrains.Annotations": "[2025.2.4, )",

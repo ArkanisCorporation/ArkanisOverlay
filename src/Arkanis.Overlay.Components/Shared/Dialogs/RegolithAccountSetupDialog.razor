@@ -1,0 +1,156 @@
+@using Arkanis.Overlay.Common
+@using Arkanis.Overlay.Common.Extensions
+@using Arkanis.Overlay.Common.Models
+@using Arkanis.Overlay.External.Regolith
+@using Arkanis.Overlay.Infrastructure.Services.External
+@using FluentResults
+@inject RegolithAccountContext RegolithAccountContext
+
+<MudDialog>
+    <TitleContent>
+        <MudStack Row AlignItems="@AlignItems.Center" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.Diamond" Color="@Color.Primary"/>
+            <MudText Typo="@Typo.h6">Connect Regolith Co. Account</MudText>
+        </MudStack>
+    </TitleContent>
+    <DialogContent>
+        <MudStack Spacing="4">
+            <MudText>
+                Enter your Regolith API key to access mining data.
+                You can get an API key from your
+                <MudLink Href="@RegolithConstants.AccountSettingsUrl" Target="_blank">
+                    Regolith account settings
+                </MudLink>.
+            </MudText>
+
+            <MudTextField Label="API Key"
+                          @bind-Value="_apiKey"
+                          @bind-Value:after="@ClearError"
+                          InputType="@InputType.Password"
+                          Error="@(_error is not null)"
+                          ErrorText="@_error?.Message"
+                          Disabled="@_isLoading"
+                          FullWidth
+                          Immediate
+                          Required/>
+
+            @if (_isLoading)
+            {
+                <MudProgressLinear Indeterminate/>
+            }
+
+            @if (_success)
+            {
+                <MudAlert Severity="@Severity.Success">
+                    Successfully connected to Regolith Co.!
+                </MudAlert>
+            }
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Primary"
+                   Variant="@Variant.Filled"
+                   Disabled="@(string.IsNullOrWhiteSpace(_apiKey) || _isLoading)"
+                   OnClick="@ConnectAsync">
+            Connect
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private string? _apiKey;
+    private IError? _error;
+    private bool _isLoading;
+    private bool _success;
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    private void ClearError()
+        => _error = null;
+
+    private async Task ConnectAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_apiKey))
+        {
+            return;
+        }
+
+        _isLoading = true;
+        _error = null;
+        _success = false;
+
+        try
+        {
+            var credentials = new AccountApiTokenCredentials(ExternalService.Regolith)
+            {
+                UserIdentifier = "Regolith User",
+                SecretToken = _apiKey,
+            };
+
+            var result = await RegolithAccountContext.ConfigureAsync(credentials, CancellationToken.None);
+
+            if (RegolithAccountContext.IsAuthenticated)
+            {
+                _success = true;
+                await Task.Delay(1000); // Show success briefly
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                result.MapErrors(error => _error ??= error);
+                _error ??= new Error("Failed to authenticate with the provided API key.");
+            }
+        }
+        catch (Exception exception)
+        {
+            _error = exception.ToError();
+        }
+        finally
+        {
+            _isLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<RegolithAccountSetupDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    public static async Task<DialogResult> UnlinkAsync(IDialogService dialogService, RegolithAccountContext accountContext)
+    {
+        if (!accountContext.IsAuthenticated)
+        {
+            return DialogResult.Ok(true);
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = "Unlink Regolith Co. Account",
+            Message = "This will remove your Regolith API key. Are you sure?",
+            YesText = "Unlink",
+            CancelText = "Cancel",
+        };
+
+        if (await dialogService.ShowMessageBox(options) is not true)
+        {
+            return DialogResult.Cancel();
+        }
+
+        await accountContext.UnlinkAsync(CancellationToken.None);
+        return DialogResult.Ok(true);
+    }
+}

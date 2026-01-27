@@ -1,0 +1,92 @@
+@using Arkanis.Overlay.Infrastructure.Helpers
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    @@property --regolith-angle {
+        syntax: @AngleProperty;
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    .regolith-badge-container {
+        width: fit-content;
+        height: 2rem;
+        padding: 0;
+        transition: height 0.35s ease-in-out;
+
+        a {
+        }
+
+        &:hover {
+            height: 4rem;
+
+            & .regolith-badge {
+                &::after, &::before {
+                    padding: 2px;
+                    height: 100%;
+                    width: 100%;
+                }
+
+                &::before {
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+
+    /* Animation based on: https://www.coding2go.com/border-animation/ */
+    .regolith-badge {
+        position: relative;
+        height: 100%;
+
+        img {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        &::after, &::before {
+            content: '';
+            position: absolute;
+            height: 95%;
+            width: 95%;
+            background-image: conic-gradient(from var(--regolith-angle), #f5a623, #8b4513, #f5a623, #8b4513, #f5a623);
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            z-index: -1;
+            padding: 0;
+            border-radius: 10px;
+            animation: 5s regolith-spin linear infinite;
+            transition: padding 0.3s ease-in-out;
+        }
+
+        &::before {
+            filter: blur(1.5rem);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+    }
+
+    @@keyframes regolith-spin {
+        from {
+            --regolith-angle: 0deg;
+        }
+        to {
+            --regolith-angle: 360deg;
+        }
+    }
+
+</style>
+
+<div class="regolith-badge-container">
+    <a href="@ExternalLinkHelper.GetRegolithLink("powered_by_badge")" target="_blank" rel="noopener noreferrer">
+        <div class="regolith-badge">
+            <RegolithLogo Style="height: 100%;" ThemeVariant="RegolithLogo.Theme.Dark" WithoutLink="true" ContentId="powered_by_badge"/>
+        </div>
+    </a>
+</div>
+
+@code {
+
+    private const string AngleProperty = "\"<angle>\"";
+
+}

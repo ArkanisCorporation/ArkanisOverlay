@@ -1,3 +1,32 @@
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
 <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
-    <UexBadge/>
+    @if (IsMiningModule)
+    {
+        <RegolithBadge/>
+    }
+    else
+    {
+        <UexBadge/>
+    }
 </MudStack>
+
+@code {
+    private bool IsMiningModule => NavigationManager.Uri.Contains("/mining", StringComparison.OrdinalIgnoreCase);
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
