@@ -4,5 +4,5 @@ using Models.Game;
 
 public interface IGameManufactured
 {
-    GameCompany Manufacturer { get; }
+    public GameCompany Manufacturer { get; }
 }

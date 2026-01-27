@@ -39,7 +39,7 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
 
         return;
 
-        int Compare(InventoryEntryBase x, InventoryEntryBase y)
+        static int Compare(InventoryEntryBase x, InventoryEntryBase y)
             => x.Id.Identity.CompareTo(y.Id.Identity);
     }
 

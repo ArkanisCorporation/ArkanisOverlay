@@ -258,7 +258,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
         where T : class, IGameEntity
         => _cachedGameEntities.GetValueOrDefault(id) as T ?? ThrowInvalidCacheException<T>(id.Identity);
 
-    private T? ResolveCachedGameEntity<T>(double? sourceId, bool throwOnCacheMiss = true, [CallerArgumentExpression("sourceId")] string sourceIdExpression = "")
+    private T? ResolveCachedGameEntity<T>(double? sourceId, bool throwOnCacheMiss = true, [CallerArgumentExpression(nameof(sourceId))] string sourceIdExpression = "")
         where T : class, IGameEntity
     {
         var entityId = UexApiGameEntityId.Create<T>(sourceId ?? 0);
@@ -486,7 +486,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
 
     private GameContainerSize MapMaxContainerSizeFromList(string? source)
         => !string.IsNullOrEmpty(source)
-            ? source.Split(',').Select(Enum.Parse<GameContainerSize>).Max()
+            ? source.Split(',').Max(Enum.Parse<GameContainerSize>)
             : GameContainerSize.Unknown;
 
     [UserMapping(Default = true)]
@@ -509,7 +509,7 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
         => DateTimeOffset.FromUnixTimeSeconds((long)(timestamp ?? 0));
 
     [DoesNotReturn]
-    private static T ThrowInvalidCacheException<T>(double? sourceId, [CallerArgumentExpression("sourceId")] string sourceIdExpression = "")
+    private static T ThrowInvalidCacheException<T>(double? sourceId, [CallerArgumentExpression(nameof(sourceId))] string sourceIdExpression = "")
         => throw new ObjectMappingMissingLinkedRelatedObjectException(
             $"Could not resolve cached entity instance of {typeof(T)} for: {sourceIdExpression} == {sourceId}"
         );

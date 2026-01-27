@@ -4,5 +4,5 @@ using Models.Search;
 
 public interface ISearchable
 {
-    IEnumerable<SearchableTrait> SearchableAttributes { get; }
+    public IEnumerable<SearchableTrait> SearchableAttributes { get; }
 }

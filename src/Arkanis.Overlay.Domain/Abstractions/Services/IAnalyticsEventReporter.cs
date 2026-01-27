@@ -7,7 +7,7 @@ using Models.Analytics;
 /// </summary>
 public interface IAnalyticsEventReporter
 {
-    Task TrackEventAsync(AnalyticsEvent analyticsEvent);
+    public Task TrackEventAsync(AnalyticsEvent analyticsEvent);
 
-    Task TrackNavigationAsync(string uri);
+    public Task TrackNavigationAsync(string uri);
 }

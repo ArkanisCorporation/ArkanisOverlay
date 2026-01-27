@@ -4,7 +4,7 @@ using Game;
 
 public interface IGameRentalPricingRepository : IDependable
 {
-    IAsyncEnumerable<IGameEntityRentalPrice> GetAllRentalPricesAsync(CancellationToken cancellationToken = default);
+    public IAsyncEnumerable<IGameEntityRentalPrice> GetAllRentalPricesAsync(CancellationToken cancellationToken = default);
 
-    ValueTask<ICollection<IGameEntityRentalPrice>> GetRentalPricesForAsync(IDomainId domainId, CancellationToken cancellationToken = default);
+    public ValueTask<ICollection<IGameEntityRentalPrice>> GetRentalPricesForAsync(IDomainId domainId, CancellationToken cancellationToken = default);
 }

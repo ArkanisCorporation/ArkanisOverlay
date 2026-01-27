@@ -28,11 +28,7 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     {
         _snackbar.Add(
             "This would open the overlay",
-            configure: options =>
-            {
-                options.ShowCloseIcon = false;
-            }
-        );
+            configure: options => options.ShowCloseIcon = false);
         OverlayShown?.Invoke(this, EventArgs.Empty);
         return ValueTask.CompletedTask;
     }
@@ -41,11 +37,7 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     {
         _snackbar.Add(
             "This would close the overlay",
-            configure: options =>
-            {
-                options.ShowCloseIcon = false;
-            }
-        );
+            configure: options => options.ShowCloseIcon = false);
         OverlayHidden?.Invoke(this, EventArgs.Empty);
         return ValueTask.CompletedTask;
     }
@@ -53,11 +45,7 @@ internal sealed class WebOverlayControls : IOverlayControls, IOverlayEventProvid
     public void Shutdown()
         => _snackbar.Add(
             "This would exit the overlay",
-            configure: options =>
-            {
-                options.ShowCloseIcon = false;
-            }
-        );
+            configure: options => options.ShowCloseIcon = false);
 
     public void SetBlurEnabled(bool isEnabled)
     {

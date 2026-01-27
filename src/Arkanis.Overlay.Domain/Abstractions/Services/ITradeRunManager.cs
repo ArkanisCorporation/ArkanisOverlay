@@ -5,17 +5,17 @@ using Models.Trade;
 
 public interface ITradeRunManager
 {
-    IChangeToken ChangeToken { get; }
+    public IChangeToken ChangeToken { get; }
 
-    Task<int> GetInProgressCountAsync(CancellationToken cancellationToken = default);
+    public Task<int> GetInProgressCountAsync(CancellationToken cancellationToken = default);
 
-    Task AddOrUpdateEntryAsync(TradeRun entry, CancellationToken cancellationToken = default);
+    public Task AddOrUpdateEntryAsync(TradeRun entry, CancellationToken cancellationToken = default);
 
-    Task DeleteRunAsync(TradeRunId entryId, CancellationToken cancellationToken = default);
+    public Task DeleteRunAsync(TradeRunId entryId, CancellationToken cancellationToken = default);
 
-    Task<TradeRun?> GetRunAsync(TradeRunId runId, CancellationToken cancellationToken = default);
+    public Task<TradeRun?> GetRunAsync(TradeRunId runId, CancellationToken cancellationToken = default);
 
-    Task<ICollection<TradeRun>> GetAllRunsAsync(CancellationToken cancellationToken = default);
+    public Task<ICollection<TradeRun>> GetAllRunsAsync(CancellationToken cancellationToken = default);
 
-    Task<ICollection<TradeRun>> GetInProgressRunsAsync(CancellationToken cancellationToken = default);
+    public Task<ICollection<TradeRun>> GetInProgressRunsAsync(CancellationToken cancellationToken = default);
 }

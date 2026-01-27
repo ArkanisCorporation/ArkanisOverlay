@@ -4,16 +4,12 @@ using Microsoft.Extensions.Configuration;
 
 public interface ISelfBindableOptions
 {
-    string SectionPath { get; }
+    public string SectionPath { get; }
 
-    void Bind(IConfiguration configuration)
+    public void Bind(IConfiguration configuration)
         => configuration.GetSection(SectionPath)
             .Bind
             (
                 this,
-                opts =>
-                {
-                    opts.ErrorOnUnknownConfiguration = true;
-                }
-            );
+                opts => opts.ErrorOnUnknownConfiguration = true);
 }

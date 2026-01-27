@@ -12,7 +12,7 @@ internal class GitHubReleasesService(IMemoryCache memoryCache, ILogger<GitHubRel
     public async Task<AppRelease> GetLatestStableDownloadsAsync()
     {
         var releases = await GetReleasesAsync();
-        if (releases.FirstOrDefault(x => x.Prerelease == false) is not { } latestRelease)
+        if (releases.FirstOrDefault(x => !x.Prerelease) is not { } latestRelease)
         {
             latestRelease = releases.FirstOrDefault();
             if (latestRelease is null)

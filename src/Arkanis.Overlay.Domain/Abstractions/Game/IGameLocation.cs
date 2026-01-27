@@ -4,11 +4,11 @@ using Models.Game;
 
 public interface IGameLocation : IGameEntity, ISearchableRecursively
 {
-    HashSet<UexApiGameEntityId> ParentIds { get; }
+    public HashSet<UexApiGameEntityId> ParentIds { get; }
 
-    IEnumerable<IGameLocation> Parents { get; }
+    public IEnumerable<IGameLocation> Parents { get; }
 
-    IGameLocation? ParentLocation { get; }
+    public IGameLocation? ParentLocation { get; }
 
     public string? ImageUrl { get; }
 
@@ -17,11 +17,11 @@ public interface IGameLocation : IGameEntity, ISearchableRecursively
     ISearchableRecursively? ISearchableRecursively.Parent
         => ParentLocation;
 
-    IEnumerable<GameLocationEntity> CreatePathToRoot();
+    public IEnumerable<GameLocationEntity> CreatePathToRoot();
 
-    bool IsOrContains(IGameLocation location)
+    public bool IsOrContains(IGameLocation location)
         => Id == location.Id || Contains(location);
 
-    bool Contains(IGameLocation location)
+    public bool Contains(IGameLocation location)
         => location.ParentIds.Contains(Id);
 }

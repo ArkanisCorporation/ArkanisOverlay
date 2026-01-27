@@ -49,27 +49,26 @@ public abstract record SearchMatchResult(List<SearchMatch> Matches) : IComparabl
         => new(subject, []);
 
     public static bool operator <(SearchMatchResult left, SearchMatchResult right)
-        => ReferenceEquals(left, null)
-            ? !ReferenceEquals(right, null)
+        => left is null
+            ? right is not null
             : left.CompareTo(right) < 0;
 
     public static bool operator <=(SearchMatchResult left, SearchMatchResult right)
-        => ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        => left is null || left.CompareTo(right) <= 0;
 
     public static bool operator >(SearchMatchResult left, SearchMatchResult right)
-        => !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        => left is not null && left.CompareTo(right) > 0;
 
     public static bool operator >=(SearchMatchResult left, SearchMatchResult right)
-        => ReferenceEquals(left, null)
-            ? ReferenceEquals(right, null)
+        => left is null
+            ? right is null
             : left.CompareTo(right) >= 0;
 
     protected static List<SearchMatch> GroupAndPickBest(IEnumerable<SearchMatch> matches)
-        => matches
+        => [.. matches
             .GroupBy(match => (match.TargetTrait, match.Source))
             .Select(group => group.Max()!)
-            .OrderDescending()
-            .ToList();
+            .OrderDescending()];
 }
 
 /// <summary>

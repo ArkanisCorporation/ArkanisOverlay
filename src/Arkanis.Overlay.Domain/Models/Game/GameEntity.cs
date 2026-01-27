@@ -9,7 +9,7 @@ public abstract class GameEntity(UexApiGameEntityId id, GameEntityCategory entit
     private SearchableTrait[]? _searchableTraits;
 
     public IEnumerable<SearchableTrait> SearchableAttributes
-        => _searchableTraits ??= CollectSearchableTraits().ToArray();
+        => _searchableTraits ??= [.. CollectSearchableTraits()];
 
     public GameEntityCategory EntityCategory { get; } = entityCategory;
 

@@ -4,7 +4,7 @@ using Game;
 
 public interface IIdentifiable
 {
-    IDomainId Id { get; }
+    public IDomainId Id { get; }
 
     public class EqualityComparer<T> : EqualityComparer, IEqualityComparer<T> where T : IIdentifiable
     {

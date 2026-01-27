@@ -32,11 +32,7 @@ public class NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPubl
         {
             using var reader = new StreamReader(pipe);
             var commandJson = await reader.ReadToEndAsync(cts.Token);
-            var commandBase = JsonSerializer.Deserialize<LocalLinkCommandBase>(commandJson, LocalLinkConstants.SerializerOptions);
-            if (commandBase is null)
-            {
-                throw new LocalLinkReceiveException("Failed to deserialize a LocalLink command.");
-            }
+            var commandBase = JsonSerializer.Deserialize<LocalLinkCommandBase>(commandJson, LocalLinkConstants.SerializerOptions) ?? throw new LocalLinkReceiveException("Failed to deserialize a LocalLink command.");
 
             return commandBase;
         }

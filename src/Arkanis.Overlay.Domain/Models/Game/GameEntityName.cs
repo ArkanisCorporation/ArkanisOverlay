@@ -4,7 +4,7 @@ using System.Collections;
 
 public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IEnumerable<GameEntityName.Part>
 {
-    private readonly Part[] _parts = Parts.ToArray();
+    private readonly Part[] _parts = [.. Parts];
 
     public GameEntityName(params Part[] parts) : this(parts.AsEnumerable())
     {
@@ -53,12 +53,12 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
 
     public interface IHasCode
     {
-        string Code { get; }
+        public string Code { get; }
     }
 
     public interface IHasShortName
     {
-        string ShortName { get; }
+        public string ShortName { get; }
     }
 
     public sealed record ItemCategoryReference(GameProductCategory Category) : Reference(Category);
