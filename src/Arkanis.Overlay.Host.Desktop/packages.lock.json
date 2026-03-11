@@ -234,6 +234,41 @@
           "Microsoft.Windows.WDK.Win32Metadata": "0.13.25-experimental"
         }
       },
+      "OpenCvSharp4.Extensions": {
+        "type": "Direct",
+        "requested": "[4.13.0.20260308, )",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "Grndvd77jWjmXlSJRam6IKCPopIZgWgNJ00Hgu10+NgZzpdjp7KlNMGQk/LMxXE4xX8bLbLrufTUjzaoLYmjVA==",
+        "dependencies": {
+          "OpenCvSharp4": "4.13.0.20260308"
+        }
+      },
+      "OpenCvSharp4.runtime.win.slim": {
+        "type": "Direct",
+        "requested": "[4.13.0.20260308, )",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "2l2ksc29WVnSjnKRUGQ3fytb5ZYO1kKTky6oWHTXyOqeFFtKB2YZIxYNWtj6HPLCcYnFoDB2d4lZWovc00gMkg=="
+      },
+      "Sdcb.PaddleInference.runtime.win64.mkl": {
+        "type": "Direct",
+        "requested": "[3.1.0.54, )",
+        "resolved": "3.1.0.54",
+        "contentHash": "I0FmDxIPXOpByz44wDlGbm/1LivJHD2YRK5ZQrGy401fEeFeQaTWf1SNu2ywGdagdYwFvv+FGAvkwzj8Ud+klA=="
+      },
+      "Sdcb.PaddleOCR.Models.Local": {
+        "type": "Direct",
+        "requested": "[3.0.1, )",
+        "resolved": "3.0.1",
+        "contentHash": "uPArZG9Ec7w4lSP9p3+mA9pRkJjyPMxYfQEOtIk1jMp+OP4p8w3fVbhsSuJTLwgtyyzIYM+Ii76URggKnBz30A==",
+        "dependencies": {
+          "Sdcb.PaddleOCR": "3.0.0",
+          "Sdcb.PaddleOCR.Models.LocalV3": "2.7.0.1",
+          "Sdcb.PaddleOCR.Models.LocalV4": "2.7.0.1",
+          "Sdcb.PaddleOCR.Models.LocalV5": "3.0.0",
+          "Sdcb.PaddleOCR.Models.Shared": "2.7.0.1",
+          "YamlDotNet": "16.3.0"
+        }
+      },
       "SingleInstanceCore": {
         "type": "Direct",
         "requested": "[2.2.2, )",
@@ -834,8 +869,7 @@
         "dependencies": {
           "Microsoft.Build.Framework": "17.14.28",
           "Microsoft.Build.Utilities.Core": "17.14.28",
-          "Microsoft.NET.StringTools": "17.14.28",
-          "System.Formats.Nrbf": "9.0.0"
+          "Microsoft.NET.StringTools": "17.14.28"
         }
       },
       "Microsoft.Build.Utilities.Core": {
@@ -1111,8 +1145,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1",
           "Microsoft.Extensions.Logging": "10.0.1",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.1",
-          "Microsoft.Extensions.Options": "10.0.1",
-          "System.Diagnostics.EventLog": "10.0.1"
+          "Microsoft.Extensions.Options": "10.0.1"
         }
       },
       "Microsoft.Extensions.Logging.EventSource": {
@@ -1228,6 +1261,11 @@
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
+      "OpenCvSharp4": {
+        "type": "Transitive",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "aIWd3FisXZDdtzG/m63fk7rkhEJ8+iXrUOHw+RmKRmSyuA07/qdfMn4l91CPT5mtNMtuTW1Qlgi29iHwzL1IwA=="
+      },
       "OpenIddict.Abstractions": {
         "type": "Transitive",
         "resolved": "7.2.0",
@@ -1255,6 +1293,41 @@
         "type": "Transitive",
         "resolved": "3.0.101",
         "contentHash": "gf9QIF0RlctfjmOjbE6eOyMulkNEsH7tHncjKj/4BTu9tkuTyrH3fv5I+35GnolJqKJ6fh9kYaezvNRL3t75+Q=="
+      },
+      "Sdcb.PaddleInference": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "uLYu9VbA/LIQSDbOm2Bkap8izjk0PrGx3hXwGMvwdu6o4siV7S4CptrXLJfpJSPFHS8zkOWO2s02sorctBb+hA=="
+      },
+      "Sdcb.PaddleOCR": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "8ADXolUQChB+fRKVjE4dhCglaiJRHCUjgEFTHt7pZ8P+J60e8U90XaYtp0LQr6r0q1bICntb+DIoXbBzMTo2Mg==",
+        "dependencies": {
+          "OpenCvSharp4": "4.11.0.20250507",
+          "Sdcb.PaddleInference": "3.0.0",
+          "YamlDotNet": "16.3.0"
+        }
+      },
+      "Sdcb.PaddleOCR.Models.LocalV3": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "0Zt+9RWmAV3srl7jHYjFlaGV2EIBJ6Os80pMt3JDOW4T6X6gCdAI0JAarJVPfA3OEfK84JoN1jUyobRCwu60eg=="
+      },
+      "Sdcb.PaddleOCR.Models.LocalV4": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "9zeQs6OY5P4R1dnDddMgmkd73g0KAJ6KIkg4OTxlHcbTiom3Md6sq6bCzJcfClzHFgajepHhZTTUemosuDv6Iw=="
+      },
+      "Sdcb.PaddleOCR.Models.LocalV5": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "1eOr6jFrPKbntiHtiEJ0R93d8ptzgOj8z6sV5xvVoQkKnAo1LP9avg6TAVDnpQidzEeYUjYYgO3G//QJBIbZ6w=="
+      },
+      "Sdcb.PaddleOCR.Models.Shared": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "b1h41loXb9w3sgcXRBMtsMPkYI1bN/r+eKpKkFrsopEdUpUQXNRhr2GZ0SqNq9SbN7YzMacVTE4H1O6hBZqx0A=="
       },
       "Serilog.Extensions.Logging": {
         "type": "Transitive",
@@ -1381,16 +1454,6 @@
           "System.Composition.Runtime": "9.0.0"
         }
       },
-      "System.Diagnostics.EventLog": {
-        "type": "Transitive",
-        "resolved": "10.0.1",
-        "contentHash": "xfaHEHVDkMOOZR5S6ZGezD0+vekdH1Nx/9Ih8/rOqOGSOk1fxiN3u94bYkBW/wigj0Uw2Wt3vvRj9mtYdgwEjw=="
-      },
-      "System.Formats.Nrbf": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "F/6tNE+ckmdFeSQAyQo26bQOqfPFKEfZcuqnp4kBE6/7jP26diP+QTHCJJ6vpEfaY6bLy+hBLiIQUSxSmNwLkA=="
-      },
       "System.Interactive.Async": {
         "type": "Transitive",
         "resolved": "7.0.0",
@@ -1413,6 +1476,11 @@
         "dependencies": {
           "protobuf-net": "3.0.101"
         }
+      },
+      "YamlDotNet": {
+        "type": "Transitive",
+        "resolved": "16.3.0",
+        "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
       },
       "arkanis.overlay.common": {
         "type": "Project",

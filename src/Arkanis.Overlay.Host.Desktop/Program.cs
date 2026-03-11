@@ -184,6 +184,7 @@ public static class Program
         // Data
         services
             .AddWindowsOverlayControls()
+            .AddOcrServices()
             .AddInfrastructure(configuration, options => options.HostingMode = HostingMode.LocalSingleUser);
 
         services.AddWpfBlazorWebView();

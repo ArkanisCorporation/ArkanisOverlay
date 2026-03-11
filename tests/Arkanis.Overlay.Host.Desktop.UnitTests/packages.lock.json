@@ -8,6 +8,12 @@
         "resolved": "6.0.4",
         "contentHash": "lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg=="
       },
+      "JetBrains.Annotations": {
+        "type": "Direct",
+        "requested": "[2025.2.4, )",
+        "resolved": "2025.2.4",
+        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
+      },
       "Microsoft.Extensions.Configuration": {
         "type": "Direct",
         "requested": "[10.0.1, )",
@@ -55,12 +61,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[18.0.1, )",
-        "resolved": "18.0.1",
-        "contentHash": "WNpu6vI2rA0pXY4r7NKxCN16XRWl5uHu6qjuyVLoDo6oYEggIQefrMjkRuibQHm/NslIUNCcKftvoWAN80MSAg==",
+        "requested": "[18.3.0, )",
+        "resolved": "18.3.0",
+        "contentHash": "xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.0.1",
-          "Microsoft.TestPlatform.TestHost": "18.0.1"
+          "Microsoft.CodeCoverage": "18.3.0",
+          "Microsoft.TestPlatform.TestHost": "18.3.0"
         }
       },
       "Shouldly": {
@@ -684,8 +690,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "O+utSr97NAJowIQT/OVp3Lh9QgW/wALVTP4RG1m2AfFP4IyJmJz0ZBmFJUsRQiAPgq6IRC0t8AAzsiPIsaUDEA=="
+        "resolved": "18.3.0",
+        "contentHash": "23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g=="
       },
       "Microsoft.Data.Sqlite.Core": {
         "type": "Transitive",
@@ -963,11 +969,6 @@
           "Microsoft.Extensions.Primitives": "9.0.2"
         }
       },
-      "Microsoft.NETCore.Platforms": {
-        "type": "Transitive",
-        "resolved": "3.1.0",
-        "contentHash": "z7aeg8oHln2CuNulfhiLYxCVMPEwBl3rzicjvIX+4sUuCwvXw5oXQEtbiU2c0z4qYL5L3Kmx0mMA/+t/SbY67w=="
-      },
       "Microsoft.Testing.Extensions.Telemetry": {
         "type": "Transitive",
         "resolved": "1.9.1",
@@ -1000,15 +1001,15 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "qT/mwMcLF9BieRkzOBPL2qCopl8hQu6A1P7JWAoj/FMu5i9vds/7cjbJ/LLtaiwWevWLAeD5v5wjQJ/l6jvhWQ=="
+        "resolved": "18.3.0",
+        "contentHash": "AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ=="
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "uDJKAEjFTaa2wHdWlfo6ektyoh+WD4/Eesrwb4FpBFKsLGehhACVnwwTI4qD3FrIlIEPlxdXg3SyrYRIcO+RRQ==",
+        "resolved": "18.3.0",
+        "contentHash": "twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.0.1",
+          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
           "Newtonsoft.Json": "13.0.3"
         }
       },
@@ -1024,16 +1025,18 @@
       },
       "Microsoft.Win32.SystemEvents": {
         "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.1.0"
-        }
+        "resolved": "10.0.3",
+        "contentHash": "gYpwz5Gl0rs9pEFHBKctLbSi7SUGR4L1uRjXkU488nizWd2hvo2JP2+ATUsv0th7v6LDiXfdlUsnTbvC2MauFA=="
       },
       "Newtonsoft.Json": {
         "type": "Transitive",
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+      },
+      "OpenCvSharp4": {
+        "type": "Transitive",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "aIWd3FisXZDdtzG/m63fk7rkhEJ8+iXrUOHw+RmKRmSyuA07/qdfMn4l91CPT5mtNMtuTW1Qlgi29iHwzL1IwA=="
       },
       "OpenIddict.Abstractions": {
         "type": "Transitive",
@@ -1062,6 +1065,41 @@
         "type": "Transitive",
         "resolved": "3.0.101",
         "contentHash": "gf9QIF0RlctfjmOjbE6eOyMulkNEsH7tHncjKj/4BTu9tkuTyrH3fv5I+35GnolJqKJ6fh9kYaezvNRL3t75+Q=="
+      },
+      "Sdcb.PaddleInference": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "uLYu9VbA/LIQSDbOm2Bkap8izjk0PrGx3hXwGMvwdu6o4siV7S4CptrXLJfpJSPFHS8zkOWO2s02sorctBb+hA=="
+      },
+      "Sdcb.PaddleOCR": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "8ADXolUQChB+fRKVjE4dhCglaiJRHCUjgEFTHt7pZ8P+J60e8U90XaYtp0LQr6r0q1bICntb+DIoXbBzMTo2Mg==",
+        "dependencies": {
+          "OpenCvSharp4": "4.11.0.20250507",
+          "Sdcb.PaddleInference": "3.0.0",
+          "YamlDotNet": "16.3.0"
+        }
+      },
+      "Sdcb.PaddleOCR.Models.LocalV3": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "0Zt+9RWmAV3srl7jHYjFlaGV2EIBJ6Os80pMt3JDOW4T6X6gCdAI0JAarJVPfA3OEfK84JoN1jUyobRCwu60eg=="
+      },
+      "Sdcb.PaddleOCR.Models.LocalV4": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "9zeQs6OY5P4R1dnDddMgmkd73g0KAJ6KIkg4OTxlHcbTiom3Md6sq6bCzJcfClzHFgajepHhZTTUemosuDv6Iw=="
+      },
+      "Sdcb.PaddleOCR.Models.LocalV5": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "1eOr6jFrPKbntiHtiEJ0R93d8ptzgOj8z6sV5xvVoQkKnAo1LP9avg6TAVDnpQidzEeYUjYYgO3G//QJBIbZ6w=="
+      },
+      "Sdcb.PaddleOCR.Models.Shared": {
+        "type": "Transitive",
+        "resolved": "2.7.0.1",
+        "contentHash": "b1h41loXb9w3sgcXRBMtsMPkYI1bN/r+eKpKkFrsopEdUpUQXNRhr2GZ0SqNq9SbN7YzMacVTE4H1O6hBZqx0A=="
       },
       "Serilog.Extensions.Logging": {
         "type": "Transitive",
@@ -1152,11 +1190,10 @@
       },
       "System.Drawing.Common": {
         "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "v+XbyYHaZjDfn0ENmJEV1VYLgGgCTx1gnfOBcppowbpOAriglYgGCvFCPr2EEZyBvXlpxbEsTwkOlInl107ahA==",
+        "resolved": "10.0.3",
+        "contentHash": "bJlT89G7EqMpiLCvIPmb7BHpcSxjVeFsahRyQk3/mrUt5YgHKiFcEv88db97gKcpRn5opxfBwI0ohUmJlxuGJg==",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "3.1.0",
-          "Microsoft.Win32.SystemEvents": "4.7.0"
+          "Microsoft.Win32.SystemEvents": "10.0.3"
         }
       },
       "System.Interactive.Async": {
@@ -1252,6 +1289,11 @@
           "xunit.v3.runner.common": "[3.2.1]"
         }
       },
+      "YamlDotNet": {
+        "type": "Transitive",
+        "resolved": "16.3.0",
+        "contentHash": "SgMOdxbz8X65z8hraIs6hOEdnkH6hESTAIUa7viEngHOYaH+6q5XJmwr1+yb9vJpNQ19hCQY69xbFsLtXpobQA=="
+      },
       "arkanis.overlay.common": {
         "type": "Project",
         "dependencies": {
@@ -1294,7 +1336,7 @@
           "Microsoft.Extensions.Configuration.Json": "[10.0.1, )",
           "Microsoft.Extensions.FileProviders.Physical": "[10.0.1, )",
           "Microsoft.Extensions.Hosting.Abstractions": "[10.0.1, )",
-          "Microsoft.NET.Test.Sdk": "[18.0.1, )",
+          "Microsoft.NET.Test.Sdk": "[18.3.0, )",
           "Shouldly": "[4.3.0, )",
           "Xunit.Microsoft.DependencyInjection": "[10.0.2, )",
           "xunit.v3": "[3.2.1, )"
@@ -1373,6 +1415,10 @@
           "Microsoft.Extensions.Logging.Console": "[10.0.1, )",
           "Microsoft.Extensions.Options.DataAnnotations": "[10.0.1, )",
           "Microsoft.Toolkit.Uwp.Notifications": "[7.1.3, )",
+          "OpenCvSharp4.Extensions": "[4.13.0.20260308, )",
+          "OpenCvSharp4.runtime.win.slim": "[4.13.0.20260308, )",
+          "Sdcb.PaddleInference.runtime.win64.mkl": "[3.1.0.54, )",
+          "Sdcb.PaddleOCR.Models.Local": "[3.0.1, )",
           "SingleInstanceCore": "[2.2.2, )",
           "Velopack": "[0.0.1298, )"
         }
@@ -1564,12 +1610,6 @@
           "Humanizer.Core.zh-Hans": "3.0.1",
           "Humanizer.Core.zh-Hant": "3.0.1"
         }
-      },
-      "JetBrains.Annotations": {
-        "type": "CentralTransitive",
-        "requested": "[2025.2.4, )",
-        "resolved": "2025.2.4",
-        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
       },
       "MathEvaluator": {
         "type": "CentralTransitive",
@@ -1880,6 +1920,22 @@
         "resolved": "7.0.1",
         "contentHash": "tu68LnZqiLM/VyLQzPRqedopMi/M+5/6JqwB2Xkd0AWXRpUWewkVv77asVB7wgjMPVzQFK2sBy7AuxV49UzuvQ=="
       },
+      "OpenCvSharp4.Extensions": {
+        "type": "CentralTransitive",
+        "requested": "[4.13.0.20260308, )",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "Grndvd77jWjmXlSJRam6IKCPopIZgWgNJ00Hgu10+NgZzpdjp7KlNMGQk/LMxXE4xX8bLbLrufTUjzaoLYmjVA==",
+        "dependencies": {
+          "OpenCvSharp4": "4.13.0.20260308",
+          "System.Drawing.Common": "10.0.3"
+        }
+      },
+      "OpenCvSharp4.runtime.win.slim": {
+        "type": "CentralTransitive",
+        "requested": "[4.13.0.20260308, )",
+        "resolved": "4.13.0.20260308",
+        "contentHash": "2l2ksc29WVnSjnKRUGQ3fytb5ZYO1kKTky6oWHTXyOqeFFtKB2YZIxYNWtj6HPLCcYnFoDB2d4lZWovc00gMkg=="
+      },
       "Polly": {
         "type": "CentralTransitive",
         "requested": "[8.6.5, )",
@@ -1952,6 +2008,26 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
           "Microsoft.Extensions.DependencyModel": "10.0.0"
+        }
+      },
+      "Sdcb.PaddleInference.runtime.win64.mkl": {
+        "type": "CentralTransitive",
+        "requested": "[3.1.0.54, )",
+        "resolved": "3.1.0.54",
+        "contentHash": "I0FmDxIPXOpByz44wDlGbm/1LivJHD2YRK5ZQrGy401fEeFeQaTWf1SNu2ywGdagdYwFvv+FGAvkwzj8Ud+klA=="
+      },
+      "Sdcb.PaddleOCR.Models.Local": {
+        "type": "CentralTransitive",
+        "requested": "[3.0.1, )",
+        "resolved": "3.0.1",
+        "contentHash": "uPArZG9Ec7w4lSP9p3+mA9pRkJjyPMxYfQEOtIk1jMp+OP4p8w3fVbhsSuJTLwgtyyzIYM+Ii76URggKnBz30A==",
+        "dependencies": {
+          "Sdcb.PaddleOCR": "3.0.0",
+          "Sdcb.PaddleOCR.Models.LocalV3": "2.7.0.1",
+          "Sdcb.PaddleOCR.Models.LocalV4": "2.7.0.1",
+          "Sdcb.PaddleOCR.Models.LocalV5": "3.0.0",
+          "Sdcb.PaddleOCR.Models.Shared": "2.7.0.1",
+          "YamlDotNet": "16.3.0"
         }
       },
       "Serilog": {

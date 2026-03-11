@@ -50,6 +50,10 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="OpenCvSharp4.Extensions"/>
+        <PackageReference Include="OpenCvSharp4.runtime.win.slim"/>
+        <PackageReference Include="Sdcb.PaddleInference.runtime.win64.mkl"/>
+        <PackageReference Include="Sdcb.PaddleOCR.Models.Local"/>
         <PackageReference Include="SingleInstanceCore"/>
         <PackageReference Include="Velopack"/>
     </ItemGroup>
