@@ -5,11 +5,9 @@ using UI.Windows;
 
 public class WindowsOverlayControls : IOverlayControls, IOverlayEventProvider, IOverlayEventControls
 {
-    public Task ForceShowAsync()
-    {
+    public Task ForceShowAsync() =>
         // TODO: Implement logic for forcing the overlay to be shown.
-        return Task.CompletedTask;
-    }
+        Task.CompletedTask;
 
     public ValueTask ShowAsync()
     {

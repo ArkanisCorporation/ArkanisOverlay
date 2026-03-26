@@ -28,11 +28,10 @@ public static class GameLocationHelper
 
     public static IEnumerable<IGameLocation> CollectParents(this IEnumerable<IGameLocation> locations)
         => locations
-            .SelectMany<IGameLocation, IGameLocation>(location => [location, ..location.Parents]);
+            .SelectMany<IGameLocation, IGameLocation>(location => [location, .. location.Parents]);
 
     private static IGameLocation[] FilterAndSort(this IEnumerable<IGameLocation> locations)
-        => locations
+        => [.. locations
             .Distinct(IIdentifiable.EqualityComparer.For<IGameLocation>())
-            .OrderBy(x => x.Name.MainContent.FullName)
-            .ToArray();
+            .OrderBy(x => x.Name.MainContent.FullName)];
 }

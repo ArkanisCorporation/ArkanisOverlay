@@ -9,5 +9,5 @@ public interface IGlobalAnalyticsReporter : IAnalyticsEventReporter
     ///     Tracking reporting may be linked to JavaScript interop calls.
     /// </summary>
     /// <param name="eventReporter">The reporter to be used to send out analytic events</param>
-    Task LinkReporterAsync(IAnalyticsEventReporter eventReporter);
+    public Task LinkReporterAsync(IAnalyticsEventReporter eventReporter);
 }

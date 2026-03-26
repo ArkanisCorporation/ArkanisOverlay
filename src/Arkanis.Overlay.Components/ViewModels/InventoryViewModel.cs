@@ -118,7 +118,7 @@ public class InventoryViewModel(
 
     public async Task TransferAsync(ICollection<InventoryEntryBase> selectedEntries, InventoryEntryFilters.Context? currentContext = null)
     {
-        var isNotVehicleTransfer = selectedEntries.OfType<HangarInventoryEntry>().Any() == false;
+        var isNotVehicleTransfer = !selectedEntries.OfType<HangarInventoryEntry>().Any();
         var parameters = new SelectInventoryPlacementDialog.Parameters
         {
             AllowVehicleDestination = isNotVehicleTransfer,

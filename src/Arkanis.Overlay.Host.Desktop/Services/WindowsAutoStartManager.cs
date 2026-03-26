@@ -42,11 +42,7 @@ public class WindowsAutoStartManager(
 
     private static void EnableAutoStart()
     {
-        using var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath, true);
-        if (key == null)
-        {
-            throw new InvalidOperationException("Failed to open registry key for auto-start.");
-        }
+        using var key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath, true) ?? throw new InvalidOperationException("Failed to open registry key for auto-start.");
 
         key.SetValue(RegistryKeyName, $"\"{ExecutablePath}\"");
     }

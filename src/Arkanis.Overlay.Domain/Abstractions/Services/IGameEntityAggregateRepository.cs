@@ -7,5 +7,5 @@ using Game;
 /// </summary>
 public interface IGameEntityAggregateRepository : IDependable
 {
-    IAsyncEnumerable<IGameEntity> GetAllAsync(CancellationToken cancellationToken = default);
+    public IAsyncEnumerable<IGameEntity> GetAllAsync(CancellationToken cancellationToken = default);
 }

@@ -5,7 +5,7 @@ using Models.Game;
 
 public interface IGameMarketPricingRepository : IDependable
 {
-    IAsyncEnumerable<GameEntityMarketPrice> GetAllMarketPricesAsync(CancellationToken cancellationToken = default);
+    public IAsyncEnumerable<GameEntityMarketPrice> GetAllMarketPricesAsync(CancellationToken cancellationToken = default);
 
-    ValueTask<ICollection<GameEntityMarketPrice>> GetMarketPricesForAsync(IDomainId domainId, CancellationToken cancellationToken = default);
+    public ValueTask<ICollection<GameEntityMarketPrice>> GetMarketPricesForAsync(IDomainId domainId, CancellationToken cancellationToken = default);
 }

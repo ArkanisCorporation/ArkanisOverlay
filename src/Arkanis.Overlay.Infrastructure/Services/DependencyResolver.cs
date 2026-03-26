@@ -21,7 +21,7 @@ public abstract class DependencyResolver(IServiceProvider serviceProvider)
 
     public class Context(object dependent, ILogger logger, params IEnumerable<IDependable> dependencies) : IDependable
     {
-        private readonly List<IDependable> _dependencies = dependencies.Distinct().ToList();
+        private readonly List<IDependable> _dependencies = [.. dependencies.Distinct()];
 
         public object Dependent { get; } = dependent;
 

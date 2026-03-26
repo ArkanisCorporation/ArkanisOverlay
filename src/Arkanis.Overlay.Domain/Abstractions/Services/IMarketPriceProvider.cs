@@ -6,5 +6,5 @@ using Models.Trade;
 
 public interface IMarketPriceProvider : IDependable
 {
-    ValueTask<Bounds<PriceTag>> GetMarketPriceTagAsync(IGameEntity gameEntity);
+    public ValueTask<Bounds<PriceTag>> GetMarketPriceTagAsync(IGameEntity gameEntity);
 }
