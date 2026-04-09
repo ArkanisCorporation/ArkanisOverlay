@@ -1333,7 +1333,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Overlay.External.Common": "[1.0.0, )",
-          "CitizenId.Domain.Shared": "[1.8.4, )"
+          "CitizenId.Domain.Shared": "[1.9.3, )"
         }
       },
       "arkanis.overlay.external.common": {
@@ -1426,12 +1426,12 @@
       },
       "CitizenId.Domain.Shared": {
         "type": "CentralTransitive",
-        "requested": "[1.8.4, )",
-        "resolved": "1.8.4",
-        "contentHash": "J+IZAv2TC0QDiH1VqqFb4Xdt025eY1CrzoNIR4ZQa40fRiUyHqLtfwZUMDJf6ZFf3EmZpHD/TJIGYdcFnJ1Maw==",
+        "requested": "[1.9.3, )",
+        "resolved": "1.9.3",
+        "contentHash": "o3ufGvRIGNLvvR9vscZfzMWkX+Q6XAjaYbkBtt0gyRvlsAx8Kwbl2dNVcqihYf4AlEAQ71CwjeyDjpP2awclnA==",
         "dependencies": {
           "FluentResults": "4.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
           "OpenIddict.Abstractions": "7.2.0",
           "Slugify.Core": "5.1.1",
           "morelinq": "4.4.0"
