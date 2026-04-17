@@ -75,21 +75,21 @@
       },
       "Xunit.Microsoft.DependencyInjection": {
         "type": "Direct",
-        "requested": "[10.0.2, )",
-        "resolved": "10.0.2",
-        "contentHash": "5NSF0LUYSm7tVimyrcz4hyYn7IG+mC5l2rRmeBHF52o6/vsRFESa48mmQPT8O3i4R5Z4ToHrBlAaJjZExXfr6g==",
+        "requested": "[10.0.4, )",
+        "resolved": "10.0.4",
+        "contentHash": "ktsedpTPJLY+YFG+mAfeVC0wHHVYVFaplKzzaAxeTuSu5oqBlwlP+06RmTCL1moBKW51xoYnUtrYIAw9e6/jSw==",
         "dependencies": {
-          "Microsoft.Extensions.Configuration": "10.0.1",
-          "Microsoft.Extensions.Configuration.Binder": "10.0.1",
-          "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.1",
-          "Microsoft.Extensions.Configuration.FileExtensions": "10.0.1",
-          "Microsoft.Extensions.Configuration.Json": "10.0.1",
-          "Microsoft.Extensions.Configuration.UserSecrets": "10.0.1",
-          "Microsoft.Extensions.DependencyInjection": "10.0.1",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1",
-          "Microsoft.Extensions.Logging": "10.0.1",
-          "Microsoft.Extensions.Options": "10.0.1",
-          "xunit.v3.extensibility.core": "3.2.1"
+          "Microsoft.Extensions.Configuration": "10.0.3",
+          "Microsoft.Extensions.Configuration.Binder": "10.0.3",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "10.0.3",
+          "Microsoft.Extensions.Configuration.FileExtensions": "10.0.3",
+          "Microsoft.Extensions.Configuration.Json": "10.0.3",
+          "Microsoft.Extensions.Configuration.UserSecrets": "10.0.3",
+          "Microsoft.Extensions.DependencyInjection": "10.0.3",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.3",
+          "Microsoft.Extensions.Logging": "10.0.3",
+          "Microsoft.Extensions.Options": "10.0.3",
+          "xunit.v3.extensibility.core": "3.2.2"
         }
       },
       "xunit.runner.visualstudio": {
@@ -1296,7 +1296,7 @@
           "Microsoft.Extensions.Hosting.Abstractions": "[10.0.5, )",
           "Microsoft.NET.Test.Sdk": "[18.4.0, )",
           "Shouldly": "[4.3.0, )",
-          "Xunit.Microsoft.DependencyInjection": "[10.0.2, )",
+          "Xunit.Microsoft.DependencyInjection": "[10.0.4, )",
           "xunit.v3": "[3.2.2, )"
         }
       },
