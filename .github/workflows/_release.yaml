@@ -57,7 +57,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Get Azure API Access Token
-        uses: azure/cli@v2
+        uses: azure/cli@v3
         if: env.ENABLE_CODE_SIGNING
         with:
           azcliversion: 'latest'
