@@ -4,18 +4,18 @@
     "net10.0": {
       "Duende.IdentityModel.OidcClient": {
         "type": "Direct",
-        "requested": "[7.0.0, )",
-        "resolved": "7.0.0",
-        "contentHash": "kCgnw4kkE889lY5NzBfnyMh6Ao8I0+UiNmFUx2+c9vYdh5nOsk6UafUQsytoIGqDbtrNoq5a0V/uY+o3fDc+8Q==",
+        "requested": "[7.1.0, )",
+        "resolved": "7.1.0",
+        "contentHash": "5i/eSXgMtqM01ntFZ4pMRkJu8VaLATZL0Ck87XlVUy8SFHy0+n2WuK9LkqT6VLhT4z/We10hoguv6pTH1iUz6g==",
         "dependencies": {
-          "Duende.IdentityModel": "8.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.0"
+          "Duende.IdentityModel": "8.1.0",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.4"
         }
       },
       "Duende.IdentityModel": {
         "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "8i+Tv4c38LgwoTRKbD0+MqtnNNDSVA83G6JkjGHgC4/7jH0nxZBP0RBhH8xTsvNQ5Pv9zrg+TR8rmtWK9HDOPg=="
+        "resolved": "8.1.0",
+        "contentHash": "ncmC2ISg0efTqY74xI6gaLKlv4mErT5ruYK262dkSnAv07g9qYC2++q7AWWs1FyP2c0YZ6LvUtcoJmxZqYyVrA=="
       },
       "Humanizer.Core": {
         "type": "Transitive",
