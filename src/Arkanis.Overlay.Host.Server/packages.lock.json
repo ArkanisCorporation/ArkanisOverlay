@@ -674,7 +674,7 @@
         "dependencies": {
           "Arkanis.Overlay.Common": "[1.0.0, )",
           "MudBlazor.FontIcons.MaterialIcons": "[1.4.0, )",
-          "MudBlazor.FontIcons.MaterialSymbols": "[1.3.0, )"
+          "MudBlazor.FontIcons.MaterialSymbols": "[1.4.0, )"
         }
       },
       "arkanis.overlay.external.backend": {
@@ -910,9 +910,9 @@
       },
       "MudBlazor.FontIcons.MaterialSymbols": {
         "type": "CentralTransitive",
-        "requested": "[1.3.0, )",
-        "resolved": "1.3.0",
-        "contentHash": "Sl2U2s157pWiD+GNkMI+yWeJdP41HoI+zJH/HTwNt59uMAfEF+lKCh3Ou4hOkkl/CU5fCi0ptzBkGRroYWxVQA=="
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "a0Vlm3yb5gU/Zn+dT8GcrMj4Ynzh96oTlDt0tM0g9GnP6IC5HZesYdkUb15Nt8A6OkdSIe4KvVkPWFkSMOcfJw=="
       },
       "NuGet.Versioning": {
         "type": "CentralTransitive",
