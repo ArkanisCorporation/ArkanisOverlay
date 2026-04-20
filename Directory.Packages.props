@@ -53,7 +53,7 @@
     <PackageVersion Include="MudBlazor.FontIcons.MaterialIcons" Version="1.4.0" />
     <PackageVersion Include="MudBlazor.FontIcons.MaterialSymbols" Version="1.4.0" />
     <PackageVersion Include="MudBlazor" Version="8.15.0" />
-    <PackageVersion Include="NuGet.Versioning" Version="7.0.1" />
+    <PackageVersion Include="NuGet.Versioning" Version="7.3.1" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
     <PackageVersion Include="Polly" Version="8.6.6" />
     <PackageVersion Include="Polly.RateLimiting" Version="8.6.6" />
