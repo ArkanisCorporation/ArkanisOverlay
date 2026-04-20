@@ -527,7 +527,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.6, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.6, )",
           "Microsoft.IdentityModel.JsonWebTokens": "[8.17.0, )",
-          "NuGet.Versioning": "[7.0.1, )",
+          "NuGet.Versioning": "[7.3.1, )",
           "Quartz": "[3.15.1, )",
           "Quartz.Jobs": "[3.15.1, )",
           "Riok.Mapperly": "[4.3.1, )",
@@ -763,9 +763,9 @@
       },
       "NuGet.Versioning": {
         "type": "CentralTransitive",
-        "requested": "[7.0.1, )",
-        "resolved": "7.0.1",
-        "contentHash": "tu68LnZqiLM/VyLQzPRqedopMi/M+5/6JqwB2Xkd0AWXRpUWewkVv77asVB7wgjMPVzQFK2sBy7AuxV49UzuvQ=="
+        "requested": "[7.3.1, )",
+        "resolved": "7.3.1",
+        "contentHash": "TJrQWSmD1vakfav7qIhDXgDFfaZFfMJ+v6P8tcND9ZqXajD5B/ZzaoGYNzL4D3eDue6vAOUvwzu42G+19JNVUA=="
       },
       "Quartz": {
         "type": "CentralTransitive",
