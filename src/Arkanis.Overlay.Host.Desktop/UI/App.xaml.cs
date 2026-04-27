@@ -1,11 +1,11 @@
-﻿namespace Arkanis.Overlay.Host.Desktop.UI;
+namespace Arkanis.Overlay.Host.Desktop.UI;
 
 using System.Diagnostics;
 using System.Windows;
-using Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Windows;
 
 /// <summary>
 ///     Interaction logic for Overlay.xaml

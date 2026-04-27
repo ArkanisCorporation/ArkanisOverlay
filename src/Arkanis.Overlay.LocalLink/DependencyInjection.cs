@@ -3,7 +3,6 @@ namespace Arkanis.Overlay.LocalLink;
 using Abstractions;
 using Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Models;
 using Services;
 
 public static class DependencyInjection

@@ -9,9 +9,7 @@ public sealed class KeyboardShortcut(IEnumerable<KeyboardKey> pressedKeys) : IEq
 {
     public static readonly KeyboardShortcut None = new([]);
 
-    public HashSet<KeyboardKey> PressedKeys { get; } = pressedKeys
-        .Distinct()
-        .ToHashSet();
+    public HashSet<KeyboardKey> PressedKeys { get; } = [.. pressedKeys.Distinct()];
 
     public bool IsEmpty
         => PressedKeys.Count == 0;

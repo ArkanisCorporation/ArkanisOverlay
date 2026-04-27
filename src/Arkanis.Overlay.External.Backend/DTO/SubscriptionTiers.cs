@@ -1,4 +1,4 @@
-﻿namespace Arkanis.Overlay.External.Backend.DTO;
+namespace Arkanis.Overlay.External.Backend.DTO;
 
 public class SubscriptionTier
 {

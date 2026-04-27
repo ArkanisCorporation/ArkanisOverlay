@@ -196,6 +196,7 @@ public abstract class InventoryEntryBase : IIdentifiable, IInventoryPlacement
                 Quantity = Quantity,
                 List = List,
             },
+            VehicleInventoryType.Undefined => throw new NotImplementedException(),
             _ => this,
         };
 }

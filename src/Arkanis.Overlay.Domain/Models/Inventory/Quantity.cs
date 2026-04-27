@@ -64,34 +64,37 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
         => unit switch
         {
             UnitType.Count => "\u00d7", // multiplication sign
+            UnitType.Undefined => throw new NotImplementedException(),
+            UnitType.CentiStandardCargoUnit => throw new NotImplementedException(),
+            UnitType.StandardCargoUnit => throw new NotImplementedException(),
             _ => unit.Humanize(),
         };
 
     public static bool operator <(Quantity left, Quantity right)
-        => ReferenceEquals(left, null)
-            ? !ReferenceEquals(right, null)
+        => left is null
+            ? right is not null
             : left.CompareTo(right) < 0;
 
     public static bool operator <=(Quantity left, Quantity right)
-        => ReferenceEquals(left, null) || left.CompareTo(right) <= 0;
+        => left is null || left.CompareTo(right) <= 0;
 
     public static bool operator >(Quantity left, Quantity right)
-        => !ReferenceEquals(left, null) && left.CompareTo(right) > 0;
+        => left is not null && left.CompareTo(right) > 0;
 
     public static bool operator >=(Quantity left, Quantity right)
-        => ReferenceEquals(left, null)
-            ? ReferenceEquals(right, null)
+        => left is null
+            ? right is null
             : left.CompareTo(right) >= 0;
 
 
     public static Quantity operator +(Quantity left, Quantity right)
     {
-        if (ReferenceEquals(left, null))
+        if (left is null)
         {
             return right;
         }
 
-        if (ReferenceEquals(right, null))
+        if (right is null)
         {
             return left;
         }
@@ -106,12 +109,12 @@ public record Quantity(int Amount, Quantity.UnitType Unit) : IComparable, ICompa
 
     public static Quantity operator -(Quantity left, Quantity right)
     {
-        if (ReferenceEquals(left, null))
+        if (left is null)
         {
             throw new ArgumentNullException(nameof(left), "Cannot subtract from null");
         }
 
-        if (ReferenceEquals(right, null))
+        if (right is null)
         {
             return left;
         }
