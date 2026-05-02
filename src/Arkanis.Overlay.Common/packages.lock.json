@@ -181,20 +181,20 @@
       },
       "Quartz": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "XIbhzUAKSm3xdl1ORLPnK7mc5XANP3cuvYQhCtuX/8888IN41e9OXJak4R9OlmAGRnyAMqHE40yojVa89NS1wg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "q/n/gKLcApDlTk90BRNvj6P8HKR+vbtZEQxo5BAbeEoN5e/8/aqRuG6yH7tVg02CeAXAD40boS74s9hVnh4XDw==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Jobs": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "7zdCIwRnxX7vksRptOhxy/I5d1pkJWn+Pi+CYObHvYMWy4/hX0VuKf2e+m54ytNJzL0FTTNo+avg4Lwm3BQvHg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "tTLlKEWHsn9lKyyXGX0BAMYe4UjvqJOtNpz+2RYR16nzOVfS3uWjupM6eee+Al4tfPhqTwZo4xMeaTofxXBftQ==",
         "dependencies": {
-          "Quartz": "3.15.1"
+          "Quartz": "3.18.1"
         }
       },
       "Riok.Mapperly": {
@@ -980,20 +980,20 @@
       },
       "Quartz": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "XIbhzUAKSm3xdl1ORLPnK7mc5XANP3cuvYQhCtuX/8888IN41e9OXJak4R9OlmAGRnyAMqHE40yojVa89NS1wg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "q/n/gKLcApDlTk90BRNvj6P8HKR+vbtZEQxo5BAbeEoN5e/8/aqRuG6yH7tVg02CeAXAD40boS74s9hVnh4XDw==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Jobs": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "7zdCIwRnxX7vksRptOhxy/I5d1pkJWn+Pi+CYObHvYMWy4/hX0VuKf2e+m54ytNJzL0FTTNo+avg4Lwm3BQvHg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "tTLlKEWHsn9lKyyXGX0BAMYe4UjvqJOtNpz+2RYR16nzOVfS3uWjupM6eee+Al4tfPhqTwZo4xMeaTofxXBftQ==",
         "dependencies": {
-          "Quartz": "3.15.1"
+          "Quartz": "3.18.1"
         }
       },
       "Riok.Mapperly": {
@@ -1808,20 +1808,20 @@
       },
       "Quartz": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "XIbhzUAKSm3xdl1ORLPnK7mc5XANP3cuvYQhCtuX/8888IN41e9OXJak4R9OlmAGRnyAMqHE40yojVa89NS1wg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "q/n/gKLcApDlTk90BRNvj6P8HKR+vbtZEQxo5BAbeEoN5e/8/aqRuG6yH7tVg02CeAXAD40boS74s9hVnh4XDw==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Jobs": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "7zdCIwRnxX7vksRptOhxy/I5d1pkJWn+Pi+CYObHvYMWy4/hX0VuKf2e+m54ytNJzL0FTTNo+avg4Lwm3BQvHg==",
+        "requested": "[3.18.1, )",
+        "resolved": "3.18.1",
+        "contentHash": "tTLlKEWHsn9lKyyXGX0BAMYe4UjvqJOtNpz+2RYR16nzOVfS3uWjupM6eee+Al4tfPhqTwZo4xMeaTofxXBftQ==",
         "dependencies": {
-          "Quartz": "3.15.1"
+          "Quartz": "3.18.1"
         }
       },
       "Riok.Mapperly": {
