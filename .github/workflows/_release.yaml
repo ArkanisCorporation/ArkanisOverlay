@@ -105,7 +105,7 @@ jobs:
       # determines whether a new version release is mandated
       # if it is, publish scripts are run and new version is tagged and published
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6.0.0
         id: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
