@@ -665,7 +665,7 @@
           "Arkanis.Overlay.Infrastructure": "[1.0.0, )",
           "Blazor-Analytics": "[4.0.0, )",
           "MathEvaluator": "[3.0.2, )",
-          "MudBlazor": "[8.15.0, )",
+          "MudBlazor": "[9.4.0, )",
           "System.Linq.Async": "[7.0.0, )"
         }
       },
@@ -898,9 +898,9 @@
       },
       "MudBlazor": {
         "type": "CentralTransitive",
-        "requested": "[8.15.0, )",
-        "resolved": "8.15.0",
-        "contentHash": "iOJEnQ6tYGQPfPJaUazyC8H6pcczgaMX7vhUzrJPpB0WqEXNozwMfSzoOe2/JZmVWJcUfYZgKBeBU2Z27XY7Sw=="
+        "requested": "[9.4.0, )",
+        "resolved": "9.4.0",
+        "contentHash": "p6BF8zmt4c/yi/hD9hP7yPioUK5loOnif19gwIEANq6I46407QnSu0HTW1NuALC5seRKcWb2pBP5LwC8aBE2Mg=="
       },
       "MudBlazor.FontIcons.MaterialIcons": {
         "type": "CentralTransitive",
