@@ -9,6 +9,15 @@ on:
     branches: [ main, release/*, ci ]
   pull_request:
     branches: [ main, release/*, ci ]
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
+        type: choice
+        options:
+          - arkanis-runners
+          - ubuntu-latest
+        default: arkanis-runners
 
 permissions:
   contents: write       # for publishing a GitHub release and creating release backpropagation PRs
@@ -33,6 +42,7 @@ jobs:
     secrets: inherit
     with:
       dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' }}
+      runner: ${{ inputs.runner || 'arkanis-runners' }}
 
   # delpoyment target is selected by the active environment
   deploy:
