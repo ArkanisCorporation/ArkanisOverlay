@@ -8,10 +8,19 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
+        type: choice
+        options:
+          - arkanis-runners
+          - ubuntu-latest
+        default: arkanis-runners
 
 jobs:
   virustotal:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner || 'arkanis-runners' }}
     permissions:
       # required to write GitHub Release body
       contents: write
