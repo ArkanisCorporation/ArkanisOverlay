@@ -22,7 +22,7 @@
     <PackageVersion Include="MathEvaluator" Version="3.0.2" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.60" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.70" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.10" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.10" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.8" />

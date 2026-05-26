@@ -1392,7 +1392,7 @@
           "Dapplo.Microsoft.Extensions.Hosting.Plugins": "[1.0.14, )",
           "Dapplo.Microsoft.Extensions.Hosting.Wpf": "[1.0.14, )",
           "Microsoft.AspNetCore.Components.Authorization": "[10.0.8, )",
-          "Microsoft.AspNetCore.Components.WebView.Wpf": "[10.0.60, )",
+          "Microsoft.AspNetCore.Components.WebView.Wpf": "[10.0.70, )",
           "Microsoft.AspNetCore.Http": "[2.3.10, )",
           "Microsoft.Data.Sqlite": "[10.0.8, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.8, )",
@@ -1636,9 +1636,9 @@
       },
       "Microsoft.AspNetCore.Components.WebView.Wpf": {
         "type": "CentralTransitive",
-        "requested": "[10.0.60, )",
-        "resolved": "10.0.60",
-        "contentHash": "T96GxK2qq5Std2EMUwIfs9UkepL9JxY8pbbML+o9C92VyYXvEGbbv7UhjDosR903816W2HO4bOZjFJXDb9Lhnw==",
+        "requested": "[10.0.70, )",
+        "resolved": "10.0.70",
+        "contentHash": "rwzZQeE7CujHM8xDLtAt2zHVaOC69iUU1ALa03xAQXbxb9KqYHvB7aBGjIzLsFy2jXhyZbEc+R47L8+/Y0dj1g==",
         "dependencies": {
           "Microsoft.AspNetCore.Components.WebView": "10.0.0",
           "Microsoft.Web.WebView2": "1.0.3179.45"
