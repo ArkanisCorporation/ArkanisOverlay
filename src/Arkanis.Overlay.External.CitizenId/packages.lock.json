@@ -4,13 +4,13 @@
     "net10.0": {
       "CitizenId.Domain.Shared": {
         "type": "Direct",
-        "requested": "[1.9.3, )",
-        "resolved": "1.9.3",
-        "contentHash": "o3ufGvRIGNLvvR9vscZfzMWkX+Q6XAjaYbkBtt0gyRvlsAx8Kwbl2dNVcqihYf4AlEAQ71CwjeyDjpP2awclnA==",
+        "requested": "[1.10.0, )",
+        "resolved": "1.10.0",
+        "contentHash": "IW+vxHPEoKsc3KE0oSqbOMxU/3/YiwNYSM7OCIehFBXWtflhybgqz5g49yD/XCZr3XhLM32tEGBgo2l4jT8iuA==",
         "dependencies": {
           "FluentResults": "4.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
-          "OpenIddict.Abstractions": "7.2.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.8",
+          "OpenIddict.Abstractions": "7.5.0",
           "Slugify.Core": "5.1.1",
           "morelinq": "4.4.0"
         }
@@ -493,12 +493,12 @@
       },
       "OpenIddict.Abstractions": {
         "type": "Transitive",
-        "resolved": "7.2.0",
-        "contentHash": "E0HB2Eps8shrRx7n3/QkwusiCPcnzcMi2JF16GZqff9Jx2PS3t3VyiOaW54cxPDIESNH3/VcguT+VrQPQrnRtQ==",
+        "resolved": "7.5.0",
+        "contentHash": "4m3smhkdeWITo1UWc3zYyGketh0ELn6UZRuZEnzcyS6fuflvl1MNSHbg1wPTTGldlxcq6VwWvVvKWyaTW/25Ig==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Primitives": "10.0.0",
-          "Microsoft.IdentityModel.Tokens": "8.14.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.7",
+          "Microsoft.Extensions.Primitives": "10.0.7",
+          "Microsoft.IdentityModel.Tokens": "8.16.0"
         }
       },
       "Serilog.Extensions.Logging": {
