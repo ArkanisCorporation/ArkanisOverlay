@@ -1405,7 +1405,7 @@
           "Microsoft.Extensions.Options.DataAnnotations": "[10.0.8, )",
           "Microsoft.Toolkit.Uwp.Notifications": "[7.1.3, )",
           "SingleInstanceCore": "[2.2.2, )",
-          "Velopack": "[0.0.1298, )"
+          "Velopack": "[1.1.1, )"
         }
       },
       "arkanis.overlay.infrastructure": {
@@ -2101,12 +2101,9 @@
       },
       "Velopack": {
         "type": "CentralTransitive",
-        "requested": "[0.0.1298, )",
-        "resolved": "0.0.1298",
-        "contentHash": "PJ6Nm28qJ4ChsHYzgHUJ8g+DGyyHes2+bwxY709+znMhgi8fMp8M1FTF8x6pZMjnsPCWVwoMlxVEyq0NLeRZtA==",
-        "dependencies": {
-          "NuGet.Versioning": "6.14.0"
-        }
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "NvPcAHnGj97qFToV4HZIEs05UfWYMXo0BAFUVmsf+/Xb1Bxqvk7H09CXanCqb5Vpd42tN5h7dz/qHLvWnTMpzw=="
       },
       "xunit.v3": {
         "type": "CentralTransitive",
