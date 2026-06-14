@@ -1232,8 +1232,8 @@
       },
       "Polly.Core": {
         "type": "Transitive",
-        "resolved": "8.6.6",
-        "contentHash": "lCBL9mmhF9TZxHG3beVRkyjlLohkIC464xIAq7J7Y59C+z42hmsdUaeCKl2SIAYertOUU5TeBXyQDLDQGIKePQ=="
+        "resolved": "8.7.0",
+        "contentHash": "BS2t+nsBer16PIebCEPNBK5fgMisADQyRCd7K+BgkMWpFmSaiYE+rVVNpFhGRqUkJmNSLmw0uCNzHHWfgml28Q=="
       },
       "protobuf-net": {
         "type": "Transitive",
@@ -1496,8 +1496,8 @@
           "Microsoft.Data.Sqlite": "[10.0.8, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.8, )",
           "Microsoft.Extensions.Http": "[10.0.8, )",
-          "Polly": "[8.6.6, )",
-          "Polly.RateLimiting": "[8.6.6, )",
+          "Polly": "[8.7.0, )",
+          "Polly.RateLimiting": "[8.7.0, )",
           "Quartz.Extensions.DependencyInjection": "[3.18.1, )",
           "Quartz.Extensions.Hosting": "[3.18.1, )",
           "Scrutor": "[7.0.0, )",
@@ -1831,20 +1831,20 @@
       },
       "Polly": {
         "type": "CentralTransitive",
-        "requested": "[8.6.6, )",
-        "resolved": "8.6.6",
-        "contentHash": "czKHYJ6uGowPijuZt4kgF4njfGvWxVZ8mKBcrZ9iEtwDe9HKdF0ug6p6TwUG8EHuuufgbDU//rSBFebt5/0Fyw==",
+        "requested": "[8.7.0, )",
+        "resolved": "8.7.0",
+        "contentHash": "0qR4f0OR8FeCAfLWcfwzAM7w6EmpUgwa22PgxKjcL25dEAto7sKpQQXbtxp38vVvK+V3RFkh/TeI7g/iUdoYIQ==",
         "dependencies": {
-          "Polly.Core": "8.6.6"
+          "Polly.Core": "8.7.0"
         }
       },
       "Polly.RateLimiting": {
         "type": "CentralTransitive",
-        "requested": "[8.6.6, )",
-        "resolved": "8.6.6",
-        "contentHash": "MW/vYq8KQgn3qVw3jcYwj7Roy8baCKJsd8HJ6ioBLq5Qut9p0UoL8B0CKhjTorUTcsmCWkTRFNPrz7KSb+LAPw==",
+        "requested": "[8.7.0, )",
+        "resolved": "8.7.0",
+        "contentHash": "PjbRSHNc0nCKYW26tXRuvj6gNny4HJOa2MHm5cZocyULYaNoGXnl5Q8Q1qKZB25d82E95B5pFvL2Kz6Yjh27GA==",
         "dependencies": {
-          "Polly.Core": "8.6.6",
+          "Polly.Core": "8.7.0",
           "System.Threading.RateLimiting": "8.0.0"
         }
       },
