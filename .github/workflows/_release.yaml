@@ -62,6 +62,12 @@ jobs:
         with:
           fetch-tags: true
 
+      - name: Install Azure CLI
+        # azure/login and the Velopack code-signing token step shell out to `az` on
+        # the host; the daedalus pool (RUNNER_DEFAULT) does not ship it, so install it.
+        uses: elstudio/action-install-azure-cli@v1
+        if: env.ENABLE_CODE_SIGNING
+
       - name: Azure Login
         uses: azure/login@v3
         if: env.ENABLE_CODE_SIGNING
