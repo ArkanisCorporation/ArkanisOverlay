@@ -14,13 +14,14 @@ on:
         description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
         type: choice
         options:
+          - daedalus
           - arkanis-runners
           - ubuntu-latest
-        default: arkanis-runners
+        default: daedalus
 
 jobs:
   virustotal:
-    runs-on: ${{ inputs.runner || 'arkanis-runners' }}
+    runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
     permissions:
       # required to write GitHub Release body
       contents: write

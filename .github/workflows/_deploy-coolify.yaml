@@ -30,7 +30,7 @@ on:
         description: "Runner pool"
         required: false
         type: string
-        default: arkanis-runners
+        default: daedalus
     secrets:
       COOLIFY_URL:
         required: true

@@ -14,9 +14,10 @@ on:
         description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
         type: choice
         options:
+          - daedalus
           - arkanis-runners
           - ubuntu-latest
-        default: arkanis-runners
+        default: daedalus
   workflow_call:
     inputs:
       dry_run:
@@ -28,7 +29,7 @@ on:
         description: "Runner pool"
         required: false
         type: string
-        default: arkanis-runners
+        default: daedalus
     outputs:
       new_version:
         description: "Newly published version"
