@@ -1,0 +1,16 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "github>ArkanisCorporation/renovate-config"
+    ],
+    "labels": [
+        "automated",
+        "build/publish"
+    ],
+    "reviewers": [
+        "team:overlay-maintainers"
+    ],
+    "lockFileMaintenance": {
+        "enabled": true
+    }
+}
