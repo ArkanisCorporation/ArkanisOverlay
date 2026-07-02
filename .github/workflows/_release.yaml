@@ -136,10 +136,11 @@ jobs:
         # (daedalus / arkanis-runners) don't ship Node, so `npm` is missing and
         # the Semantic Release step fails with `npm: not found`. Install Node
         # unconditionally so the release runs deterministically on any runner.
-        # semantic-release 25 requires Node ^22.14 || >=24.10.
+        # Pin the current Active LTS (Node 24, EOL 2028-04); satisfies
+        # semantic-release 25's engine requirement (^22.14 || >=24.10).
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
 
       # determines whether a new version release is mandated
       # if it is, publish scripts are run and new version is tagged and published
