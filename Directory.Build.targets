@@ -26,4 +26,10 @@
         <Message Text="[$(MSBuildProjectName)] Obj: artifacts\obj\$(MSBuildProjectName)" Importance="high"/>
         <RemoveDir Directories="$(ArtifactsPath)\obj\$(MSBuildProjectName)" Condition="Exists('$(ArtifactsPath)\obj\$(MSBuildProjectName)')" ContinueOnError="true"/>
     </Target>
+
+    <Target Name="AutomaticRestoreAfterCleanArtifacts" AfterTargets="CleanArtifacts" Condition=" '$(IsRebuild)' != 'true' And '$(ArtifactsPath)' != '' And Exists('$(ArtifactsPath)') ">
+        <!-- Automatically restore packages after cleaning artifacts to avoid issues with missing dependencies after clean -->
+        <Message Text="[$(MSBuildProjectName)] Restoring packages after cleaning artifacts (CustomTask - see `Directory.Build.targets`)" Importance="high"/>
+        <Exec Command="dotnet restore &quot;$(MSBuildProjectFullPath)&quot;" />
+    </Target>
 </Project>
