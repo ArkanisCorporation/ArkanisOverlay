@@ -85,6 +85,53 @@ public class LocalDatabaseInventoryManagerUnitTests(ITestOutputHelper testOutput
     }
 
     [Fact]
+    public async Task Can_Get_Vehicle_Cargo_Entry_For_Item()
+    {
+        // Regression: an item stored in a vehicle's inventory (VehicleInventoryEntry) has a required
+        // HangarEntry reference. When queried via GetEntriesForAsync (e.g. from the search details view),
+        // the HangarEntry navigation must be loaded, otherwise mapping to the domain model throws
+        // ArgumentNullException('HangarEntry') and crashes the Overlay UI.
+        await SetUp();
+
+        var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
+
+        var hangarEntry = InventoryEntry.CreateAt(GameEntityFixture.SpaceShip, GameEntityFixture.SpaceStation);
+        await inventoryManager.AddOrUpdateEntryAsync(hangarEntry, TestContext.Current.CancellationToken);
+
+        var cargo = InventoryEntry.CreateCargo(GameEntityFixture.Item1, new Quantity(3, Quantity.UnitType.Count), hangarEntry);
+        await inventoryManager.AddOrUpdateEntryAsync(cargo, TestContext.Current.CancellationToken);
+
+        var entries = await inventoryManager.GetEntriesForAsync(GameEntityFixture.Item1.Id, TestContext.Current.CancellationToken);
+
+        var cargoEntry = entries.SingleOrDefault(x => x.Id == cargo.Id).ShouldNotBeNull();
+        var vehicleEntry = cargoEntry.ShouldBeOfType<VehicleInventoryEntry>();
+        vehicleEntry.HangarEntry.Id.ShouldBe(hangarEntry.Id);
+    }
+
+    [Fact]
+    public async Task Can_Get_Hangar_With_Its_Vehicle_Cargo()
+    {
+        // Complements the search path above: when a hangar is loaded as a top-level entry (as the hangar
+        // view does via GetAllEntriesAsync) its Inventory/Modules must be fully populated. Mapping this
+        // hangar<->cargo reference cycle must terminate (the cargo's HangarEntry is mapped without walking
+        // back into the hangar's collections).
+        await SetUp();
+
+        var inventoryManager = this.GetRequiredService<LocalDatabaseInventoryManager>();
+
+        var hangarEntry = InventoryEntry.CreateAt(GameEntityFixture.SpaceShip, GameEntityFixture.SpaceStation);
+        await inventoryManager.AddOrUpdateEntryAsync(hangarEntry, TestContext.Current.CancellationToken);
+
+        var cargo = InventoryEntry.CreateCargo(GameEntityFixture.Item1, new Quantity(3, Quantity.UnitType.Count), hangarEntry);
+        await inventoryManager.AddOrUpdateEntryAsync(cargo, TestContext.Current.CancellationToken);
+
+        var allEntries = await inventoryManager.GetAllEntriesAsync(TestContext.Current.CancellationToken);
+
+        var loadedHangar = allEntries.OfType<HangarInventoryEntry>().SingleOrDefault(x => x.Id == hangarEntry.Id).ShouldNotBeNull();
+        loadedHangar.Inventory.ShouldContain(x => x.Id == cargo.Id);
+    }
+
+    [Fact]
     public async Task Can_Insert_List()
     {
         await SetUp();
