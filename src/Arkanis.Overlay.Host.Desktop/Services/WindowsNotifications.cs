@@ -7,7 +7,6 @@ using Windows.UI.Notifications;
 using Common.Options;
 using Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using NuGet.Versioning;
 using Velopack;
 
 internal class WindowsNotifications : IDisposable
