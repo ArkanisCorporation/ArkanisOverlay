@@ -131,6 +131,15 @@ internal static class GameEntityFixture
         ExternalUexDTOFixture.Commodity3.Code!
     );
 
+    // No dedicated UEX DTO fixture for a vehicle; a synthetic id suffices as long as it is unique
+    // and cached for hydration. Used to exercise vehicle-hangar inventory placement (HangarInventoryEntry).
+    public static GameSpaceShip SpaceShip { get; } = new(
+        90001,
+        "Test Runner",
+        "TRUN",
+        ItemCompany
+    );
+
     public static IGameEntity[] AllEntities
         =>
         [
@@ -151,5 +160,6 @@ internal static class GameEntityFixture
             Commodity1,
             Commodity2,
             Commodity3,
+            SpaceShip,
         ];
 }

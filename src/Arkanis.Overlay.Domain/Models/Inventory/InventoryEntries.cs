@@ -352,3 +352,24 @@ public enum VehicleInventoryType
     Cargo,
     Module,
 }
+
+public static class InventoryEntryExtensions
+{
+    /// <summary>
+    ///     Resolves the physical game location an inventory entry sits at.
+    /// </summary>
+    /// <remarks>
+    ///     Location- and hangar-placed entries expose their location directly via <see cref="IGameLocatedAt" />.
+    ///     Vehicle-placed entries (cargo and modules) are located wherever their containing vehicle is, so they
+    ///     resolve through <see cref="IVehicleInventory.HangarEntry" />. Unplaced (virtual) entries have no location.
+    ///     This lets consumers (e.g. search) treat all placements uniformly instead of only <see cref="IGameLocatedAt" />.
+    /// </remarks>
+    /// <returns>The entry's game location, or <c>null</c> when it is not placed anywhere.</returns>
+    public static IGameLocation? GetPlacementLocation(this InventoryEntryBase entry)
+        => entry switch
+        {
+            IGameLocatedAt locatedAt => locatedAt.Location,
+            IVehicleInventory vehicleInventory => vehicleInventory.HangarEntry.Location,
+            _ => null,
+        };
+}
