@@ -168,7 +168,7 @@
         var changes = await Task.WhenAll(updateTasks);
         if (changes.Any())
         {
-            _tabs?.ActivatePanel(ActiveModuleIndex);
+            await (_tabs?.ActivatePanelAsync(ActiveModuleIndex) ?? Task.CompletedTask);
             await InvokeAsync(StateHasChanged);
         }
     }

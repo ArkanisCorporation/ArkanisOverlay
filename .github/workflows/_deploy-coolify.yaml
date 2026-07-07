@@ -26,6 +26,11 @@ on:
         description: "The GitHub environment to deploy to"
         type: string
         required: true
+      runner:
+        description: "Runner pool"
+        required: false
+        type: string
+        default: daedalus
     secrets:
       COOLIFY_URL:
         required: true
@@ -40,7 +45,7 @@ env:
 jobs:
   deploy:
     name: Deploy ${{ inputs.application_name }} to ${{ inputs.environment_name }} (Coolify)
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     environment:
       name: ${{ inputs.gh_environment }}
     steps:

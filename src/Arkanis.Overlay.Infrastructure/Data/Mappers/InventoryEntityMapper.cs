@@ -135,11 +135,30 @@ internal partial class InventoryEntityMapper(
         [ReferenceHandler] IReferenceHandler referenceHandler
     );
 
+    //? Maps a hangar entry WITHOUT its Modules/Inventory back-references.
+    //  Used exclusively for the required HangarEntry navigation of vehicle-placed entries below.
+    //  Mapperly assigns required members inside the target's object initializer, i.e. BEFORE the
+    //  vehicle entry registers its own reference. If the mapped hangar then walked its Modules/Inventory
+    //  collections (which contain that very vehicle entry) the reference handler could not yet
+    //  de-duplicate it, producing unbounded recursion. Omitting those collections here breaks the cycle;
+    //  when a hangar is instead mapped as a top-level entry its full mapping above is used, and any
+    //  nested vehicle entry resolves back to it through the reference handler.
+    [MapProperty(nameof(HangarInventoryEntryEntity.LocationId), nameof(HangarInventoryEntry.Location))]
+    [MapperIgnoreTarget(nameof(HangarInventoryEntry.IsLoaner))]
+    [MapperIgnoreTarget(nameof(HangarInventoryEntry.Modules))]
+    [MapperIgnoreTarget(nameof(HangarInventoryEntry.Inventory))]
+    private partial HangarInventoryEntry MapAsReference(
+        HangarInventoryEntryEntity bareEntry,
+        [ReferenceHandler] IReferenceHandler referenceHandler
+    );
+
+    [MapProperty(nameof(VehicleModuleEntryEntity.HangarEntry), nameof(VehicleModuleEntry.HangarEntry), Use = nameof(MapAsReference))]
     private partial VehicleModuleEntry Map(
         VehicleModuleEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler
     );
 
+    [MapProperty(nameof(VehicleInventoryEntryEntity.HangarEntry), nameof(VehicleInventoryEntry.HangarEntry), Use = nameof(MapAsReference))]
     private partial VehicleInventoryEntry Map(
         VehicleInventoryEntryEntity bareEntry,
         [ReferenceHandler] IReferenceHandler referenceHandler

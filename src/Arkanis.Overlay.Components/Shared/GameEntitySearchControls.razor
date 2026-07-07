@@ -187,7 +187,7 @@
             _unassignedEntries = _allEntries.Where(x => x.Type is InventoryEntryBase.EntryType.Virtual).ToArray();
             _unassignedQuantities = Quantity.Aggregate(_unassignedEntries.Select(x => x.Quantity)).ToArray();
 
-            _assignedEntries = _allEntries.Where(x => x is IGameLocatedAt locatedAt && CurrentLocation?.IsOrContains(locatedAt.Location) != false).ToArray();
+            _assignedEntries = _allEntries.Where(x => x.GetPlacementLocation() is { } location && CurrentLocation?.IsOrContains(location) != false).ToArray();
             _assignedQuantities = Quantity.Aggregate(_assignedEntries.Select(x => x.Quantity)).ToArray();
         }
 

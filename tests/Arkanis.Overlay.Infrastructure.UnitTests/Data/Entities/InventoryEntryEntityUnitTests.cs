@@ -27,11 +27,11 @@ public class InventoryEntryEntityUnitTests(ITestOutputHelper testOutputHelper, O
         }
     }
 
-    internal static IEnumerable<InventoryEntryEntityBase[]> DatabaseInventoryEntities()
+    internal static IEnumerable<TheoryDataRow<InventoryEntryEntityBase>> DatabaseInventoryEntities()
         =>
         [
-            [DatabaseInventoryEntitiesFixture.LocationItem1],
+            DatabaseInventoryEntitiesFixture.LocationItem1,
             //
-            [DatabaseInventoryEntitiesFixture.PhysicalCommodity1],
+            DatabaseInventoryEntitiesFixture.PhysicalCommodity1,
         ];
 }

@@ -58,23 +58,23 @@ public class InventoryEntityMapperUnitTests
         }
     }
 
-    internal static IEnumerable<InventoryEntryEntityBase[]> DatabaseInventoryEntities()
+    internal static IEnumerable<TheoryDataRow<InventoryEntryEntityBase>> DatabaseInventoryEntities()
         =>
         [
-            [DatabaseInventoryEntitiesFixture.LocationItem1],
+            DatabaseInventoryEntitiesFixture.LocationItem1,
             //
-            [DatabaseInventoryEntitiesFixture.LocationItem2],
+            DatabaseInventoryEntitiesFixture.LocationItem2,
             //
-            [DatabaseInventoryEntitiesFixture.LocationItem3],
+            DatabaseInventoryEntitiesFixture.LocationItem3,
         ];
 
-    internal static IEnumerable<InventoryEntryBase[]> DomainInventoryEntries()
+    internal static IEnumerable<TheoryDataRow<InventoryEntryBase>> DomainInventoryEntries()
         =>
         [
-            [DomainInventoryEntriesFixture.LocationItem1],
+            DomainInventoryEntriesFixture.LocationItem1,
             //
-            [DomainInventoryEntriesFixture.LocationItem1],
+            DomainInventoryEntriesFixture.LocationItem1,
             //
-            [DomainInventoryEntriesFixture.LocationItem1],
+            DomainInventoryEntriesFixture.LocationItem1,
         ];
 }

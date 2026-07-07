@@ -166,7 +166,7 @@
         public IEnumerable<InventoryEntryBase> Filter(IEnumerable<InventoryEntryBase> entries)
             => entries
                 .Where(x => Text is null || x.Entity.Name.MainContent.FullName.Contains(Text, StringComparison.OrdinalIgnoreCase))
-                .Where(x => Location is null || (x is IGameLocatedAt locatedAt && Location.IsOrContains(locatedAt.Location)))
+                .Where(x => Location is null || (x.GetPlacementLocation() is { } placementLocation && Location.IsOrContains(placementLocation)))
                 .Where(x => InventoryList is null || x.List?.Id == InventoryList.Id);
     }
 
