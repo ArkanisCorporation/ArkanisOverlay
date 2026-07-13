@@ -75,7 +75,7 @@ public static class OidcAuthenticatorRefreshJob
         var dataMap = new JobDataMap();
         if (refreshThreshold.HasValue)
         {
-            dataMap.Put(RefreshThresholdKey, refreshThreshold.Value);
+            dataMap[RefreshThresholdKey] = refreshThreshold.Value;
         }
 
         return dataMap;

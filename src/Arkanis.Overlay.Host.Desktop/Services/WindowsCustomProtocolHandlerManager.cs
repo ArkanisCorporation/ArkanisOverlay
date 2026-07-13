@@ -12,7 +12,16 @@ public class WindowsCustomProtocolHandlerManager(
     ILogger<WindowsCustomProtocolHandlerManager> logger
 ) : IHostedService
 {
-    private const string ProtocolHandlerKeyPath = @$"Software\Classes\{ApplicationConstants.Protocol.Schema}";
+    /// <remarks>
+    /// Kept for backwards compatibility with older versions that used incorrect casing.
+    /// Used to clean up old registry entries.
+    /// </remarks>
+    private const string OldProtocolHandlerKeyPath = @$"Software\Classes\{ApplicationConstants.Protocol.OldSchema}";
+    /// <remarks>
+    /// The registry key path for our custom protocol handler.
+    /// Relative to <c>HKEY_CURRENT_USER</c>.
+    /// </remarks>
+    private static readonly string ProtocolHandlerKeyPath = @$"Software\Classes\{ApplicationConstants.Protocol.Schema}";
 
     private const string ApplicationKeySubPath = "Application";
     private const string HandlerKeySubPath = @"shell\open\command";
@@ -42,6 +51,10 @@ public class WindowsCustomProtocolHandlerManager(
     /// </summary>
     private static void EnableProtocolHandler()
     {
+        // Clean up any existing keys with incorrect casing
+        using var oldProtocolHandlerKey = Registry.CurrentUser.OpenSubKey(OldProtocolHandlerKeyPath, true);
+        oldProtocolHandlerKey?.DeleteSubKeyTree("");
+
         using var protocolHandlerKey = Registry.CurrentUser.OpenSubKey(ProtocolHandlerKeyPath, true)
                                        ?? Registry.CurrentUser.CreateSubKey(ProtocolHandlerKeyPath);
 
@@ -62,13 +75,8 @@ public class WindowsCustomProtocolHandlerManager(
     private static void DisableProtocolHandler()
     {
         using var protocolHandlerKey = Registry.CurrentUser.OpenSubKey(ProtocolHandlerKeyPath, true);
-        if (protocolHandlerKey is null)
-        {
-            return;
-        }
 
-        protocolHandlerKey.DeleteValue(UrlProtocolKeyName);
-        protocolHandlerKey.DeleteSubKeyTree(HandlerKeySubPath);
+        protocolHandlerKey?.DeleteSubKeyTree("");
     }
 
     private void OnUserApplyPreferences(object? sender, UserPreferences userPreferences)

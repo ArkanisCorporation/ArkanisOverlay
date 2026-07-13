@@ -55,9 +55,11 @@ internal class LocalDatabaseInventoryManager(
                    }
 
                    await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-                   var entities = await dbContext.InventoryEntries
-                       .Where(x => x.Quantity.Reference.EntityId == uexId)
-                       .Where(x => x.EntryType == entryType)
+                   var entities = await IncludeVehicleHangarEntries(
+                           dbContext.InventoryEntries
+                               .Where(x => x.Quantity.Reference.EntityId == uexId)
+                               .Where(x => x.EntryType == entryType)
+                       )
                        .ToArrayAsync(cancellationToken);
 
                    return entities
@@ -81,8 +83,10 @@ internal class LocalDatabaseInventoryManager(
                    }
 
                    await using var dbContext = await dbContextFactory.CreateDbContextAsync(cancellationToken);
-                   var entities = await dbContext.InventoryEntries
-                       .Where(x => x.Quantity.Reference.EntityId == uexId)
+                   var entities = await IncludeVehicleHangarEntries(
+                           dbContext.InventoryEntries
+                               .Where(x => x.Quantity.Reference.EntityId == uexId)
+                       )
                        .ToArrayAsync(cancellationToken);
 
                    return entities
@@ -234,6 +238,23 @@ internal class LocalDatabaseInventoryManager(
 
         await TriggerChangeAsync();
     }
+
+    /// <summary>
+    ///     Eagerly loads the <see cref="HangarInventoryEntryEntity" /> referenced by vehicle-placed entries
+    ///     (cargo and modules). These filtered queries can return such an entry without the hangar it belongs
+    ///     to, but the mapped domain models (<see cref="VehicleInventoryEntry" />, <see cref="VehicleModuleEntry" />)
+    ///     require a non-null <c>HangarEntry</c> — mapping a bare entry throws and crashes the UI.
+    /// </summary>
+    /// <remarks>
+    ///     This is done with an explicit include rather than a navigation <c>AutoInclude</c> on purpose:
+    ///     <c>HangarEntry</c> sits on a navigation cycle (Hangar → List → Entries → vehicle entry → HangarEntry),
+    ///     and making it auto-included closes that cycle for EF Core's include expansion, which then recurses
+    ///     indefinitely and hangs query compilation. An explicit include loads exactly one hop and terminates.
+    /// </remarks>
+    private static IQueryable<InventoryEntryEntityBase> IncludeVehicleHangarEntries(IQueryable<InventoryEntryEntityBase> query)
+        => query
+            .Include(x => (x as VehicleInventoryEntryEntity)!.HangarEntry)
+            .Include(x => (x as VehicleModuleEntryEntity)!.HangarEntry);
 
     private async Task TriggerChangeAsync()
         => await changeTokenManager.TriggerChangeForAsync<CacheId>();

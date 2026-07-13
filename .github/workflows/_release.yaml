@@ -9,6 +9,15 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
+        type: choice
+        options:
+          - daedalus
+          - arkanis-runners
+          - ubuntu-latest
+        default: daedalus
   workflow_call:
     inputs:
       dry_run:
@@ -16,6 +25,11 @@ on:
         required: false
         type: boolean
         default: false
+      runner:
+        description: "Runner pool"
+        required: false
+        type: string
+        default: daedalus
     outputs:
       new_version:
         description: "Newly published version"
@@ -41,15 +55,21 @@ env:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-tags: true
 
+      - name: Install Azure CLI
+        # azure/login and the Velopack code-signing token step shell out to `az` on
+        # the host; the daedalus pool (RUNNER_DEFAULT) does not ship it, so install it.
+        uses: elstudio/action-install-azure-cli@v1
+        if: env.ENABLE_CODE_SIGNING
+
       - name: Azure Login
-        uses: azure/login@v2
+        uses: azure/login@v3
         if: env.ENABLE_CODE_SIGNING
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -57,13 +77,16 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Get Azure API Access Token
-        uses: azure/cli@v2
+        # Fetch the code-signing token on the HOST: `az` is installed above
+        # (elstudio/action-install-azure-cli) and azure/login authenticated the host via
+        # OIDC. The azure/cli action runs the command inside its own Docker container
+        # (mcr.microsoft.com/azure-cli) which does NOT inherit the host login, so on the
+        # self-hosted daedalus pool it failed with "Please run 'az login'", yielding an
+        # empty token and a failed signing command. Run az directly on the host instead.
+        # Token is used for Azure Code Signing in scripts/release-12-verify-win64-velopack.sh.
         if: env.ENABLE_CODE_SIGNING
-        with:
-          azcliversion: 'latest'
-          # used for Azure Code Signing in `scripts/release-12-verify-win64-velopack.sh`
-          inlineScript: |
-            echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --resource https://codesigning.azure.net --query accessToken --output tsv)" >> $GITHUB_ENV
+        run: |
+          echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --resource https://codesigning.azure.net --query accessToken --output tsv)" >> "$GITHUB_ENV"
 
       - name: Setup .NET
         id: setup-dotnet
@@ -86,40 +109,69 @@ jobs:
 
       - name: Download Jsign
         if: env.ENABLE_CODE_SIGNING
-        run: wget https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
+        run: curl -fsSL -O https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
 
       - name: Restore dependencies
         run: dotnet restore --locked-mode
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx (remote BuildKit — self-hosted only)
+        uses: docker/setup-buildx-action@v4
+        if: inputs.runner == 'arkanis-runners'
+        with:
+          driver: remote
+          endpoint: tcp://buildkitd.buildkit.svc.cluster.local:1234
+
+      - name: Set up Docker Buildx (default — fallback runner)
+        uses: docker/setup-buildx-action@v4
+        if: inputs.runner != 'arkanis-runners'
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           logout: true
 
+      - name: Setup Node.js
+        # cycjimmy/semantic-release-action shells out to `npm ci` to install
+        # semantic-release and its plugins. The self-hosted runner pools
+        # (daedalus / arkanis-runners) don't ship Node, so `npm` is missing and
+        # the Semantic Release step fails with `npm: not found`. Install Node
+        # unconditionally so the release runs deterministically on any runner.
+        # Pin the current Active LTS (Node 24, EOL 2028-04); satisfies
+        # semantic-release 25's engine requirement (^22.14 || >=24.10).
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
       # determines whether a new version release is mandated
       # if it is, publish scripts are run and new version is tagged and published
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6.0.0
         id: semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PUBLISH_TOKEN }}
           NUGET_PUBLISH_API_KEY: ${{ secrets.NUGET_PUBLISH_API_KEY }}
           DEBUG: ${{ inputs.dry_run && '*' || '' }}
         with:
           ci: ${{ ! inputs.dry_run }}
           dry_run: ${{ inputs.dry_run }}
-          semantic_version: 24.2.3
+          semantic_version: 25.0.5
           extra_plugins: |
             @semantic-release/changelog@6.0.3
-            @semantic-release/exec@7.0.3
+            @semantic-release/exec@7.1.0
 
       - run: echo "New release - ${{ steps.semantic-release.outputs.new_release_version || 'no new release' }}"
+
+      - name: Install GitHub CLI
+        if: ${{ ! inputs.dry_run && steps.semantic-release.outputs.new_release_version && github.ref == 'refs/heads/release/stable' }}
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+          sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gh
 
       - name: Setup Version Backpropagation PR
         if: ${{ ! inputs.dry_run && steps.semantic-release.outputs.new_release_version && github.ref == 'refs/heads/release/stable' }}
