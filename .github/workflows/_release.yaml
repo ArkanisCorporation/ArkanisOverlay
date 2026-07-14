@@ -141,7 +141,7 @@ jobs:
         # unconditionally so the release runs deterministically on any runner.
         # Pin the current Active LTS (Node 24, EOL 2028-04); satisfies
         # semantic-release 25's engine requirement (^22.14 || >=24.10).
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 24
 
