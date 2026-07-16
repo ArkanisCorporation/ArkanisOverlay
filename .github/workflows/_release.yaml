@@ -90,7 +90,7 @@ jobs:
 
       - name: Setup .NET
         id: setup-dotnet
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
           cache: true
