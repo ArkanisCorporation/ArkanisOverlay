@@ -159,7 +159,7 @@ jobs:
           dry_run: ${{ inputs.dry_run }}
           semantic_version: 25.0.7
           extra_plugins: |
-            @semantic-release/changelog@6.0.3
+            @semantic-release/changelog@7.0.0
             @semantic-release/exec@7.1.0
 
       - run: echo "New release - ${{ steps.semantic-release.outputs.new_release_version || 'no new release' }}"
