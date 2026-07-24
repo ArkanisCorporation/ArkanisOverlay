@@ -473,25 +473,25 @@
       },
       "Microsoft.IdentityModel.Abstractions": {
         "type": "Transitive",
-        "resolved": "8.19.2",
-        "contentHash": "HJbo/lnSfNHUfphPRT910poQc4T2/9+8svFLvzuaYHGAOJ2Tu+oEDqpX0BVP3BJ4OuUM1kylEKyaiX2fCAK3Cw=="
+        "resolved": "8.21.0",
+        "contentHash": "XYgEmYpUvng0oYIagDJ+uebboQSnWtCV7q9zMyXlBw6ZqLLCHcmGUb7TpXvQ3HWY4OzbOCUQm2Ac0saPSnwqSw=="
       },
       "Microsoft.IdentityModel.Logging": {
         "type": "Transitive",
-        "resolved": "8.19.2",
-        "contentHash": "r5YLDIxGOnkVJHrqXv/iD1FM1CgGrQOdriXuvuWvTPmKbnGANhEysq9XKmN6IHjf2a+9bAGEpnoRBsAQlvJU5w==",
+        "resolved": "8.21.0",
+        "contentHash": "LgIWUUX386xCbvjq2ex8iXGIu2raDWrrIQ4OyYZKaNWMhzvN8YOTbAYMFJC+iHmKnkNBM8g7mLak9KQodldH3g==",
         "dependencies": {
-          "Microsoft.IdentityModel.Abstractions": "8.19.2"
+          "Microsoft.IdentityModel.Abstractions": "8.21.0"
         }
       },
       "Microsoft.IdentityModel.Tokens": {
         "type": "Transitive",
-        "resolved": "8.19.2",
-        "contentHash": "GtPC1S02uH1gOO4fQ+zRysIicKmEXaYFP8PIkdJYXqMyruYhopre4ozVHp0XiDSA0+GJvOZH9prxCPvgBMg4Ww==",
+        "resolved": "8.21.0",
+        "contentHash": "xFnFEl4VrhAJEbqtRrpgfAACgkm6NYo7cWYKYROH00N9/M5OYrRwTP0lHsginnLrqPrseLcSqAueQNRCyGNsdw==",
         "dependencies": {
           "Microsoft.Bcl.Cryptography": "10.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
-          "Microsoft.IdentityModel.Logging": "8.19.2"
+          "Microsoft.IdentityModel.Logging": "8.21.0"
         }
       },
       "Serilog.Extensions.Logging": {
@@ -518,10 +518,10 @@
           "Microsoft.Extensions.Hosting.Abstractions": "[10.0.10, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.10, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.10, )",
-          "Microsoft.IdentityModel.JsonWebTokens": "[8.19.2, )",
+          "Microsoft.IdentityModel.JsonWebTokens": "[8.21.0, )",
           "NuGet.Versioning": "[7.6.0, )",
-          "Quartz": "[3.18.2, )",
-          "Quartz.Jobs": "[3.18.2, )",
+          "Quartz": "[3.19.0, )",
+          "Quartz.Jobs": "[3.19.0, )",
           "Riok.Mapperly": "[4.3.1, )",
           "Serilog": "[4.4.0, )",
           "Serilog.Expressions": "[5.1.0-dev-02309, )",
@@ -723,11 +723,11 @@
       },
       "Microsoft.IdentityModel.JsonWebTokens": {
         "type": "CentralTransitive",
-        "requested": "[8.19.2, )",
-        "resolved": "8.19.2",
-        "contentHash": "ui3fuBT4fs8kdKfBthI4NzLYIBIneEVS8UrL1JVBzAn80UiKmngBBi0BEByE7n/9c+EElcfFlCMFFTqpkBSLNA==",
+        "requested": "[8.21.0, )",
+        "resolved": "8.21.0",
+        "contentHash": "iiA5uimwlRe4Drd8YKOaB8IQkgGOjxGjO6mu5zCGFjaEBpB6yNOluZ33zJFXiW5MQYRC6ypMnOXsiR5SPrO+tw==",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "8.19.2"
+          "Microsoft.IdentityModel.Tokens": "8.21.0"
         }
       },
       "morelinq": {
@@ -744,20 +744,20 @@
       },
       "Quartz": {
         "type": "CentralTransitive",
-        "requested": "[3.18.2, )",
-        "resolved": "3.18.2",
-        "contentHash": "/KaRLj7jv84RSIR/UtAWnzYRmS7o/mA6CdEuoLwxhLa9Nfl7Q1keMA7Fe/r2BzRfDf+7YpN1QNEYSSU89DA3OA==",
+        "requested": "[3.19.0, )",
+        "resolved": "3.19.0",
+        "contentHash": "VRuI2k/kBmVbb2hoJGND8kSKxeOf1Y+nZ31A314pskhPH7/DJ3D/TEqwJT+uvkUMK3qpYxvAUGi8Q4eDBzOsaQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Jobs": {
         "type": "CentralTransitive",
-        "requested": "[3.18.2, )",
-        "resolved": "3.18.2",
-        "contentHash": "coipl6Ktu20bYeJ9cJzC6oMgk8z7dVqHXKF2npf4xSivqYyytNzRT0tRIL2YwqEClOCZmEKBVtrlfb+Z3a2tTQ==",
+        "requested": "[3.19.0, )",
+        "resolved": "3.19.0",
+        "contentHash": "J4OFccInbOSYY2YC6S0UVcAbk4tAcAXD8TOG4l6kJwp8ardn6btymvsingXr95AiiQVUqcfZ2xHJ+JcPMFRjdQ==",
         "dependencies": {
-          "Quartz": "3.18.2"
+          "Quartz": "3.19.0"
         }
       },
       "Riok.Mapperly": {
