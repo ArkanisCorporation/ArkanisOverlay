@@ -22,7 +22,7 @@
     <PackageVersion Include="MathEvaluator" Version="3.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.10" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.80" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.90" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.11" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.10" />
@@ -45,7 +45,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.2" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.21.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageVersion Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.298" />
@@ -57,10 +57,10 @@
     <PackageVersion Include="Octokit" Version="14.0.0" />
     <PackageVersion Include="Polly" Version="8.7.0" />
     <PackageVersion Include="Polly.RateLimiting" Version="8.7.0" />
-    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.18.2" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.18.2" />
-    <PackageVersion Include="Quartz.Jobs" Version="3.18.2" />
-    <PackageVersion Include="Quartz" Version="3.18.2" />
+    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.19.0" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.19.0" />
+    <PackageVersion Include="Quartz.Jobs" Version="3.19.0" />
+    <PackageVersion Include="Quartz" Version="3.19.0" />
     <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
     <PackageVersion Include="Scrutor" Version="7.0.0" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
@@ -74,7 +74,7 @@
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="Serilog.Sinks.Seq" Version="9.1.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="StrawberryShake.Server" Version="16.5.0" />
+    <PackageVersion Include="StrawberryShake.Server" Version="16.5.1" />
     <PackageVersion Include="SingleInstanceCore" Version="2.2.2" />
     <PackageVersion Include="System.Linq.Async" Version="7.0.1" />
     <PackageVersion Include="Velopack" Version="1.2.0" />
