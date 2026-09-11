@@ -6,10 +6,6 @@ name: .NET Test
 on:
   workflow_call:
 
-env:
-  # https://github.com/actions/setup-dotnet?tab=readme-ov-file#reduce-caching-size
-  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-
 jobs:
   test:
     runs-on: windows-latest
