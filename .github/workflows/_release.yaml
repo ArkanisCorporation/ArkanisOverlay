@@ -106,7 +106,7 @@ jobs:
         uses: actions/setup-java@v6
         if: env.ENABLE_CODE_SIGNING
         with:
-          java-version: 17
+          java-version: 17.0.20+101
           distribution: 'temurin'
 
       - name: Download Jsign
