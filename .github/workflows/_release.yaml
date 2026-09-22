@@ -86,17 +86,27 @@ jobs:
         run: |
           echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --resource https://codesigning.azure.net --query accessToken --output tsv)" >> "$GITHUB_ENV"
 
-      # Caches NuGet's default global-packages folder. Do not point NUGET_PACKAGES at the
-      # workspace to shrink it: the cache `version` is a hash of the literal path, and every
-      # daedalus replica has its own workspace, so that split the cache into one namespace per
-      # replica, each ageing on its own until a stale one broke restores outright (ARK-502).
+      # .NET setup + NuGet caching delegated to the shared Arkanis CI platform composite
+      # (ArkanisCorporation/ci, Linear ARK-583 / epic ARK-579), replacing a hand-rolled
+      # actions/setup-dotnet@v6 with its built-in cache.
+      #
+      # runs-on-self-hosted follows the runner pool: on the self-hosted daedalus pool the composite
+      # detects the workers' persistent NuGet global-packages folder (ARKANIS_PERSISTENT_NUGET_PACKAGES=true)
+      # and SKIPS the NuGet actions cache entirely (ARK-528) - the packages are already on the
+      # worker's persistent disk. The hand-rolled setup-dotnet cache defeated that skip. On the
+      # ubuntu-latest fallback the composite caches normally.
+      #
+      # No NUGET_PACKAGES override: keep NuGet's default global-packages folder. Pointing it at the
+      # workspace splits the cache into one namespace per daedalus replica (ARK-502) and disables the
+      # persistent-folder skip. restore-tools is false because the release scripts run their own
+      # `dotnet tool restore` (scripts/release-10-verify.sh); the dedicated locked restore below is kept.
       - name: Setup .NET
         id: setup-dotnet
-        uses: actions/setup-dotnet@v6
+        uses: ArkanisCorporation/ci/.github/actions/setup-dotnet@v1
         with:
           global-json-file: global.json
-          cache: true
-          cache-dependency-path: "**/packages.lock.json"
+          runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+          restore-tools: false
 
       - run: echo "Using .NET ${{ steps.setup-dotnet.outputs.dotnet-version }}"
 
