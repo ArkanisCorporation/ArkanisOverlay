@@ -39,6 +39,9 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   verify-images:
     name: Verify server image
@@ -52,6 +55,42 @@ jobs:
       version: ${{ needs.verify-release.outputs.new-version }}
       version-tag: ${{ needs.verify-release.outputs.new-tag }}
       version-channel: ${{ needs.verify-release.outputs.new-channel }}
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+  verify-deployment:
+    name: Verify Kubernetes deployment - ${{ matrix.target }}
+    if: ${{ needs.verify-release.outputs.new-version != '' }}
+    needs: [verify-release, project-verification]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Staging
+            aspire_environment: Kubernetes-Staging
+            kubernetes_namespace: arkanis-overlay-staging
+            output_path: artifacts/k8s/verify/staging
+          - target: Production
+            aspire_environment: Kubernetes-Production
+            kubernetes_namespace: arkanis-overlay-production
+            output_path: artifacts/k8s/verify/production
+    uses: ArkanisCorporation/ci/.github/workflows/wf-verify-deploy-k8s-aspire.yml@v1
+    permissions:
+      contents: read
+    with:
+      runs-on: arkanis-runners
+      runs-on-self-hosted: true
+      aspire-environment: ${{ matrix.aspire_environment }}
+      kubernetes-namespace: ${{ matrix.kubernetes_namespace }}
+      apphost-project: src/Arkanis.Overlay.Host.Aspire/Arkanis.Overlay.Host.Aspire.csproj
+      output-path: ${{ matrix.output_path }}
+      image-tag: ${{ needs.verify-release.outputs.new-tag }}
+      global-json-file: global.json
+      kubectl-version: v1.36.4
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   verify-nuget-packages:
     name: Verify NuGet - ${{ matrix.target }}
@@ -104,6 +143,7 @@ jobs:
           needs.verify-release.outputs.new-version != '' &&
           needs.project-verification.result == 'success' &&
           needs.verify-images.result == 'success' &&
+          needs.verify-deployment.result == 'success' &&
           needs.verify-nuget-packages.result == 'success' &&
           needs.verify-velopack.result == 'success' &&
           github.event_name != 'pull_request' &&
@@ -112,6 +152,7 @@ jobs:
       - verify-release
       - project-verification
       - verify-images
+      - verify-deployment
       - verify-nuget-packages
       - verify-velopack
     uses: ArkanisCorporation/ci/.github/workflows/wf-release-semantic.yml@v1
@@ -162,6 +203,9 @@ jobs:
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
       environment-name: Production
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   publish-nuget-packages:
     name: Publish NuGet - ${{ matrix.target }}
@@ -212,28 +256,24 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-  deploy:
-    name: Deployment
+  deploy-staging:
+    name: Deploy Staging
     if: >-
       ${{ always() &&
           needs.release.result == 'success' &&
           needs.release.outputs.new-version != '' &&
           needs.publish-images.result == 'success' &&
-          needs.publish-nuget-packages.result == 'success' &&
-          needs.publish-velopack.result == 'success' }}
+          github.ref == 'refs/heads/main' }}
     needs:
       - release
       - publish-images
-      - publish-nuget-packages
-      - publish-velopack
-    uses: ./.github/workflows/_deploy-coolify.yaml
-    permissions: {}
+    uses: ./.github/workflows/_deploy-aspire-kubernetes.yaml
+    permissions:
+      contents: read
+      packages: write
     with:
-      application_name: web demo
-      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
-      gh_environment: Production
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      target: staging
+      image-tag: ${{ needs.release.outputs.new-tag }}
     secrets:
-      COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
-      COOLIFY_DEPLOY_UUID: ${{ secrets.COOLIFY_DEPLOY_UUID }}
-      COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

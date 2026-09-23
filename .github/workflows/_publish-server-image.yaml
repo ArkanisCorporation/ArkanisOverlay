@@ -26,6 +26,11 @@ on:
         description: "Existing GitHub Environment that guards image publication"
         required: true
         type: string
+    secrets:
+      NUGET_AUTH_JSON:
+        required: false
+      OP_SERVICE_ACCOUNT_TOKEN:
+        required: false
     outputs:
       digest:
         description: "Digest produced by the shared image-publish workflow"
@@ -79,3 +84,7 @@ jobs:
       global-json-file: global.json
       version-working-directory: .
       version-recursive: true
+      nuget-build-secret: true
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

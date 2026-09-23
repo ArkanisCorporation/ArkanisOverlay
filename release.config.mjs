@@ -24,7 +24,7 @@ export default {
             prerelease: "do-not-use"
         },
     ],
-    repositoryUrl: "ArkanisCorporation/ArkanisBackend",
+    repositoryUrl: "ArkanisCorporation/ArkanisOverlay",
     tagFormat: "v${version}",
     debug: false,
     plugins: [
