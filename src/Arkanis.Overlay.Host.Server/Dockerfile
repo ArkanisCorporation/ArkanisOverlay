@@ -1,14 +1,17 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:11.0-alpine AS base
+# syntax=docker/dockerfile:1.7
+
+FROM mcr.microsoft.com/dotnet/aspnet:11.0-alpine AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
 USER root
 
-RUN apk add --no-cache icu-libs
+RUN apk add --no-cache icu-libs \
+    && mkdir --parents /var/lib/overlay \
+    && chown $APP_UID:$APP_UID /var/lib/overlay
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
-
-#USER $APP_UID
+USER $APP_UID
 
 FROM mcr.microsoft.com/dotnet/sdk:11.0-alpine AS restore
 ARG BUILD_CONFIGURATION=Release
@@ -28,7 +31,9 @@ COPY ["src/Arkanis.Overlay.External.UEX/packages.lock.json", "src/Arkanis.Overla
 COPY ["src/Arkanis.Overlay.LocalLink/Arkanis.Overlay.LocalLink.csproj", "src/Arkanis.Overlay.LocalLink/"]
 COPY ["src/Arkanis.Overlay.LocalLink/packages.lock.json", "src/Arkanis.Overlay.LocalLink/"]
 COPY ["Directory.Packages.props", "."]
-RUN dotnet restore "src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj"
+COPY ["nuget.config", "."]
+RUN --mount=type=secret,id=nuget_config,target=/root/.nuget/NuGet/NuGet.Config \
+    dotnet restore "src/Arkanis.Overlay.Host.Server/Arkanis.Overlay.Host.Server.csproj"
 
 FROM restore AS publish
 ARG BUILD_CONFIGURATION=Release
@@ -41,5 +46,5 @@ RUN dotnet publish "./Arkanis.Overlay.Host.Server.csproj" -c $BUILD_CONFIGURATIO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-HEALTHCHECK --interval=5s --timeout=3s CMD wget --spider --quiet http://127.0.0.1:8080/healthz/alive || exit 1
+HEALTHCHECK --interval=5s --timeout=3s CMD wget --spider --quiet http://127.0.0.1:8080/healthz/ready || exit 1
 ENTRYPOINT ["dotnet", "Arkanis.Overlay.Host.Server.dll"]

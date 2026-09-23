@@ -108,12 +108,57 @@ IResourceBuilder<ContainerResource> AddKubernetesOverlayContainer(ResourceName n
                     return;
                 }
 
-                foreach (var container in deployment.Spec.Template.Spec.Containers)
-                {
-                    container.ImagePullPolicy = prebuiltImages.ImagePullPolicy;
-                }
+                ConfigureKubernetesOverlayDeployment(deployment);
             }
         );
+
+void ConfigureKubernetesOverlayDeployment(Deployment deployment)
+{
+    deployment.Spec.Replicas = 1;
+    deployment.Spec.Strategy.Type = "Recreate";
+
+    var podSpec = deployment.Spec.Template.Spec;
+    podSpec.SecurityContext = new PodSecurityContextV1
+    {
+        RunAsNonRoot = true,
+        RunAsUser = 1654,
+        RunAsGroup = 1654,
+        FsGroup = 1654,
+    };
+    podSpec.ImagePullSecrets.Add(new LocalObjectReferenceV1 { Name = "ghcr-pull" });
+
+    foreach (var container in podSpec.Containers)
+    {
+        container.ImagePullPolicy = prebuiltImages.ImagePullPolicy;
+        var securityContext = new SecurityContextV1
+        {
+            AllowPrivilegeEscalation = false,
+            Capabilities = new CapabilitiesV1(),
+        };
+        securityContext.Capabilities.Drop.Add("ALL");
+        container.SecurityContext = securityContext;
+
+        NormalizeKubernetesHttpProbeScheme(container.StartupProbe);
+        NormalizeKubernetesHttpProbeScheme(container.LivenessProbe);
+        NormalizeKubernetesHttpProbeScheme(container.ReadinessProbe);
+    }
+}
+
+void NormalizeKubernetesHttpProbeScheme(ProbeV1? probe)
+{
+    var httpGet = probe?.HttpGet;
+    if (httpGet is null || string.IsNullOrWhiteSpace(httpGet.Scheme))
+    {
+        return;
+    }
+
+    httpGet.Scheme = httpGet.Scheme switch
+    {
+        var scheme when string.Equals(scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) => "HTTP",
+        var scheme when string.Equals(scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) => "HTTPS",
+        var scheme => scheme,
+    };
+}
 
 void ConfigureKubernetesIngress<T>(IResourceBuilder<T> resourceBuilder, ResourceName resourceName, string ingressName)
     where T : IResourceWithEndpoints
