@@ -10,7 +10,7 @@
     <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" Version="1.0.0-dev.19" />
     <PackageVersion Include="Arkanis.Common.Aspire.ServiceDefaults" Version="1.0.0-dev.1" />
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.3" />
-    <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.4.6-preview.1.26319.6" />
+    <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.5.3-preview.1.26425.3" />
     <PackageVersion Include="Aspire.Hosting.Testing" Version="13.5.3" />
     <PackageVersion Include="Blazor-Analytics" Version="4.0.0" />
     <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0" />
