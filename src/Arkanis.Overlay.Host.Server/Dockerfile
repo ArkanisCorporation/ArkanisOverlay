@@ -41,5 +41,5 @@ RUN dotnet publish "./Arkanis.Overlay.Host.Server.csproj" -c $BUILD_CONFIGURATIO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-HEALTHCHECK --interval=5s --timeout=3s CMD wget --spider --quiet http://127.0.0.1:8080/healthz || exit 1
+HEALTHCHECK --interval=5s --timeout=3s CMD wget --spider --quiet http://127.0.0.1:8080/healthz/alive || exit 1
 ENTRYPOINT ["dotnet", "Arkanis.Overlay.Host.Server.dll"]

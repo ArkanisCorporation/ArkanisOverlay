@@ -26,4 +26,8 @@
         <ProjectReference Include="..\Arkanis.Overlay.Host.Server\Arkanis.Overlay.Host.Server.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Update="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>
