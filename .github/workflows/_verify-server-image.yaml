@@ -1,0 +1,69 @@
+name: Verify server image
+
+permissions: {}
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: "Runner pool used for the BuildKit probe and image verification"
+        required: false
+        type: string
+        default: daedalus
+      version:
+        description: "Bare semantic-release version used for .NET stamping"
+        required: true
+        type: string
+      version-tag:
+        description: "Immutable semantic-release Git tag"
+        required: true
+        type: string
+      version-channel:
+        description: "Semantic-release channel used for established mutable image aliases"
+        required: true
+        type: string
+
+jobs:
+  resolve-buildkit:
+    name: Resolve BuildKit endpoint
+    runs-on: ${{ inputs.runner }}
+    permissions: {}
+    outputs:
+      endpoint: ${{ steps.resolve.outputs.endpoint }}
+    steps:
+      - id: resolve
+        shell: bash
+        env:
+          RUNNER_POOL: ${{ inputs.runner }}
+        run: |
+          endpoint=""
+          if [[ "$RUNNER_POOL" == "arkanis-runners" ]]; then
+            endpoint="tcp://buildkitd.buildkit.svc.cluster.local:1234"
+          elif [[ -n "${BUILDKIT_HOST:-}" ]]; then
+            endpoint="$BUILDKIT_HOST"
+          fi
+          echo "endpoint=$endpoint" >> "$GITHUB_OUTPUT"
+
+  verify:
+    name: Server image
+    needs: resolve-buildkit
+    uses: ArkanisCorporation/ci/.github/workflows/wf-verify-publish-container-dotnet.yml@v1
+    permissions:
+      contents: read
+    with:
+      runs-on: ${{ inputs.runner }}
+      runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+      image: ghcr.io/arkaniscorporation/arkanisoverlay
+      context: .
+      dockerfile: src/Arkanis.Overlay.Host.Server/Dockerfile
+      platforms: linux/amd64
+      version: ${{ inputs.version }}
+      version-tag: ${{ inputs.version-tag }}
+      channel-latest: false
+      extra-tags: |
+        ${{ inputs.version-channel != '' && format('{0}-latest', inputs.version-channel) || '' }}
+        ${{ inputs.version-channel == 'stable' && 'latest' || '' }}
+      buildkit-endpoint: ${{ needs.resolve-buildkit.outputs.endpoint }}
+      global-json-file: global.json
+      version-working-directory: .
+      version-recursive: true
