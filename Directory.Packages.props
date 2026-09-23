@@ -5,6 +5,13 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.1Password" Version="2.1.0-dev.1" />
+    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets" Version="1.0.0-dev.17" />
+    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" Version="1.0.0-dev.19" />
+    <PackageVersion Include="Arkanis.Common.Aspire.ServiceDefaults" Version="1.0.0-dev.1" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.4.6-preview.1.26319.6" />
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.5.3" />
     <PackageVersion Include="Blazor-Analytics" Version="4.0.0" />
     <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0" />
     <PackageVersion Include="CitizenId.Domain.Shared" Version="1.10.2" />
@@ -25,26 +32,28 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.80" />
     <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.11" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.12" />
     <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
     <PackageVersion Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />

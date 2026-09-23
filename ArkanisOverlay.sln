@@ -68,6 +68,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Ci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.Common", "src\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj", "{760043DE-623A-4B58-9B85-279BF6EA0F85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Aspire", "src\Arkanis.Overlay.Host.Aspire\Arkanis.Overlay.Host.Aspire.csproj", "{3D9B6651-780F-452C-915E-02575FD6C95B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Aspire.IntegrationTests", "tests\Arkanis.Overlay.Host.Aspire.IntegrationTests\Arkanis.Overlay.Host.Aspire.IntegrationTests.csproj", "{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +142,14 @@ Global
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{760043DE-623A-4B58-9B85-279BF6EA0F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9B6651-780F-452C-915E-02575FD6C95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9B6651-780F-452C-915E-02575FD6C95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9B6651-780F-452C-915E-02575FD6C95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9B6651-780F-452C-915E-02575FD6C95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CED78CB3-F5FA-49D6-ACBC-565E986BC665} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
@@ -158,5 +170,7 @@ Global
 		{16AB4036-03A1-466D-83F0-56108C3E744F} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{628A5975-DCE5-447B-B41A-F361C79BA887} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{760043DE-623A-4B58-9B85-279BF6EA0F85} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
+		{3D9B6651-780F-452C-915E-02575FD6C95B} = {9AC34A40-36D7-4D0C-A667-508A386B76D5}
+		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E} = {8BB043D2-BDE7-461C-8D9C-5184A0A0C185}
 	EndGlobalSection
 EndGlobal
