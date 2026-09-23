@@ -19,6 +19,11 @@ permissions: {}
 
 on:
   workflow_call:
+    secrets:
+      NUGET_AUTH_JSON:
+        required: false
+      OP_SERVICE_ACCOUNT_TOKEN:
+        required: false
 
 jobs:
   test:
@@ -34,3 +39,6 @@ jobs:
       solution: ArkanisOverlay.sln
       test-filter: "DataState!=Live"
       timeout-minutes: 30
+    secrets:
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

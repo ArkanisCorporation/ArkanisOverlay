@@ -92,7 +92,7 @@ The overlay is currently in **active development** and driven by a clear mission
 ---
 
 > [!TIP]
-> You can check out the in-browser demo of the overlay at [overlay.arkanis.cc][overlay-demo]!
+> You can check out the in-browser demo of the overlay at [overlay.arkanis.space][overlay-demo]!
 > It features an identical UI and functionality as the in-game version, just without the game integration.
 
 ## 🛠️ Getting Started
@@ -277,7 +277,7 @@ Let’s make Star Citizen a little smoother — together.
 
 ---
 
-[overlay-demo]: https://overlay.arkanis.cc
+[overlay-demo]: https://overlay.arkanis.space
 [overlay-homepage]: https://arkanis.cc/overlay
 [arkanis-discord]: https://join.arkanis.cc
 [uex]: https://uexcorp.space

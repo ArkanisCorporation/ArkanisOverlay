@@ -9,32 +9,43 @@ permissions: {}
 on:
   workflow_dispatch:
     inputs:
-      runner:
-        description: "Runner pool (override to ubuntu-latest if self-hosted is broken)"
+      environment:
+        description: "Kubernetes environment receiving the explicit immutable image tag"
         type: choice
         options:
-          - daedalus
-          - arkanis-runners
-          - ubuntu-latest
-        default: daedalus
+          - staging
+          - production
+        required: true
+      image-tag:
+        description: "Immutable container image tag to deploy"
+        type: string
+        required: true
   workflow_call:
     inputs:
-      runner:
-        description: "Runner pool"
-        required: false
+      environment:
+        description: "Kubernetes environment receiving the explicit immutable image tag"
+        required: true
         type: string
-        default: daedalus
+      image-tag:
+        description: "Immutable container image tag to deploy"
+        required: true
+        type: string
+    secrets:
+      NUGET_AUTH_JSON:
+        required: false
+      OP_SERVICE_ACCOUNT_TOKEN:
+        required: false
 
 jobs:
   deploy:
-    name: Deployment
-    uses: ./.github/workflows/_deploy-coolify.yaml
+    name: Deploy ${{ inputs.environment }}
+    uses: ./.github/workflows/_deploy-aspire-kubernetes.yaml
+    permissions:
+      contents: read
+      packages: write
     with:
-      application_name: web demo
-      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
-      gh_environment: Production
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      target: ${{ inputs.environment }}
+      image-tag: ${{ inputs.image-tag }}
     secrets:
-      COOLIFY_URL: ${{ secrets.COOLIFY_URL }}
-      COOLIFY_DEPLOY_UUID: ${{ secrets.COOLIFY_DEPLOY_UUID }}
-      COOLIFY_DEPLOY_TOKEN: ${{ secrets.COOLIFY_DEPLOY_TOKEN }}
+      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
+      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
