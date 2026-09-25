@@ -226,6 +226,7 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-publish-nuget.yml@v1
     permissions:
       contents: read
+      id-token: write
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}

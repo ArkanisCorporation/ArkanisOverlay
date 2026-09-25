@@ -37,29 +37,8 @@ on:
         value: ${{ jobs.publish.outputs.digest }}
 
 jobs:
-  resolve-buildkit:
-    name: Resolve BuildKit endpoint
-    runs-on: ${{ inputs.runner }}
-    permissions: {}
-    outputs:
-      endpoint: ${{ steps.resolve.outputs.endpoint }}
-    steps:
-      - id: resolve
-        shell: bash
-        env:
-          RUNNER_POOL: ${{ inputs.runner }}
-        run: |
-          endpoint=""
-          if [[ "$RUNNER_POOL" == "arkanis-runners" ]]; then
-            endpoint="tcp://buildkitd.buildkit.svc.cluster.local:1234"
-          elif [[ -n "${BUILDKIT_HOST:-}" ]]; then
-            endpoint="$BUILDKIT_HOST"
-          fi
-          echo "endpoint=$endpoint" >> "$GITHUB_OUTPUT"
-
   publish:
     name: Server image
-    needs: resolve-buildkit
     uses: ArkanisCorporation/ci/.github/workflows/wf-publish-container-dotnet.yml@v1
     permissions:
       contents: read
@@ -80,7 +59,7 @@ jobs:
       extra-tags: |
         ${{ inputs.version-channel != '' && format('{0}-latest', inputs.version-channel) || '' }}
         ${{ inputs.version-channel == 'stable' && 'latest' || '' }}
-      buildkit-endpoint: ${{ needs.resolve-buildkit.outputs.endpoint }}
+      buildkit-endpoint: ${{ inputs.runner == 'arkanis-runners' && 'tcp://buildkitd.buildkit.svc.cluster.local:1234' || '' }}
       global-json-file: global.json
       version-working-directory: .
       version-recursive: true
