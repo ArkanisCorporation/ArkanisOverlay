@@ -42,12 +42,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configs", "configs", "{8115
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.releaserc = .releaserc
 		Directory.Build.props = Directory.Build.props
 		global.json = global.json
-		package.json = package.json
 		Directory.Build.targets = Directory.Build.targets
 		Directory.Packages.props = Directory.Packages.props
+		release.config.mjs = release.config.mjs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Server.UnitTests", "tests\Arkanis.Overlay.Host.Server.UnitTests\Arkanis.Overlay.Host.Server.UnitTests.csproj", "{6CC132FD-8633-46B0-B321-61067B544A75}"

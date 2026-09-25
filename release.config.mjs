@@ -9,19 +9,29 @@ export default {
             channel: "stable"
         },
         {
-            name: "release/rc",
-            channel: "rc",
-            prerelease: "rc"
+            "name": "release/rc",
+            "channel": "rc",
+            "prerelease": "rc"
         },
         {
-            name: "main",
-            channel: "staging",
-            prerelease: "dev"
+            "name": "release/beta",
+            "channel": "beta",
+            "prerelease": "beta"
+        },
+        {
+            "name": "release/alpha",
+            "channel": "alpha",
+            "prerelease": "alpha"
+        },
+        {
+            "name": "main",
+            "channel": "staging",
+            "prerelease": "dev"
         },
         {
             name: "ci",
             channel: "ci",
-            prerelease: "do-not-use"
+            prerelease: "ci-do-not-use"
         },
     ],
     repositoryUrl: "ArkanisCorporation/ArkanisOverlay",
