@@ -1,0 +1,33 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UserSecretsId>36baf223-6394-4670-a92b-4c7e8c9c691a</UserSecretsId>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- OS-dependent packages update package.lock.json, so locking the AppHost is not reliable. -->
+        <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+        <RestoreLockedMode>false</RestoreLockedMode>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.1Password" />
+        <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" />
+        <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets" />
+        <PackageReference Include="Aspire.Hosting.AppHost" />
+        <PackageReference Include="Aspire.Hosting.Kubernetes" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Arkanis.Overlay.Host.Server\Arkanis.Overlay.Host.Server.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="appsettings*.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+</Project>

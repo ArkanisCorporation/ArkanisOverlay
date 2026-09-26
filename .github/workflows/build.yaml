@@ -1,14 +1,11 @@
 name: .NET build
 
 on:
-  # You can use the GitHub API to trigger a webhook event called repository_dispatch
-  # when you want to trigger a workflow for activity that happens outside of GitHub.
   repository_dispatch:
-    branches: [ main, release/*, ci ]
   push:
-    branches: [ main, release/*, ci ]
+    branches: [main, release/*, ci]
   pull_request:
-    branches: [ main, release/*, ci ]
+    branches: [main, release/*, ci]
   workflow_dispatch:
     inputs:
       runner:
@@ -20,37 +17,259 @@ on:
           - ubuntu-latest
         default: daedalus
 
-permissions:
-  contents: write       # for publishing a GitHub release and creating release backpropagation PRs
-  issues: write         # for commenting on released issues
-  pull-requests: write  # for commenting on released pull requests and creating release backpropagation PRs
-  packages: write       # for publishing packages in repository registry
-  id-token: write       # for Azure Code Signing & Credential Federation
+permissions: {}
 
 jobs:
-  test:
+  verify-release:
+    name: Verify release decision
+    uses: ArkanisCorporation/ci/.github/workflows/wf-verify-release-semantic.yml@v1
+    permissions:
+      contents: write
+    with:
+      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      semantic-release-version: 25.0.9
+      extra-plugins: |
+        @semantic-release/changelog@7.0.0
+      allow-exec-plugin: false
+
+  project-verification:
     name: Tests
     uses: ./.github/workflows/_test.yaml
+    permissions:
+      contents: read
+      packages: read
+      pull-requests: write
+
+  verify-images:
+    name: Verify server image
+    if: ${{ needs.verify-release.outputs.new-version != '' }}
+    needs: [verify-release, project-verification]
+    uses: ./.github/workflows/_verify-server-image.yaml
+    permissions:
+      contents: read
+      packages: read
+    with:
+      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      version: ${{ needs.verify-release.outputs.new-version }}
+      version-tag: ${{ needs.verify-release.outputs.new-tag }}
+      version-channel: ${{ needs.verify-release.outputs.new-channel }}
+
+  verify-deployment:
+    name: Verify Kubernetes deployment - ${{ matrix.target }}
+    if: ${{ needs.verify-release.outputs.new-version != '' }}
+    needs: [verify-release, project-verification]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Staging
+            aspire_environment: Kubernetes-Staging
+            kubernetes_namespace: arkanis-overlay-staging
+            output_path: artifacts/k8s/verify/staging
+          - target: Production
+            aspire_environment: Kubernetes-Production
+            kubernetes_namespace: arkanis-overlay-production
+            output_path: artifacts/k8s/verify/production
+    uses: ArkanisCorporation/ci/.github/workflows/wf-verify-deploy-k8s-aspire.yml@v1
+    permissions:
+      contents: read
+      packages: read
+    with:
+      runs-on: arkanis-runners
+      runs-on-self-hosted: true
+      aspire-environment: ${{ matrix.aspire_environment }}
+      kubernetes-namespace: ${{ matrix.kubernetes_namespace }}
+      apphost-project: src/Arkanis.Overlay.Host.Aspire/Arkanis.Overlay.Host.Aspire.csproj
+      output-path: ${{ matrix.output_path }}
+      image-tag: ${{ needs.verify-release.outputs.new-tag }}
+      github-packages-auth: true
+      global-json-file: global.json
+      kubectl-version: v1.36.4
+
+  verify-nuget-packages:
+    name: Verify NuGet - ${{ matrix.target }}
+    if: ${{ needs.verify-release.outputs.new-version != '' }}
+    needs: [verify-release, project-verification]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Common
+            project: src/Arkanis.Overlay.Common/Arkanis.Overlay.Common.csproj
+          - target: Domain
+            project: src/Arkanis.Overlay.Domain/Arkanis.Overlay.Domain.csproj
+          - target: LocalLink
+            project: src/Arkanis.Overlay.LocalLink/Arkanis.Overlay.LocalLink.csproj
+          - target: External.Common
+            project: src/Arkanis.Overlay.External.Common/Arkanis.Overlay.External.Common.csproj
+    uses: ArkanisCorporation/ci/.github/workflows/wf-verify-publish-nuget.yml@v1
+    permissions:
+      contents: read
+      packages: read
+    with:
+      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      project: ${{ matrix.project }}
+      version: ${{ needs.verify-release.outputs.new-version }}
+      github-packages-auth: true
+      global-json-file: global.json
+
+  verify-velopack:
+    name: Verify Windows release assets
+    if: ${{ needs.verify-release.outputs.new-version != '' }}
+    needs: [verify-release, project-verification]
+    uses: ./.github/workflows/_verify-velopack.yaml
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+    with:
+      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      version: ${{ needs.verify-release.outputs.new-version }}
+      version-tag: ${{ needs.verify-release.outputs.new-tag }}
+      version-channel: ${{ needs.verify-release.outputs.new-channel }}
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   release:
     name: Release
-    needs: test
-    uses: ./.github/workflows/_release.yaml
-    secrets: inherit
+    if: >-
+      ${{ always() &&
+          needs.verify-release.outputs.new-version != '' &&
+          needs.project-verification.result == 'success' &&
+          needs.verify-images.result == 'success' &&
+          needs.verify-deployment.result == 'success' &&
+          needs.verify-nuget-packages.result == 'success' &&
+          needs.verify-velopack.result == 'success' &&
+          github.event_name != 'pull_request' &&
+          github.ref != 'refs/heads/ci' }}
+    needs:
+      - verify-release
+      - project-verification
+      - verify-images
+      - verify-deployment
+      - verify-nuget-packages
+      - verify-velopack
+    uses: ArkanisCorporation/ci/.github/workflows/wf-release-semantic.yml@v1
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     with:
-      dry_run: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/ci' }}
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      environment-name: Production
+      semantic-release-version: 25.0.9
+      extra-plugins: |
+        @semantic-release/changelog@7.0.0
+      allow-exec-plugin: false
 
-  # delpoyment target is selected by the active environment
-  deploy:
-    name: Deployment
-    # deploy whenever there is a new release
-    if: ${{ needs.release.outputs.new_tag != '' }}
+  release-backpropagation:
+    name: Release backpropagation
+    if: ${{ always() && needs.release.result == 'success' && needs.release.outputs.new-version != '' && github.ref == 'refs/heads/release/stable' }}
     needs: release
-    uses: ./.github/workflows/_deploy-coolify.yaml
-    secrets: inherit
+    uses: ArkanisCorporation/ci/.github/workflows/wf-release-backpropagation.yml@v1
+    permissions:
+      contents: write
+      pull-requests: write
     with:
-      application_name: web demo
-      environment_name: ${{ vars.COOLIFY_DEPLOY_ENVIRONMENT }}
-      gh_environment: Production
+      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      environment-name: Production
+      new-version: ${{ needs.release.outputs.new-version }}
+      release-ref-name: ${{ github.ref_name }}
+      default-branch: ${{ github.event.repository.default_branch }}
+    secrets:
+      PR_AUTOMATION_PAT: ${{ secrets.PR_AUTOMATION_PAT }}
+
+  publish-images:
+    name: Publish server image
+    if: ${{ always() && needs.release.result == 'success' && needs.release.outputs.new-version != '' }}
+    needs: release
+    uses: ./.github/workflows/_publish-server-image.yaml
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    with:
       runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      version: ${{ needs.release.outputs.new-version }}
+      version-tag: ${{ needs.release.outputs.new-tag }}
+      version-channel: ${{ needs.release.outputs.new-channel }}
+      environment-name: Production
+
+  publish-nuget-packages:
+    name: Publish NuGet - ${{ matrix.target }}
+    if: ${{ always() && needs.release.result == 'success' && needs.release.outputs.new-version != '' }}
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: Common
+            project: src/Arkanis.Overlay.Common/Arkanis.Overlay.Common.csproj
+          - target: Domain
+            project: src/Arkanis.Overlay.Domain/Arkanis.Overlay.Domain.csproj
+          - target: LocalLink
+            project: src/Arkanis.Overlay.LocalLink/Arkanis.Overlay.LocalLink.csproj
+          - target: External.Common
+            project: src/Arkanis.Overlay.External.Common/Arkanis.Overlay.External.Common.csproj
+    uses: ArkanisCorporation/ci/.github/workflows/wf-publish-nuget.yml@v1
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+    with:
+      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      environment-name: Production
+      project: ${{ matrix.project }}
+      version: ${{ needs.release.outputs.new-version }}
+      github-packages-auth: true
+      global-json-file: global.json
+      trusted-publishing: false
+    secrets:
+      NUGET_API_KEY: ${{ secrets.NUGET_PUBLISH_API_KEY }}
+
+  publish-velopack:
+    name: Publish Windows release assets
+    if: ${{ always() && needs.release.result == 'success' && needs.release.outputs.new-version != '' }}
+    needs: release
+    uses: ./.github/workflows/_publish-velopack.yaml
+    permissions:
+      contents: write
+      packages: read
+      id-token: write
+    with:
+      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      version: ${{ needs.release.outputs.new-version }}
+      version-tag: ${{ needs.release.outputs.new-tag }}
+      version-channel: ${{ needs.release.outputs.new-channel }}
+      environment-name: Production
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  deploy-staging:
+    name: Deploy Staging
+    if: >-
+      ${{ always() &&
+          needs.release.result == 'success' &&
+          needs.release.outputs.new-version != '' &&
+          needs.publish-images.result == 'success' &&
+          github.ref == 'refs/heads/main' }}
+    needs:
+      - release
+      - publish-images
+    uses: ./.github/workflows/_deploy-aspire-kubernetes.yaml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      target: staging
+      image-tag: ${{ needs.release.outputs.new-tag }}

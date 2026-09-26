@@ -1,0 +1,119 @@
+name: Publish Windows release assets
+
+permissions: {}
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: "Runner pool used for Windows release-asset publication"
+        required: false
+        type: string
+        default: daedalus
+      version:
+        description: "Bare semantic-release version applied to managed assemblies"
+        required: true
+        type: string
+      version-tag:
+        description: "Semantic-release Git tag that owns the GitHub release"
+        required: true
+        type: string
+      version-channel:
+        description: "Semantic-release channel passed to Velopack"
+        required: true
+        type: string
+      environment-name:
+        description: "Existing GitHub Environment that guards release-asset publication"
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID:
+        required: false
+      AZURE_TENANT_ID:
+        required: false
+      AZURE_SUBSCRIPTION_ID:
+        required: false
+
+jobs:
+  publish:
+    name: Windows release assets
+    runs-on: ${{ inputs.runner }}
+    timeout-minutes: 60
+    environment: ${{ inputs.environment-name }}
+    permissions:
+      contents: write
+      packages: read
+      id-token: write
+    env:
+      VERSION: ${{ inputs.version }}
+      VERSION_TAG: ${{ inputs.version-tag }}
+      VERSION_CHANNEL: ${{ inputs.version-channel }}
+      GITHUB_TOKEN: ${{ github.token }}
+      ENABLE_CODE_SIGNING: ${{ contains(fromJson('["main", "release/rc", "release/stable", "ci"]'), github.ref_name) && 'true' || '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup .NET
+        uses: ArkanisCorporation/ci/.github/actions/setup-dotnet@v1
+        env:
+          GITHUB_TOKEN_FOR_NUGET_AUTH: ${{ github.token }}
+        with:
+          runs-on: ${{ inputs.runner }}
+          runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+          global-json-file: global.json
+          solution: ArkanisOverlay.sln
+          restore-locked-mode: false
+          github-packages-auth: true
+
+      - name: Stamp .NET projects
+        uses: ArkanisCorporation/ci/.github/actions/dotnet-setversion@v1
+        with:
+          version: ${{ inputs.version }}
+          global-json-file: global.json
+          working-directory: .
+          recursive: true
+
+      - name: Install Azure CLI
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        uses: elstudio/action-install-azure-cli@v1
+
+      - name: Azure Login
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Azure API access token
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        shell: bash
+        run: echo "AZURE_API_ACCESS_TOKEN=$(az account get-access-token --resource https://codesigning.azure.net --query accessToken --output tsv)" >> "$GITHUB_ENV"
+
+      - name: Set up Java
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        uses: actions/setup-java@v6
+        with:
+          java-version: 25
+          distribution: temurin
+
+      - name: Download Jsign
+        if: env.ENABLE_CODE_SIGNING == 'true'
+        shell: bash
+        run: curl -fsSL -O https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar
+
+      - name: Publish Windows application
+        shell: bash
+        run: ./scripts/release-11-verify-win64.sh
+
+      - name: Pack Velopack release assets
+        shell: bash
+        run: ./scripts/release-12-verify-win64-velopack.sh
+
+      - name: Upload Velopack release assets
+        shell: bash
+        run: ./scripts/release-31-publish-win64-velopack.sh

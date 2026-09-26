@@ -1,0 +1,62 @@
+name: Publish server image
+
+permissions: {}
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: "Runner pool used for the BuildKit probe and image publication"
+        required: false
+        type: string
+        default: daedalus
+      version:
+        description: "Bare semantic-release version used for .NET stamping"
+        required: true
+        type: string
+      version-tag:
+        description: "Immutable semantic-release Git tag"
+        required: true
+        type: string
+      version-channel:
+        description: "Semantic-release channel used for established mutable image aliases"
+        required: true
+        type: string
+      environment-name:
+        description: "Existing GitHub Environment that guards image publication"
+        required: true
+        type: string
+    outputs:
+      digest:
+        description: "Digest produced by the shared image-publish workflow"
+        value: ${{ jobs.publish.outputs.digest }}
+
+jobs:
+  publish:
+    name: Server image
+    uses: ArkanisCorporation/ci/.github/workflows/wf-publish-container-dotnet.yml@v1
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    with:
+      runs-on: ${{ inputs.runner }}
+      runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+      environment-name: ${{ inputs.environment-name }}
+      image: ghcr.io/arkaniscorporation/arkanisoverlay
+      context: .
+      dockerfile: src/Arkanis.Overlay.Host.Server/Dockerfile
+      platforms: linux/amd64
+      version: ${{ inputs.version }}
+      version-tag: ${{ inputs.version-tag }}
+      channel-latest: false
+      extra-tags: |
+        ${{ inputs.version-channel != '' && format('{0}-latest', inputs.version-channel) || '' }}
+        ${{ inputs.version-channel == 'stable' && 'latest' || '' }}
+      buildkit-endpoint: ${{ inputs.runner == 'arkanis-runners' && 'tcp://buildkitd.buildkit.svc.cluster.local:1234' || '' }}
+      global-json-file: global.json
+      version-working-directory: .
+      version-recursive: true
+      nuget-build-secret: true
+      github-packages-auth: true

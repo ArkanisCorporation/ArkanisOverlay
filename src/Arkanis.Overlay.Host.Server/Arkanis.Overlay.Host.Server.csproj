@@ -20,6 +20,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Arkanis.Common.Aspire.ServiceDefaults"/>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore"/>
         <PackageReference Include="Octokit"/>
     </ItemGroup>
 

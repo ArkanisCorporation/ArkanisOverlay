@@ -11,7 +11,7 @@
 # (net10.0-windows10.0.17763.0 - the Desktop host and its unit tests), so the suite must build and
 # run on Windows. windows-latest is GitHub-hosted, so runs-on-self-hosted is false and the
 # persistent-NuGet cache skip (a daedalus self-hosted optimisation) simply does not apply here;
-# the win from this migration lands on the daedalus-hosted _release.yaml lane instead.
+# the release-side jobs retain the self-hosted daedalus NuGet-cache optimization.
 
 name: .NET Test
 
@@ -26,11 +26,13 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-dotnet-test.yml@v1
     permissions:
       contents: read
+      packages: read
       pull-requests: write  # for the coverage report PR comment
     with:
       runs-on: windows-latest
       runs-on-self-hosted: false
       global-json-file: global.json
       solution: ArkanisOverlay.sln
+      github-packages-auth: true
       test-filter: "DataState!=Live"
       timeout-minutes: 30
