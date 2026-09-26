@@ -61,7 +61,7 @@ jobs:
           runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
           global-json-file: global.json
           solution: ArkanisOverlay.sln
-          restore-locked-mode: true
+          restore-locked-mode: false
           github-packages-auth: true
 
       - name: Stamp .NET projects

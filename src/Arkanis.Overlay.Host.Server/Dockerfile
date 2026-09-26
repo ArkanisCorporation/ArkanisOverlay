@@ -40,7 +40,6 @@ ARG BUILD_CONFIGURATION=Release
 COPY . .
 RUN rm global.json
 WORKDIR "/src/src/Arkanis.Overlay.Host.Server"
-RUN dotnet tool restore
 RUN dotnet publish "./Arkanis.Overlay.Host.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
