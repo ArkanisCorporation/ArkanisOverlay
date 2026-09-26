@@ -38,10 +38,8 @@ jobs:
     uses: ./.github/workflows/_test.yaml
     permissions:
       contents: read
+      packages: read
       pull-requests: write
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   verify-images:
     name: Verify server image
@@ -50,14 +48,12 @@ jobs:
     uses: ./.github/workflows/_verify-server-image.yaml
     permissions:
       contents: read
+      packages: read
     with:
       runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       version: ${{ needs.verify-release.outputs.new-version }}
       version-tag: ${{ needs.verify-release.outputs.new-tag }}
       version-channel: ${{ needs.verify-release.outputs.new-channel }}
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   verify-deployment:
     name: Verify Kubernetes deployment - ${{ matrix.target }}
@@ -78,6 +74,7 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-verify-deploy-k8s-aspire.yml@v1
     permissions:
       contents: read
+      packages: read
     with:
       runs-on: arkanis-runners
       runs-on-self-hosted: true
@@ -86,11 +83,9 @@ jobs:
       apphost-project: src/Arkanis.Overlay.Host.Aspire/Arkanis.Overlay.Host.Aspire.csproj
       output-path: ${{ matrix.output_path }}
       image-tag: ${{ needs.verify-release.outputs.new-tag }}
+      github-packages-auth: true
       global-json-file: global.json
       kubectl-version: v1.36.4
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   verify-nuget-packages:
     name: Verify NuGet - ${{ matrix.target }}
@@ -111,11 +106,13 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-verify-publish-nuget.yml@v1
     permissions:
       contents: read
+      packages: read
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
       project: ${{ matrix.project }}
       version: ${{ needs.verify-release.outputs.new-version }}
+      github-packages-auth: true
       global-json-file: global.json
 
   verify-velopack:
@@ -125,6 +122,7 @@ jobs:
     uses: ./.github/workflows/_verify-velopack.yaml
     permissions:
       contents: read
+      packages: read
       id-token: write
     with:
       runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
@@ -203,9 +201,6 @@ jobs:
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
       environment-name: Production
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   publish-nuget-packages:
     name: Publish NuGet - ${{ matrix.target }}
@@ -226,6 +221,7 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-publish-nuget.yml@v1
     permissions:
       contents: read
+      packages: read
       id-token: write
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
@@ -233,6 +229,7 @@ jobs:
       environment-name: Production
       project: ${{ matrix.project }}
       version: ${{ needs.release.outputs.new-version }}
+      github-packages-auth: true
       global-json-file: global.json
       trusted-publishing: false
     secrets:
@@ -245,6 +242,7 @@ jobs:
     uses: ./.github/workflows/_publish-velopack.yaml
     permissions:
       contents: write
+      packages: read
       id-token: write
     with:
       runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
@@ -275,6 +273,3 @@ jobs:
     with:
       target: staging
       image-tag: ${{ needs.release.outputs.new-tag }}
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

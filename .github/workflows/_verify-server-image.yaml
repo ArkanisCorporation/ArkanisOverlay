@@ -22,11 +22,6 @@ on:
         description: "Semantic-release channel used for established mutable image aliases"
         required: true
         type: string
-    secrets:
-      NUGET_AUTH_JSON:
-        required: false
-      OP_SERVICE_ACCOUNT_TOKEN:
-        required: false
 
 jobs:
   verify:
@@ -34,6 +29,7 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-verify-publish-container-dotnet.yml@v1
     permissions:
       contents: read
+      packages: read
     with:
       runs-on: ${{ inputs.runner }}
       runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
@@ -52,6 +48,4 @@ jobs:
       version-working-directory: .
       version-recursive: true
       nuget-build-secret: true
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      github-packages-auth: true

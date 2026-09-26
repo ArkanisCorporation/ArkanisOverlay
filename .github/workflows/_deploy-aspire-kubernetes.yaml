@@ -13,11 +13,6 @@ on:
         description: Immutable container image tag to deploy.
         required: true
         type: string
-    secrets:
-      NUGET_AUTH_JSON:
-        required: false
-      OP_SERVICE_ACCOUNT_TOKEN:
-        required: false
 
 jobs:
   deploy-staging:
@@ -34,12 +29,10 @@ jobs:
       apphost-project: src/Arkanis.Overlay.Host.Aspire/Arkanis.Overlay.Host.Aspire.csproj
       output-path: artifacts/k8s/staging
       image-tag: ${{ inputs.image-tag }}
+      github-packages-auth: true
       environment-name: Staging
       global-json-file: global.json
       kubectl-version: v1.36.4
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 
   deploy-production:
     if: ${{ inputs.target == 'production' }}
@@ -55,9 +48,7 @@ jobs:
       apphost-project: src/Arkanis.Overlay.Host.Aspire/Arkanis.Overlay.Host.Aspire.csproj
       output-path: artifacts/k8s/production
       image-tag: ${{ inputs.image-tag }}
+      github-packages-auth: true
       environment-name: Production
       global-json-file: global.json
       kubectl-version: v1.36.4
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

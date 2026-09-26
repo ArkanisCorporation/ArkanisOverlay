@@ -30,11 +30,6 @@ on:
         description: "Immutable container image tag to deploy"
         required: true
         type: string
-    secrets:
-      NUGET_AUTH_JSON:
-        required: false
-      OP_SERVICE_ACCOUNT_TOKEN:
-        required: false
 
 jobs:
   deploy:
@@ -46,6 +41,3 @@ jobs:
     with:
       target: ${{ inputs.environment }}
       image-tag: ${{ inputs.image-tag }}
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
