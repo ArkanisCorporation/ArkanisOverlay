@@ -19,11 +19,6 @@ permissions: {}
 
 on:
   workflow_call:
-    secrets:
-      NUGET_AUTH_JSON:
-        required: false
-      OP_SERVICE_ACCOUNT_TOKEN:
-        required: false
 
 jobs:
   test:
@@ -31,14 +26,13 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-dotnet-test.yml@v1
     permissions:
       contents: read
+      packages: read
       pull-requests: write  # for the coverage report PR comment
     with:
       runs-on: windows-latest
       runs-on-self-hosted: false
       global-json-file: global.json
       solution: ArkanisOverlay.sln
+      github-packages-auth: true
       test-filter: "DataState!=Live"
       timeout-minutes: 30
-    secrets:
-      NUGET_AUTH_JSON: ${{ secrets.NUGET_AUTH_JSON }}
-      OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}

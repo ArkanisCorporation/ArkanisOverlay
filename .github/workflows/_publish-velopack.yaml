@@ -42,6 +42,7 @@ jobs:
     environment: ${{ inputs.environment-name }}
     permissions:
       contents: write
+      packages: read
       id-token: write
     env:
       VERSION: ${{ inputs.version }}
@@ -58,12 +59,15 @@ jobs:
 
       - name: Setup .NET
         uses: ArkanisCorporation/ci/.github/actions/setup-dotnet@v1
+        env:
+          GITHUB_TOKEN_FOR_NUGET_AUTH: ${{ github.token }}
         with:
           runs-on: ${{ inputs.runner }}
           runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
           global-json-file: global.json
           solution: ArkanisOverlay.sln
           restore-locked-mode: true
+          github-packages-auth: true
 
       - name: Stamp .NET projects
         uses: ArkanisCorporation/ci/.github/actions/dotnet-setversion@v1
