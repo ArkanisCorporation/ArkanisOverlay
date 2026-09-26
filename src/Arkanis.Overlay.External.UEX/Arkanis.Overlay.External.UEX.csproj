@@ -25,7 +25,11 @@
     </ItemGroup>
 
     <Target Name="Restore dotnet tools" BeforeTargets="GenerateAPIClient">
-        <Exec Command="dotnet tool restore"/>
+        <!-- A cold tool resolver cache can misattribute commands on the first restore: https://github.com/dotnet/sdk/issues/53783 -->
+        <Exec Command="dotnet tool restore" IgnoreExitCode="true">
+            <Output TaskParameter="ExitCode" PropertyName="DotnetToolRestoreExitCode" />
+        </Exec>
+        <Exec Command="dotnet tool restore" Condition="'$(DotnetToolRestoreExitCode)' != '0'" />
     </Target>
 
     <Target Name="GenerateAPIClient"
