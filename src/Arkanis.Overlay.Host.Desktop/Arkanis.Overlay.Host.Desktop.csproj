@@ -43,6 +43,8 @@
         <PackageReference Include="Microsoft.Extensions.Hosting"/>
         <PackageReference Include="Microsoft.Extensions.Http"/>
         <PackageReference Include="Microsoft.Extensions.Logging"/>
+        <!-- Non-Windows restore needs an explicit EventLog reference in this desktop dependency graph. -->
+        <PackageReference Include="System.Diagnostics.EventLog" Condition="!$([MSBuild]::IsOSPlatform('Windows'))"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Console"/>
         <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations"/>
         <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications"/>
