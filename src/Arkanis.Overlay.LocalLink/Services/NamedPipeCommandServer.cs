@@ -7,22 +7,36 @@ using Exceptions;
 using Microsoft.Extensions.Logging;
 using Models;
 
-public class NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPublisherService> logger)
+public class NamedPipeCommandServer
 {
+    private readonly ILogger<NamedPipeCommandServerBackgroundPublisherService> _logger;
+    private readonly string _pipeName;
+
     public static string PipeName { get; } = ApplicationConstants.IsWindowsPlatform
         ? $"{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands"
         : $"/tmp/{ApplicationConstants.Company.Slug}/{ApplicationConstants.ApplicationSlug}/LocalLink/Commands.pipe";
+
+    public NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPublisherService> logger)
+        : this(logger, PipeName)
+    {
+    }
+
+    internal NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPublisherService> logger, string pipeName)
+    {
+        _logger = logger;
+        _pipeName = pipeName;
+    }
 
     public virtual async Task<LocalLinkCommandBase> ReceiveAsync(TimeSpan communicationTimeout, CancellationToken cancellationToken)
     {
         if (!ApplicationConstants.IsWindowsPlatform)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(PipeName)!);
+            Directory.CreateDirectory(Path.GetDirectoryName(_pipeName)!);
         }
 
-        await using var pipe = new NamedPipeServerStream(PipeName, PipeDirection.In);
+        await using var pipe = new NamedPipeServerStream(_pipeName, PipeDirection.In);
 
-        logger.LogDebug("Waiting for incoming named pipe connection: {PipeName}", PipeName);
+        _logger.LogDebug("Waiting for incoming named pipe connection: {PipeName}", _pipeName);
         await pipe.WaitForConnectionAsync(cancellationToken);
 
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -42,7 +56,7 @@ public class NamedPipeCommandServer(ILogger<NamedPipeCommandServerBackgroundPubl
         }
         catch (OperationCanceledException e)
         {
-            logger.LogWarning(e, "Failed to receive and process a LocalLink command in time");
+            _logger.LogWarning(e, "Failed to receive and process a LocalLink command in time");
             throw new LocalLinkConnectionException("The sender took too long to send a LocalLink command.", e);
         }
     }
