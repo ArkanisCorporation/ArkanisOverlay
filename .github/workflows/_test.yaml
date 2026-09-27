@@ -26,6 +26,7 @@ jobs:
     uses: ArkanisCorporation/ci/.github/workflows/wf-dotnet-test.yml@v1
     permissions:
       contents: read
+      packages: read        # wf-dotnet-test's job statically requests packages:read (NuGet restore from GitHub Packages); a reusable workflow may not request a scope its caller does not grant, so omitting this fails the run at startup (regression when ci@v1 floated to v1.6.0, which added packages:read)
       pull-requests: write  # for the coverage report PR comment
     with:
       runs-on: windows-latest
