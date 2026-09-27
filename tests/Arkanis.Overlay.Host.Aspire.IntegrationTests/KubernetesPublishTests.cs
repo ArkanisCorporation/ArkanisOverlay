@@ -3,8 +3,11 @@ namespace Arkanis.Overlay.Host.Aspire.IntegrationTests;
 using global::System.Diagnostics;
 using global::Arkanis.Aspire.Hosting.Extensions.Kubernetes.KubernetesIngresses;
 using global::Arkanis.Aspire.Hosting.Extensions.Kubernetes.PersistentVolumeClaims;
+using global::Arkanis.Aspire.Hosting.Extensions.Kubernetes;
+using global::Arkanis.Overlay.Host.Aspire.Options;
 using global::Aspire.Hosting.ApplicationModel;
 using global::Aspire.Hosting.Testing;
+using global::Microsoft.Extensions.Configuration;
 using global::Microsoft.Extensions.Hosting;
 using global::Shouldly;
 using global::Xunit;
@@ -13,8 +16,102 @@ using AppHostMarker = global::Arkanis.Overlay.Host.Aspire.AppHostMarker;
 public sealed class KubernetesPublishTests
 {
     [Theory]
-    [InlineData("Kubernetes-Staging", "overlay-fixture-staging", "Staging", "overlay-fixture-tls-staging")]
-    [InlineData("Kubernetes-Production", "overlay-fixture-production", "Production", "overlay-fixture-tls-production")]
+    [InlineData("Kubernetes-Test-Other")]
+    [InlineData("Kubernetes")]
+    [InlineData("KubernetesPreview")]
+    public async Task Missing_or_malformed_target_rejects_the_test_fixture(string deploymentEnvironment)
+    {
+        EnsureNoKubernetesEnvironmentOverrides();
+        await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+        {
+            await using var builder = await DistributedApplicationTestingBuilder.CreateAsync<AppHostMarker>(
+                args: [],
+                configureBuilder: (_, hostSettings) =>
+                {
+                    hostSettings.EnvironmentName = deploymentEnvironment;
+                    hostSettings.ContentRootPath = FixtureConfigurationRoot;
+                },
+                TestContext.Current.CancellationToken
+            );
+        });
+    }
+
+    [Fact]
+    public void Mismatched_fixture_target_is_rejected()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Kubernetes:Target"] = "Kubernetes-Test-Staging",
+            })
+            .Build();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            KubernetesDeploymentOptions.FromConfiguration(configuration, "Kubernetes-Test-Other", new ResourceName("overlay")));
+    }
+
+    [Theory]
+    [InlineData("Kubernetes:Images:Overlay")]
+    [InlineData("Kubernetes:Images:Tag")]
+    public void Kubernetes_image_reference_must_be_explicit(string missingKey)
+    {
+        var values = new Dictionary<string, string?>
+        {
+            ["Kubernetes:Images:Overlay"] = "ghcr.io/example/overlay-fixture",
+            ["Kubernetes:Images:Tag"] = "v0.0.0-fixture",
+        };
+        values.Remove(missingKey);
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(values).Build();
+
+        var exception = Assert.Throws<InvalidOperationException>(() => KubernetesPrebuiltImagesOptions.FromConfiguration(configuration));
+        exception.Message.ShouldContain(missingKey);
+    }
+
+    [Theory]
+    [InlineData("Kubernetes:Namespace")]
+    [InlineData("Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:Host")]
+    [InlineData("Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:TlsSecretName")]
+    [InlineData("Kubernetes:Ingress:CertClusterIssuerName")]
+    public void Kubernetes_target_requires_its_deployment_settings(string missingKey)
+    {
+        var values = new Dictionary<string, string?>
+        {
+            ["Kubernetes:Target"] = "Kubernetes-Test-Staging",
+            ["Kubernetes:Namespace"] = "overlay-fixture-staging",
+            ["Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:Host"] = "overlay.fixture.invalid",
+            ["Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:TlsSecretName"] = "overlay-fixture-tls-staging",
+            ["Kubernetes:Ingress:CertClusterIssuerName"] = "fixture-issuer",
+        };
+        values.Remove(missingKey);
+        var configuration = new ConfigurationBuilder().AddInMemoryCollection(values).Build();
+
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+            KubernetesDeploymentOptions.FromConfiguration(configuration, "Kubernetes-Test-Staging", new ResourceName("overlay")));
+        exception.Message.ShouldContain(missingKey);
+    }
+
+    [Fact]
+    public void Kubernetes_target_rejects_a_disabled_ingress()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["Kubernetes:Target"] = "Kubernetes-Test-Staging",
+                ["Kubernetes:Namespace"] = "overlay-fixture-staging",
+                ["Kubernetes:Ingress:CertClusterIssuerName"] = "fixture-issuer",
+                ["Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:Host"] = "overlay.fixture.invalid",
+                ["Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:TlsSecretName"] = "overlay-fixture-tls-staging",
+                ["Kubernetes:Ingress:Resources:overlay:overlay-ingress-http:Enabled"] = "false",
+            })
+            .Build();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            KubernetesDeploymentOptions.FromConfiguration(configuration, "Kubernetes-Test-Staging", new ResourceName("overlay")));
+    }
+
+    [Theory]
+    [InlineData("Kubernetes-Test-Staging", "overlay-fixture-staging", "Testing", "overlay-fixture-tls-staging")]
+    [InlineData("Kubernetes-Test-Production", "overlay-fixture-production", "Testing", "overlay-fixture-tls-production")]
     public async Task Kubernetes_fixture_models_a_non_production_overlay_deployment(
         string deploymentEnvironment,
         string expectedNamespace,
@@ -22,6 +119,7 @@ public sealed class KubernetesPublishTests
         string expectedTlsSecretName
     )
     {
+        EnsureNoKubernetesEnvironmentOverrides();
         await using var builder = await DistributedApplicationTestingBuilder.CreateAsync<AppHostMarker>(
             args: [],
             configureBuilder: (_, hostSettings) =>
@@ -70,11 +168,15 @@ public sealed class KubernetesPublishTests
     }
 
     [Theory]
-    [InlineData("Kubernetes-Staging")]
-    [InlineData("Kubernetes-Production")]
-    public async Task Kubernetes_fixture_publish_emits_a_hardened_overlay_workload(string deploymentEnvironment)
+    [InlineData("Kubernetes-Test-Staging", "overlay-fixture-tls-staging")]
+    [InlineData("Kubernetes-Test-Production", "overlay-fixture-tls-production")]
+    public async Task Kubernetes_fixture_publish_emits_a_hardened_overlay_workload(
+        string deploymentEnvironment,
+        string expectedTlsSecretName
+    )
     {
-        var deployment = (await PublishFixtureAsync(deploymentEnvironment)).ReplaceLineEndings("\n");
+        var published = await PublishFixtureAsync(deploymentEnvironment);
+        var deployment = published.Deployment.ReplaceLineEndings("\n");
 
         deployment.ShouldContain("replicas: 1");
         deployment.ShouldContain("type: \"Recreate\"");
@@ -90,10 +192,29 @@ public sealed class KubernetesPublishTests
         deployment.ShouldContain("mountPath: \"/var/lib/overlay\"");
         deployment.ShouldContain("readOnly: false");
         deployment.ShouldContain("scheme: \"HTTP\"");
+        deployment.ShouldContain("envFrom:");
+        deployment.ShouldContain("overlay-config");
+        published.Values.ShouldContain("XDG_DATA_HOME: \"/var/lib/overlay\"");
+        published.Values.ShouldContain("ASPNETCORE_FORWARDEDHEADERS_ENABLED: \"true\"");
+        published.Values.ShouldContain("DOTNET_ENVIRONMENT: \"Testing\"");
+        published.Claim.ShouldContain("overlay-data");
+        published.Claim.ShouldContain("ReadWriteOnce");
+        published.Claim.ShouldContain("longhorn-ext4-r2");
+        published.Ingress.ShouldContain("overlay.fixture.invalid");
+        published.Ingress.ShouldContain(expectedTlsSecretName);
+        published.Ingress.ShouldContain("fixture-issuer");
+        published.AllYaml.ShouldNotContain("arkanis-overlay-staging");
+        published.AllYaml.ShouldNotContain("arkanis-overlay-production");
+        published.AllYaml.ShouldNotContain("overlay.arkanis.dev");
+        published.AllYaml.ShouldNotContain("overlay.arkanis.space");
+        published.AllYaml.ShouldNotContain("ghcr.io/arkaniscorporation/arkanisoverlay");
+        published.AllYaml.ShouldNotContain("onepassword-connect");
+        published.AllYaml.ShouldNotContain("op://");
     }
 
-    private static async Task<string> PublishFixtureAsync(string deploymentEnvironment)
+    private static async Task<PublishedFixture> PublishFixtureAsync(string deploymentEnvironment)
     {
+        EnsureNoKubernetesEnvironmentOverrides();
         var outputPath = Path.Combine(
             Path.GetTempPath(),
             "arkanis-overlay-aspire-publish-tests",
@@ -147,9 +268,15 @@ public sealed class KubernetesPublishTests
             var output = (await standardOutput) + Environment.NewLine + (await standardError);
             process.ExitCode.ShouldBe(0, output);
 
-            return await File.ReadAllTextAsync(
-                Path.Combine(outputPath, "templates", "overlay", "deployment.yaml"),
-                TestContext.Current.CancellationToken
+            var yamlPaths = Directory.GetFiles(outputPath, "*.yaml", SearchOption.AllDirectories);
+            var yaml = await Task.WhenAll(yamlPaths.Select(path => File.ReadAllTextAsync(path, TestContext.Current.CancellationToken)));
+            var manifests = yamlPaths.Zip(yaml).ToDictionary(pair => pair.First, pair => pair.Second);
+            return new PublishedFixture(
+                manifests.Single(pair => pair.Key.EndsWith(Path.Combine("overlay", "deployment.yaml"), StringComparison.Ordinal)).Value,
+                manifests.Single(pair => Path.GetFileName(pair.Key) == "persistentvolumeclaim.yaml").Value,
+                manifests.Single(pair => Path.GetFileName(pair.Key) == "ingress.yaml").Value,
+                manifests.Single(pair => Path.GetFileName(pair.Key) == "values.yaml").Value,
+                string.Join("\n", yaml)
             );
         }
         finally
@@ -160,6 +287,22 @@ public sealed class KubernetesPublishTests
             {
                 File.Delete(generatedConfigPath);
             }
+        }
+    }
+
+    private sealed record PublishedFixture(string Deployment, string Claim, string Ingress, string Values, string AllYaml);
+
+    private static void EnsureNoKubernetesEnvironmentOverrides()
+    {
+        var overrides = Environment.GetEnvironmentVariables().Keys.Cast<string>()
+            .Where(key => key.StartsWith("Kubernetes__", StringComparison.OrdinalIgnoreCase)
+                          || key.StartsWith("Kubernetes:", StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        if (overrides.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Aspire publish tests require a clean Kubernetes configuration environment; found {string.Join(", ", overrides)}."
+            );
         }
     }
 

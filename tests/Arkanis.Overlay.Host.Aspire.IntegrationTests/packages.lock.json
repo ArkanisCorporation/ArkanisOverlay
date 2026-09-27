@@ -126,8 +126,8 @@
       },
       "Aspire.Hosting": {
         "type": "Transitive",
-        "resolved": "13.5.3",
-        "contentHash": "VPsd2pgTgmwGLPTUrTD1oYR1XKMgh2ceSPBCF71NHxXSeXhSdpNHmCFDcv7tv8WgoEZDEQ76uIC6oklsEV9D/Q==",
+        "resolved": "13.5.4",
+        "contentHash": "G3RVIjOPuYO1qaCLRvnPRgbTf0u7yQdOKex4kT4sDDOo0uR0Hoay656Ar0e28PrpR+OhpjGKt3PmQ4vCOplJbA==",
         "dependencies": {
           "AspNetCore.HealthChecks.Uris": "9.0.0",
           "Google.Protobuf": "3.34.1",
@@ -923,8 +923,7 @@
         "type": "Project",
         "dependencies": {
           "Arkanis.Aspire.Hosting.Extensions.1Password": "[2.1.0-dev.1, )",
-          "Arkanis.Aspire.Hosting.Extensions.Kubernetes": "[1.0.0-dev.19, )",
-          "Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets": "[1.0.0-dev.17, )",
+          "Arkanis.Aspire.Hosting.Extensions.Kubernetes": "[1.0.0-dev.22, )",
           "Aspire.Dashboard.Sdk.win-x64": "[13.5.3, )",
           "Aspire.Hosting.AppHost": "[13.5.3, )",
           "Aspire.Hosting.Kubernetes": "[13.5.3-preview.1.26425.3, )",
@@ -952,13 +951,13 @@
       },
       "Arkanis.Aspire.Hosting.Extensions.Kubernetes": {
         "type": "CentralTransitive",
-        "requested": "[1.0.0-dev.19, )",
-        "resolved": "1.0.0-dev.19",
-        "contentHash": "eQWoekW1ri17/yrQeJicfTjIqYinYiwuZzFoUKVGSgt4aahES92OeSKLMIfFxm2cIeI96TCo1U/Lije0CLiwSA==",
+        "requested": "[1.0.0-dev.22, )",
+        "resolved": "1.0.0-dev.22",
+        "contentHash": "C88SY6zrO3phhOjZWb/oKoqx+WJYf+JCFyh5bm5L4RX2ZggSBI/X3pFaq0+huIAYtzngyi1dq8lxjbFy1a9Qmg==",
         "dependencies": {
           "Arkanis.Common.Aspire.ServiceDefaults": "1.0.0-dev.1",
-          "Aspire.Hosting": "13.5.3",
-          "Aspire.Hosting.Kubernetes": "13.4.6-preview.1.26319.6",
+          "Aspire.Hosting": "13.5.4",
+          "Aspire.Hosting.Kubernetes": "13.5.3-preview.1.26425.3",
           "JetBrains.Annotations": "2026.2.0",
           "Microsoft.Extensions.Configuration": "10.0.12",
           "Microsoft.Extensions.Configuration.Binder": "10.0.12",
@@ -966,28 +965,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.12",
           "Microsoft.Extensions.Logging": "10.0.12",
           "Microsoft.Extensions.Logging.Abstractions": "10.0.12",
-          "YamlDotNet": "18.1.0"
-        }
-      },
-      "Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets": {
-        "type": "CentralTransitive",
-        "requested": "[1.0.0-dev.17, )",
-        "resolved": "1.0.0-dev.17",
-        "contentHash": "th7+JM/Qq4CaIibPoXbyxO4ehddQ+X8aDBG1k9ax3wuUAeqtnUK6K6wEvEqZdjsLySq3qk8I5rMD5EZEtWl/AA==",
-        "dependencies": {
-          "Arkanis.Aspire.Hosting.Extensions.1Password": "2.1.0-dev.1",
-          "Arkanis.Aspire.Hosting.Extensions.Kubernetes": "1.0.0-dev.17",
-          "Arkanis.Common.Aspire.ServiceDefaults": "1.0.0-dev.1",
-          "Arkanis.Hosting.Extensions.1Password": "2.1.0-dev.1",
-          "Aspire.Hosting": "13.4.6",
-          "Aspire.Hosting.Kubernetes": "13.4.6-preview.1.26319.6",
-          "JetBrains.Annotations": "2026.2.0",
-          "Microsoft.Extensions.Configuration": "10.0.10",
-          "Microsoft.Extensions.Configuration.Binder": "10.0.10",
-          "Microsoft.Extensions.DependencyInjection": "10.0.10",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.10",
-          "Microsoft.Extensions.Logging": "10.0.10",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.10",
           "YamlDotNet": "18.1.0"
         }
       },
