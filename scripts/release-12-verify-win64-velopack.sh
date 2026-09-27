@@ -9,6 +9,18 @@ set -eEuo pipefail
 #| `stdout`         | Only the reason for the verification to fail can be written to `stdout`. |
 #| `stderr`         | Can be used for logging.                                                 |
 
+# --- Windows code-signing topology (Azure Artifact Signing, formerly Trusted Signing) ---
+# WHERE we sign. These three values move together at a tenant/region/account cutover
+# (see Infrastructure ARK-560); to repoint signing, edit them here - nothing else in this
+# script hard-codes them. The per-tenant AZURE_* credentials are GitHub Actions secrets,
+# injected via the environment (see .github/workflows/_release.yaml), not set here.
+#   host    : account endpoint host, region-specific (neu = North Europe)
+#   account : signing account name; the Jsign --alias is "<account>/<profile>"
+#   profile : certificate profile name
+SIGNING_ENDPOINT_HOST="neu.codesigning.azure.net"
+SIGNING_ACCOUNT_NAME="ArkanisCorporationOU"
+SIGNING_CERTIFICATE_PROFILE="ArkanisOverlay"
+
 [[ -z "${VERSION+x}" ]] && echo "VERSION is not set" && exit 2
 [[ -z "${VERSION_CHANNEL+x}" ]] && echo "VERSION_CHANNEL is not set" && exit 2
 [[ -z "${GITHUB_TOKEN+x}" ]] && echo "GITHUB_TOKEN is not set" && exit 2
@@ -29,7 +41,7 @@ dotnet vpk download github \
 
 vpk_extra_params=()
 if [[ $ENABLE_CODE_SIGNING == true ]]; then
-    vpk_extra_params+=(--signTemplate "java -jar jsign-7.4.jar --storetype TRUSTEDSIGNING --keystore weu.codesigning.azure.net --storepass $AZURE_API_ACCESS_TOKEN --alias ArkanisOverlay/ArkanisOverlay {{file...}}")
+    vpk_extra_params+=(--signTemplate "java -jar jsign-7.4.jar --storetype TRUSTEDSIGNING --keystore ${SIGNING_ENDPOINT_HOST} --storepass $AZURE_API_ACCESS_TOKEN --alias ${SIGNING_ACCOUNT_NAME}/${SIGNING_CERTIFICATE_PROFILE} {{file...}}")
 fi
 
 >&2 echo "Packing the published application..."
