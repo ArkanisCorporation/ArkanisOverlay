@@ -2,9 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Arkanis.Aspire.Hosting.Extensions._1Password;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes;
-using Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.KubernetesIngresses;
-using Arkanis.Aspire.Hosting.Extensions.Kubernetes.Options;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.PersistentVolumeClaims;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.Targeting;
 using Arkanis.Overlay.Host.Aspire;
@@ -13,36 +11,33 @@ using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Kubernetes;
 using Aspire.Hosting.Kubernetes.Resources;
-using Microsoft.Extensions.Configuration;
 using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
-
-builder.Configuration.AddJsonFile("appsettings.json");
-
-if (builder.Environment.GetDeploymentEnvironment() is { } deploymentEnvironment)
+var isKubernetesDeployment = builder.Environment.IsKubernetesDeployment();
+if (builder.Environment.EnvironmentName.StartsWith("Kubernetes", StringComparison.OrdinalIgnoreCase)
+    && builder.Environment.GetDeploymentEnvironment() is null)
 {
-    builder.Configuration.AddJsonFile($"appsettings.{deploymentEnvironment.Class}.json", optional: true, reloadOnChange: false);
-    builder.Configuration.AddJsonFile(
-        $"appsettings.{deploymentEnvironment.Class}.{deploymentEnvironment.EnvironmentType}.json",
-        optional: true,
-        reloadOnChange: false
+    throw new InvalidOperationException(
+        $"'{builder.Environment.EnvironmentName}' is not a qualified Kubernetes deployment environment."
     );
 }
 
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false);
-builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: false);
-builder.Configuration.AddEnvironmentVariables();
+builder.AddDeploymentEnvironmentConfiguration(includeLocalSettings: !isKubernetesDeployment);
+var overlayResourceName = new ResourceName("overlay");
 
-if (!builder.Environment.IsKubernetesDeployment())
+if (!isKubernetesDeployment)
 {
     await builder.Use1PasswordAsync("arkaniscorp.1password.com");
 }
 
-var kubernetesDeployment = KubernetesDeploymentOptions.FromConfiguration(builder.Configuration);
-var prebuiltImages = KubernetesPrebuiltImagesOptions.FromConfiguration(builder.Configuration);
-var targetedResources = new TargetedResourceFactory(builder.Environment.IsKubernetesDeployment());
-var overlayResourceName = new ResourceName("overlay");
+var kubernetesDeployment = isKubernetesDeployment
+    ? KubernetesDeploymentOptions.FromConfiguration(builder.Configuration, builder.Environment.EnvironmentName, overlayResourceName)
+    : null;
+var prebuiltImages = isKubernetesDeployment ? KubernetesPrebuiltImagesOptions.FromConfiguration(builder.Configuration) : null;
+var targetedResources = new TargetedResourceFactory(isKubernetesDeployment);
+const string overlayDataName = "overlay-data";
+const string overlayDataMountPath = "/var/lib/overlay";
 var probeOptions = new ResourceHealthCheckProbeOptions
 {
     PeriodSeconds = 10,
@@ -59,19 +54,27 @@ var overlay = targetedResources.AddTargetedApplicationResource(
     .ConfigureAny(resource => resource
         .WithExternalHttpEndpoints()
         .AddAllHealthCheckProbes(probeOptions)
-    )
-    .ConfigureAny(resource => resource.WithKubernetesEnvironmentVariables(environment => environment.WithConfigurationFrom(builder.Configuration)));
+    );
 
 #pragma warning restore ASPIREPROBES001
 
-if (builder.Environment.IsKubernetesDeployment())
+if (isKubernetesDeployment)
 {
     overlay.ConfigureAny(resource =>
         {
-            ConfigureKubernetesIngress(resource, overlayResourceName, "overlay-ingress-http");
-            resource.WithKubernetesPersistentVolumeClaim(
-                "overlay-data",
-                volume => volume.WithConfigurationFrom(builder.Configuration)
+            resource.WithKubernetesEnvironmentVariables(environment => environment
+                .WithConfigurationFrom(builder.Configuration)
+                .WithVariable("ASPNETCORE_FORWARDEDHEADERS_ENABLED", "true")
+                .WithVariable("XDG_DATA_HOME", overlayDataMountPath));
+            resource.WithKubernetesIngress(ingress => ingress.WithConfigurationFrom(builder.Configuration));
+            resource.WithNewKubernetesPersistentVolumeClaim(
+                overlayDataName,
+                overlayDataName,
+                overlayDataMountPath,
+                claim => claim
+                    .WithStorageRequest("1Gi")
+                    .WithReadWriteOnce()
+                    .WithStorageClass("longhorn-ext4-r2")
             );
         }
     );
@@ -83,14 +86,9 @@ if (builder.Environment.IsKubernetesDeployment())
                 .WithChartVersion(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion ?? "0.0.0")
                 .WithChartDescription("An Arkanis Overlay deployment.");
 
-            if (!string.IsNullOrWhiteSpace(kubernetesDeployment.Namespace))
-            {
-                helm.WithNamespace(kubernetesDeployment.Namespace);
-            }
+            helm.WithNamespace(kubernetesDeployment!.Namespace);
         }
     );
-    kubernetes.WithExternalSecrets(ExternalSecretsOptions.FromConfiguration(builder.Configuration));
-    kubernetes.WithPersistentVolumeClaims(KubernetesPersistentVolumeClaimsOptions.FromConfiguration(builder.Configuration));
 }
 
 var app = builder.Build();
@@ -99,7 +97,7 @@ return 0;
 
 IResourceBuilder<ContainerResource> AddKubernetesOverlayContainer(ResourceName name)
     => builder
-        .AddContainer(name.Content, prebuiltImages.Overlay, prebuiltImages.Tag)
+        .AddContainer(name.Content, prebuiltImages!.Overlay, prebuiltImages.Tag)
         .WithHttpEndpoint(targetPort: 8080, env: "HTTP_PORTS")
         .PublishAsKubernetesService(resource =>
             {
@@ -129,7 +127,7 @@ void ConfigureKubernetesOverlayDeployment(Deployment deployment)
 
     foreach (var container in podSpec.Containers)
     {
-        container.ImagePullPolicy = prebuiltImages.ImagePullPolicy;
+        container.ImagePullPolicy = prebuiltImages!.ImagePullPolicy;
         var securityContext = new SecurityContextV1
         {
             AllowPrivilegeEscalation = false,
@@ -158,30 +156,4 @@ void NormalizeKubernetesHttpProbeScheme(ProbeV1? probe)
         var scheme when string.Equals(scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase) => "HTTPS",
         var scheme => scheme,
     };
-}
-
-void ConfigureKubernetesIngress<T>(IResourceBuilder<T> resourceBuilder, ResourceName resourceName, string ingressName)
-    where T : IResourceWithEndpoints
-{
-    var ingresses = KubernetesIngressOptions.FromConfiguration(builder.Configuration).GetResourceIngresses(resourceName);
-    var unsupportedIngressNames = ingresses.Keys
-        .Where(name => !string.Equals(name, ingressName, StringComparison.Ordinal))
-        .Order(StringComparer.Ordinal)
-        .ToArray();
-
-    if (unsupportedIngressNames.Length > 0)
-    {
-        throw new InvalidOperationException(
-            $"Ingress configuration for resource '{resourceName.Content}' contains unsupported ingress item(s): "
-            + string.Join(", ", unsupportedIngressNames.Select(static name => $"'{name}'"))
-            + "."
-        );
-    }
-
-    if (!ingresses.TryGetValue(ingressName, out var ingress) || !ingress.ShouldPublish)
-    {
-        return;
-    }
-
-    resourceBuilder.WithKubernetesIngress(resourceIngress => resourceIngress.WithConfigurationFrom(builder.Configuration));
 }

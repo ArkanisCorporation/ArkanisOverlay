@@ -5,12 +5,9 @@ using Microsoft.Extensions.Configuration;
 public sealed class KubernetesPrebuiltImagesOptions
 {
     private const string ConfigurationPath = "Kubernetes:Images";
-    private const string VersionTagConfigurationKey = "VERSION_TAG";
-    private const string DefaultTag = "staging-latest";
+    public required string Overlay { get; init; }
 
-    public string Overlay { get; set; } = "ghcr.io/arkaniscorporation/arkanisoverlay";
-
-    public string Tag { get; set; } = DefaultTag;
+    public required string Tag { get; init; }
 
     public string ImagePullPolicy
         => Tag.EndsWith("latest", StringComparison.OrdinalIgnoreCase) ? "Always" : "IfNotPresent";
@@ -19,16 +16,15 @@ public sealed class KubernetesPrebuiltImagesOptions
     {
         ArgumentNullException.ThrowIfNull(configuration);
 
-        var options = new KubernetesPrebuiltImagesOptions();
-        configuration.GetSection(ConfigurationPath).Bind(options);
-
-        var versionTag = configuration[VersionTagConfigurationKey];
-        options.Tag = !string.IsNullOrWhiteSpace(versionTag)
-            ? versionTag
-            : string.IsNullOrWhiteSpace(options.Tag)
-                ? DefaultTag
-                : options.Tag;
-
-        return options;
+        return new KubernetesPrebuiltImagesOptions
+        {
+            Overlay = Require(configuration, $"{ConfigurationPath}:Overlay"),
+            Tag = Require(configuration, $"{ConfigurationPath}:Tag"),
+        };
     }
+
+    private static string Require(IConfiguration configuration, string key)
+        => !string.IsNullOrWhiteSpace(configuration[key])
+            ? configuration[key]!.Trim()
+            : throw new InvalidOperationException($"'{key}' is required for Kubernetes publishing.");
 }

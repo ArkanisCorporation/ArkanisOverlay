@@ -17,7 +17,6 @@
     <ItemGroup>
         <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.1Password" />
         <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" />
-        <PackageReference Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets" />
         <PackageReference Include="Aspire.Hosting.AppHost" />
         <PackageReference Include="Aspire.Hosting.Kubernetes" />
     </ItemGroup>

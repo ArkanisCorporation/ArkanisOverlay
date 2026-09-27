@@ -6,8 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.1Password" Version="2.1.0-dev.1" />
-    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes.ExternalSecrets" Version="1.0.0-dev.17" />
-    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" Version="1.0.0-dev.19" />
+    <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" Version="1.0.0-dev.22" />
     <PackageVersion Include="Arkanis.Common.Aspire.ServiceDefaults" Version="1.0.0-dev.1" />
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.3" />
     <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.5.3-preview.1.26425.3" />
