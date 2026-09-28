@@ -5,11 +5,7 @@ using Arkanis.Aspire.Hosting.Extensions.Kubernetes;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.KubernetesIngresses;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.PersistentVolumeClaims;
 using Arkanis.Aspire.Hosting.Extensions.Kubernetes.Targeting;
-using Arkanis.Overlay.Host.Aspire;
 using Arkanis.Overlay.Host.Aspire.Options;
-using Aspire.Hosting;
-using Aspire.Hosting.ApplicationModel;
-using Aspire.Hosting.Kubernetes;
 using Aspire.Hosting.Kubernetes.Resources;
 using Projects;
 
@@ -18,12 +14,10 @@ var isKubernetesDeployment = builder.Environment.IsKubernetesDeployment();
 if (builder.Environment.EnvironmentName.StartsWith("Kubernetes", StringComparison.OrdinalIgnoreCase)
     && builder.Environment.GetDeploymentEnvironment() is null)
 {
-    throw new InvalidOperationException(
-        $"'{builder.Environment.EnvironmentName}' is not a qualified Kubernetes deployment environment."
-    );
+    throw new InvalidOperationException($"'{builder.Environment.EnvironmentName}' is not a qualified Kubernetes deployment environment.");
 }
 
-builder.AddDeploymentEnvironmentConfiguration(includeLocalSettings: !isKubernetesDeployment);
+builder.AddDeploymentEnvironmentConfiguration(!isKubernetesDeployment);
 var overlayResourceName = new ResourceName("overlay");
 
 if (!isKubernetesDeployment)
@@ -65,7 +59,8 @@ if (isKubernetesDeployment)
             resource.WithKubernetesEnvironmentVariables(environment => environment
                 .WithConfigurationFrom(builder.Configuration)
                 .WithVariable("ASPNETCORE_FORWARDEDHEADERS_ENABLED", "true")
-                .WithVariable("XDG_DATA_HOME", overlayDataMountPath));
+                .WithVariable("XDG_DATA_HOME", overlayDataMountPath)
+            );
             resource.WithKubernetesIngress(ingress => ingress.WithConfigurationFrom(builder.Configuration));
             resource.WithNewKubernetesPersistentVolumeClaim(
                 overlayDataName,
@@ -80,6 +75,7 @@ if (isKubernetesDeployment)
     );
 
     var kubernetes = builder.AddKubernetesEnvironment("arkanis-overlay");
+    kubernetes.WithDashboard(false);
     kubernetes.WithHelm(helm =>
         {
             helm.WithChartName("arkanis-overlay")
