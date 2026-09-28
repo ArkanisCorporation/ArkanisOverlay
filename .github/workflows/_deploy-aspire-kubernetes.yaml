@@ -30,7 +30,7 @@ jobs:
       output-path: artifacts/k8s/staging
       image-tag: ${{ inputs.image-tag }}
       github-packages-auth: true
-      environment-name: Staging
+      environment-name: k8s-staging
       global-json-file: global.json
       kubectl-version: v1.36.4
 
@@ -49,6 +49,6 @@ jobs:
       output-path: artifacts/k8s/production
       image-tag: ${{ inputs.image-tag }}
       github-packages-auth: true
-      environment-name: Production
+      environment-name: k8s-production
       global-json-file: global.json
       kubectl-version: v1.36.4

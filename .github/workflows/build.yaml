@@ -161,7 +161,7 @@ jobs:
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
-      environment-name: Production
+      environment-name: release
       semantic-release-version: 25.0.9
       extra-plugins: |
         @semantic-release/changelog@7.0.0
@@ -178,7 +178,7 @@ jobs:
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
-      environment-name: Production
+      environment-name: release
       new-version: ${{ needs.release.outputs.new-version }}
       release-ref-name: ${{ github.ref_name }}
       default-branch: ${{ github.event.repository.default_branch }}
@@ -200,7 +200,7 @@ jobs:
       version: ${{ needs.release.outputs.new-version }}
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
-      environment-name: Production
+      environment-name: publish-ghcr
 
   publish-nuget-packages:
     name: Publish NuGet - ${{ matrix.target }}
@@ -226,7 +226,7 @@ jobs:
     with:
       runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
-      environment-name: Production
+      environment-name: publish-nuget
       project: ${{ matrix.project }}
       version: ${{ needs.release.outputs.new-version }}
       github-packages-auth: true
@@ -249,7 +249,7 @@ jobs:
       version: ${{ needs.release.outputs.new-version }}
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
-      environment-name: Production
+      environment-name: publish-velopack
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
