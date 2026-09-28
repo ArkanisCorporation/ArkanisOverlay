@@ -217,22 +217,16 @@ jobs:
             project: src/Arkanis.Overlay.LocalLink/Arkanis.Overlay.LocalLink.csproj
           - target: External.Common
             project: src/Arkanis.Overlay.External.Common/Arkanis.Overlay.External.Common.csproj
-    uses: ArkanisCorporation/ci/.github/workflows/wf-publish-nuget.yml@v1
+    uses: ./.github/workflows/_publish-nuget.yaml
     permissions:
       contents: read
       packages: read
       id-token: write
     with:
-      runs-on: *ordinary_runner
-      runs-on-self-hosted: *ordinary_runner_self_hosted
-      environment-name: publish-nuget
-      project: ${{ matrix.project }}
       version: ${{ needs.release.outputs.new-version }}
-      github-packages-auth: true
-      global-json-file: global.json
-      trusted-publishing: false
-    secrets:
-      NUGET_API_KEY: ${{ secrets.NUGET_PUBLISH_API_KEY }}
+      project: ${{ matrix.project }}
+      runner: *ordinary_runner
+      environment-name: publish-nuget
 
   publish-velopack:
     name: Publish Windows release assets
