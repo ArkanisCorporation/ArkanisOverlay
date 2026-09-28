@@ -34,6 +34,14 @@ jobs:
     name: Windows release assets
     runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
     timeout-minutes: 60
+    # Claim the publish-velopack GitHub Environment only on runs that actually sign. Doing so makes
+    # the OIDC token's subject take the `repo:...:environment:publish-velopack` form, which is what
+    # the single federated credential in Infrastructure's terraform/shared/code-signing.tf trusts
+    # (immutable, environment-scoped). On non-signing branches the azure/login steps below are
+    # skipped, so no environment is claimed and the environment's deployment-branch policy is not
+    # consulted - a plain check run, not a deployment. Keep the branch list in step with the
+    # ENABLE_CODE_SIGNING expression below; both derive the same signing branches from github.ref_name.
+    environment: ${{ contains(fromJson('["main", "release/rc", "release/stable", "ci"]'), github.ref_name) && 'publish-velopack' || '' }}
     permissions:
       contents: read
       packages: read
