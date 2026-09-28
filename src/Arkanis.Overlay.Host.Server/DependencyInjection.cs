@@ -3,7 +3,9 @@ namespace Arkanis.Overlay.Host.Server;
 using Common.Abstractions;
 using Common.Enums;
 using Common.Services;
+using Arkanis.Common.Hosting;
 using Infrastructure;
+using Infrastructure.Data;
 using Infrastructure.Services;
 using Infrastructure.Services.Abstractions;
 using MudBlazor;
@@ -17,8 +19,6 @@ public static class DependencyInjection
     public static IServiceCollection AddAllServerHostServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient();
-        services.AddHealthChecks();
-
         services.AddMemoryCache();
 
         services
@@ -47,6 +47,17 @@ public static class DependencyInjection
             .AddSingleton<GitHubReleasesService>()
             .AddSingleton<IAppVersionProvider, AssemblyAppVersionProvider>()
             .AddSingleton<ISystemAutoStartStateProvider, NoSystemAutoStartStateProvider>();
+
+        services.AddHealthChecks().AddDbContextCheck<OverlayDbContext>(
+            "overlay-database",
+            tags:
+            [
+                HealthCheckTags.Category.Readiness,
+                HealthCheckTags.Category.Startup,
+                HealthCheckTags.Type.Dependency,
+                HealthCheckTags.Dependency.Database,
+            ]
+        );
 
         return services;
     }

@@ -20,4 +20,4 @@ dotnet publish ./src/Arkanis.Overlay.Host.Desktop/Arkanis.Overlay.Host.Desktop.c
     -p:DebugSymbols=false \
     1>&2 # logging output must not go to stdout
 
->&2 echo "Successfully published the Windows Overlay application to: $(realpath publish)"
+>&2 echo "Successfully published the Windows Overlay application to: $(realpath publish-win64)"

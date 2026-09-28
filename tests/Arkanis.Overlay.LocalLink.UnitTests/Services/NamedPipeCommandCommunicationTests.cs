@@ -12,7 +12,6 @@ using Shouldly;
 
 public class NamedPipeCommandCommunicationTests
 {
-    private static readonly string PipeName = NamedPipeCommandServer.PipeName;
     private readonly ILogger<NamedPipeCommandClient> _clientLogger = NullLogger<NamedPipeCommandClient>.Instance;
 
     private readonly ILogger<NamedPipeCommandServerBackgroundPublisherService> _serverLogger =
@@ -22,13 +21,14 @@ public class NamedPipeCommandCommunicationTests
     public async Task NamedPipeCommandClient_SendAsync_ShouldSerializeAndSendCommand()
     {
         // Arrange
+        var pipeName = CreatePipeName();
         var command = new TestCommand
         {
             TestPropertyString = "TestValue",
             TestPropertyInt = 4468,
         };
-        await using var server = new NamedPipeServerStream(PipeName, PipeDirection.In);
-        var client = new NamedPipeCommandClient(_clientLogger);
+        await using var server = new NamedPipeServerStream(pipeName, PipeDirection.In);
+        var client = new NamedPipeCommandClient(_clientLogger, pipeName);
 
         // Act
         var sendTask = client.SendAsync(command, CancellationToken.None);
@@ -49,14 +49,15 @@ public class NamedPipeCommandCommunicationTests
     public async Task NamedPipeCommandServer_ReceiveAsync_ShouldReceiveAndDeserializeCommand()
     {
         // Arrange
+        var pipeName = CreatePipeName();
         var command = new TestCommand
         {
             TestPropertyString = "TestValue",
             TestPropertyInt = 879,
         };
-        var clientPipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+        var clientPipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 
-        var server = new NamedPipeCommandServer(_serverLogger);
+        var server = new NamedPipeCommandServer(_serverLogger, pipeName);
 
         // Act
         var receiveTask = server.ReceiveAsync(TimeSpan.FromSeconds(2), CancellationToken.None);
@@ -77,8 +78,9 @@ public class NamedPipeCommandCommunicationTests
     public async Task NamedPipeCommandServer_ReceiveAsync_ShouldThrowOnTimeout_WhenSendingTakesTooLong()
     {
         // Arrange
-        var server = new NamedPipeCommandServer(_serverLogger);
-        await using var clientPipe = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+        var pipeName = CreatePipeName();
+        var server = new NamedPipeCommandServer(_serverLogger, pipeName);
+        await using var clientPipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
         var communicationTimeout = TimeSpan.FromMilliseconds(100);
 
         // Act
@@ -90,4 +92,7 @@ public class NamedPipeCommandCommunicationTests
         // Assert
         await Assert.ThrowsAsync<LocalLinkConnectionException>(() => receiveTask);
     }
+
+    private static string CreatePipeName()
+        => $"{NamedPipeCommandServer.PipeName}-{Guid.NewGuid():N}";
 }
