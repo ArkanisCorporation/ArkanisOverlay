@@ -26,8 +26,8 @@ jobs:
     permissions:
       contents: write
     with:
-      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
-      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: &ordinary_runner_self_hosted ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
       semantic-release-version: 25.0.9
       extra-plugins: |
         @semantic-release/changelog@7.0.0
@@ -50,7 +50,7 @@ jobs:
       contents: read
       packages: read
     with:
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runner: *ordinary_runner
       version: ${{ needs.verify-release.outputs.new-version }}
       version-tag: ${{ needs.verify-release.outputs.new-tag }}
       version-channel: ${{ needs.verify-release.outputs.new-channel }}
@@ -108,8 +108,8 @@ jobs:
       contents: read
       packages: read
     with:
-      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
-      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      runs-on: *ordinary_runner
+      runs-on-self-hosted: *ordinary_runner_self_hosted
       project: ${{ matrix.project }}
       version: ${{ needs.verify-release.outputs.new-version }}
       github-packages-auth: true
@@ -125,7 +125,6 @@ jobs:
       packages: read
       id-token: write
     with:
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
       version: ${{ needs.verify-release.outputs.new-version }}
       version-tag: ${{ needs.verify-release.outputs.new-tag }}
       version-channel: ${{ needs.verify-release.outputs.new-channel }}
@@ -159,8 +158,8 @@ jobs:
       issues: write
       pull-requests: write
     with:
-      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
-      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      runs-on: *ordinary_runner
+      runs-on-self-hosted: *ordinary_runner_self_hosted
       environment-name: release
       semantic-release-version: 25.0.9
       extra-plugins: |
@@ -176,8 +175,8 @@ jobs:
       contents: write
       pull-requests: write
     with:
-      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
-      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      runs-on: *ordinary_runner
+      runs-on-self-hosted: *ordinary_runner_self_hosted
       environment-name: release
       new-version: ${{ needs.release.outputs.new-version }}
       release-ref-name: ${{ github.ref_name }}
@@ -196,7 +195,7 @@ jobs:
       id-token: write
       attestations: write
     with:
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runner: *ordinary_runner
       version: ${{ needs.release.outputs.new-version }}
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
@@ -224,8 +223,8 @@ jobs:
       packages: read
       id-token: write
     with:
-      runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
-      runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+      runs-on: *ordinary_runner
+      runs-on-self-hosted: *ordinary_runner_self_hosted
       environment-name: publish-nuget
       project: ${{ matrix.project }}
       version: ${{ needs.release.outputs.new-version }}
@@ -245,7 +244,7 @@ jobs:
       packages: read
       id-token: write
     with:
-      runner: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runner: *ordinary_runner
       version: ${{ needs.release.outputs.new-version }}
       version-tag: ${{ needs.release.outputs.new-tag }}
       version-channel: ${{ needs.release.outputs.new-channel }}
@@ -256,7 +255,7 @@ jobs:
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-staging:
-    name: Deploy Staging
+    name: Deploy
     if: >-
       ${{ always() &&
           needs.release.result == 'success' &&

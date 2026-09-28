@@ -9,7 +9,6 @@ on:
         description: "Runner pool used for Windows release-asset publication"
         required: false
         type: string
-        default: daedalus
       version:
         description: "Bare semantic-release version applied to managed assemblies"
         required: true
@@ -37,7 +36,7 @@ on:
 jobs:
   publish:
     name: Windows release assets
-    runs-on: ${{ inputs.runner }}
+    runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
     timeout-minutes: 60
     environment: ${{ inputs.environment-name }}
     permissions:
@@ -62,8 +61,8 @@ jobs:
         env:
           GITHUB_TOKEN_FOR_NUGET_AUTH: ${{ github.token }}
         with:
-          runs-on: ${{ inputs.runner }}
-          runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+          runs-on: *ordinary_runner
+          runs-on-self-hosted: &ordinary_runner_self_hosted ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
           global-json-file: global.json
           solution: ArkanisOverlay.sln
           restore-locked-mode: false

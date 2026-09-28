@@ -9,7 +9,6 @@ on:
         description: "Runner pool used for the BuildKit probe and image publication"
         required: false
         type: string
-        default: daedalus
       version:
         description: "Bare semantic-release version used for .NET stamping"
         required: true
@@ -41,8 +40,8 @@ jobs:
       id-token: write
       attestations: write
     with:
-      runs-on: ${{ inputs.runner }}
-      runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+      runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: &ordinary_runner_self_hosted ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
       environment-name: ${{ inputs.environment-name }}
       image: ghcr.io/arkaniscorporation/arkanisoverlay
       context: .

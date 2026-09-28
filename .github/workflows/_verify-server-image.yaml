@@ -9,7 +9,6 @@ on:
         description: "Runner pool used for the BuildKit probe and image verification"
         required: false
         type: string
-        default: daedalus
       version:
         description: "Bare semantic-release version used for .NET stamping"
         required: true
@@ -31,8 +30,8 @@ jobs:
       contents: read
       packages: read
     with:
-      runs-on: ${{ inputs.runner }}
-      runs-on-self-hosted: ${{ inputs.runner != 'ubuntu-latest' }}
+      runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+      runs-on-self-hosted: &ordinary_runner_self_hosted ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
       image: ghcr.io/arkaniscorporation/arkanisoverlay
       context: .
       dockerfile: src/Arkanis.Overlay.Host.Server/Dockerfile
