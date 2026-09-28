@@ -114,6 +114,7 @@ void ConfigureKubernetesOverlayDeployment(Deployment deployment)
 {
     deployment.Spec.Replicas = 1;
     deployment.Spec.Strategy.Type = "Recreate";
+    deployment.Spec.Strategy.RollingUpdate = null!;
 
     var podSpec = deployment.Spec.Template.Spec;
     podSpec.SecurityContext = new PodSecurityContextV1
