@@ -168,10 +168,6 @@ We're dreaming big — here's what's ahead:
 - [x] Game entity search sourced from [UEX Corporation][uex]
 - [ ] [UEX CLI](https://github.com/UEXCorp/UEX-CLI) and MFD screen integration
 - [ ] Embedded tools and services _(permissions required)_
-    - [ ] [SPViewer](https://www.spviewer.eu/)
-    - [ ] [Erkul](https://www.erkul.games/)
-    - [ ] [Regolith Co.](https://regolith.rocks/)
-    - and more...
 - [ ] API-driven data enrichment from the community (Wiki, JSON exports, etc.)
 - [ ] Additional social features (Discord, orgs, etc.)
 
