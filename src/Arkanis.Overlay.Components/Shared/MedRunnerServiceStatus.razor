@@ -1,7 +1,7 @@
-@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.Infrastructure.Services.External
 @using Arkanis.Overlay.External.MedRunner.Models
 @implements IDisposable
-@inject IMedRunnerServiceContext ServiceContext
+@inject MedRunnerAccountContext ServiceContext
 
 <MudStack>
     @if (ServiceContext.PublicSettings.MessageOfTheDay is { } motd && motd.DateRange?.IsInRange() != false)

@@ -3,12 +3,12 @@ namespace Arkanis.Overlay.External.MedRunner.API;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using Abstractions;
+using FluentResults;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using Models;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 public sealed class ApiKeySourcedTokenProvider(
@@ -58,47 +58,49 @@ public sealed class ApiKeySourcedTokenProvider(
 
     public async Task<string?> GetAccessTokenAsync(string source)
     {
-        // fast asynchronous token check
-        if (await ValidateTokenAsync() is { Length: > 0 } accessToken)
+        if (await GetActiveAuthenticationAsync() is { } authentication)
         {
-            return accessToken;
+            return authentication.AccessToken;
         }
 
-        logger.LogDebug("Token validation unsuccessful, requesting a new token");
+        logger.LogDebug("Token validation unsuccessful, requesting a new token for {Source}", source);
         await _accessTokenRequestSemaphore.WaitAsync();
-
         try
         {
-            var cacheKey = $"{nameof(ApiKeySourcedTokenProvider)}-{nameof(GetAccessTokenAsync)}-{config.RefreshToken}";
+            if (await GetActiveAuthenticationAsync() is { } currentAuthentication)
+            {
+                return currentAuthentication.AccessToken;
+            }
+
+            var refreshToken = config.RefreshToken;
+            if (string.IsNullOrWhiteSpace(refreshToken))
+            {
+                return null;
+            }
+
+            var cacheKey = $"{nameof(ApiKeySourcedTokenProvider)}-{nameof(GetAccessTokenAsync)}-{refreshToken}";
             return await memoryCache.GetOrCreateAsync(
                 cacheKey,
                 async entry =>
                 {
-                    // synchronous token check (may have already been updated by a concurrent request)
-                    if (await ValidateTokenAsync() is { Length: > 0 } newAccessToken)
+                    var authenticationResult = await AuthenticateApiTokenAsync(refreshToken, CancellationToken.None);
+                    if (authenticationResult.IsSuccess)
                     {
-                        return newAccessToken;
-                    }
-
-                    if (string.IsNullOrWhiteSpace(config.RefreshToken))
-                    {
-                        entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                        return null;
-                    }
-
-                    var result = await ApiClient.Auth.RequestTokenAsync(config.RefreshToken);
-                    if (result.Success)
-                    {
-                        var expirationTime = result.Data.AccessTokenExpiration - DateTimeOffset.Now is { TotalSeconds: > 0 } timeSpan
-                            ? timeSpan
-                            : TimeSpan.FromSeconds(1);
-
-                        entry.SetAbsoluteExpiration(expirationTime);
-                        return await ValidateTokenAsync(result.Data);
+                        var refreshedAuthentication = authenticationResult.Value;
+                        entry.SetAbsoluteExpiration(
+                            refreshedAuthentication.ExpiresAt > DateTimeOffset.Now
+                                ? refreshedAuthentication.ExpiresAt
+                                : DateTimeOffset.Now.AddSeconds(1)
+                        );
+                        ApplyAuthentication(refreshedAuthentication);
+                        return refreshedAuthentication.AccessToken;
                     }
 
                     entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(10));
-                    logger.LogError("Failed to receive new access token: (status {StatusCode}) {Error}", result.StatusCode, result.ErrorMessage);
+                    logger.LogError(
+                        "Failed to receive new access token: {Errors}",
+                        string.Join("; ", authenticationResult.Errors.Select(error => error.Message))
+                    );
                     return null;
                 }
             );
@@ -109,22 +111,107 @@ public sealed class ApiKeySourcedTokenProvider(
         }
     }
 
-    private async Task<string?> ValidateTokenAsync(TokenGrant? tokenGrant = null)
+    public async Task<Result<MedRunnerTokenAuthentication>> AuthenticateApiTokenAsync(string apiToken, CancellationToken cancellationToken)
     {
-        var accessToken = config.AccessToken ?? tokenGrant?.AccessToken;
-        var refreshToken = config.RefreshToken ?? tokenGrant?.RefreshToken;
+        if (string.IsNullOrWhiteSpace(apiToken))
+        {
+            return Result.Fail<MedRunnerTokenAuthentication>("An API token is required.");
+        }
+
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var response = await ApiClient.Auth.RequestTokenAsync(apiToken);
+            if (!response.Success || response.Data is null)
+            {
+                return Result.Fail<MedRunnerTokenAuthentication>(
+                    string.IsNullOrWhiteSpace(response.ErrorMessage)
+                        ? $"MedRunner rejected the API token ({response.StatusCode})."
+                        : response.ErrorMessage
+                );
+            }
+
+            var identityResult = await ValidateAccessTokenAsync(response.Data.AccessToken);
+            if (identityResult.IsFailed)
+            {
+                logger.LogWarning(
+                    "MedRunner returned an invalid access token after API token exchange: {Errors}",
+                    string.Join("; ", identityResult.Errors.Select(error => error.Message))
+                );
+                return Result.Fail<MedRunnerTokenAuthentication>(identityResult.Errors);
+            }
+
+            return Result.Ok(
+                new MedRunnerTokenAuthentication
+                {
+                    AccessToken = response.Data.AccessToken,
+                    RefreshToken = response.Data.RefreshToken,
+                    ExpiresAt = response.Data.AccessTokenExpiration,
+                    Identity = identityResult.Value,
+                }
+            );
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, "Failed to exchange a MedRunner API token");
+            return Result.Fail<MedRunnerTokenAuthentication>(exception.Message);
+        }
+    }
+
+    public void ApplyAuthentication(MedRunnerTokenAuthentication authentication)
+    {
+        config.AccessToken = authentication.AccessToken;
+        config.RefreshToken = authentication.RefreshToken;
+        Identity = authentication.Identity;
+        logger.LogDebug("Access token currently valid for {IdentityName}", Identity.Name);
+    }
+
+    public void ClearAuthentication()
+    {
+        config.AccessToken = null;
+        config.RefreshToken = null;
+        Identity = null;
+    }
+
+    private async Task<MedRunnerTokenAuthentication?> GetActiveAuthenticationAsync()
+    {
+        var accessToken = config.AccessToken;
+        if (string.IsNullOrWhiteSpace(accessToken))
+        {
+            return null;
+        }
+
+        var identityResult = await ValidateAccessTokenAsync(accessToken);
+        if (identityResult.IsFailed)
+        {
+            logger.LogWarning("Access token validation failed: {Errors}", string.Join("; ", identityResult.Errors.Select(error => error.Message)));
+            config.AccessToken = null;
+            Identity = null;
+            return null;
+        }
+
+        Identity = identityResult.Value;
+        return new MedRunnerTokenAuthentication
+        {
+            AccessToken = accessToken,
+            RefreshToken = config.RefreshToken ?? string.Empty,
+            ExpiresAt = DateTimeOffset.MaxValue,
+            Identity = identityResult.Value,
+        };
+    }
+
+    private async Task<Result<ClaimsIdentity>> ValidateAccessTokenAsync(string accessToken)
+    {
         var validationResult = await _tokenHandler.ValidateTokenAsync(accessToken, _tokenValidationParameters);
         if (!validationResult.IsValid)
         {
-            logger.LogWarning(validationResult.Exception, "Access token validation failed");
-            return config.AccessToken = null;
+            return Result.Fail<ClaimsIdentity>(validationResult.Exception?.Message ?? "The access token is invalid.");
         }
 
-        config.AccessToken = accessToken;
-        config.RefreshToken = refreshToken;
-        Identity = validationResult.ClaimsIdentity;
-
-        logger.LogDebug("Access token currently valid for {IdentityName}", Identity.Name);
-        return accessToken;
+        return Result.Ok(validationResult.ClaimsIdentity);
     }
 }

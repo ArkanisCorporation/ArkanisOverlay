@@ -82,12 +82,12 @@ public abstract class ApiEndpoint(
         if (!requestOptions.IsUnauthenticatedRequest)
         {
             var accessToken = await tokenProvider.GetAccessTokenAsync("API makeRequest");
-            if (!string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrWhiteSpace(accessToken))
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                throw new AuthenticationException("Endpoint requires authentication but no access token could be found.");
             }
 
-            throw new AuthenticationException("Endpoint requires authentication but no access token could be found.");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
 
         if (body != null)
@@ -111,7 +111,7 @@ public abstract class ApiEndpoint(
         try
         {
             var url = BuildUrl(endpoint, queryParams);
-            var request = await CreateRequestMessageAsync(HttpMethod.Get, url, requestOptions);
+            var request = await CreateRequestMessageAsync(HttpMethod.Get, url, requestOptions: requestOptions);
             return await SendRequestAsync<T>(request, url, requestOptions);
         }
         catch (Exception e)
@@ -183,7 +183,7 @@ public abstract class ApiEndpoint(
         try
         {
             var url = BuildUrl(endpoint, queryParams);
-            var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, requestOptions);
+            var request = await CreateRequestMessageAsync(HttpMethod.Delete, url, requestOptions: requestOptions);
             return await SendRequestAsync<T>(request, url, requestOptions);
         }
         catch (Exception e)
@@ -247,7 +247,9 @@ public abstract class ApiEndpoint(
             return new ApiResponse<T>
             {
                 Success = false,
-                ErrorMessage = content,
+                ErrorMessage = string.IsNullOrWhiteSpace(content)
+                    ? $"MedRunner API request failed with status {(int)response.StatusCode} ({response.StatusCode})."
+                    : content,
                 StatusCode = response.StatusCode,
             };
         }

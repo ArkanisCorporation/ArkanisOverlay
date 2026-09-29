@@ -4,17 +4,13 @@ using API;
 using API.Abstractions;
 using API.Endpoints;
 using API.Mocks;
-using Common.Abstractions.Services;
-using Common.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjection
 {
     private static IServiceCollection AddCommonMedRunnerApiServices(this IServiceCollection services)
         => services
-            .AddSingleton<MedRunnerServiceContext>()
-            .Alias<IMedRunnerServiceContext, MedRunnerServiceContext>()
-            .Alias<ISelfInitializable, MedRunnerServiceContext>()
+            .AddSingleton<MedRunnerAuthenticator>()
             .AddSingleton<IMedRunnerTokenProvider, ApiKeySourcedTokenProvider>()
             .AddSingleton<IMedRunnerApiClient, MedRunnerApiClient>();
 

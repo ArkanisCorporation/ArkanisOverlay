@@ -1,13 +1,13 @@
-@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.Infrastructure.Services.External
 @implements IDisposable
-@inject IMedRunnerServiceContext ServiceContext
+@inject MedRunnerAccountContext ServiceContext
 
 <MudStack AlignItems="@Align"
           Justify="@Justify"
           Spacing="@Spacing"
           Reverse="@Reverse"
           Row="@Row">
-    @if (ServiceContext.IsClientAuthenticated)
+    @if (ServiceContext.IsAuthenticated)
     {
         <MudStack AlignItems="@AlignItems.Center"
                   Justify="@Justify.Center"
@@ -17,7 +17,7 @@
                 Logged in as
             </MudText>
             <MudText>
-                <b>@ServiceContext.ApiClient.TokenProvider.Identity?.Name</b>
+                <b>@ServiceContext.Identity.Name</b>
             </MudText>
             @if (ServiceContext.ClientInfo?.AssignedRoles is { } roles)
             {
@@ -35,12 +35,12 @@
     }
     else
     {
-        <MudText Class="text-secondary">
-            Account not connected
-        </MudText>
+        <MudChip T="string" Color="@Color.Default">
+            Inactive
+        </MudChip>
     }
     <div>
-        @if (ServiceContext.CanClientUseServices)
+        @if (ServiceContext.ServiceAccessState.CanUseServices)
         {
             <MudChip
                 T="string"
@@ -49,14 +49,16 @@
                 Text="Access"
                 Icon="@Icons.Material.Filled.Check"/>
         }
-        else if (ServiceContext.CanClientUseServices)
+        else
         {
-            <MudChip
-                T="string"
-                Color="@Color.Error"
-                Size="@Size.Small"
-                Text="Access"
-                Icon="@Icons.Material.Filled.Close"/>
+            <MudTooltip Text="@ServiceContext.ServiceAccessState.Message">
+                <MudChip
+                    T="string"
+                    Color="@Color.Error"
+                    Size="@Size.Small"
+                    Text="Unavailable"
+                    Icon="@Icons.Material.Filled.Close"/>
+            </MudTooltip>
         }
         @if (!Brief)
         {

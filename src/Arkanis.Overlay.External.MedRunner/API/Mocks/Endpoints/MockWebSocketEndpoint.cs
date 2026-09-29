@@ -10,4 +10,7 @@ public class MockWebSocketEndpoint(IWebSocketEventProvider eventProvider, IMedRu
 
     public Task EnsureInitializedAsync(CancellationToken cancellationToken)
         => Task.CompletedTask;
+
+    public Task DisconnectAsync(CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }

@@ -1,6 +1,9 @@
 @using Arkanis.Overlay.Infrastructure.Options
 @using Microsoft.Extensions.Options
 @inject IOptions<InfrastructureServiceOptions> ServiceOptions
+@using Arkanis.Overlay.Infrastructure.Services.External
+@inject IDialogService DialogService
+@inject MedRunnerAccountContext MedRunnerAccountContext
 
 <MudExpansionPanels>
     @if (ServiceOptions.Value.HostingMode is HostingMode.Server)
@@ -69,7 +72,7 @@
         </ChildContent>
     </MudExpansionPanel>
 
-    <MudExpansionPanel Class="external-service-config" Disabled>
+    <MudExpansionPanel Class="external-service-config" Disabled="@(!MedRunnerAccountContext.IsAuthenticated)">
         <TitleContent>
             <MudStack AlignItems="@AlignItems.Center"
                       Justify="@Justify.Center"
@@ -81,13 +84,24 @@
                     ContentId="@ContentId"/>
             </MudStack>
             <MudStack AlignItems="@AlignItems.Center" Row>
-                <MudChip T="string" Color="@Color.Default">
-                    Inactive
-                </MudChip>
+                <MedRunnerAccountInfo Brief Row/>
                 <MudSpacer/>
-                <MudText Class="text-secondary">
-                    Account connection not supported yet
-                </MudText>
+                <div class="my-n2">
+                    <MudButton Variant="@Variant.Outlined"
+                               Color="@(MedRunnerAccountContext.IsAuthenticated ? Color.Default : Color.Info)"
+                               OnClick="@(() => MedRunnerSetupDialog.ShowAsync(DialogService))">
+                        @(MedRunnerAccountContext.IsAuthenticated ? "Connect different account" : "Connect account")
+                    </MudButton>
+                    @if (MedRunnerAccountContext.IsAuthenticated)
+                    {
+                        <MudIconButton
+                            Variant="@Variant.Outlined"
+                            Color="@Color.Error"
+                            Icon="@Icons.Material.Filled.LinkOff"
+                            Class="ml-1"
+                            OnClick="@(() => MedRunnerSetupDialog.UnlinkAsync(DialogService, MedRunnerAccountContext))"/>
+                    }
+                </div>
             </MudStack>
         </TitleContent>
         <ChildContent>

@@ -64,7 +64,7 @@ internal class UexTradeRouteSyncRepository(
     }
 
     protected override bool IncludeSourceModel(CommodityRouteDTO sourceModel)
-        => sourceModel is { Price_origin: > 0, Price_destination: > 0, Id_terminal_origin: > 0, Id_terminal_destination: > 0 };
+        => sourceModel is { Price_origin: > 0, Price_destination: > 0, Id_terminal_origin: > 0 and not 778, Id_terminal_destination: > 0 and not 778 };
 
     protected override IEnumerable<CommodityRouteDTO> FilterSourceModels(IEnumerable<CommodityRouteDTO> models)
         => models

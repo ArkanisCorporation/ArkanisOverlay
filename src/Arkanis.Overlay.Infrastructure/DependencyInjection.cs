@@ -14,6 +14,7 @@ using Domain.Services;
 using External.Backend.Options;
 using External.CitizenId;
 using External.MedRunner;
+using External.MedRunner.API;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,7 @@ using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
+using MedRunnerAccountContext = Services.External.MedRunnerAccountContext;
 using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
@@ -127,8 +129,16 @@ public static class DependencyInjection
         {
             services
                 .AddServicesForUserPreferencesFromJsonFile()
-                .AddLiveMedRunnerApiClient();
+                .AddLiveMedRunnerApiClient(_ => new MedRunnerClientConfig
+                    {
+                        BaseUrl = "https://api.medrunner.dev",
+                    }
+                );
         }
+
+        services
+            .AddSingleton<MedRunnerAccountContext>()
+            .Alias<ISelfInitializable, MedRunnerAccountContext>();
 
         services.AddHostedService<InitializeServicesHostedService>();
         services.AddHostedService<JobScheduleProviderScheduler>();

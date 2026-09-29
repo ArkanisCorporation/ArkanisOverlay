@@ -14,9 +14,12 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPriceProviderServices(this IServiceCollection services)
         => services
-            .AddSingleton<MarketplacePriceProvider>()
-            .Alias<IMarketPriceProvider, MarketplacePriceProvider>()
-            .Alias<ISelfInitializable, MarketplacePriceProvider>()
+            // TODO: Marketplace offers API is currently incompatible with internal DTOs
+            // .AddSingleton<MarketplacePriceProvider>()
+            // .Alias<IMarketPriceProvider, MarketplacePriceProvider>()
+            // .Alias<ISelfInitializable, MarketplacePriceProvider>()
+            .AddSingleton<MissingPriceProvider>()
+            .Alias<IMarketPriceProvider, MissingPriceProvider>()
             .AddSingleton<PurchasePriceProvider>()
             .Alias<IPurchasePriceProvider, PurchasePriceProvider>()
             .Alias<ISelfInitializable, PurchasePriceProvider>()

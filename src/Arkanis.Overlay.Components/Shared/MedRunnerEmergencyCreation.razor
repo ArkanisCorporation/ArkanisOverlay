@@ -73,6 +73,13 @@
         }
     </MudItem>
     <MudItem xs="12">
+        @if (!ServiceContext.ServiceAccessState.CanUseServices)
+        {
+            <MudAlert Severity="@Severity.Error" Class="mb-2">
+                <b>MedRunner unavailable.</b>
+                @ServiceContext.ServiceAccessState.Message
+            </MudAlert>
+        }
         <MudButton Variant="@Variant.Filled"
                    Color="@Color.Error"
                    Class="w-100"
@@ -121,6 +128,7 @@
     [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
     private bool SubmitDisabled
         => IsLoading
+           || !ServiceContext.ServiceAccessState.CanUseServices
            || ClosestLocation is null
            || _threatLevel is null;
 
