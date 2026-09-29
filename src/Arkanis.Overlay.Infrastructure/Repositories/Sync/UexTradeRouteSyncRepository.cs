@@ -51,7 +51,7 @@ internal class UexTradeRouteSyncRepository(
             var commodityEntityId = commodity.Id;
             var commodityId = commodityEntityId.Identity.ToString(CultureInfo.InvariantCulture);
             response = await pipeline.ExecuteAsync(
-                async ct => await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, cancellationToken: ct).ConfigureAwait(false),
+                async ct => await commoditiesApi.GetCommoditiesRoutesByCommodityAsync(commodityId, ct).ConfigureAwait(false),
                 cancellationToken
             );
             foreach (var dto in response.Result.Data ?? ThrowCouldNotParseResponse())
@@ -64,7 +64,7 @@ internal class UexTradeRouteSyncRepository(
     }
 
     protected override bool IncludeSourceModel(CommodityRouteDTO sourceModel)
-        => sourceModel is { Price_origin: > 0, Price_destination: > 0, Id_terminal_origin: > 0, Id_terminal_destination: > 0 };
+        => sourceModel is { Price_origin: > 0, Price_destination: > 0, Id_terminal_origin: > 0 and not 778, Id_terminal_destination: > 0 and not 778 };
 
     protected override IEnumerable<CommodityRouteDTO> FilterSourceModels(IEnumerable<CommodityRouteDTO> models)
         => models

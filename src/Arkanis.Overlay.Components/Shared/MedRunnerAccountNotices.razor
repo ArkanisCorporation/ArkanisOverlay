@@ -1,8 +1,8 @@
-@using Arkanis.Overlay.External.MedRunner.API.Abstractions
+@using Arkanis.Overlay.Infrastructure.Services.External
 @implements IDisposable
-@inject IMedRunnerServiceContext ServiceContext
+@inject MedRunnerAccountContext ServiceContext
 
-@if (ServiceContext.ClientInfo is null)
+@if (!ServiceContext.IsAuthenticated)
 {
     <MudAlert Severity="@Severity.Info">
         <b>No account connected.</b>

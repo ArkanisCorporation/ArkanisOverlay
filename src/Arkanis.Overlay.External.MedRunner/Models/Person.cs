@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.Models;
 
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 /// <summary>
 ///     Represents a person in the system.
@@ -58,17 +59,21 @@ public class Person : ModelBase
     /// <summary>
     ///     The client stats for the person.
     /// </summary>
-    public required ClientStats ClientStats { get; set; }
+    public ClientStats ClientStats { get; set; } = new()
+    {
+        Missions = new EmergencyStats(),
+    };
 
     /// <summary>
     ///     The client portal preferences blob.
     /// </summary>
-    public required JsonDocument ClientPortalPreferences { get; set; }
+    [JsonIgnore]
+    public JsonDocument ClientPortalPreferences { get; set; } = JsonDocument.Parse("{}");
 
     /// <summary>
     ///     The client portal preferences blob as a string.
     /// </summary>
-    public string? ClientPortalPreferencesBlob { get; set; }
+    public JsonDocument? ClientPortalPreferencesBlob { get; set; }
 
     /// <summary>
     ///     Whether the person allows anonymous alerts.

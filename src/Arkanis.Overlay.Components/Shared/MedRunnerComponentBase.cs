@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Overlay.External.MedRunner.API.Abstractions;
 using Overlay.External.MedRunner.API.Endpoints.Emergency.Response;
 using Overlay.External.MedRunner.Models;
+using Overlay.Infrastructure.Services.External;
 
 public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 {
@@ -27,7 +28,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         => ServiceContext.ApiClient;
 
     [Inject]
-    public required IMedRunnerServiceContext ServiceContext { get; set; }
+    public required MedRunnerAccountContext ServiceContext { get; set; }
 
     [Parameter]
     public bool IsLoading { get; set; }
@@ -82,7 +83,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
     public sealed class EmergencyContextModel : IDisposable
     {
         private EventCallback<EmergencyContextModel> _callback;
-        private IMedRunnerServiceContext? _serviceContext;
+        private MedRunnerAccountContext? _serviceContext;
 
         [MemberNotNullWhen(true, nameof(Emergency))]
         public bool IsEmergencyInProgress
@@ -103,13 +104,13 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
                 return;
             }
 
-            _serviceContext.ApiClient.WebSocket.Events.EmergencyCreated -= OnEmergencyCreated;
-            _serviceContext.ApiClient.WebSocket.Events.EmergencyUpdated -= OnEmergencyUpdated;
+            _serviceContext.Events.EmergencyCreated -= OnEmergencyCreated;
+            _serviceContext.Events.EmergencyUpdated -= OnEmergencyUpdated;
             _serviceContext = null;
         }
 
         public async Task EnsureInitializedAsync(
-            IMedRunnerServiceContext serviceContext,
+            MedRunnerAccountContext serviceContext,
             EventCallback<EmergencyContextModel> callback
         )
         {
@@ -120,7 +121,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 
             _callback = callback;
             _serviceContext = serviceContext;
-            _serviceContext.ApiClient.WebSocket.Events.EmergencyUpdated += OnEmergencyUpdated;
+            _serviceContext.Events.EmergencyUpdated += OnEmergencyUpdated;
             await Task.CompletedTask;
         }
 

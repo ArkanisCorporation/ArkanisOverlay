@@ -17,4 +17,12 @@ public interface IWebSocketEndpoint
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     Task EnsureInitializedAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    ///     Stops the active WebSocket connection, if any.
+    ///     Use this before switching the authenticated account so subscriptions cannot continue under previous credentials.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task DisconnectAsync(CancellationToken cancellationToken);
 }

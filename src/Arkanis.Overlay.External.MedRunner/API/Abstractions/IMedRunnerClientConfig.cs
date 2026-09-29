@@ -38,14 +38,4 @@ public interface IMedRunnerClientConfig
     /// </summary>
     public bool IsMock { get; internal set; }
 
-    public void SetApiToken(string apiToken)
-    {
-        if (apiToken == RefreshToken)
-        {
-            return;
-        }
-
-        AccessToken = null;
-        RefreshToken = apiToken;
-    }
 }

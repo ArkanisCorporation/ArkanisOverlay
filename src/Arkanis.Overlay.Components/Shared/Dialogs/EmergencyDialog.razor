@@ -2,10 +2,11 @@
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.Models
 @using Arkanis.Overlay.Infrastructure.Helpers
+@using Arkanis.Overlay.Infrastructure.Services.External
 @implements IDisposable
 @inject IDialogService DialogService
 @inject IMedRunnerClientConfig MedRunnerClientConfig
-@inject IMedRunnerServiceContext MedRunnerServiceContext
+@inject MedRunnerAccountContext MedRunnerAccountContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -38,6 +39,12 @@
             img {
                 pointer-events: none;
             }
+        }
+
+        .scenario.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         [disabled="true"].scenario {
@@ -109,9 +116,10 @@
                               Justify="@Justify.Center"
                               Class="mb-8"
                               Row>
-                        <MudLink Href="@MedRunnerClientConfig.PortalEmergencyUrl"
-                                 Underline="@Underline.None"
-                                 Class="d-contents">
+                        <MudLink
+                            Href="@ExternalLinkHelper.AddAttributionGoogleAnalyticsTo(MedRunnerClientConfig.PortalEmergencyUrl, ContentId)"
+                            Underline="@Underline.None"
+                            Class="d-contents">
                             <MudStack Style="max-width: 220px">
                                 <MudCard Elevation="4">
                                     <MudCardHeader>
@@ -123,7 +131,8 @@
                                     </MudCardHeader>
                                     <MudCardContent Class="pt-0">
                                         <MudStack AlignItems="@AlignItems.Center"
-                                                  Justify="@Justify.Center">
+                                                  Justify="@Justify.Center"
+                                                  Spacing="2">
                                             <MudText Typo="@Typo.caption"
                                                      Align="@Align.Center">
                                                 Fast and reliable rescue operations against all odds.
@@ -142,13 +151,12 @@
                                 </MudText>
                             </MudStack>
                         </MudLink>
-                        @if (!MedRunnerServiceContext.IsDisabled)
+                        @if (MedRunnerAccountContext.IsAuthenticated)
                         {
-                            <MudStack>
+                            <MudStack Spacing="2">
                                 <MudCard Elevation="4"
                                          Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
-                                         @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
-                                         disabled="@(MedRunnerServiceContext.IsDisabled.ToString().ToLowerInvariant())">
+                                         @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))">
                                     <MudCardHeader>
                                         <MudText Typo="@Typo.h6"
                                                  Align="@Align.Center"
@@ -158,7 +166,8 @@
                                     </MudCardHeader>
                                     <MudCardContent Class="pt-0">
                                         <MudStack AlignItems="@AlignItems.Center"
-                                                  Justify="@Justify.Center">
+                                                  Justify="@Justify.Center"
+                                                  Spacing="2">
                                             <MudText Typo="@Typo.caption"
                                                      Align="@Align.Center">
                                                 Fast and reliable rescue operations against all odds.
@@ -174,56 +183,44 @@
                                                     <MudSkeleton/>
                                                 </div>
                                             }
-                                            else if (MedRunnerServiceContext.IsClientAuthenticated)
+                                            else if (MedRunnerAccountContext.ServiceAccessState.CanUseServices)
                                             {
-                                                @if (MedRunnerServiceContext.CanClientUseServices)
-                                                {
-                                                    <MudText Typo="@Typo.caption"
-                                                             Align="@Align.Center"
-                                                             Color="@Color.Success">
-                                                        Subscription
-                                                        Active<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                    </MudText>
-                                                }
-                                                else if (MedRunnerServiceContext.IsClientInactive)
-                                                {
-                                                    <MudText Typo="@Typo.caption"
-                                                             Align="@Align.Center"
-                                                             Color="@Color.Warning">
-                                                        Subscription
-                                                        Inactive<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                    </MudText>
-                                                }
-                                                else if (MedRunnerServiceContext.IsClientBlocked)
-                                                {
-                                                    <MudText Typo="@Typo.caption"
-                                                             Align="@Align.Center"
-                                                             Color="@Color.Warning">
-                                                        Account
-                                                        Disabled<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                    </MudText>
-                                                }
-
-                                                @if (MedRunnerServiceContext.IsServiceUnavailable)
-                                                {
-                                                    <MudText Typo="@Typo.caption"
-                                                             Align="@Align.Center"
-                                                             Color="@Color.Error">
-                                                        Currently Unavailable
-                                                    </MudText>
-                                                }
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Success">
+                                                    Service Available
+                                                    <br/>@MedRunnerAccountContext.Identity.Name
+                                                </MudText>
+                                            }
+                                            else
+                                            {
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center"
+                                                         Color="@Color.Error">
+                                                    Currently Unavailable
+                                                </MudText>
                                             }
                                         </MudStack>
                                     </MudCardContent>
                                 </MudCard>
-                                @if (!_isLoading && !MedRunnerServiceContext.IsClientAuthenticated)
+                                @if (!_isLoading && !MedRunnerAccountContext.ServiceAccessState.CanUseServices)
+                                {
+                                    <MudText Typo="@Typo.caption"
+                                             Align="@Align.Center"
+                                             Color="@Color.Error">
+                                        <Tooltip Text="@MedRunnerAccountContext.ServiceAccessState.Message">
+                                            <b>Services Unavailable</b>
+                                        </Tooltip>
+                                    </MudText>
+                                }
+                                @if (!MedRunnerAccountContext.IsAuthenticated)
                                 {
                                     <MudText Typo="@Typo.caption"
                                              Align="@Align.Center"
                                              Class="text-secondary cursor-pointer"
                                              @onclick="@StartMedRunnerSetupAsync">
                                         <i>
-                                            No valid account connected
+                                            Connect an account
                                         </i>
                                     </MudText>
                                 }
@@ -284,7 +281,9 @@
                 @* Navigation is managed by controls within individual steps. *@
                 @if (_selectedScenario is not Scenario.Unselected)
                 {
-                    <MudAlert Severity="@Severity.Info">
+                    <MudAlert Severity="@Severity.Info"
+                              Class="ma-n2"
+                              Square>
                         This is an integration of an external service which is maintained by the Arkanis team.
                         In case you encounter any issues, please report them to us directly — not the service provider.
                         You can do so
@@ -379,9 +378,9 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        MedRunnerServiceContext.Updated += OnExternalUpdate;
+        MedRunnerAccountContext.Updated += OnExternalUpdate;
         var updateCallback = EventCallback.Factory.Create<MedRunnerComponentBase.EmergencyContextModel>(this, OnMedRunnerUpdate);
-        await _medRunnerEmergencyContext.EnsureInitializedAsync(MedRunnerServiceContext, updateCallback);
+        await _medRunnerEmergencyContext.EnsureInitializedAsync(MedRunnerAccountContext, updateCallback);
     }
 
     private async Task OnMedRunnerUpdate(MedRunnerComponentBase.EmergencyContextModel obj)
@@ -394,6 +393,11 @@
 
     private async Task SelectScenarioAsync(Scenario scenario)
     {
+        if (scenario is Scenario.MedRunnerSearchAndRescue && MedRunnerAccountContext.IsDisabled)
+        {
+            return;
+        }
+
         _selectedScenario = scenario;
         await _stepper!.NextStepAsync();
         await UpdateDialogOptionsAsync();
@@ -454,13 +458,18 @@
     private const string ScenarioBaseClasses = "scenario focus";
 
     public string ScenarioClassesFor(Scenario thisScenario)
-        => thisScenario == _selectedScenario
+    {
+        var classes = thisScenario == _selectedScenario
             ? $"{ScenarioBaseClasses} active"
             : ScenarioBaseClasses;
+        return thisScenario is Scenario.MedRunnerSearchAndRescue && MedRunnerAccountContext.IsDisabled
+            ? $"{classes} disabled"
+            : classes;
+    }
 
     public void Dispose()
     {
-        MedRunnerServiceContext.Updated -= OnExternalUpdate;
+        MedRunnerAccountContext.Updated -= OnExternalUpdate;
         _medRunnerEmergencyContext.Dispose();
     }
 

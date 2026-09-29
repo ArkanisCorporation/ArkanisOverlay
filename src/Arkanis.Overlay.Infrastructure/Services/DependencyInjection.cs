@@ -10,12 +10,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddFakePriceProviders(this IServiceCollection services)
         => services
-            .AddSingleton<FakePriceProvider>()
-            .Alias<IPriceProvider, FakePriceProvider>()
-            .Alias<IMarketPriceProvider, FakePriceProvider>()
-            .Alias<IPurchasePriceProvider, FakePriceProvider>()
-            .Alias<ISalePriceProvider, FakePriceProvider>()
-            .Alias<IRentPriceProvider, FakePriceProvider>();
+            .AddSingleton<MissingPriceProvider>()
+            .Alias<IPriceProvider, MissingPriceProvider>()
+            .Alias<IMarketPriceProvider, MissingPriceProvider>()
+            .Alias<IPurchasePriceProvider, MissingPriceProvider>()
+            .Alias<ISalePriceProvider, MissingPriceProvider>()
+            .Alias<IRentPriceProvider, MissingPriceProvider>();
 
     public static IServiceCollection AddCommonInfrastructureServices(this IServiceCollection services)
         => services

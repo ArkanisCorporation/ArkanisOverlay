@@ -5,7 +5,7 @@ using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Trade;
 
-public class FakePriceProvider : IPriceProvider
+public class MissingPriceProvider : IPriceProvider
 {
     public ValueTask UpdatePriceTagAsync(IGamePurchasable gameEntity)
         => ValueTask.CompletedTask;

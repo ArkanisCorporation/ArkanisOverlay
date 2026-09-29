@@ -69,6 +69,24 @@ public class SignalRMessageHandler : IWebSocketEventProvider
         _connection.On<Deployment>(DeploymentCreatedEvent, OnDeploymentCreateHandler);
     }
 
+    public void Disconnect(HubConnection connection)
+    {
+        if (ReferenceEquals(_connection, connection))
+        {
+            connection.Remove(PersonUpdatedEvent);
+            connection.Remove(EmergencyCreatedEvent);
+            connection.Remove(EmergencyUpdatedEvent);
+            connection.Remove(ChatMessageCreatedEvent);
+            connection.Remove(ChatMessageUpdatedEvent);
+            connection.Remove(TeamCreatedEvent);
+            connection.Remove(TeamUpdatedEvent);
+            connection.Remove(TeamDeletedEvent);
+            connection.Remove(OrgSettingsUpdatedEvent);
+            connection.Remove(DeploymentCreatedEvent);
+            _connection = null;
+        }
+    }
+
     private void OnPersonUpdateHandler(Person person)
         => PersonUpdated?.Invoke(this, person);
 

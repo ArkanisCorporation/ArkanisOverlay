@@ -13,7 +13,7 @@ public static class ExternalLinkHelper
     public static readonly Uri ArkanisWebUri = new("https://arkanis.cc/");
     public static readonly Uri JoinArkanisUri = new("https://join.arkanis.cc");
 
-    private static string AddAttributionGoogleAnalyticsTo(
+    public static string AddAttributionGoogleAnalyticsTo(
         string url,
         string? contentId = null,
         string? campaign = null,
