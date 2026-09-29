@@ -9,6 +9,9 @@ public class MedRunnerClientConfig : IMedRunnerClientConfig
     public string BaseUrl { get; set; } = "https://api.medrunner.space";
 
     /// <inheritdoc />
+    public string PortalEmergencyUrl { get; set; } = "https://portal.medrunner.space/emergency";
+
+    /// <inheritdoc />
     public string? AccessToken { get; set; }
 
     /// <inheritdoc />
