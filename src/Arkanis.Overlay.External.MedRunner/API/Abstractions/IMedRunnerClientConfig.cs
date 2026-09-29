@@ -6,9 +6,14 @@ namespace Arkanis.Overlay.External.MedRunner.API.Abstractions;
 public interface IMedRunnerClientConfig
 {
     /// <summary>
-    ///     The base URL of the API - defaults to https://api.medrunner.space
+    ///     The base URL of the API.
     /// </summary>
     string BaseUrl { get; internal set; }
+
+    /// <summary>
+    ///     The URL for the emergency report form on the client portal.
+    /// </summary>
+    public string PortalEmergencyUrl { get; set; }
 
     /// <summary>
     ///     Your API token retrieved after logging in.

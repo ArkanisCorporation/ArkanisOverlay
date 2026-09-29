@@ -4,6 +4,7 @@
 @using Arkanis.Overlay.Infrastructure.Helpers
 @implements IDisposable
 @inject IDialogService DialogService
+@inject IMedRunnerClientConfig MedRunnerClientConfig
 @inject IMedRunnerServiceContext MedRunnerServiceContext
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
@@ -108,97 +109,134 @@
                               Justify="@Justify.Center"
                               Class="mb-8"
                               Row>
-                        <MudStack>
-                            <MudCard Elevation="4"
-                                     Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
-                                     @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
-                                     disabled="@(MedRunnerServiceContext.IsDisabled.ToString().ToLowerInvariant())">
-                                <MudCardHeader>
-                                    <MudText Typo="@Typo.h6"
-                                             Align="@Align.Center"
-                                             Class="w-100">
-                                        Search & Rescue
-                                    </MudText>
-                                </MudCardHeader>
-                                <MudCardContent Class="pt-0">
-                                    <MudStack AlignItems="@AlignItems.Center"
-                                              Justify="@Justify.Center">
-                                        <MudText Typo="@Typo.caption"
-                                                 Align="@Align.Center">
-                                            Fast and reliable rescue operations against all odds.
+                        <MudLink Href="@MedRunnerClientConfig.PortalEmergencyUrl"
+                                 Underline="@Underline.None"
+                                 Class="d-contents">
+                            <MudStack Style="max-width: 220px">
+                                <MudCard Elevation="4">
+                                    <MudCardHeader>
+                                        <MudText Typo="@Typo.h6"
+                                                 Align="@Align.Center"
+                                                 Class="w-100">
+                                            Search & Rescue
                                         </MudText>
-                                        <MedRunnerLogo
-                                            Class="my-2"
-                                            Style="width: 120px;"
-                                            WithoutLink/>
-                                        @if (_isLoading)
-                                        {
-                                            <div class="w-100">
-                                                <MudSkeleton/>
-                                                <MudSkeleton/>
-                                            </div>
-                                        }
-                                        else if (MedRunnerServiceContext.IsClientAuthenticated)
-                                        {
-                                            @if (MedRunnerServiceContext.CanClientUseServices)
+                                    </MudCardHeader>
+                                    <MudCardContent Class="pt-0">
+                                        <MudStack AlignItems="@AlignItems.Center"
+                                                  Justify="@Justify.Center">
+                                            <MudText Typo="@Typo.caption"
+                                                     Align="@Align.Center">
+                                                Fast and reliable rescue operations against all odds.
+                                            </MudText>
+                                            <MedRunnerLogo
+                                                Class="my-2"
+                                                Style="width: 120px;"
+                                                WithoutLink/>
+                                        </MudStack>
+                                    </MudCardContent>
+                                </MudCard>
+                                <MudText Typo="@Typo.caption"
+                                         Align="@Align.Center"
+                                         Color="@Color.Warning">
+                                    Currently only available on web.
+                                </MudText>
+                            </MudStack>
+                        </MudLink>
+                        @if (!MedRunnerServiceContext.IsDisabled)
+                        {
+                            <MudStack>
+                                <MudCard Elevation="4"
+                                         Class="@ScenarioClassesFor(Scenario.MedRunnerSearchAndRescue)"
+                                         @onclick="@(() => SelectScenarioAsync(Scenario.MedRunnerSearchAndRescue))"
+                                         disabled="@(MedRunnerServiceContext.IsDisabled.ToString().ToLowerInvariant())">
+                                    <MudCardHeader>
+                                        <MudText Typo="@Typo.h6"
+                                                 Align="@Align.Center"
+                                                 Class="w-100">
+                                            Search & Rescue
+                                        </MudText>
+                                    </MudCardHeader>
+                                    <MudCardContent Class="pt-0">
+                                        <MudStack AlignItems="@AlignItems.Center"
+                                                  Justify="@Justify.Center">
+                                            <MudText Typo="@Typo.caption"
+                                                     Align="@Align.Center">
+                                                Fast and reliable rescue operations against all odds.
+                                            </MudText>
+                                            <MedRunnerLogo
+                                                Class="my-2"
+                                                Style="width: 120px;"
+                                                WithoutLink/>
+                                            @if (_isLoading)
                                             {
-                                                <MudText Typo="@Typo.caption"
-                                                         Align="@Align.Center"
-                                                         Color="@Color.Success">
-                                                    Subscription
-                                                    Active<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                </MudText>
+                                                <div class="w-100">
+                                                    <MudSkeleton/>
+                                                    <MudSkeleton/>
+                                                </div>
                                             }
-                                            else if (MedRunnerServiceContext.IsClientInactive)
+                                            else if (MedRunnerServiceContext.IsClientAuthenticated)
                                             {
-                                                <MudText Typo="@Typo.caption"
-                                                         Align="@Align.Center"
-                                                         Color="@Color.Warning">
-                                                    Subscription
-                                                    Inactive<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                </MudText>
-                                            }
-                                            else if (MedRunnerServiceContext.IsClientBlocked)
-                                            {
-                                                <MudText Typo="@Typo.caption"
-                                                         Align="@Align.Center"
-                                                         Color="@Color.Warning">
-                                                    Account Disabled<br/>@MedRunnerServiceContext.ClientIdentity.Name
-                                                </MudText>
-                                            }
+                                                @if (MedRunnerServiceContext.CanClientUseServices)
+                                                {
+                                                    <MudText Typo="@Typo.caption"
+                                                             Align="@Align.Center"
+                                                             Color="@Color.Success">
+                                                        Subscription
+                                                        Active<br/>@MedRunnerServiceContext.ClientIdentity.Name
+                                                    </MudText>
+                                                }
+                                                else if (MedRunnerServiceContext.IsClientInactive)
+                                                {
+                                                    <MudText Typo="@Typo.caption"
+                                                             Align="@Align.Center"
+                                                             Color="@Color.Warning">
+                                                        Subscription
+                                                        Inactive<br/>@MedRunnerServiceContext.ClientIdentity.Name
+                                                    </MudText>
+                                                }
+                                                else if (MedRunnerServiceContext.IsClientBlocked)
+                                                {
+                                                    <MudText Typo="@Typo.caption"
+                                                             Align="@Align.Center"
+                                                             Color="@Color.Warning">
+                                                        Account
+                                                        Disabled<br/>@MedRunnerServiceContext.ClientIdentity.Name
+                                                    </MudText>
+                                                }
 
-                                            @if (MedRunnerServiceContext.IsServiceUnavailable)
-                                            {
-                                                <MudText Typo="@Typo.caption"
-                                                         Align="@Align.Center"
-                                                         Color="@Color.Error">
-                                                    Currently Unavailable
-                                                </MudText>
+                                                @if (MedRunnerServiceContext.IsServiceUnavailable)
+                                                {
+                                                    <MudText Typo="@Typo.caption"
+                                                             Align="@Align.Center"
+                                                             Color="@Color.Error">
+                                                        Currently Unavailable
+                                                    </MudText>
+                                                }
                                             }
-                                        }
-                                    </MudStack>
-                                </MudCardContent>
-                            </MudCard>
-                            @if (!_isLoading && !MedRunnerServiceContext.IsClientAuthenticated)
-                            {
-                                <MudText Typo="@Typo.caption"
-                                         Align="@Align.Center"
-                                         Class="text-secondary cursor-pointer"
-                                         @onclick="@StartMedRunnerSetupAsync">
-                                    <i>
-                                        No valid account connected
-                                    </i>
-                                </MudText>
-                            }
-                            @foreach (var error in _medRunnerEmergencyContext.Errors)
-                            {
-                                <MudText Typo="@Typo.caption"
-                                         Align="@Align.Center"
-                                         Color="@Color.Error">
-                                    @error
-                                </MudText>
-                            }
-                        </MudStack>
+                                        </MudStack>
+                                    </MudCardContent>
+                                </MudCard>
+                                @if (!_isLoading && !MedRunnerServiceContext.IsClientAuthenticated)
+                                {
+                                    <MudText Typo="@Typo.caption"
+                                             Align="@Align.Center"
+                                             Class="text-secondary cursor-pointer"
+                                             @onclick="@StartMedRunnerSetupAsync">
+                                        <i>
+                                            No valid account connected
+                                        </i>
+                                    </MudText>
+                                }
+                                @foreach (var error in _medRunnerEmergencyContext.Errors)
+                                {
+                                    <MudText Typo="@Typo.caption"
+                                             Align="@Align.Center"
+                                             Color="@Color.Error">
+                                        @error
+                                    </MudText>
+                                }
+                            </MudStack>
+                        }
                     </MudStack>
                 </MudStep>
                 <MudStep Title="Provide details"
