@@ -111,7 +111,10 @@
         _currentPanelIndex = (int)(RequestedTab - 1);
 
         // force page re-render
-        _tabs?.ActivatePanel(_currentPanelIndex);
+        if (_tabs is not null)
+        {
+            await _tabs.ActivatePanelAsync(_currentPanelIndex);
+        }
     }
 
     private void RegisterForChanges()

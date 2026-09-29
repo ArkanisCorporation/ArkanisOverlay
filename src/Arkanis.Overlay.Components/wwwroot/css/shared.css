@@ -265,6 +265,11 @@ img {
     padding: 0;
 }
 
+/* shared.css loads before MudBlazor, so this outranks MudBlazor's no-gutter rule. */
+body .mud-dialog .mud-dialog-content.mud-dialog-no-side-padding {
+    padding: 0;
+}
+
 .shimmer {
     display: inline-block;
     mask: linear-gradient(-60deg, #000 30%, #efbf04, #000 70%) right/350% 100%;

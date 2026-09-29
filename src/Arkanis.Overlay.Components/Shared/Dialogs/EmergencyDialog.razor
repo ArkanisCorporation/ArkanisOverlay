@@ -236,7 +236,7 @@
                         }
                     </MudStack>
                 </MudStep>
-                <MudStep Title="Provide details"
+                <MudStep Title="Create emergency"
                          Class="pa-0"
                          Completed="@ScenarioIsActive"
                          Disabled="@ScenarioIsActive">
@@ -258,6 +258,14 @@
                         @bind-IsLoading="@_isLoading"
                         @bind-EmergencyContext="@_medRunnerEmergencyContext"
                         @bind-EmergencyContext:after="@ContinueOnEmergencyCreationAsync"/>
+                </MudStep>
+                <MudStep Title="Provide initial details"
+                         Class="pa-0"
+                         Completed="@_initialDetailsHandled">
+                    <MedRunnerEmergencyDetails
+                        @bind-IsLoading="@_isLoading"
+                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                        Completed="@ContinueOnInitialDetailsAsync"/>
                 </MudStep>
                 <MudStep Title="Handle emergency"
                          SecondaryText="@EmergencyHandlingDescription"
@@ -339,6 +347,7 @@
     private MudStepper? _stepper;
 
     private int _activeStepIndex;
+    private bool _initialDetailsHandled;
 
     private MedRunnerComponentBase.EmergencyContextModel _medRunnerEmergencyContext = new();
 
@@ -410,6 +419,13 @@
             await _stepper!.NextStepAsync();
         }
 
+        await UpdateDialogOptionsAsync();
+    }
+
+    private async Task ContinueOnInitialDetailsAsync()
+    {
+        _initialDetailsHandled = true;
+        await _stepper!.NextStepAsync();
         await UpdateDialogOptionsAsync();
     }
 
@@ -500,6 +516,7 @@
     {
         ScenarioSelection,
         Setup,
+        InitialDetails,
         Handling,
         Finalization,
     }
