@@ -1,5 +1,6 @@
 @using System.Diagnostics.CodeAnalysis
 @using System.Text
+@using Arkanis.Overlay.Domain.Abstractions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request
@@ -14,8 +15,10 @@
             Label="System"
             Placeholder="Select the current start system"
             EntityCategory="@GameEntityCategory.Location"
-            @bind-Value="@_selectedSystemEntity"
+            Value="@_selectedSystemEntity"
+            ValueChanged="@OnSystemChanged"
             Accept="@(location => location is GameStarSystem)"
+            Clearable="true"
             Required/>
     </MudItem>
     <MudItem xs="12" sm="6">
@@ -23,9 +26,11 @@
             Label="Orbit / Planet / Moon"
             Placeholder="Search for the closest planet or moon"
             EntityCategory="@GameEntityCategory.Location"
-            @bind-Value="@_selectedPlanetOrMoonEntity"
+            Value="@_selectedPlanetOrMoonEntity"
+            ValueChanged="@OnPlanetOrMoonChanged"
             Accept="@(location => location is IGameLocation gameLocation and (GamePlanet or GameMoon) && SelectedSystem?.Contains(gameLocation) == true)"
             Disabled="@(SelectedSystem is null)"
+            Clearable="true"
             Required/>
     </MudItem>
     <MudItem xs="12" md="8">
@@ -37,7 +42,8 @@
             @bind-Value="@_selectedLocationEntity"
             Disabled="@(SelectedPlanet is null)"
             Accept="@(location => location is IGameLocation gameLocation and (GameCity or GameOutpost or GameTerminal or GamePointOfInterest)
-                                  && SelectedPlanetOrMoon?.Contains(gameLocation) == true)"/>
+                                  && SelectedPlanetOrMoon?.Contains(gameLocation) == true)"
+            Clearable="true"/>
     </MudItem>
     <MudItem xs="12" md="4">
         <MudSelect @bind-Value="@_threatLevel"
@@ -124,6 +130,31 @@
     private GameLocationEntity? ClosestLocation
         => _selectedLocationEntity as GameLocationEntity
            ?? SelectedPlanet as GameLocationEntity;
+
+    private Task OnSystemChanged(IGameEntity? system)
+    {
+        if (IIdentifiable.EqualityComparer.Default.Equals(_selectedSystemEntity, system))
+        {
+            return Task.CompletedTask;
+        }
+
+        _selectedSystemEntity = system;
+        _selectedPlanetOrMoonEntity = null;
+        _selectedLocationEntity = null;
+        return Task.CompletedTask;
+    }
+
+    private Task OnPlanetOrMoonChanged(IGameEntity? planetOrMoon)
+    {
+        if (IIdentifiable.EqualityComparer.Default.Equals(_selectedPlanetOrMoonEntity, planetOrMoon))
+        {
+            return Task.CompletedTask;
+        }
+
+        _selectedPlanetOrMoonEntity = planetOrMoon;
+        _selectedLocationEntity = null;
+        return Task.CompletedTask;
+    }
 
     [MemberNotNullWhen(false, nameof(ClosestLocation), nameof(_threatLevel))]
     private bool SubmitDisabled
