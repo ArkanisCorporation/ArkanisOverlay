@@ -38,7 +38,11 @@
             return;
         }
 
-        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(_preferences);
+        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(_preferences with
+        {
+            // Other desktop windows can acknowledge notices while this settings snapshot is open.
+            DismissedFeatureAnnouncements = new HashSet<string>(UserPreferencesManager.CurrentPreferences.DismissedFeatureAnnouncements, StringComparer.Ordinal),
+        });
         MudDialog.Close(DialogResult.Ok(true));
     }
 

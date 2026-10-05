@@ -1,26 +1,53 @@
 namespace Arkanis.Overlay.Infrastructure.Services.External;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+using global::Arkanis.Overlay.Common.Models;
+using global::Arkanis.Overlay.Common.Options;
 using global::Arkanis.Overlay.Common.Services;
 using global::Arkanis.Overlay.Domain.Abstractions.Services;
 using global::Arkanis.Overlay.External.MedRunner;
 using global::Arkanis.Overlay.External.MedRunner.API;
 using global::Arkanis.Overlay.External.MedRunner.API.Abstractions;
 using global::Arkanis.Overlay.External.MedRunner.Models;
+using FluentResults;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 public sealed class MedRunnerAccountContext(
     MedRunnerAuthenticator authenticator,
     IMedRunnerTokenProvider tokenProvider,
     IMedRunnerApiClient apiClient,
     IUserPreferencesManager userPreferences,
-    ILogger<MedRunnerAccountContext> logger
+    ILogger<MedRunnerAccountContext> logger,
+    IOptions<MedRunnerIntegrationOptions>? integrationOptions = null
 ) : ExternalAccountContext<MedRunnerAuthenticator.AuthenticationTask>(authenticator, userPreferences, logger)
 {
     private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
     private string? _clientInfoError;
     private string? _clientStatusError;
     private string? _publicSettingsError;
+
+    public bool AccountLinkingEnabled { get; } = integrationOptions?.Value.AccountLinkingEnabled ?? false;
+
+    public override bool IsAuthenticated
+        => AccountLinkingEnabled && base.IsAuthenticated;
+
+    public override Task UpdateAsync(CancellationToken cancellationToken)
+    {
+        if (AccountLinkingEnabled)
+        {
+            return base.UpdateAsync(cancellationToken);
+        }
+
+        tokenProvider.ClearAuthentication();
+        return Task.CompletedTask;
+    }
+
+    public override Task<Result<ClaimsIdentity>> ConfigureAsync(AccountCredentials credentials, CancellationToken cancellationToken)
+        => AccountLinkingEnabled
+            ? base.ConfigureAsync(credentials, cancellationToken)
+            : Task.FromResult(Result.Fail<ClaimsIdentity>("MedRunner account linking is temporarily unavailable. Please use the MedRunner web portal."));
 
     public IMedRunnerApiClient ApiClient { get; } = apiClient;
 
@@ -62,6 +89,12 @@ public sealed class MedRunnerAccountContext(
     {
         get
         {
+            if (!AccountLinkingEnabled)
+            {
+                return new(false, MedRunnerServiceAccessRestriction.Account,
+                    "MedRunner services are currently available through the web portal.");
+            }
+
             if (!IsAuthenticated)
             {
                 return new(
@@ -150,6 +183,11 @@ public sealed class MedRunnerAccountContext(
 
     public async Task RefreshAsync(CancellationToken cancellationToken)
     {
+        if (!AccountLinkingEnabled)
+        {
+            return;
+        }
+
         await _refreshSemaphore.WaitAsync(cancellationToken);
         try
         {
@@ -185,6 +223,12 @@ public sealed class MedRunnerAccountContext(
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)
     {
+        if (!AccountLinkingEnabled)
+        {
+            tokenProvider.ClearAuthentication();
+            return;
+        }
+
         ApiClient.WebSocket.Events.PersonUpdated += OnPersonUpdated;
         ApiClient.WebSocket.Events.OrgSettingsUpdated += OnOrgSettingsUpdated;
         await base.InitializeAsyncCore(cancellationToken);

@@ -39,6 +39,8 @@ public record UserPreferences
 
     public List<AccountCredentials> ExternalServiceCredentials { get; set; } = [];
 
+    public HashSet<string> DismissedFeatureAnnouncements { get; init; } = new(StringComparer.Ordinal);
+
     public AccountCredentials? GetCredentialsOrDefaultFor(string serviceId)
         => ExternalServiceCredentials.FirstOrDefault(x => x.ServiceId == serviceId);
 

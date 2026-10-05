@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.UnitTests.External.MedRunner;
+namespace Arkanis.Overlay.Infrastructure.UnitTests.Services.MedRunner;
 
 using System.Reflection;
 using System.Security.Claims;
@@ -17,10 +17,44 @@ using Arkanis.Overlay.External.MedRunner.Models;
 using Arkanis.Overlay.Infrastructure.Services.External;
 using FluentResults;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Shouldly;
 
 public sealed class MedRunnerAccountContextTests
 {
+    [Fact]
+    public async Task DisabledIntegrationDoesNotProcessSavedOrNewCredentials()
+    {
+        var authentication = new MedRunnerTokenAuthentication
+        {
+            AccessToken = "access-token",
+            RefreshToken = "refresh-token",
+            ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10),
+            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "Pilot")], "MedRunner"),
+        };
+        var tokenProvider = new StaticTokenProvider(authentication);
+        var webSocket = new AuthenticatedWebSocketEndpoint(tokenProvider);
+        var apiClient = new MedRunnerApiClient(tokenProvider, null!, new MockClientEndpoint(tokenProvider), null!,
+            new MockOrgSettingsEndpoint(tokenProvider), null!, null!, null!, webSocket);
+        var credentials = new AccountApiTokenCredentials("MedRunner") { SecretToken = "saved-token" };
+        var preferences = new StaticPreferencesManager(new UserPreferences { ExternalServiceCredentials = [credentials] });
+        var context = new MedRunnerAccountContext(new MedRunnerAuthenticator(tokenProvider), tokenProvider, apiClient,
+            preferences, NullLogger<MedRunnerAccountContext>.Instance);
+
+        await context.InitializeAsync(CancellationToken.None);
+        await context.UpdateAsync(CancellationToken.None);
+        await context.RefreshAsync(CancellationToken.None);
+        var result = await context.ConfigureAsync(new AccountApiTokenCredentials("MedRunner") { SecretToken = "new-token" }, CancellationToken.None);
+        await preferences.SaveAndApplyUserPreferencesAsync(preferences.CurrentPreferences);
+
+        result.IsFailed.ShouldBeTrue();
+        context.IsAuthenticated.ShouldBeFalse();
+        context.ServiceAccessState.CanUseServices.ShouldBeFalse();
+        tokenProvider.AuthenticationAttempts.ShouldBe(0);
+        webSocket.Initialized.ShouldBeFalse();
+        preferences.CurrentPreferences.ExternalServiceCredentials.ShouldBe([credentials]);
+    }
+
     [Fact]
     public async Task AuthenticatedContextWithoutAccountMetadataDoesNotAdvertiseServiceAccess()
     {
@@ -42,7 +76,7 @@ public sealed class MedRunnerAccountContextTests
         );
         await authenticationTask;
 
-        var context = new MedRunnerAccountContext(authenticator, tokenProvider, null!, null!, NullLogger<MedRunnerAccountContext>.Instance);
+        var context = new MedRunnerAccountContext(authenticator, tokenProvider, null!, null!, NullLogger<MedRunnerAccountContext>.Instance, Options.Create(new MedRunnerIntegrationOptions { AccountLinkingEnabled = true }));
         typeof(ExternalAccountContext)
             .GetField("_currentAuthentication", BindingFlags.Instance | BindingFlags.NonPublic)!
             .SetValue(context, authenticationTask);
@@ -90,7 +124,8 @@ public sealed class MedRunnerAccountContextTests
                     ],
                 }
             ),
-            NullLogger<MedRunnerAccountContext>.Instance
+            NullLogger<MedRunnerAccountContext>.Instance,
+            Options.Create(new MedRunnerIntegrationOptions { AccountLinkingEnabled = true })
         );
 
         await context.InitializeAsync(CancellationToken.None);
@@ -149,6 +184,8 @@ public sealed class MedRunnerAccountContextTests
 
     private sealed class StaticTokenProvider(MedRunnerTokenAuthentication authentication) : IMedRunnerTokenProvider
     {
+        public int AuthenticationAttempts { get; private set; }
+
         public ClaimsIdentity? Identity { get; private set; }
 
         public bool IsAuthenticated
@@ -161,7 +198,10 @@ public sealed class MedRunnerAccountContextTests
             => GetAccessTokenAsync();
 
         public Task<Result<MedRunnerTokenAuthentication>> AuthenticateApiTokenAsync(string apiToken, CancellationToken cancellationToken)
-            => Task.FromResult(Result.Ok(authentication));
+        {
+            AuthenticationAttempts++;
+            return Task.FromResult(Result.Ok(authentication));
+        }
 
         public void ApplyAuthentication(MedRunnerTokenAuthentication authentication)
         {
@@ -188,6 +228,7 @@ public sealed class MedRunnerAccountContextTests
         public Task SaveAndApplyUserPreferencesAsync(UserPreferences userPreferences)
         {
             CurrentPreferences = userPreferences;
+            UpdatePreferences?.Invoke(this, userPreferences);
             ApplyPreferences?.Invoke(this, userPreferences);
             return Task.CompletedTask;
         }
@@ -238,7 +279,7 @@ public sealed class MedRunnerAccountContextTests
         );
         await authenticationTask;
 
-        var context = new MedRunnerAccountContext(authenticator, null!, null!, null!, NullLogger<MedRunnerAccountContext>.Instance);
+        var context = new MedRunnerAccountContext(authenticator, null!, null!, null!, NullLogger<MedRunnerAccountContext>.Instance, Options.Create(new MedRunnerIntegrationOptions { AccountLinkingEnabled = true }));
         typeof(ExternalAccountContext)
             .GetField("_currentAuthentication", BindingFlags.Instance | BindingFlags.NonPublic)!
             .SetValue(context, authenticationTask);

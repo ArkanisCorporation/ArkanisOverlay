@@ -131,10 +131,12 @@ public static class DependencyInjection
                 .AddServicesForUserPreferencesFromJsonFile()
                 .AddLiveMedRunnerApiClient(_ => new MedRunnerClientConfig
                     {
-                        BaseUrl = "https://api.medrunner.dev",
+                        // BaseUrl = "https://api.medrunner.dev",
                     }
                 );
         }
+
+        services.AddOptions<MedRunnerIntegrationOptions>();
 
         services
             .AddSingleton<MedRunnerAccountContext>()

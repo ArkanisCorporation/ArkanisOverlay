@@ -1,4 +1,4 @@
-namespace Arkanis.Overlay.Infrastructure.UnitTests.External.MedRunner;
+namespace Arkanis.Overlay.Infrastructure.UnitTests.Services.MedRunner;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net;

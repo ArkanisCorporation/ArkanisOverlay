@@ -116,42 +116,7 @@
                               Justify="@Justify.Center"
                               Class="mb-8"
                               Row>
-                        <MudLink
-                            Href="@ExternalLinkHelper.AddAttributionGoogleAnalyticsTo(MedRunnerClientConfig.PortalEmergencyUrl, ContentId)"
-                            Underline="@Underline.None"
-                            Class="d-contents">
-                            <MudStack Style="max-width: 220px">
-                                <MudCard Elevation="4">
-                                    <MudCardHeader>
-                                        <MudText Typo="@Typo.h6"
-                                                 Align="@Align.Center"
-                                                 Class="w-100">
-                                            Search & Rescue
-                                        </MudText>
-                                    </MudCardHeader>
-                                    <MudCardContent Class="pt-0">
-                                        <MudStack AlignItems="@AlignItems.Center"
-                                                  Justify="@Justify.Center"
-                                                  Spacing="2">
-                                            <MudText Typo="@Typo.caption"
-                                                     Align="@Align.Center">
-                                                Fast and reliable rescue operations against all odds.
-                                            </MudText>
-                                            <MedRunnerLogo
-                                                Class="my-2"
-                                                Style="width: 120px;"
-                                                WithoutLink/>
-                                        </MudStack>
-                                    </MudCardContent>
-                                </MudCard>
-                                <MudText Typo="@Typo.caption"
-                                         Align="@Align.Center"
-                                         Color="@Color.Warning">
-                                    Currently only available on web.
-                                </MudText>
-                            </MudStack>
-                        </MudLink>
-                        @if (MedRunnerAccountContext.IsAuthenticated)
+                        @if (MedRunnerAccountContext.AccountLinkingEnabled && MedRunnerAccountContext.IsAuthenticated)
                         {
                             <MudStack Spacing="2">
                                 <MudCard Elevation="4"
@@ -234,56 +199,124 @@
                                 }
                             </MudStack>
                         }
+                        else
+                        {
+                            <MudLink
+                                Href="@ExternalLinkHelper.AddAttributionGoogleAnalyticsTo(MedRunnerClientConfig.PortalEmergencyUrl, ContentId)"
+                                Target="_blank"
+                                Underline="@Underline.None"
+                                Class="d-contents">
+                                <MudStack Style="max-width: 220px">
+                                    <MudCard Elevation="4">
+                                        <MudCardHeader>
+                                            <MudText Typo="@Typo.h6"
+                                                     Align="@Align.Center"
+                                                     Class="w-100">
+                                                Search & Rescue
+                                            </MudText>
+                                        </MudCardHeader>
+                                        <MudCardContent Class="pt-0">
+                                            <MudStack AlignItems="@AlignItems.Center"
+                                                      Justify="@Justify.Center"
+                                                      Spacing="2">
+                                                <MudText Typo="@Typo.caption"
+                                                         Align="@Align.Center">
+                                                    Fast and reliable rescue operations against all odds.
+                                                </MudText>
+                                                <MedRunnerLogo
+                                                    Class="my-2"
+                                                    Style="width: 120px;"
+                                                    WithoutLink/>
+                                            </MudStack>
+                                        </MudCardContent>
+                                    </MudCard>
+                                    <MudText Typo="@Typo.caption"
+                                             Align="@Align.Center"
+                                             Color="@Color.Warning">
+                                        Currently only available on web.
+                                    </MudText>
+                                </MudStack>
+                            </MudLink>
+                        }
+                        <MudPaper Class="h-100 mx-4 mb-6 pa-4 border-dashed"
+                                  Style="max-width: 220px; opacity: 66%"
+                                  Outlined>
+                            <MudStack AlignItems="@AlignItems.Center" Spacing="4">
+                                <MudText Typo="@Typo.h6" Align="@Align.Center">
+                                    <i>Your Services</i>
+                                </MudText>
+                                <MudText Typo="@Typo.caption" Align="@Align.Center">
+                                    Are you an established service provider organization?
+                                </MudText>
+                                <MudText Typo="@Typo.caption" Align="@Align.Center">
+                                    Would you like to make your services globally available?
+                                </MudText>
+
+                                <MudIcon
+                                    Icon="@MaterialIcons.Filled.RocketLaunch"
+                                    Size="@Size.Large"/>
+
+                                <MudText Typo="@Typo.caption" Class="text-secondary">
+                                    If the answers are yes, message us at
+                                    <a href="mailto:business+overlay@Arkanis.cc?subject=Service%20Provider%20Feature%20Inquiry">
+                                        bussiness@arkanis.cc
+                                    </a>
+                                </MudText>
+                            </MudStack>
+                        </MudPaper>
                     </MudStack>
                 </MudStep>
-                <MudStep Title="Create emergency"
-                         Class="pa-0"
-                         Completed="@ScenarioIsActive"
-                         Disabled="@ScenarioIsActive">
-                    <MudStack Class="px-4 my-4"
-                              AlignItems="@AlignItems.Center"
-                              Justify="@Justify.SpaceBetween"
-                              Row>
-                        @PreviousButton
-                        <MedRunnerServiceProvidedBy
-                            ContentId="@ContentId"/>
-                    </MudStack>
-                    <MudText Typo="@Typo.body1"
-                             Align="@Align.Center"
-                             Class="my-6">
-                        Please provide necessary emergency details for the alert responders.
-                    </MudText>
-                    <MedRunnerEmergencyCreation
-                        ContentId="@ContentId"
-                        @bind-IsLoading="@_isLoading"
-                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                        @bind-EmergencyContext:after="@ContinueOnEmergencyCreationAsync"/>
-                </MudStep>
-                <MudStep Title="Provide initial details"
-                         Class="pa-0"
-                         Completed="@_initialDetailsHandled">
-                    <MedRunnerEmergencyDetails
-                        @bind-IsLoading="@_isLoading"
-                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                        Completed="@ContinueOnInitialDetailsAsync"/>
-                </MudStep>
-                <MudStep Title="Handle emergency"
-                         SecondaryText="@EmergencyHandlingDescription"
-                         Class="pa-0">
-                    <MedRunnerEmergencyManagement
-                        ContentId="@ContentId"
-                        @bind-IsLoading="@_isLoading"
-                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                        @bind-EmergencyContext:after="@ContinueOnEmergencyFinalizationAsync"/>
-                </MudStep>
-                <MudStep Title="Finalize"
-                         Class="pa-0">
-                    <MedRunnerEmergencyReview
-                        ContentId="@ContentId"
-                        @bind-IsLoading="@_isLoading"
-                        @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                        @bind-EmergencyContext:after="@Close"/>
-                </MudStep>
+                @if (MedRunnerAccountContext.AccountLinkingEnabled)
+                {
+                    <MudStep Title="Create emergency"
+                             Class="pa-0"
+                             Completed="@ScenarioIsActive"
+                             Disabled="@ScenarioIsActive">
+                        <MudStack Class="px-4 my-4"
+                                  AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.SpaceBetween"
+                                  Row>
+                            @PreviousButton
+                            <MedRunnerServiceProvidedBy
+                                ContentId="@ContentId"/>
+                        </MudStack>
+                        <MudText Typo="@Typo.body1"
+                                 Align="@Align.Center"
+                                 Class="my-6">
+                            Please provide necessary emergency details for the alert responders.
+                        </MudText>
+                        <MedRunnerEmergencyCreation
+                            ContentId="@ContentId"
+                            @bind-IsLoading="@_isLoading"
+                            @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                            @bind-EmergencyContext:after="@ContinueOnEmergencyCreationAsync"/>
+                    </MudStep>
+                    <MudStep Title="Provide initial details"
+                             Class="pa-0"
+                             Completed="@_initialDetailsHandled">
+                        <MedRunnerEmergencyDetails
+                            @bind-IsLoading="@_isLoading"
+                            @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                            Completed="@ContinueOnInitialDetailsAsync"/>
+                    </MudStep>
+                    <MudStep Title="Handle emergency"
+                             SecondaryText="@EmergencyHandlingDescription"
+                             Class="pa-0">
+                        <MedRunnerEmergencyManagement
+                            ContentId="@ContentId"
+                            @bind-IsLoading="@_isLoading"
+                            @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                            @bind-EmergencyContext:after="@ContinueOnEmergencyFinalizationAsync"/>
+                    </MudStep>
+                    <MudStep Title="Finalize"
+                             Class="pa-0">
+                        <MedRunnerEmergencyReview
+                            ContentId="@ContentId"
+                            @bind-IsLoading="@_isLoading"
+                            @bind-EmergencyContext="@_medRunnerEmergencyContext"
+                            @bind-EmergencyContext:after="@Close"/>
+                    </MudStep>
+                }
             </ChildContent>
             <ActionContent>
                 @* Navigation is managed by controls within individual steps. *@
@@ -387,6 +420,8 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        if (!MedRunnerAccountContext.AccountLinkingEnabled)
+            return;
         MedRunnerAccountContext.Updated += OnExternalUpdate;
         var updateCallback = EventCallback.Factory.Create<MedRunnerComponentBase.EmergencyContextModel>(this, OnMedRunnerUpdate);
         await _medRunnerEmergencyContext.EnsureInitializedAsync(MedRunnerAccountContext, updateCallback);
