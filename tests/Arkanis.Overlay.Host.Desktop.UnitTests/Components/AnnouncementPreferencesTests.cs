@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Host.Desktop.UnitTests.Components;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,7 @@ using Overlay.Domain.Abstractions.Services;
 using Overlay.Infrastructure.Services;
 using Shouldly;
 
-public sealed class AnnouncementPreferencesTests : TestContext
+public sealed class AnnouncementPreferencesTests : BunitContext
 {
     [Fact]
     public async Task SavingAStalePreferencesDialogPreservesNewAnnouncementDismissals()
@@ -25,7 +27,7 @@ public sealed class AnnouncementPreferencesTests : TestContext
         Services.AddMudServices();
         JSInterop.Mode = JSRuntimeMode.Loose;
         ComponentFactories.AddStub<UserPreferencesControls>();
-        var provider = RenderComponent<MudDialogProvider>();
+        var provider = Render<MudDialogProvider>();
         await provider.InvokeAsync(() => Services.GetRequiredService<IDialogService>().ShowAsync<UserPreferencesDialog>());
         var controls = provider.FindComponent<Stub<UserPreferencesControls>>();
         controls.Instance.Parameters.Get(x => x.Preferences).BlurBackground = true;

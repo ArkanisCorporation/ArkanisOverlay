@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Components.Services;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using Domain.Abstractions.Services;
 
 public sealed class FeatureAnnouncementService(

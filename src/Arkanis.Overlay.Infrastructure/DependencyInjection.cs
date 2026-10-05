@@ -109,7 +109,6 @@ public static class DependencyInjection
         services
             .AddSingleton<IStorageManager, StorageManager>()
             .AddSingleton<ServiceDependencyResolver>()
-            .AddHostedService<InitializeServicesHostedService>()
             .AddCommonInfrastructureServices()
             .AddOverlaySqliteDatabaseServices()
             .AddDatabaseExternalSyncCacheProviders()
@@ -122,13 +121,11 @@ public static class DependencyInjection
 
         if (options.HostingMode is HostingMode.Server)
         {
-            services.AddServicesForInMemoryUserPreferences()
-                .AddMockMedRunnerApiClient();
+            services.AddMockMedRunnerApiClient();
         }
         else
         {
             services
-                .AddServicesForUserPreferencesFromJsonFile()
                 .AddLiveMedRunnerApiClient(_ => new MedRunnerClientConfig
                     {
                         // BaseUrl = "https://api.medrunner.dev",
@@ -140,7 +137,8 @@ public static class DependencyInjection
 
         services
             .AddSingleton<MedRunnerAccountContext>()
-            .Alias<ISelfInitializable, MedRunnerAccountContext>();
+            .Alias<ISelfInitializable, MedRunnerAccountContext>()
+            .Alias<IExternalAccountContext, MedRunnerAccountContext>();
 
         services.AddHostedService<InitializeServicesHostedService>();
         services.AddHostedService<JobScheduleProviderScheduler>();

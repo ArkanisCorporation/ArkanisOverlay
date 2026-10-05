@@ -12,7 +12,7 @@ using Overlay.Domain.Models.Game;
 using Overlay.Domain.Models.Search;
 using Shouldly;
 
-public sealed class GameEntitySelectBoxTests : TestContext
+public sealed class GameEntitySelectBoxTests : BunitContext
 {
     public GameEntitySelectBoxTests()
     {
@@ -25,8 +25,8 @@ public sealed class GameEntitySelectBoxTests : TestContext
     public void Selected_entity_is_converted_to_its_full_display_name()
     {
         var stanton = new GameStarSystem(1, "Stanton", "STA");
-        RenderComponent<MudPopoverProvider>();
-        var cut = RenderComponent<GameEntitySelectBox>(parameters => parameters
+        Render<MudPopoverProvider>();
+        var cut = Render<GameEntitySelectBox>(parameters => parameters
             .Add(x => x.EntityCategory, GameEntityCategory.Location)
             .Add(x => x.Value, stanton));
 
@@ -38,8 +38,8 @@ public sealed class GameEntitySelectBoxTests : TestContext
     [Fact]
     public void Explicit_clearable_option_allows_a_required_selection_to_be_cleared()
     {
-        RenderComponent<MudPopoverProvider>();
-        var cut = RenderComponent<GameEntitySelectBox>(parameters => parameters
+        Render<MudPopoverProvider>();
+        var cut = Render<GameEntitySelectBox>(parameters => parameters
             .Add(x => x.EntityCategory, GameEntityCategory.Location)
             .Add(x => x.Required, true)
             .Add(x => x.Clearable, true));

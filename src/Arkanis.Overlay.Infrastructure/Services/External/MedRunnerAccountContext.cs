@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.Services.External;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using global::Arkanis.Overlay.Common.Models;

@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Host.Desktop.UnitTests.Components;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -13,7 +15,7 @@ using Overlay.Domain.Abstractions.Services;
 using Overlay.Infrastructure.Services;
 using Shouldly;
 
-public sealed class FeatureAnnouncementHostTests : TestContext
+public sealed class FeatureAnnouncementHostTests : BunitContext
 {
     private readonly InMemoryUserPreferencesManager _preferences = new();
 
@@ -38,8 +40,8 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public void ExplicitDismissalAdvancesTheQueueAndDisablesBackdropAndEscapeDismissal()
     {
-        var provider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var provider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         provider.WaitForAssertion(() => provider.FindComponent<FeatureAnnouncementDialog>().Instance.Announcement.Id.ShouldBe("first"));
         var first = provider.FindComponent<FeatureAnnouncementDialog>();
         first.Instance.MudDialog.Options.BackdropClick.ShouldBe(false);
@@ -59,8 +61,8 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public async Task InteractiveDialogInterruptsTheAnnouncementAndResumesItWithoutDismissingIt()
     {
-        var provider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var provider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         provider.WaitForAssertion(() => provider.FindComponents<FeatureAnnouncementDialog>().Count.ShouldBe(1));
         var service = Services.GetRequiredService<IDialogService>();
 
@@ -75,8 +77,8 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public async Task DisposingTheHostDoesNotDismissTheVisibleAnnouncement()
     {
-        var provider = RenderComponent<MudDialogProvider>();
-        var host = RenderComponent<FeatureAnnouncementHost>();
+        var provider = Render<MudDialogProvider>();
+        var host = Render<FeatureAnnouncementHost>();
         provider.WaitForAssertion(() => provider.FindComponents<FeatureAnnouncementDialog>().Count.ShouldBe(1));
 
         await provider.InvokeAsync(host.Instance.Dispose);
@@ -88,8 +90,8 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public async Task BackgroundDialogRequestInterruptsTheAnnouncementOnTheRendererDispatcher()
     {
-        var provider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var provider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         provider.WaitForAssertion(() => provider.FindComponents<FeatureAnnouncementDialog>().Count.ShouldBe(1));
         var service = Services.GetRequiredService<IDialogService>();
 
@@ -101,16 +103,16 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     }
 
     [Fact]
-    public void ProviderTeardownReleasesTheQueueForTheNextLayout()
+    public async Task ProviderTeardownReleasesTheQueueForTheNextLayout()
     {
-        var provider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var provider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         provider.WaitForAssertion(() => provider.FindComponents<FeatureAnnouncementDialog>().Count.ShouldBe(1));
 
-        DisposeComponents();
+        await DisposeComponentsAsync();
 
-        var nextProvider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var nextProvider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         nextProvider.WaitForAssertion(() => nextProvider.FindComponent<FeatureAnnouncementDialog>().Instance.Announcement.Id.ShouldBe("first"));
         _preferences.CurrentPreferences.DismissedFeatureAnnouncements.ShouldBeEmpty();
     }
@@ -118,7 +120,7 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public void AnotherDialogOpenedDuringAnnouncementRenderingTakesPrecedence()
     {
-        var provider = RenderComponent<MudDialogProvider>();
+        var provider = Render<MudDialogProvider>();
         var service = Services.GetRequiredService<IDialogService>();
         var openedOther = false;
         service.DialogInstanceAddedAsync += async _ =>
@@ -128,7 +130,7 @@ public sealed class FeatureAnnouncementHostTests : TestContext
             await service.ShowAsync<TestDialog>("Emergency during startup");
         };
 
-        RenderComponent<FeatureAnnouncementHost>();
+        Render<FeatureAnnouncementHost>();
 
         provider.WaitForAssertion(() =>
         {
@@ -142,7 +144,7 @@ public sealed class FeatureAnnouncementHostTests : TestContext
     [Fact]
     public async Task TeardownWhileOpeningReleasesTheQueueForAnImmediatelyMountedReplacement()
     {
-        var provider = RenderComponent<MudDialogProvider>();
+        var provider = Render<MudDialogProvider>();
         var service = Services.GetRequiredService<IDialogService>();
         var opened = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -151,13 +153,13 @@ public sealed class FeatureAnnouncementHostTests : TestContext
             opened.TrySetResult();
             await release.Task;
         }
-        RenderComponent<DelayedAnnouncementHost>(parameters => parameters.Add(x => x.Delay, DelayOpeningAsync));
+        Render<DelayedAnnouncementHost>(parameters => parameters.Add(x => x.Delay, DelayOpeningAsync));
         await opened.Task;
 
-        DisposeComponents();
+        await DisposeComponentsAsync();
         service.DialogInstanceAddedAsync -= DelayOpeningAsync;
-        var nextProvider = RenderComponent<MudDialogProvider>();
-        RenderComponent<FeatureAnnouncementHost>();
+        var nextProvider = Render<MudDialogProvider>();
+        Render<FeatureAnnouncementHost>();
         release.TrySetResult();
 
         nextProvider.WaitForAssertion(() => nextProvider.FindComponent<FeatureAnnouncementDialog>().Instance.Announcement.Id.ShouldBe("first"));

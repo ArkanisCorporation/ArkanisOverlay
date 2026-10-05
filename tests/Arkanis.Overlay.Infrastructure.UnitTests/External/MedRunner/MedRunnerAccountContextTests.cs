@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Services.MedRunner;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using System.Reflection;
 using System.Security.Claims;
 using System.Text.Json;

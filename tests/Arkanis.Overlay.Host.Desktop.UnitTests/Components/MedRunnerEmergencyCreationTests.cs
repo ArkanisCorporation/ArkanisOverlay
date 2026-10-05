@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Host.Desktop.UnitTests.Components;
 
+using global::Arkanis.Overlay.Common.Abstractions;
+
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,7 +18,7 @@ using Overlay.Infrastructure.Services;
 using Overlay.Infrastructure.Services.External;
 using Shouldly;
 
-public sealed class MedRunnerEmergencyCreationTests : TestContext
+public sealed class MedRunnerEmergencyCreationTests : BunitContext
 {
     public MedRunnerEmergencyCreationTests()
     {
@@ -37,8 +39,8 @@ public sealed class MedRunnerEmergencyCreationTests : TestContext
         var microTech = new GamePlanet(3, "microTech", "MIC", stanton);
         var newBabbage = new GameCity(4, "New Babbage", "NBB", microTech);
         var monox = new GamePlanet(5, "Monox", "MNX", pyro);
-        RenderComponent<MudPopoverProvider>();
-        var cut = RenderComponent<MedRunnerEmergencyCreation>(parameters => parameters
+        Render<MudPopoverProvider>();
+        var cut = Render<MedRunnerEmergencyCreation>(parameters => parameters
             .Add(x => x.EmergencyContext, new MedRunnerComponentBase.EmergencyContextModel()));
         var selections = cut.FindComponents<GameEntitySelectBox>();
 
@@ -61,8 +63,8 @@ public sealed class MedRunnerEmergencyCreationTests : TestContext
         var microTech = new GamePlanet(2, "microTech", "MIC", stanton);
         var hurston = new GamePlanet(3, "Hurston", "HUR", stanton);
         var newBabbage = new GameCity(4, "New Babbage", "NBB", microTech);
-        RenderComponent<MudPopoverProvider>();
-        var cut = RenderComponent<MedRunnerEmergencyCreation>(parameters => parameters
+        Render<MudPopoverProvider>();
+        var cut = Render<MedRunnerEmergencyCreation>(parameters => parameters
             .Add(x => x.EmergencyContext, new MedRunnerComponentBase.EmergencyContextModel()));
         var selections = cut.FindComponents<GameEntitySelectBox>();
 
