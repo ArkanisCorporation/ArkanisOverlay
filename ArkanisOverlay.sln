@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Aspire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.Host.Aspire.IntegrationTests", "tests\Arkanis.Overlay.Host.Aspire.IntegrationTests\Arkanis.Overlay.Host.Aspire.IntegrationTests.csproj", "{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arkanis.Overlay.External.MedRunner", "src\Arkanis.Overlay.External.MedRunner\Arkanis.Overlay.External.MedRunner.csproj", "{5D105372-D4A7-4863-9B7D-8CC295E507D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,8 +151,13 @@ Global
 		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E55DB0C0-A572-4A6D-B98B-6169BEEBA15E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D105372-D4A7-4863-9B7D-8CC295E507D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D105372-D4A7-4863-9B7D-8CC295E507D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D105372-D4A7-4863-9B7D-8CC295E507D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D105372-D4A7-4863-9B7D-8CC295E507D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{5D105372-D4A7-4863-9B7D-8CC295E507D3} = {D4DFACE5-E4CC-4D26-8DA5-D6608EE45885}
 		{CED78CB3-F5FA-49D6-ACBC-565E986BC665} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{6BD8A5F9-6D9E-4C13-86A2-1C9C7A170D04} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}
 		{B5EC96A2-1FBF-440B-A0E0-7E33925015F8} = {616E9EA0-1A7F-4608-BEEA-9C3F26FAF516}

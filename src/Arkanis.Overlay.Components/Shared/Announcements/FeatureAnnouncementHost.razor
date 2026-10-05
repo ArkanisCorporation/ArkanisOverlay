@@ -1,0 +1,113 @@
+@implements IDisposable
+@inject IDialogService DialogService
+@inject FeatureAnnouncementService Announcements
+@inject ILogger<FeatureAnnouncementHost> Logger
+
+@code {
+    private readonly HashSet<Guid> _openDialogs = [];
+    private readonly HashSet<Guid> _announcementDialogs = [];
+    private IDialogReference? _currentAnnouncement;
+    private bool _openingAnnouncement;
+    private bool _rendered;
+    private bool _disposed;
+    private bool _showingPending;
+    private bool _resumeRequested;
+
+    protected override void OnInitialized()
+    {
+        DialogService.DialogInstanceAddedAsync += OnDialogAddedAsync;
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _rendered = true;
+            _ = InvokeAsync(ShowPendingAsync);
+        }
+        return Task.CompletedTask;
+    }
+
+    private async Task ShowPendingAsync()
+    {
+        if (_showingPending)
+        {
+            _resumeRequested = true;
+            return;
+        }
+
+        _showingPending = true;
+        try
+        {
+            do
+            {
+                _resumeRequested = false;
+                await Announcements.ShowPendingAsync(ShowAnnouncementAsync, CanShow);
+            } while (_resumeRequested && CanShow());
+        }
+        catch (Exception exception)
+        {
+            Logger.LogError(exception, "Unable to display or save a feature announcement");
+        }
+        finally
+        {
+            _showingPending = false;
+        }
+    }
+
+    private bool CanShow() => _rendered && !_disposed && _openDialogs.Count == 0;
+
+    private async Task<bool> ShowAnnouncementAsync(FeatureAnnouncement announcement)
+    {
+        _openingAnnouncement = true;
+        IDialogReference dialog;
+        try
+        {
+            dialog = await FeatureAnnouncementDialog.ShowAsync(DialogService, announcement);
+            _announcementDialogs.Add(dialog.Id);
+            _currentAnnouncement = dialog;
+        }
+        finally
+        {
+            _openingAnnouncement = false;
+        }
+
+        // Another dialog may have opened while ShowAsync awaited the first render.
+        if (_disposed || _openDialogs.Count > 1) dialog.Close(DialogResult.Cancel());
+        if (_disposed) dialog.Dismiss(DialogResult.Cancel());
+        var result = await dialog.Result;
+        _openDialogs.Remove(dialog.Id);
+        _currentAnnouncement = null;
+        return !_disposed && result is { Canceled: false, Data: true };
+    }
+
+    private Task OnDialogAddedAsync(IDialogReference dialog)
+        => InvokeAsync(() =>
+        {
+            _openDialogs.Add(dialog.Id);
+            _ = ResumeAfterCloseAsync(dialog);
+            // Interactive dialogs, including emergencies and consent, take precedence.
+            if (!_openingAnnouncement) _currentAnnouncement?.Close(DialogResult.Cancel());
+        });
+
+    private async Task ResumeAfterCloseAsync(IDialogReference dialog)
+    {
+        await dialog.Result;
+        if (_disposed) return;
+        await InvokeAsync(async () =>
+        {
+            _openDialogs.Remove(dialog.Id);
+            // The active queue already handles its own announcement result.
+            if (!_announcementDialogs.Remove(dialog.Id)) await ShowPendingAsync();
+        });
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        DialogService.DialogInstanceAddedAsync -= OnDialogAddedAsync;
+        _currentAnnouncement?.Close(DialogResult.Cancel());
+        // The provider may already be disposed during layout teardown.
+        _currentAnnouncement?.Dismiss(DialogResult.Cancel());
+    }
+}

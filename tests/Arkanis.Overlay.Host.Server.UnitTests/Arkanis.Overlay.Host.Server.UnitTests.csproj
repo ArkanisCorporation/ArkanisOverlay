@@ -37,4 +37,8 @@
         <ProjectReference Include="..\Arkanis.Overlay.Common.UnitTests\Arkanis.Overlay.Common.UnitTests.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="packages.lock.json" />
+    </ItemGroup>
+
 </Project>

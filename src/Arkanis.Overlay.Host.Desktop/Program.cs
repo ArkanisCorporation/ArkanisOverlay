@@ -6,6 +6,7 @@ using System.Security.Principal;
 using Windows.Win32;
 using Common;
 using Common.Abstractions;
+using Common.Abstractions.Services;
 using Common.Enums;
 using Common.Extensions;
 using Components.Helpers;
