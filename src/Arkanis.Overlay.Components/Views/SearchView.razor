@@ -174,16 +174,24 @@
 
     private async Task SearchAsync()
     {
-        if (SearchText?.StartsWith("=") == true)
-        {
-            HasCalculatorError = !TryEvaluateMathExpression(SearchText, out var result);
-            CalculatorResult = result;
-            await GlobalAnalyticsReporter.TrackEventAsync(new SearchCalculationEvent());
-            return;
-        }
+        var previousSearchCancellation = _searchCancellation;
+        var searchCancellation = new CancellationTokenSource();
+        _searchCancellation = searchCancellation;
+        var cancellationToken = searchCancellation.Token;
 
         try
         {
+            await previousSearchCancellation.CancelAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (SearchText?.StartsWith("=") == true)
+            {
+                HasCalculatorError = !TryEvaluateMathExpression(SearchText, out var result);
+                CalculatorResult = result;
+                await GlobalAnalyticsReporter.TrackEventAsync(new SearchCalculationEvent());
+                return;
+            }
+
             CalculatorResult = null;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
@@ -209,9 +217,9 @@
                 searchQueries.Add(new LocationSearch(location));
             }
 
-            await _searchCancellation.CancelAsync();
-            _searchCancellation = new CancellationTokenSource();
-            SearchResults = await SearchService.SearchAsync(searchQueries, _searchCancellation.Token);
+            var searchResults = await SearchService.SearchAsync(searchQueries, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            SearchResults = searchResults;
             await GlobalAnalyticsReporter.TrackEventAsync(new SearchEvent(SearchText));
         }
         catch (OperationCanceledException)
