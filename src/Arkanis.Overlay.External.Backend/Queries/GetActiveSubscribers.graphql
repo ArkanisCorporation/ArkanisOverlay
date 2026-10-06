@@ -1,0 +1,17 @@
+﻿query GetActiveSubscribers {
+  subscribers {
+    ... on DiscordSubscriber {
+      displayName
+      avatarUrl
+    }
+    subscriptionTier {
+      name
+    }
+    subscribedAt
+  }
+  subscriptionTiers {
+    description
+    name
+    order
+  }
+}

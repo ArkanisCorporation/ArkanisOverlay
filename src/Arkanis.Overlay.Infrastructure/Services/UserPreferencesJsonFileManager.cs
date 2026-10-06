@@ -3,30 +3,36 @@ namespace Arkanis.Overlay.Infrastructure.Services;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Common;
+using Common.Abstractions;
 using Common.Converters.Json;
+using Common.Models.Keyboard;
+using Common.Options;
 using Domain.Abstractions.Services;
 using Domain.Models.Analytics;
-using Domain.Models.Keyboard;
-using Domain.Options;
+using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
 
+[UsedImplicitly]
 public class UserPreferencesJsonFileManager(IGlobalAnalyticsReporter analyticsReporter, ILogger<UserPreferencesJsonFileManager> logger)
     : IUserPreferencesManager
 {
     private readonly JsonSerializerOptions _options = new()
     {
+        IgnoreReadOnlyProperties = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         WriteIndented = true,
         Converters =
         {
             new KeyboardShortcut.JsonConverter(),
             new RegionInfoJsonConverter(),
             new CultureInfoJsonConverter(),
+            new UpdateChannelConverter(),
             new JsonStringEnumConverter(),
         },
     };
 
     private static FileInfo PreferencesFileInfo
-        => new(Path.Combine(ApplicationConstants.LocalAppDataPath, "userPreferences.json"));
+        => new(Path.Combine(ApplicationConstants.ApplicationDataDirectory.FullName, "userPreferences.json"));
 
     public UserPreferences CurrentPreferences { get; private set; } = new();
 
@@ -86,10 +92,10 @@ public class UserPreferencesJsonFileManager(IGlobalAnalyticsReporter analyticsRe
 
     private async Task TrackFeatureChangesAsync(UserPreferences @new)
     {
-        await TrackIfChangedAsync(x => x.BlurBackground, newValue => new BlurFeatureStateChangedEvent(newValue));
-        await TrackIfChangedAsync(x => x.TerminateOnGameExit, newValue => new TerminateWithGameFeatureStateChangedEvent(newValue));
-        await TrackIfChangedAsync(x => x.AutoStartWithBoot, newValue => new AutoStartFeatureStateChangedEvent(newValue));
-        await TrackIfChangedAsync(x => x.DisableAnalytics, newValue => new AnalyticsFeatureStateChangedEvent(!newValue));
+        await TrackIfChangedAsync(x => x.BlurBackground, FeatureUsageStateChangedEvent.BlurBackground);
+        await TrackIfChangedAsync(x => x.TerminateOnGameExit, FeatureUsageStateChangedEvent.TerminateWithGame);
+        await TrackIfChangedAsync(x => x.AutoStartWithBoot, FeatureUsageStateChangedEvent.AutoStart);
+        await TrackIfChangedAsync(x => x.DisableAnalytics, newValue => FeatureUsageStateChangedEvent.Analytics(!newValue));
 
         return;
 

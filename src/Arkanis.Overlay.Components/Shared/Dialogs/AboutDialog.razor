@@ -1,4 +1,8 @@
-@using System.Reflection
+@using Arkanis.Overlay.Common.Abstractions.Services
+@using Arkanis.Overlay.Infrastructure.Helpers
+@implements IDisposable
+@inject IAppVersionProvider VersionProvider
+
 <MudDialog>
     <TitleContent>
         About
@@ -10,7 +14,7 @@
             }
         </style>
         <MudStack AlignItems="@AlignItems.Center" Class="mb-6">
-            <MudText Typo="@Typo.subtitle1">
+            <MudText Typo="@Typo.subtitle1" GutterBottom="false">
                 Created by
                 <MudLink Href="https://discord.com/users/174617873182883841"
                          Target="_blank"
@@ -32,19 +36,53 @@
                 </MudLink>
                 .
             </MudText>
-            <MudText Align="@Align.Center" Class="mb-2">
+
+            <MudText Align="@Align.Center" GutterBottom="false">
                 <span>Program version</span>
-                <MudLink Href="@($"https://github.com/ArkanisCorporation/ArkanisOverlay/releases/tag/{ProgramVersion}")"
-                         Target="_blank"
-                         Color="@Color.Info">
-                    @ProgramVersion
+                <MudLink
+                    Href="@($"https://github.com/ArkanisCorporation/ArkanisOverlay/releases/tag/v{VersionProvider.CurrentVersion.ToNormalizedString()}")"
+                    Target="_blank"
+                    Color="@Color.Info">
+                    @($"v{VersionProvider.CurrentVersion.ToNormalizedString()}")
                 </MudLink>
+                .
+                @if (VersionProvider.AutoUpdateCheckAt is { } updateCheckAt)
+                {
+                    if (updateCheckAt <= DateTimeOffset.Now)
+                    {
+                        <span>Update check now in progress...</span>
+                    }
+                    else
+                    {
+                        <span>Update check in @((updateCheckAt - DateTimeOffset.Now).Humanize(minUnit: TimeUnit.Second)).</span>
+                    }
+                }
+                else
+                {
+                    <span>Application auto-update disabled.</span>
+                }
             </MudText>
-            <MudImage
-                Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
-                Style="opacity: 70%; width: 50%"/>
+
+            <MudStack Justify="@Justify.Center" Row>
+                <ArkanisCorpLogo
+                    WrapperStyle="opacity: 70%; width: 33%"/>
+
+                @if (ThemeProvider?.IsDarkMode == true)
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_Black.png")"
+                        Style="opacity: 70%; width: 33%"/>
+                }
+                else
+                {
+                    <MudImage
+                        Src="@LinkHelper.GetPathToAsset("img/MadeByTheCommunity_White.png")"
+                        Style="opacity: 70%; width: 33%"/>
+                }
+            </MudStack>
 
             <MudDivider DividerType="@DividerType.FullWidth"/>
+
             <MudStack AlignItems="@AlignItems.Center"
                       Justify="@Justify.Center"
                       Wrap="@Wrap.Wrap"
@@ -73,26 +111,54 @@
                     <img alt="Arkanis Website"
                          src="https://img.shields.io/badge/Arkanis.cc-website?logo=googlechrome&logoColor=white&label=website&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>
-                <a href="https://join.arkanis.cc/"
-                   target="_blank"
-                   class="badge">
+                <a
+                    href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                    target="_blank"
+                    class="badge">
                     <img alt="Arkanis Discord - Support"
                          src="https://img.shields.io/discord/1294685596991750277?logo=discord&logoColor=white&style=for-the-badge&labelColor=@LabelColorHex&color=@ArkanisContentColorHex">
                 </a>
             </MudStack>
 
             <MudDivider DividerType="@DividerType.FullWidth"/>
+
+            <MudText Align="@Align.Center">
+                Not a Star Citizen yet?
+                New pilots who join with our referral code receive 50,000 UEC to help jump-start their journey.
+            </MudText>
+            <MudButton Href="@RsiReferrals.RandomReferralLink"
+                       Target="_blank"
+                       Color="@Color.Success"
+                       Variant="@Variant.Outlined"
+                       StartIcon="@Icons.Material.Filled.OpenInNew"
+                       FullWidth>
+                Enlist now
+            </MudButton>
+
+            <MudDivider DividerType="@DividerType.FullWidth"/>
+
+            <MudText>
+                Made possible thanks to our awesome supporters:
+            </MudText>
+
+            <SubscriberAvatarsCurrent
+                OutlineCustomColor="var(--mud-palette-surface)"
+                GroupByTier/>
+
+            <MudDivider DividerType="@DividerType.FullWidth"/>
+
             <MudText Typo="@Typo.body2" Align="@Align.Justify" Class="text-disabled">
                 This is an unofficial Star Citizen tool, unaffiliated with the Cloud Imperium group of companies.
                 Some content on this site belongs to their respective owners.
-                Star Citizen&reg;, Roberts Space Industries&reg; and Cloud Imperium&reg; are registered trademarks of Cloud Imperium Rights LLC.
+                Star Citizen&reg;, Roberts Space Industries&reg; and Cloud Imperium&reg; are registered trademarks of
+                Cloud Imperium Rights LLC.
                 All data presented is estimated and maintained by the Star Citizen community.
                 It may not precisely reflect the current state of live servers.
                 <br>
                 Arkanis Corporation is a fictional entity within the Star Citizen universe and is not associated with
                 any real-world company.
-                Partnered with
-                <a href="https://uexcorp.space/" target="_blank">UEX Corporation</a>
+                Proud partners of
+                <a href="@ExternalLinkHelper.GetUexLink("about")" target="_blank">UEX Corporation</a>
                 .
             </MudText>
         </MudStack>
@@ -105,7 +171,9 @@
 @code
 {
 
-    private static readonly Version ProgramVersion = Assembly.GetExecutingAssembly().GetName().Version ?? new Version();
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(1);
+
+    private Timer? _refreshTimer;
 
     [CascadingParameter]
     public MudThemeProvider? ThemeProvider { get; set; }
@@ -143,15 +211,43 @@
     private void Cancel()
         => MudDialog.Cancel();
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _refreshTimer = new Timer(_ => InvokeAsync(StateHasChanged), null, RefreshInterval, RefreshInterval);
+    }
+
     public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
     {
         var dialogOptions = new DialogOptions
         {
             FullWidth = true,
             MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
         };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    public static async Task<DialogResult> ShowFullscreenAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            NoHeader = true,
+        };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
         var dialogRef = await dialogService.ShowAsync<AboutDialog>(null, dialogOptions);
         return await dialogRef.Result ?? DialogResult.Cancel();
     }
+
+    public void Dispose()
+        => _refreshTimer?.Dispose();
 
 }

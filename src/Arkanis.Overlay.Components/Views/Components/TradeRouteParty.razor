@@ -1,0 +1,139 @@
+@using Arkanis.Overlay.Components.Views.Trade
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .trade-route-party {
+        display: grid;
+        grid-template-columns: 2.5fr 1fr;
+        text-align: left;
+    }
+
+    .trade-route-party.align-right {
+        grid-template-columns: 1fr 2.5fr;
+        text-align: right;
+
+        > :first-child {
+            order: 1;
+        }
+    }
+</style>
+
+<div class="@MainWrapperClass" style="@Style">
+    <div style="grid-column: auto">
+        <MudStack Spacing="0">
+            <div style="height: 28px;">
+                <GameLocationNamePart Model="@Model.Terminal.Name.Location"
+                                      Reverse="@AlignRight">
+                    <SuffixContent>
+                        @GameLocationNamePart.Separator
+                        <GameEntityNamePart
+                            Model="@Model.Terminal.Name.MainContent"
+                            Style="height: initial; font-size: inherit;"
+                            Typo="@Typo.inherit"
+                            PreferCode
+                            Embedded/>
+                    </SuffixContent>
+                </GameLocationNamePart>
+            </div>
+            <TerminalInventoryStatusLabel
+                Model="@Model.InventoryStatus"
+                IsPurchase="@IsOrigin"
+                IsSale="@IsDestination"/>
+        </MudStack>
+    </div>
+    <div style="grid-column: auto" class="px-4">
+        <MudStack Justify="@Justify.Center"
+                  Class="text-right text-secondary h-100"
+                  Spacing="0">
+            <GameCurrencyLabel
+                Model="@Model.Price"
+                Suffix="/SCU"/>
+            @if (IsDestination && CompareToOrigin)
+            {
+                var priceDiff = PriceDestination / PriceOrigin - 1;
+                if (priceDiff > 0)
+                {
+                    <MudText Typo="Typo.inherit" Color="@Color.Success">
+                        +@((priceDiff * 100).ToString("N1"))%
+                    </MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.inherit" Color="@Color.Error">
+                        @((priceDiff * 100).ToString("N1"))%
+                    </MudText>
+                }
+            }
+            @if (IsOrigin)
+            {
+                <span>
+                    @if (Context?.CargoCapacity is var capacity and > 0)
+                    {
+                        <span>
+                            @Math.Min(capacity.Value, Model.CargoUnitsAvailable).ToString("N0")/
+                        </span>
+                    }
+                    <span>
+                        @Model.CargoUnitsAvailable.ToString("N0")
+                        SCU
+                    </span>
+                </span>
+            }
+        </MudStack>
+    </div>
+</div>
+
+@code
+{
+
+    private GameCurrency PriceOrigin
+        => Route.Origin.Price;
+
+    private GameCurrency PriceDestination
+        => Route.Destination.Price;
+
+    private string MainWrapperClass
+        => $"trade-route-party {(AlignRight ? "align-right" : string.Empty)} {Class}";
+
+    private bool IsOrigin
+        => Side == PartySide.Origin;
+
+    private bool IsDestination
+        => Side == PartySide.Destination;
+
+    [CascadingParameter]
+    public TradeRouteSearchView.SearchContext? Context { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required GameTradeRoute.Party Model { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required GameTradeRoute Route { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required PartySide Side { get; set; }
+
+    [Parameter]
+    public bool AlignRight { get; set; }
+
+    [Parameter]
+    public bool CompareToOrigin { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; } = 3;
+
+    public enum PartySide
+    {
+        Origin,
+        Destination,
+    }
+
+}

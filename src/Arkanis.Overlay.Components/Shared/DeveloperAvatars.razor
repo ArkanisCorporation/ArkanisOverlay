@@ -1,0 +1,54 @@
+<MudAvatarGroup Max="@MaxCount"
+                MaxColor="@Color.Primary"
+                Outlined="@Outlined"
+                OutlineColor="@OutlineColor">
+    @foreach (var entry in Entries)
+    {
+        <Tooltip Text="@entry.Name" Class="@TooltipClass">
+            @if (!string.IsNullOrWhiteSpace(entry.Link))
+            {
+                <MudLink Href="@entry.Link" Target="_blank">
+                    <DeveloperAvatar
+                        Model="@entry"
+                        AvatarSize="@AvatarSize"
+                        OutlineCustomColor="@OutlineCustomColor"/>
+                </MudLink>
+            }
+            else
+            {
+                <DeveloperAvatar
+                    Model="@entry"
+                    AvatarSize="@AvatarSize"
+                    OutlineCustomColor="@OutlineCustomColor"/>
+            }
+        </Tooltip>
+    }
+</MudAvatarGroup>
+
+@code
+{
+
+    private DeveloperAvatar.Entry[] Entries { get; } = [DeveloperAvatar.Delta, DeveloperAvatar.KronnY];
+
+    private string TooltipClass
+        => $"ms-n{Spacing}";
+
+    [Parameter]
+    public int MaxCount { get; set; } = 4;
+
+    [Parameter]
+    public int Spacing { get; set; } = 3;
+
+    [Parameter]
+    public Size AvatarSize { get; set; } = Size.Medium;
+
+    [Parameter]
+    public bool Outlined { get; set; } = true;
+
+    [Parameter]
+    public Color OutlineColor { get; set; } = Color.Default;
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+}

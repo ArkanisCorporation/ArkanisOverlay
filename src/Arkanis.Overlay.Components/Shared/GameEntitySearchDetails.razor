@@ -1,9 +1,10 @@
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @using Arkanis.Overlay.Domain.Models
-@using Arkanis.Overlay.Domain.Models.Trade
+@inject IMarketPriceProvider MarketPriceProvider
 @inject IPurchasePriceProvider PurchasePriceProvider
 @inject ISalePriceProvider SalePriceProvider
 @inject IRentPriceProvider RentPriceProvider
+@inject IInventoryManager InventoryManager
 
 <MudStack Class="flex-1"
           Spacing="4"
@@ -11,6 +12,40 @@
           Justify="@Justify.FlexEnd"
           Style="height: 46px;"
           Row>
+    @if (_assignedQuantities.Length > 0 || _unassignedQuantities.Length > 0)
+    {
+        <MudStack Spacing="1"
+                  AlignItems="@AlignItems.Center">
+            @if (_assignedQuantities.Length > 0)
+            {
+                <MudTooltip Text="@WithLocationSuffix("Inventory entries")"
+                            Placement="@Placement.Top">
+                    <MudChip T="string"
+                             Variant="@Variant.Outlined"
+                             Color="@Color.Info"
+                             Size="@Size.Small"
+                             Style="height: auto; min-height: 24px"
+                             Class="ma-0">
+                        <QuantityAggregateLabel Models="@_assignedQuantities"/>
+                    </MudChip>
+                </MudTooltip>
+            }
+            @if (_unassignedQuantities.Length > 0)
+            {
+                <MudTooltip Text="Unassigned inventory entries"
+                            Placement="@Placement.Top">
+                    <MudChip T="string"
+                             Variant="@Variant.Outlined"
+                             Color="@Color.Warning"
+                             Size="@Size.Small"
+                             Style="height: auto; min-height: 24px"
+                             Class="ma-0">
+                        <QuantityAggregateLabel Models="@_unassignedQuantities"/>
+                    </MudChip>
+                </MudTooltip>
+            }
+        </MudStack>
+    }
     @if (Model is IGamePurchasable)
     {
         <PriceTagInfo
@@ -32,22 +67,42 @@
             Model="@RentPriceTag?.Min"
             Color="@UiConstants.RentColor"/>
     }
+    @if (MarketPriceTag?.Min != PriceTag.Unknown || MarketPriceTag?.Max != PriceTag.Unknown)
+    {
+        <MudStack Spacing="0">
+            <PriceTagInfo
+                Label="Market"
+                Model="@MarketPriceTag?.Min"
+                Color="@UiConstants.PurchaseColor"/>
+            <PriceTagInfo
+                Model="@MarketPriceTag?.Max"
+                Color="@UiConstants.SellColor"/>
+        </MudStack>
+    }
 </MudStack>
 
 @code
 {
 
     [CascadingParameter]
-    public required OverlaySearchContext SearchContext { get; set; }
+    public OverlaySearchContext? SearchContext { get; set; }
 
     [Parameter]
     public required IGameEntity Model { get; set; }
+
+    private IGameLocation? CurrentLocation
+        => SearchContext?.CurrentLocation;
+
+    private Bounds<PriceTag>? MarketPriceTag { get; set; }
 
     private Bounds<PriceTag>? PurchasePriceTag { get; set; }
 
     private Bounds<PriceTag>? SalePriceTag { get; set; }
 
     private Bounds<PriceTag>? RentPriceTag { get; set; }
+
+    private Quantity[] _unassignedQuantities = [];
+    private Quantity[] _assignedQuantities = [];
 
     protected override async Task OnParametersSetAsync()
     {
@@ -56,26 +111,43 @@
         RentPriceTag = null;
         await base.OnParametersSetAsync();
 
+        MarketPriceTag ??= await MarketPriceProvider.GetMarketPriceTagAsync(Model);
+
         if (Model is IGamePurchasable purchasable)
         {
-            PurchasePriceTag = SearchContext.CurrentLocation is { } location
+            PurchasePriceTag = CurrentLocation is { } location
                 ? await PurchasePriceProvider.GetPriceTagAtAsync(purchasable, location)
                 : purchasable.LatestPurchasePrices;
         }
 
         if (Model is IGameSellable sellable)
         {
-            SalePriceTag = SearchContext.CurrentLocation is { } location
+            SalePriceTag = CurrentLocation is { } location
                 ? await SalePriceProvider.GetPriceTagAtAsync(sellable, location)
                 : sellable.LatestSalePrices;
         }
 
         if (Model is IGameRentable rentable)
         {
-            RentPriceTag = SearchContext.CurrentLocation is { } location
+            RentPriceTag = CurrentLocation is { } location
                 ? await RentPriceProvider.GetPriceTagAtAsync(rentable, location)
                 : rentable.LatestRentPrices;
         }
+
+        if (Model is GameItem or GameCommodity)
+        {
+            var allEntries = await InventoryManager.GetEntriesForAsync(Model.Id);
+            var unassigned = allEntries.Where(x => x.Type is InventoryEntryBase.EntryType.Virtual).ToArray();
+            _unassignedQuantities = Quantity.Aggregate(unassigned.Select(x => x.Quantity)).ToArray();
+
+            var assigned = allEntries.Where(x => x.GetPlacementLocation() is { } location && CurrentLocation?.IsOrContains(location) != false).ToArray();
+            _assignedQuantities = Quantity.Aggregate(assigned.Select(x => x.Quantity)).ToArray();
+        }
     }
+
+    private string WithLocationSuffix(string content, string glue = "within")
+        => CurrentLocation is not null
+            ? $"{content} {glue} {CurrentLocation.Name.MainContent.FullName}"
+            : content;
 
 }

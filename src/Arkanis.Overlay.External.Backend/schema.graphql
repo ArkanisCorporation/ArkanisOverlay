@@ -1,0 +1,472 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+scalar ULong
+
+"Represents an instant on the global timeline, with nanosecond resolution.\n\nAllowed patterns:\n- `YYYY-MM-DDThh:mm:ss.sssssssss±hh:mm`\n\nExamples:\n- `2000-01-01T20:00:00.999999999Z`"
+scalar Instant
+
+"Represents a fixed (and calendar-independent) length of time.\n\nAllowed patterns:\n- `-D:hh:mm:ss.sssssssss`\n\nExamples:\n- `-1:20:00:00.999999999`"
+scalar Duration
+
+type Exception {
+  baseException: Exception!
+  message: String!
+  innerException: Exception
+  helpLink: String
+  source: String
+  stackTrace: String
+}
+
+type HealthReportEntry {
+  description: String
+  duration: TimeSpan!
+  exception: Exception
+  status: HealthStatus!
+  tags: [String!]!
+}
+
+type IHostEnvironment {
+  environmentName: String!
+  applicationName: String!
+  isDevelopment: Boolean!
+  isStaging: Boolean!
+  isProduction: Boolean!
+}
+
+type Query {
+  hostEnvironment: IHostEnvironment!
+  lastHealthReport: HealthReport
+  users: [ArkanisUser!]!
+  gameChannels(where: ScLauncherGameChannelFilterInput): [ScLauncherGameChannel!]!
+  subscriptionTiers(where: SubscriptionTierFilterInput): [SubscriptionTier!]!
+  subscribers(where: SubscriberFilterInput): [Subscriber!]!
+  tradeNegotiations(where: TradeNegotiationFilterInput): [TradeNegotiation!]!
+  unpublishedTradeNegotiations: [TradeNegotiation!]!
+  tradeNegotiationMessages(negotiationId: ArkanisIdOfTradeNegotiationInput! where: TradeNegotiationMessageFilterInput): [TradeNegotiationMessage!]!
+  unpublishedTradeNegotiationMessages: [TradeNegotiationMessage!]!
+}
+
+type Mutation {
+  registerSubscriber(input: RegisterSubscriberInput!): RegisterSubscriberPayload!
+  unregisterSubscriber(input: UnregisterSubscriberInput!): UnregisterSubscriberPayload!
+  "Submits a new message from the UEX trade negotiation associated with the given link.\nThis action acts as an immediate message bridge between UEX and Arkanis negotiations.\n            \n\n**Returns:**\nThe newly created TradeNegotiationMessage."
+  submitMessageFromTradeNegotiation(input: SubmitMessageFromTradeNegotiationInput!): SubmitMessageFromTradeNegotiationPayload!
+  "Sends a message to the given trade negotiation.\nThis action will forward the message to any corresponding external trade negotiation.\n            \n\n**Returns:**\nThe newly created TradeNegotiationMessage."
+  replyToExistingTradeNegotiation(input: ReplyToExistingTradeNegotiationInput!): ReplyToExistingTradeNegotiationPayload!
+  "Finalizes the given trade negotiation.\nThis action will also finalize any corresponding external trade negotiation.\n            \n\n**Returns:**\nThe updated TradeNegotiation."
+  finalizeExistingTradeNegotiation(input: FinalizeExistingTradeNegotiationInput!): FinalizeExistingTradeNegotiationPayload!
+  "Assigns a Discord user to the given trade negotiation.\n            \n\n**Returns:**\nThe updated TradeNegotiation."
+  assignDiscordUserToExistingTradeNegotiation(input: AssignDiscordUserToExistingTradeNegotiationInput!): AssignDiscordUserToExistingTradeNegotiationPayload!
+  "Binds a Discord thread to the given trade negotiation.\n            \n\n**Returns:**\nThe updated TradeNegotiation."
+  bindDiscordThreadToExistingTradeNegotiation(input: BindDiscordThreadToExistingTradeNegotiationInput!): BindDiscordThreadToExistingTradeNegotiationPayload!
+  "Binds a Discord message to the given trade negotiation message.\n            \n\n**Returns:**\nThe updated TradeNegotiationMessage."
+  bindDiscordMessageToExistingTradeNegotiationMessage(input: BindDiscordMessageToExistingTradeNegotiationMessageInput!): BindDiscordMessageToExistingTradeNegotiationMessagePayload!
+}
+
+type Subscription {
+  tradeNegotiationStarted: TradeNegotiationMessage!
+  tradeNegotiationMessageAdded: TradeNegotiationMessage!
+}
+
+input ScLauncherGameChannelFilterInput {
+  and: [ScLauncherGameChannelFilterInput!]
+  or: [ScLauncherGameChannelFilterInput!]
+  channelId: StringOperationFilterInput
+  version: IntOperationFilterInput
+}
+
+input SerializedIdOperationFilterInput {
+  and: [SerializedIdOperationFilterInput!]
+  or: [SerializedIdOperationFilterInput!]
+  eq: String
+  neq: String
+}
+
+input TradeNegotiationFilterInput {
+  and: [TradeNegotiationFilterInput!]
+  or: [TradeNegotiationFilterInput!]
+  id: SerializedIdOperationFilterInput
+  externalId: SerializedIdOperationFilterInput
+  discordThreadId: SerializedIdOperationFilterInput
+  discordAssigneeId: SerializedIdOperationFilterInput
+}
+
+input TradeNegotiationMessageFilterInput {
+  and: [TradeNegotiationMessageFilterInput!]
+  or: [TradeNegotiationMessageFilterInput!]
+  id: SerializedIdOperationFilterInput
+  externalId: SerializedIdOperationFilterInput
+  negotiationId: SerializedIdOperationFilterInput
+  discordMessageId: SerializedIdOperationFilterInput
+}
+
+type DiscordId implements ITypeBoundEntityId & IExternalEntityId & IEntityId {
+  typeScope: String!
+  typeName: String!
+  sourceName: String!
+  typedIdentity: ULong!
+  identity: String!
+  serialized: String!
+}
+
+interface IEntityId {
+  identity: String!
+  serialized: String!
+}
+
+interface IExternalEntityId {
+  sourceName: String!
+  identity: String!
+  serialized: String!
+}
+
+interface ITypeBoundEntityId {
+  typeScope: String
+  typeName: String!
+  identity: String!
+  serialized: String!
+}
+
+type ITypeBoundExternalEntityId implements ITypeBoundEntityId & IExternalEntityId & IEntityId {
+  typeScope: String
+  typeName: String!
+  identity: String!
+  serialized: String!
+  sourceName: String!
+}
+
+type UexId implements ITypeBoundEntityId & IExternalEntityId & IEntityId {
+  typeScope: String
+  typeName: String!
+  sourceName: String!
+  typedIdentity: String!
+  identity: String!
+  serialized: String!
+}
+
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+input IntOperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+type AnonymousSubscriber implements Subscriber {
+  subscriptionTier: SubscriptionTier!
+  subscribedAt: Instant!
+}
+
+type DiscordSubscriber implements Subscriber {
+  displayName: String!
+  avatarUrl: String
+  subscriptionTier: SubscriptionTier!
+  subscribedAt: Instant!
+}
+
+interface Subscriber {
+  subscriptionTier: SubscriptionTier!
+  subscribedAt: Instant!
+}
+
+type SubscriptionTier {
+  name: String!
+  description: String!
+  order: Int!
+}
+
+"The `TimeSpan` scalar represents an ISO-8601 compliant duration type."
+scalar TimeSpan
+
+enum HealthStatus {
+  UNHEALTHY
+  DEGRADED
+  HEALTHY
+}
+
+input SubscriptionTierFilterInput {
+  and: [SubscriptionTierFilterInput!]
+  or: [SubscriptionTierFilterInput!]
+  name: StringOperationFilterInput
+  description: StringOperationFilterInput
+  order: IntOperationFilterInput
+}
+
+input SubscriberFilterInput {
+  and: [SubscriberFilterInput!]
+  or: [SubscriberFilterInput!]
+  subscriptionTier: SubscriptionTierFilterInput
+  subscribedAt: InstantFilterInput
+}
+
+input InstantFilterInput {
+  and: [InstantFilterInput!]
+  or: [InstantFilterInput!]
+}
+
+input ArkanisIdOfTradeNegotiationInput {
+  typedIdentity: UUID!
+}
+
+type ScLauncherGameChannel {
+  id: String!
+  channelId: String!
+  name: String!
+  version: Int!
+  versionLabel: String!
+  servicesEndpoint: String!
+  installDir: String
+  platformId: String
+  weight: Int
+  versionShort: String!
+}
+
+type ArkanisUser {
+  avatarUrl: URL
+  id: UUID!
+  userName: String
+  normalizedUserName: String
+  email: String
+  normalizedEmail: String
+  emailConfirmed: Boolean!
+  passwordHash: String
+  securityStamp: String
+  concurrencyStamp: String
+  phoneNumber: String
+  phoneNumberConfirmed: Boolean!
+  twoFactorEnabled: Boolean!
+  lockoutEnd: DateTime
+  lockoutEnabled: Boolean!
+  accessFailedCount: Int!
+}
+
+input EndNegotiationParamsInput {
+  wasSuccessful: Boolean!
+  communicationRating: NegotiationRating!
+  responsivenessRating: NegotiationRating!
+  respectfulnessRating: NegotiationRating!
+  fairnessRating: NegotiationRating!
+  ratingComment: String!
+}
+
+type TradeNegotiation {
+  messageBriefs: [TradeNegotiationMessageBrief!]!
+  subject: String!
+  client: String!
+  isFinalized: Boolean!
+  createdAt: Instant!
+  updatedAt: Instant
+  externalId: ITypeBoundExternalEntityId!
+  discordThreadId: DiscordId
+  discordAssigneeId: DiscordId
+  isExternal: Boolean!
+  id: String!
+}
+
+type SubscriberRoleAssignment {
+  discordUserId: DiscordId!
+  discordRoleId: DiscordId!
+  displayName: String
+  avatarUrl: String
+  isActive: Boolean!
+  createdAt: Instant!
+  updatedAt: Instant
+  id: String!
+}
+
+type TradeNegotiationMessage {
+  negotiationBrief: TradeNegotiationBrief!
+  author: String!
+  authorAvatarUrl: String
+  content: String!
+  createdAt: Instant!
+  externalId: ITypeBoundExternalEntityId!
+  discordMessageId: DiscordId
+  negotiationId: ArkanisIdOfTradeNegotiation!
+  id: String!
+}
+
+type HealthReport {
+  entries: [KeyValuePairOfStringAndHealthReportEntry!]!
+  status: HealthStatus!
+  totalDuration: TimeSpan!
+  createdAt: Instant!
+}
+
+type KeyValuePairOfStringAndHealthReportEntry {
+  key: String!
+  value: HealthReportEntry!
+}
+
+type ArkanisIdOfTradeNegotiation implements IEntityId & ITypeBoundEntityId {
+  typeScope: String
+  typedIdentity: UUID!
+  identity: String!
+  serialized: String!
+  typeName: String!
+}
+
+type TradeNegotiationBrief {
+  subject: String!
+  client: String!
+  externalId: ITypeBoundExternalEntityId!
+  discordThreadId: DiscordId
+  discordAssigneeId: DiscordId
+  isFinalized: Boolean!
+  isExternal: Boolean!
+  createdAt: Instant!
+  updatedAt: Instant
+  id: String!
+}
+
+type TradeNegotiationMessageBrief {
+  author: String!
+  authorAvatarUrl: String
+  content: String!
+  createdAt: Instant!
+  id: String!
+}
+
+enum NegotiationRating {
+  UNSPECIFIED
+  STARS1
+  STARS2
+  STARS3
+  STARS4
+  STARS5
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+scalar UUID
+
+scalar URL
+
+input RegisterSubscriberInput {
+  discordUserId: ULong!
+  discordRoleId: ULong!
+  displayName: String!
+  avatarUrl: String
+}
+
+type RegisterSubscriberPayload {
+  subscriberRoleAssignment: SubscriberRoleAssignment
+}
+
+input UnregisterSubscriberInput {
+  discordUserId: ULong!
+}
+
+type UnregisterSubscriberPayload {
+  int: Int
+}
+
+input SubmitMessageFromTradeNegotiationInput {
+  "The content of the message to submit, which must be in the UEX webhook content format."
+  messageContent: String!
+}
+
+type SubmitMessageFromTradeNegotiationPayload {
+  tradeNegotiationMessage: TradeNegotiationMessage
+}
+
+input ReplyToExistingTradeNegotiationInput {
+  "The Arkanis ID of the trade negotiation to reply to."
+  negotiationId: String
+  "The optional ID of a Discord message that the content is based on."
+  discordMessageId: ULong
+  "The name of the author of the message."
+  messageAuthor: String!
+  "The avatar URL of the author of the message."
+  messageAuthorAvatarUrl: String!
+  "The content of the message."
+  messageContent: String!
+}
+
+type ReplyToExistingTradeNegotiationPayload {
+  tradeNegotiationMessage: TradeNegotiationMessage
+}
+
+input FinalizeExistingTradeNegotiationInput {
+  "The Arkanis ID of the trade negotiation to finalize."
+  negotiationId: String
+  "The parameters for finalizing the trade negotiation."
+  parameters: EndNegotiationParamsInput!
+}
+
+type FinalizeExistingTradeNegotiationPayload {
+  tradeNegotiation: TradeNegotiation
+}
+
+input AssignDiscordUserToExistingTradeNegotiationInput {
+  "The Arkanis ID of the trade negotiation to assign the Discord user to."
+  negotiationId: String
+  "The ID of the Discord user to assign to the trade negotiation."
+  userId: ULong!
+}
+
+type AssignDiscordUserToExistingTradeNegotiationPayload {
+  tradeNegotiation: TradeNegotiation
+}
+
+input BindDiscordThreadToExistingTradeNegotiationInput {
+  "The Arkanis ID of the trade negotiation to bind the Discord thread to."
+  negotiationId: String
+  "The ID of the Discord thread to bind to the trade negotiation."
+  threadId: ULong!
+}
+
+type BindDiscordThreadToExistingTradeNegotiationPayload {
+  tradeNegotiation: TradeNegotiation
+}
+
+input BindDiscordMessageToExistingTradeNegotiationMessageInput {
+  "The Arkanis ID of the trade negotiation message to bind the Discord message to."
+  messageId: String
+  "The ID of the Discord message to bind to the trade negotiation message."
+  discordMessageId: ULong!
+}
+
+type BindDiscordMessageToExistingTradeNegotiationMessagePayload {
+  tradeNegotiationMessage: TradeNegotiationMessage
+}
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION

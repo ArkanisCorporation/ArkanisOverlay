@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 using Microsoft.Extensions.Logging;
 
 public class ServiceDependencyResolver(IServiceProvider serviceProvider, ILogger<ServiceDependencyResolver> logger) : DependencyResolver(serviceProvider)

@@ -6,6 +6,7 @@ public enum GameEntityCategory
     Commodity,
     Item,
     ItemTrait,
+    TradeRoute,
     ProductCategory,
     SpaceShip,
     GroundVehicle,

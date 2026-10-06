@@ -1,0 +1,39 @@
+@page "/trade"
+@page "/trade/{page}"
+@layout ServerOverlayLayout
+@inject NavigationManager NavigationManager
+
+<PageTitle>@ApplicationConstants.ApplicationName — Trade</PageTitle>
+
+<div>
+    <TradeView
+        @bind-ActiveTab:get="@TargetTab"
+        @bind-ActiveTab:set="@UpdateTab"/>
+</div>
+
+@code
+{
+
+    private TradeView.Tab TargetTab { get; set; } = TradeView.Tab.Default;
+
+    [Parameter]
+    public string? Page { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Page is not null)
+        {
+            TargetTab = Enum.TryParse<TradeView.Tab>(Page, true, out var tab)
+                ? tab
+                : TradeView.Tab.Default;
+        }
+    }
+
+    private void UpdateTab(TradeView.Tab activeTab)
+    {
+        TargetTab = activeTab;
+        NavigationManager.NavigateTo($"/trade/{activeTab:G}");
+    }
+
+}

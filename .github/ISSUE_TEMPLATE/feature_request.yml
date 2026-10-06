@@ -1,7 +1,8 @@
 name: ✨ Feature Request
 description: Suggest a new feature or enhancement
-title: "[Feature]: "
-labels: [enhancement]
+title: "feat: "
+type: Feature
+labels: ["needs triage","Story"]
 assignees: []
 body:
   - type: markdown

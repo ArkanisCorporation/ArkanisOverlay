@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <!-- Specific windows version required due to the use of toast notifications -->
+        <!-- see: https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=uwp#step-1-install-nuget-package -->
+        <TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
+        <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
+        <Platform>x64</Platform>
+        <StartupObject>Arkanis.Overlay.Host.Desktop.Program</StartupObject>
+        <ServerGarbageCollection>false</ServerGarbageCollection>
+        <PackageId>Arkanis.Overlay.Host.Desktop</PackageId>
+        <AssemblyName>ArkanisOverlay</AssemblyName>
+
+        <!-- Allow building on non-windows platforms -->
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ApplicationIcon>Resources/favicon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Chapter.Net.WPF.SystemTray"/>
+        <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.AppServices"/>
+        <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Plugins"/>
+        <PackageReference Include="Dapplo.Microsoft.Extensions.Hosting.Wpf"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http"/>
+        <PackageReference Include="Microsoft.Data.Sqlite"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting"/>
+        <PackageReference Include="Microsoft.Extensions.Http"/>
+        <PackageReference Include="Microsoft.Extensions.Logging"/>
+        <!-- Non-Windows restore needs an explicit EventLog reference in this desktop dependency graph. -->
+        <PackageReference Include="System.Diagnostics.EventLog" Condition="!$([MSBuild]::IsOSPlatform('Windows'))"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Console"/>
+        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations"/>
+        <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications"/>
+        <PackageReference Include="Microsoft.Windows.CsWin32">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="SingleInstanceCore"/>
+        <PackageReference Include="Velopack"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="Resources\**\*.png"/>
+        <Resource Include="Resources\favicon.ico"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <File Include="NativeMethods.txt"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Arkanis.Overlay.Common\Arkanis.Overlay.Common.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.Components\Arkanis.Overlay.Components.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="packages.lock.json"/>
+        <None Include="packages.lock.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

@@ -2,4 +2,34 @@
     <!-- Workaroud for EF Core migrations when using ArtifactsPath: https://github.com/dotnet/efcore/issues/23853#issuecomment-2183607932 -->
     <Import Condition="Exists('$(MSBuildProjectDirectory)\obj\$(MSBuildProjectFile).EntityFrameworkCore.targets')"
             Project="$(MSBuildProjectDirectory)\obj\$(MSBuildProjectFile).EntityFrameworkCore.targets"/>
+
+    <Target Name="SetIsRebuild" BeforeTargets="BeforeRebuild">
+        <!-- Sets the `IsRebuild` property to `true` if the `Rebuild` target is called, `false` otherwise -->
+        <!-- This is used to avoid running `CleanArtifacts` target on `Rebuild` -->
+        <PropertyGroup>
+            <IsRebuild Condition="'$(IsRebuild)' == ''">true</IsRebuild>
+        </PropertyGroup>
+        <!--DEBUG:-->
+        <!--<Message Text="IsRebuild: $(IsRebuild)" Importance="high"/>-->
+    </Target>
+
+    <Target Name="CleanArtifacts" AfterTargets="Clean" Condition=" '$(IsRebuild)' != 'true' And '$(ArtifactsPath)' != '' And Exists('$(ArtifactsPath)') ">
+        <!-- Workaround to make sure the artifacts folder is ACTUALLY cleaned to avoid issues with stuck artifacts and dependencies -->
+        <!-- Runs ONLY on `Clean` target - NOT on `REBUILD`. Would otherwise cause issues while building the solution due to race conditions and re-deletions of the artifacts folder. -->
+
+        <!--DEBUG:-->
+        <!--<Message Text="IsRebuild: $(IsRebuild)" Importance="high"/>-->
+
+        <Message Text="[$(MSBuildProjectName)] Cleaning Artifacts (CustomTask - see `Directory.Build.targets`)" Importance="high"/>
+        <Message Text="[$(MSBuildProjectName)] Bin: artifacts\bin\$(MSBuildProjectName)" Importance="high"/>
+        <RemoveDir Directories="$(ArtifactsPath)\bin\$(MSBuildProjectName)" Condition="Exists('$(ArtifactsPath)\bin\$(MSBuildProjectName)')" ContinueOnError="true"/>
+        <Message Text="[$(MSBuildProjectName)] Obj: artifacts\obj\$(MSBuildProjectName)" Importance="high"/>
+        <RemoveDir Directories="$(ArtifactsPath)\obj\$(MSBuildProjectName)" Condition="Exists('$(ArtifactsPath)\obj\$(MSBuildProjectName)')" ContinueOnError="true"/>
+    </Target>
+
+    <Target Name="AutomaticRestoreAfterCleanArtifacts" AfterTargets="CleanArtifacts" Condition=" '$(IsRebuild)' != 'true' And '$(ArtifactsPath)' != '' And Exists('$(ArtifactsPath)') ">
+        <!-- Automatically restore packages after cleaning artifacts to avoid issues with missing dependencies after clean -->
+        <Message Text="[$(MSBuildProjectName)] Restoring packages after cleaning artifacts (CustomTask - see `Directory.Build.targets`)" Importance="high"/>
+        <Exec Command="dotnet restore &quot;$(MSBuildProjectFullPath)&quot;" />
+    </Target>
 </Project>

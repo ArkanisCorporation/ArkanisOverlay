@@ -4,30 +4,30 @@ using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 
-internal class UexPricingRepositorySpecialisationDecorator<T, TEntity>(IGameEntityRepository<T> traitRepository)
-    : RepositorySpecialisationDecoratorBase<T>(traitRepository)
-    where T : GameEntityPricing<TEntity>
-    where TEntity : IGameEntity
+internal class UexPricingRepositorySpecialisationDecorator<TSource, TTarget>(IGameEntityRepository<TSource> repository)
+    : RepositorySpecialisationDecoratorBase<TSource>(repository)
+    where TSource : class, TTarget, IGameEntity
+    where TTarget : IGameEntityPrice
 {
-    private Dictionary<UexApiGameEntityId, T[]> TraitsByItemId { get; set; } = [];
+    private Dictionary<IDomainId, TTarget[]> EntitiesByDomainId { get; set; } = [];
 
-    protected ValueTask<ICollection<T>> GetAllForOwnerAsync(IDomainId domainId, CancellationToken cancellationToken = default)
+    protected ValueTask<ICollection<TTarget>> GetAllForOwnerAsync(IDomainId domainId, CancellationToken cancellationToken = default)
     {
-        if (domainId is not UexId<TEntity> itemId)
-        {
-            return ValueTask.FromResult<ICollection<T>>([]);
-        }
-
-        var traits = TraitsByItemId.GetValueOrDefault(itemId, []);
-        return ValueTask.FromResult<ICollection<T>>(traits);
+        var traits = EntitiesByDomainId.GetValueOrDefault(domainId, []);
+        return ValueTask.FromResult<ICollection<TTarget>>(traits);
     }
 
     protected override async Task UpdateAllAsyncCore(CancellationToken cancellationToken)
-        => TraitsByItemId = await DecoratedRepository.GetAllAsync(cancellationToken)
-            .GroupBy(trait => trait.OwnerId)
-            .ToDictionaryAwaitAsync(
-                group => ValueTask.FromResult(group.Key),
-                group => group.ToArrayAsync(cancellationToken),
-                cancellationToken
+        => EntitiesByDomainId = await DecoratedRepository.GetAllAsync(cancellationToken)
+            .OfType<TTarget>()
+            .GroupBy(entity => entity.EntityId)
+            .ToDictionaryAsync(
+                group => group.Key,
+                group => group.ToArray(),
+                cancellationToken: cancellationToken
             );
 }
+
+internal class UexPricingRepositorySpecialisationDecorator<TEntity>(IGameEntityRepository<TEntity> repository)
+    : UexPricingRepositorySpecialisationDecorator<TEntity, TEntity>(repository)
+    where TEntity : GameEntityPrice;

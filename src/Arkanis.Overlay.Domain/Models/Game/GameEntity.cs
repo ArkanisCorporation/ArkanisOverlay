@@ -6,11 +6,22 @@ using Search;
 
 public abstract class GameEntity(UexApiGameEntityId id, GameEntityCategory entityCategory) : IGameEntity
 {
-    public GameEntityCategory EntityCategory { get; } = entityCategory;
+    private SearchableTrait[]? _searchableTraits;
 
-    public virtual IEnumerable<SearchableTrait> SearchableAttributes { get; } = [new SearchableEntityCategory(entityCategory)];
+    public IEnumerable<SearchableTrait> SearchableAttributes
+        => _searchableTraits ??= CollectSearchableTraits().ToArray();
+
+    public GameEntityCategory EntityCategory { get; } = entityCategory;
 
     public abstract GameEntityName Name { get; }
 
     public UexApiGameEntityId Id { get; } = id;
+
+    protected virtual IEnumerable<SearchableTrait> CollectSearchableTraits()
+    {
+        yield return new SearchableEntityCategory(EntityCategory);
+    }
+
+    public override string ToString()
+        => Name.MainContent.FullName;
 }

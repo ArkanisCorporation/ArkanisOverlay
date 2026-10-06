@@ -1,0 +1,72 @@
+@using Arkanis.Overlay.Components.Views.Trade
+@using Arkanis.Overlay.Domain.Abstractions.Game
+<MudDialog Gutters="false"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        <MudText Typo="@Typo.h6">
+            Find Trade Destination
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <div style="height: 1vh;"></div>
+        <TradeDestinationSearchView CargoCapacity="@CurrentParameters.QuantityAmount"
+                                    SelectedCommodityEntity="@CurrentParameters.Commodity"
+                                    SelectedDestinationLocationEntity="@CurrentParameters.Destination"
+                                    ExcludeDestination="@CurrentParameters.Exclude">
+            <ControlsContent Context="tradeRoute">
+                <MudTooltip
+                    Text="Select as next destination"
+                    Placement="@Placement.Top">
+                    <MudIconButton
+                        OnClick="@(() => MudDialog.Close(tradeRoute))"
+                        Icon="@Icons.Material.Filled.FlightLand"
+                        Class="focus"
+                        tabindex="1"/>
+                </MudTooltip>
+            </ControlsContent>
+        </TradeDestinationSearchView>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Parameters CurrentParameters { get; set; } = new();
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<GameTradeRoute?> ShowAsync(IDialogService dialogService, Parameters? parameters = null)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogParams = new DialogParameters<TradeDestinationSearchDialog>
+        {
+            [nameof(CurrentParameters)] = parameters,
+        };
+        var dialogRef = await dialogService.ShowAsync<TradeDestinationSearchDialog>(null, dialogParams, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<GameTradeRoute>();
+    }
+
+    public class Parameters
+    {
+        public int? QuantityAmount { get; set; }
+        public GameCommodity? Commodity { get; set; }
+        public IGameLocation? Destination { get; set; }
+        public Func<IGameLocation, bool> Exclude { get; set; } = _ => false;
+    }
+
+}

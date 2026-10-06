@@ -1,0 +1,117 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
+@inject IOverlayControls OverlayControls
+
+<MudPaper Elevation="8"
+          id="search-box-container"
+          Style="@($"position: sticky; top: 0; z-index: 10; min-width: {MinWidth};")">
+    <MudStack Spacing="0"
+              AlignItems="@AlignItems.Center">
+        <MudStack Spacing="0"
+                  Class="w-100"
+                  Row>
+            @if (SearchContext?.CurrentLocation is { } currentLocation)
+            {
+                <KeyboardShortcutBadge id="currentLocation"
+                                       Keys="@([KeyboardKey.AltLeft, KeyboardKey.KeyL])"
+                                       Origin="@Origin.BottomCenter"
+                                       Color="@Color.Error"
+                                       Class="d-flex"
+                                       OnKeyPress="@(() => SearchContext.ClearLocationFilterAsync())">
+                    <div class="h-100 px-4 d-flex align-center no-wrap">
+                        <GameEntityNameLabel
+                            Model="@currentLocation.Name"/>
+                    </div>
+                </KeyboardShortcutBadge>
+            }
+            <FocusRegion Class="w-100" @ref="_searchBoxFocusRegion">
+                <KeyboardShortcutBadge Key="@KeyboardKey.Escape"
+                                       Origin="@(Origin.BottomCenter)"
+                                       Color="@(context.ContainsFocus ? Color.Error : Color.Tertiary)"
+                                       Class="w-100"
+                                       IsActive="@(!Disabled)"
+                                       OnKeyPress="@(OnSearchBoxKeyboardShortcut)">
+                    <MudTextField
+                        id="searchBox"
+                        @ref="_searchBox"
+                        T="string"
+                        Style="border-bottom-left-radius: 0; border-top-left-radius: 0"
+                        @bind-Value="@SearchText"
+                        Variant="Variant.Outlined"
+                        Adornment="@Adornment.End"
+                        AdornmentIcon="@Icons.Material.Filled.Search"
+                        AdornmentColor="@Color.Secondary"
+                        DebounceInterval="180"
+                        OnDebounceIntervalElapsed="@SearchAsync"
+                        Disabled="@Disabled"
+                        AutoFocus
+                        Immediate/>
+                </KeyboardShortcutBadge>
+            </FocusRegion>
+        </MudStack>
+        @if (!string.IsNullOrWhiteSpace(HelperText))
+        {
+            <MudText Typo="@Typo.overline" Class="text-secondary px-3">
+                @HelperText
+            </MudText>
+        }
+    </MudStack>
+</MudPaper>
+
+@code
+{
+
+    private FocusRegion? _searchBoxFocusRegion;
+    private MudTextField<string>? _searchBox;
+
+    [CascadingParameter]
+    public OverlaySearchContext? SearchContext { get; set; }
+
+    [Parameter]
+    public string? SearchText { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> SearchTextChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    [Parameter]
+    public string MinWidth { get; set; } = "60vw";
+
+    public async Task OnSearchBoxKeyboardShortcut()
+    {
+        if (_searchBoxFocusRegion?.HasFocus == true)
+        {
+            await InvokeAsync(async () => await OverlayControls.HideAsync());
+        }
+        else
+        {
+            await FocusSearchBoxAsync();
+        }
+    }
+
+    public async Task FocusSearchBoxAsync()
+    {
+        if (_searchBox is not null && _searchBoxFocusRegion?.HasFocus == false)
+        {
+            await InvokeAsync(async () => await _searchBox.SelectAsync());
+        }
+    }
+
+    public async Task SearchAsync(string searchText)
+    {
+        if (_searchBox is not null && _searchBox.Text != searchText)
+        {
+            await InvokeAsync(async () => await _searchBox.SetText(searchText));
+        }
+        else
+        {
+            SearchText = searchText;
+            await InvokeAsync(async () => await SearchTextChanged.InvokeAsync(searchText));
+        }
+    }
+
+}

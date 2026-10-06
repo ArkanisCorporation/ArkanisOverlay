@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>Arkanis.Overlay.External.Backend</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Riok.Mapperly"/>
+        <PackageReference Include="StrawberryShake.Server"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Arkanis.Overlay.External.Common\Arkanis.Overlay.External.Common.csproj"/>
+    </ItemGroup>
+
+</Project>

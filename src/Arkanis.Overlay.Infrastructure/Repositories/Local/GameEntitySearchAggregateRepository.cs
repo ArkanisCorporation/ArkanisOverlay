@@ -18,7 +18,13 @@ internal class GameEntitySearchAggregateRepository(
     IEnumerable<IGameEntityRepository> gameEntityRepositories
 ) : IGameEntityAggregateRepository
 {
-    private readonly Type[] _excludedEntityTypes = [typeof(GameEntityPricing), typeof(GameItemTrait), typeof(GameProductCategory)];
+    private readonly Type[] _excludedEntityTypes =
+    [
+        typeof(GameEntityPrice),
+        typeof(GameItemTrait),
+        typeof(GameProductCategory),
+        typeof(GameTradeRoute),
+    ];
 
     public async IAsyncEnumerable<IGameEntity> GetAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
@@ -54,7 +60,12 @@ internal class GameEntitySearchAggregateRepository(
         yield break;
 
         async Task PassToOutputAsync(IAsyncEnumerable<IGameEntity> entities)
-            => await entities.ForEachAwaitAsync(async entity => await outputChannel.Writer.WriteAsync(entity, cancellationToken), cancellationToken);
+        {
+            await foreach (var entity in entities.WithCancellation(cancellationToken))
+            {
+                await outputChannel.Writer.WriteAsync(entity, cancellationToken);
+            }
+        }
     }
 
     public bool IsReady { get; private set; }

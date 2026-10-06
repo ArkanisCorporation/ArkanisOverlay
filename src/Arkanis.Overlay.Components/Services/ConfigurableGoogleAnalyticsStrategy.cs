@@ -15,6 +15,15 @@ public sealed class ConfigurableGoogleAnalyticsStrategy : IAnalytics
         _strategy.Configure(ApplicationConstants.GoogleAnalyticsTrackingId, !hostEnvironment.IsProduction());
     }
 
+    /// <summary>
+    ///     Configures global tracking configuration properties.
+    /// </summary>
+    /// <remarks>
+    ///     Performs JavaScript interop calls.
+    ///     Must only be called in the <c>AfterRenderAsync</c> component lifecycle hook.
+    /// </remarks>
+    /// <param name="globalConfigData">Configuration data</param>
+    /// <returns>A task that finishes when the tracking interop is configured and initialized</returns>
     public Task ConfigureGlobalConfigData(Dictionary<string, object> globalConfigData)
         => _strategy.ConfigureGlobalConfigData(globalConfigData);
 

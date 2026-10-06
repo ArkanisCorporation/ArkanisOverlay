@@ -16,7 +16,7 @@ internal sealed class UexServiceStateProvider(IUexStaticApi staticApi, ILogger<U
 {
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
 
-    internal ExternalServiceState CurrentDataState { get; set; } = ServiceUnavailableState.Instance;
+    internal ExternalServiceState CurrentDataState { get; set; } = new ServiceUnavailableState(null);
 
     internal DateTimeOffset? CachedUntil { get; set; }
 
@@ -47,6 +47,18 @@ internal sealed class UexServiceStateProvider(IUexStaticApi staticApi, ILogger<U
 
             logger.LogDebug("Loaded and cached: {DataState}", CurrentDataState);
             return CurrentDataState;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException)
+        {
+            logger.LogWarning(ex, "UEX API is currently unavailable");
+            CachedUntil = DateTimeOffset.Now.AddMinutes(10);
+            return CurrentDataState = new ServiceUnavailableState(ex);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed loading UEX service availability");
+            CachedUntil = DateTimeOffset.Now.AddMinutes(30);
+            return CurrentDataState = new ServiceUnavailableState(ex);
         }
         finally
         {

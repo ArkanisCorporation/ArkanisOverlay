@@ -1,0 +1,86 @@
+@using MudBlazor.Utilities
+<div class="@RootClassname">
+    @ChildContent
+    <div class="@WrapperClassname">
+        @if (Visible)
+        {
+            if (BadgeWrapperContent is not null)
+            {
+                @BadgeWrapperContent(BadgeWrapper)
+            }
+            else
+            {
+                @BadgeWrapper
+            }
+        }
+    </div>
+</div>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required RenderFragment BadgeContent { get; set; }
+
+    [Parameter]
+    public required RenderFragment<RenderFragment>? BadgeWrapperContent { get; set; }
+
+    [Parameter]
+    public Origin Origin { get; set; } = Origin.TopRight;
+
+    [Parameter]
+    public Color Color { get; set; } = Color.Default;
+
+    [Parameter]
+    public bool Bordered { get; set; }
+
+    [Parameter]
+    public bool Overlap { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public int Elevation { set; get; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? WrapperClass { get; set; }
+
+    [Parameter]
+    public string? BadgeClass { get; set; }
+
+    protected RenderFragment BadgeWrapper
+        => @<div class="@BadgeClassname" style="height: auto">
+            @BadgeContent
+        </div>;
+
+    protected string RootClassname
+        => new CssBuilder("mud-badge-root")
+            .AddClass(Class)
+            .Build();
+
+    protected string WrapperClassname
+        => new CssBuilder("mud-badge-wrapper")
+            .AddClass($"mud-badge-{Origin.ToDescriptionString().Replace("-", " ")}")
+            .AddClass(WrapperClass)
+            .Build();
+
+    protected string BadgeClassname
+        => new CssBuilder("mud-badge")
+            .AddClass("mud-badge-bordered", Bordered)
+            .AddClass($"mud-badge-{Origin.ToDescriptionString().Replace("-", " ")}")
+            .AddClass($"mud-elevation-{Elevation.ToString()}")
+            .AddClass("mud-theme-" + Color.ToDescriptionString(), Color != Color.Default)
+            .AddClass("mud-badge-overlap", Overlap)
+            .AddClass(BadgeClass)
+            .Build();
+
+}

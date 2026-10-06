@@ -1,0 +1,71 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@inject IGameEntityRepository<GameItem> GameItemRepository
+@inject IGameEntityRepository<GameSpaceShip> GameSpaceShipRepository
+@inject IGameEntityRepository<GameSpaceStation> GameSpaceStationRepository
+@inject IInventoryManager InventoryManager
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .game-entity-name {
+        .primary {
+            max-width: 100%;
+        }
+
+        .footer {
+            max-width: 100%;
+        }
+    }
+
+    .mud-tabs-tabbar-content .mud-badge.mud-badge-top.center.mud-badge-overlap {
+        bottom: calc(100% - 8px);
+    }
+
+    .mud-tabs-tabbar .mud-tabs-scroll-button {
+        display: none;
+    }
+</style>
+
+<div>
+    <MudMainContent Class="pb-8">
+        @if (AllEntries.FirstOrDefault(x => x.Id == SelectedEntryId) is { } entry)
+        {
+            <HangarEntryDetailView
+                Entry="@entry"
+                OnChange="@RefreshDataAsync"/>
+        }
+        else
+        {
+            <HangarInventoryEntriesView
+                Entries="@AllEntries"
+                Locations="@AllLocations"
+                OnChange="@RefreshDataAsync"/>
+        }
+    </MudMainContent>
+</div>
+
+@code
+{
+
+    public HangarInventoryEntry[] AllEntries { get; set; } = [];
+    public IGameLocation[] AllLocations { get; set; } = [];
+
+    [Parameter]
+    public InventoryEntryId? SelectedEntryId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        var entries = await InventoryManager.GetAllEntriesAsync();
+        AllEntries = entries.OfType<HangarInventoryEntry>()
+            .ToArray();
+
+        AllLocations = GameLocationHelper.CollectUniqueLocations(AllEntries);
+    }
+
+}

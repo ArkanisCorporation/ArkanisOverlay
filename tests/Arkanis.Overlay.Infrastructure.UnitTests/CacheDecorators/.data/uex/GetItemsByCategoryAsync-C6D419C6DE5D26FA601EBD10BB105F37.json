@@ -1,282 +1,420 @@
 {
-    "Result": {
-        "data": [
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703517702,
-                "date_modified": 1740441796,
-                "id": 77,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "MedPen (Hemozal)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "medpen-hemozal-",
-                "url_store": "",
-                "uuid": "7d50411f-088c-4c99-b85a-a6eaf95504c3",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703517702,
-                "date_modified": 1740441797,
-                "id": 78,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "OxyPen",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "oxypen",
-                "url_store": "",
-                "uuid": "54143614-a946-4964-9587-fb4d0ce7aed1",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": null,
-                "date_added": 1703530052,
-                "date_modified": 1740442083,
-                "id": 515,
-                "id_category": 16,
-                "id_company": 0,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Tigersclaw",
-                "notification": "Possibly unavailable to purchase in stores. (STARC-52912)",
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "tigersclaw",
-                "url_store": "",
-                "uuid": "3b1d33fb-aaca-4056-a28f-74da168e4070",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703536590,
-                "date_modified": 1740442191,
-                "id": 689,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "AdrenaPen (Demexatrine)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "adrenapen-demexatrine-",
-                "url_store": "",
-                "uuid": "a6768bc4-5245-4df0-bd57-49fe5ec1994b",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703536590,
-                "date_modified": 1740442191,
-                "id": 690,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "DetoxPen (Resurgera)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "detoxpen-resurgera-",
-                "url_store": "",
-                "uuid": "6f961f33-b938-4954-9ba4-7921f366e9bc",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703536590,
-                "date_modified": 1740442192,
-                "id": 691,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "OpioPen (Roxaphen)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "opiopen-roxaphen-",
-                "url_store": "",
-                "uuid": "d99811fe-a60e-4f38-91a5-cfdb77ac3c97",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": "CureLife",
-                "date_added": 1703536590,
-                "date_modified": 1740442192,
-                "id": 692,
-                "id_category": 16,
-                "id_company": 69,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "CorticoPen (Sterogen)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "corticopen-sterogen-",
-                "url_store": "",
-                "uuid": "354ec8a6-32eb-4747-8e75-03d2703edfd6",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": null,
-                "date_added": 1704493627,
-                "date_modified": 1740471116,
-                "id": 2011,
-                "id_category": 16,
-                "id_company": 0,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "DeconPen (Canoiodide)",
-                "notification": null,
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "deconpen-canoiodide-",
-                "url_store": "",
-                "uuid": "ced580a6-0327-4aef-b36e-afa8db60de33",
-                "vehicle_name": null,
-                "game_version": "4.0.1"
-            },
-            {
-                "category": "Consumables",
-                "company_name": null,
-                "date_added": 1742833320,
-                "date_modified": 1742833412,
-                "id": 4405,
-                "id_category": 16,
-                "id_company": 0,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Ripper",
-                "notification": "Possibly unavailable to purchase in stores. (STARC-52912)",
-                "screenshot": "",
-                "section": "Miscellaneous",
-                "size": null,
-                "slug": "ripper",
-                "url_store": "",
-                "uuid": "",
-                "vehicle_name": null,
-                "game_version": "4.0.2"
-            }
-        ],
-        "http_code": 200,
-        "message": "",
-        "status": "ok"
-    },
-    "StatusCode": 200,
-    "Headers": {
-        "Date": [
-            "Mon, 21 Apr 2025 16:39:23 GMT"
-        ],
-        "Transfer-Encoding": [
-            "chunked"
-        ],
-        "Connection": [
-            "keep-alive"
-        ],
-        "Cf-Ray": [
-            "933e51363b6dcd2b-PRG"
-        ],
-        "Server": [
-            "cloudflare"
-        ],
-        "Strict-Transport-Security": [
-            "max-age=31536000"
-        ],
-        "Cache-Control": [
-            "public, must-revalidate, max-age=86400"
-        ],
-        "Access-Control-Allow-Origin": [
-            "*"
-        ],
-        "X-Frame-Options": [
-            "SAMEORIGIN"
-        ],
-        "Content-Security-Policy": [
-            "frame-ancestors \u0027self\u0027"
-        ],
-        "Vary": [
-            "Accept-Encoding"
-        ],
-        "Cf-Cache-Status": [
-            "DYNAMIC"
-        ],
-        "Report-To": [
-            "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=soFcdqlXGVGmzu1Jc46m4n2uSkYhqcaW2NgchkIrOcNSSppAhheJ8GwcbLqHDfb6BaNyjbL7uH0DD2ZUwG8IkFiUW0eZkNEOeJKmao05othzCOH5fqomQAvWCkAB8pQ1\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Nel": [
-            "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Alt-Svc": [
-            "h3=\u0022:443\u0022"
-        ],
-        "Server-Timing": [
-            "cfL4;desc=\u0022?proto=TCP\u0026rtt=4607\u0026min_rtt=3889\u0026rtt_var=556\u0026sent=940\u0026recv=223\u0026lost=0\u0026retrans=0\u0026sent_bytes=1274566\u0026recv_bytes=2401\u0026delivery_rate=35775353\u0026cwnd=410\u0026unsent_bytes=0\u0026cid=0035be890aeb4f52\u0026ts=3093\u0026x=0\u0022"
-        ],
-        "Content-Type": [
-            "application/json"
-        ],
-        "Expires": [
-            "Tue, 22 Apr 2025 16:39:23 GMT"
-        ]
-    }
+  "Result": {
+    "data": [
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703517702,
+        "date_modified": 1747181417,
+        "id": 77,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "MedPen (Hemozal)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "medpen-hemozal-",
+        "url_store": "",
+        "uuid": "7d50411f-088c-4c99-b85a-a6eaf95504c3",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703517702,
+        "date_modified": 1747181418,
+        "id": 78,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "OxyPen",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "oxypen",
+        "url_store": "",
+        "uuid": "54143614-a946-4964-9587-fb4d0ce7aed1",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": null,
+        "date_added": 1703530052,
+        "date_modified": 1740442083,
+        "id": 515,
+        "id_category": 16,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Tigersclaw",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "tigersclaw",
+        "url_store": "",
+        "uuid": "3b1d33fb-aaca-4056-a28f-74da168e4070",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703536590,
+        "date_modified": 1747181293,
+        "id": 689,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "AdrenaPen (Demexatrine)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "adrenapen-demexatrine-",
+        "url_store": "",
+        "uuid": "a6768bc4-5245-4df0-bd57-49fe5ec1994b",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703536590,
+        "date_modified": 1747181294,
+        "id": 690,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "DetoxPen (Resurgera)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "detoxpen-resurgera-",
+        "url_store": "",
+        "uuid": "6f961f33-b938-4954-9ba4-7921f366e9bc",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703536590,
+        "date_modified": 1747181298,
+        "id": 691,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "OpioPen (Roxaphen)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "opiopen-roxaphen-",
+        "url_store": "",
+        "uuid": "d99811fe-a60e-4f38-91a5-cfdb77ac3c97",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1703536590,
+        "date_modified": 1747181293,
+        "id": 692,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "CorticoPen (Sterogen)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "corticopen-sterogen-",
+        "url_store": "",
+        "uuid": "354ec8a6-32eb-4747-8e75-03d2703edfd6",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1704493627,
+        "date_modified": 1749266394,
+        "id": 2011,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "DeconPen (Canoiodide)",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "deconpen-canoiodide-",
+        "url_store": "",
+        "uuid": "ced580a6-0327-4aef-b36e-afa8db60de33",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": null,
+        "date_added": 1742833320,
+        "date_modified": 1756279639,
+        "id": 4405,
+        "id_category": 16,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Ripper",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "ripper",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.2"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "CureLife",
+        "date_added": 1749266325,
+        "date_modified": 1749266376,
+        "id": 4607,
+        "id_category": 16,
+        "id_company": 69,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "DeconPen Xtra",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": null,
+        "slug": "deconpen-xtra",
+        "url_store": "",
+        "uuid": "ced580a6-0327-4aef-b36e-afa8db60de33",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.1"
+      },
+      {
+        "category": "Consumables",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1758163559,
+        "date_modified": 1758163605,
+        "id": 4948,
+        "id_category": 16,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Specimen Cache Access: Lazarus Complex",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "specimen-cache-access-lazarus-complex",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Consumables",
+        "company_name": "Associated Sciences \u0026 Development",
+        "date_added": 1758163668,
+        "date_modified": 1758163703,
+        "id": 4949,
+        "id_category": 16,
+        "id_company": 23,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Maintenance Access: Farro Data Center",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "maintenance-access-farro-data-center",
+        "url_store": null,
+        "uuid": null,
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": null
+      },
+      {
+        "category": "Consumables",
+        "company_name": null,
+        "date_added": 1758163732,
+        "date_modified": 1758163794,
+        "id": 4950,
+        "id_category": 16,
+        "id_company": 0,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "PAF Security Keycard",
+        "notification": null,
+        "screenshot": "",
+        "section": "Miscellaneous",
+        "size": "",
+        "slug": "paf-security-keycard",
+        "url_store": "",
+        "uuid": "",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.0.2"
+      }
+    ],
+    "http_code": 200,
+    "message": "",
+    "status": "ok"
+  },
+  "StatusCode": 200,
+  "Headers": {
+    "Date": [
+      "Fri, 10 Oct 2025 04:47:18 GMT"
+    ],
+    "Transfer-Encoding": [
+      "chunked"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Age": [
+      "2007"
+    ],
+    "Alt-Svc": [
+      "h3=\u0022:443\u0022"
+    ],
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84393; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=ACQsd4Vm0mY2%2BXfMxWcP9E%2FwqPTWuei1ppmY9L31fXPDjSMrOQuq5jPppWsJD9teH1rOSCFexbmb8NUkkTXdsj2PF96iAjl3x1e4Yg%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9ad9edf976-PRG"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Expires": [
+      "Sat, 11 Oct 2025 04:13:52 GMT"
+    ]
+  }
 }

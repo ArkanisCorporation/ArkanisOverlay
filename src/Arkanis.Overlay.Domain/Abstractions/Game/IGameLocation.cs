@@ -6,10 +6,18 @@ public interface IGameLocation : IGameEntity, ISearchableRecursively
 {
     HashSet<UexApiGameEntityId> ParentIds { get; }
 
+    IEnumerable<IGameLocation> Parents { get; }
+
     IGameLocation? ParentLocation { get; }
+
+    public string? ImageUrl { get; }
+
+    public string? ImageAuthor { get; }
 
     ISearchableRecursively? ISearchableRecursively.Parent
         => ParentLocation;
+
+    IEnumerable<GameLocationEntity> CreatePathToRoot();
 
     bool IsOrContains(IGameLocation location)
         => Id == location.Id || Contains(location);

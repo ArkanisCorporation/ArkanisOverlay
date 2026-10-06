@@ -1,0 +1,82 @@
+@using Arkanis.Overlay.Common.Abstractions.Services
+@inject IAppVersionProvider VersionProvider
+@inject IUserPreferencesManager UserPreferencesManager
+
+<MudDialog ContentStyle="padding: 0">
+    <TitleContent>
+        Preferences
+    </TitleContent>
+    <DialogContent>
+        <MudDivider/>
+        <UserPreferencesControls
+            Preferences="@_preferences"
+            @bind-IsValid="@_isValid"
+            ExpandInitially/>
+        <MudDivider/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success" OnClick="@SubmitAsync" Disabled="@(!_isValid)">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+    private UserPreferences _preferences = new();
+    private bool _isValid;
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    protected override void OnParametersSet()
+        => _preferences = UserPreferencesManager.CurrentPreferences with { };
+
+    private async Task SubmitAsync()
+    {
+        if (!_isValid)
+        {
+            return;
+        }
+
+        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(_preferences with
+        {
+            // Other desktop windows can acknowledge notices while this settings snapshot is open.
+            DismissedFeatureAnnouncements = new HashSet<string>(UserPreferencesManager.CurrentPreferences.DismissedFeatureAnnouncements, StringComparer.Ordinal),
+        });
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+        };
+
+        return ShowAsync(dialogService, dialogOptions);
+    }
+
+    public static Task<DialogResult> ShowFullscreenAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            NoHeader = true,
+        };
+
+        return ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
+        var dialogRef = await dialogService.ShowAsync<UserPreferencesDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+}

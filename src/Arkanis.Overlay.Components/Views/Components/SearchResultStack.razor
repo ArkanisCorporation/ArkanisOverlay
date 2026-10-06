@@ -1,0 +1,74 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+<QuickAccessContainer QuerySelector=".search-result-container"
+                      ContentVirtualized="@Virtualize">
+    <MudStack Class="mt-10 w-100" Style="width: fit-content; min-width: 60vw;">
+        <Virtualize Items="@IndexedEntries"
+                    ItemSize="66"
+                    OverscanCount="25"
+                    Context="entry">
+            <SearchResultItem
+                @key="@entry.Result.Subject.Id"
+                Model="@entry.Result.Subject"
+                ItemIndex="@entry.Index"/>
+        </Virtualize>
+        @if (Virtualize)
+        {
+        }
+        else
+        {
+            @foreach (var (itemIndex, result) in IndexedEntries.DistinctBy(x => x.Result.Subject.Id))
+            {
+                <SearchResultItem
+                    @key="@result.Subject.Id"
+                    Model="@result.Subject"
+                    ItemIndex="@itemIndex"/>
+            }
+        }
+    </MudStack>
+</QuickAccessContainer>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public GameEntitySearchResults Model { get; set; } = GameEntitySearchResults.Empty;
+
+    [Parameter]
+    public bool Virtualize { get; set; } = true;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!Virtualize)
+        {
+            IndexedEntries = Model.GameEntities.Take(50).Index().Select(Entry.Create).ToList();
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(500);
+
+            foreach (var resultBatch in Model.GameEntities.Batch(500))
+            {
+                var entries = resultBatch.Index().Select(x => Entry.CreateWithOffset(x, IndexedEntries.Count));
+                IndexedEntries.AddRange(entries);
+                await InvokeAsync(StateHasChanged);
+                await Task.Delay(500);
+            }
+        }
+        else
+        {
+            IndexedEntries = Model.GameEntities.Index().Select(Entry.Create).ToList();
+        }
+    }
+
+    private List<Entry> IndexedEntries { get; set; } = [];
+
+    private record Entry(int Index, SearchMatchResult<IGameEntity> Result)
+    {
+        public static Entry Create((int Key, SearchMatchResult<IGameEntity> Value) item)
+            => new(item.Key, item.Value);
+
+        public static Entry CreateWithOffset((int Key, SearchMatchResult<IGameEntity> Value) item, int offset)
+            => new(item.Key + offset, item.Value);
+    }
+}

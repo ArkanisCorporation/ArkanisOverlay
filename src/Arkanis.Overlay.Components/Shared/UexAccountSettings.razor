@@ -1,0 +1,89 @@
+<MudGrid Class="px-4 mb-1">
+    <MudItem xs="12">
+        <MudAlert Severity="@Severity.Warning">
+            Options that are greyed out and cannot be enabled are <b>not supported yet</b>.
+        </MudAlert>
+    </MudItem>
+    <MudItem xs="12">
+        <MudSwitch T="bool"
+                   Color="@Color.Success"
+                   Disabled>
+            <MudText Typo="@Typo.h6">
+                Synchronization
+            </MudText>
+        </MudSwitch>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudStack Spacing="0">
+                    <MudSwitch
+                        T="bool"
+                        Label="Trade run wallet updates"
+                        LabelPlacement="@Placement.End"
+                        Color="@Color.Success"
+                        Disabled/>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Automatically update your UEX wallet when purchases or sales are made
+                        during a trade run
+                    </MudText>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudStack Spacing="0">
+                    <MudSwitch
+                        T="bool"
+                        Label="Hangar synchronization"
+                        LabelPlacement="@Placement.End"
+                        Color="@Color.Success"
+                        Disabled/>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Synchronize (both ways) your hangar entries with your UEX account
+                    </MudText>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudStack Spacing="0">
+                    <MudSwitch
+                        T="bool"
+                        Label="Refinery synchronization"
+                        LabelPlacement="@Placement.End"
+                        Color="@Color.Success"
+                        Disabled/>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Synchronize (both ways) your current and previous refinery jobs
+                    </MudText>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
+    <MudItem xs="12">
+        <MudSwitch T="bool"
+                   Color="@Color.Success"
+                   Disabled>
+            <MudText Typo="@Typo.h6">
+                Notifications
+            </MudText>
+        </MudSwitch>
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudStack Spacing="0">
+                    <MudSwitch
+                        T="bool"
+                        Label="Trade negotiation updates"
+                        LabelPlacement="@Placement.End"
+                        Color="@Color.Success"
+                        Disabled/>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Get a push notification when a trade negotiation is created, updated or
+                        concluded
+                    </MudText>
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+}

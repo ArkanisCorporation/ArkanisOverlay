@@ -1,0 +1,40 @@
+<MudText Typo="@Typo"
+         Color="@Color"
+         Class="no-wrap"
+         Inline>
+    @Prefix
+    @Model.Amount.ToMetric(MetricNumeralFormats.WithSpace, Decimals)
+    @Suffix
+</MudText>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required GameCurrency Model { get; set; }
+
+    [Parameter]
+    public string Prefix { get; set; } = GameCurrency.Symbol;
+
+    [Parameter]
+    public string Suffix { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Decimals { get; set; } = 3;
+
+    [Parameter]
+    public bool UseColour { get; set; }
+
+    [Parameter]
+    public Typo Typo { get; set; } = Typo.inherit;
+
+    public Color Color
+        => UseColour switch
+        {
+            true when Model.Amount > 0 => Color.Success,
+            true when Model.Amount < 0 => Color.Error,
+            _ => Color.Inherit,
+        };
+
+}

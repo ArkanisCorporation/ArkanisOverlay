@@ -32,4 +32,7 @@ public class GlobalAnalyticsReporter(ILogger<GlobalAnalyticsReporter> logger) : 
             _queuedEvents.Enqueue(analyticsEvent);
         }
     }
+
+    public async Task TrackNavigationAsync(string uri)
+        => await (_reporter?.TrackNavigationAsync(uri) ?? Task.CompletedTask);
 }

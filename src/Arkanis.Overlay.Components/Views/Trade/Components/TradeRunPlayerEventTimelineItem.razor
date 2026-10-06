@@ -1,0 +1,29 @@
+<MudTimelineItem Color="@Color.Info"
+                 Size="@Size.Medium">
+    <ItemDot>
+        <MudIcon
+            Icon="@Model.Icon"
+            Size="@Size.Medium"/>
+    </ItemDot>
+    <ItemContent>
+        <MudStack Spacing="0">
+            <MudText>
+                @Model.Text
+            </MudText>
+            <MudText Typo="Typo.caption"
+                     Class="text-secondary">
+                <GameTimeLabel
+                    Model="@Model.OccuredAt"/>
+            </MudText>
+        </MudStack>
+    </ItemContent>
+</MudTimelineItem>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public required TradeRun.PlayerEvent Model { get; set; }
+
+}

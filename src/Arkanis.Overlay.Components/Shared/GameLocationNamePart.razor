@@ -1,20 +1,47 @@
-@using MoreLinq
-<MudStack Spacing="2" AlignItems="@AlignItems.Center" Row>
+<MudStack Spacing="2"
+          AlignItems="@AlignItems.Baseline"
+          Class="no-wrap"
+          Style="@Style"
+          Reverse="@Reverse"
+          Row>
+    @PrefixContent
     @foreach (var (index, subLocation) in Model.Location.CreatePathToRoot().Index())
     {
         if (index > 0)
         {
-            <span class="text-secondary">/</span>
+            @Separator
         }
 
-        <GameEntityNamePart Model="@subLocation.Name.MainContent" Embedded/>
+        <GameEntityNamePart
+            Model="@subLocation.Name.MainContent"
+            Typo="@Typo"
+            Embedded/>
     }
+    @SuffixContent
 </MudStack>
 
 @code
 {
 
+    public static RenderFragment Separator
+        => @<span class="text-secondary">/</span>;
+
     [Parameter]
     public required GameEntityName.LocationReference Model { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public Typo? Typo { get; set; }
+
+    [Parameter]
+    public RenderFragment? PrefixContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? SuffixContent { get; set; }
+
+    [Parameter]
+    public bool Reverse { get; set; }
 
 }

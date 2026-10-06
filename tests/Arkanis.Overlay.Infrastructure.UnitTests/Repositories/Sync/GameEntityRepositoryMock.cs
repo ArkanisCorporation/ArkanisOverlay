@@ -1,13 +1,24 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Repositories.Sync;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
 using Infrastructure.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 
-internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> repository) : InitializableBase, IGameEntityRepository<T>
+internal sealed class GameEntityRepositoryMock<T>(
+    IGameEntityExternalSyncRepository<T> repository,
+    ILogger<GameEntityRepositoryMock<T>> logger
+) : InitializableBase, IGameEntityRepository<T>
     where T : class, IGameEntity
 {
     internal List<T> Entities { get; set; } = [];
@@ -39,16 +50,21 @@ internal class GameEntityRepositoryMock<T>(IGameEntityExternalSyncRepository<T> 
         }
     }
 
+    public IChangeToken DataChangeToken
+        => new CancellationChangeToken(CancellationToken.None);
+
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {
         if (syncData is not LoadedSyncData<T> loadedSyncData)
         {
+            logger.LogDebug("Sync data is not loaded, skipping update");
             return;
         }
 
         try
         {
             Entities = await loadedSyncData.GameEntities.ToListAsync(cancellationToken);
+            logger.LogDebug("Storing {EntityCount} loaded entities", Entities.Count);
             Initialized();
         }
         catch (Exception ex)

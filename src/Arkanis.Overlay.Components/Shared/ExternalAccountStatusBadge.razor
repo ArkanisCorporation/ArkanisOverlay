@@ -1,0 +1,33 @@
+
+@if (Model?.LastResult is { IsFailed: true })
+{
+    <MudChip T="string" Color="@Color.Error">
+        Failed
+    </MudChip>
+}
+else if (Model?.IsAuthenticated == true)
+{
+    <MudChip T="string" Color="@Color.Success">
+        Linked
+    </MudChip>
+}
+else if (Model is not null)
+{
+    <MudChip T="string" Color="@Color.Default">
+        Inactive
+    </MudChip>
+}
+else
+{
+    <MudSkeleton
+        SkeletonType="@SkeletonType.Rectangle"
+        Width="120px"/>
+}
+
+@code
+{
+
+    [Parameter]
+    public IExternalAccountContext? Model { get; set; }
+
+}

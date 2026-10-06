@@ -23,9 +23,9 @@ internal class UexGameItemTraitRepositorySpecialisationDecorator(IGameEntityRepo
     protected override async Task UpdateAllAsyncCore(CancellationToken cancellationToken)
         => TraitsByItemId = await DecoratedRepository.GetAllAsync(cancellationToken)
             .GroupBy(trait => trait.ItemId)
-            .ToDictionaryAwaitAsync(
-                group => ValueTask.FromResult(group.Key),
-                group => group.ToArrayAsync(cancellationToken),
-                cancellationToken
+            .ToDictionaryAsync(
+                group => group.Key,
+                group => group.ToArray(),
+                cancellationToken: cancellationToken
             );
 }

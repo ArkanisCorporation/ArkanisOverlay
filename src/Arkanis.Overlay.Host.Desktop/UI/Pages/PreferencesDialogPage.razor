@@ -1,0 +1,16 @@
+@page "/preferences"
+@using Arkanis.Overlay.Components.Shared.Dialogs
+@using Arkanis.Overlay.Host.Desktop.Services
+@using Arkanis.Overlay.Host.Desktop.UI.Windows
+
+@inject IDialogService DialogService
+@inject WindowControls<PreferencesWindow> WindowControls
+
+@code
+{
+
+    protected override Task OnInitializedAsync()
+        => UserPreferencesDialog.ShowFullscreenAsync(DialogService)
+            .ContinueWith(_ => WindowControls.CloseAsync());
+
+}

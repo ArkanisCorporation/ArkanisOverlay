@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Components.Extensions;
 
-using Domain.Models.Keyboard;
+using Common.Models.Keyboard;
 using Microsoft.AspNetCore.Components.Web;
 
 public static class KeyboardEventArgsExtensions

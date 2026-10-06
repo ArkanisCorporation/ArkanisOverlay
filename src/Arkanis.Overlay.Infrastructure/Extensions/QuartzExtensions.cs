@@ -11,12 +11,12 @@ public static class QuartzExtensions
     {
         if (!dataMap.TryGetValue(key, out var value))
         {
-            throw new ApplicationException($"Unable to retrieve required value from job data: {key}");
+            throw new ArgumentException($"Unable to retrieve required value from job data: {key} (contains keys: {string.Join(", ", dataMap.Keys)})");
         }
 
         if (value is not T result)
         {
-            throw new ApplicationException($"Retrieved job data value is not of requested type: {typeof(T)}, but instead: {value.GetType()}");
+            throw new ArgumentException($"Retrieved job data value is not of requested type: {typeof(T)}, but instead: {value.GetType()}");
         }
 
         return result;

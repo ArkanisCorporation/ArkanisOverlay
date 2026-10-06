@@ -1,0 +1,271 @@
+@using System.Diagnostics.CodeAnalysis
+@inject IUserPreferencesManager UserPreferencesManager
+
+<MudDialog Gutters="false"
+           ContentClass="ma-0"
+           ContentStyle="background: var(--mud-palette-background);">
+    <TitleContent>
+        Usage Analytics
+    </TitleContent>
+    <DialogContent>
+        <MudStack Spacing="4" Class="px-4">
+            <MudText Typo="@Typo.body1">
+                @if (TriggeredByUpdate)
+                {
+                    <span>
+                        We have recently made updates to our usage analytics options.
+                    </span>
+                }
+                Please review all of the options and adjust your preferences as needed.
+            </MudText>
+
+            <DeveloperQuote Model="@DeveloperAvatar.KronnY">
+                Your privacy is important to us and we would like to be as transparent as possible with you.
+                The usage analytics provide us with priceless insights into user interactions with the Overlay.
+                This data directly helps us identify issues, improve features, and enhance the overall user experience.
+                <br/>
+                <br/>
+                Consider enabling them to help us make the Arkanis Overlay even better.
+                Thank you!
+            </DeveloperQuote>
+
+            <MudSwitch @bind-Value="@AllEnabled"
+                       Color="@Color.Success"
+                       UncheckedColor="@Color.Error">
+                <MudStack Spacing="0">
+                    <MudText Typo="@Typo.body1">
+                        Any and all usage analytics
+                    </MudText>
+                    <MudText Typo="@Typo.caption" Class="text-secondary">
+                        Gives us insights into which modules of the Overlay are most frequently used.
+                    </MudText>
+                </MudStack>
+            </MudSwitch>
+
+            <MudStack Class="pl-4">
+                <MudSwitch @bind-Value="@PageViewsEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Page View Tracking</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Gives us insights into which features of the Overlay are most frequently used.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@CustomEventsEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Custom Event Reporting</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Allows us to track specific interactions within the individual Overlay modules.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@ClicksEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Unintended Click Tracking</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Helps us identify areas where users may be experiencing difficulties or confusion.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@ErrorReportingEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Error Reporting</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Allows us to automatically collect error reports when the Overlay encounters issues.
+                            This helps us identify and fix bugs more efficiently.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@SurveysEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Surveys</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Allows us to present you with an occasional survey to gather direct feedback about your
+                            experience.
+                            Help us identify areas for improvement.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@HeatmapsEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Heatmaps</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Contribute aggregated data to generate heatmaps of interactions within the Overlay.
+                            This will help us improve and optimize the interface layout and available controls.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+
+                <MudSwitch @bind-Value="@RecordingsEnabled"
+                           Disabled="@AllDisabled"
+                           Color="@Color.Success"
+                           UncheckedColor="@Color.Error">
+                    <MudStack Spacing="0">
+                        <b>Recordings</b>
+                        <MudText Typo="@Typo.caption" Class="text-secondary">
+                            Partial session recordings allow us to see exactly how you interact with the Overlay.
+                            This is especially useful to us for troubleshooting complex issues and better understanding
+                            behavior, intentions and expectations of users.
+                            All personal information is redacted automatically before any data leaves your machine.
+                        </MudText>
+                    </MudStack>
+                </MudSwitch>
+            </MudStack>
+
+            <MudText Typo="@Typo.body2">
+                You can revisit and modify these settings at any time under the settings module.
+            </MudText>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@SaveAndClose"
+                   Color="@Color.Success">
+            Save and Close
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public bool TriggeredByUpdate { get; set; }
+
+    [field: MaybeNull]
+    private UserPreferences CurrentPreferences
+        => field ??= UserPreferencesManager.CurrentPreferences with { };
+
+    private bool AllDisabled
+        => !AllEnabled;
+
+    private bool AllEnabled
+    {
+        get => CurrentPreferences is { DisableAnalytics: false, PostHogOptions.Enabled: true };
+        set
+        {
+            CurrentPreferences.DisableAnalytics = !value;
+            CurrentPreferences.PostHogOptions.Enabled = value;
+        }
+    }
+
+    private bool PageViewsEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.PageViewsEnabled;
+        set => CurrentPreferences.PostHogOptions.PageViewsEnabled = value;
+    }
+
+    private bool CustomEventsEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.CustomEventsEnabled;
+        set => CurrentPreferences.PostHogOptions.CustomEventsEnabled = value;
+    }
+
+    private bool ClicksEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.ClicksEnabled;
+        set => CurrentPreferences.PostHogOptions.ClicksEnabled = value;
+    }
+
+    private bool SurveysEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.SurveysEnabled;
+        set => CurrentPreferences.PostHogOptions.SurveysEnabled = value;
+    }
+
+    private bool ErrorReportingEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.ErrorReportingEnabled;
+        set => CurrentPreferences.PostHogOptions.ErrorReportingEnabled = value;
+    }
+
+    private bool HeatmapsEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.HeatmapsEnabled;
+        set => CurrentPreferences.PostHogOptions.HeatmapsEnabled = value;
+    }
+
+    private bool RecordingsEnabled
+    {
+        get => AllEnabled && CurrentPreferences.PostHogOptions.RecordingsEnabled;
+        set => CurrentPreferences.PostHogOptions.RecordingsEnabled = value;
+    }
+
+    private async Task SaveAndClose()
+    {
+        await UserPreferencesManager.SaveAndApplyUserPreferencesAsync(
+            CurrentPreferences with
+            {
+                PostHogOptions = CurrentPreferences.PostHogOptions with
+                {
+                    Version = UserPreferences.PostHogAnalytics.CurrentVersion,
+                },
+            }
+        );
+        MudDialog.Close();
+    }
+
+    public static async Task<DialogResult> ShowOnUpdateAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = false,
+            FullScreen = false,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = false,
+            CloseButton = false,
+            BackdropClick = false,
+        };
+        var dialogParams = new DialogParameters
+        {
+            [nameof(TriggeredByUpdate)] = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<AnalyticsDialog>(null, dialogParams, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = false,
+            FullScreen = false,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+            BackdropClick = true,
+        };
+        var dialogParams = new DialogParameters
+        {
+            [nameof(TriggeredByUpdate)] = false,
+        };
+        var dialogRef = await dialogService.ShowAsync<AnalyticsDialog>(null, dialogParams, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+}

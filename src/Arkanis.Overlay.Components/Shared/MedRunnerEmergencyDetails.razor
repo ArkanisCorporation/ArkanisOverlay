@@ -1,0 +1,564 @@
+@using Arkanis.Overlay.External.MedRunner.API
+@using Arkanis.Overlay.External.MedRunner.API.Endpoints.ChatMessage.Request
+@inherits MedRunnerComponentBase
+
+<MudStack Class="pa-5" Spacing="3">
+    @if (_loadingProgress)
+    {
+        <MudProgressLinear Indeterminate/>
+    }
+    else if (_progressLoadError is not null)
+    {
+        <MudAlert Severity="@Severity.Error">
+            @_progressLoadError
+        </MudAlert>
+        <MudButton Variant="@Variant.Outlined"
+                   OnClick="@RestoreProgressAsync"
+                   Disabled="@IsLoading">
+            Retry loading details
+        </MudButton>
+    }
+    else if (_progress.Skipped)
+    {
+        <MudAlert Severity="@Severity.Info">
+            You chose not to provide initial emergency details.
+        </MudAlert>
+        <MudStack Row>
+            <MudButton Variant="@Variant.Filled"
+                       Color="@Color.Primary"
+                       OnClick="@RestartDetails">
+                Restart details
+            </MudButton>
+            <MudButton Variant="@Variant.Outlined"
+                       OnClick="@ContinueAsync">
+                Continue to emergency handling
+            </MudButton>
+        </MudStack>
+    }
+    else if (_progress.IsComplete)
+    {
+        <MudAlert Severity="@Severity.Success">
+            Initial emergency details have been sent.
+        </MudAlert>
+        <MudButton Variant="@Variant.Filled"
+                   Color="@Color.Primary"
+                   OnClick="@ContinueAsync">
+            Continue to emergency handling
+        </MudButton>
+    }
+    else if (CurrentStep is { } currentStep)
+    {
+        <MudStack Spacing="1">
+            <MudText Typo="@Typo.h6">
+                Initial emergency details, step @((int)currentStep) of 4: @GetStepLabel(currentStep)
+            </MudText>
+            <MudProgressLinear Value="@((int)currentStep * 25)"/>
+            <MudText Typo="@Typo.caption" Class="text-secondary">
+                These optional details are sent as a separate message after each section.
+            </MudText>
+        </MudStack>
+
+        @switch (currentStep)
+        {
+            case EmergencyDetailsStep.Situation:
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="string"
+                                   Label="Situation"
+                                   HelperText="What best describes your immediate situation?"
+                                   @bind-Value="_situation">
+                            <MudSelectItem Value='@("Unconscious")'>Unconscious</MudSelectItem>
+                            <MudSelectItem Value='@("Stranded")'>Stranded</MudSelectItem>
+                            <MudSelectItem Value='@("Other")'>Other</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="string"
+                                   Label="Injury"
+                                   HelperText="Select the current injury tier."
+                                   @bind-Value="_injury">
+                            <MudSelectItem Value='@("No")'>No</MudSelectItem>
+                            <MudSelectItem Value='@("Tier 1")'>Tier 1</MudSelectItem>
+                            <MudSelectItem Value='@("Tier 2")'>Tier 2</MudSelectItem>
+                            <MudSelectItem Value='@("Tier 3")'>Tier 3</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="string"
+                                   Label="CrimeStat"
+                                   HelperText="Select your current CrimeStat level."
+                                   @bind-Value="_crimeStat">
+                            <MudSelectItem Value='@("No")'>No</MudSelectItem>
+                            @for (var level = 1; level <= 5; level++)
+                            {
+                                var currentLevel = level;
+                                <MudSelectItem Value="@($"Level {currentLevel}")">Level @currentLevel</MudSelectItem>
+                            }
+                        </MudSelect>
+                        @if (_crimeStat != "" && _crimeStat != "No")
+                        {
+                            <MudTextField Label="CrimeStat details"
+                                          Class="mt-2"
+                                          Placeholder="Provide relevant CrimeStat details"
+                                          @bind-Value="_crimeStatDetails"/>
+                        }
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudText Typo="@Typo.body2" Class="mb-1">
+                            Time until death, if known
+                        </MudText>
+                        <MudStack Row>
+                            <MudNumericField T="int?"
+                                             Label="Hours"
+                                             Min="0"
+                                             @bind-Value="_deathHours"/>
+                            <MudNumericField T="int?"
+                                             Label="Minutes"
+                                             Min="0"
+                                             @bind-Value="_deathMinutes"/>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+                break;
+
+            case EmergencyDetailsStep.Location:
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="string"
+                                   Label="Location type"
+                                   HelperText="Select the type of location you are at."
+                                   @bind-Value="_locationType">
+                            @foreach (var locationType in LocationTypes)
+                            {
+                                <MudSelectItem Value="@locationType">@locationType</MudSelectItem>
+                            }
+                        </MudSelect>
+                        @if (_locationType == "ASD Facility")
+                        {
+                            <MudSelect T="string"
+                                       Class="mt-2"
+                                       Label="ASD facility"
+                                       @bind-Value="_asdFacilityType">
+                                <MudSelectItem Value='@("Lazarus")'>Lazarus</MudSelectItem>
+                                <MudSelectItem Value='@("Farro")'>Farro</MudSelectItem>
+                                <MudSelectItem Value='@("Onyx")'>Onyx</MudSelectItem>
+                            </MudSelect>
+                        }
+                        else if (_locationType == "QV Station")
+                        {
+                            <MudSelect T="string"
+                                       Class="mt-2"
+                                       Label="QV station"
+                                       @bind-Value="_qvStationType">
+                                <MudSelectItem Value='@("Logistics Station")'>Logistics Station</MudSelectItem>
+                                <MudSelectItem Value='@("Breaker Station")'>Breaker Station</MudSelectItem>
+                                <MudSelectItem Value='@("Extraction Station")'>Extraction Station</MudSelectItem>
+                            </MudSelect>
+                        }
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Label="Exact location"
+                                      Placeholder="Describe your exact location"
+                                      HelperText="Include any useful landmarks or room names."
+                                      @bind-Value="_exactLocation"/>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudTextField Label="Ship"
+                                      Placeholder="Your ship"
+                                      HelperText="Include the ship model if relevant."
+                                      @bind-Value="_ship"/>
+                    </MudItem>
+                </MudGrid>
+                break;
+
+            case EmergencyDetailsStep.Players:
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="bool?"
+                                   Label="IG beacon"
+                                   HelperText="Have you sent an in-game beacon?"
+                                   @bind-Value="_beacon">
+                            <MudSelectItem T="bool?" Value="@(true)">Yes</MudSelectItem>
+                            <MudSelectItem T="bool?" Value="@(false)">No</MudSelectItem>
+                        </MudSelect>
+                        @if (_beacon is true)
+                        {
+                            <MudTextField Label="Beacon player"
+                                          Class="mt-2"
+                                          Placeholder="Player name"
+                                          @bind-Value="_beaconPlayer"/>
+                            <MudTextField Label="Beacon distance"
+                                          Class="mt-2"
+                                          Placeholder="Distance"
+                                          @bind-Value="_beaconDistance"/>
+                            <MudText Typo="@Typo.caption" Color="@Color.Warning" Class="mt-2">
+                                Please cancel the beacon when the rescue team instructs you to do so.
+                            </MudText>
+                        }
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="bool?"
+                                   Label="Enemies nearby"
+                                   HelperText="Are hostile players or NPCs near you?"
+                                   @bind-Value="_enemies">
+                            <MudSelectItem T="bool?" Value="@(true)">Yes</MudSelectItem>
+                            <MudSelectItem T="bool?" Value="@(false)">No</MudSelectItem>
+                        </MudSelect>
+                        @if (_enemies is true)
+                        {
+                            <MudTextField Label="Enemy details"
+                                          Class="mt-2"
+                                          Placeholder="Describe nearby enemies"
+                                          @bind-Value="_enemyDetails"/>
+                        }
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="bool?"
+                                   Label="In a team"
+                                   HelperText="Are you currently in a party?"
+                                   @bind-Value="_inParty">
+                            <MudSelectItem T="bool?" Value="@(true)">Yes</MudSelectItem>
+                            <MudSelectItem T="bool?" Value="@(false)">No</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    @if (_inParty is true)
+                    {
+                        <MudItem xs="12" md="6">
+                            <MudStack Spacing="1">
+                                <MudStack Justify="@Justify.FlexEnd" Row>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Add"
+                                                   aria-label="Add party member"
+                                                   OnClick="@AddPartyMember"/>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Remove"
+                                                   aria-label="Remove party member"
+                                                   Disabled="@(_partyMembers.Count <= 1)"
+                                                   OnClick="@RemovePartyMember"/>
+                                </MudStack>
+                                @for (var index = 0; index < _partyMembers.Count; index++)
+                                {
+                                    <MudTextField Label="@($"Party member {index + 1}")"
+                                                  @bind-Value="_partyMembers[index]"/>
+                                }
+                            </MudStack>
+                        </MudItem>
+                    }
+                </MudGrid>
+                break;
+
+            case EmergencyDetailsStep.Remarks:
+                <MudTextField Label="Remarks"
+                              Placeholder="Provide any other relevant information"
+                              HelperText="This is optional."
+                              Lines="8"
+                              AutoGrow
+                              @bind-Value="_remarks"/>
+                break;
+        }
+
+        <MudStack Spacing="2" Row>
+            <MudButton Variant="@Variant.Filled"
+                       Color="@Color.Primary"
+                       OnClick="@SubmitCurrentStepAsync"
+                       Disabled="@IsLoading">
+                @(currentStep is EmergencyDetailsStep.Remarks ? "Send details" : "Continue")
+            </MudButton>
+            @if (currentStep is EmergencyDetailsStep.Situation)
+            {
+                <MudButton Variant="@Variant.Outlined"
+                           Color="@Color.Default"
+                           OnClick="@SkipDetailsAsync"
+                           Disabled="@IsLoading">
+                    Skip details
+                </MudButton>
+            }
+        </MudStack>
+    }
+
+    @if (_formError is not null)
+    {
+        <MudAlert Severity="@Severity.Error">
+            @_formError
+        </MudAlert>
+    }
+</MudStack>
+
+@code
+{
+    private static readonly string[] LocationTypes =
+    [
+        "Bunker",
+        "Outpost",
+        "Distribution Center",
+        "Contested Zones",
+        "Orbital Laser Platform",
+        "Platform Alignment Facility",
+        "Space",
+        "Surface",
+        "ASD Facility",
+        "QV Station",
+        "Breaker Station",
+        "Other",
+    ];
+
+    private EmergencyDetailsProgress _progress = new([], false);
+    private bool _loadingProgress = true;
+    private string? _loadedEmergencyId;
+    private string? _progressLoadError;
+    private string? _formError;
+
+    private string _situation = string.Empty;
+    private string _exactLocation = string.Empty;
+    private string _injury = string.Empty;
+    private string _crimeStat = string.Empty;
+    private string _locationType = string.Empty;
+    private string _asdFacilityType = string.Empty;
+    private string _qvStationType = string.Empty;
+    private string _crimeStatDetails = string.Empty;
+    private int? _deathHours;
+    private int? _deathMinutes;
+    private string _ship = string.Empty;
+    private bool? _beacon;
+    private string _beaconPlayer = string.Empty;
+    private string _beaconDistance = string.Empty;
+    private bool? _enemies;
+    private string _enemyDetails = string.Empty;
+    private bool? _inParty;
+    private List<string> _partyMembers = [string.Empty];
+    private string _remarks = string.Empty;
+
+    private EmergencyDetailsStep? CurrentStep
+        => _progress.NextIncompleteStep;
+
+    [Parameter]
+    public EventCallback Completed { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!HasEmergency || EmergencyId == _loadedEmergencyId)
+        {
+            return;
+        }
+
+        _loadedEmergencyId = EmergencyId;
+        await RestoreProgressAsync();
+    }
+
+    private async Task RestoreProgressAsync()
+    {
+        if (!HasEmergency)
+        {
+            return;
+        }
+
+        _loadingProgress = true;
+        _progressLoadError = null;
+
+        try
+        {
+            var clientId = Emergency?.ClientId ?? throw new InvalidOperationException("The emergency client id is unavailable.");
+            _progress = await MedRunnerEmergencyDetailsProgress.LoadProgressAsync(LoadHistoryPageAsync, clientId);
+        }
+        catch (Exception exception)
+        {
+            _progressLoadError = $"Unable to load initial emergency details: {exception.Message}";
+        }
+        finally
+        {
+            _loadingProgress = false;
+        }
+    }
+
+    private async Task<ApiPaginatedResponse<Overlay.External.MedRunner.Models.ChatMessage>> LoadHistoryPageAsync(string? paginationToken)
+    {
+        var emergencyId = EmergencyId ?? throw new InvalidOperationException("The emergency id is unavailable.");
+        var response = await MedRunner.ChatMessage.GetMessageHistoryAsync(emergencyId, 50, paginationToken);
+        if (!response.Success)
+        {
+            throw new InvalidOperationException(response.ErrorMessage ?? "The emergency message history could not be loaded.");
+        }
+
+        return response.Data;
+    }
+
+    private async Task SubmitCurrentStepAsync()
+    {
+        if (!HasEmergency || CurrentStep is not { } currentStep)
+        {
+            return;
+        }
+
+        await PerformWithErrorAsync(async () =>
+            {
+                var response = await MedRunner.ChatMessage.SendMessageAsync(
+                    new ChatMessageRequest
+                    {
+                        EmergencyId = EmergencyId,
+                        Contents = MedRunnerEmergencyDetailsProgress.CreateStepMessage(currentStep, GetCurrentStepContents(currentStep)),
+                    }
+                );
+                if (!response.Success)
+                {
+                    _formError = response.ErrorMessage ?? "The emergency details could not be sent.";
+                    return;
+                }
+
+                _progress = new EmergencyDetailsProgress(
+                    _progress.CompletedSteps.Append(currentStep).Distinct().Order().ToArray(),
+                    false
+                );
+                if (_progress.IsComplete)
+                {
+                    ResetInputs();
+                }
+            }
+        );
+    }
+
+    private async Task SkipDetailsAsync()
+    {
+        if (!HasEmergency)
+        {
+            return;
+        }
+
+        await PerformWithErrorAsync(async () =>
+            {
+                await RestoreProgressAsync();
+                if (!MedRunnerEmergencyDetailsProgress.CanSendSkippedMessage(_progress))
+                {
+                    return;
+                }
+
+                var response = await MedRunner.ChatMessage.SendMessageAsync(
+                    new ChatMessageRequest
+                    {
+                        EmergencyId = EmergencyId,
+                        Contents = MedRunnerEmergencyDetailsProgress.CreateSkippedMessage(),
+                    }
+                );
+                if (!response.Success)
+                {
+                    _formError = response.ErrorMessage ?? "The decision to skip initial details could not be sent.";
+                    return;
+                }
+
+                _progress = new EmergencyDetailsProgress(_progress.CompletedSteps, true);
+            }
+        );
+    }
+
+    private async Task PerformWithErrorAsync(Func<Task> action)
+    {
+        _formError = null;
+
+        try
+        {
+            await PerformSafeAsync(action);
+        }
+        catch (Exception exception)
+        {
+            _formError = exception.Message;
+        }
+    }
+
+    private void RestartDetails()
+    {
+        _progress = new EmergencyDetailsProgress(_progress.CompletedSteps, false);
+        _formError = null;
+    }
+
+    private async Task ContinueAsync()
+        => await Completed.InvokeAsync();
+
+    private void AddPartyMember()
+        => _partyMembers.Add(string.Empty);
+
+    private void RemovePartyMember()
+    {
+        if (_partyMembers.Count > 1)
+        {
+            _partyMembers.RemoveAt(_partyMembers.Count - 1);
+        }
+    }
+
+    private string GetCurrentStepContents(EmergencyDetailsStep step)
+        => step switch
+        {
+            EmergencyDetailsStep.Situation => $"_The client's situation is:_  **{UnknownWhenEmpty(_situation)}**\n"
+                                               + $"_Client death:_  **{GetDeathTime()}**\n"
+                                               + $"_Is the client injured:_  **{UnknownWhenEmpty(_injury)}**\n"
+                                               + $"_Does the client have CrimeStat?_  **{UnknownWhenEmpty(_crimeStat)}**{OptionalDetails(_crimeStatDetails)}",
+            EmergencyDetailsStep.Location => $"_The client type of location is:_  **{GetLocationType()}**\n"
+                                              + $"_The client exact location is:_  **{UnknownWhenEmpty(_exactLocation)}**\n"
+                                              + $"_Client ship:_  **{UnknownWhenEmpty(_ship)}**",
+            EmergencyDetailsStep.Players => $"_Has the client sent an IG beacon?_  **{YesNoUnknown(_beacon)}**{OptionalDetails(_beaconPlayer, "Name: ")}\n"
+                                             + $"{OptionalDetails(_beaconDistance, "Distance: ")}\n"
+                                             + $"_Is the client in a team?_  **{YesNoUnknown(_inParty)}**{GetPartyMembers()}\n"
+                                             + $"_Are there enemies nearby?_  **{YesNoUnknown(_enemies)}**{OptionalDetails(_enemyDetails)}",
+            EmergencyDetailsStep.Remarks => string.IsNullOrWhiteSpace(_remarks)
+                ? "_Remarks:_  <em>None provided</em>"
+                : $"_Remarks:_\n>{_remarks.ReplaceLineEndings("\n>")}",
+            _ => throw new ArgumentOutOfRangeException(nameof(step), step, null),
+        };
+
+    private string GetDeathTime()
+        => _deathHours is null && _deathMinutes is null
+            ? "Unknown"
+            : $"<t:{DateTimeOffset.UtcNow.AddHours(_deathHours ?? 0).AddMinutes(_deathMinutes ?? 0).ToUnixTimeSeconds()}:R>";
+
+    private string GetLocationType()
+        => _locationType switch
+        {
+            "" => "Unknown",
+            "ASD Facility" when _asdFacilityType.Length > 0 => $"{_locationType} ({_asdFacilityType})",
+            "QV Station" when _qvStationType.Length > 0 => $"{_locationType} ({_qvStationType})",
+            _ => _locationType,
+        };
+
+    private string GetPartyMembers()
+        => _inParty is true
+            ? OptionalDetails(string.Join(", ", _partyMembers.Where(member => member.Length > 0)))
+            : string.Empty;
+
+    private static string GetStepLabel(EmergencyDetailsStep step)
+        => step.ToString();
+
+    private static string UnknownWhenEmpty(string value)
+        => string.IsNullOrWhiteSpace(value) ? "Unknown" : value;
+
+    private static string YesNoUnknown(bool? value)
+        => value switch
+        {
+            true => "Yes",
+            false => "No",
+            _ => "Unknown",
+        };
+
+    private static string OptionalDetails(string value, string prefix = "")
+        => string.IsNullOrWhiteSpace(value) ? string.Empty : $"\n\n{prefix}{value}";
+
+    private void ResetInputs()
+    {
+        _situation = string.Empty;
+        _exactLocation = string.Empty;
+        _injury = string.Empty;
+        _beacon = null;
+        _beaconPlayer = string.Empty;
+        _beaconDistance = string.Empty;
+        _inParty = null;
+        _partyMembers = [string.Empty];
+        _enemies = null;
+        _enemyDetails = string.Empty;
+        _remarks = string.Empty;
+        _deathHours = null;
+        _deathMinutes = null;
+        _crimeStat = string.Empty;
+        _crimeStatDetails = string.Empty;
+        _ship = string.Empty;
+        _locationType = string.Empty;
+        _asdFacilityType = string.Empty;
+        _qvStationType = string.Empty;
+    }
+}

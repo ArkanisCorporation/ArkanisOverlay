@@ -22,11 +22,14 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
     public PropertyCollection? Properties
         => _parts.OfType<PropertyCollection>().FirstOrDefault();
 
-    public IEnumerator<Part> GetEnumerator()
-        => Parts.GetEnumerator();
+    public ItemCategoryReference? ItemCategory
+        => _parts.OfType<ItemCategoryReference>().FirstOrDefault();
 
     IEnumerator IEnumerable.GetEnumerator()
         => GetEnumerator();
+
+    public IEnumerator<Part> GetEnumerator()
+        => Parts.GetEnumerator();
 
     public static Reference ReferenceTo(GameEntity entity)
         => Reference.Create(entity);
@@ -77,20 +80,31 @@ public sealed record GameEntityName(IEnumerable<GameEntityName.Part> Parts) : IE
         public int Count
             => Items.Length;
 
-        public IEnumerator<PropertyItem> GetEnumerator()
-            => Items.AsEnumerable().GetEnumerator();
-
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        public IEnumerator<PropertyItem> GetEnumerator()
+            => Items.AsEnumerable().GetEnumerator();
 
         public static PropertyCollection Create(IEnumerable<GameItemTrait> traits)
         {
             var items = traits
                 .Where(trait => !string.IsNullOrWhiteSpace(trait.Content))
                 .Select(trait => trait.ToNamePart())
+                .OrderBy(trait => trait.Key)
                 .ToArray();
 
             return new PropertyCollection(items);
+        }
+
+        public static PropertyCollection Create(IEnumerable<PropertyItem> previous, IEnumerable<GameItemTrait> traits, IEnumerable<PropertyItem> next)
+        {
+            var items = traits
+                .Where(trait => !string.IsNullOrWhiteSpace(trait.Content))
+                .Select(trait => trait.ToNamePart())
+                .OrderBy(trait => trait.Key);
+
+            return new PropertyCollection(previous.Concat(items).Concat(next).ToArray());
         }
     }
 

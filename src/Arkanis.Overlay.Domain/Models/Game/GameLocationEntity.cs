@@ -11,28 +11,21 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
 
     public GameLocationEntity? Parent { get; } = parent;
 
+    public bool HasHangar { get; set; }
+
+    public string? ImageUrl { get; set; }
+    public string? ImageAuthor { get; set; }
+
     public HashSet<UexApiGameEntityId> ParentIds { get; } = parent is not null
         ? [parent.Id, ..parent.ParentIds]
         : [];
 
+    public IEnumerable<IGameLocation> Parents { get; } = parent is not null
+        ? [parent, ..parent.Parents]
+        : [];
+
     IGameLocation? IGameLocation.ParentLocation
         => Parent;
-
-    public override IEnumerable<SearchableTrait> SearchableAttributes
-    {
-        get
-        {
-            if (Parent is not null)
-            {
-                yield return new SearchableLocation(this);
-            }
-
-            foreach (var searchableAttribute in base.SearchableAttributes)
-            {
-                yield return searchableAttribute;
-            }
-        }
-    }
 
     public IEnumerable<GameLocationEntity> CreatePathToRoot()
     {
@@ -44,10 +37,23 @@ public abstract class GameLocationEntity(UexApiGameEntityId id, GameLocationEnti
         yield return this;
     }
 
+    protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
+    {
+        if (Parent is not null)
+        {
+            yield return new SearchableLocation(this);
+        }
+
+        foreach (var searchableAttribute in base.CollectSearchableTraits())
+        {
+            yield return searchableAttribute;
+        }
+    }
+
     private sealed class UnknownLocation() : GameLocationEntity(UexApiGameEntityId.Create<GameLocationEntity>(0), null)
     {
         public static GameLocationEntity Instance { get; } = new UnknownLocation();
 
-        public override GameEntityName Name { get; } = new(new GameEntityName.NameWithCode("Unknown Location", "UNK?"));
+        public override GameEntityName Name { get; } = new(new GameEntityName.Name("Unknown Location"));
     }
 }

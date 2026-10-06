@@ -1,7 +1,7 @@
 ﻿@page "/Error"
 @using System.Diagnostics
 
-<PageTitle>Error</PageTitle>
+<PageTitle>@ApplicationConstants.ApplicationName — Error</PageTitle>
 
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
@@ -28,10 +28,13 @@
 
 @code
 {
-    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
 
     private string? RequestId { get; set; }
-    private bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+    private bool ShowRequestId
+        => !string.IsNullOrEmpty(RequestId);
 
     protected override void OnInitialized()
         => RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;

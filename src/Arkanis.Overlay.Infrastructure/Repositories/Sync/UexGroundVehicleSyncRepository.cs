@@ -1,12 +1,13 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Sync;
 
+using Common.Abstractions.Services;
 using Data.Mappers;
-using Domain.Abstractions;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
 using External.UEX.Abstractions;
 using Local;
 using Microsoft.Extensions.Logging;
+using Polly;
 using Services;
 
 internal class UexGroundVehicleSyncRepository(
@@ -21,15 +22,21 @@ internal class UexGroundVehicleSyncRepository(
     protected override IDependable GetDependencies()
         => dependencyResolver.DependsOn<GameCompany>(this);
 
-    protected override async Task<UexApiResponse<ICollection<VehicleDTO>>> GetInternalResponseAsync(CancellationToken cancellationToken)
+    protected override async Task<UexApiResponse<ICollection<VehicleDTO>>> GetInternalResponseAsync(
+        ResiliencePipeline pipeline,
+        CancellationToken cancellationToken
+    )
     {
-        var response = await gameApi.GetVehiclesAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var response = await pipeline.ExecuteAsync(
+            async ct => await gameApi.GetVehiclesAsync(cancellationToken: ct).ConfigureAwait(false),
+            cancellationToken
+        );
         return CreateResponse(response, response.Result.Data);
     }
 
     protected override UexApiGameEntityId? GetSourceApiId(VehicleDTO source)
         => source.Id is not null
-            ? UexApiGameEntityId.Create<GameVehicle>(source.Id.Value)
+            ? Mapper.CreateGameEntityId(source, x => x.Id)
             : null;
 
     /// <remarks>
@@ -37,5 +44,5 @@ internal class UexGroundVehicleSyncRepository(
     ///     Exception is raised otherwise on type disparity after domain object mapping.
     /// </remarks>
     protected override bool IncludeSourceModel(VehicleDTO sourceModel)
-        => sourceModel is { Is_spaceship: 0, Is_ground_vehicle: 1 };
+        => sourceModel is { Is_ground_vehicle: 1 };
 }

@@ -4,6 +4,8 @@ using Common;
 
 public record GameCurrency(int Amount) : IComparable<GameCurrency>, IFormattable
 {
+    public static readonly GameCurrency Zero = new(0);
+
     public static string Name
         => ApplicationConstants.CurrencyName;
 
@@ -12,6 +14,8 @@ public record GameCurrency(int Amount) : IComparable<GameCurrency>, IFormattable
 
     public static string Symbol
         => ApplicationConstants.CurrencySymbol;
+
+    public int Amount { get; set; } = Amount;
 
     public int CompareTo(GameCurrency? other)
     {
@@ -52,4 +56,19 @@ public record GameCurrency(int Amount) : IComparable<GameCurrency>, IFormattable
         => ReferenceEquals(left, null)
             ? ReferenceEquals(right, null)
             : left.CompareTo(right) >= 0;
+
+    public static GameCurrency operator +(GameCurrency left, GameCurrency right)
+        => new(left.Amount + right.Amount);
+
+    public static GameCurrency operator -(GameCurrency left, GameCurrency right)
+        => new(left.Amount - right.Amount);
+
+    public static GameCurrency operator *(GameCurrency currency, int multiplier)
+        => new(currency.Amount * multiplier);
+
+    public static GameCurrency operator /(GameCurrency currency, int divisor)
+        => new(currency.Amount / divisor);
+
+    public static double operator /(GameCurrency left, GameCurrency right)
+        => left.Amount / (double)right.Amount;
 }

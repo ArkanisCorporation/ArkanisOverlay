@@ -1,30 +1,39 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0"/>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
+        <PackageReference Include="JetBrains.Annotations"/>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Extensions"/>
+        <PackageReference Include="Microsoft.Data.Sqlite"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.13"/>
-        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1"/>
-        <PackageReference Include="Quartz" Version="3.14.0"/>
-        <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.14.0"/>
-        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0"/>
-        <PackageReference Include="Quartz.Jobs" Version="3.14.0"/>
-        <PackageReference Include="Scrutor" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
+        <PackageReference Include="Microsoft.Extensions.Http"/>
+        <PackageReference Include="Polly"/>
+        <PackageReference Include="Polly.RateLimiting"/>
+        <PackageReference Include="Quartz.Extensions.DependencyInjection"/>
+        <PackageReference Include="Quartz.Extensions.Hosting"/>
+        <PackageReference Include="Scrutor"/>
+        <PackageReference Include="System.Linq.Async">
+            <!-- https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable#recommended-action -->
+            <ExcludeAssets>compile</ExcludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Arkanis.External.UEX\Arkanis.External.UEX.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.Backend\Arkanis.Overlay.External.Backend.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.CitizenId\Arkanis.Overlay.External.CitizenId.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.MedRunner\Arkanis.Overlay.External.MedRunner.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.External.UEX\Arkanis.Overlay.External.UEX.csproj"/>
         <ProjectReference Include="..\Arkanis.Overlay.Domain\Arkanis.Overlay.Domain.csproj"/>
+        <ProjectReference Include="..\Arkanis.Overlay.LocalLink\Arkanis.Overlay.LocalLink.csproj"/>
     </ItemGroup>
 
 </Project>

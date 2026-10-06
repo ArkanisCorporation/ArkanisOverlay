@@ -1,0 +1,83 @@
+<MudStack Spacing="2" Row>
+    <Tooltip Text="@(Context.AllowIllegal ? "All commodities" : "Legal commodities only")">
+        <MudToggleIconButton
+            @bind-Toggled="@Context.AllowIllegal"
+            @bind-Toggled:after="@RefreshDataAsync"
+            Icon="@Icons.Material.Filled.LocalPolice"
+            Color="@Color.Success"
+            ToggledColor="@Color.Error"/>
+    </Tooltip>
+    <Tooltip Text="@(Context.OnlyAutoLoadLocations ? "Locations with auto-load only" : "Auto-load not required")">
+        <MudToggleIconButton
+            @bind-Toggled="@Context.OnlyAutoLoadLocations"
+            @bind-Toggled:after="@RefreshDataAsync"
+            Icon="@Icons.Material.Filled.AutoMode"
+            Color="@Color.Inherit"
+            ToggledColor="@Color.Success"/>
+    </Tooltip>
+    <Tooltip
+        Text="@(Context.OnlyCargoDeckLocations ? "Locations with cargo deck only" : "Cargo deck not required")">
+        <MudToggleIconButton
+            @bind-Toggled="@Context.OnlyCargoDeckLocations"
+            @bind-Toggled:after="@RefreshDataAsync"
+            Icon="@Icons.Material.Filled.Grid4x4"
+            Color="@Color.Inherit"
+            ToggledColor="@Color.Success"/>
+    </Tooltip>
+    <MudDivider Vertical FlexItem/>
+    <Tooltip Text="Ground locations only">
+        <MudToggleIconButton
+            @bind-Toggled="@Context.OnlyGroundLocations"
+            @bind-Toggled:after="@RefreshDataAsync"
+            Disabled="@Context.OnlySpaceLocations"
+            Icon="@Icons.Material.Filled.SouthAmerica"
+            Color="@Color.Inherit"
+            ToggledColor="@Color.Warning"/>
+    </Tooltip>
+    <Tooltip Text="Orbital locations only">
+        <MudToggleIconButton
+            @bind-Toggled="@Context.OnlySpaceLocations"
+            @bind-Toggled:after="@RefreshDataAsync"
+            Disabled="@Context.OnlyGroundLocations"
+            Icon="@Icons.Material.Filled.Rocket"
+            Color="@Color.Inherit"
+            ToggledColor="@Color.Warning"/>
+    </Tooltip>
+</MudStack>
+
+@code
+{
+
+    [Parameter]
+    public ContextModel Context { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<ContextModel> ContextChanged { get; set; }
+
+    private async Task RefreshDataAsync()
+        => await ContextChanged.InvokeAsync(Context);
+
+    public class ContextModel
+    {
+        public bool AllowIllegal { get; set; }
+        public bool OnlyGroundLocations { get; set; }
+        public bool OnlySpaceLocations { get; set; }
+        public bool OnlyAutoLoadLocations { get; set; }
+        public bool OnlyCargoDeckLocations { get; set; }
+
+        public bool Filter(GameTradeRoute x)
+            => (AllowIllegal || !x.Commodity.IsIllegal)
+               && (!OnlyGroundLocations || (x.Origin.Terminal.IsOnGround && x.Destination.Terminal.IsOnGround))
+               && (!OnlySpaceLocations || (x.Origin.Terminal.IsInSpace && x.Destination.Terminal.IsInSpace))
+               && (!OnlyAutoLoadLocations || (x.Origin.Terminal.HasAutoLoad && x.Destination.Terminal.HasAutoLoad))
+               && (!OnlyCargoDeckLocations || (x.Origin.Terminal.HasCargoDeck && x.Destination.Terminal.HasCargoDeck));
+
+        public bool FilterDestination(GameTradeRoute x)
+            => (AllowIllegal || !x.Commodity.IsIllegal)
+               && (!OnlyGroundLocations || x.Destination.Terminal.IsOnGround)
+               && (!OnlySpaceLocations || x.Destination.Terminal.IsInSpace)
+               && (!OnlyAutoLoadLocations || x.Destination.Terminal.HasAutoLoad)
+               && (!OnlyCargoDeckLocations || x.Destination.Terminal.HasCargoDeck);
+    }
+
+}

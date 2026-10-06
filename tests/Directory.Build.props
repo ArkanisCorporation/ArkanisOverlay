@@ -1,0 +1,11 @@
+<Project>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"/>
+    <PropertyGroup>
+        <NoWarn>
+            $(NoWarn);
+            CA1707; <!-- CA1707: Remove the underscores from member name -->
+            xUnit1016, <!-- xUnit1016: MemberData must reference a public member. Add or change the visibility of the data member to public. -->
+            xUnit1019, <!-- xUnit1019: MemberData must reference a data type assignable to 'System.Collections.Generic.IEnumerable<object[]>'. -->
+        </NoWarn>
+    </PropertyGroup>
+</Project>

@@ -1,0 +1,111 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject InventoryViewModel ViewModel
+
+@if (Grouping is GroupBy.None)
+{
+    <ul class="@Class">
+        @foreach (var entry in Models)
+        {
+            <li>
+                @ViewModel.GetDisplayName(entry, false) <span class="text-secondary">(@entry.Quantity)</span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <ul class="@Class">
+        @if (Grouping is GroupBy.Location)
+        {
+            @foreach (var entriesByLocation in ModelsByPlacementId)
+            {
+                <li class="mt-2">
+                    @if (entriesByLocation.Key is not null)
+                    {
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Spacing="1"
+                                  Row>
+                            <span class="text-secondary">
+                                from
+                            </span>
+                            <InventoryEntryPlacementLabel
+                                Model="@entriesByLocation.First()"
+                                Spacing="1"
+                                WithoutPreposition/>
+                        </MudStack>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">unassigned</span>
+                    }
+
+                    <InventoryEntrySimpleList
+                        Models="entriesByLocation"
+                        Class="pl-4"/>
+                </li>
+            }
+        }
+        else if (Grouping is GroupBy.List)
+        {
+            @foreach (var entriesByLocation in ModelsByList)
+            {
+                <li class="mt-2">
+                    @if (entriesByLocation.Key is not null)
+                    {
+                        <span>
+                            from <b>@entriesByLocation.Key?.Name</b>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-secondary">unassigned</span>
+                    }
+
+                    <InventoryEntrySimpleList
+                        Models="entriesByLocation"
+                        Class="pl-4"/>
+                </li>
+            }
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Warning">
+                Unsupported entry grouping by @Grouping.
+            </MudAlert>
+            <InventoryEntrySimpleList
+                Models="Models"
+                Class="pl-4"/>
+        }
+    </ul>
+}
+
+<ul class="pl-4">
+</ul>
+
+@code
+{
+
+    [Parameter]
+    public IEnumerable<InventoryEntryBase> Models { get; set; } = [];
+
+    [Parameter]
+    public string? Class { get; set; } = "pl-4";
+
+    [Parameter]
+    public GroupBy Grouping { get; set; }
+
+    private IEnumerable<IGrouping<IDomainId?, InventoryEntryBase>> ModelsByPlacementId
+        => Models.GroupBy(entry => (entry as IInventoryPlacement).LocationId);
+
+    private IEnumerable<IGrouping<InventoryEntryListBrief?, InventoryEntryBase>> ModelsByList
+        => Models.GroupBy(entry => entry.List)
+            .OrderBy(group => group.Key?.Name);
+
+    public enum GroupBy
+    {
+        None,
+        Location,
+        List,
+    }
+
+}

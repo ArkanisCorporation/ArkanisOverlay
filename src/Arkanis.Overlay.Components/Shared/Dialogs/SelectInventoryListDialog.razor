@@ -1,0 +1,48 @@
+<MudDialog DefaultFocus="@DefaultFocus.FirstChild" ContentClass="py-2">
+    <TitleContent>
+        Select Inventory List
+    </TitleContent>
+    <DialogContent>
+        <InventoryListSelect
+            @bind-Value="InventoryList"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@Submit">
+            @SubmitLabel
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public InventoryEntryListBrief? InventoryList { get; set; }
+
+    [Parameter]
+    public string SubmitLabel { get; set; } = "Continue";
+
+    private void Submit()
+        => MudDialog.Close(DialogResult.Ok(InventoryList));
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryListBrief?> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+        var dialogRef = await dialogService.ShowAsync<SelectInventoryListDialog>(null, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryListBrief>();
+    }
+
+}

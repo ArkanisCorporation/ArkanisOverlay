@@ -1,27 +1,77 @@
+@using Arkanis.Overlay.Common.Abstractions.Services
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.JSInterop
 @inherits LayoutComponentBase
+@layout SharedLayoutBase
+@inject IUserPreferencesProvider UserPreferencesProvider
+@inject IAppVersionProvider VersionProvider
+@inject IJSRuntime JsRuntime
+@inject IDialogService DialogService
+
+@if (OrgAnniversary.Enabled)
+{
+    <link rel="stylesheet" href="_content/Arkanis.Overlay.Components/css/anniversary.css"/>
+}
 
 <MudThemeProvider Theme="_currentTheme" IsDarkMode="true"/>
 <MudPopoverProvider/>
 <MudDialogProvider/>
-<MudSnackbarProvider/>
+<Arkanis.Overlay.Components.Shared.Announcements.FeatureAnnouncementHost/>
 <AnalyticEventSender/>
+<WebOverlayControlsInterop/>
+<UserConsentDialogProvider/>
 
-<ErrorBoundary>
+<ErrorBoundary @ref="_errorBoundary">
     <ChildContent>
         <GlobalKeyboardEventProxyProvider>
             @Body
         </GlobalKeyboardEventProxyProvider>
     </ChildContent>
     <ErrorContent>
-        <h1>Sorry, an unrecoverable error has occured</h1>
-        <pre>@context.ToString()</pre>
+        <MudStack Class="h-100 w-100 pa-6" AlignItems="@AlignItems.Center" Justify="@Justify.Center">
+            <div style="min-width: 20vw">
+                <div class="mb-2">
+                    <h1>Sorry, an unrecoverable error has occured</h1>
+                    <pre style="white-space: pre-line;">@context.Message</pre>
+                </div>
+                <MudExpansionPanel Text="Error Details">
+                    <div style="overflow-y: scroll">
+                        <pre>@context.ToString()</pre>
+                    </div>
+                </MudExpansionPanel>
+                <MudStack Class="mt-4" Row>
+                    <MudButton Color="@Color.Success"
+                               Size="@Size.Large"
+                               Variant="@Variant.Outlined"
+                               StartIcon="@MaterialSymbols.Outlined.FrameReload"
+                               OnClick="@TryRecover">
+                        Try To Reload
+                    </MudButton>
+                    <MudButton Color="@Color.Success"
+                               Size="@Size.Large"
+                               Variant="@Variant.Outlined"
+                               StartIcon="@MaterialSymbols.Outlined.ChevronLeft"
+                               OnClick="@NavigateToPrevious">
+                        Go To Previous Page
+                    </MudButton>
+                    <MudButton Color="@Color.Warning"
+                               Size="@Size.Large"
+                               Variant="@Variant.Outlined"
+                               StartIcon="@MaterialSymbols.Outlined.OpenInBrowser"
+                               Href="@CreateNewIssueUrl(context)"
+                               Target="_blank">
+                        Report this issue (please check if exists first)
+                    </MudButton>
+                </MudStack>
+            </div>
+        </MudStack>
     </ErrorContent>
 </ErrorBoundary>
 
 @code
 {
 
-    readonly MudTheme _currentTheme = new()
+    private readonly MudTheme _currentTheme = new()
     {
         PaletteDark = new PaletteDark
         {
@@ -29,4 +79,37 @@
         },
     };
 
+    private ErrorBoundary? _errorBoundary;
+
+    private void TryRecover()
+    {
+        _errorBoundary?.Recover();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (UserPreferencesProvider.CurrentPreferences.PostHogOptions.Version != UserPreferences.PostHogAnalytics.CurrentVersion)
+        {
+            await AnalyticsDialog.ShowOnUpdateAsync(DialogService);
+        }
+    }
+
+    private async Task NavigateToPrevious()
+    {
+        await JsRuntime.InvokeVoidAsync("history.back");
+        await Task.Delay(20);
+        TryRecover();
+    }
+
+    private string CreateNewIssueUrl(Exception context)
+    {
+        var queryBuilder = new QueryBuilder
+        {
+            { "template", "bug_report.yml" },
+            { "version", VersionProvider.CurrentVersion.ToFullString() },
+            { "logs", context.ToString() },
+        };
+
+        return $"{ApplicationConstants.GitHubRepositoryUrl}/issues/new{queryBuilder.ToQueryString()}";
+    }
 }

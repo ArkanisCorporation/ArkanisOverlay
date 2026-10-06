@@ -1,210 +1,238 @@
 {
-    "Result": {
-        "data": [
-            {
-                "category": "Gadgets",
-                "company_name": "Greycat Industrial",
-                "date_added": 1703519971,
-                "date_modified": 1745119831,
-                "id": 104,
-                "id_category": 28,
-                "id_company": 123,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Waveshift",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "waveshift",
-                "url_store": "",
-                "uuid": "478ffd41-77dc-4239-a842-9fdf3d2072ac",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            },
-            {
-                "category": "Gadgets",
-                "company_name": "Shubin Interstellar",
-                "date_added": 1703519971,
-                "date_modified": 1745119832,
-                "id": 105,
-                "id_category": 28,
-                "id_company": 223,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Sabir",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "sabir",
-                "url_store": "",
-                "uuid": "d539a485-4a68-4426-8678-2cff115e6051",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            },
-            {
-                "category": "Gadgets",
-                "company_name": "Thermyte Concern",
-                "date_added": 1703519971,
-                "date_modified": 1745119833,
-                "id": 106,
-                "id_category": 28,
-                "id_company": 244,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "BoreMax",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "boremax",
-                "url_store": "",
-                "uuid": "06be9c06-120f-46d8-8179-e95ccd1f137a",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            },
-            {
-                "category": "Gadgets",
-                "company_name": "Greycat Industrial",
-                "date_added": 1703539900,
-                "date_modified": 1745183921,
-                "id": 794,
-                "id_category": 28,
-                "id_company": 123,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "OptiMax",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "optimax",
-                "url_store": "",
-                "uuid": "1a6b9b13-d3f8-4f32-b7db-146b90aad2da",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            },
-            {
-                "category": "Gadgets",
-                "company_name": "Shubin Interstellar",
-                "date_added": 1703539900,
-                "date_modified": 1745119831,
-                "id": 795,
-                "id_category": 28,
-                "id_company": 223,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Okunis",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "okunis",
-                "url_store": "",
-                "uuid": "715a41ad-b297-44fa-b792-8561687e5220",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            },
-            {
-                "category": "Gadgets",
-                "company_name": "Thermyte Concern",
-                "date_added": 1703615018,
-                "date_modified": 1745183922,
-                "id": 1331,
-                "id_category": 28,
-                "id_company": 244,
-                "id_parent": 0,
-                "id_vehicle": 0,
-                "is_exclusive_concierge": 0,
-                "is_exclusive_pledge": 0,
-                "is_exclusive_subscriber": 0,
-                "name": "Stalwart",
-                "notification": "",
-                "screenshot": "",
-                "section": "Utility",
-                "size": null,
-                "slug": "stalwart",
-                "url_store": "",
-                "uuid": "14398612-495b-498b-90d1-e55a346be810",
-                "vehicle_name": null,
-                "game_version": "4.1"
-            }
-        ],
-        "http_code": 200,
-        "message": "",
-        "status": "ok"
-    },
-    "StatusCode": 200,
-    "Headers": {
-        "Date": [
-            "Mon, 21 Apr 2025 16:39:25 GMT"
-        ],
-        "Transfer-Encoding": [
-            "chunked"
-        ],
-        "Connection": [
-            "keep-alive"
-        ],
-        "Cf-Ray": [
-            "933e514128dccd2b-PRG"
-        ],
-        "Server": [
-            "cloudflare"
-        ],
-        "Strict-Transport-Security": [
-            "max-age=31536000"
-        ],
-        "Cache-Control": [
-            "public, must-revalidate, max-age=86400"
-        ],
-        "Access-Control-Allow-Origin": [
-            "*"
-        ],
-        "X-Frame-Options": [
-            "SAMEORIGIN"
-        ],
-        "Content-Security-Policy": [
-            "frame-ancestors \u0027self\u0027"
-        ],
-        "Vary": [
-            "Accept-Encoding"
-        ],
-        "Cf-Cache-Status": [
-            "DYNAMIC"
-        ],
-        "Report-To": [
-            "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=EuV3qJTRJyuMUPWfkUVxwjelTwsrvLHX0sJgyodB58pQvX3GuPGp%2BCy%2B2XW01czDbObFcxE1mrK2SS13aoDvKF5rC45oKMDsd%2FzTK6gIpIaF9hSWX1LcGqjp4BOapn%2BG\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Nel": [
-            "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Alt-Svc": [
-            "h3=\u0022:443\u0022"
-        ],
-        "Server-Timing": [
-            "cfL4;desc=\u0022?proto=TCP\u0026rtt=4169\u0026min_rtt=3873\u0026rtt_var=134\u0026sent=1450\u0026recv=407\u0026lost=0\u0026retrans=1\u0026sent_bytes=1956410\u0026recv_bytes=3745\u0026delivery_rate=46765860\u0026cwnd=616\u0026unsent_bytes=0\u0026cid=0035be890aeb4f52\u0026ts=4846\u0026x=0\u0022"
-        ],
-        "Content-Type": [
-            "application/json"
-        ],
-        "Expires": [
-            "Tue, 22 Apr 2025 16:39:25 GMT"
-        ]
-    }
+  "Result": {
+    "data": [
+      {
+        "category": "Gadgets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1703519971,
+        "date_modified": 1745119831,
+        "id": 104,
+        "id_category": 28,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Waveshift",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "waveshift",
+        "url_store": "",
+        "uuid": "478ffd41-77dc-4239-a842-9fdf3d2072ac",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Gadgets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1703519971,
+        "date_modified": 1745119832,
+        "id": 105,
+        "id_category": 28,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Sabir",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "sabir",
+        "url_store": "",
+        "uuid": "d539a485-4a68-4426-8678-2cff115e6051",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Gadgets",
+        "company_name": "Thermyte Concern",
+        "date_added": 1703519971,
+        "date_modified": 1745119833,
+        "id": 106,
+        "id_category": 28,
+        "id_company": 244,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "BoreMax",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "boremax",
+        "url_store": "",
+        "uuid": "06be9c06-120f-46d8-8179-e95ccd1f137a",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Gadgets",
+        "company_name": "Greycat Industrial",
+        "date_added": 1703539900,
+        "date_modified": 1745183921,
+        "id": 794,
+        "id_category": 28,
+        "id_company": 123,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "OptiMax",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "optimax",
+        "url_store": "",
+        "uuid": "1a6b9b13-d3f8-4f32-b7db-146b90aad2da",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Gadgets",
+        "company_name": "Shubin Interstellar",
+        "date_added": 1703539900,
+        "date_modified": 1745119831,
+        "id": 795,
+        "id_category": 28,
+        "id_company": 223,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Okunis",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "okunis",
+        "url_store": "",
+        "uuid": "715a41ad-b297-44fa-b792-8561687e5220",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      },
+      {
+        "category": "Gadgets",
+        "company_name": "Thermyte Concern",
+        "date_added": 1703615018,
+        "date_modified": 1745183922,
+        "id": 1331,
+        "id_category": 28,
+        "id_company": 244,
+        "id_parent": 0,
+        "id_vehicle": 0,
+        "is_exclusive_concierge": 0,
+        "is_exclusive_pledge": 0,
+        "is_exclusive_subscriber": 0,
+        "name": "Stalwart",
+        "notification": null,
+        "screenshot": "",
+        "section": "Utility",
+        "size": null,
+        "slug": "stalwart",
+        "url_store": "",
+        "uuid": "14398612-495b-498b-90d1-e55a346be810",
+        "vehicle_name": null,
+        "is_commodity": 0,
+        "is_harvestable": 0,
+        "game_version": "4.1"
+      }
+    ],
+    "http_code": 200,
+    "message": "",
+    "status": "ok"
+  },
+  "StatusCode": 200,
+  "Headers": {
+    "Date": [
+      "Fri, 10 Oct 2025 04:47:18 GMT"
+    ],
+    "Transfer-Encoding": [
+      "chunked"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Age": [
+      "2006"
+    ],
+    "Alt-Svc": [
+      "h3=\u0022:443\u0022"
+    ],
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=84394; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=9QYu1aYRZYFzYtIUiA%2BCOlnL%2BDMcxFqrGzf61CIqUnZrCQLwoSfHVlpxzMKv3Y9syvDtxJOnE5wpLTldEEut1XFS2RZ6dUmWEAO2iQ%3D%3D\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "x-selected-user-id": [
+      "9591"
+    ],
+    "CF-RAY": [
+      "98c37a9b4f99f97a-PRG"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Expires": [
+      "Sat, 11 Oct 2025 04:13:53 GMT"
+    ]
+  }
 }

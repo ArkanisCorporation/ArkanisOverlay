@@ -1,6 +1,4 @@
-@using Arkanis.Overlay.Components.Extensions
 @using Arkanis.Overlay.Components.Services.Abstractions
-@using Microsoft.Extensions.Logging
 @using Microsoft.JSInterop
 @implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
@@ -47,6 +45,7 @@
     private Task OnDialogInstanceAddedAsync(IDialogReference dialog)
     {
         _openDialogs.Add(dialog);
+        GlobalKeyboardProxy.Clear();
         dialog.Result.ContinueWith(_ => _openDialogs.Remove(dialog));
         return Task.CompletedTask;
     }
@@ -59,8 +58,11 @@
             return;
         }
 
+#if WITH_KEYBOARD_DEBUGGING
         var keyboardKey = keyboardEvent.GetKey();
         Logger.LogDebug("KeyDown: {Key}", keyboardKey);
+#endif
+
         GlobalKeyboardProxy.RegisterKeyDown(keyboardEvent);
     }
 

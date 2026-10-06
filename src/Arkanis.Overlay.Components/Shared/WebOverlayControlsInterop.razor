@@ -1,0 +1,34 @@
+@inject IOverlayEventControls OverlayEventControls
+@inject EventInterop EventInterop
+@inject ILogger<WebOverlayControlsInterop> Logger
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            Logger.LogDebug("Registering window focus event handlers");
+
+            var focusGainedHandler = EventInterop.CreateHandler(OnWindowFocusGained);
+            await EventInterop.RegisterWindowEventHandlerAsync("focus", focusGainedHandler);
+
+            var focusLostHandler = EventInterop.CreateHandler(OnWindowFocusLost);
+            await EventInterop.RegisterWindowEventHandlerAsync("blur", focusLostHandler);
+        }
+    }
+
+    private void OnWindowFocusGained()
+    {
+        Logger.LogDebug("Window focus gained");
+        OverlayEventControls.OnFocusGained();
+    }
+
+    private void OnWindowFocusLost()
+    {
+        Logger.LogDebug("Window focus lost");
+        OverlayEventControls.OnFocusLost();
+    }
+}

@@ -6,6 +6,21 @@
     height: 100%;
 }
 
+.mud-button:not(.mud-disabled) .mud-svg-icon,
+.mud-button:not(.mud-disabled) .mud-icon-root,
+.mud-disabled > .mud-expand-panel-header.typo-ignore-disabled-parent {
+    color: inherit;
+}
+
+.mud-paper,
+.mud-expansion-panels {
+    animation: 250ms fadeInDown;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
 .text-primary {
     color: var(--mud-palette-text-primary);
 }
@@ -14,8 +29,19 @@
     color: var(--mud-palette-text-secondary);
 }
 
+.disabled .text-secondary,
+.mud-disabled .text-secondary,
+.mud-list-item-disabled .text-secondary,
 .text-disabled {
     color: var(--mud-palette-text-disabled);
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
 }
 
 .formatted {
@@ -24,4 +50,251 @@
 
 .no-wrap {
     white-space: nowrap;
+}
+
+.focus.active,
+.focus:focus,
+.focus:focus-within {
+    outline: 2px solid var(--mud-palette-primary);
+}
+
+.focus-animate-height {
+    overflow: hidden;
+    transition: height 100ms;
+}
+
+.focus:not(:focus):not(:focus-within) .focus-animate-height {
+    height: 0 !important;
+}
+
+.focus:focus .focus-animate-height,
+.focus:focus-within .focus-animate-height {
+    transition: height 100ms;
+}
+
+.mud-badge {
+    z-index: 100;
+}
+
+.mud-paper .mud-expand-panel.mud-panel-next-expanded {
+    border-bottom: 1px solid var(--mud-palette-lines-default);
+}
+
+.mud-paper .mud-expand-panel.mud-panel-expanded {
+    margin-top: 0;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root:first-child tr:last-of-type > :first-child {
+    border-top-left-radius: var(--mud-default-borderradius) !important;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root:first-child tr:last-of-type > :last-child {
+    border-top-right-radius: var(--mud-default-borderradius) !important;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root tr:last-of-type > :first-child,
+.mud-expansion-panels:not(.mud-expansion-panels-square) .mud-table-root tr:last-of-type > :first-child {
+    border-bottom-left-radius: var(--mud-default-borderradius) !important;
+}
+
+.mud-paper:not(.mud-paper-square) .mud-table-root tr:last-of-type > :last-child,
+.mud-expansion-panels:not(.mud-expansion-panels-square) .mud-table-root tr:last-of-type > :last-child {
+    border-bottom-right-radius: var(--mud-default-borderradius) !important;
+}
+
+.flex-truncate {
+    flex-shrink: 1;
+
+    &, & * {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    & *:not(.mud-ripple):hover {
+        overflow: visible;
+    }
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
+}
+
+@keyframes fadeInDown {
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInLeft {
+    0% {
+        transform: translateX(10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.mud-popover .mud-list.mud-menu-list {
+    overflow: visible;
+}
+
+/* Allow badges to overflow popovers (keyboard shortcuts) */
+.mud-popover:has(>.mud-menu-list>.mud-badge-root) {
+    overflow: visible;
+}
+
+.mud-data-grid .mud-table-row .mud-table-cell.mud-datagrid-group,
+.mud-table .mud-table-row th.mud-table-cell {
+    background-color: var(--mud-palette-surface);
+}
+
+.mud-table.bg-gray .mud-table-row .mud-table-cell:not(.mud-datagrid-group),
+.mud-table.bg-gray .mud-table-empty-row {
+    background-color: var(--mud-palette-background-gray);
+}
+
+.mud-table.bg-gray tfoot .mud-table-cell {
+    background-color: var(--mud-palette-surface) !important;
+}
+
+.mud-table.bg-gray .mud-table-row.selected .mud-table-cell {
+    background-color: var(--mud-palette-background);
+}
+
+.bg-gray .mud-timeline-item-dot {
+    background-color: var(--mud-palette-background-gray);
+}
+
+.mud-data-grid .flex-row-reverse > .column-header {
+    flex-direction: row-reverse;
+}
+
+:not(:hover) * .visible-on-parent-hover {
+    display: none !important;
+}
+
+.hover-parent:hover .visible-on-parent-hover {
+    display: initial !important;
+}
+
+.hover-parent:hover .hidden-on-parent-hover {
+    display: none !important;
+}
+
+.mud-card-actions.mud-stepper-actions:empty {
+    display: none;
+}
+
+.mud-tabs {
+    .mud-chip.mud-chip-size-small {
+        margin: 0;
+        height: 20px;
+    }
+}
+
+.mud-tabs.with-badges {
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-tabs-tabbar-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        transform: none !important;
+    }
+
+    .mud-tabs-tabbar-wrapper .mud-badge-root {
+        width: 100%;
+    }
+
+    .mud-tabs-tabbar-wrapper > * {
+        flex: 1;
+    }
+}
+
+.mud-paper .mud-expansion-panels {
+    .mud-expand-panel.mud-panel-expanded {
+        margin-bottom: 0;
+    }
+
+    .mud-collapse-container.mud-collapse-entering,
+    .mud-collapse-container.mud-collapse-entered {
+        border-top: 1px solid var(--mud-palette-lines-default);
+        border-bottom: 1px solid var(--mud-palette-lines-default);
+    }
+
+    .mud-collapse-container.mud-collapse-exiting {
+        border-top: 1px solid var(--mud-palette-lines-default);
+    }
+}
+
+.mud-expand-panel.mud-panel-expanded.mud-disabled {
+    .mud-icon-root,
+    .mud-svg-icon,
+    .mud-icon-default {
+        color: inherit;
+    }
+}
+
+.game-entity-name {
+    .header {
+        height: 16px;
+    }
+
+    .footer {
+        height: 18px;
+        max-width: 50vw;
+        overflow: hidden;
+    }
+
+    .primary .code {
+        height: 18px;
+    }
+
+    .primary {
+        height: 56px;
+    }
+
+    .primary:not(:last-child),
+    .primary:not(:first-child) {
+        height: 40px;
+    }
+}
+
+.width-min-content {
+    max-width: min-content !important;
+    width: min-content !important;
+}
+
+.mud-card-actions:empty,
+.mud-stepper-actions:empty {
+    padding: 0;
+}
+
+/* shared.css loads before MudBlazor, so this outranks MudBlazor's no-gutter rule. */
+body .mud-dialog .mud-dialog-content.mud-dialog-no-side-padding {
+    padding: 0;
+}
+
+.shimmer {
+    display: inline-block;
+    mask: linear-gradient(-60deg, #000 30%, #efbf04, #000 70%) right/350% 100%;
+    animation: shimmer 4s infinite;
+    font-size: 50px;
+    max-width: 200px;
+}
+
+@keyframes shimmer {
+    100% {
+        mask-position: left
+    }
 }

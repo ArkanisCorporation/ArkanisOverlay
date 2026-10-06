@@ -1,0 +1,41 @@
+@using Arkanis.Overlay.Host.Server.Models
+@typeparam T where T : AppRelease
+@if (AssetDownload is AssetDownloadMissing)
+{
+    <MudButton Variant="@Variant.Outlined"
+               Color="@Color.Primary"
+               Disabled>
+        @Name unavailable
+    </MudButton>
+}
+else if (AssetDownload is ReleaseAssetDownload download)
+{
+    <MudButton Variant="@Variant.Filled"
+               Color="@Color.Primary"
+               StartIcon="@Icons.Material.Filled.InstallDesktop"
+               Href="@download.BrowserDownloadUrl"
+               Target="_blank">
+        @Name @download.Version
+    </MudButton>
+}
+
+@code
+{
+
+    [Parameter]
+    public string? Name { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required AppRelease Release { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required Func<T, AssetDownload> AssetSelector { get; set; }
+
+    private AssetDownload AssetDownload
+        => Release is T githubRelease
+            ? AssetSelector(githubRelease)
+            : AssetDownload.Missing;
+
+}

@@ -1,0 +1,88 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
+@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
+
+<FocusRegion @ref="_focusRegion" Class="w-100 search-result-container">
+    <MudPaper Class="w-100 search-result px-4 py-2 focus" tabindex="0">
+        <KeyboardShortcutBadge Keys="@([KeyboardKey.Enter])"
+                               Origin="@Origin.TopLeft"
+                               Class="w-100"
+                               IsActive="@(!IsFocused)"
+                               OnKeyPress="@(() => context.SourceRegion.FocusAsync())">
+            <MudStack Class="w-100"
+                      Justify="@Justify.FlexStart"
+                      AlignItems="@AlignItems.Center"
+                      Row>
+
+                <MudIcon Icon="@Icons.Material.Filled.Calculate"></MudIcon>
+                <MudDivider Vertical="true" FlexItem="true"></MudDivider>
+
+                <div class="my-n2">
+                    @if (HasError)
+                    {
+                        <MudText Typo="@Typo.h5" Color="@Color.Error">
+                            <code>
+                                Invalid math expression.
+                            </code>
+                        </MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h5">
+                            <code>
+                                @Model.ToString("N")
+                            </code>
+                        </MudText>
+                    }
+                </div>
+
+                <MudSpacer/>
+                <MudStack Spacing="2"
+                          AlignItems="@AlignItems.Center"
+                          Justify="@Justify.FlexEnd"
+                          Class="mr-n2"
+                          Style="height: 46px;"
+                          Row>
+                    <MudDivider Vertical FlexItem/>
+                    <KeyboardShortcutBadge Key="@KeyboardKey.Enter"
+                                           Origin="@Origin.BottomCenter"
+                                           Color="@Color.Tertiary"
+                                           IsActive="@(IsFocused && NoError)"
+                                           OnKeyPress="@CopyResultAsync">
+                        <MudTooltip Text="Copy result to clipboard"
+                                    Placement="@Placement.Top">
+                            <MudIconButton
+                                Icon="@Icons.Material.Filled.ContentCopy"
+                                OnClick="@CopyResultAsync"
+                                Disabled="@HasError"
+                                Class="focus"
+                                tabindex="1"/>
+                        </MudTooltip>
+                    </KeyboardShortcutBadge>
+                </MudStack>
+
+            </MudStack>
+        </KeyboardShortcutBadge>
+    </MudPaper>
+</FocusRegion>
+
+@code
+{
+    private FocusRegion? _focusRegion;
+
+    [Parameter]
+    public decimal Model { get; set; }
+
+    [Parameter]
+    public bool HasError { get; set; }
+
+    private bool IsFocused
+        => _focusRegion?.HasFocus ?? false;
+
+    private bool NoError
+        => HasError == false;
+
+    private async Task CopyResultAsync()
+        => await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Model.ToString("N"));
+
+}

@@ -13,12 +13,14 @@ public class ClientOverlayDbContextFactory(
     ILogger<ClientOverlayDbContextFactory> logger
 ) : IDbContextFactory<OverlayDbContext>
 {
-    private const string ConnectionName = "OverlayDatabase";
+    internal const string ConnectionName = "OverlayDatabase";
 
     public OverlayDbContext CreateDbContext()
     {
         var connectionString = configuration.GetConnectionString(ConnectionName);
-        connectionString ??= $"Data Source={ApplicationConstants.LocalAppDataDir}/Overlay.db;Cache=Shared";
+
+        var databaseFilePath = Path.Combine(ApplicationConstants.ApplicationDataDirectory.FullName, "Overlay.db");
+        connectionString ??= $"Data Source={databaseFilePath};Cache=Shared";
 
         logger.LogDebug("Connecting to {ConnectionString}", connectionString);
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
@@ -29,7 +31,7 @@ public class ClientOverlayDbContextFactory(
         optionsBuilder.UseLoggerFactory(loggerFactory);
         optionsBuilder.UseSqlite(connectionString);
 
-        if (hostEnvironment.IsDevelopment())
+        if (!hostEnvironment.IsProduction())
         {
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.EnableDetailedErrors();

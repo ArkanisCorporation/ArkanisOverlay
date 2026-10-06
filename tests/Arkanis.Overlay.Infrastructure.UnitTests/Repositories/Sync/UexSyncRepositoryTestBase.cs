@@ -1,18 +1,22 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Repositories.Sync;
 
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
+using Microsoft.Extensions.Logging;
 using Shouldly;
-using Xunit.Abstractions;
 using Xunit.Microsoft.DependencyInjection.Abstracts;
 
 public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHelper testOutputHelper, TFixture fixture)
     : TestBed<TFixture>(testOutputHelper, fixture)
     where TEntity : GameEntity where TFixture : TestBedFixture
 {
-    protected CancellationTokenSource TestCancellation { get; } = new(TimeSpan.FromSeconds(10));
+    protected CancellationTokenSource TestCancellation { get; } = new(TimeSpan.FromSeconds(30));
 
     protected CancellationToken TestCancellationToken
         => TestCancellation.Token;
@@ -30,10 +34,11 @@ public abstract class UexSyncRepositoryTestBase<TEntity, TFixture>(ITestOutputHe
         var repositorySUT = ResolveSyncRepositoryFor();
 
         await LoadDependenciesAsync(TestCancellationToken);
+        _fixture.GetService<ILogger<UexSyncRepositoryTestBase<TEntity, TFixture>>>(_testOutputHelper)?.LogDebug("Dependencies loaded");
+
         var syncData = await repositorySUT.GetAllAsync(DataMissing.Instance, TestCancellationToken);
 
-        var loadedSyncData = syncData as LoadedSyncData<TEntity>;
-        loadedSyncData.ShouldNotBeNull();
+        var loadedSyncData = syncData.ShouldBeOfType<LoadedSyncData<TEntity>>();
 
         var entities = await loadedSyncData.GameEntities.ToListAsync(TestCancellationToken);
         entities.ShouldNotBeEmpty();

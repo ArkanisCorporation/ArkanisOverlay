@@ -1,0 +1,260 @@
+@using System.Globalization
+@using System.Text
+@using Arkanis.Overlay.Components.Views.Components
+@using MathEvaluation
+@inject ILogger<SearchView> Logger
+@inject ISearchService SearchService
+@inject IGlobalAnalyticsReporter GlobalAnalyticsReporter
+@inject EventInterop EventInterop
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    #currentLocation > div {
+        border: 1px solid var(--mud-palette-lines-inputs);
+        border-radius: var(--mud-default-borderradius);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: 0;
+    }
+
+    #currentLocation + .focus-region {
+        .mud-input-control.mud-input-input-control {
+            fieldset.mud-input-outlined-border {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+
+    #search-box-container {
+        animation: 250ms fadeInDown;
+    }
+
+    .search-result-container {
+        animation: 125ms fadeInLeft;
+    }
+
+    #searchContainer {
+        .mud-input-control {
+            margin: 0;
+        }
+
+        .mud-input,
+        .mud-input-control > .mud-input-control-input-container > .mud-input-label-inputcontrol {
+            font-size: max(2.5vh, 1.5rem); /* 1 rem is default */
+        }
+
+        .mud-icon-size-medium {
+            font-size: max(2.5vh, 1.5rem); /* 1 rem is default */;
+        }
+    }
+
+    .mud-snackbar {
+        min-width: 0;
+    }
+
+    .mud-icon-button.focus {
+        border-radius: 0;
+    }
+</style>
+
+<CascadingValue Value="@_searchContext">
+    <div class="px-3 @(OrgAnniversary.Enabled ? "org-anniversary-search" : null)">
+        <div style="padding: 7.5vh"></div>
+        <div style="width: fit-content; min-width: 60vw; margin: auto;">
+            <div
+                style="width: fit-content; margin: auto; position: sticky; top: var(--animated-border-weight, 0px); z-index: 9;">
+            @if (OrgAnniversary.Enabled)
+            {
+                <div class="animated-border-box rounded"></div>
+                <div class="animated-border-box-glow"></div>
+                }<MudPaper id="search-box-container" Class="relative">
+                    <MudStack id="searchContainer"
+                              AlignItems="@AlignItems.Center"
+                              Class="d-flex justify-start flex-grow-1"
+                              Spacing="0">
+                        @if (OrgAnniversary.Enabled)
+                        {
+                            <AnniversaryBanner/>
+                        }
+                        <SearchBox
+                            @ref="_searchBox"
+                            @bind-SearchText="@SearchText"
+                            @bind-SearchText:after="@SearchAsync"
+                            HelperText="@ShortcutsText"/>
+                    </MudStack>
+                </MudPaper>
+            </div>
+            <MudStack AlignItems="@AlignItems.Center" Class="w-100">
+                @if (CalculatorResult is { } result)
+                {
+                    <MudStack Class="mt-10 w-100">
+                        <CalculationResult
+                            Model="@result"
+                            HasError="@HasCalculatorError"/>
+                    </MudStack>
+                }
+                else if (SearchResults.GameEntities.Count > 0)
+                {
+                    <MudChip T="string" Variant="@Variant.Filled" Color="@Color.Surface">
+                        Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
+                    </MudChip>
+                }
+            </MudStack>
+
+            <SearchResultStack Model="SearchResults"/>
+        </div>
+    </div>
+</CascadingValue>
+
+@code
+{
+
+    private const string ContentId = nameof(SearchView);
+
+    [SupplyParameterFromQuery(Name = "q")]
+    public string? SearchText { get; set; } = string.Empty;
+
+    private const StringSplitOptions SplittingOptions
+        = StringSplitOptions.RemoveEmptyEntries
+          | StringSplitOptions.TrimEntries;
+
+    private static CancellationTokenSource _searchCancellation = new();
+    private static SearchBox? _searchBox;
+
+    private readonly Dictionary<string, EntityCategorySearch> _categorySearchShortcuts = new()
+    {
+        [":i"] = new EntityCategorySearch(GameEntityCategory.Item),
+        [":c"] = new EntityCategorySearch(GameEntityCategory.Commodity),
+        [":s"] = new EntityCategorySearch(GameEntityCategory.SpaceShip),
+        [":g"] = new EntityCategorySearch(GameEntityCategory.GroundVehicle),
+        [":l"] = new EntityCategorySearch(GameEntityCategory.Location),
+        [":f"] = new EntityCategorySearch(GameEntityCategory.Company),
+    };
+
+    private OverlaySearchContext _searchContext = new();
+
+    private string ShortcutsText
+        => new StringBuilder()
+            .AppendJoin(", ", _categorySearchShortcuts.Select(search => $"{search.Key} {search.Value.Categories.Single().Humanize().Pluralize()}"))
+            .Append(", =(math expression)")
+            .ToString();
+
+    private GameEntitySearchResults SearchResults { get; set; } = GameEntitySearchResults.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await SearchAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender && _searchBox is not null)
+        {
+            _searchContext = new OverlaySearchContext
+            {
+                UpdateSearch = EventCallback.Factory.Create<OverlaySearchContext>(this, OnSearchContextChange),
+                SearchBox = _searchBox,
+            };
+
+            var windowFocusHandler = EventInterop.CreateHandler(_searchBox.FocusSearchBoxAsync);
+            await EventInterop.RegisterWindowEventHandlerAsync("focus", windowFocusHandler);
+            StateHasChanged();
+        }
+    }
+
+    private async Task OnSearchContextChange(OverlaySearchContext newContext)
+        => await SearchAsync();
+
+    private decimal? CalculatorResult { get; set; }
+    private bool HasCalculatorError { get; set; }
+
+    private async Task SearchAsync()
+    {
+        var previousSearchCancellation = _searchCancellation;
+        var searchCancellation = new CancellationTokenSource();
+        _searchCancellation = searchCancellation;
+        var cancellationToken = searchCancellation.Token;
+
+        try
+        {
+            await previousSearchCancellation.CancelAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (SearchText?.StartsWith("=") == true)
+            {
+                HasCalculatorError = !TryEvaluateMathExpression(SearchText, out var result);
+                CalculatorResult = result;
+                await GlobalAnalyticsReporter.TrackEventAsync(new SearchCalculationEvent());
+                return;
+            }
+
+            CalculatorResult = null;
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Logger.LogDebug("Search text is empty, no search performed");
+                SearchResults = GameEntitySearchResults.Empty;
+                return;
+            }
+
+            var searchQueries = SearchText.Split(' ', SplittingOptions)
+                .Select(searchPart => searchPart.StartsWith(':')
+                    ? _categorySearchShortcuts.GetValueOrDefault(searchPart.ToLower()) ?? EmptySearch.Instance
+                    : TextSearch.Fuzzy(searchPart)
+                )
+                .Where(search => search is not EmptySearch)
+                .ToList();
+
+            // increases the score of results that contain / match all search terms (in order)
+            // var combinedSearchQuery = TextSearch.Combine(searchQueries);
+            // searchQueries = searchQueries.Prepend(combinedSearchQuery).ToList();
+
+            if (_searchContext.CurrentLocation is { } location)
+            {
+                searchQueries.Add(new LocationSearch(location));
+            }
+
+            var searchResults = await SearchService.SearchAsync(searchQueries, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            SearchResults = searchResults;
+            await GlobalAnalyticsReporter.TrackEventAsync(new SearchEvent(SearchText));
+        }
+        catch (OperationCanceledException)
+        {
+            // search has been cancelled (possibly by another search)
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error during search");
+        }
+    }
+
+    /// <summary>
+    ///     Parses strings as math expression using https://github.com/AntonovAnton/math.evaluation
+    /// </summary>
+    /// <remarks>
+    ///     See https://github.com/ArkanisCorporation/ArkanisOverlay/milestone/6 for related issues & feature requests.
+    /// </remarks>
+    /// <param name="expression">The string expression, expected to begin with an equal sign `=`.</param>
+    /// <param name="result">The evaluation result</param>
+    /// <returns>True if the expression was parsed successfully, false otherwise.</returns>
+    private bool TryEvaluateMathExpression(string expression, out decimal result)
+    {
+        try
+        {
+            result = new MathExpression(expression[1..].Replace(" ", string.Empty), null, CultureInfo.CurrentCulture).EvaluateDecimal();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "Could not evaluate the provided expression: {Expression}", expression);
+        }
+
+        result = 0;
+        return false;
+    }
+
+}

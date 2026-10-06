@@ -1,0 +1,89 @@
+@inherits TradeRunStageComponent<TradeRun.SaleStage>
+@inject IAnalyticsEventReporter EventReporter
+
+<MudStepper Class="trade-run-steps">
+    <ChildContent>
+        @if (Stage is TradeRun.TerminalSaleStage terminalSale)
+        {
+            <TradeRunStageTravelToStep
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalSale.Terminal"
+                StepTitle="Reach destination"
+                Description="Reach the destination at"
+                PreferParentLocation/>
+
+            <TradeRunStageUnloadCargoStep
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalSale.Terminal"
+                StepTitle="Unload"
+                Title="Unload cargo"
+                Description="Unload the purchased cargo from your ship at"
+                PreferParentLocation/>
+
+            <TradeRunStageSellCargoStep
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"/>
+
+            <TradeRunStageUnloadCargoStep
+                Stage="@terminalSale"
+                StageChanged="@UpdateStageAsync"
+                TradeRun="@TradeRun"
+                Location="@terminalSale.Terminal"
+                StepTitle="Auto-unload"
+                Title="Wait for cargo unload"
+                Description="Wait for the cargo to unload from your ship at"
+                PreferParentLocation
+                IsPostTrade/>
+        }
+        else
+        {
+            <MudAlert Severity="@Severity.Error">
+                Trade run model of type @Stage.GetType() is not supported.
+            </MudAlert>
+        }
+    </ChildContent>
+    <CompletedContent>
+        <TradeRunStageSummary Stage="@Stage"
+                              StageChanged="@UpdateStageAsync"
+                              TradeRun="@TradeRun">
+            <ControlsContent>
+                @if (!IsCompleted)
+                {
+                    <MudButton Variant="@Variant.Outlined"
+                               OnClick="@OnFinalizeClick"
+                               StartIcon="@MaterialIcons.Filled.FlightTakeoff"
+                               Color="@Color.Success"
+                               Disabled="@Disabled"
+                               Class="w-100">
+                        Finalize stage and continue
+                    </MudButton>
+                }
+            </ControlsContent>
+        </TradeRunStageSummary>
+    </CompletedContent>
+    <ActionContent>
+        @* Navigation is controlled by step contents. *@
+    </ActionContent>
+</MudStepper>
+
+@code
+{
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    private bool IsCompleted
+        => Stage.IsFinalized;
+
+    private async Task OnFinalizeClick()
+    {
+        Stage.FinalizedAt = DateTimeOffset.Now;
+        await UpdateStageAsync();
+        await EventReporter.TrackEventAsync(TradeRunEvents.FinalizeTradeRunStage());
+    }
+}

@@ -1,0 +1,35 @@
+@using Arkanis.Overlay.External.Backend.DTO
+@if (Models.Count > 0)
+{
+    <MudAvatarGroup Spacing="0" Class="flex-wrap">
+        @foreach (var model in Models)
+        {
+            <SubscriberAvatar
+                Subscriber="@model"
+                Size="@Size"
+                OutlineCustomColor="@OutlineCustomColor"
+                WrapperClass="me-n3"/>
+        }
+    </MudAvatarGroup>
+}
+else if (NoEntriesContent is not null)
+{
+    @NoEntriesContent
+}
+
+@code
+{
+
+    [Parameter]
+    public ICollection<SubscriberBrief> Models { get; set; } = [];
+
+    [Parameter]
+    public Size Size { get; set; } = Size.Medium;
+
+    [Parameter]
+    public RenderFragment? NoEntriesContent { get; set; }
+
+    [Parameter]
+    public string? OutlineCustomColor { get; set; }
+
+}

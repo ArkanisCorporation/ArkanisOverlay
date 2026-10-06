@@ -1,0 +1,26 @@
+@if (Model?.LastResult is { IsFailed: true, Errors.Count: > 0 } erroredResult)
+{
+    @erroredResult.Errors.First().Message
+}
+else if (Model?.IsAuthenticated == true)
+{
+    <ExternalAccountIdentityDetails
+        Model="@Model.Identity"/>
+}
+else if (Model is not null)
+{
+}
+else
+{
+    <MudSkeleton
+        SkeletonType="@SkeletonType.Rectangle"
+        Width="120px"/>
+}
+
+@code
+{
+
+    [Parameter]
+    public IExternalAccountContext? Model { get; set; }
+
+}

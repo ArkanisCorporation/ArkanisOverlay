@@ -1,0 +1,123 @@
+@using Arkanis.Overlay.Components.Views.Trade.Components
+@inject ITradeRunManager TradeRunManager
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-expand-panel-text {
+        max-width: calc(100% - 24px); /* -24px for the header toggle button */
+    }
+
+    .mud-expand-panel:not(:last-child).mud-expand-panel-border {
+        border-bottom: 1px solid var(--mud-palette-lines-default) !important;
+    }
+
+    .trade-runs {
+        .mud-stepper {
+            .mud-stepper-content > .d-flex[role="group"] {
+                min-height: 30vh;
+            }
+        }
+
+        .mud-expand-panel-content {
+            padding-bottom: 0;
+        }
+
+        .mud-expand-panel.mud-panel-expanded {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+    }
+
+    .trade-runs .stages {
+        .mud-card-actions.mud-stepper-actions {
+            display: none;
+        }
+    }
+</style>
+
+<MudContainer>
+    <MudPaper>
+        <div class="pa-4">
+            <MudStack AlignItems="@AlignItems.Center"
+                      Class="mr-4"
+                      Row>
+                <MudChip
+                    T="int"
+                    Value="@TradeRunsInProgress.Count"
+                    Color="@Color.Info"/>
+                <MudText Typo="@Typo.h4">
+                    Trade Runs In Progress
+                </MudText>
+            </MudStack>
+            <MudText Typo="@Typo.body1"
+                     Style="max-width: 100%;"
+                     Class="px-2">
+                The following trade runs are currently open and in progress.
+                You can continue to work on them until they can be finalized.
+                Trade runs without any acquired items can be completely abandoned by clicking the remove button in their
+                header.
+                In case your cargo has been lost in transit, the trade run can be finalized prematurely via the summary.
+            </MudText>
+        </div>
+        <MudDivider/>
+        <MudExpansionPanels Gutters="false"
+                            Class="trade-runs">
+            @{ var panelIndex = 0; }
+            @foreach (var tradeRun in TradeRunsInProgress)
+            {
+                <MudExpansionPanel @key="@tradeRun.Id.Identity"
+                                   Gutters="false"
+                                   Expanded="@(panelIndex++ == 0)"
+                                   HeaderClass="hover-parent pa-4">
+                    <TitleContent>
+                        <TradeRunPanelTitle
+                            TradeRun="tradeRun"
+                            TradeRunChanged="@OnTradeRunChanged"
+                            OnChange="@PropagateChanges"/>
+                    </TitleContent>
+                    <ChildContent>
+                        <MudDivider/>
+                        <TradeRunPanelContent
+                            TradeRun="tradeRun"
+                            TradeRunChanged="@OnTradeRunChanged"/>
+                    </ChildContent>
+                </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
+    </MudPaper>
+</MudContainer>
+
+@code
+{
+
+    private List<TradeRun> TradeRunsInProgress { get; set; } = [];
+
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        var runs = await TradeRunManager.GetAllRunsAsync();
+        TradeRunsInProgress = runs.Where(x => x.FinalizedAt is null).ToList();
+    }
+
+    private async Task OnTradeRunChanged(TradeRun tradeRun)
+    {
+        await TradeRunManager.AddOrUpdateEntryAsync(tradeRun, CancellationToken.None);
+        await PropagateChanges();
+    }
+
+    private async Task PropagateChanges()
+    {
+        await RefreshDataAsync();
+        await InvokeAsync(StateHasChanged);
+        await OnChange.InvokeAsync();
+    }
+
+}

@@ -1,28 +1,626 @@
 ﻿@page "/"
-@using Arkanis.Overlay.Components.Shared.Dialogs
-@using Arkanis.Overlay.Domain.Models.Keyboard
+@using Arkanis.Overlay.Common.Abstractions
+@using Arkanis.Overlay.Common.Abstractions.Services
+@using Arkanis.Overlay.Components.Views.Components
+@using Arkanis.Overlay.Components.Views.Trade.Components
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Abstractions.Services
+@using Arkanis.Overlay.Domain.Models
+@using Arkanis.Overlay.Domain.Models.Game
+@using Arkanis.Overlay.Domain.Models.Inventory
+@using Arkanis.Overlay.Domain.Models.Trade
+@using Arkanis.Overlay.Host.Server.Models
+@using Arkanis.Overlay.Host.Server.Services
+@using Arkanis.Overlay.Infrastructure.Helpers
 @inject IDialogService DialogService
+@inject IAppVersionProvider VersionProvider
+@inject GitHubReleasesService GitHubReleasesService
+@inject IGameEntityRepository<GameSpaceStation> GameSpaceStationRepository
+@inject IGameEntityRepository<GameCity> GameCityRepository
+@inject IGameEntityRepository<GameItem> GameItemRepository
+@inject IGameEntityRepository<GameCommodity> GameCommodityRepository
+@inject IGameEntityRepository<GameTradeRoute> GameTradeRouteRepository
 
-<PageTitle>Home</PageTitle>
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .embed-wrapper {
+        background: #833AB4;
+        background: linear-gradient(90deg, rgba(131, 58, 180, .33) 0%, rgba(253, 29, 29, .33) 50%, rgba(252, 176, 69, .33) 100%);
+        overflow: auto;
 
-<MudContainer Class="mt-4">
-    <KeyboardShortcutBadge Key="@KeyboardKey.KeyA" OnKeyPress="@OnKeyPress">
-        <MudPaper Class="pa-4">
-            <MudText tabindex="0">
-                This is text.
-            </MudText>
-            <MudTextField T="string" tabindex="1"/>
-            <MudButton OnClick="() => AboutDialog.ShowAsync(DialogService)">
-                Open about dialog
-            </MudButton>
-        </MudPaper>
-    </KeyboardShortcutBadge>
-</MudContainer>
+        & * {
+            white-space: nowrap;
+        }
+
+        & > * {
+            width: fit-content;
+            min-width: 100%;
+        }
+
+        &.reverse {
+            background: linear-gradient(90deg, rgba(252, 176, 69, .33) 0%, rgba(253, 29, 29, .33) 50%, rgba(131, 58, 180, .33) 100%);
+        }
+    }
+</style>
+
+<PageTitle>@ApplicationConstants.ApplicationName — Overlay Demo</PageTitle>
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudContainer Class="w-100" MaxWidth="@MaxWidth.Large">
+            <MudStack Class="w-100" AlignItems="@AlignItems.Center" Row>
+                <MudText Typo="@Typo.h5" Class="mr-4">Arkanis Overlay</MudText>
+                <MudButton StartIcon="@Icons.Material.Filled.ScreenshotMonitor" Href="/search">
+                    Demo
+                </MudButton>
+                <MudButton StartIcon="@Icons.Custom.Brands.GitHub" Href="@GitHubRepositoryUrl" Target="_blank">
+                    GitHub
+                </MudButton>
+
+                <MudSpacer/>
+                <DeveloperAvatars
+                    OutlineCustomColor="var(--mud-palette-appbar-background)"/>
+                <MudIconButton
+                    Icon="@Icons.Material.Outlined.Info"
+                    Color="@Color.Inherit"
+                    Edge="@Edge.End"
+                    OnClick="@(() => AboutDialog.ShowAsync(DialogService))"/>
+                <MudIconButton
+                    Icon="@MaterialSymbols.Rounded.Favorite"
+                    Color="@Color.Warning"
+                    Edge="@Edge.End"
+                    OnClick="@(() => SubscribeDialog.ShowAsync(DialogService))"/>
+            </MudStack>
+        </MudContainer>
+    </MudAppBar>
+    <MudMainContent Class="pb-8">
+        <MudContainer MaxWidth="@MaxWidth.Large" Class="mt-12">
+            <MudPaper Class="pa-6 text-center">
+                <MudText Typo="Typo.h2" Class="mb-2">Welcome to the Arkanis Overlay Demo</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mb-4">
+                    Experience a new level of usability in Star Citizen
+                    — search tools, trading info, location data, and more.
+                    Built with performance and extensibility in mind.
+                </MudText>
+                <MudStack Wrap="@Wrap.Wrap" Row>
+                    <MudButtonGroup OverrideStyles="false">
+                        <AssetDownloadButton
+                            T="GitHubAppRelease"
+                            Name="Installer"
+                            Release="ReleaseAppRelease"
+                            AssetSelector="@(release => release.InstallerAsset)"/>
+                        <AssetDownloadButton
+                            T="GitHubAppRelease"
+                            Name="Portable"
+                            Release="ReleaseAppRelease"
+                            AssetSelector="@(release => release.PortableAsset)"/>
+                    </MudButtonGroup>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Material.Filled.Web"
+                               Href="@ExternalLinkHelper.ArkanisWebUri.ToString()"
+                               Target="_blank">
+                        Visit Arkanis Website
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Custom.Brands.Discord"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                               Target="_blank">
+                        Join the Community
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Custom.Brands.GitHub"
+                               Href="@GitHubRepositoryUrl"
+                               Target="_blank">
+                        Visit GitHub
+                    </MudButton>
+                </MudStack>
+            </MudPaper>
+
+            <MudDivider Class="my-8"/>
+
+            <div class="mb-8">
+                <MudText Typo="@Typo.h3"
+                         Align="Align.Center">
+                    Entity Search
+                </MudText>
+
+                <MudText Typo="Typo.body2"
+                         Align="Align.Center">
+                    Instantly find Star Citizen items, commodities, or locations. Start typing to explore what the
+                    'verse
+                    has to offer — fast, accurate, and always in-game.
+                </MudText>
+            </div>
+
+            <MudGrid Justify="@Justify.Center" Class="mb-4 align-center">
+                <MudItem xs="12" md="4">
+                    <MudPaper Class="pa-4">
+                        <MudStack>
+                            <MudText Typo="Typo.h6">🔍 In-Game Item Search</MudText>
+                            <MudText Typo="Typo.body2">
+                                Search through Star Citizen items using full-text fuzzy matching and get instant
+                                attribute
+                                and price visibility.
+                            </MudText>
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Secondary"
+                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       Href="/search?q=:i%20Artimex">
+                                Try it out
+                            </MudButton>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" md="8">
+                    <MudPaper Class="pa-12 embed-wrapper">
+                        <MudStack>
+                            @foreach (var (index, item) in Items.Index())
+                            {
+                                <SearchResultItem
+                                    Model="@item"
+                                    ItemIndex="@index"/>
+                            }
+                            @if (Items.Length == 0)
+                            {
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <MudSkeleton
+                                        SkeletonType="@SkeletonType.Rectangle"
+                                        Height="62px"/>
+                                }
+                            }
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <MudGrid Justify="@Justify.Center" Class="my-4 align-center flex-wrap-reverse">
+                <MudItem xs="12" md="8">
+                    <MudPaper Class="pa-12 embed-wrapper reverse">
+                        <MudStack>
+                            @foreach (var (index, commodity) in Commodities.Index())
+                            {
+                                <SearchResultItem
+                                    Model="@commodity"
+                                    ItemIndex="@index"/>
+                            }
+                            @if (Commodities.Length == 0)
+                            {
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <MudSkeleton
+                                        SkeletonType="@SkeletonType.Rectangle"
+                                        Height="62px"/>
+                                }
+                            }
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudPaper Class="pa-4">
+                        <MudStack>
+                            <MudText Typo="Typo.h6">📦 Commodity Market Viewer</MudText>
+                            <MudText Typo="Typo.body2">
+                                View live commodity prices by location. Filter and compare by system, planet, or station
+                                for
+                                better trade planning.
+                            </MudText>
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Secondary"
+                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       Href="/search?q=:c%20Gold">
+                                Try it out
+                            </MudButton>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <MudGrid Justify="@Justify.Center" Class="my-4 align-center">
+                <MudItem xs="12" md="4">
+                    <MudPaper Class="pa-4">
+                        <MudStack>
+                            <MudText Typo="Typo.h6">🌌 Location Lookup</MudText>
+                            <MudText Typo="Typo.body2">
+                                Search locations across the 'verse and explore their context
+                                — which planet, moon, or star system they belong to.
+                            </MudText>
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Secondary"
+                                       StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                       Href="/search?q=:l%20Orison">
+                                Try it out
+                            </MudButton>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" md="8">
+                    <MudPaper Class="pa-12 embed-wrapper">
+                        <MudStack>
+                            @foreach (var (index, terminal) in Locations.Index())
+                            {
+                                <SearchResultItem
+                                    Model="@terminal"
+                                    ItemIndex="@index"/>
+                            }
+                            @if (Locations.Length == 0)
+                            {
+                                for (var i = 0; i < 3; i++)
+                                {
+                                    <MudSkeleton
+                                        SkeletonType="@SkeletonType.Rectangle"
+                                        Height="62px"/>
+                                }
+                            }
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+
+            <MudDivider Class="my-8"/>
+
+            <MudStack Spacing="6">
+                <div>
+                    <MudText Typo="@Typo.h3"
+                             Align="Align.Center">
+                        Tools for Haulers and Traders
+                    </MudText>
+
+                    <MudText Typo="Typo.body2"
+                             Align="Align.Center">
+                        Whether you're running scrap between moons or hauling high-value goods across systems, every
+                        credit counts.
+                        This module gives you the edge — powerful tools designed to help traders and haulers find the
+                        best routes, track their runs, and maximize profit in the ever-shifting economy of the 'verse.
+                    </MudText>
+                </div>
+
+                <MudGrid Justify="@Justify.Center">
+                    <MudItem xs="12" sm="8" md="6">
+                        <MudPaper Class="pa-4">
+                            <MudStack>
+                                <MudText Typo="Typo.h6">🗃️ Trade Route Finder</MudText>
+                                <MudText Typo="Typo.body2">
+                                    Plan smarter and fly farther.
+                                    Instantly discover profitable trade routes between locations based on the latest
+                                    crowd-sourced market data.
+                                    Filter by ship, commodity, star system or concrete location to optimize every haul.
+                                </MudText>
+                                <MudButton Variant="Variant.Outlined"
+                                           Color="Color.Secondary"
+                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           Href="/trade">
+                                    Try it out
+                                </MudButton>
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                <MudPaper Class="pa-12 embed-wrapper">
+                    <MudStack>
+                        @foreach (var tradeRoute in TradeRoutes)
+                        {
+                            <TradeRouteItem Model="@tradeRoute">
+                                <ControlsContent>
+                                    <MudTooltip
+                                        Text="Create trade run"
+                                        Placement="@Placement.Top">
+                                        <MudIconButton
+                                            Icon="@Icons.Material.Filled.Flight"
+                                            Class="focus"
+                                            Disabled
+                                            tabindex="1"/>
+                                    </MudTooltip>
+                                </ControlsContent>
+                            </TradeRouteItem>
+                        }
+                        @if (TradeRoutes.Length == 0)
+                        {
+                            for (var i = 0; i < 3; i++)
+                            {
+                                <MudSkeleton
+                                    SkeletonType="@SkeletonType.Rectangle"
+                                    Height="62px"/>
+                            }
+                        }
+                    </MudStack>
+                </MudPaper>
+
+                <MudGrid Justify="@Justify.Center">
+                    <MudItem xs="12" sm="8" md="6">
+                        <MudPaper Class="pa-4">
+                            <MudStack>
+                                <MudText Typo="Typo.h6">🗃️ Trade Run Management</MudText>
+                                <MudText Typo="Typo.body2">
+                                    Track and refine your trading runs with simplicity.
+                                    Easily log your routes, profits, and cargo details to improve efficiency and monitor
+                                    performance over time.
+                                </MudText>
+                                <MudButton Variant="Variant.Outlined"
+                                           Color="Color.Secondary"
+                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           Href="/trade">
+                                    Try it out
+                                </MudButton>
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                <MudPaper Class="pa-12 embed-wrapper">
+                    <style>
+                        .trade-runs {
+                            .mud-expand-panel-content {
+                                padding-bottom: 0;
+                            }
+                        }
+
+                        .trade-runs .stages {
+                            .mud-card-actions.mud-stepper-actions {
+                                display: none;
+                            }
+                        }
+                    </style>
+                    <MudStack Class="trade-runs">
+                        @if (TradeRun is not null)
+                        {
+                            <TradeRunPanelContent
+                                TradeRun="@TradeRun"
+                                Disabled/>
+                        }
+                        else
+                        {
+                            <MudSkeleton
+                                SkeletonType="@SkeletonType.Rectangle"
+                                Height="64px"/>
+
+                            <MudSkeleton
+                                SkeletonType="@SkeletonType.Rectangle"
+                                Height="30vh"/>
+
+                            <MudSkeleton
+                                SkeletonType="@SkeletonType.Rectangle"
+                                Height="64px"/>
+                        }
+                    </MudStack>
+                </MudPaper>
+            </MudStack>
+
+            <MudDivider Class="my-8"/>
+
+            <MudStack Spacing="6">
+                <div>
+                    <MudText Typo="@Typo.h3"
+                             Align="Align.Center">
+                        Inventory Management
+                    </MudText>
+
+                    <MudText Typo="Typo.body2"
+                             Align="Align.Center">
+                        Stay organized and informed with the powerful inventory module built into Arkanis Overlay.
+                        Whether you’re managing trade commodities, mining yields, or personal gear, this tool gives you
+                        a fast, accurate view of your assets—wherever they are in the universe.
+                    </MudText>
+                </div>
+
+                <MudGrid Justify="@Justify.Center">
+                    <MudItem xs="12" sm="8" md="6">
+                        <MudPaper Class="pa-4">
+                            <MudStack>
+                                <MudText Typo="Typo.h6">🗃️ Quantity & Location Tracking</MudText>
+                                <MudText Typo="Typo.body2">
+                                    Get a precise overview of how much you have and where it’s stored—by planet, moon,
+                                    station, or outpost.
+                                    Easily monitor your item quantities across the 'verse with minimal effort.
+                                </MudText>
+                                <MudButton Variant="Variant.Outlined"
+                                           Color="Color.Secondary"
+                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           Href="/inventory">
+                                    Try it out
+                                </MudButton>
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                <MudPaper Class="pa-12 embed-wrapper">
+                    <InventoryEntryDataGrid
+                        Models="@InventoryEntries"
+                        Lists="@InventoryLists"
+                        Groupings="@([InventoryEntryDataGrid.Column.LocationOrVehicle])"
+                        ExpandAll/>
+                </MudPaper>
+
+                <MudGrid Justify="@Justify.Center">
+                    <MudItem xs="12" sm="8" md="6">
+                        <MudPaper Class="pa-4">
+                            <MudStack>
+                                <MudText Typo="Typo.h6">🏷️ Custom List Tags</MudText>
+                                <MudText Typo="Typo.body2">
+                                    Organize your inventory your way.
+                                    Apply custom tags to items for mission loadouts, trading plans, salvage runs, or any
+                                    personal system.
+                                    Group and retrieve your gear exactly how you prefer.
+                                </MudText>
+                                <MudButton Variant="Variant.Outlined"
+                                           Color="Color.Secondary"
+                                           StartIcon="@Icons.Material.Filled.ScreenshotMonitor"
+                                           Href="/inventory">
+                                    Try it out
+                                </MudButton>
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+
+                <MudPaper Class="pa-12 embed-wrapper reverse">
+                    <InventoryEntryDataGrid
+                        Models="@InventoryEntries"
+                        Lists="@InventoryLists"
+                        Groupings="@([InventoryEntryDataGrid.Column.List])"
+                        ExpandAll/>
+                </MudPaper>
+            </MudStack>
+
+            <MudDivider Class="my-8"/>
+
+            <MudPaper Elevation="0" Class="pa-6">
+                <MudText Typo="@Typo.h5" Class="mb-2">Built with the Community in Mind</MudText>
+                <MudText Typo="@Typo.body1" Class="mb-4">
+                    Arkanis Overlay is free to use and open source.
+                    Contribute, test, or suggest improvements on GitHub or Discord.
+                </MudText>
+                <MudStack Row>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Custom.Brands.Discord"
+                               Href="@ExternalLinkHelper.JoinArkanisUri.ToString()"
+                               Target="_blank">
+                        Join the Community
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Secondary"
+                               StartIcon="@Icons.Custom.Brands.GitHub"
+                               Href="@GitHubRepositoryUrl"
+                               Target="_blank">
+                        Check out the Code
+                    </MudButton>
+                </MudStack>
+            </MudPaper>
+
+            <MudDivider Class="my-8"/>
+
+            <MudStack AlignItems="@AlignItems.Center">
+                <SubscriberAvatarsCurrent OutlineCustomColor="var(--mud-palette-background)">
+                    <BeforeContent>
+                        <MudText Typo="@Typo.h5" Class="mb-2">
+                            Huge thanks to all our current and past supporters!
+                        </MudText>
+
+                    </BeforeContent>
+                </SubscriberAvatarsCurrent>
+            </MudStack>
+
+            <MudDivider Class="my-8"/>
+
+            <div class="text-center">
+                @VersionProvider.CurrentVersion.ToNormalizedString()
+            </div>
+        </MudContainer>
+
+    </MudMainContent>
+</MudLayout>
 
 @code
 {
-    private void OnKeyPress()
+
+    private const string GitHubRepositoryUrl = ApplicationConstants.GitHubRepositoryUrl;
+
+    private AppRelease ReleaseAppRelease { get; set; } = AppReleaseMissing.Instance;
+    private IGameLocation[] Locations { get; set; } = [];
+    private GameCommodity[] Commodities { get; set; } = [];
+    private GameItem[] Items { get; set; } = [];
+    private GameTradeRoute[] TradeRoutes { get; set; } = [];
+    private TradeRun? TradeRun { get; set; }
+
+    private InventoryEntryBase[] InventoryEntries { get; set; } = [];
+    private InventoryEntryList[] InventoryLists { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Target key pressed!");
+        await base.OnInitializedAsync();
+        ReleaseAppRelease = await GitHubReleasesService.GetLatestStableDownloadsAsync();
+        Locations = Array.Empty<IGameLocation>()
+            .Append(await GameCityRepository.GetAsync(UexApiGameEntityId.Create<GameCity>(5)))
+            .Append(await GameSpaceStationRepository.GetAsync(UexApiGameEntityId.Create<GameSpaceStation>(10)))
+            .Append(await GameSpaceStationRepository.GetAsync(UexApiGameEntityId.Create<GameSpaceStation>(27)))
+            .Where(terminal => terminal is not null)
+            .OfType<IGameLocation>()
+            .ToArray();
+
+        Items = Array.Empty<GameItem>()
+            .Append(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(1932)))
+            .Append(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(1931)))
+            .Append(await GameItemRepository.GetAsync(UexApiGameEntityId.Create<GameItem>(1759)))
+            .Where(item => item is not null)
+            .OfType<GameItem>()
+            .ToArray();
+
+        Commodities = Array.Empty<GameCommodity>()
+            .Append(await GameCommodityRepository.GetAsync(UexApiGameEntityId.Create<GameCommodity>(60)))
+            .Append(await GameCommodityRepository.GetAsync(UexApiGameEntityId.Create<GameCommodity>(58)))
+            .Append(await GameCommodityRepository.GetAsync(UexApiGameEntityId.Create<GameCommodity>(63)))
+            .Where(commodity => commodity is not null)
+            .OfType<GameCommodity>()
+            .ToArray();
+
+        TradeRoutes = Array.Empty<GameTradeRoute>()
+            .Append(await GameTradeRouteRepository.GetAsync(UexApiGameEntityId.Create<GameTradeRoute>(248)))
+            .Append(await GameTradeRouteRepository.GetAsync(UexApiGameEntityId.Create<GameTradeRoute>(6416)))
+            .Append(await GameTradeRouteRepository.GetAsync(UexApiGameEntityId.Create<GameTradeRoute>(1308)))
+            .Where(tradeRoute => tradeRoute is not null)
+            .OfType<GameTradeRoute>()
+            .ToArray();
+
+        InventoryLists =
+        [
+            new InventoryEntryList
+            {
+                Name = "Personal",
+            },
+            new InventoryEntryList
+            {
+                Name = "For Sale",
+            },
+        ];
+
+
+        if (this is { Commodities.Length: >= 3, Items.Length: >= 3, Locations.Length: >= 3, InventoryLists.Length: >= 2, TradeRoutes.Length: > 0 })
+        {
+            var tradeRoute = TradeRoutes.First();
+            TradeRun = TradeRun.Create(
+                tradeRoute,
+                new TradeRun.Context
+                {
+                    Quantity = Quantity.FromScu(tradeRoute.Origin.CargoUnitsAvailable),
+                    Version = StarCitizenVersion.Create("unknown"),
+                }
+            );
+            TradeRun.CreatedAt = DateTimeOffset.Now - TimeSpan.FromMinutes(78);
+            var purchaseStage = TradeRun.Acquisitions.OfType<TradeRun.TerminalPurchaseStage>().First();
+            purchaseStage.StartedAt = TradeRun.CreatedAt + TimeSpan.FromMinutes(1);
+            purchaseStage.ReachedAt = TradeRun.CreatedAt + TimeSpan.FromMinutes(28);
+            purchaseStage.AcquiredAt = TradeRun.CreatedAt + TimeSpan.FromMinutes(34);
+            purchaseStage.TransferredAt = TradeRun.CreatedAt + TimeSpan.FromMinutes(54);
+            purchaseStage.FinalizedAt = TradeRun.CreatedAt + TimeSpan.FromMinutes(59);
+
+            InventoryEntries =
+            [
+                InventoryEntry.CreateAt(Commodities[0], NewScu(11), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(34), Locations[0], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[1], NewScu(8), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Commodities[2], NewScu(27), Locations[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(3, Quantity.UnitType.Count), Locations[0], InventoryLists[0]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(4, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[0], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[1], InventoryLists[1]),
+                InventoryEntry.CreateAt(Items[1], new Quantity(1, Quantity.UnitType.Count), Locations[2]),
+                InventoryEntry.CreateAt(Items[2], new Quantity(4, Quantity.UnitType.Count), Locations[2]),
+            ];
+        }
+
+        return;
+
+        Quantity NewScu(int amount)
+            => new(amount, Quantity.UnitType.StandardCargoUnit);
     }
+
 }

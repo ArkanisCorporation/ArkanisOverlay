@@ -1,0 +1,90 @@
+@inject IInventoryManager InventoryManager
+@inject IAnalyticsEventReporter EventReporter
+@inject ILogger<InventoryListDialog> Logger
+
+<MudDialog DefaultFocus="@DefaultFocus.Element" ContentClass="py-2">
+    <TitleContent>
+        Inventory List
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField
+                    Label="List name"
+                    @bind-Value="@Model.Name"
+                    Required/>
+            </MudItem>
+            <MudItem xs="12">
+                <MudTextField
+                    Label="Notes"
+                    @bind-Value="@Model.Notes"
+                    Lines="4"/>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Cancel">Cancel</MudButton>
+        <MudButton Color="@Color.Success"
+                   OnClick="@SubmitAsync"
+                   Disabled="@(!CanSubmit)">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code
+{
+
+    private bool CanSubmit
+        => Model is { Name.Length: > 0 };
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public InventoryEntryList Model { get; set; } = CreateDefaultModel();
+
+    [Parameter]
+    public bool IsEdit { get; set; }
+
+    private async Task SubmitAsync()
+    {
+        await InventoryManager.AddOrUpdateListAsync(Model);
+        if (!IsEdit)
+        {
+            await EventReporter.TrackEventAsync(InventoryEvents.AddList());
+        }
+
+        MudDialog.Close(DialogResult.Ok(Model));
+    }
+
+    private void Cancel()
+        => MudDialog.Cancel();
+
+    public static async Task<InventoryEntryList?> ShowAsync(IDialogService dialogService, InventoryEntryListBrief? model = null)
+    {
+        var dialogParameters = new DialogParameters<InventoryListDialog>
+        {
+            [nameof(Model)] = model ?? CreateDefaultModel(),
+            [nameof(IsEdit)] = model is not null,
+        };
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+        };
+
+        var dialogRef = await dialogService.ShowAsync<InventoryListDialog>(null, dialogParameters, dialogOptions);
+        return await dialogRef.GetReturnValueAsync<InventoryEntryList>();
+    }
+
+    private static InventoryEntryList CreateDefaultModel()
+        => new()
+        {
+            Name = string.Empty,
+            Notes = string.Empty,
+        };
+
+}

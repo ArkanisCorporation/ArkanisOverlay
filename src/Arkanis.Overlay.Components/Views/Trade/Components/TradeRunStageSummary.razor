@@ -1,0 +1,131 @@
+@inherits TradeRunStageComponent<TradeRun.Stage>
+
+<TradeRunSummaryTemplate Events="@Stage.CreateEvents()">
+    <MudStack Class="h-100 w-100 pa-6">
+        <MudStack AlignItems="@AlignItems.Baseline"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="Typo.h6">
+                Stage length
+            </MudText>
+            <MudText Typo="Typo.h6" Color="@Color.Success">
+                @StageLength.Humanize()
+            </MudText>
+        </MudStack>
+        @if (Stage is TradeRun.AcquisitionStage)
+        {
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.SpaceBetween"
+                      Class="w-100"
+                      Row>
+                <MudText Typo="@Typo.h6">
+                    Investment
+                </MudText>
+                <GameCurrencyLabel
+                    Model="@Stage.PriceTotal"
+                    Typo="@Typo.h6"/>
+            </MudStack>
+        }
+        else if (Stage is TradeRun.SaleStage)
+        {
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.SpaceBetween"
+                      Class="w-100"
+                      Row>
+                <MudText Typo="@Typo.h6">
+                    Revenue
+                </MudText>
+                <GameCurrencyLabel
+                    Model="@Stage.PriceTotal"
+                    Typo="@Typo.h6"/>
+            </MudStack>
+        }
+        <MudStack AlignItems="@AlignItems.Center"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="@Typo.h6">
+                Fees paid
+            </MudText>
+            <GameCurrencyLabel
+                Model="@TradeRun.Fees"
+                Typo="@Typo.h6"/>
+        </MudStack>
+        <MudDivider Class="flex-grow-0"/>
+
+        <MudStack AlignItems="@AlignItems.Baseline"
+                  Justify="@Justify.SpaceBetween"
+                  Class="w-100"
+                  Row>
+            <MudText Typo="Typo.h6">
+                Stage balance
+            </MudText>
+            <GameCurrencyLabel
+                Model="@Stage.Balance"
+                Typo="@Typo.h6"
+                UseColour/>
+        </MudStack>
+        @if (Stage is TradeRun.AcquisitionStage)
+        {
+            <MudStack AlignItems="@AlignItems.Baseline"
+                      Justify="@Justify.SpaceBetween"
+                      Class="w-100"
+                      Row>
+                <MudText Typo="Typo.h6">
+                    Cargo bought
+                </MudText>
+                <MudText Typo="Typo.h6" Color="@Color.Success">
+                    <QuantityLabel
+                        Model="@Stage.Quantity"/>
+                </MudText>
+            </MudStack>
+        }
+        else if (Stage is TradeRun.SaleStage)
+        {
+            var acquiredQuantity = TradeRun.AcquiredQuantityOf(Stage.Quantity.Reference.EntityId);
+            <MudStack AlignItems="@AlignItems.Baseline"
+                      Justify="@Justify.SpaceBetween"
+                      Class="w-100"
+                      Row>
+                <MudText Typo="Typo.h6">
+                    Cargo sold
+                </MudText>
+                <MudStack AlignItems="@AlignItems.Baseline"
+                          Justify="@Justify.FlexEnd"
+                          Row>
+                    <MudText Typo="@Typo.h6"
+                             Color="@(Stage.Quantity < acquiredQuantity ? Color.Warning : Color.Success)">
+                        @Stage.Quantity.ToString()
+                    </MudText>
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        /
+                    </MudText>
+                    <MudText Typo="@Typo.h6" Color="@Color.Success">
+                        <QuantityLabel
+                            Model="@acquiredQuantity"/>
+                    </MudText>
+                </MudStack>
+            </MudStack>
+        }
+        <MudSpacer/>
+        @ControlsContent
+    </MudStack>
+</TradeRunSummaryTemplate>
+
+@code
+{
+
+    [Parameter]
+    public RenderFragment? ControlsContent { get; set; }
+
+    private DateTimeOffset StageStartedAt
+        => Stage.StartedAt ?? DateTimeOffset.UtcNow;
+
+    private DateTimeOffset StageFinalizedAt
+        => Stage.FinalizedAt ?? DateTimeOffset.Now;
+
+    private TimeSpan StageLength
+        => StageStartedAt - StageFinalizedAt;
+
+}

@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.Components.Services;
 
 using Abstractions;
-using Domain.Models.Keyboard;
+using Common.Models.Keyboard;
 using Extensions;
 using Helpers;
 using Microsoft.AspNetCore.Components.Web;
@@ -48,6 +48,9 @@ public class KeyboardProxy : IDisposable, IKeyboardProxy
     public event EventHandler<KeyboardKey>? OnKeyDown;
     public event EventHandler<KeyboardShortcut>? OnKeyboardShortcut;
 
+    public void Clear()
+        => ShortcutBuilder.Clear();
+
     public void RegisterKeyUp(KeyboardEventArgs keyboardEvent)
     {
         var keyboardKey = keyboardEvent.GetKey();
@@ -74,10 +77,10 @@ public class KeyboardProxy : IDisposable, IKeyboardProxy
 
     private void ExtendShortcut(KeyboardEventArgs keyboardEvent)
     {
-        ShortcutBuilder.AddKey(keyboardEvent);
+        ShortcutBuilder.KeyPressed(keyboardEvent);
         RegisterKeyboardShortcut(ShortcutBuilder.Value.Copy());
     }
 
     private void StripShortcut(KeyboardEventArgs keyboardEvent)
-        => ShortcutBuilder.RemoveKey(keyboardEvent);
+        => ShortcutBuilder.KeyReleased(keyboardEvent);
 }

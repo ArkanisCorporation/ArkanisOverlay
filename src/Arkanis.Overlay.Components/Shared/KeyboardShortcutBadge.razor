@@ -1,5 +1,5 @@
+@using Arkanis.Overlay.Common.Models.Keyboard
 @using Arkanis.Overlay.Components.Services.Abstractions
-@using Arkanis.Overlay.Domain.Models.Keyboard
 @implements IDisposable
 @inject IKeyboardProxy GlobalKeyboardProxy
 
@@ -10,7 +10,7 @@
           Style="@Style"
           Color="@Color"
           Visible="@IsActive"
-          Elevation="8"
+          Elevation="@Elevation"
           Overlap="@(DoNotOverlap == false)"
           UserAttributes="UnmatchedAttributes">
     @ChildContent
@@ -26,6 +26,9 @@
 
     [Parameter]
     public IEnumerable<KeyboardKey>? Keys { get; set; }
+
+    [Parameter]
+    public KeyboardShortcut? Shortcut { get; set; }
 
     [Parameter]
     [EditorRequired]
@@ -59,6 +62,9 @@
     [Parameter]
     public bool DoNotOverlap { get; set; }
 
+    [Parameter]
+    public int Elevation { get; set; } = 8;
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? UnmatchedAttributes { get; set; }
 
@@ -74,9 +80,10 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        _shortcut = Keys is not null
-            ? new KeyboardShortcut(Keys)
-            : new KeyboardShortcut([Key]);
+        _shortcut = Shortcut
+                    ?? (Keys is not null
+                        ? new KeyboardShortcut(Keys)
+                        : new KeyboardShortcut([Key]));
     }
 
     private async void OnKeyboardShortcut(object? sender, KeyboardShortcut keyboardShortcut)

@@ -1,6 +1,8 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
 using System.Diagnostics;
+using System.Threading.Channels;
+using Common.Extensions;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models.Game;
@@ -50,21 +52,51 @@ public class InMemorySearchService(
         var stopwatch = Stopwatch.StartNew();
         logger.LogDebug("Searching all entities for matches with {@SearchQuery}", queries);
 
-        var matches = await aggregateRepository.GetAllAsync(cancellationToken)
-            .Select(entity => queries
-                .Select(query => query.Match(entity))
-                .FallbackIfEmpty(SearchMatchResult.CreateEmpty(entity))
-                .Aggregate((result1, result2) => result1.Merge(result2))
-            )
-            .Where(result => result.ShouldBeExcluded == false)
-            .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
-            .Where(result => !result.ContainsUnmatched<TextSearch>())
-            .OrderByDescending(result => result)
-            .ToListAsync(cancellationToken);
+        var searchMatchChannel = Channel.CreateBounded<SearchMatchResult<IGameEntity>>(100);
+        var gameEntityBatches = aggregateRepository.GetAllAsync(cancellationToken).Batch(250, cancellationToken);
+        var parallelOptions = new ParallelOptions
+        {
+            CancellationToken = cancellationToken,
+        };
+
+        var matches = new List<SearchMatchResult<IGameEntity>>();
+        await Task.WhenAll(
+            Parallel.ForEachAsync(gameEntityBatches, parallelOptions, PerformSearchOnBatch)
+                .ContinueWith(_ => searchMatchChannel.Writer.Complete(), cancellationToken),
+            searchMatchChannel.Reader.ReadAllAsync(cancellationToken)
+                .OrderByDescending(result => result)
+                .ToListAsync(cancellationToken)
+                .AsTask()
+                .ContinueWith(result => matches = result.Result, cancellationToken)
+        );
 
         var searchElapsed = stopwatch.Elapsed;
         logger.LogDebug("Search yielded {SearchMatches} results in {SearchLengthMs}ms", matches.Count, searchElapsed.TotalMilliseconds);
 
         return new GameEntitySearchResults(matches, searchElapsed);
+
+        async ValueTask PerformSearchOnBatch(IGameEntity[] entityBatch, CancellationToken ct)
+        {
+            var matchResults = entityBatch
+                .Select(entity => queries.Select(query => query.Match(entity))
+                    .FallbackIfEmpty(SearchMatchResult.CreateEmpty(entity))
+                    .Aggregate((result1, result2) => result1.Merge(result2))
+                )
+                .Where(result => !result.ShouldBeExcluded)
+                .Where(result => !result.ContainsUnmatched<LocationSearch>(where => where.Subject is not (IGamePurchasable or IGameSellable or IGameRentable)))
+                .Where(result => !result.ContainsUnmatched<TextSearch>());
+
+            try
+            {
+                foreach (var matchResult in matchResults)
+                {
+                    await searchMatchChannel.Writer.WriteAsync(matchResult, ct);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "Error occurred while searching entity batch");
+            }
+        }
     }
 }

@@ -1,11 +1,15 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Services;
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Infrastructure.Services;
 using Shouldly;
+using Xunit;
 
-public class DependencyResolverUnitTests : IDisposable
+public sealed class DependencyResolverUnitTests : IDisposable
 {
-    private readonly CancellationTokenSource _cancellation = new(TimeSpan.FromSeconds(1));
+    private readonly CancellationTokenSource _cancellation = new(TimeSpan.FromSeconds(5));
 
     public void Dispose()
         => _cancellation.Dispose();

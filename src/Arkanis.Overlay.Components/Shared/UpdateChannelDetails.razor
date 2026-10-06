@@ -1,0 +1,32 @@
+@using Arkanis.Overlay.Common.Abstractions.Services
+@using Arkanis.Overlay.Common.Models
+@inject IAppVersionProvider VersionProvider
+
+@if (Model == UpdateChannel.Default)
+{
+    <MudText Typo="@Typo.caption" Class="text-secondary">
+        Current channel is <b>@VersionProvider.CurrentUpdateChannel.Name</b>.
+    </MudText>
+}
+@if (!string.IsNullOrWhiteSpace(ModelProxy.Description))
+{
+    <MudText Typo="@Typo.caption"
+             Color="@(ModelProxy.IsUnstable ? Color.Warning : Color.Success)"
+             HtmlTag="p">
+        @ModelProxy.Description
+    </MudText>
+}
+
+@code
+{
+
+    private UpdateChannel ModelProxy
+        => Model == UpdateChannel.Default
+            ? VersionProvider.CurrentUpdateChannel
+            : Model;
+
+    [Parameter]
+    [EditorRequired]
+    public required UpdateChannel Model { get; set; }
+
+}

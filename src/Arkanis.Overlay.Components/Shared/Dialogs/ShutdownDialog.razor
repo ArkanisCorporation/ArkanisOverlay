@@ -1,0 +1,49 @@
+@inject IOverlayControls OverlayControls
+
+<MudDialog>
+    <TitleContent>
+        Shutdown Arkanis Overlay?
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="@Typo.body2">
+            Are you sure you would like to shut down the Overlay app?
+        </MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Shutdown" Color="Color.Error" Variant="Variant.Filled">Shutdown</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    private IMudDialogInstance? MudDialog { get; set; }
+
+    private void Cancel()
+        => MudDialog?.Cancel();
+
+    private void Shutdown()
+    {
+        OverlayControls.Shutdown();
+    }
+
+    public static async Task<DialogResult> ShowAsync(IDialogService dialogService)
+    {
+        var dialogOptions = new DialogOptions
+        {
+            FullWidth = true,
+            MaxWidth = MaxWidth.ExtraSmall,
+            CloseOnEscapeKey = true,
+        };
+
+        return await ShowAsync(dialogService, dialogOptions);
+    }
+
+    private static async Task<DialogResult> ShowAsync(IDialogService dialogService, DialogOptions dialogOptions)
+    {
+        var dialogRef = await dialogService.ShowAsync<ShutdownDialog>(null, dialogOptions);
+        return await dialogRef.Result ?? DialogResult.Cancel();
+    }
+
+}

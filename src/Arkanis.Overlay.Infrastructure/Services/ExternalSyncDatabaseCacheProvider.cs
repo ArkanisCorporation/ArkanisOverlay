@@ -28,19 +28,23 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
 {
     private Type RepositoryType { get; } = typeof(TRepository);
 
-    public async Task StoreAsync<TSource>(TSource source, DataCached dataState, CancellationToken cancellationToken = default)
+    public async Task StoreAsync<TSource>(TSource source, InternalCacheProperties properties, CancellationToken cancellationToken = default)
     {
         var recordKey = CreateKey<TSource>();
+        var dataState = properties.DataState;
         await using var db = await dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var cacheRecord = new ExternalSourceDataCache
         {
             Id = recordKey,
+            Title = properties.Title,
+            Description = properties.Description,
             Content = JsonSerializer.SerializeToDocument(source),
+            ContentSizeBytes = JsonSerializer.SerializeToUtf8Bytes(source).LongLength,
             DataAvailableState = dataState.SourcedState,
             CachedUntil = dataState.CachedUntil,
         };
-        db.ExternalSourceDataCache.AddOrUpdate(cacheRecord);
+        await db.ExternalSourceDataCache.AddOrUpdateAsync(cacheRecord, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
     }
 
@@ -60,45 +64,60 @@ internal class ExternalSyncDatabaseCacheProvider<TRepository>(
         if (cacheRecord.CachedUntil < DateTimeOffset.UtcNow)
         {
             // the cached record has expired
-            if (currentServiceState is not ServiceUnavailableState)
+            if (currentServiceState is ServiceUnavailableState)
             {
-                // only respect the cache time if the service is available
+                logger.LogWarning(
+                    "Permitting use of expired cache for {Type} entities due to the state of an external service: {ServiceState}",
+                    typeof(TSource).ShortDisplayName(),
+                    currentServiceState
+                );
+            }
+            else if (currentDataState is DataProcessingErrored or DataMissing { FastTrackedInitialization: true })
+            {
+                logger.LogWarning(
+                    "Permitting use of expired cache for {Type} entities due to the current internal data state: {DataState}",
+                    typeof(TSource).ShortDisplayName(),
+                    currentDataState
+                );
+            }
+            else
+            {
+                // only respect the cache time if the service is available and internal load state did not error
                 return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
             }
-
-            logger.LogInformation(
-                "Using expired cache for {Type} entities due to the state of an external service: {ServiceState}",
-                typeof(TSource).Name,
-                currentServiceState
-            );
         }
 
         var cachedServiceState = cacheRecord.DataAvailableState;
         var cachedDataState = new DataCached(cachedServiceState, cachedServiceState.UpdatedAt, cacheRecord.CachedUntil);
 
-        if (currentDataState is DataLoaded loadedData)
+        try
         {
-            if (currentServiceState is ServiceAvailableState availableState)
+            if (cacheRecord.Content.Deserialize<TSource>() is not { } cachedData)
             {
-                if (loadedData.SourcedState.Version != availableState.Version)
-                {
-                    // the repository already has some data, but the sourced game version does not match
-                    return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
-                }
-
-                // the repository already has some data, cache did not expire yet and the sourced game version matches
-                return new AlreadyUpToDateWithCache<TSource>(cachedDataState);
+                // the cached data is not valid
+                return new UnprocessableDataCache<TSource>(null);
             }
-        }
 
-        if (cacheRecord.Content.Deserialize<TSource>() is not { } cachedData)
+            if (currentDataState is not DataLoaded loadedData
+                || currentServiceState is not ServiceAvailableState availableState)
+            {
+                return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
+            }
+
+            if (loadedData.SourcedState.Version != availableState.Version)
+            {
+                // the repository already has some data, but the sourced game version does not match
+                return new ExpiredCache<TSource>(cacheRecord.CachedUntil);
+            }
+
+            // the repository already has some data, cache did not expire yet and the sourced game version matches
+            return new AlreadyUpToDateWithCache<TSource>(cachedData, cachedDataState);
+        }
+        catch (Exception e)
         {
             // the cached data is not valid
-            return new UnprocessableDataCache<TSource>();
+            return new UnprocessableDataCache<TSource>(e);
         }
-
-        // the cached data is needed
-        return new LoadedSyncDataCache<TSource>(cachedData, cachedDataState);
     }
 
     private string CreateKey<TSource>()

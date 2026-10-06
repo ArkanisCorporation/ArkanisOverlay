@@ -1,0 +1,352 @@
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@using Arkanis.Overlay.Domain.Models
+@using MoreLinq
+@inject IGameEntityRepository<GameTradeRoute> TradeRouteRepository
+@inject ITradeRunManager TradeRunManager
+@inject IAnalyticsEventReporter EventReporter
+@inject IExternalServiceStateProvider ServiceStateProvider
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-tabs-tabbar-content {
+        overflow: visible !important;
+    }
+
+    .mud-expand-panel:not(:last-child).mud-expand-panel-border {
+        border-bottom: 1px solid var(--mud-palette-lines-default) !important;
+    }
+
+    .mud-expand-panel.mud-panel-expanded {
+        margin-bottom: 0;
+    }
+
+    .mud-expand-panel-content {
+        padding-bottom: 0 !important;
+    }
+</style>
+
+<MudPaper Style="position: sticky; top: 0; z-index: 10;"
+          Elevation="4"
+          Class="py-2 px-4 mx-3">
+    <MudGrid Spacing="2">
+        <MudItem xs="12" sm="9" md="5" lg="3">
+            <GameEntitySelectBox
+                Label="Transport vehicle"
+                Placeholder="Search for a game vehicle"
+                EntityCategories="@([GameEntityCategory.GroundVehicle, GameEntityCategory.SpaceShip])"
+                Accept="@(x => x is GameVehicle { CargoCapacity: > 0 })"
+                @bind-Value="@SelectedVehicleEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2" lg="1">
+            <MudNumericField
+                @bind-Value="@_context.CargoCapacity"
+                Min="0"
+                DebounceInterval="200"
+                OnDebounceIntervalElapsed="RefreshDataAsync"
+                Label="Capacity"
+                HelperText="in SCUs"
+                Placeholder="Cargo capacity"
+                Clearable/>
+        </MudItem>
+        <MudItem xs="12" md="5" lg="2">
+            <GameEntitySelectBox
+                Label="Commodity"
+                Placeholder="Search for a game commodity"
+                EntityCategory="@GameEntityCategory.Commodity"
+                Only="@ApplicableCommodities"
+                @bind-Value="@SelectedCommodityEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="3">
+            <GameEntitySelectBox
+                Label="Origin location"
+                Placeholder="Search for a game location"
+                EntityCategory="@GameEntityCategory.Location"
+                Only="@ApplicableOriginLocations"
+                @bind-Value="@SelectedOriginLocationEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="3">
+            <GameEntitySelectBox
+                Label="Destination location"
+                Placeholder="Search for a game location"
+                EntityCategory="@GameEntityCategory.Location"
+                Only="@ApplicableDestinationLocations"
+                @bind-Value="@SelectedDestinationLocationEntity"
+                @bind-Value:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem lg="6" Class="d-none d-lg-block"/>
+        <MudItem xs="12" sm="6" lg="3">
+            <MudSelect Label="Minimum origin stock"
+                       Placeholder="Any stock status"
+                       @bind-Value="@_originInventoryStatus"
+                       @bind-Value:after="@RefreshDataAsync"
+                       Clearable>
+                @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown).Reverse())
+                {
+                    <MudSelectItem T="TerminalInventoryStatus?" Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="6" lg="3">
+            <MudSelect Label="Maximum destination stock"
+                       Placeholder="Any stock status"
+                       @bind-Value="@_destinationInventoryStatus"
+                       @bind-Value:after="@RefreshDataAsync"
+                       Clearable>
+                @foreach (var status in Enum.GetValues<TerminalInventoryStatus>().Where(x => x is not TerminalInventoryStatus.Unknown))
+                {
+                    <MudSelectItem T="TerminalInventoryStatus?" Value="@status">
+                        @status.Humanize()
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" md="7">
+            <TradeRouteFilterControls
+                @bind-Context="@_filterContext"
+                @bind-Context:after="@RefreshDataAsync"/>
+        </MudItem>
+        <MudItem xs="12" md="5" Class="object-md-right">
+            <MudStack AlignItems="@AlignItems.Center"
+                      Justify="@Justify.FlexEnd"
+                      Class="h-100"
+                      Row>
+                <SortButton TargetField="@SortField.Profit"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Profit
+                </SortButton>
+                <SortButton TargetField="@SortField.Margin"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Margin
+                </SortButton>
+                <SortButton TargetField="@SortField.Distance"
+                            @bind-ActiveField="@_sortBy"
+                            @bind-Direction="@_sortDirection"
+                            OnChange="@RefreshDataAsync">
+                    Distance
+                </SortButton>
+            </MudStack>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+<div class="px-3">
+    <CascadingValue Value="@_context" IsFixed>
+        <MudStack Spacing="3">
+            <Virtualize Items="@FilteredRoutes"
+                        ItemSize="64"
+                        OverscanCount="20"
+                        Context="route">
+                <TradeRouteItem @key="@route.Id"
+                                Model="@route">
+                    <ControlsContent>
+                        <MudTooltip
+                            Text="Create trade run"
+                            Placement="@Placement.Top">
+                            <MudIconButton
+                                Icon="@Icons.Material.Filled.Flight"
+                                Class="focus"
+                                OnClick="@(() => CreateTradeRunAsync(route))"
+                                tabindex="1"/>
+                        </MudTooltip>
+                    </ControlsContent>
+                </TradeRouteItem>
+            </Virtualize>
+        </MudStack>
+    </CascadingValue>
+</div>
+
+@code
+{
+
+    private SortField _sortBy;
+    private SortButton<SortField>.SortDirection _sortDirection;
+
+    private TerminalInventoryStatus? _originInventoryStatus;
+    private TerminalInventoryStatus? _destinationInventoryStatus;
+
+    private TradeRouteFilterControls.ContextModel _filterContext = new();
+
+    private GameVehicle? SelectedVehicle
+        => SelectedVehicleEntity as GameVehicle;
+
+    private IGameLocation? SelectedOriginLocation
+        => SelectedOriginLocationEntity as IGameLocation;
+
+    private IGameLocation? SelectedDestinationLocation
+        => SelectedDestinationLocationEntity as IGameLocation;
+
+    private ICollection<IGameLocation> AllLocations { get; set; } = [];
+    private IGameLocation[] ApplicableOriginLocations { get; set; } = [];
+    private IGameLocation[] ApplicableDestinationLocations { get; set; } = [];
+
+    private GameCommodity[] ApplicableCommodities { get; set; } = [];
+
+    private GameTradeRoute[] AllRoutes { get; set; } = [];
+    private GameTradeRoute[] FilteredRoutes { get; set; } = [];
+
+    private readonly SearchContext _context = new();
+
+    [Parameter]
+    public int? CargoCapacity { get; set; }
+
+    [Parameter]
+    public IGameEntity? SelectedVehicleEntity { get; set; }
+
+    [Parameter]
+    public IGameEntity? SelectedCommodityEntity { get; set; }
+
+    [Parameter]
+    public IGameEntity? SelectedOriginLocationEntity { get; set; }
+
+    [Parameter]
+    public IGameEntity? SelectedDestinationLocationEntity { get; set; }
+
+    [Parameter]
+    public RenderFragment<GameTradeRoute>? ControlsContent { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        AllRoutes = await TradeRouteRepository.GetAllAsync()
+            .Where(x => x.Destination.Price > x.Origin.Price)
+            .ToArrayAsync();
+
+        AllLocations = AllRoutes
+            .SelectMany(x => new[] { x.Origin.Terminal, x.Destination.Terminal })
+            .Distinct()
+            .ToArray();
+
+        await RefreshDataAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        await Task.CompletedTask;
+        _context.Commodity = SelectedCommodityEntity as GameCommodity;
+        if (_context.CargoCapacity == _context.Vehicle?.CargoCapacity && SelectedVehicle != _context.Vehicle)
+        {
+            // vehicle selection changed/cleared, if the cargo capacity corresponds to the previous selection update it
+            _context.CargoCapacity = SelectedVehicle?.CargoCapacity;
+        }
+
+        _context.Vehicle = SelectedVehicle;
+        _context.OriginLocation = SelectedOriginLocation;
+        _context.DestinationLocation = SelectedDestinationLocation;
+
+        ApplicableCommodities = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
+            .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
+            .Where(_filterContext.Filter)
+            .Select(x => x.Commodity)
+            .Distinct()
+            .ToArray();
+
+        ApplicableOriginLocations = AllRoutes
+            .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
+            .Where(FilterByCommodity)
+            .Where(_filterContext.Filter)
+            .Select(x => x.Origin.Terminal)
+            .Distinct()
+            .SelectMany(x => (IEnumerable<IGameLocation>)[x, ..x.Parents])
+            .Distinct()
+            .ToArray();
+
+        ApplicableDestinationLocations = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
+            .Where(FilterByCommodity)
+            .Where(_filterContext.Filter)
+            .Select(x => x.Destination.Terminal)
+            .Distinct()
+            .SelectMany(x => (IEnumerable<IGameLocation>)[x, ..x.Parents])
+            .Distinct()
+            .ToArray();
+
+        var orderByDirection = _sortDirection == SortButton<SortField>.SortDirection.Descending || _sortBy == SortField.None
+            ? OrderByDirection.Descending
+            : OrderByDirection.Ascending;
+
+        FilteredRoutes = AllRoutes
+            .Where(FilterByOrigin)
+            .Where(FilterByOriginInventory)
+            .Where(FilterByDestination)
+            .Where(FilterByDestinationInventory)
+            .Where(FilterByCommodity)
+            .Where(_filterContext.Filter)
+            .OrderBy(Order, orderByDirection)
+            .ToArray();
+    }
+
+    private double Order(GameTradeRoute x)
+        => _sortBy switch
+        {
+            SortField.Margin => x.PriceMarginPercent,
+            SortField.Distance => x.Distance ?? double.MaxValue,
+            SortField.Profit => Math.Min(_context.CargoCapacity ?? int.MaxValue, x.Origin.CargoUnitsAvailable) * (x.Destination.Price.Amount - x.Origin.Price.Amount),
+            _ => x.PriceReturnOnInvestmentPercent * x.Origin.Price.Amount,
+        };
+
+    bool FilterByOrigin(GameTradeRoute x)
+        => SelectedOriginLocation is null || SelectedOriginLocation.IsOrContains(x.Origin.Terminal);
+
+    bool FilterByOriginInventory(GameTradeRoute x)
+        => _originInventoryStatus is null || x.Origin.InventoryStatus >= _originInventoryStatus.Value;
+
+    bool FilterByDestination(GameTradeRoute x)
+        => SelectedDestinationLocation is null || SelectedDestinationLocation.IsOrContains(x.Destination.Terminal);
+
+    bool FilterByDestinationInventory(GameTradeRoute x)
+        => _destinationInventoryStatus is null || x.Destination.InventoryStatus <= _destinationInventoryStatus.Value;
+
+    bool FilterByCommodity(GameTradeRoute x)
+        => SelectedCommodityEntity is null || x.Commodity.Id == SelectedCommodityEntity.Id;
+
+    public class SearchContext
+    {
+        public int? CargoCapacity { get; set; }
+        public GameVehicle? Vehicle { get; set; }
+        public GameCommodity? Commodity { get; set; }
+        public IGameLocation? OriginLocation { get; set; }
+        public IGameLocation? DestinationLocation { get; set; }
+
+        public int ScuReachable(int available)
+            => CargoCapacity > 0
+                ? Math.Min(CargoCapacity.Value, available)
+                : available;
+    }
+
+    public enum SortField
+    {
+        None,
+        Margin,
+        Profit,
+        Distance,
+    }
+
+    private async Task CreateTradeRunAsync(GameTradeRoute tradeRoute)
+    {
+        var currentServiceState = await ServiceStateProvider.LoadCurrentServiceStateAsync(CancellationToken.None);
+        var runContext = new TradeRun.Context
+        {
+            Version = (currentServiceState as ServiceAvailableState)?.Version,
+            Vehicle = SelectedVehicle,
+            Quantity = Quantity.FromScu(Math.Min(_context.CargoCapacity ?? tradeRoute.Origin.CargoUnitsAvailable, tradeRoute.Origin.CargoUnitsAvailable)),
+        };
+        var tradeRun = TradeRun.Create(tradeRoute, runContext);
+        await TradeRunManager.AddOrUpdateEntryAsync(tradeRun);
+        await EventReporter.TrackEventAsync(TradeRunEvents.CreateTradeRun());
+    }
+}

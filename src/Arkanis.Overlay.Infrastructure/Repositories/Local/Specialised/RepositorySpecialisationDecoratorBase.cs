@@ -1,10 +1,11 @@
 namespace Arkanis.Overlay.Infrastructure.Repositories.Local.Specialised;
 
+using Common.Services;
 using Domain.Abstractions.Game;
 using Domain.Abstractions.Services;
 using Domain.Models;
 using Domain.Models.Game;
-using Services;
+using Microsoft.Extensions.Primitives;
 
 /// <summary>
 ///     A base class for all repository decorators.
@@ -22,6 +23,9 @@ internal abstract class RepositorySpecialisationDecoratorBase<T>(IGameEntityRepo
 
     public InternalDataState DataState
         => decoratedRepository.DataState;
+
+    public IChangeToken DataChangeToken
+        => decoratedRepository.DataChangeToken;
 
     public async Task UpdateAllAsync(GameEntitySyncData<T> syncData, CancellationToken cancellationToken = default)
     {

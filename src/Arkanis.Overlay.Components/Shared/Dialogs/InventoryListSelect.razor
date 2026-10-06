@@ -1,0 +1,60 @@
+@inject IInventoryManager InventoryManager
+
+<MudSelect Value="@Value"
+           ValueChanged="@ValueChanged"
+           Text="@Value?.Name"
+           Placeholder="Select an inventory list"
+           Label="Inventory List"
+           HelperText="@HelperText"
+           Required="@Required"
+           Clearable="@(!Required)">
+    @foreach (var list in Lists)
+    {
+        <MudSelectItem Value="@list">
+            @list.Name
+        </MudSelectItem>
+    }
+    @if (Lists.Count == 0)
+    {
+        <MudSelectItem T="InventoryEntryListBrief" Value="@null" Disabled>
+            No inventory lists available
+        </MudSelectItem>
+    }
+</MudSelect>
+
+@code
+{
+
+    [Parameter]
+    public InventoryEntryListBrief? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<InventoryEntryListBrief?> ValueChanged { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    private ICollection<InventoryEntryListBrief> Lists { get; set; } = [];
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // force render to update initially coerced display text for default values
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var lists = await InventoryManager.GetAllListsAsync();
+        Lists = lists.OrderBy(x => x.Name).ToList();
+    }
+
+}

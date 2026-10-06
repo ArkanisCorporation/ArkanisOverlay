@@ -1,0 +1,33 @@
+@using System.Security.Claims
+@if (Model?.IsAuthenticated == true)
+{
+    <ExternalAccountAvatar
+        Model="@Model"/>
+
+    <MudText>
+        @if (Model.Name is { } name)
+        {
+            @name
+        }
+        else
+        {
+            <span class="text-secondary">Unknown Account</span>
+        }
+    </MudText>
+}
+else if (Model is null)
+{
+    <ExternalAccountAvatar/>
+
+    <MudSkeleton
+        SkeletonType="@SkeletonType.Rectangle"
+        Width="80px"/>
+}
+
+@code
+{
+
+    [Parameter]
+    public ClaimsIdentity? Model { get; set; }
+
+}

@@ -1,14 +1,15 @@
 namespace Arkanis.Overlay.Components.Services.Abstractions;
 
-using Arkanis.Overlay.Domain.Models.Keyboard;
+using Common.Models.Keyboard;
 using Microsoft.AspNetCore.Components.Web;
 
 public interface IKeyboardProxy
 {
-    event EventHandler<KeyboardKey> OnKeyUp;
-    event EventHandler<KeyboardKey> OnKeyDown;
-    event EventHandler<KeyboardShortcut> OnKeyboardShortcut;
+    public event EventHandler<KeyboardKey> OnKeyUp;
+    public event EventHandler<KeyboardKey> OnKeyDown;
+    public event EventHandler<KeyboardShortcut> OnKeyboardShortcut;
 
-    void RegisterKeyUp(KeyboardEventArgs keyboardEvent);
-    void RegisterKeyDown(KeyboardEventArgs keyboardEvent);
+    public void RegisterKeyUp(KeyboardEventArgs keyboardEvent);
+    public void RegisterKeyDown(KeyboardEventArgs keyboardEvent);
+    public void Clear();
 }

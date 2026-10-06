@@ -1,0 +1,124 @@
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-table thead th {
+        box-shadow: inset 0 -1px 0 var(--mud-palette-table-lines);
+    }
+
+    .mud-table.mud-table-sticky-header thead {
+        position: sticky;
+        top: 0;
+    }
+</style>
+@*
+ * it is necessary to create the wrapper and table manually as <MudSimpleTable> contains
+ * another wrapping element which prevents us from injecting custom tabindex attribute
+ * in order to prevent unwanted tab navigation behaviour
+ *@
+<div class="mud-table mud-simple-table mud-table-dense mud-table-hover mud-table-square mud-table-sticky-header h-100"
+     style="overflow-y: auto"
+     tabindex="-1">
+    <table>
+        <caption class="mt-2">@CaptionContent</caption>
+        <thead>
+        <MudTr>
+            <MudTh Class="py-0">Price</MudTh>
+            <MudTh Class="py-0">Location</MudTh>
+            <MudTh Class="py-0">Reported</MudTh>
+        </MudTr>
+        </thead>
+        <tbody>
+        @foreach (var priceTag in Models)
+        {
+            <MudTr>
+                <MudTd>
+                    @if (priceTag is BarePriceTag barePriceTag)
+                    {
+                        <GameCurrencyLabel Model="@barePriceTag.Price"/>
+                    }
+                    else
+                    {
+                        <i class="text-secondary">Unknown</i>
+                    }
+                </MudTd>
+                <MudTd>
+                    @if (priceTag is KnownPriceTagWithLocation priceTagWithLocation)
+                    {
+                        <MudStack AlignItems="@AlignItems.Center"
+                                  Justify="@Justify.SpaceBetween"
+                                  Spacing="1"
+                                  Row>
+                            <GameLocationLabel Model="@priceTagWithLocation.Location"/>
+                            @if (SearchContext?.CurrentLocation is { } location)
+                            {
+                                if (location.IsOrContains(priceTagWithLocation.Location))
+                                {
+                                    <Tooltip Text="Within filtered location"
+                                             Style="height: 20px">
+                                        <MudIcon
+                                            Size="@Size.Small"
+                                            Icon="@Icons.Material.Filled.LocationOn"
+                                            Color="@Color.Success"/>
+                                    </Tooltip>
+                                }
+                                else
+                                {
+                                    <Tooltip Text="Not within filtered location"
+                                             Style="height: 20px">
+                                        <MudIcon
+                                            Size="@Size.Small"
+                                            Icon="@Icons.Material.Filled.LocationOff"
+                                            Color="@Color.Default"/>
+                                    </Tooltip>
+                                }
+                            }
+                        </MudStack>
+                    }
+                    else
+                    {
+                        <i class="text-secondary">Unknown</i>
+                    }
+                </MudTd>
+                <MudTd>
+                    @if (priceTag is KnownPriceTag knownPriceTag)
+                    {
+                        <span>
+                            @knownPriceTag.UpdatedAt.Humanize(DateTimeOffset.Now)
+                        </span>
+                    }
+                    else
+                    {
+                        <i class="text-secondary">Unknown</i>
+                    }
+                </MudTd>
+            </MudTr>
+        }
+        @if (Models.Count == 0)
+        {
+            <MudTr>
+                <MudTd colspan="999">
+                    <MudText Typo="@Typo.body2"
+                             Align="@Align.Center"
+                             Class="text-secondary">
+                        No price entries available.
+                    </MudText>
+                </MudTd>
+            </MudTr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+
+    [CascadingParameter]
+    public OverlaySearchContext? SearchContext { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public required ICollection<PriceTag> Models { get; set; }
+
+    [Parameter]
+    public RenderFragment CaptionContent { get; set; } = @<span>All available prices</span>;
+
+}

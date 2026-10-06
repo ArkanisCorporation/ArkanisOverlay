@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
-using Domain.Abstractions.Services;
+using Common.Abstractions;
 using Microsoft.Extensions.Hosting;
 
 internal class UserPreferencesLoader(IUserPreferencesManager preferencesManager) : IHostedService

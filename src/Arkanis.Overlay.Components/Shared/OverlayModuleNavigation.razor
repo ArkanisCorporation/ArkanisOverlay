@@ -1,0 +1,210 @@
+@using System.Collections.Concurrent
+@using Microsoft.AspNetCore.Components.Routing
+@implements IDisposable
+@inject IServiceProvider ServiceProvider
+@inject NavigationManager NavigationManager
+@inject OverlayModules OverlayModules
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .navigation-tabs {
+        .mud-tab.mud-tab-panel {
+            min-width: initial !important;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .mud-chip {
+            margin: 0;
+            height: 20px;
+        }
+    }
+</style>
+
+<MudTabs @ref="@_tabs"
+         Class="with-badges navigation-tabs"
+         @bind-ActivePanelIndex:get="@ActiveModuleIndex"
+         @bind-ActivePanelIndex:set="@ActivateModuleByIndexWithClick">
+    @foreach (var (moduleIndex, module) in OverlayModules.GetAll().Index())
+    {
+        var moduleShortcut = GetKeyboardShortcutFor(moduleIndex, module);
+        var updateCount = GetUpdateCount(module);
+
+        var description = true switch
+        {
+            _ when module.IsInDevelopment => "In Development",
+            _ when module.IsDisabled => "Disabled",
+            _ => module.Description,
+        };
+
+        <MudTabPanel @key="@module.Name"
+                     Icon="@module.Icon"
+                     Disabled="@module.IsDisabled"
+                     Tooltip="@module.Description">
+            <TabWrapperContent>
+                <KeyboardShortcutBadge @key="@module.Name"
+                                       Shortcut="@moduleShortcut"
+                                       IsActive="@module.CanActivate(NavigationManager, CurrentUri)"
+                                       OnKeyPress="@(() => ActivateModuleByIndexWithHotkey(moduleIndex))"
+                                       Origin="@KeybindsOrigin"
+                                       Elevation="4"
+                                       DoNotOverlap="@DoNotOverlapKeybinds">
+                    <MudTooltip>
+                        <ChildContent>@context</ChildContent>
+                        <TooltipContent>
+                            <MudText Typo="@Typo.inherit">
+                                @description
+                            </MudText>
+                        </TooltipContent>
+                    </MudTooltip>
+                </KeyboardShortcutBadge>
+            </TabWrapperContent>
+            <TabContent>
+                <MudStack AlignItems="@AlignItems.Center"
+                          Spacing="3"
+                          Row>
+                    <MudIcon
+                        Icon="@module.Icon"
+                        Color="@module.Color"/>
+                    <MudText Typo="@Typo.inherit" Color="@module.Color">
+                        @module.Name
+                    </MudText>
+                    @if (updateCount > 0)
+                    {
+                        <MudChip
+                            Size="@Size.Small"
+                            Value="@updateCount"
+                            Color="@Color.Warning"/>
+                    }
+                </MudStack>
+            </TabContent>
+        </MudTabPanel>
+    }
+</MudTabs>
+
+@code
+{
+
+    private MudTabs? _tabs;
+    private OverlayModules.Entry[] _modules = [];
+    private readonly ConcurrentDictionary<int, int> _moduleUpdates = [];
+    private readonly ConcurrentDictionary<int, IDisposable> _moduleChangeRegistrations = [];
+    private string? _currentUri;
+
+    private string CurrentUri
+    {
+        get => _currentUri ?? NavigationManager.Uri;
+        set => _currentUri = value;
+    }
+
+    private int ActiveModuleIndex
+        => OverlayModules.GetAll()
+            .Index()
+            .Where(x => IsActive(x.Item))
+            .Select(x => x.Index)
+            .First();
+
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Style { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool Horizontal { get; set; }
+
+    [Parameter]
+    public Origin KeybindsOrigin { get; set; } = Origin.TopRight;
+
+    [Parameter]
+    public bool DoNotOverlapKeybinds { get; set; }
+
+    [Parameter]
+    public Origin UpdatesOrigin { get; set; } = Origin.TopCenter;
+
+    [Parameter]
+    public bool DoNotOverlapUpdates { get; set; }
+
+    private bool IsActive(OverlayModules.Entry module)
+        => module.IsActive(NavigationManager, CurrentUri);
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        NavigationManager.LocationChanged += OnLocationChangedAsync;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _modules = OverlayModules.GetAll().ToArray();
+        _modules.ForEach(RegisterForChanges);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshDataAsync();
+    }
+
+    private void RegisterForChanges(OverlayModules.Entry entry)
+    {
+        var registration = new ChangeTokenRegistration(() => entry.GetChangeToken(ServiceProvider));
+        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
+        _moduleChangeRegistrations[entry.GetHashCode()] = registration;
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        async Task<bool> LoadAsync(OverlayModules.Entry entry)
+        {
+            var previousValue = GetUpdateCount(entry);
+            var currentValue = await entry.GetUpdateCountAsync(ServiceProvider);
+            _moduleUpdates[entry.GetHashCode()] = currentValue;
+            return previousValue != currentValue;
+        }
+
+        var updateTasks = OverlayModules.GetAll().Select(LoadAsync);
+        var changes = await Task.WhenAll(updateTasks);
+        if (changes.Any())
+        {
+            await (_tabs?.ActivatePanelAsync(ActiveModuleIndex) ?? Task.CompletedTask);
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void OnLocationChangedAsync(object? _, LocationChangedEventArgs e)
+    {
+        CurrentUri = e.Location;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private KeyboardShortcut GetKeyboardShortcutFor(int index, OverlayModules.Entry module)
+        => module.ShortcutOverride
+           ?? (index < 12
+               ? KeyboardKey.F1 + index
+               : KeyboardKey.Unknown);
+
+    private async Task ActivateModuleByIndexWithClick(int moduleIndex)
+        => await ActivateModuleByIndex(moduleIndex, OverlayModules.ActivationType.Click);
+
+    private async Task ActivateModuleByIndexWithHotkey(int moduleIndex)
+        => await ActivateModuleByIndex(moduleIndex, OverlayModules.ActivationType.Hotkey);
+
+    private async Task ActivateModuleByIndex(int moduleIndex, OverlayModules.ActivationType activationType)
+    {
+        var module = _modules[moduleIndex];
+        await module.ActivateAsync(NavigationManager, CurrentUri, activationType);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private int GetUpdateCount(OverlayModules.Entry module)
+        => _moduleUpdates.GetValueOrDefault(module.GetHashCode());
+
+    public void Dispose()
+    {
+        _moduleChangeRegistrations.Values.ForEach(x => x.Dispose());
+        NavigationManager.LocationChanged -= OnLocationChangedAsync;
+    }
+
+}

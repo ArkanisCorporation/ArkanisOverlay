@@ -1,0 +1,423 @@
+@using Arkanis.Overlay.Common.Extensions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject InventoryViewModel ViewModel
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .mud-data-grid tbody tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
+        content: "Local";
+        float: left;
+    }
+
+    .mud-data-grid tfoot tr.mud-table-row td.mud-table-cell.footer-cell:first-child:before {
+        content: "Global";
+        float: left;
+    }
+
+    .mud-data-grid tbody tr.mud-table-row td.mud-table-cell.mud-datagrid-group {
+        height: 56px;
+    }
+</style>
+
+<MudDataGrid @ref="_dataGridRef"
+             Items="@SortedModels"
+             SelectedItems="@SelectedModels"
+             SelectedItemsChanged="@SelectedModelsChanged"
+             SelectOnRowClick="@SelectedModelsChanged.HasDelegate"
+             Class="@Class"
+             RowClassFunc="GetRowClass"
+             Groupable="true"
+             MultiSelection
+             Dense
+             Hover>
+    <Columns>
+        @* TODO: Add hangar entry name column *@
+        @if (SelectedModelsChanged.HasDelegate)
+        {
+            <SelectColumn/>
+        }
+        <PropertyColumn Property="@(x => x.Quantity.Amount)"
+                        AggregateDefinition="@(new AggregateDefinition<InventoryEntryBase>())"
+                        Groupable="false"
+                        HeaderStyle="width: 80px"
+                        HeaderClass="text-right flex-row-reverse pr-1"
+                        CellClass="text-right pr-1"
+                        FooterClass="text-right pr-1"
+                        Hidden="@IsHangar">
+            <CellTemplate>
+                @context.Item.Quantity.Amount.ToString("N0")
+            </CellTemplate>
+            <AggregateTemplate>
+                <MudStack Spacing="0">
+                    @foreach (var quantitiesByUnit in context.Select(x => x.Quantity).GroupBy(x => x.Unit))
+                    {
+                        <span>
+                            @quantitiesByUnit.Sum(x => x.Amount).ToMetric(MetricNumeralFormats.WithSpace, 3)
+                        </span>
+                    }
+                </MudStack>
+            </AggregateTemplate>
+        </PropertyColumn>
+        <PropertyColumn Property="@(x => x.Quantity.Unit)"
+                        AggregateDefinition="@(new AggregateDefinition<InventoryEntryBase>())"
+                        CellClass="pl-1"
+                        HeaderClass="pl-1"
+                        FooterClass="pl-1"
+                        Hidden="@IsHangar">
+            <CellTemplate>
+                @Quantity.GetUnitString(context.Item.Quantity.Unit)
+            </CellTemplate>
+            <AggregateTemplate>
+                <MudStack Spacing="0">
+                    @foreach (var quantitiesByUnit in context.Select(x => x.Quantity).GroupBy(x => x.Unit))
+                    {
+                        <span>
+                            @Quantity.GetUnitString(quantitiesByUnit.Key)
+                        </span>
+                    }
+                </MudStack>
+            </AggregateTemplate>
+        </PropertyColumn>
+        <PropertyColumn Title="Entity"
+                        Property="@(x => x.Entity.Name.MainContent.FullName)"
+                        GroupBy="@(x => x.Entity)"
+                        Grouping="@Groupings.Contains(Column.Entity)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Entity)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@(Groupings.Contains(Column.Entity) || Hidden.Contains(Column.Entity))">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <QuantityCountBadge
+                            Models="@context.Grouping.Select(x => x.Quantity)"/>
+                    </div>
+
+                    @if (context.Grouping.Key is IGameEntity entity)
+                    {
+                        <GameEntityNameLabel Model="@entity.Name"/>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            N/A
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <QuantityCountBadge
+                            Models="@selected.Select(x => x.Quantity)"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                @ViewModel.GetDisplayName(context.Item, false)
+            </CellTemplate>
+        </PropertyColumn>
+        <TemplateColumn Title="Manufacturer"
+                        GroupBy="@(x => (x.Entity as IGameManufactured)?.Manufacturer)"
+                        Grouping="@Groupings.Contains(Column.Manufacturer)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.Manufacturer)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@(!IsHangar)">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <QuantityCountBadge
+                            Models="@context.Grouping.Select(x => x.Quantity)"/>
+                    </div>
+
+                    @if (context.Grouping.Key is GameCompany company)
+                    {
+                        <GameEntityNameLabel Model="@company.Name"/>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            N/A
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <QuantityCountBadge
+                            Models="@selected.Select(x => x.Quantity)"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                @if (context.Item.Entity is IGameManufactured manufactured)
+                {
+                    @manufactured.Manufacturer.Name.MainContent.FullName
+                }
+                else
+                {
+                    <MudText Typo="@Typo.h6" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Type"
+                        GroupBy="@(x => GetEntryType(x))"
+                        Grouping="@Groupings.Contains(Column.EntryType)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.EntryType)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@(Groupings.Contains(Column.EntryType) || Hidden.Contains(Column.EntryType))">
+            <CellTemplate>
+                @GetEntryType(context.Item)
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="Location"
+                        GroupBy="@(x => (x as IInventoryPlacement)?.LocationId)"
+                        Grouping="@Groupings.Contains(Column.LocationOrVehicle)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.LocationOrVehicle)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@(Groupings.Contains(Column.LocationOrVehicle) || Hidden.Contains(Column.LocationOrVehicle))">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <QuantityCountBadge
+                            Models="@context.Grouping.Select(x => x.Quantity)"/>
+                    </div>
+
+                    @{ var item = context.Grouping.First(); }
+                    @if (item is ILocationInventory locatedAt)
+                    {
+                        <GameEntityNameLabel Model="@locatedAt.Location.Name"/>
+                    }
+                    else if (item is IVehicleInventory hangarEntry)
+                    {
+                        <InventoryEntryLabel Model="@hangarEntry.HangarEntry"/>
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            Unassigned
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <QuantityCountBadge
+                            Models="@selected.Select(x => x.Quantity)"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                <InventoryEntryPlacementLabel
+                    Model="@context.Item"
+                    WithoutPreposition/>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn Title="List"
+                        GroupBy="@(x => x.List?.Id)"
+                        Grouping="@Groupings.Contains(Column.List)"
+                        GroupByOrder="@Groupings.IndexOfOrDefault(Column.List)"
+                        GroupExpanded="@ExpandAll"
+                        Hidden="@(Groupings.Contains(Column.List) || Hidden.Contains(Column.List) || IsHangar)">
+            <GroupTemplate>
+                <MudStack Class="my-n4 mr-4 w-100"
+                          AlignItems="@AlignItems.Center"
+                          Row>
+
+                    <div style="width: 62px; text-align: right">
+                        <QuantityCountBadge
+                            Models="@context.Grouping.Select(x => x.Quantity)"/>
+                    </div>
+
+                    @if (context.Grouping.FirstOrDefault()?.List is { } list)
+                    {
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.h6">
+                                @list.Name
+                            </MudText>
+                            @if (!string.IsNullOrWhiteSpace(list.Notes))
+                            {
+                                <MudText Typo="@Typo.body2">
+                                    @list.Notes
+                                </MudText>
+                            }
+                        </MudStack>
+                        if (ListActionsContent is not null)
+                        {
+                            @ListActionsContent(list)
+                        }
+                    }
+                    else
+                    {
+                        <MudText Typo="@Typo.h6" Class="text-secondary">
+                            Unassigned
+                        </MudText>
+                    }
+
+                    <MudSpacer/>
+                    @if (SelectedModels.Intersect(context.Grouping).ToArray() is { Length: > 0 } selected)
+                    {
+                        <QuantityCountBadge
+                            Models="@selected.Select(x => x.Quantity)"
+                            Color="@Color.Info"/>
+                    }
+                </MudStack>
+            </GroupTemplate>
+            <CellTemplate>
+                @if (context.Item.List is { } list)
+                {
+                    <MudChip
+                        Text="@list.Name"
+                        Size="@Size.Small"
+                        Class="ma-0"/>
+                }
+                else
+                {
+                    <MudText Typo="@Typo.inherit" Class="text-secondary">
+                        N/A
+                    </MudText>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        @if (EntryActionsContent is not null)
+        {
+            <TemplateColumn Title="Actions"
+                            HeaderStyle="justify-items: right"
+                            CellStyle="text-align: right">
+                <CellTemplate>
+                    @EntryActionsContent(context)
+                </CellTemplate>
+            </TemplateColumn>
+        }
+    </Columns>
+    <NoRecordsContent>
+        <MudText Typo="@Typo.body2" Class="text-secondary">
+            There are no inventory entries yet.
+        </MudText>
+    </NoRecordsContent>
+</MudDataGrid>
+
+@code
+{
+
+    private MudDataGrid<InventoryEntryBase>? _dataGridRef;
+
+    [Parameter]
+    public ICollection<InventoryEntryBase> Models { get; set; } = [];
+
+    [Parameter]
+    public ICollection<InventoryEntryListBrief> Lists { get; set; } = [];
+
+    [Parameter]
+    public HashSet<InventoryEntryBase> SelectedModels { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<HashSet<InventoryEntryBase>> SelectedModelsChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment<CellContext<InventoryEntryBase>>? EntryActionsContent { get; set; }
+
+    [Parameter]
+    public RenderFragment<InventoryEntryListBrief>? ListActionsContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; } = "bg-gray";
+
+    [Parameter]
+    public bool IsHangar { get; set; }
+
+    [Parameter]
+    public bool ExpandAll { get; set; }
+
+    [Parameter]
+    public Column[] Hidden { get; set; } = [];
+
+    [Parameter]
+    public Column[] Groupings { get; set; } = [];
+
+    private InventoryEntryBase[] SortedModels { get; set; } = [];
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        // sort models by group and finally always by name
+        SortedModels = SortModels(Models, [..Groupings, Column.Entity]);
+        if (_dataGridRef is not null && ExpandAll)
+        {
+            await _dataGridRef.ExpandAllGroupsAsync();
+        }
+    }
+
+    private InventoryEntryBase[] SortModels(IEnumerable<InventoryEntryBase> models, params Column[] groupings)
+    {
+        if (groupings.Length == 0)
+        {
+            return models.ToArray();
+        }
+
+        var sortColumn = groupings.First();
+        models = sortColumn switch
+        {
+            Column.LocationOrVehicle => OrderBy(x => (x as IGameLocatedAt)?.Location.Name.MainContent.FullName),
+            Column.Manufacturer => OrderBy(x => (x.Entity as IGameManufactured)?.Manufacturer.Name.MainContent.FullName),
+            Column.EntryType => OrderBy(x => x.Type),
+            Column.List => OrderBy(x => x.List?.Name),
+            Column.Entity => OrderBy(x => x.Entity.Name.MainContent.FullName),
+            _ => models,
+        };
+
+        return SortModels(models, groupings.Skip(1).ToArray());
+
+        IOrderedEnumerable<InventoryEntryBase> OrderBy<T>(Func<InventoryEntryBase, T> selectProperty)
+            => models is IOrderedEnumerable<InventoryEntryBase> orderedModels
+                ? orderedModels.ThenBy(selectProperty)
+                : models.OrderBy(selectProperty);
+    }
+
+    private string GetRowClass(InventoryEntryBase entry, int rowIndex)
+        => SelectedModels.Contains(entry)
+            ? "selected"
+            : string.Empty;
+
+    private string GetEntryType(InventoryEntryBase contextItem)
+    {
+        var suffix = contextItem.Type switch
+        {
+            InventoryEntryBase.EntryType.VehicleInventory => "(Cargo)",
+            InventoryEntryBase.EntryType.VehicleModule => "(Module)",
+            _ => string.Empty,
+        };
+        var result = contextItem.Entity switch
+        {
+            GameItem => $"Item {suffix}",
+            GameCommodity => $"Commodity {suffix}",
+            GameSpaceShip => "Space Ship",
+            GameGroundVehicle => "Ground Vehicle",
+            _ => "unknown",
+        };
+
+        return result.Trim();
+    }
+
+    public enum Column
+    {
+        LocationOrVehicle,
+        Manufacturer,
+        EntryType,
+        List,
+        Entity,
+    }
+}

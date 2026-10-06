@@ -1,0 +1,165 @@
+@using Arkanis.Overlay.Domain.Abstractions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@inject ISearchService SearchService
+
+<MudAutocomplete T="@(IGameEntity?)"
+                 Label="@Label"
+                 Placeholder="@Placeholder"
+                 Value="@Value"
+                 ValueChanged="@OnValueChanged"
+                 OnBlur="@StateHasChanged"
+                 ToStringFunc="@GetText"
+                 HelperText="@HelperText"
+                 Error="@DisplayError"
+                 ErrorText="@ErrorText"
+                 Disabled="@Disabled"
+                 Clearable="@(Clearable ?? !Required)"
+                 Required="@Required"
+                 CoerceText="@false"
+                 CoerceValue="@false"
+                 TextUpdateSuppression="@false"
+                 PopoverClass="width-min-content"
+                 ItemDisabledFunc="@(item => Value == item)"
+                 SearchFunc="@FindEntitiesAsync">
+    <ItemTemplate>
+        @if (context is not null)
+        {
+            <div class="my-n2">
+                <GameEntityNameLabel Model="@context.Name"/>
+            </div>
+        }
+        else
+        {
+            <MudText Typo="@Typo.inherit" Class="text-secondary">
+                Unknown
+            </MudText>
+        }
+    </ItemTemplate>
+    <NoItemsTemplate>
+        <MudSelectItem T="@(IGameEntity?)"
+                       Value="@null"
+                       Class="no-wrap"
+                       Disabled>
+            No matching game entities
+        </MudSelectItem>
+    </NoItemsTemplate>
+</MudAutocomplete>
+
+@code
+{
+
+    private HashSet<IGameEntity> _except = [];
+    private HashSet<IGameEntity>? _only;
+
+    private bool DisplayError
+        => HasError || (Value is null && Required);
+
+    [Parameter]
+    public string? Label { get; set; } = "Game entity";
+
+    [Parameter]
+    public string? Placeholder { get; set; } = "Search for game entity";
+
+    [Parameter]
+    public IGameEntity? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<IGameEntity?> ValueChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public bool Required { get; set; }
+
+    [Parameter]
+    public bool? Clearable { get; set; }
+
+    [Parameter]
+    public GameProductCategory? ProductCategory { get; set; }
+
+    [Parameter]
+    public GameProductCategory[] ProductCategories { get; set; } = [];
+
+    [Parameter]
+    public GameEntityCategory EntityCategory { get; set; }
+
+    [Parameter]
+    public GameEntityCategory[] EntityCategories { get; set; } = [];
+
+    [Parameter]
+    public Func<IGameEntity, bool> Accept { get; set; } = _ => true;
+
+    [Parameter]
+    public IEnumerable<IGameEntity> Except { get; set; } = [];
+
+    [Parameter]
+    public IEnumerable<IGameEntity> Include { get; set; } = [];
+
+    [Parameter]
+    public IEnumerable<IGameEntity>? Only { get; set; }
+
+    [Parameter]
+    public bool HasError { get; set; }
+
+    [Parameter]
+    public string? ErrorText { get; set; }
+
+    [Parameter]
+    public string? HelperText { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _except = Except.ToHashSet(IIdentifiable.EqualityComparer.For<IGameLocation>());
+        _only = Only?.ToHashSet(IIdentifiable.EqualityComparer.For<IGameLocation>());
+    }
+
+    private async Task<IEnumerable<IGameEntity?>> FindEntitiesAsync(string? searchText, CancellationToken ct)
+    {
+        IEnumerable<SearchQuery> queries = [];
+        if (EntityCategory is not GameEntityCategory.Undefined)
+        {
+            queries = queries.Append(new EntityCategorySearch(EntityCategory));
+        }
+
+        if (EntityCategories.Length > 0)
+        {
+            queries = queries.Append(new EntityCategorySearch(EntityCategories.ToHashSet()));
+        }
+
+        if (ProductCategory is not null)
+        {
+            queries = queries.Append(new ProductCategorySearch(ProductCategory));
+        }
+
+        if (ProductCategories.Length > 0)
+        {
+            queries = queries.Append(new ProductCategorySearch(ProductCategories.ToHashSet()));
+        }
+
+        if (searchText is not null)
+        {
+            queries = queries.Append(new FuzzyTextSearch(searchText));
+        }
+
+        var results = await SearchService.SearchAsync(queries, ct);
+        var filteredResults = results.GameEntities
+            .Select(x => x.Subject)
+            .Where(x => !_except.Contains(x))
+            .Where(x => _only is null || _only.Contains(x))
+            .Where(Accept);
+
+        return Include.Concat(filteredResults);
+    }
+
+    private string? GetText(IGameEntity? value)
+        => value?.Name.MainContent.FullName;
+
+    private async Task OnValueChanged(IGameEntity? value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+        await InvokeAsync(StateHasChanged);
+    }
+}

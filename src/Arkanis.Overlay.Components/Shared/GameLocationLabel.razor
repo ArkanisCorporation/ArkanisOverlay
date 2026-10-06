@@ -1,4 +1,4 @@
-@using Arkanis.Common.Extensions
+@using Arkanis.Overlay.Common.Extensions
 @using Arkanis.Overlay.Domain.Abstractions.Game
 @if (Model.Name.MainContent is GameEntityName.IHasCode codeName)
 {
@@ -12,6 +12,18 @@
                 </span>
             }
         </PrefixContent>
+        <TooltipContent>
+            <GameLocationNamePart Model="@Model.Name.Location"
+                                  Style="height: 24px; margin-top: -8px">
+                <SuffixContent>
+                    @GameLocationNamePart.Separator
+                    <GameEntityNamePart
+                        Model="@Model.Name.MainContent"
+                        Typo="@Typo.inherit"
+                        Embedded/>
+                </SuffixContent>
+            </GameLocationNamePart>
+        </TooltipContent>
     </GameEntityNameCodePart>
 }
 else

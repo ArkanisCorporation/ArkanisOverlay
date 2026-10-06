@@ -1,281 +1,294 @@
 {
-    "Result": {
-        "data": [
-            {
-                "code": "AR18",
-                "date_added": 1682372190,
-                "date_modified": 0,
-                "faction_name": "United Empire of Earth",
-                "has_cargo_center": 0,
-                "has_clinic": 1,
-                "has_docking_port": 0,
-                "has_food": 1,
-                "has_freight_elevator": 0,
-                "has_gravity": 1,
-                "has_habitation": 1,
-                "has_loading_dock": 0,
-                "has_quantum_marker": 1,
-                "has_refinery": 0,
-                "has_refuel": 1,
-                "has_repair": 1,
-                "has_shops": 1,
-                "has_trade_terminal": 1,
-                "id": 1,
-                "id_faction": 23,
-                "id_jurisdiction": 0,
-                "id_moon": 0,
-                "id_orbit": 4,
-                "id_planet": 4,
-                "id_star_system": 68,
-                "is_armistice": 1,
-                "is_available": 1,
-                "is_available_live": 1,
-                "is_decommissioned": 0,
-                "is_default": 0,
-                "is_landable": 1,
-                "is_monitored": 1,
-                "is_visible": 1,
-                "jurisdiction_name": null,
-                "moon_name": null,
-                "name": "Area 18",
-                "orbit_name": "ArcCorp",
-                "pad_types": null,
-                "planet_name": "ArcCorp",
-                "star_system_name": "Stanton",
-                "wiki": "https://starcitizen.tools/Area_18"
-            },
-            {
-                "code": "LEVS",
-                "date_added": 1682372190,
-                "date_modified": 0,
-                "faction_name": "People\u0027s Alliance of Levski",
-                "has_cargo_center": 0,
-                "has_clinic": 1,
-                "has_docking_port": 0,
-                "has_food": 1,
-                "has_freight_elevator": 0,
-                "has_gravity": 1,
-                "has_habitation": 1,
-                "has_loading_dock": 0,
-                "has_quantum_marker": 1,
-                "has_refinery": 0,
-                "has_refuel": 1,
-                "has_repair": 1,
-                "has_shops": 1,
-                "has_trade_terminal": 1,
-                "id": 2,
-                "id_faction": 19,
-                "id_jurisdiction": 0,
-                "id_moon": 0,
-                "id_orbit": 325,
-                "id_planet": 0,
-                "id_star_system": 55,
-                "is_armistice": 1,
-                "is_available": 0,
-                "is_available_live": 0,
-                "is_decommissioned": 0,
-                "is_default": 0,
-                "is_landable": 1,
-                "is_monitored": 1,
-                "is_visible": 0,
-                "jurisdiction_name": null,
-                "moon_name": null,
-                "name": "Levski",
-                "orbit_name": "Delamar",
-                "pad_types": null,
-                "planet_name": null,
-                "star_system_name": "Nyx",
-                "wiki": "https://starcitizen.tools/Levski"
-            },
-            {
-                "code": "LORV",
-                "date_added": 1682372190,
-                "date_modified": 0,
-                "faction_name": "United Empire of Earth",
-                "has_cargo_center": 0,
-                "has_clinic": 1,
-                "has_docking_port": 0,
-                "has_food": 1,
-                "has_freight_elevator": 0,
-                "has_gravity": 1,
-                "has_habitation": 1,
-                "has_loading_dock": 0,
-                "has_quantum_marker": 1,
-                "has_refinery": 0,
-                "has_refuel": 1,
-                "has_repair": 1,
-                "has_shops": 1,
-                "has_trade_terminal": 1,
-                "id": 3,
-                "id_faction": 23,
-                "id_jurisdiction": 0,
-                "id_moon": 0,
-                "id_orbit": 116,
-                "id_planet": 116,
-                "id_star_system": 68,
-                "is_armistice": 1,
-                "is_available": 1,
-                "is_available_live": 1,
-                "is_decommissioned": 0,
-                "is_default": 0,
-                "is_landable": 1,
-                "is_monitored": 1,
-                "is_visible": 1,
-                "jurisdiction_name": null,
-                "moon_name": null,
-                "name": "Lorville",
-                "orbit_name": "Hurston",
-                "pad_types": null,
-                "planet_name": "Hurston",
-                "star_system_name": "Stanton",
-                "wiki": "https://starcitizen.tools/Lorville"
-            },
-            {
-                "code": "NEWB",
-                "date_added": 1682372190,
-                "date_modified": 0,
-                "faction_name": "United Empire of Earth",
-                "has_cargo_center": 0,
-                "has_clinic": 1,
-                "has_docking_port": 0,
-                "has_food": 1,
-                "has_freight_elevator": 0,
-                "has_gravity": 1,
-                "has_habitation": 1,
-                "has_loading_dock": 0,
-                "has_quantum_marker": 1,
-                "has_refinery": 0,
-                "has_refuel": 1,
-                "has_repair": 1,
-                "has_shops": 1,
-                "has_trade_terminal": 1,
-                "id": 4,
-                "id_faction": 23,
-                "id_jurisdiction": 0,
-                "id_moon": 0,
-                "id_orbit": 190,
-                "id_planet": 190,
-                "id_star_system": 68,
-                "is_armistice": 1,
-                "is_available": 1,
-                "is_available_live": 1,
-                "is_decommissioned": 0,
-                "is_default": 1,
-                "is_landable": 1,
-                "is_monitored": 1,
-                "is_visible": 1,
-                "jurisdiction_name": null,
-                "moon_name": null,
-                "name": "New Babbage",
-                "orbit_name": "MicroTech",
-                "pad_types": null,
-                "planet_name": "MicroTech",
-                "star_system_name": "Stanton",
-                "wiki": "https://starcitizen.tools/New_Babbage"
-            },
-            {
-                "code": "ORIS",
-                "date_added": 1682372190,
-                "date_modified": 0,
-                "faction_name": "United Empire of Earth",
-                "has_cargo_center": 0,
-                "has_clinic": 1,
-                "has_docking_port": 0,
-                "has_food": 1,
-                "has_freight_elevator": 0,
-                "has_gravity": 1,
-                "has_habitation": 1,
-                "has_loading_dock": 0,
-                "has_quantum_marker": 1,
-                "has_refinery": 0,
-                "has_refuel": 1,
-                "has_repair": 1,
-                "has_shops": 1,
-                "has_trade_terminal": 1,
-                "id": 5,
-                "id_faction": 23,
-                "id_jurisdiction": 0,
-                "id_moon": 0,
-                "id_orbit": 59,
-                "id_planet": 59,
-                "id_star_system": 68,
-                "is_armistice": 1,
-                "is_available": 1,
-                "is_available_live": 1,
-                "is_decommissioned": 0,
-                "is_default": 0,
-                "is_landable": 1,
-                "is_monitored": 1,
-                "is_visible": 1,
-                "jurisdiction_name": null,
-                "moon_name": null,
-                "name": "Orison",
-                "orbit_name": "Crusader",
-                "pad_types": null,
-                "planet_name": "Crusader",
-                "star_system_name": "Stanton",
-                "wiki": "https://starcitizen.tools/Orison"
-            }
-        ],
-        "http_code": 200,
-        "message": "",
-        "status": "ok"
-    },
-    "StatusCode": 200,
-    "Headers": {
-        "Date": [
-            "Mon, 21 Apr 2025 16:49:12 GMT"
-        ],
-        "Transfer-Encoding": [
-            "chunked"
-        ],
-        "Connection": [
-            "keep-alive"
-        ],
-        "Cf-Ray": [
-            "933e5f942ba0b3dc-PRG"
-        ],
-        "Server": [
-            "cloudflare"
-        ],
-        "Strict-Transport-Security": [
-            "max-age=31536000"
-        ],
-        "Cf-Cache-Status": [
-            "DYNAMIC"
-        ],
-        "Cache-Control": [
-            "public, must-revalidate, max-age=86400"
-        ],
-        "Access-Control-Allow-Origin": [
-            "*"
-        ],
-        "X-Frame-Options": [
-            "SAMEORIGIN"
-        ],
-        "Content-Security-Policy": [
-            "frame-ancestors \u0027self\u0027"
-        ],
-        "Vary": [
-            "Accept-Encoding"
-        ],
-        "Report-To": [
-            "{\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=bz9yuyQKIGtSKQxcLRMDqU%2FB0dgtIEBifUKfPo0%2BrYeh9IM86gHUcbm5hJt77kIJBdyI9g8KqsISxrR4NbcjzlAzRgSrjKtGDWdezq4%2BB6MLYBo5%2Bcgo67p36jMd43Hv\u0022}],\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Nel": [
-            "{\u0022success_fraction\u0022:0,\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800}"
-        ],
-        "Alt-Svc": [
-            "h3=\u0022:443\u0022"
-        ],
-        "Server-Timing": [
-            "cfL4;desc=\u0022?proto=TCP\u0026rtt=3908\u0026min_rtt=3847\u0026rtt_var=1566\u0026sent=3\u0026recv=5\u0026lost=0\u0026retrans=0\u0026sent_bytes=219\u0026recv_bytes=889\u0026delivery_rate=336405\u0026cwnd=250\u0026unsent_bytes=0\u0026cid=600424d8825d4bf0\u0026ts=494\u0026x=0\u0022"
-        ],
-        "Content-Type": [
-            "application/json"
-        ],
-        "Expires": [
-            "Tue, 22 Apr 2025 16:49:12 GMT"
-        ]
-    }
+  "Result": {
+    "data": [
+      {
+        "code": "AR18",
+        "date_added": 1682372190,
+        "date_modified": 0,
+        "faction_name": "United Empire of Earth",
+        "has_cargo_center": 0,
+        "has_clinic": 1,
+        "has_docking_port": 0,
+        "has_food": 1,
+        "has_freight_elevator": 0,
+        "has_gravity": 1,
+        "has_habitation": 1,
+        "has_loading_dock": 0,
+        "has_quantum_marker": 1,
+        "has_refinery": 0,
+        "has_refuel": 1,
+        "has_repair": 1,
+        "has_shops": 1,
+        "has_trade_terminal": 1,
+        "id": 1,
+        "id_faction": 23,
+        "id_jurisdiction": 0,
+        "id_moon": 0,
+        "id_orbit": 4,
+        "id_planet": 4,
+        "id_star_system": 68,
+        "is_armistice": 1,
+        "is_available": 1,
+        "is_available_live": 1,
+        "is_decommissioned": 0,
+        "is_default": 0,
+        "is_landable": 1,
+        "is_monitored": 1,
+        "is_visible": 1,
+        "jurisdiction_name": null,
+        "moon_name": null,
+        "name": "Area 18",
+        "orbit_name": "ArcCorp",
+        "pad_types": null,
+        "planet_name": "ArcCorp",
+        "star_system_name": "Stanton",
+        "wiki": "https://starcitizen.tools/Area_18"
+      },
+      {
+        "code": "LEVS",
+        "date_added": 1682372190,
+        "date_modified": 0,
+        "faction_name": "People\u0027s Alliance of Levski",
+        "has_cargo_center": 0,
+        "has_clinic": 1,
+        "has_docking_port": 0,
+        "has_food": 1,
+        "has_freight_elevator": 0,
+        "has_gravity": 1,
+        "has_habitation": 1,
+        "has_loading_dock": 0,
+        "has_quantum_marker": 1,
+        "has_refinery": 0,
+        "has_refuel": 1,
+        "has_repair": 1,
+        "has_shops": 1,
+        "has_trade_terminal": 1,
+        "id": 2,
+        "id_faction": 19,
+        "id_jurisdiction": 0,
+        "id_moon": 0,
+        "id_orbit": 325,
+        "id_planet": 0,
+        "id_star_system": 55,
+        "is_armistice": 1,
+        "is_available": 0,
+        "is_available_live": 0,
+        "is_decommissioned": 0,
+        "is_default": 0,
+        "is_landable": 1,
+        "is_monitored": 1,
+        "is_visible": 0,
+        "jurisdiction_name": null,
+        "moon_name": null,
+        "name": "Levski",
+        "orbit_name": "Delamar",
+        "pad_types": null,
+        "planet_name": null,
+        "star_system_name": "Nyx",
+        "wiki": "https://starcitizen.tools/Levski"
+      },
+      {
+        "code": "LORV",
+        "date_added": 1682372190,
+        "date_modified": 0,
+        "faction_name": "United Empire of Earth",
+        "has_cargo_center": 0,
+        "has_clinic": 1,
+        "has_docking_port": 0,
+        "has_food": 1,
+        "has_freight_elevator": 0,
+        "has_gravity": 1,
+        "has_habitation": 1,
+        "has_loading_dock": 0,
+        "has_quantum_marker": 1,
+        "has_refinery": 0,
+        "has_refuel": 1,
+        "has_repair": 1,
+        "has_shops": 1,
+        "has_trade_terminal": 1,
+        "id": 3,
+        "id_faction": 23,
+        "id_jurisdiction": 0,
+        "id_moon": 0,
+        "id_orbit": 116,
+        "id_planet": 116,
+        "id_star_system": 68,
+        "is_armistice": 1,
+        "is_available": 1,
+        "is_available_live": 1,
+        "is_decommissioned": 0,
+        "is_default": 0,
+        "is_landable": 1,
+        "is_monitored": 1,
+        "is_visible": 1,
+        "jurisdiction_name": null,
+        "moon_name": null,
+        "name": "Lorville",
+        "orbit_name": "Hurston",
+        "pad_types": null,
+        "planet_name": "Hurston",
+        "star_system_name": "Stanton",
+        "wiki": "https://starcitizen.tools/Lorville"
+      },
+      {
+        "code": "NEWB",
+        "date_added": 1682372190,
+        "date_modified": 0,
+        "faction_name": "United Empire of Earth",
+        "has_cargo_center": 0,
+        "has_clinic": 1,
+        "has_docking_port": 0,
+        "has_food": 1,
+        "has_freight_elevator": 0,
+        "has_gravity": 1,
+        "has_habitation": 1,
+        "has_loading_dock": 0,
+        "has_quantum_marker": 1,
+        "has_refinery": 0,
+        "has_refuel": 1,
+        "has_repair": 1,
+        "has_shops": 1,
+        "has_trade_terminal": 1,
+        "id": 4,
+        "id_faction": 23,
+        "id_jurisdiction": 0,
+        "id_moon": 0,
+        "id_orbit": 190,
+        "id_planet": 190,
+        "id_star_system": 68,
+        "is_armistice": 1,
+        "is_available": 1,
+        "is_available_live": 1,
+        "is_decommissioned": 0,
+        "is_default": 1,
+        "is_landable": 1,
+        "is_monitored": 1,
+        "is_visible": 1,
+        "jurisdiction_name": null,
+        "moon_name": null,
+        "name": "New Babbage",
+        "orbit_name": "MicroTech",
+        "pad_types": null,
+        "planet_name": "MicroTech",
+        "star_system_name": "Stanton",
+        "wiki": "https://starcitizen.tools/New_Babbage"
+      },
+      {
+        "code": "ORIS",
+        "date_added": 1682372190,
+        "date_modified": 0,
+        "faction_name": "United Empire of Earth",
+        "has_cargo_center": 0,
+        "has_clinic": 1,
+        "has_docking_port": 0,
+        "has_food": 1,
+        "has_freight_elevator": 0,
+        "has_gravity": 1,
+        "has_habitation": 1,
+        "has_loading_dock": 0,
+        "has_quantum_marker": 1,
+        "has_refinery": 0,
+        "has_refuel": 1,
+        "has_repair": 1,
+        "has_shops": 1,
+        "has_trade_terminal": 1,
+        "id": 5,
+        "id_faction": 23,
+        "id_jurisdiction": 0,
+        "id_moon": 0,
+        "id_orbit": 59,
+        "id_planet": 59,
+        "id_star_system": 68,
+        "is_armistice": 1,
+        "is_available": 1,
+        "is_available_live": 1,
+        "is_decommissioned": 0,
+        "is_default": 0,
+        "is_landable": 1,
+        "is_monitored": 1,
+        "is_visible": 1,
+        "jurisdiction_name": null,
+        "moon_name": null,
+        "name": "Orison",
+        "orbit_name": "Crusader",
+        "pad_types": null,
+        "planet_name": "Crusader",
+        "star_system_name": "Stanton",
+        "wiki": "https://starcitizen.tools/Orison"
+      }
+    ],
+    "http_code": 200,
+    "message": "",
+    "status": "ok"
+  },
+  "StatusCode": 200,
+  "Headers": {
+    "Date": [
+      "Fri, 10 Oct 2025 04:47:28 GMT"
+    ],
+    "Transfer-Encoding": [
+      "chunked"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Age": [
+      "11486"
+    ],
+    "Alt-Svc": [
+      "h3=\u0022:443\u0022"
+    ],
+    "Cache-Control": [
+      "public, must-revalidate, max-age=86400"
+    ],
+    "cache-status": [
+      "ArkanisProxy; hit; ttl=74914; key=*****; detail=DEFAULT"
+    ],
+    "cf-cache-status": [
+      "DYNAMIC"
+    ],
+    "Content-Security-Policy": [
+      "frame-ancestors \u0027self\u0027"
+    ],
+    "nel": [
+      "{\u0022report_to\u0022:\u0022cf-nel\u0022,\u0022success_fraction\u0022:0.0,\u0022max_age\u0022:604800}"
+    ],
+    "permissions-policy": [
+      "interest-cohort=()"
+    ],
+    "Referrer-Policy": [
+      "strict-origin-when-cross-origin"
+    ],
+    "report-to": [
+      "{\u0022group\u0022:\u0022cf-nel\u0022,\u0022max_age\u0022:604800,\u0022endpoints\u0022:[{\u0022url\u0022:\u0022https://a.nel.cloudflare.com/report/v4?s=ScQuBRIS%2B9wfKkfFtREXeVM9PgXLIPlraBG2ACYn1qNMSe3yIJaTsoGPY6LyPGrrPmiZ7z%2BRfdJal1mX2WSdLhAbqftCXwsVv43outK2\u0022}]}"
+    ],
+    "Server": [
+      "cloudflare"
+    ],
+    "Vary": [
+      "Origin",
+      "Accept-Encoding"
+    ],
+    "Via": [
+      "2.0 Caddy"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "X-Frame-Options": [
+      "SAMEORIGIN"
+    ],
+    "CF-RAY": [
+      "98c37ad9a9c86e9a-PRG"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Expires": [
+      "Sat, 11 Oct 2025 01:36:02 GMT"
+    ]
+  }
 }

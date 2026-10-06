@@ -1,10 +1,106 @@
 @inherits LayoutComponentBase
+@using Arkanis.Overlay.Infrastructure.Services.External
+@implements IDisposable
 @layout MainLayout
 
+@inject IOverlayEventProvider OverlayEventProvider
+@inject IAnalyticsEventReporter AnalyticsEventReporter
+@inject IUserPreferencesProvider UserPreferencesProvider
+@inject CitizenIdAccountContext CitizenIdAccountContext
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     body {
         background-color: transparent;
     }
 </style>
 
-@Body
+<MudAppBar
+    Class="@(OrgAnniversary.Enabled ? "org-anniversary-tabs" : null)"
+    Style="background: var(--mud-palette-surface);"
+    Fixed="@false"
+    Dense>
+
+    <MudStack Class="w-100"
+              Justify="@Justify.SpaceBetween"
+              AlignItems="@AlignItems.Center"
+              Row>
+        <MudStack Style="width: 20vw" Row>
+            <SectionOutlet SectionId="@RenderSections.AppBar.AppMenu"/>
+        </MudStack>
+
+        <OverlayModuleNavigation
+            KeybindsOrigin="@Origin.BottomCenter"
+            UpdatesOrigin="@Origin.BottomRight"
+            Horizontal/>
+
+        <MudStack Style="width: 20vw"
+                  Justify="@Justify.FlexEnd"
+                  AlignItems="@AlignItems.Center"
+                  Row>
+            <SectionOutlet SectionId="@RenderSections.AppBar.UserMenu"/>
+            @if (OrgAnniversary.Enabled)
+            {
+                <AnniversaryNotifications/>
+            }
+            <MudLink Href="@CitizenIdAccountContext.Links.GetLinkAccountUrl()"
+                     Target="_blank"
+                     Disabled="@(CitizenIdAccountContext.IsAuthenticated)"
+                     Class="d-contents">
+                <Tooltip Text="@AccountTooltipText" Placement="@Placement.Bottom">
+                    <ExternalAccountAvatar
+                        Model="@CitizenIdAccountContext.Identity"
+                        Size="@Size.Small"/>
+                </Tooltip>
+            </MudLink>
+        </MudStack>
+    </MudStack>
+</MudAppBar>
+
+<div style="@ContainerBlurCss">
+    <div style="height: calc(100vh - 48px); overflow-y: scroll">
+        <OverlayControls/>
+        @Body
+    </div>
+</div>
+
+@code
+{
+
+    private string? AccountTooltipText
+        => CitizenIdAccountContext.IsAuthenticated
+            ? CitizenIdAccountContext.Identity.Name
+            : "Link your Citizen iD";
+
+    private string ContainerBlurCss
+        => UserPreferencesProvider.CurrentPreferences.BlurBackground
+            // calc(100% - 48px) offsets the app bar height
+            ? "min-height: calc(100% - 48px); backdrop-filter: blur(12px);"
+            : "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        OverlayEventProvider.OverlayShown += OnOverlayShown;
+        OverlayEventProvider.OverlayHidden += OnOverlayHidden;
+        UserPreferencesProvider.ApplyPreferences += OnPreferencesChanged;
+    }
+
+    private void OnPreferencesChanged(object? _, UserPreferences e)
+        => InvokeAsync(StateHasChanged);
+
+    private void OnOverlayShown(object? _, EventArgs e)
+        => AnalyticsEventReporter.TrackEventAsync(new OverlayShownEvent());
+
+    private void OnOverlayHidden(object? _, EventArgs e)
+        => AnalyticsEventReporter.TrackEventAsync(new OverlayHiddenEvent());
+
+    public void Dispose()
+    {
+        OverlayEventProvider.OverlayShown -= OnOverlayShown;
+        OverlayEventProvider.OverlayHidden -= OnOverlayHidden;
+        UserPreferencesProvider.ApplyPreferences -= OnPreferencesChanged;
+    }
+
+}

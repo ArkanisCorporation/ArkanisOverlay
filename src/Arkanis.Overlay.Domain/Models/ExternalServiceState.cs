@@ -7,11 +7,4 @@ public record ExternalServiceState;
 
 public sealed record ServiceAvailableState(StarCitizenVersion Version, DateTimeOffset UpdatedAt) : ExternalServiceState;
 
-public sealed record ServiceUnavailableState : ExternalServiceState
-{
-    public static readonly ExternalServiceState Instance = new ServiceUnavailableState();
-
-    private ServiceUnavailableState()
-    {
-    }
-}
+public sealed record ServiceUnavailableState(Exception? Exception) : ExternalServiceState;

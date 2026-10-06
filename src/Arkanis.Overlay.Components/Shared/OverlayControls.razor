@@ -1,0 +1,116 @@
+@using Microsoft.Extensions.Hosting
+@inject IDialogService DialogService
+@inject IHostEnvironment HostEnvironment
+
+<!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
+<style>
+    .controls-container {
+        width: 100%;
+        z-index: 100;
+        pointer-events: none;
+
+        &.top {
+            position: sticky;
+            top: 0;
+        }
+
+        &.bottom {
+            height: 100%;
+            position: fixed;
+            top: 0;
+        }
+
+        & > .controls-inner-wrapper {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+
+            button,
+            a[href],
+            .active {
+                pointer-events: all;
+            }
+
+            &.right {
+                right: 0;
+                align-items: flex-end;
+            }
+
+            &.left {
+                left: 0;
+                align-items: flex-start;
+            }
+        }
+    }
+</style>
+
+<div class="controls-container top">
+    <div class="controls-inner-wrapper left pa-4">
+        <SectionOutlet SectionId="@RenderSections.OverlayControls.TopLeft"/>
+    </div>
+
+    <div class="controls-inner-wrapper right pa-4">
+        <SectionOutlet SectionId="@RenderSections.OverlayControls.TopRight"/>
+        <MudStack Spacing="1" AlignItems="@AlignItems.End" Justify="@Justify.FlexEnd">
+            <MudIconButton
+                Color="@Color.Primary"
+                Class="action"
+                Icon="@MaterialSymbols.Outlined.Info"
+                OnClick="@OpenAboutDialogAsync"/>
+            <MudIconButton
+                Color="@Color.Warning"
+                Class="action"
+                Icon="@MaterialSymbols.Rounded.Favorite"
+                OnClick="@OpenSubscribeDialogAsync"/>
+            <MudIconButton
+                Color="@Color.Error"
+                Class="action"
+                Icon="@MaterialSymbols.Outlined.PowerSettingsNew"
+                OnClick="@OpenShutdownDialogAsync"/>
+            @if (HostEnvironment.IsDevelopment())
+            {
+                <MudIconButton
+                    Color="@Color.Error"
+                    Class="action"
+                    Icon="@MaterialSymbols.Outlined.BugReport"
+                    OnClick="@OpenDebugDialogAsync"/>
+            }
+        </MudStack>
+    </div>
+</div>
+
+<div class="controls-container bottom">
+    <div class="controls-inner-wrapper left pa-4">
+        <MudSpacer/>
+        <SectionContent SectionId="@RenderSections.OverlayControls.BottomLeft">
+            <OverlayControlsBottomLeftDefaults/>
+        </SectionContent>
+        <SectionOutlet SectionId="@RenderSections.OverlayControls.BottomLeft"/>
+    </div>
+
+    <div class="controls-inner-wrapper right pa-4">
+        <MudSpacer/>
+        <SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
+            <OverlayControlsBottomRightDefaults/>
+        </SectionContent>
+        <SectionOutlet SectionId="@RenderSections.OverlayControls.BottomRight"/>
+    </div>
+</div>
+
+@code
+{
+
+    private async Task OpenAboutDialogAsync()
+        => await AboutDialog.ShowAsync(DialogService);
+
+    private async Task OpenShutdownDialogAsync()
+        => await ShutdownDialog.ShowAsync(DialogService);
+
+    private async Task OpenSubscribeDialogAsync()
+        => await SubscribeDialog.ShowAsync(DialogService);
+
+    private async Task OpenDebugDialogAsync()
+        => await DebugDialog.ShowAsync(DialogService);
+
+}

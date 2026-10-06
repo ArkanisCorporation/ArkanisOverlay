@@ -1,0 +1,34 @@
+<MudStack Spacing="@Spacing"
+          Class="@Class"
+          Style="@Style">
+    @foreach (var aggregateModel in _aggregateModels)
+    {
+        <QuantityLabel Model="@aggregateModel"/>
+    }
+</MudStack>
+
+@code
+{
+
+    private Quantity[] _aggregateModels = [];
+
+    [Parameter]
+    [EditorRequired]
+    public IEnumerable<Quantity> Models { get; set; } = [];
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
+    public int Spacing { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _aggregateModels = Quantity.Aggregate(Models).ToArray();
+    }
+
+}

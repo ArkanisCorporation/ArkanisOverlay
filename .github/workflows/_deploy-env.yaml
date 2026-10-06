@@ -1,0 +1,43 @@
+name: Deploy pipeline
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions: {}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Kubernetes environment receiving the explicit immutable image tag"
+        type: choice
+        options:
+          - staging
+          - production
+        required: true
+      image-tag:
+        description: "Immutable container image tag to deploy"
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      environment:
+        description: "Kubernetes environment receiving the explicit immutable image tag"
+        required: true
+        type: string
+      image-tag:
+        description: "Immutable container image tag to deploy"
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment }}
+    uses: ./.github/workflows/_deploy-aspire-kubernetes.yaml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      target: ${{ inputs.environment }}
+      image-tag: ${{ inputs.image-tag }}

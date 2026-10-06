@@ -1,0 +1,157 @@
+@using Arkanis.Overlay.Components.Views.Trade
+@implements IDisposable
+@inject ITradeRunManager TradeRunManager
+
+<MudMainContent Class="pb-8 px-2">
+    <MudStack Spacing="6"
+              Justify="@Justify.FlexStart"
+              AlignItems="@AlignItems.Center">
+
+        <MudPaper>
+            <MudTabs @ref="@_tabs"
+                     @bind-ActivePanelIndex="@_currentPanelIndex"
+                     Rounded>
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync"
+                             Disabled="@(TradeRunsInProgress == 0)">
+                    <TabContent>
+                        <MudStack Spacing="3" Row>
+                            <MudText Typo="@Typo.inherit">
+                                In Progress
+                            </MudText>
+                            @if (TradeRunsInProgress > 0)
+                            {
+                                <MudChip
+                                    Size="@Size.Small"
+                                    Value="@TradeRunsInProgress"
+                                    Color="@Color.Warning"/>
+                            }
+                        </MudStack>
+                    </TabContent>
+                </MudTabPanel>
+
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync">
+                    <TabContent>
+                        Route Search
+                    </TabContent>
+                </MudTabPanel>
+
+                <MudTabPanel OnClick="@UpdateCurrentTabAsync">
+                    <TabContent>
+                        Ledger
+                    </TabContent>
+                </MudTabPanel>
+            </MudTabs>
+        </MudPaper>
+
+        @if (CurrentTab is Tab.RunsInProgress)
+        {
+            <TradeRunsInProgressView
+                OnChange="@RefreshDataAsync"/>
+        }
+
+        @if (CurrentTab is Tab.RouteSearch)
+        {
+            <TradeRouteSearchView/>
+        }
+
+        @if (CurrentTab is Tab.Ledger)
+        {
+            <TradeLedgerView/>
+        }
+
+    </MudStack>
+</MudMainContent>
+
+@code
+{
+
+    private IDisposable? _changeRegistration;
+    private MudTabs? _tabs;
+    private int _currentPanelIndex;
+
+    [Parameter]
+    public Tab ActiveTab { get; set; }
+
+    [Parameter]
+    public EventCallback<Tab>? ActiveTabChanged { get; set; }
+
+    public Tab RequestedTab
+        => ActiveTab switch
+        {
+            Tab.Default when TradeRunsInProgress > 0 => Tab.RunsInProgress,
+            Tab.Default => Tab.RouteSearch,
+            Tab.RunsInProgress when TradeRunsInProgress == 0 => Tab.RouteSearch,
+            _ => ActiveTab,
+        };
+
+    public Tab CurrentTab
+        => (Tab)(_currentPanelIndex + 1);
+
+    public int TradeRunsInProgress { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await RefreshDataAsync();
+
+        RegisterForChanges();
+
+        await base.OnParametersSetAsync();
+    }
+
+    private async Task RefreshDataAsync()
+    {
+        var newCount = await TradeRunManager.GetInProgressCountAsync(CancellationToken.None);
+        if (newCount != TradeRunsInProgress)
+        {
+            TradeRunsInProgress = newCount;
+            await InvokeAsync(StateHasChanged);
+        }
+
+        // update navigation (current panel) depending on current state
+        _currentPanelIndex = (int)(RequestedTab - 1);
+
+        // force page re-render
+        await (_tabs?.ActivatePanelAsync(_currentPanelIndex) ?? Task.CompletedTask);
+    }
+
+    private void RegisterForChanges()
+    {
+        _changeRegistration?.Dispose();
+        var registration = new ChangeTokenRegistration(() => TradeRunManager.ChangeToken);
+        registration.OnChange += () => InvokeAsync(RefreshDataAsync);
+        _changeRegistration = registration;
+    }
+
+    private async Task UpdateCurrentTabAsync(MouseEventArgs? e)
+    {
+        var currentTab = CurrentTab;
+        if (currentTab == ActiveTab || e is null)
+        {
+            // event args are null when invoked programmatically by the component
+            return;
+        }
+
+        if (ActiveTabChanged is not null)
+        {
+            // update via parent component
+            await ActiveTabChanged.Value.InvokeAsync(currentTab);
+        }
+        else
+        {
+            // update locally
+            ActiveTab = currentTab;
+        }
+    }
+
+    public void Dispose()
+        => _changeRegistration?.Dispose();
+
+    public enum Tab
+    {
+        Default,
+        RunsInProgress,
+        RouteSearch,
+        Ledger,
+    }
+
+}

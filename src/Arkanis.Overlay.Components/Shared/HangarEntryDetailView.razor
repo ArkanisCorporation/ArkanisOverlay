@@ -1,0 +1,245 @@
+@using Arkanis.Overlay.Domain.Abstractions
+@using Arkanis.Overlay.Domain.Abstractions.Game
+@implements IDisposable
+@inject InventoryViewModel ViewModel
+@inject NavigationManager NavigationManager
+
+<SectionContent SectionId="@RenderSections.OverlayControls.BottomRight">
+    <div class="pa-4">
+        <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.ShiftLeft, KeyboardKey.KeyA])"
+                               OnKeyPress="@(() => _fabMenuOpen = true)"
+                               IsActive="@(!_fabMenuOpen)"
+                               Origin="@Origin.CenterLeft">
+            <MudMenu ActivationEvent="@MouseEvent.MouseOver"
+                     AnchorOrigin="@Origin.CenterCenter"
+                     TransformOrigin="@Origin.BottomRight"
+                     Class="overflow-visible"
+                     @bind-Open="_fabMenuOpen">
+                <ActivatorContent>
+                    <MudFab
+                        Color="@Color.Primary"
+                        StartIcon="@Icons.Material.Filled.Add"/>
+                </ActivatorContent>
+                <ChildContent>
+                    <KeyboardShortcutBadge Key="@KeyboardKey.KeyM"
+                                           OnKeyPress="@TransferModulesAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Build"
+                                     OnClick="@TransferModulesAsync">
+                            Equip module
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                    <KeyboardShortcutBadge Key="@KeyboardKey.KeyN"
+                                           OnKeyPress="@TransferCargoAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                     OnClick="@TransferCargoAsync">
+                            Transfer existing cargo
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                    <KeyboardShortcutBadge Keys="@( [KeyboardKey.AltLeft, KeyboardKey.KeyN])"
+                                           OnKeyPress="@CreateCargoAsync"
+                                           IsActive="@_fabMenuOpen"
+                                           Origin="@Origin.CenterLeft"
+                                           Class="d-flex">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Add"
+                                     OnClick="@CreateCargoAsync">
+                            Add new cargo
+                        </MudMenuItem>
+                    </KeyboardShortcutBadge>
+                </ChildContent>
+            </MudMenu>
+        </KeyboardShortcutBadge>
+    </div>
+</SectionContent>
+
+<!--suppress CssUnresolvedCustomProperty -->
+<MudContainer Class="mb-12">
+    <MudStack Spacing="6">
+        <MudButton Variant="@Variant.Filled"
+                   Color="@Color.Dark"
+                   StartIcon="@Icons.Material.Filled.ChevronLeft"
+                   Href="/hangar">
+            Back to hangar
+        </MudButton>
+
+        <HangarInventoryEntryCard
+            Model="@Entry"
+            Static/>
+
+        <MudGrid>
+            @foreach (var moduleGroup in Entry.Modules.GroupBy(m => m.Category))
+            {
+                <MudItem xs="12" sm="12" md="6">
+                    <MudPaper Class="overflow-hidden hover-parent">
+                        <MudStack Spacing="2"
+                                  AlignItems="@AlignItems.Center"
+                                  Style="height: 64px"
+                                  Class="pa-4 flex-truncate"
+                                  Row>
+                            <QuantityCountBadge
+                                Models="@moduleGroup.Select(x => x.Quantity)"/>
+                            <GameEntityNameLabel
+                                Model="@moduleGroup.Key.Name"/>
+                            <MudSpacer/>
+                            <MudStack Class="visible-on-parent-hover" Row>
+                                <MudIconButton
+                                    OnClick="@(() => TransferModulesAsync(moduleGroup.Key))"
+                                    Icon="@Icons.Material.Filled.Add"
+                                    Color="@Color.Success"/>
+                            </MudStack>
+                        </MudStack>
+                        <MudDivider/>
+                        <MudStack Spacing="0">
+                            @foreach (var module in moduleGroup)
+                            {
+                                <MudStack Class="px-4 py-0 w-100"
+                                          Style="background: var(--mud-palette-background);"
+                                          AlignItems="@AlignItems.Center"
+                                          Row>
+                                    <MudChip T="string"
+                                             Variant="@Variant.Outlined"
+                                             Color="@Color.Default"
+                                             Size="@Size.Small"
+                                             Class="ma-0">
+                                        <QuantityLabel
+                                            Model="@module.Quantity"/>
+                                    </MudChip>
+                                    <GameEntityNameLabel
+                                        Model="@(module.ItemReference.Name)"
+                                        PropertyFilter="@(prop => prop.Key is not GameItem.CategoryPropertyName)"
+                                        PropertyLimit="4"
+                                        Class="mb-2 flex-truncate"
+                                        Typo="@Typo.h6"/>
+                                    <MudSpacer/>
+                                    <div class="visible-on-parent-hover">
+                                        <MudTooltip Text="Transfer"
+                                                    Placement="@Placement.Top">
+                                            <MudIconButton
+                                                OnClick="@(() => TransferAsync(module))"
+                                                Icon="@Icons.Material.Filled.KeyboardDoubleArrowLeft"
+                                                Size="@Size.Medium"
+                                                Color="@Color.Info"/>
+                                        </MudTooltip>
+                                    </div>
+                                </MudStack>
+                                <MudDivider/>
+                            }
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+
+        <MudPaper>
+            <MudStack Spacing="0">
+                <MudStack Spacing="2"
+                          AlignItems="@AlignItems.Center"
+                          Style="height: 64px"
+                          Class="pa-4 flex-truncate"
+                          Row>
+                    <QuantityCountBadge
+                        Models="@Entry.Inventory.Select(x => x.Quantity)"/>
+                    <MudText Typo="@Typo.h5">
+                        Vehicle Inventory
+                    </MudText>
+                    <MudSpacer/>
+                    <MudStack Class="visible-on-parent-hover" Row>
+                    </MudStack>
+                </MudStack>
+                <MudDivider/>
+                <div class="px-4 py-3">
+                    <InventoryEntryFilters
+                        @bind-CurrentContext="@_filtersContext"
+                        @bind-CurrentContext:after="@UpdateFilters"
+                        SelectedEntries="@_selectedEntries"
+                        FilteredLocations="@_filteredLocations"
+                        OnChange="@RefreshDataAsync"
+                        WithoutLocation/>
+                </div>
+            </MudStack>
+            <InventoryEntryDataGrid Models="@_filteredEntries"
+                                    @bind-SelectedModels="@_selectedEntries"
+                                    Hidden="@( [InventoryEntryDataGrid.Column.LocationOrVehicle])">
+                <EntryActionsContent>
+                    <DefaultInventoryEntryCellActions
+                        @bind-Model="@context.Item"
+                        @bind-Model:after="@RefreshDataAsync"/>
+                </EntryActionsContent>
+            </InventoryEntryDataGrid>
+        </MudPaper>
+    </MudStack>
+</MudContainer>
+
+@code
+{
+    private bool _fabMenuOpen;
+    private InventoryEntryFilters.Context _filtersContext = new();
+
+    private HashSet<InventoryEntryBase> _selectedEntries = new(IIdentifiable.EqualityComparer.Default);
+    private ICollection<InventoryEntryBase> _filteredEntries = [];
+    private readonly IGameLocation[] _filteredLocations = [];
+
+    [Parameter]
+    [EditorRequired]
+    public required HangarInventoryEntry Entry { get; set; }
+
+    [Parameter]
+    public EventCallback OnChange { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ViewModel.OnChange += PropagateChange;
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        UpdateFilters();
+    }
+
+    public void Dispose()
+        => ViewModel.OnChange -= PropagateChange;
+
+    private void PropagateChange(object? _, EventArgs e)
+        => InvokeAsync(() => OnChange.InvokeAsync());
+
+    private async Task RefreshDataAsync()
+    {
+        await OnChange.InvokeAsync();
+        UpdateFilters();
+    }
+
+    private void UpdateFilters()
+    {
+        _filteredEntries = _filtersContext.Filter(Entry.Inventory)
+            .ToArray();
+    }
+
+    private async Task TransferModulesAsync()
+        => await TransferModulesAsync(null);
+
+    private async Task TransferModulesAsync(GameProductCategory? category)
+        => await ViewModel.TransferModuleToAsync(Entry, category);
+
+    private async Task TransferCargoAsync()
+        => await ViewModel.TransferCargoToAsync(Entry);
+
+    private async Task CreateCargoAsync()
+        => await ViewModel.CreateNewEntryAsync(hangarEntry: Entry);
+
+    private async Task TransferAsync(VehicleModuleEntry moduleEntry)
+        => await ViewModel.TransferAsync(moduleEntry, null);
+
+    private async Task DeleteForeverAsync()
+    {
+        await ViewModel.DeleteForeverAsync(Entry);
+        NavigationManager.NavigateTo(LinkHelper.Hangar());
+    }
+
+}

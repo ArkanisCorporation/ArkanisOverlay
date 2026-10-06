@@ -25,29 +25,37 @@ public static class DependencyInjection
             services.AddSingleton(typeof(IGameEntityRepository), adapterType);
         }
 
+        services.AddSingleton<GameMarketPricingRepositoryAggregate>()
+            .AddSingleton<GamePurchasePricingRepositoryAggregate>()
+            .AddSingleton<GameSalePricingRepositoryAggregate>()
+            .AddSingleton<GameRentalPricingRepositoryAggregate>();
+
         services
-            .Decorate<IGameEntityRepository<GameItemTrait>, UexGameItemTraitRepositorySpecialisationDecorator>()
+            .Decorate<IGameEntityRepository<GameItemTrait>>(inner => new UexGameItemTraitRepositorySpecialisationDecorator(inner))
             .AliasVia<IGameItemTraitRepository, IGameEntityRepository<GameItemTrait>, UexGameItemTraitRepositorySpecialisationDecorator>();
 
         services
-            .Decorate<IGameEntityRepository<GameCommodityPricing>, UexCommodityPricingRepositorySpecialisationDecorator>()
-            .AliasVia<IGameCommodityPricingRepository, IGameEntityRepository<GameCommodityPricing>, UexCommodityPricingRepositorySpecialisationDecorator>();
+            .Decorate<IGameEntityRepository<GameEntityPurchasePrice>>(inner => new UexPurchasePricingRepositorySpecialisationDecorator(inner))
+            .AliasVia<IGamePurchasePricingRepository, IGameEntityRepository<GameEntityPurchasePrice>, UexPurchasePricingRepositorySpecialisationDecorator>();
 
         services
-            .Decorate<IGameEntityRepository<GameItemPurchasePricing>, UexItemPricingRepositorySpecialisationDecorator>()
-            .AliasVia<IGameItemPurchasePricingRepository, IGameEntityRepository<GameItemPurchasePricing>, UexItemPricingRepositorySpecialisationDecorator>();
+            .Decorate<IGameEntityRepository<GameEntitySalePrice>>(inner => new UexSalePricingRepositorySpecialisationDecorator(inner))
+            .AliasVia<IGameSalePricingRepository, IGameEntityRepository<GameEntitySalePrice>, UexSalePricingRepositorySpecialisationDecorator>();
 
         services
-            .Decorate<IGameEntityRepository<GameVehiclePurchasePricing>, UexVehiclePurchasePricingRepositorySpecialisationDecorator>()
-            .AliasVia<IGameVehiclePurchasePricingRepository,
-                IGameEntityRepository<GameVehiclePurchasePricing>,
-                UexVehiclePurchasePricingRepositorySpecialisationDecorator>();
+            .Decorate<IGameEntityRepository<GameEntityRentalPrice>>(inner => new UexRentalPricingRepositorySpecialisationDecorator(inner))
+            .AliasVia<IGameRentalPricingRepository, IGameEntityRepository<GameEntityRentalPrice>, UexRentalPricingRepositorySpecialisationDecorator>();
 
         services
-            .Decorate<IGameEntityRepository<GameVehicleRentalPricing>, UexVehicleRentalPricingRepositorySpecialisationDecorator>()
-            .AliasVia<IGameVehicleRentalPricingRepository,
-                IGameEntityRepository<GameVehicleRentalPricing>,
-                UexVehicleRentalPricingRepositorySpecialisationDecorator>();
+            .Decorate<IGameEntityRepository<GameEntityMarketPrice>>(inner => new UexMarketPricingRepositorySpecialisationDecorator(inner))
+            .AliasVia<IGameMarketPricingRepository, IGameEntityRepository<GameEntityMarketPrice>, UexMarketPricingRepositorySpecialisationDecorator>();
+
+        // decorating each trade repository with purchase and sale repository interfaces
+        //   then registering each decorated repository under the appropriate interface
+        services
+            .Decorate<IGameEntityRepository<GameEntityTradePrice>>(inner => new UexTradePricingRepositorySpecialisationDecorator(inner))
+            .AliasVia<IGamePurchasePricingRepository, IGameEntityRepository<GameEntityTradePrice>, UexTradePricingRepositorySpecialisationDecorator>()
+            .AliasVia<IGameSalePricingRepository, IGameEntityRepository<GameEntityTradePrice>, UexTradePricingRepositorySpecialisationDecorator>();
 
         return services;
     }

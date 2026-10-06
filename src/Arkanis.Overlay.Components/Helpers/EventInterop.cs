@@ -3,9 +3,15 @@ namespace Arkanis.Overlay.Components.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-public sealed class EventInterop(IJSRuntime jsRuntime) : IDisposable
+public sealed class EventInterop(IJSRuntime jsRuntime) : IDisposable, IAsyncDisposable
 {
     private readonly List<DotNetObjectReference<Handler>> _handlers = [];
+
+    public ValueTask DisposeAsync()
+    {
+        Dispose();
+        return ValueTask.CompletedTask;
+    }
 
     public void Dispose()
     {

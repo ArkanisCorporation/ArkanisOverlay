@@ -1,15 +1,24 @@
-@inject EventInterop EventInterop
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject ILogger<FocusRegion> Logger
+@inject IOverlayEventProvider OverlayEventProvider
+@inject IJSRuntime JsRuntime
 
 <div class="focus-region @Class"
      style="@Style"
      @ref="@ContainerElement"
-     @onfocusin="@FocusReceived"
-     @onfocusout="@FocusLost">
+     @onfocusin="@OnFocusReceived"
+     @onfocusout="@OnFocusLost">
     @ChildContent(CurrentContext)
 </div>
 
 @code
 {
+
+    const int DebounceIntervalMs = 50;
+
+    private DebounceHelper? _debounceHelper;
+    private JsComponentInterop<FocusRegion>? _interop;
 
     [Parameter]
     [EditorRequired]
@@ -23,33 +32,79 @@
 
     public bool HasFocus { get; private set; }
 
-    public ElementReference ContainerElement { get; private set; }
+    public ElementReference? ContainerElement { get; private set; }
 
     private Context CurrentContext
         => new(this);
 
-    public async Task FocusAsync()
+    protected override void OnInitialized()
     {
-        await ContainerElement.MudFocusFirstAsync();
+        base.OnInitialized();
+        _debounceHelper = new DebounceHelper(HandleFocusLost, Logger, TimeSpan.FromMilliseconds(DebounceIntervalMs));
+        OverlayEventProvider.OverlayBlurred += OnOverlayOutOfFocus;
     }
 
-    private void FocusReceived()
-        => HasFocus = true;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public async Task FocusAsync()
     {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (firstRender)
+        if (ContainerElement is not null)
         {
-            await EventInterop.RegisterWindowEventHandlerAsync("blur", EventInterop.CreateHandler(FocusLost));
+            await ContainerElement.Value.MudFocusFirstAsync();
         }
     }
 
-    private async Task FocusLost()
+    private async Task OnFocusReceived()
+    {
+        if (HasFocus)
+        {
+            //? focus received while still in-focus - cancel any pending focus loss handling
+            _debounceHelper?.Cancel();
+            return;
+        }
+
+        HasFocus = true;
+        await InvokeAsync(InitializeInteropAsync);
+    }
+
+    private void OnOverlayOutOfFocus(object? sender, EventArgs e)
+        => _debounceHelper?.RequestDebounced();
+
+    private void OnFocusLost()
+        => _debounceHelper?.RequestDebounced();
+
+    private async Task HandleFocusLost()
     {
         HasFocus = false;
         await InvokeAsync(StateHasChanged);
+        await InvokeAsync(DisposeInteropAsync);
+    }
+
+    private async Task InitializeInteropAsync()
+    {
+        if (ContainerElement is not null && _interop is null)
+        {
+            _interop = JsRuntime.CreateLifetimeInterop(this);
+            await _interop.InitializeAsync(ContainerElement);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_debounceHelper is not null)
+        {
+            await _debounceHelper.DisposeAsync();
+        }
+
+        OverlayEventProvider.OverlayBlurred -= OnOverlayOutOfFocus;
+        await DisposeInteropAsync();
+    }
+
+    private async Task DisposeInteropAsync()
+    {
+        if (_interop is not null)
+        {
+            await _interop.DisposeAsync();
+            _interop = null;
+        }
     }
 
     public record Context(FocusRegion SourceRegion)
@@ -60,5 +115,4 @@
         public bool DoesNotContainFocus
             => !ContainsFocus;
     }
-
 }

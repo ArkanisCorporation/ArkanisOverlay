@@ -1,4 +1,5 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly"
+﻿@using SharedComponentsModule = ServerHostModule
+<Router AppAssembly="@typeof(Program).Assembly"
         AdditionalAssemblies="@(new[] { typeof(SharedComponentsModule).Assembly })">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="@typeof(MainLayout)"/>

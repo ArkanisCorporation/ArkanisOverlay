@@ -5,13 +5,15 @@ using Microsoft.Extensions.Logging;
 
 public class GlobalOverlayKeyboardProxy : KeyboardProxy
 {
-    private readonly IOverlayControls _overlay;
+    private readonly IOverlayEventProvider _overlay;
 
-    public GlobalOverlayKeyboardProxy(IOverlayControls overlay, ILogger<GlobalOverlayKeyboardProxy> logger) : base(logger)
+    public GlobalOverlayKeyboardProxy(IOverlayEventProvider overlay, ILogger<GlobalOverlayKeyboardProxy> logger) : base(logger)
     {
         _overlay = overlay;
         _overlay.OverlayShown += OnOverlayVisibilityChanged;
         _overlay.OverlayHidden += OnOverlayVisibilityChanged;
+        _overlay.OverlayFocused += OnOverlayVisibilityChanged;
+        _overlay.OverlayBlurred += OnOverlayVisibilityChanged;
     }
 
     private void OnOverlayVisibilityChanged(object? sender, EventArgs e)
@@ -21,6 +23,8 @@ public class GlobalOverlayKeyboardProxy : KeyboardProxy
     {
         _overlay.OverlayShown -= OnOverlayVisibilityChanged;
         _overlay.OverlayHidden -= OnOverlayVisibilityChanged;
+        _overlay.OverlayFocused -= OnOverlayVisibilityChanged;
+        _overlay.OverlayBlurred -= OnOverlayVisibilityChanged;
 
         base.Dispose();
         GC.SuppressFinalize(this);

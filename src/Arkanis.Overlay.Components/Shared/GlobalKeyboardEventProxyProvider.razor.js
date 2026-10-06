@@ -2,6 +2,9 @@ export class KeyboardEventHelper {
     /** @type {DotNet.DotNetObject} */
     static componentRef;
 
+    /** @type {RegExp} */
+    static functionKeysRegex = /^F\d+$/;
+
     /**
      * @param {DotNet.DotNetObject} componentRef
      */
@@ -12,29 +15,48 @@ export class KeyboardEventHelper {
     }
 
     /**
-     * @param {Event} event
-     * @returns {Promise<void>}
+     * Determines whether the given event should be consumed and default behaviour prevented.
+     *
+     * @param {KeyboardEvent} event
+     * @returns {boolean}
      */
-    static async processKeyDown(event) {
-        const eventObj = KeyboardEventHelper.simplify_object(event);
-        const consumed = await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyDown", eventObj);
-        if (consumed) {
-            event.stopPropagation();
-            event.preventDefault();
-        }
+    static shouldConsumeEvent(event) {
+        return event.key.match(KeyboardEventHelper.functionKeysRegex) // consume all function keys
+            || event.altKey;
     }
 
     /**
-     * @param {Event} event
+     * Called when a `keydown` event is fired.
+     *
+     * @param {KeyboardEvent} event The event to process
+     *
      * @returns {Promise<void>}
      */
-    static async processKeyUp(event) {
-        const eventObj = KeyboardEventHelper.simplify_object(event);
-        const consumed = await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyUp", eventObj);
-        if (consumed) {
+    static async processKeyDown(event) {
+        if (KeyboardEventHelper.shouldConsumeEvent(event)) {
             event.stopPropagation();
             event.preventDefault();
         }
+
+        const eventObj = KeyboardEventHelper.simplify_object(event);
+        await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyDown", eventObj);
+    }
+
+    /**
+     * Called when a `keyup` event is fired.
+     *
+     * @param {KeyboardEvent} event The event to process
+     *
+     * @returns {Promise<void>}
+     */
+    static async processKeyUp(event) {
+        if (KeyboardEventHelper.shouldConsumeEvent(event)) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+
+        const eventObj = KeyboardEventHelper.simplify_object(event);
+        await KeyboardEventHelper.componentRef.invokeMethodAsync("OnKeyUp", eventObj);
     }
 
     /**

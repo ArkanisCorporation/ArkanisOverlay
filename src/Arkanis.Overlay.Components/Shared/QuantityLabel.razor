@@ -1,0 +1,19 @@
+<span>
+    @if (Model is not null)
+    {
+        @Model.ToString()
+    }
+    else
+    {
+        <MudSkeleton SkeletonType="@SkeletonType.Text" Width="60px"/>
+    }
+</span>
+
+@code
+{
+
+    [Parameter]
+    [EditorRequired]
+    public Quantity? Model { get; set; }
+
+}
