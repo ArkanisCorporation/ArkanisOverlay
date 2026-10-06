@@ -9,24 +9,29 @@ export default {
             channel: "stable"
         },
         {
-            "name": "release/rc",
-            "channel": "rc",
-            "prerelease": "rc"
+            name: "release/rc",
+            channel: "rc",
+            prerelease: "rc"
         },
         {
-            "name": "release/beta",
-            "channel": "beta",
-            "prerelease": "beta"
+            name: "release/beta",
+            channel: "beta",
+            prerelease: "beta"
         },
         {
-            "name": "release/alpha",
-            "channel": "alpha",
-            "prerelease": "alpha"
+            name: "release/alpha",
+            channel: "alpha",
+            prerelease: "alpha"
         },
         {
-            "name": "main",
-            "channel": "preview",
-            "prerelease": "dev"
+            name: "release/nightly",
+            channel: "nightly",
+            prerelease: "nightly"
+        },
+        {
+            name: "main",
+            channel: "preview",
+            prerelease: "dev"
         },
         {
             name: "ci",
