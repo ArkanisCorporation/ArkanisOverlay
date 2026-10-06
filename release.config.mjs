@@ -25,7 +25,7 @@ export default {
         },
         {
             "name": "main",
-            "channel": "staging",
+            "channel": "preview",
             "prerelease": "dev"
         },
         {
