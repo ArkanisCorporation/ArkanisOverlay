@@ -25,8 +25,11 @@
         @if (!ServiceContext.AccountLinkingEnabled)
         {
             <MudAlert Severity="@Severity.Info" Class="ma-4">
-                MedRunner account linking is temporarily unavailable. Please use the
-                <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalLink(ContentId)" Target="_blank">MedRunner web portal</MudLink>.
+                Medrunner account linking is temporarily unavailable. Please use the
+                <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalLink(ContentId)" Target="_blank">Medrunner web
+                    portal
+                </MudLink>
+                .
             </MudAlert>
         }
         else
@@ -47,7 +50,7 @@
                                 Visit the
                                 <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalLink(ContentId)"
                                          Target="_blank">
-                                    MedRunner Portal
+                                    Medrunner Portal
                                 </MudLink>
                                 and create a new account or log in to an existing one using your Discord account.
                             </MudText>
@@ -65,7 +68,7 @@
                         <MudStack Class="py-4"
                                   AlignItems="@AlignItems.Center">
                             <MudText>
-                                Navigate to the MedRunner profile overview page by clicking
+                                Navigate to the Medrunner profile overview page by clicking
                                 <MudLink Href="@ExternalLinkHelper.GetMedRunnerPortalProfileLink(ContentId)"
                                          Target="_blank">
                                     this link
@@ -109,7 +112,7 @@
                             </MudText>
                             <div style="width: 60%">
                                 <MudTextField
-                                    Label="MedRunner API Token"
+                                    Label="Medrunner API Token"
                                     @bind-Value="_token"
                                     @bind-Value:after="CheckTokenAsync"
                                     InputType="@InputType.Password"
@@ -163,14 +166,14 @@
                                 {
                                     <MudAlert Severity="@Severity.Success">
                                         <b>Success!</b>
-                                        Your MedRunner account has been successfully connected to the Arkanis Overlay.
+                                        Your Medrunner account has been successfully connected to the Arkanis Overlay.
                                     </MudAlert>
                                 }
                                 else
                                 {
                                     <MudAlert Severity="@Severity.Info">
-                                        Your MedRunner account has been successfully connected to the Arkanis Overlay.
-                                        However, your access to the MedRunner services may be limited.
+                                        Your Medrunner account has been successfully connected to the Arkanis Overlay.
+                                        However, your access to the Medrunner services may be limited.
                                     </MudAlert>
                                 }
                                 <MedRunnerAccountNotices/>
@@ -275,7 +278,7 @@
         _isLoading = true;
         try
         {
-            var credentials = new AccountApiTokenCredentials(ExternalService.MedRunner)
+            var credentials = new AccountApiTokenCredentials(ExternalService.Medrunner)
             {
                 SecretToken = _token,
             };
@@ -290,8 +293,8 @@
         }
         catch (Exception exception)
         {
-            Logger.LogError(exception, "Failed to complete MedRunner account setup");
-            _validationError = $"Could not complete MedRunner account setup: {exception.Message}";
+            Logger.LogError(exception, "Failed to complete Medrunner account setup");
+            _validationError = $"Could not complete Medrunner account setup: {exception.Message}";
         }
         finally
         {

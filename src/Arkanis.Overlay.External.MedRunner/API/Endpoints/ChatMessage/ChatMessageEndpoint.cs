@@ -32,7 +32,7 @@ public class ChatMessageEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenP
             queryParams["paginationToken"] = paginationToken;
         }
 
-        return await GetRequestAsync<ApiPaginatedResponse<ChatMessage>>($"/conversation/{emergencyId}", queryParams);
+        return await GetRequestAsync<ApiPaginatedResponse<ChatMessage>>($"/conversation/{emergencyId}", queryParams, RequestOptions.Uncached);
     }
 
     /// <inheritdoc />

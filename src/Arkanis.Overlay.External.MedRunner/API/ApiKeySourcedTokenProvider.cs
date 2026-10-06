@@ -126,7 +126,7 @@ public sealed class ApiKeySourcedTokenProvider(
             {
                 return Result.Fail<MedRunnerTokenAuthentication>(
                     string.IsNullOrWhiteSpace(response.ErrorMessage)
-                        ? $"MedRunner rejected the API token ({response.StatusCode})."
+                        ? $"Medrunner rejected the API token ({response.StatusCode})."
                         : response.ErrorMessage
                 );
             }
@@ -135,7 +135,7 @@ public sealed class ApiKeySourcedTokenProvider(
             if (identityResult.IsFailed)
             {
                 logger.LogWarning(
-                    "MedRunner returned an invalid access token after API token exchange: {Errors}",
+                    "Medrunner returned an invalid access token after API token exchange: {Errors}",
                     string.Join("; ", identityResult.Errors.Select(error => error.Message))
                 );
                 return Result.Fail<MedRunnerTokenAuthentication>(identityResult.Errors);
@@ -157,7 +157,7 @@ public sealed class ApiKeySourcedTokenProvider(
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Failed to exchange a MedRunner API token");
+            logger.LogError(exception, "Failed to exchange a Medrunner API token");
             return Result.Fail<MedRunnerTokenAuthentication>(exception.Message);
         }
     }

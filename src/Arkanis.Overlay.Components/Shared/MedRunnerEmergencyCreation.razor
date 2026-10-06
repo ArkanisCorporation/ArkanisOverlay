@@ -8,7 +8,7 @@
 @inherits MedRunnerComponentBase
 @inject IMedRunnerClientConfig MedRunnerClientConfig
 
-<MudGrid Class="pa-5">
+<MudGrid Class="pa-5" Spacing="3">
     <MudItem xs="12" sm="6">
         <GameEntitySelectBox
             Label="System"
@@ -21,18 +21,30 @@
             Required/>
     </MudItem>
     <MudItem xs="12" sm="6">
-        <GameEntitySelectBox
-            Label="Orbit / Planet / Moon"
-            Placeholder="Search for the closest planet or moon"
-            EntityCategory="@GameEntityCategory.Location"
-            Value="@_selectedPlanetOrMoonEntity"
-            ValueChanged="@OnPlanetOrMoonChanged"
-            Accept="@(location => location is GameLocationEntity gameLocation and (GamePlanet or GameMoon)
-                                  && SelectedSystem?.Contains(gameLocation) == true
-                                  && MedRunnerEmergencyLocation.Resolve(gameLocation, ServiceContext.PublicSettings.LocationSettings) is not null)"
-            Disabled="@(SelectedSystem is null)"
-            Clearable="true"
-            Required/>
+        <MudStack Spacing="0">
+            <GameEntitySelectBox
+                Label="Orbit / Planet / Moon"
+                Placeholder="Search for the closest planet or moon"
+                EntityCategory="@GameEntityCategory.Location"
+                Value="@_selectedPlanetOrMoonEntity"
+                ValueChanged="@OnPlanetOrMoonChanged"
+                Accept="@(location => location is GameLocationEntity gameLocation and (GamePlanet or GameMoon)
+                                      && SelectedSystem?.Contains(gameLocation) == true
+                                      && MedRunnerEmergencyLocation.Resolve(gameLocation, ServiceContext.PublicSettings.LocationSettings) is not null)"
+                Disabled="@(SelectedSystem is null)"
+                Clearable="true"
+                Required/>
+
+            @if (LocationSelection is { } selection)
+            {
+                <MudText Typo="@Typo.body2" Class="mb-2">
+                    <span class="text-secondary">Rescue area:</span>
+                    <span>
+                        @string.Join(" / ", LocationNames(selection))
+                    </span>
+                </MudText>
+            }
+        </MudStack>
     </MudItem>
     <MudItem xs="12" md="8">
         <GameEntitySelectBox
@@ -59,50 +71,40 @@
         </MudSelect>
     </MudItem>
     <MudItem xs="12">
-        @if (LocationSelection is { } selection)
-        {
-            <MudText Typo="@Typo.body2" Class="mb-2">
-                Rescue area: @string.Join(" / ", new[] { selection.Location.System, selection.Location.Subsystem, selection.Location.TertiaryLocation }.Where(name => name is not null))
-            </MudText>
-            @if (selection.Remarks is not null)
+        <MudStack Spacing="3">
+            @if (LocationSelection is null && (_selectedPlanetOrMoonEntity is not null || ServiceContext.PublicSettings.LocationSettings.Locations.Count == 0))
             {
-                <MudText Typo="@Typo.caption" Class="text-secondary mb-2">
-                    Your closest location will be included in the emergency remarks and initial details.
-                </MudText>
+                <MudAlert Severity="@Severity.Warning">
+                    Select an enabled system and planet supported by Medrunner before submitting a request.
+                </MudAlert>
             }
-        }
-        else if (_selectedPlanetOrMoonEntity is not null || ServiceContext.PublicSettings.LocationSettings.Locations.Count == 0)
-        {
-            <MudAlert Severity="@Severity.Warning" Class="mb-2">
-                Select an enabled system and planet supported by MedRunner before submitting a request.
-            </MudAlert>
-        }
 
-        @if (MedRunnerClientConfig.IsMock)
-        {
-            <MudAlert Severity="@Severity.Warning">
-                The MedRunner API is currently in local mock mode.
-                Submitting this request will will not contact the live MedRunner API.
-            </MudAlert>
-        }
-        else
-        {
-            <MudAlert Severity="@Severity.Info">
-                By submitting this request to this <b>live</b> service, you agree to the
-                <MudLink Href="@ExternalLinkHelper.GetMedRunnerTosLink(ContentId)"
-                         Target="_blank"
-                         Typo="@Typo.inherit">
-                    terms and conditions
-                </MudLink>
-                of the service provider.
-            </MudAlert>
-        }
+            @if (MedRunnerClientConfig.IsMock)
+            {
+                <MudAlert Severity="@Severity.Warning">
+                    The Medrunner API is currently in local mock mode.
+                    Submitting this request will will not contact the live Medrunner API.
+                </MudAlert>
+            }
+            else
+            {
+                <MudAlert Severity="@Severity.Info">
+                    By submitting this request to this <b>live</b> service, you agree to the
+                    <MudLink Href="@ExternalLinkHelper.GetMedRunnerTosLink(ContentId)"
+                             Target="_blank"
+                             Typo="@Typo.inherit">
+                        terms and conditions
+                    </MudLink>
+                    of the service provider.
+                </MudAlert>
+            }
+        </MudStack>
     </MudItem>
     <MudItem xs="12">
         @if (!ServiceContext.ServiceAccessState.CanUseServices)
         {
             <MudAlert Severity="@Severity.Error" Class="mb-2">
-                <b>MedRunner unavailable.</b>
+                <b>Medrunner services unavailable.</b>
                 @ServiceContext.ServiceAccessState.Message
             </MudAlert>
         }
@@ -203,7 +205,7 @@
             {
                 if (LocationSelection is not { } selection || !ServiceContext.ServiceAccessState.CanUseServices)
                 {
-                    EmergencyContext.Errors.Add("The selected location is no longer supported by MedRunner. Select an enabled system and planet.");
+                    EmergencyContext.Errors.Add("The selected location is no longer supported by Medrunner. Select an enabled system and planet.");
                     await EmergencyContextChanged.InvokeAsync(EmergencyContext);
                     return;
                 }
@@ -214,7 +216,12 @@
                     ThreatLevel = _threatLevel.Value,
                     Remarks = selection.Remarks,
                 };
-                var emergencyResponse = await MedRunner.Emergency.CreateEmergencyAsync(request);
+                var accountGeneration = ServiceContext.AccountGeneration;
+                var emergencyResponse = await Medrunner.Emergency.CreateEmergencyAsync(request);
+                if (accountGeneration != ServiceContext.AccountGeneration)
+                {
+                    return;
+                }
 
                 if (!emergencyResponse.Success)
                 {
@@ -224,11 +231,16 @@
                 }
 
                 EmergencyContext.Emergency = emergencyResponse.Data;
-                EmergencyContext.DetailsDefaults = new EmergencyDetailsDefaults(
-                    emergencyResponse.Data.Id, selection.ExactLocation, selection.LocationType, selection.Remarks);
+                ServiceContext.RecordEmergency(emergencyResponse.Data);
+                EmergencyContext.DetailsDefaults = new EmergencyDetailsDefaults(emergencyResponse.Data.Id, selection.ExactLocation, selection.LocationType, selection.Remarks);
                 await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
+    }
+
+    private static IEnumerable<string?> LocationNames(MedRunnerEmergencyLocationSelection selection)
+    {
+        return new[] { selection.Location.System, selection.Location.Subsystem, selection.Location.TertiaryLocation }.Where(name => name is not null);
     }
 
 }

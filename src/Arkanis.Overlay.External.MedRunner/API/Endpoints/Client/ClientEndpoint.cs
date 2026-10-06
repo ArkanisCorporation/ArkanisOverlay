@@ -31,7 +31,7 @@ public class ClientEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvid
             queryParams["paginationToken"] = paginationToken;
         }
 
-        return await GetRequestAsync<ApiPaginatedResponse<ClientHistory>>("/history", queryParams);
+        return await GetRequestAsync<ApiPaginatedResponse<ClientHistory>>("/history", queryParams, RequestOptions.Uncached);
     }
 
     /// <inheritdoc />

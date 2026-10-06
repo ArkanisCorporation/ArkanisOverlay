@@ -30,7 +30,7 @@ public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebS
             EmergencyId = request.EmergencyId,
             SenderId = clientEndpoint.Person.Id,
             Content = request.Contents,
-            MessageSentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            MessageSentTimestamp = DateTimeOffset.UtcNow,
         };
         return HandleSendMessageAsync(request, chatMessage);
     }
@@ -77,7 +77,7 @@ public class MockChatMessageEndpoint(MockClientEndpoint clientEndpoint, MockWebS
             EmergencyId = request.EmergencyId,
             SenderId = "144e3d04-e80f-40b1-9038-92b60bf27652",
             Content = request.Contents,
-            MessageSentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            MessageSentTimestamp = DateTimeOffset.UtcNow,
         };
         return HandleSendMessageAsync(request, chatMessage);
     }

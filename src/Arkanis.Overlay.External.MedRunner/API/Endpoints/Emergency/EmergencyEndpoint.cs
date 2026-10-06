@@ -18,13 +18,13 @@ public class EmergencyEndpoint(IMedRunnerClientConfig config, IMedRunnerTokenPro
 
     /// <inheritdoc />
     public async Task<ApiResponse<Emergency>> GetEmergencyAsync(string emergencyId)
-        => await GetRequestAsync<Emergency>($"/{emergencyId}");
+        => await GetRequestAsync<Emergency>($"/{emergencyId}", requestOptions: RequestOptions.Uncached);
 
     /// <inheritdoc />
     public async Task<ApiResponse<List<Emergency>>> GetEmergenciesAsync(List<string> emergencyIds)
     {
         var query = string.Join("&id=", emergencyIds);
-        return await GetRequestAsync<List<Emergency>>($"/bulk?id={query}");
+        return await GetRequestAsync<List<Emergency>>($"/bulk?id={query}", requestOptions: RequestOptions.Uncached);
     }
 
     /// <inheritdoc />

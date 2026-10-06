@@ -4,7 +4,7 @@ using Abstractions;
 using Abstractions.Endpoints;
 
 /// <summary>
-///     The live MedRunner API client.
+///     The live Medrunner API client.
 /// </summary>
 public class MedRunnerApiClient(
     IMedRunnerTokenProvider tokenProvider,

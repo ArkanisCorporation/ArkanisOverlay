@@ -32,13 +32,13 @@ public sealed class MedRunnerAccountContextTests
             AccessToken = "access-token",
             RefreshToken = "refresh-token",
             ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10),
-            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "Pilot")], "MedRunner"),
+            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "Pilot")], "Medrunner"),
         };
         var tokenProvider = new StaticTokenProvider(authentication);
         var webSocket = new AuthenticatedWebSocketEndpoint(tokenProvider);
         var apiClient = new MedRunnerApiClient(tokenProvider, null!, new MockClientEndpoint(tokenProvider), null!,
             new MockOrgSettingsEndpoint(tokenProvider), null!, null!, null!, webSocket);
-        var credentials = new AccountApiTokenCredentials("MedRunner") { SecretToken = "saved-token" };
+        var credentials = new AccountApiTokenCredentials("Medrunner") { SecretToken = "saved-token" };
         var preferences = new StaticPreferencesManager(new UserPreferences { ExternalServiceCredentials = [credentials] });
         var context = new MedRunnerAccountContext(new MedRunnerAuthenticator(tokenProvider), tokenProvider, apiClient,
             preferences, NullLogger<MedRunnerAccountContext>.Instance);
@@ -46,7 +46,7 @@ public sealed class MedRunnerAccountContextTests
         await context.InitializeAsync(CancellationToken.None);
         await context.UpdateAsync(CancellationToken.None);
         await context.RefreshAsync(CancellationToken.None);
-        var result = await context.ConfigureAsync(new AccountApiTokenCredentials("MedRunner") { SecretToken = "new-token" }, CancellationToken.None);
+        var result = await context.ConfigureAsync(new AccountApiTokenCredentials("Medrunner") { SecretToken = "new-token" }, CancellationToken.None);
         await preferences.SaveAndApplyUserPreferencesAsync(preferences.CurrentPreferences);
 
         result.IsFailed.ShouldBeTrue();
@@ -65,12 +65,12 @@ public sealed class MedRunnerAccountContextTests
             AccessToken = "access-token",
             RefreshToken = "refresh-token",
             ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10),
-            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "MedRunner"),
+            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "Medrunner"),
         };
         var tokenProvider = new StaticTokenProvider(authentication);
         var authenticator = new MedRunnerAuthenticator(tokenProvider);
         var authenticationTask = authenticator.AuthenticateAsync(
-            new AccountApiTokenCredentials("MedRunner")
+            new AccountApiTokenCredentials("Medrunner")
             {
                 SecretToken = "api-token",
             },
@@ -95,7 +95,7 @@ public sealed class MedRunnerAccountContextTests
             AccessToken = "access-token",
             RefreshToken = "refresh-token",
             ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10),
-            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "MedRunner"),
+            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "Medrunner"),
         };
         var tokenProvider = new StaticTokenProvider(authentication);
         var webSocket = new AuthenticatedWebSocketEndpoint(tokenProvider);
@@ -119,7 +119,7 @@ public sealed class MedRunnerAccountContextTests
                 {
                     ExternalServiceCredentials =
                     [
-                        new AccountApiTokenCredentials("MedRunner")
+                        new AccountApiTokenCredentials("Medrunner")
                         {
                             SecretToken = "persisted-api-token",
                         },
@@ -269,11 +269,11 @@ public sealed class MedRunnerAccountContextTests
             AccessToken = "access-token",
             RefreshToken = "refresh-token",
             ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10),
-            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "MedRunner"),
+            Identity = new ClaimsIdentity([new Claim(ClaimTypes.Name, "KronnY")], "Medrunner"),
         };
         var authenticator = new MedRunnerAuthenticator(new StaticTokenProvider(authentication));
         var authenticationTask = authenticator.AuthenticateAsync(
-            new AccountApiTokenCredentials("MedRunner")
+            new AccountApiTokenCredentials("Medrunner")
             {
                 SecretToken = "api-token",
             },

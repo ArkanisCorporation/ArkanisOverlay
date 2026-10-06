@@ -81,9 +81,90 @@
             border-style: solid none solid none;
         }
     }
+
+    .mud-dialog.emergency-handling {
+        height: calc(100dvh - 64px);
+
+        .mud-dialog-content {
+            display: flex;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .mud-stepper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+        }
+
+        .mud-stepper-nav,
+        .mud-stepper-actions {
+            flex-shrink: 0;
+        }
+
+        .mud-stepper-content {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .emergency-management {
+            flex: 1;
+            min-height: 0;
+            flex-wrap: nowrap;
+        }
+
+        .emergency-timeline {
+            overflow-y: auto;
+        }
+
+        .emergency-conversation,
+        .emergency-conversation-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .emergency-details {
+            flex-shrink: 0;
+            max-height: 50%;
+            overflow-y: auto;
+        }
+
+        .emergency-chat-history {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .emergency-chat-messages {
+            min-height: 100%;
+        }
+
+        .chat-input {
+            flex-shrink: 0;
+        }
+    }
+
+    @@media (max-width: 959.98px) {
+        .mud-dialog.emergency-handling {
+            .emergency-management {
+                flex-direction: column;
+            }
+
+            .emergency-timeline {
+                flex: 0 1 auto;
+                max-height: 20%;
+            }
+        }
+    }
 </style>
 
-<MudDialog Gutters="false" Class="emergency" ContentClass="ma-0">
+<MudDialog Gutters="false" Class="@DialogClasses" ContentClass="ma-0">
     <TitleContent>
         <MudStack AlignItems="@AlignItems.Center" Row>
             <MudIcon
@@ -107,6 +188,34 @@
                          Class="pa-0"
                          Completed="@ScenarioIsActive"
                          Disabled="@ScenarioIsActive">
+                    @if (MedRunnerAccountContext.AccountLinkingEnabled && MedRunnerAccountContext.IsAuthenticated)
+                    {
+                        <MudStack Class="pa-5" Spacing="2">
+                            <MudStack AlignItems="@AlignItems.Center" Justify="@Justify.SpaceBetween" Row>
+                                <MudText Typo="@Typo.h6">Existing Medrunner alerts</MudText>
+                                <MudButton OnClick="@RefreshAlertsAsync" Disabled="@_isLoading"
+                                           StartIcon="@Icons.Material.Filled.Refresh">
+                                    Refresh alerts
+                                </MudButton>
+                            </MudStack>
+                            @if (MedRunnerAccountContext.EmergencyLoadError is { } error)
+                            {
+                                <MudAlert Severity="@Severity.Error">@error</MudAlert>
+                            }
+                            @foreach (var emergency in MedRunnerAccountContext.Emergencies)
+                            {
+                                <MudButton Variant="@Variant.Outlined" Color="@Color.Primary"
+                                           data-emergency-id="@emergency.Id"
+                                           Disabled="@_isLoading" OnClick="@(() => ReturnToAlertAsync(emergency))">
+                                    Return to alert — @emergency.Status.Humanize() — @emergency.System / @emergency.Subsystem — @emergency.CreatedAt.ToLocalTime().ToString("g")
+                                </MudButton>
+                            }
+                            @if (!_isLoading && MedRunnerAccountContext.Emergencies.Count == 0 && MedRunnerAccountContext.EmergencyLoadError is null)
+                            {
+                                <MudText Typo="@Typo.caption">No existing alerts found.</MudText>
+                            }
+                        </MudStack>
+                    }
                     <MudText Typo="@Typo.body1"
                              Align="@Align.Center"
                              Class="my-8">
@@ -291,18 +400,11 @@
                             @bind-EmergencyContext="@_medRunnerEmergencyContext"
                             @bind-EmergencyContext:after="@ContinueOnEmergencyCreationAsync"/>
                     </MudStep>
-                    <MudStep Title="Provide initial details"
-                             Class="pa-0"
-                             Completed="@_initialDetailsHandled">
-                        <MedRunnerEmergencyDetails
-                            @bind-IsLoading="@_isLoading"
-                            @bind-EmergencyContext="@_medRunnerEmergencyContext"
-                            Completed="@ContinueOnInitialDetailsAsync"/>
-                    </MudStep>
                     <MudStep Title="Handle emergency"
                              SecondaryText="@EmergencyHandlingDescription"
                              Class="pa-0">
                         <MedRunnerEmergencyManagement
+                            @key="@_medRunnerEmergencyContext.Emergency?.Id"
                             ContentId="@ContentId"
                             @bind-IsLoading="@_isLoading"
                             @bind-EmergencyContext="@_medRunnerEmergencyContext"
@@ -364,8 +466,7 @@
         </MudStepper>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="@Cancel"
-                   Disabled="@ScenarioInProgress">
+        <MudButton OnClick="@Cancel">
             Close
         </MudButton>
     </DialogActions>
@@ -380,15 +481,15 @@
     private MudStepper? _stepper;
 
     private int _activeStepIndex;
-    private bool _initialDetailsHandled;
+    private long _accountGeneration;
 
     private MedRunnerComponentBase.EmergencyContextModel _medRunnerEmergencyContext = new();
 
     private bool ScenarioIsActive
         => _medRunnerEmergencyContext.Emergency is not null;
 
-    private bool ScenarioInProgress
-        => _medRunnerEmergencyContext.IsEmergencyInProgress;
+    private string DialogClasses
+        => _activeStepIndex == (int)Steps.Handling ? "emergency emergency-handling" : "emergency";
 
     public string EmergencyHandlingDescription
         => this switch
@@ -425,6 +526,43 @@
         MedRunnerAccountContext.Updated += OnExternalUpdate;
         var updateCallback = EventCallback.Factory.Create<MedRunnerComponentBase.EmergencyContextModel>(this, OnMedRunnerUpdate);
         await _medRunnerEmergencyContext.EnsureInitializedAsync(MedRunnerAccountContext, updateCallback);
+        await RefreshAlertsAsync();
+    }
+
+    private async Task RefreshAlertsAsync()
+    {
+        _isLoading = true;
+        try
+        {
+            await MedRunnerAccountContext.InitializeAsync(CancellationToken.None);
+            await MedRunnerAccountContext.RefreshAsync(CancellationToken.None);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task ReturnToAlertAsync(Emergency emergency)
+    {
+        if (!MedRunnerAccountContext.IsAuthenticated || _accountGeneration != MedRunnerAccountContext.AccountGeneration)
+        {
+            return;
+        }
+
+        var currentEmergency = MedRunnerAccountContext.Emergencies.FirstOrDefault(existing => existing.Id == emergency.Id);
+        if (currentEmergency is null)
+        {
+            return;
+        }
+
+        _selectedScenario = Scenario.MedRunnerSearchAndRescue;
+        _medRunnerEmergencyContext.Emergency = currentEmergency;
+        _medRunnerEmergencyContext.DetailsDefaults = null;
+        _medRunnerEmergencyContext.RespondingTeam = null;
+        _medRunnerEmergencyContext.Errors.Clear();
+        _activeStepIndex = (int)Steps.Handling;
+        await UpdateDialogOptionsAsync();
     }
 
     private async Task OnMedRunnerUpdate(MedRunnerComponentBase.EmergencyContextModel obj)
@@ -457,13 +595,6 @@
         await UpdateDialogOptionsAsync();
     }
 
-    private async Task ContinueOnInitialDetailsAsync()
-    {
-        _initialDetailsHandled = true;
-        await _stepper!.NextStepAsync();
-        await UpdateDialogOptionsAsync();
-    }
-
     private async Task ContinueOnEmergencyFinalizationAsync()
     {
         if (_medRunnerEmergencyContext.Emergency is { Status: MissionStatus.Completed })
@@ -479,13 +610,23 @@
 
     private async Task UpdateAsync()
     {
+        if (_accountGeneration != MedRunnerAccountContext.AccountGeneration)
+        {
+            _accountGeneration = MedRunnerAccountContext.AccountGeneration;
+            _medRunnerEmergencyContext.Emergency = null;
+            _medRunnerEmergencyContext.DetailsDefaults = null;
+            _medRunnerEmergencyContext.RespondingTeam = null;
+            _medRunnerEmergencyContext.Errors.Clear();
+            _selectedScenario = Scenario.Unselected;
+            _activeStepIndex = (int)Steps.ScenarioSelection;
+        }
+
         await InvokeAsync(StateHasChanged);
         await InvokeAsync(UpdateDialogOptionsAsync);
     }
 
     private async Task UpdateDialogOptionsAsync()
     {
-        var canClose = !ScenarioInProgress;
         await MudDialog.SetOptionsAsync(
             MudDialog.Options with
             {
@@ -499,9 +640,9 @@
                     Steps.Handling => MaxWidth.Large,
                     _ => MaxWidth.Medium,
                 },
-                BackdropClick = canClose,
-                CloseOnEscapeKey = canClose,
-                CloseButton = canClose,
+                BackdropClick = true,
+                CloseOnEscapeKey = true,
+                CloseButton = true,
             }
         );
     }
@@ -551,7 +692,6 @@
     {
         ScenarioSelection,
         Setup,
-        InitialDetails,
         Handling,
         Finalization,
     }

@@ -20,7 +20,7 @@ public sealed class ExternalAccountRegistrationTests
         services.AddSingleton<ExternalAuthenticatorProvider>();
         using var provider = services.BuildServiceProvider();
 
-        var credentials = new AccountApiTokenCredentials(Common.ExternalService.MedRunner) { SecretToken = "test-token" };
+        var credentials = new AccountApiTokenCredentials(Common.ExternalService.Medrunner) { SecretToken = "test-token" };
         provider.GetRequiredService<ExternalAuthenticatorProvider>().GetForCredentials(credentials)
             .ShouldBeOfType<MedRunnerAuthenticator>();
     }

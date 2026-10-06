@@ -29,10 +29,6 @@
                        OnClick="@RestartDetails">
                 Restart details
             </MudButton>
-            <MudButton Variant="@Variant.Outlined"
-                       OnClick="@ContinueAsync">
-                Continue to emergency handling
-            </MudButton>
         </MudStack>
     }
     else if (_progress.IsComplete)
@@ -40,11 +36,6 @@
         <MudAlert Severity="@Severity.Success">
             Initial emergency details have been sent.
         </MudAlert>
-        <MudButton Variant="@Variant.Filled"
-                   Color="@Color.Primary"
-                   OnClick="@ContinueAsync">
-            Continue to emergency handling
-        </MudButton>
     }
     else if (CurrentStep is { } currentStep)
     {
@@ -52,13 +43,11 @@
             <MudText Typo="@Typo.h6">
                 Initial emergency details, step @((int)currentStep) of 4: @GetStepLabel(currentStep)
             </MudText>
+
             <MudProgressLinear Value="@((int)currentStep * 25)"/>
-            <MudText Typo="@Typo.caption" Class="text-secondary">
-                These optional details are sent as a separate message after each section.
-            </MudText>
         </MudStack>
 
-        @switch (currentStep)
+        switch (currentStep)
         {
             case EmergencyDetailsStep.Situation:
                 <MudGrid>
@@ -104,18 +93,22 @@
                         }
                     </MudItem>
                     <MudItem xs="12" md="6">
-                        <MudText Typo="@Typo.body2" Class="mb-1">
-                            Time until death, if known
-                        </MudText>
-                        <MudStack Row>
-                            <MudNumericField T="int?"
-                                             Label="Hours"
-                                             Min="0"
-                                             @bind-Value="_deathHours"/>
-                            <MudNumericField T="int?"
-                                             Label="Minutes"
-                                             Min="0"
-                                             @bind-Value="_deathMinutes"/>
+                        <MudStack Spacing="0">
+                            <MudText Typo="@Typo.caption" Class="mb-1 text-secondary">
+                                Time until death, if known
+                            </MudText>
+
+                            <MudStack Row>
+                                <MudNumericField T="int?"
+                                                 Label="Hours"
+                                                 Min="0"
+                                                 @bind-Value="_deathHours"/>
+                                <MudNumericField T="int?"
+                                                 Label="Minutes"
+                                                 Min="0"
+                                                 Max="59"
+                                                 @bind-Value="_deathMinutes"/>
+                            </MudStack>
                         </MudStack>
                     </MudItem>
                 </MudGrid>
@@ -128,7 +121,7 @@
                                    Label="Location type"
                                    HelperText="Select the type of location you are at."
                                    @bind-Value="_locationType">
-                            @foreach (var locationType in LocationTypes)
+                            @foreach (var locationType in MedRunnerEmergencyLocation.LocationTypes)
                             {
                                 <MudSelectItem Value="@locationType">@locationType</MudSelectItem>
                             }
@@ -284,22 +277,6 @@
 
 @code
 {
-    private static readonly string[] LocationTypes =
-    [
-        "Bunker",
-        "Outpost",
-        "Distribution Center",
-        "Contested Zones",
-        "Orbital Laser Platform",
-        "Platform Alignment Facility",
-        "Space",
-        "Surface",
-        "ASD Facility",
-        "QV Station",
-        "Breaker Station",
-        "Other",
-    ];
-
     private EmergencyDetailsProgress _progress = new([], false);
     private bool _loadingProgress = true;
     private string? _loadedEmergencyId;
@@ -329,9 +306,6 @@
     private EmergencyDetailsStep? CurrentStep
         => _progress.NextIncompleteStep;
 
-    [Parameter]
-    public EventCallback Completed { get; set; }
-
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
@@ -343,15 +317,12 @@
 
         _loadedEmergencyId = EmergencyId;
         ResetInputs();
-        _exactLocation = string.Join(" / ", new[] { Emergency.System, Emergency.Subsystem, Emergency.TertiaryLocation }
-            .Where(name => !string.IsNullOrWhiteSpace(name)));
-        _remarks = Emergency.Remarks ?? string.Empty;
-        if (EmergencyContext.DetailsDefaults is { } defaults && defaults.EmergencyId == EmergencyId)
-        {
-            _exactLocation = defaults.ExactLocation;
-            _locationType = defaults.LocationType ?? string.Empty;
-            _remarks = defaults.Remarks ?? _remarks;
-        }
+        var defaults = EmergencyContext.DetailsDefaults is { } selected && selected.EmergencyId == EmergencyId
+            ? selected
+            : MedRunnerEmergencyLocation.RestoreDefaults(Emergency);
+        _exactLocation = defaults.ExactLocation;
+        _locationType = defaults.LocationType ?? string.Empty;
+        _remarks = defaults.Remarks ?? string.Empty;
 
         await RestoreProgressAsync();
     }
@@ -384,7 +355,7 @@
     private async Task<ApiPaginatedResponse<Overlay.External.MedRunner.Models.ChatMessage>> LoadHistoryPageAsync(string? paginationToken)
     {
         var emergencyId = EmergencyId ?? throw new InvalidOperationException("The emergency id is unavailable.");
-        var response = await MedRunner.ChatMessage.GetMessageHistoryAsync(emergencyId, 50, paginationToken);
+        var response = await Medrunner.ChatMessage.GetMessageHistoryAsync(emergencyId, 50, paginationToken);
         if (!response.Success)
         {
             throw new InvalidOperationException(response.ErrorMessage ?? "The emergency message history could not be loaded.");
@@ -402,7 +373,7 @@
 
         await PerformWithErrorAsync(async () =>
             {
-                var response = await MedRunner.ChatMessage.SendMessageAsync(
+                var response = await Medrunner.ChatMessage.SendMessageAsync(
                     new ChatMessageRequest
                     {
                         EmergencyId = EmergencyId,
@@ -442,7 +413,7 @@
                     return;
                 }
 
-                var response = await MedRunner.ChatMessage.SendMessageAsync(
+                var response = await Medrunner.ChatMessage.SendMessageAsync(
                     new ChatMessageRequest
                     {
                         EmergencyId = EmergencyId,
@@ -480,9 +451,6 @@
         _formError = null;
     }
 
-    private async Task ContinueAsync()
-        => await Completed.InvokeAsync();
-
     private void AddPartyMember()
         => _partyMembers.Add(string.Empty);
 
@@ -498,16 +466,16 @@
         => step switch
         {
             EmergencyDetailsStep.Situation => $"_The client's situation is:_  **{UnknownWhenEmpty(_situation)}**\n"
-                                               + $"_Client death:_  **{GetDeathTime()}**\n"
-                                               + $"_Is the client injured:_  **{UnknownWhenEmpty(_injury)}**\n"
-                                               + $"_Does the client have CrimeStat?_  **{UnknownWhenEmpty(_crimeStat)}**{OptionalDetails(_crimeStatDetails)}",
+                                              + $"_Client death:_  **{GetDeathTime()}**\n"
+                                              + $"_Is the client injured:_  **{UnknownWhenEmpty(_injury)}**\n"
+                                              + $"_Does the client have CrimeStat?_  **{UnknownWhenEmpty(_crimeStat)}**{OptionalDetails(_crimeStatDetails)}",
             EmergencyDetailsStep.Location => $"_The client type of location is:_  **{GetLocationType()}**\n"
-                                              + $"_The client exact location is:_  **{UnknownWhenEmpty(_exactLocation)}**\n"
-                                              + $"_Client ship:_  **{UnknownWhenEmpty(_ship)}**",
+                                             + $"_The client exact location is:_  **{UnknownWhenEmpty(_exactLocation)}**\n"
+                                             + $"_Client ship:_  **{UnknownWhenEmpty(_ship)}**",
             EmergencyDetailsStep.Players => $"_Has the client sent an IG beacon?_  **{YesNoUnknown(_beacon)}**{OptionalDetails(_beaconPlayer, "Name: ")}\n"
-                                             + $"{OptionalDetails(_beaconDistance, "Distance: ")}\n"
-                                             + $"_Is the client in a team?_  **{YesNoUnknown(_inParty)}**{GetPartyMembers()}\n"
-                                             + $"_Are there enemies nearby?_  **{YesNoUnknown(_enemies)}**{OptionalDetails(_enemyDetails)}",
+                                            + $"{OptionalDetails(_beaconDistance, "Distance: ")}\n"
+                                            + $"_Is the client in a team?_  **{YesNoUnknown(_inParty)}**{GetPartyMembers()}\n"
+                                            + $"_Are there enemies nearby?_  **{YesNoUnknown(_enemies)}**{OptionalDetails(_enemyDetails)}",
             EmergencyDetailsStep.Remarks => string.IsNullOrWhiteSpace(_remarks)
                 ? "_Remarks:_  <em>None provided</em>"
                 : $"_Remarks:_\n>{_remarks.ReplaceLineEndings("\n>")}",

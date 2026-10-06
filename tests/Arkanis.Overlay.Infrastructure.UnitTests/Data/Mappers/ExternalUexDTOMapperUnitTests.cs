@@ -32,6 +32,25 @@ public class ExternalUexDTOMapperUnitTests
     }
 
     [Fact]
+    public async Task Point_of_interest_mapping_preserves_type_and_subtype_for_location_inference()
+    {
+        var mapper = new UexApiDtoMapper(HydrationService);
+        await mapper.ToGameEntityAsync(StarSystem);
+        await mapper.ToGameEntityAsync(Planet);
+        await mapper.ToGameEntityAsync(Moon);
+        var source = new External.UEX.Abstractions.PointOfInterestDTO
+        {
+            Id = 999, Name = "Security facility", Nickname = "SF", Id_star_system = StarSystem.Id,
+            Id_planet = Planet.Id, Id_moon = Moon.Id, Type = "facility", Subtype = "bunker",
+        };
+
+        var result = (await mapper.ToGameEntityAsync(source)).ShouldBeOfType<GamePointOfInterest>();
+
+        result.Type.ShouldBe(source.Type);
+        result.Subtype.ShouldBe(source.Subtype);
+    }
+
+    [Fact]
     public async Task UniverseTerminalDTO_ToGameEntity_Should_Correctly_Map_And_Link_Dependencies()
     {
         var mapper = new UexApiDtoMapper(HydrationService);

@@ -8,6 +8,15 @@ using Overlay.External.MedRunner.Models;
 
 internal static class MedRunnerEmergencyLocation
 {
+    private const string ClosestLocationPrefix = "Closest location: ";
+    private const string LocationTypePrefix = "Location type: ";
+
+    public static IReadOnlyList<string> LocationTypes { get; } =
+    [
+        "Bunker", "Outpost", "Distribution Center", "Contested Zones", "Orbital Laser Platform",
+        "Platform Alignment Facility", "Space", "Surface", "ASD Facility", "QV Station", "Breaker Station", "Other",
+    ];
+
     public static bool SupportsSystem(GameStarSystem system, LocationSettings settings)
         => FindEnabledLocation(settings.Locations, system.Name.MainContent.FullName) is not null;
 
@@ -28,14 +37,7 @@ internal static class MedRunnerEmergencyLocation
             .Select(entity => (Entity: entity, Location: FindEnabledLocation(supportedPlanet.Children, entity.Name.MainContent.FullName)))
             .FirstOrDefault(match => match.Location is not null);
         var exactLocation = string.Join(" / ", path.Select(entity => entity.Name.MainContent.FullName));
-        var hasAdditionalDetails = path.Any(entity => entity != system && entity != planet && entity != supportedTertiary.Entity);
-        var locationType = path.Reverse().Select(entity => entity switch
-        {
-            GameOutpost => "Outpost",
-            GameSpaceStation => "Space",
-            GameCity => "Surface",
-            _ => null,
-        }).FirstOrDefault(type => type is not null);
+        var locationType = path.Reverse().Select(InferLocationType).FirstOrDefault(type => type is not null);
 
         return new MedRunnerEmergencyLocationSelection(
             new Location
@@ -46,8 +48,51 @@ internal static class MedRunnerEmergencyLocation
             },
             exactLocation,
             locationType,
-            hasAdditionalDetails ? $"Closest location: {exactLocation}" : null
+            locationType is not null
+                ? $"{ClosestLocationPrefix}{exactLocation}\n{LocationTypePrefix}{locationType}"
+                : $"{ClosestLocationPrefix}{exactLocation}"
         );
+    }
+
+    private static string? InferLocationType(GameLocationEntity entity)
+        => entity switch
+        {
+            GamePointOfInterest point => MatchLocationType(point.Subtype) ?? MatchLocationType(point.Type),
+            GameOutpost => "Outpost",
+            GameSpaceStation => "Space",
+            GameCity or GameMoon or GamePlanet => "Surface",
+            _ => null,
+        };
+
+    private static string? MatchLocationType(string? metadata)
+    {
+        if (string.IsNullOrWhiteSpace(metadata))
+        {
+            return null;
+        }
+
+        var normalized = NormalizeType(metadata);
+        return LocationTypes.FirstOrDefault(type => string.Equals(NormalizeType(type), normalized, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static string NormalizeType(string value)
+        => new(value.Where(char.IsLetterOrDigit).ToArray());
+
+    public static MedRunnerComponentBase.EmergencyDetailsDefaults RestoreDefaults(Emergency emergency)
+    {
+        var remarks = (emergency.Remarks ?? string.Empty).ReplaceLineEndings("\n").Split('\n');
+        var exactLocation = ReadRemark(remarks, ClosestLocationPrefix)
+                            ?? string.Join(" / ", new[] { emergency.System, emergency.Subsystem, emergency.TertiaryLocation }
+                                .Where(name => !string.IsNullOrWhiteSpace(name)));
+        return new MedRunnerComponentBase.EmergencyDetailsDefaults(
+            emergency.Id, exactLocation, MatchLocationType(ReadRemark(remarks, LocationTypePrefix)), emergency.Remarks);
+    }
+
+    private static string? ReadRemark(IEnumerable<string> remarks, string prefix)
+    {
+        var line = remarks.Select(value => value.Trim())
+            .FirstOrDefault(value => value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+        return line?[prefix.Length..].Trim() is { Length: > 0 } value ? value : null;
     }
 
     private static SpaceLocation? FindEnabledLocation(IEnumerable<SpaceLocation> locations, string name)

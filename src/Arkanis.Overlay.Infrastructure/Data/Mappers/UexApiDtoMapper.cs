@@ -353,6 +353,8 @@ internal partial class UexApiDtoMapper(IGameEntityHydrationService hydrationServ
     [MapValue(nameof(GameLocationEntity.ImageAuthor), null)]
     [MapProperty(nameof(PointOfInterestDTO.Name), "fullName")]
     [MapProperty(nameof(PointOfInterestDTO.Nickname), "shortName")]
+    [MapProperty(nameof(PointOfInterestDTO.Type), nameof(GamePointOfInterest.Type))]
+    [MapProperty(nameof(PointOfInterestDTO.Subtype), nameof(GamePointOfInterest.Subtype))]
     [MapValue(nameof(GameLocationEntity.HasHangar), false)]
     [MapPropertyFromSource("location", Use = nameof(GetGameLocationForPointOfInterest))]
     private partial GamePointOfInterest MapInternal(PointOfInterestDTO source);

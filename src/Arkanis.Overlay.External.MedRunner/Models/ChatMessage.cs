@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.Models;
 
+using System.Text.Json.Serialization;
+
 /// <summary>
 ///     Represents a chat message.
 /// </summary>
@@ -16,15 +18,16 @@ public class ChatMessage : ModelBase
     public required string SenderId { get; set; }
 
     /// <summary>
-    ///     The timestamp at which the message was sent in Unix seconds.
+    ///     The ISO date and time at which the message was sent.
     /// </summary>
-    public long MessageSentTimestamp { get; set; }
+    public DateTimeOffset MessageSentTimestamp { get; set; }
 
     public DateTimeOffset SentAt
-        => DateTimeOffset.FromUnixTimeSeconds(MessageSentTimestamp);
+        => MessageSentTimestamp;
 
     /// <summary>
     ///     The contents of the message.
     /// </summary>
+    [JsonPropertyName("contents")]
     public required string Content { get; set; }
 }

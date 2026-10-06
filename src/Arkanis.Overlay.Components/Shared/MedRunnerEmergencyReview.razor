@@ -69,7 +69,7 @@
 
         await PerformSafeAsync(async () =>
             {
-                await MedRunner.Emergency.RateServicesAsync(EmergencyId!, EmergencyContext.Emergency.Rating, EmergencyContext.Emergency.RatingRemarks);
+                await Medrunner.Emergency.RateServicesAsync(EmergencyId!, EmergencyContext.Emergency.Rating, EmergencyContext.Emergency.RatingRemarks);
                 await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );

@@ -1,37 +1,44 @@
 @using Arkanis.Overlay.Common.Models
 @if (Model?.ServiceId == ExternalService.UnitedExpress)
 {
-    @WrapWithTooltip(@<UexLogo/>
+    @WrapWithTooltip(
+        @<UexLogo/>
     )
 }
 else if (Model?.ServiceId == ExternalService.CitizenId)
 {
-    @WrapWithTooltip(@<CitizenIdLogo/>
+    @WrapWithTooltip(
+        @<CitizenIdLogo/>
     )
 }
 else if (Model?.ServiceId == ExternalService.FleetYards)
 {
-    @WrapWithTooltip(@<FleetYardsLogo/>
+    @WrapWithTooltip(
+        @<FleetYardsLogo/>
     )
 }
 else if (Model?.ServiceId == ExternalService.Regolith)
 {
-    @WrapWithTooltip(@<RegolithLogo/>
+    @WrapWithTooltip(
+        @<RegolithLogo/>
     )
 }
 else if (Model?.ServiceId == ExternalService.Erkul)
 {
-    @WrapWithTooltip(@<ErkulLogo/>
+    @WrapWithTooltip(
+        @<ErkulLogo/>
     )
 }
-else if (Model?.ServiceId == ExternalService.MedRunner)
+else if (Model?.ServiceId == ExternalService.Medrunner)
 {
-    @WrapWithTooltip(@<MedRunnerLogo/>
+    @WrapWithTooltip(
+        @<MedRunnerLogo/>
     )
 }
 else if (Model?.ServiceId == ExternalService.Discord)
 {
-    @WrapWithTooltip(@<DiscordLogo/>
+    @WrapWithTooltip(
+        @<DiscordLogo/>
     )
 }
 else if (Model is not null)

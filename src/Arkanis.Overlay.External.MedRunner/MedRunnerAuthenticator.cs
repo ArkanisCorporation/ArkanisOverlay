@@ -13,9 +13,9 @@ public sealed class MedRunnerAuthenticator(IMedRunnerTokenProvider tokenProvider
 {
     public static ExternalAuthenticatorInfo ProviderInfo { get; } = new()
     {
-        ServiceId = ExternalService.MedRunner,
-        DisplayName = "MedRunner",
-        Description = "MedRunner provides emergency-response services for Star Citizen pilots.",
+        ServiceId = ExternalService.Medrunner,
+        DisplayName = "Medrunner",
+        Description = "Medrunner provides emergency-response services for Star Citizen pilots.",
     };
 
     public override ExternalAuthenticatorInfo AuthenticatorInfo
@@ -25,9 +25,9 @@ public sealed class MedRunnerAuthenticator(IMedRunnerTokenProvider tokenProvider
         => serviceCredentials switch
         {
             AccountApiTokenCredentials { SecretToken.Length: > 0 } => Result.Ok(),
-            AccountApiTokenCredentials => Result.Fail("A MedRunner API token is required."),
+            AccountApiTokenCredentials => Result.Fail("A Medrunner API token is required."),
             null => Result.Ok(),
-            _ => Result.Fail("Provided credentials are not valid MedRunner API token credentials."),
+            _ => Result.Fail("Provided credentials are not valid Medrunner API token credentials."),
         };
 
     public override AuthenticationTask AuthenticateAsync(AccountCredentials credentials, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ public sealed class MedRunnerAuthenticator(IMedRunnerTokenProvider tokenProvider
         {
             if (Credentials is not AccountApiTokenCredentials tokenCredentials)
             {
-                return Result.Fail<ClaimsIdentity>("Provided credentials are not valid MedRunner API token credentials.");
+                return Result.Fail<ClaimsIdentity>("Provided credentials are not valid Medrunner API token credentials.");
             }
 
             var authenticationResult = await tokenProvider.AuthenticateApiTokenAsync(tokenCredentials.SecretToken, cancellationToken);

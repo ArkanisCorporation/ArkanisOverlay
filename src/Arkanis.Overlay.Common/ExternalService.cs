@@ -7,6 +7,6 @@ public class ExternalService
     public const string FleetYards = nameof(FleetYards);
     public const string Regolith = nameof(Regolith);
     public const string Erkul = nameof(Erkul);
-    public const string MedRunner = nameof(MedRunner);
+    public const string Medrunner = nameof(Medrunner);
     public const string Discord = nameof(Discord);
 }

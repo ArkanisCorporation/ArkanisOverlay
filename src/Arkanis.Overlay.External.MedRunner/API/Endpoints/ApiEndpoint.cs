@@ -3,6 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Endpoints;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Authentication;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -37,6 +38,14 @@ public abstract class ApiEndpoint(
 
     private static readonly Action<ILogger, HttpMethod, string, Exception?> LogRequestException =
         LoggerMessage.Define<HttpMethod, string>(LogLevel.Error, default, "An exception occured while handling {Method} {Url}");
+
+    private static readonly Action<ILogger, HttpMethod, string, HttpStatusCode, string, Exception?> LogResponse =
+        LoggerMessage.Define<HttpMethod, string, HttpStatusCode, string>(
+            LogLevel.Debug, default, "Received Medrunner JSON for {Method} {Url} (code {StatusCode}): {Json}");
+
+    private static readonly Action<ILogger, HttpMethod, string, string, string, Exception?> LogDecodingError =
+        LoggerMessage.Define<HttpMethod, string, string, string>(
+            LogLevel.Error, default, "Failed to decode Medrunner {Method} {Url} as {ResponseType}. Incoming JSON: {Json}");
 
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -202,10 +211,12 @@ public abstract class ApiEndpoint(
         requestOptions ??= RequestOptions.Default;
         ApiResponse<T>? response;
 
-        if (request.Method == HttpMethod.Get)
+        if (request.Method == HttpMethod.Get && requestOptions.CacheDuration > TimeSpan.Zero)
         {
+            var authenticationScope = Convert.ToHexString(SHA256.HashData(
+                Encoding.UTF8.GetBytes(request.Headers.Authorization?.Parameter ?? string.Empty)));
             response = await cache.GetOrCreateAsync(
-                $"{request.Method.Method}-{url}",
+                $"{request.Method.Method}-{url}-{typeof(T).FullName}-{authenticationScope}",
                 async entry =>
                 {
                     entry.SetAbsoluteExpiration(requestOptions.CacheDuration);
@@ -239,18 +250,31 @@ public abstract class ApiEndpoint(
         {
             using var response = await _httpClient.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
+            // Authentication responses can contain access, refresh, or newly created API tokens.
+            var loggedContent = string.Equals(Endpoint, "auth", StringComparison.OrdinalIgnoreCase)
+                ? "[authentication response omitted]"
+                : content;
+            LogResponse(logger, request.Method, url, response.StatusCode, loggedContent, null);
             if (response.IsSuccessStatusCode)
             {
-                var data = JsonSerializer.Deserialize<T>(content, Options);
-                return new ApiResponse<T>(data);
+                try
+                {
+                    var data = JsonSerializer.Deserialize<T>(content, Options);
+                    return new ApiResponse<T>(data);
+                }
+                catch (JsonException exception)
+                {
+                    LogDecodingError(logger, request.Method, url, typeof(T).FullName ?? typeof(T).Name, loggedContent, exception);
+                    return new ApiResponse<T>(exception);
+                }
             }
 
-            LogRequestError(logger, request.Method, url, response.StatusCode, content, null);
+            LogRequestError(logger, request.Method, url, response.StatusCode, loggedContent, null);
             return new ApiResponse<T>
             {
                 Success = false,
                 ErrorMessage = string.IsNullOrWhiteSpace(content)
-                    ? $"MedRunner API request failed with status {(int)response.StatusCode} ({response.StatusCode})."
+                    ? $"Medrunner API request failed with status {(int)response.StatusCode} ({response.StatusCode})."
                     : content,
                 StatusCode = response.StatusCode,
             };
@@ -269,6 +293,11 @@ public abstract class ApiEndpoint(
         public static readonly RequestOptions Unauthenticated = new()
         {
             IsUnauthenticatedRequest = true,
+        };
+
+        public static readonly RequestOptions Uncached = new()
+        {
+            CacheDuration = TimeSpan.Zero,
         };
 
         public bool IsUnauthenticatedRequest { get; set; }

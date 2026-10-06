@@ -1,12 +1,17 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Endpoints.WebSocket;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using Abstractions;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Models;
 
-public class SignalRMessageHandler : IWebSocketEventProvider
+public class SignalRMessageHandler(ILogger? logger = null) : IWebSocketEventProvider
 {
+    private readonly ILogger _logger = logger ?? NullLogger.Instance;
+    private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web);
     private const string PersonUpdatedEvent = "PersonUpdate";
     private const string EmergencyCreatedEvent = "EmergencyCreate";
     private const string EmergencyUpdatedEvent = "EmergencyUpdate";
@@ -57,16 +62,16 @@ public class SignalRMessageHandler : IWebSocketEventProvider
     public void Connect(HubConnection connection)
     {
         _connection = connection;
-        _connection.On<Person>(PersonUpdatedEvent, OnPersonUpdateHandler);
-        _connection.On<Emergency>(EmergencyCreatedEvent, OnEmergencyCreateHandler);
-        _connection.On<Emergency>(EmergencyUpdatedEvent, OnEmergencyUpdateHandler);
-        _connection.On<ChatMessage>(ChatMessageCreatedEvent, OnChatMessageCreateHandler);
-        _connection.On<ChatMessage>(ChatMessageUpdatedEvent, OnChatMessageUpdateHandler);
-        _connection.On<Team>(TeamCreatedEvent, OnTeamCreateHandler);
-        _connection.On<Team>(TeamUpdatedEvent, OnTeamUpdateHandler);
-        _connection.On<Team>(TeamDeletedEvent, OnTeamDeleteHandler);
-        _connection.On<OrgSettings>(OrgSettingsUpdatedEvent, OnOrgSettingsUpdateHandler);
-        _connection.On<Deployment>(DeploymentCreatedEvent, OnDeploymentCreateHandler);
+        foreach (var eventName in new[]
+                 {
+                     PersonUpdatedEvent, EmergencyCreatedEvent, EmergencyUpdatedEvent,
+                     ChatMessageCreatedEvent, ChatMessageUpdatedEvent, TeamCreatedEvent, TeamUpdatedEvent,
+                     TeamDeletedEvent, OrgSettingsUpdatedEvent, DeploymentCreatedEvent,
+                 })
+        {
+            // Bind raw JSON so a model mismatch cannot discard the payload before it is logged.
+            _connection.On<JsonElement>(eventName, payload => HandleMessage(eventName, payload));
+        }
     }
 
     public void Disconnect(HubConnection connection)
@@ -87,33 +92,40 @@ public class SignalRMessageHandler : IWebSocketEventProvider
         }
     }
 
-    private void OnPersonUpdateHandler(Person person)
-        => PersonUpdated?.Invoke(this, person);
+    public void HandleMessage(string eventName, JsonElement payload)
+    {
+        var json = payload.GetRawText();
+        _logger.LogDebug("Received Medrunner real-time JSON for {EventName}: {Json}", eventName, json);
+        try
+        {
+            switch (eventName)
+            {
+                case PersonUpdatedEvent: Dispatch(payload, PersonUpdated); break;
+                case EmergencyCreatedEvent: Dispatch(payload, EmergencyCreated); break;
+                case EmergencyUpdatedEvent: Dispatch(payload, EmergencyUpdated); break;
+                case ChatMessageCreatedEvent: Dispatch(payload, ChatMessageCreated); break;
+                case ChatMessageUpdatedEvent: Dispatch(payload, ChatMessageUpdated); break;
+                case TeamCreatedEvent: Dispatch(payload, TeamCreated); break;
+                case TeamUpdatedEvent: Dispatch(payload, TeamUpdated); break;
+                case TeamDeletedEvent: Dispatch(payload, TeamDeleted); break;
+                case OrgSettingsUpdatedEvent: Dispatch(payload, OrgSettingsUpdated); break;
+                case DeploymentCreatedEvent: Dispatch(payload, DeploymentCreated); break;
+            }
+        }
+        catch (JsonException exception)
+        {
+            _logger.LogError(exception, "Failed to decode Medrunner real-time event {EventName}. Incoming JSON: {Json}", eventName, json);
+        }
+    }
 
-    private void OnEmergencyCreateHandler(Emergency emergency)
-        => EmergencyCreated?.Invoke(this, emergency);
+    private void Dispatch<T>(JsonElement payload, EventHandler<T>? handler)
+    {
+        var message = payload.Deserialize<T>(Options);
+        if (message is null)
+        {
+            throw new JsonException($"Expected a Medrunner {typeof(T).Name} object, received null.");
+        }
 
-    private void OnEmergencyUpdateHandler(Emergency emergency)
-        => EmergencyUpdated?.Invoke(this, emergency);
-
-    private void OnChatMessageCreateHandler(ChatMessage message)
-        => ChatMessageCreated?.Invoke(this, message);
-
-    private void OnChatMessageUpdateHandler(ChatMessage message)
-        => ChatMessageUpdated?.Invoke(this, message);
-
-    private void OnTeamCreateHandler(Team team)
-        => TeamCreated?.Invoke(this, team);
-
-    private void OnTeamUpdateHandler(Team team)
-        => TeamUpdated?.Invoke(this, team);
-
-    private void OnTeamDeleteHandler(Team team)
-        => TeamDeleted?.Invoke(this, team);
-
-    private void OnOrgSettingsUpdateHandler(OrgSettings orgSettings)
-        => OrgSettingsUpdated?.Invoke(this, orgSettings);
-
-    private void OnDeploymentCreateHandler(Deployment deployment)
-        => DeploymentCreated?.Invoke(this, deployment);
+        handler?.Invoke(this, message);
+    }
 }

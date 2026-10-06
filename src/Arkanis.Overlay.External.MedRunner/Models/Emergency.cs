@@ -47,8 +47,8 @@ public class Emergency : ModelBase
     /// <summary>After action report message cache.</summary>
     public MessageCache? AfterActionReportMessage { get; set; }
 
-    /// <summary>The primary responding team.</summary>
-    public required Team RespondingTeam { get; set; }
+    /// <summary>The response roster, which can be empty before responders are assigned.</summary>
+    public required EmergencyResponseTeam RespondingTeam { get; set; }
 
     /// <summary>All responding teams.</summary>
     public required List<RespondingTeam> RespondingTeams { get; set; }
@@ -57,14 +57,14 @@ public class Emergency : ModelBase
     public long CreationTimestamp { get; set; }
 
     public DateTimeOffset CreatedAt
-        => DateTimeOffset.FromUnixTimeSeconds(CreationTimestamp);
+        => DateTimeOffset.FromUnixTimeMilliseconds(CreationTimestamp);
 
     /// <summary>Timestamp when the emergency was accepted.</summary>
     public long? AcceptedTimestamp { get; set; }
 
     public DateTimeOffset? AcceptedAt
         => AcceptedTimestamp is not null
-            ? DateTimeOffset.FromUnixTimeSeconds(AcceptedTimestamp.Value)
+            ? DateTimeOffset.FromUnixTimeMilliseconds(AcceptedTimestamp.Value)
             : null;
 
     /// <summary>Timestamp when the emergency was completed.</summary>
@@ -72,7 +72,7 @@ public class Emergency : ModelBase
 
     public DateTimeOffset? CompletedAt
         => CompletionTimestamp is not null
-            ? DateTimeOffset.FromUnixTimeSeconds(CompletionTimestamp.Value)
+            ? DateTimeOffset.FromUnixTimeMilliseconds(CompletionTimestamp.Value)
             : null;
 
     /// <summary>The rating for the emergency response.</summary>

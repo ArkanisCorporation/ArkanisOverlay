@@ -21,10 +21,10 @@ public class LocalLinkCommandProcessorWithConsent(
 {
     public async Task PublishAsync(LocalLinkCommandBase localLinkCommand, CancellationToken cancellationToken)
     {
-        if (localLinkCommand is SetExternalServiceCredentialsCommand { Credentials.ServiceId: ExternalService.MedRunner }
+        if (localLinkCommand is SetExternalServiceCredentialsCommand { Credentials.ServiceId: ExternalService.Medrunner }
             && integrationOptions?.Value.AccountLinkingEnabled is not true)
         {
-            logger.LogInformation("Ignoring MedRunner account linking while the integration is disabled");
+            logger.LogInformation("Ignoring Medrunner account linking while the integration is disabled");
             return;
         }
 

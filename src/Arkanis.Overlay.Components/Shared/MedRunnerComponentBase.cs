@@ -24,7 +24,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
     public bool HasEmergencyInProgress
         => Emergency is { Status: MissionStatus.Pending or MissionStatus.Accepted };
 
-    public IMedRunnerApiClient MedRunner
+    public IMedRunnerApiClient Medrunner
         => ServiceContext.ApiClient;
 
     [Inject]
@@ -87,7 +87,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
 
         [MemberNotNullWhen(true, nameof(Emergency))]
         public bool IsEmergencyInProgress
-            => Emergency is { CompletionTimestamp: null };
+            => Emergency is { Status: MissionStatus.Pending or MissionStatus.Accepted };
 
         public bool HasErrors
             => Errors is { Count: > 0 };
@@ -105,7 +105,6 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
                 return;
             }
 
-            _serviceContext.Events.EmergencyCreated -= OnEmergencyCreated;
             _serviceContext.Events.EmergencyUpdated -= OnEmergencyUpdated;
             _serviceContext = null;
         }
@@ -126,12 +125,6 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
             await Task.CompletedTask;
         }
 
-        private void OnEmergencyCreated(object? _, Emergency emergency)
-        {
-            Emergency = emergency;
-            SendUpdate();
-        }
-
         private void OnEmergencyUpdated(object? _, Emergency emergency)
         {
             if (emergency.Id != Emergency?.Id)
@@ -144,7 +137,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         }
 
         private void SendUpdate()
-            => _callback.InvokeAsync();
+            => _callback.InvokeAsync(this);
     }
 
     public sealed record EmergencyDetailsDefaults(string EmergencyId, string ExactLocation, string? LocationType, string? Remarks);

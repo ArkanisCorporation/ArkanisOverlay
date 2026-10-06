@@ -12,7 +12,7 @@ public class SignalREndpoint(IMedRunnerClientConfig config, IMedRunnerTokenProvi
 {
     private readonly SemaphoreSlim _connectionSemaphore = new(1, 1);
     private readonly SignalRManager _manager = new(config, tokenProvider);
-    private readonly SignalRMessageHandler _messageHandler = new();
+    private readonly SignalRMessageHandler _messageHandler = new(logger);
     private HubConnection? _connection;
 
     /// <inheritdoc />

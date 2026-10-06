@@ -3,7 +3,7 @@ namespace Arkanis.Overlay.External.MedRunner.API.Abstractions;
 using Endpoints;
 
 /// <summary>
-///     The MedRunner API client interface.
+///     The Medrunner API client interface.
 /// </summary>
 public interface IMedRunnerApiClient
 {

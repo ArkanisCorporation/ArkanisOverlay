@@ -7,8 +7,8 @@
 @inject IDialogService DialogService
 @inject IJSRuntime JsRuntime
 
-<MudGrid>
-    <MudItem xs="12" md="5">
+<MudGrid Class="emergency-management" Spacing="0">
+    <MudItem xs="12" md="5" Class="emergency-timeline pa-4">
         <MudStack AlignItems="@AlignItems.Center"
                   Class="h-100 w-100">
             <MudTimeline Class="w-100"
@@ -53,7 +53,7 @@
                         }
                     </MedRunnerTimelineItem>
                 }
-                else if (Emergency is { Status: not MissionStatus.Pending })
+                else if (HasEmergencyInProgress && Emergency is { Status: not MissionStatus.Pending })
                 {
                     <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending"
                                            Title="Communicate and wait for rescue">
@@ -63,16 +63,25 @@
             </MudTimeline>
         </MudStack>
     </MudItem>
-    <MudItem xs="12" md="7" Class="pa-5 mt-5">
-        <MudStack>
+    <MudItem xs="12" md="7" Class="emergency-conversation pa-5">
+        <MudStack Class="emergency-conversation-content">
             <MedRunnerServiceProvidedBy
                 ContentId="@ContentId"/>
 
+            @if (HasEmergencyInProgress)
+            {
+                <div class="emergency-details">
+                    <MedRunnerEmergencyDetails
+                        @key="@EmergencyContext.Emergency?.Id"
+                        IsLoading="@IsLoading" IsLoadingChanged="@IsLoadingChanged"
+                        EmergencyContext="@EmergencyContext" EmergencyContextChanged="@EmergencyContextChanged"/>
+                </div>
+            }
+
             <div @ref="@_chatContainer"
-                 class="overflow-y-scroll"
-                 style="height: 30vh">
+                 class="emergency-chat-history">
                 <MudStack Justify="@Justify.FlexEnd"
-                          Class="pb-3">
+                          Class="emergency-chat-messages pb-3">
                     @if (_chatMessages.Count == 0)
                     {
                         if (Emergency is { Status: MissionStatus.Pending })
@@ -160,6 +169,7 @@
                 Class="chat-input"
                 Disabled="@IsChatDisabled"
                 Immediate
+                MaxLines="4"
                 AutoGrow/>
         </MudStack>
     </MudItem>
@@ -174,6 +184,7 @@
     private MudTextField<string>? _messageContentInput;
     private readonly ElementJsInterop _elementInterop = new();
     private ElementReference _chatContainer;
+    private bool _scrollToBottomNeeded;
 
     private CancellationReason[] CancellationReasons { get; } =
     [
@@ -227,29 +238,34 @@
         _elementInterop.Connect(JsRuntime);
 
         _timer = new Timer(OnTimerTick, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
-        MedRunner.WebSocket.Events.ChatMessageCreated += OnChatMessageCreated;
-        MedRunner.WebSocket.Events.ChatMessageUpdated += OnChatMessageUpdated;
+        Medrunner.WebSocket.Events.ChatMessageCreated += OnChatMessageCreated;
+        Medrunner.WebSocket.Events.ChatMessageUpdated += OnChatMessageUpdated;
 
         await PerformSafeAsync(async () =>
             {
                 if (HasEmergency)
                 {
-                    var messagesResponse = await MedRunner.ChatMessage.GetMessageHistoryAsync(EmergencyId, 50);
+                    var messagesResponse = await Medrunner.ChatMessage.GetMessageHistoryAsync(EmergencyId, 50);
                     if (messagesResponse.Success)
                     {
-                        _chatMessages = messagesResponse.Data.Data;
+                        _chatMessages = _chatMessages.Concat(messagesResponse.Data.Data)
+                            .DistinctBy(message => message.Id)
+                            .OrderBy(message => message.SentAt)
+                            .ToList();
+                        _scrollToBottomNeeded = true;
                     }
                 }
             }
         );
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnParametersSetAsync();
+        await base.OnAfterRenderAsync(firstRender);
 
-        if (!IsChatDisabled && _messageContentInput is not null)
+        if (_scrollToBottomNeeded)
         {
+            _scrollToBottomNeeded = false;
             await UpdateChatDisplayAsync();
         }
     }
@@ -275,9 +291,12 @@
                 return;
             }
 
-            _chatMessages.Add(chatMessage);
-            await InvokeAsync(StateHasChanged);
-            await UpdateChatDisplayAsync();
+            await InvokeAsync(() =>
+            {
+                StoreChatMessage(chatMessage);
+                _scrollToBottomNeeded = true;
+                StateHasChanged();
+            });
         }
         catch
         {
@@ -287,19 +306,39 @@
 
     private async Task UpdateChatDisplayAsync()
     {
-        await Task.Delay(TimeSpan.FromMilliseconds(50));
         await _elementInterop.ScrollToBottomAsync(_chatContainer);
     }
 
     private void OnChatMessageUpdated(object? _, ChatMessage chatMessage)
     {
-        if (_chatMessages.FindIndex(x => x.Id == chatMessage.Id) is not (var index and >= 0))
+        if (chatMessage.EmergencyId != EmergencyId)
         {
             return;
         }
 
-        _chatMessages[index] = chatMessage;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync(() =>
+        {
+            if (_chatMessages.Any(message => message.Id == chatMessage.Id))
+            {
+                StoreChatMessage(chatMessage);
+                StateHasChanged();
+            }
+        });
+    }
+
+    private void StoreChatMessage(ChatMessage message)
+    {
+        var index = _chatMessages.FindIndex(existing => existing.Id == message.Id);
+        if (index >= 0)
+        {
+            _chatMessages[index] = message;
+        }
+        else
+        {
+            _chatMessages.Add(message);
+        }
+
+        _chatMessages = _chatMessages.OrderBy(existing => existing.SentAt).ToList();
     }
 
     private async Task CancelAsync(CancellationReason reason)
@@ -324,7 +363,7 @@
         await PerformSafeAsync(async () =>
             {
                 EmergencyContext.Emergency.CancellationReason = reason;
-                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, reason);
+                await Medrunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, reason);
                 await EmergencyContextChanged.InvokeAsync(EmergencyContext);
             }
         );
@@ -365,7 +404,7 @@
                     EmergencyId = EmergencyId,
                     Contents = content,
                 };
-                await MedRunner.ChatMessage.SendMessageAsync(messageRequest);
+                await Medrunner.ChatMessage.SendMessageAsync(messageRequest);
                 await UpdateChatDisplayAsync();
                 await _messageContentInput!.FocusAsync();
             }
@@ -375,8 +414,8 @@
     public override void Dispose()
     {
         _timer?.Dispose();
-        MedRunner.WebSocket.Events.ChatMessageCreated -= OnChatMessageCreated;
-        MedRunner.WebSocket.Events.ChatMessageUpdated -= OnChatMessageUpdated;
+        Medrunner.WebSocket.Events.ChatMessageCreated -= OnChatMessageCreated;
+        Medrunner.WebSocket.Events.ChatMessageUpdated -= OnChatMessageUpdated;
         base.Dispose();
     }
 }

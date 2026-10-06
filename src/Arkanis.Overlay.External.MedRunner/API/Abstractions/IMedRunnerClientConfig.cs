@@ -1,7 +1,7 @@
 namespace Arkanis.Overlay.External.MedRunner.API.Abstractions;
 
 /// <summary>
-///     Configuration for the MedRunner API client.
+///     Configuration for the Medrunner API client.
 /// </summary>
 public interface IMedRunnerClientConfig
 {
@@ -37,5 +37,4 @@ public interface IMedRunnerClientConfig
     ///     Use mock data instead of the real API - defaults to false
     /// </summary>
     public bool IsMock { get; internal set; }
-
 }

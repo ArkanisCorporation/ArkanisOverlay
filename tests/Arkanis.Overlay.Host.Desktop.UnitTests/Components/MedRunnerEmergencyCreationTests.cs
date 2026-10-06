@@ -213,6 +213,95 @@ public sealed class MedRunnerEmergencyCreationTests : BunitContext
         details.FindComponents<MudSelect<string>>().Single(field => field.Instance.Label == "Location type").Instance.Value.ShouldBe("Other");
     }
 
+    [Theory]
+    [InlineData("facility", "bunker", "Bunker")]
+    [InlineData("distribution_center", null, "Distribution Center")]
+    [InlineData("Space", "Bunker", "Bunker")]
+    public async Task A_point_of_interest_uses_its_specific_subtype_before_the_parent_location_type(string type, string? subtype, string expectedType)
+    {
+        await ConfigureAccountAsync();
+        var system = new GameStarSystem(1, "Stanton", "STA");
+        var planet = new GamePlanet(2, "Crusader", "CRU", system);
+        var moon = new GameMoon(3, "Daymar", "DAY", planet);
+        var closest = new GamePointOfInterest(4, "Security facility", "SF", moon) { Type = type, Subtype = subtype };
+        var creation = RenderCreation();
+        await SelectLocationAsync(creation, system, moon, closest);
+        await SubmitAsync(creation);
+        Services.GetRequiredService<MockChatMessageEndpoint>().ChatMessages["offline-emergency"] =
+        [new ChatMessage { Id = "situation", EmergencyId = "offline-emergency", SenderId = "offline-client", Content = "## Emergency details: Situation\n\nStranded" }];
+
+        var details = Render<MedRunnerEmergencyDetails>(parameters => parameters.Add(x => x.EmergencyContext, creation.Instance.EmergencyContext));
+
+        details.WaitForAssertion(() => details.FindComponents<MudSelect<string>>().Single(field => field.Instance.Label == "Location type")
+            .Instance.Value.ShouldBe(expectedType));
+    }
+
+    [Fact]
+    public async Task A_point_of_interest_infers_surface_type_and_keeps_its_full_location_path()
+    {
+        await ConfigureAccountAsync();
+        var system = new GameStarSystem(1, "Stanton", "STA");
+        var planet = new GamePlanet(2, "Crusader", "CRU", system);
+        var moon = new GameMoon(3, "Daymar", "DAY", planet);
+        var closest = new GamePointOfInterest(4, "Cave entrance", "Cave", moon);
+        var creation = RenderCreation();
+        await SelectLocationAsync(creation, system, moon, closest);
+        await SubmitAsync(creation);
+        Services.GetRequiredService<MockChatMessageEndpoint>().ChatMessages["offline-emergency"] =
+        [new ChatMessage { Id = "situation", EmergencyId = "offline-emergency", SenderId = "offline-client", Content = "## Emergency details: Situation\n\nStranded" }];
+
+        var details = Render<MedRunnerEmergencyDetails>(parameters => parameters.Add(x => x.EmergencyContext, creation.Instance.EmergencyContext));
+
+        details.WaitForAssertion(() => details.FindComponents<MudSelect<string>>().Single(field => field.Instance.Label == "Location type")
+            .Instance.Value.ShouldBe("Surface"));
+        details.FindComponents<MudTextField<string>>().Single(field => field.Instance.Label == "Exact location")
+            .Instance.Value.ShouldBe("Stanton / Crusader / Daymar / Cave entrance");
+    }
+
+    [Fact]
+    public async Task Reopening_an_alert_restores_the_closest_location_and_type_from_its_saved_remarks()
+    {
+        await ConfigureAccountAsync();
+        var system = new GameStarSystem(1, "Stanton", "STA");
+        var planet = new GamePlanet(2, "Crusader", "CRU", system);
+        var moon = new GameMoon(3, "Daymar", "DAY", planet);
+        var creation = RenderCreation();
+        await SelectLocationAsync(creation, system, moon, new GameOutpost(4, "Bountiful Harvest", "BH", moon));
+        await SubmitAsync(creation);
+        var context = creation.Instance.EmergencyContext;
+        context.Emergency!.Remarks = Services.GetRequiredService<RecordingEmergencyEndpoint>().Requests.Single().Remarks;
+        context.DetailsDefaults = null;
+        Services.GetRequiredService<MockChatMessageEndpoint>().ChatMessages["offline-emergency"] =
+        [new ChatMessage { Id = "situation", EmergencyId = "offline-emergency", SenderId = "offline-client", Content = "## Emergency details: Situation\n\nStranded" }];
+
+        var details = Render<MedRunnerEmergencyDetails>(parameters => parameters.Add(x => x.EmergencyContext, context));
+
+        details.WaitForAssertion(() => details.FindComponents<MudTextField<string>>().Single(field => field.Instance.Label == "Exact location")
+            .Instance.Value.ShouldBe("Stanton / Crusader / Daymar / Bountiful Harvest"));
+        details.FindComponents<MudSelect<string>>().Single(field => field.Instance.Label == "Location type").Instance.Value.ShouldBe("Outpost");
+    }
+
+    [Fact]
+    public async Task Older_alerts_restore_the_closest_location_without_replacing_it_with_the_rescue_area()
+    {
+        await ConfigureAccountAsync();
+        var system = new GameStarSystem(1, "Stanton", "STA");
+        var planet = new GamePlanet(2, "Crusader", "CRU", system);
+        var creation = RenderCreation();
+        await SelectLocationAsync(creation, system, planet);
+        await SubmitAsync(creation);
+        var context = creation.Instance.EmergencyContext;
+        context.DetailsDefaults = null;
+        context.Emergency!.Remarks = "Closest location: Stanton / Crusader / Orison / Spaceport\nWait beside the elevators";
+        Services.GetRequiredService<MockChatMessageEndpoint>().ChatMessages["offline-emergency"] =
+        [new ChatMessage { Id = "situation", EmergencyId = "offline-emergency", SenderId = "offline-client", Content = "## Emergency details: Situation\n\nStranded" }];
+
+        var details = Render<MedRunnerEmergencyDetails>(parameters => parameters.Add(x => x.EmergencyContext, context));
+
+        details.WaitForAssertion(() => details.FindComponents<MudTextField<string>>().Single(field => field.Instance.Label == "Exact location")
+            .Instance.Value.ShouldBe("Stanton / Crusader / Orison / Spaceport"));
+    }
+
     [Fact]
     public async Task Creation_prefills_remarks_when_restoring_the_remarks_step()
     {
@@ -335,7 +424,7 @@ public sealed class MedRunnerEmergencyCreationTests : BunitContext
             },
         ];
         var result = await Services.GetRequiredService<MedRunnerAccountContext>().ConfigureAsync(
-            new AccountApiTokenCredentials("MedRunner") { SecretToken = "offline-test-token" }, CancellationToken.None);
+            new AccountApiTokenCredentials("Medrunner") { SecretToken = "offline-test-token" }, CancellationToken.None);
         result.IsSuccess.ShouldBeTrue();
         Services.GetRequiredService<MedRunnerAccountContext>().ServiceAccessState.CanUseServices.ShouldBeTrue();
     }
@@ -362,19 +451,43 @@ public sealed class MedRunnerEmergencyCreationTests : BunitContext
         => cut.InvokeAsync(() => cut.FindComponents<MudButton>().Single(button => button.Markup.Contains("Continue", StringComparison.Ordinal))
             .Instance.OnClick.InvokeAsync(new MouseEventArgs()));
 
+    [Fact]
+    public async Task A_late_creation_response_is_ignored_after_switching_accounts()
+    {
+        await ConfigureAccountAsync();
+        var context = Services.GetRequiredService<MedRunnerAccountContext>();
+        Services.GetRequiredService<RecordingEmergencyEndpoint>().BeforeResponseAsync = async () =>
+            await context.ConfigureAsync(new AccountApiTokenCredentials("Medrunner") { SecretToken = "different-account-token" }, CancellationToken.None);
+        var cut = RenderCreation();
+        var system = new GameStarSystem(1, "Stanton", "STA");
+        var planet = new GamePlanet(2, "Crusader", "CRU", system);
+        await SelectLocationAsync(cut, system, planet);
+
+        await SubmitAsync(cut);
+
+        cut.Instance.Emergency.ShouldBeNull();
+        cut.Instance.IsLoading.ShouldBeFalse();
+    }
+
     private sealed class RecordingEmergencyEndpoint : IEmergencyEndpoint
     {
         public List<CreateEmergencyRequest> Requests { get; } = [];
+        public Func<Task>? BeforeResponseAsync { get; set; }
 
-        public Task<ApiResponse<Emergency>> CreateEmergencyAsync(CreateEmergencyRequest request)
+        public async Task<ApiResponse<Emergency>> CreateEmergencyAsync(CreateEmergencyRequest request)
         {
             Requests.Add(request);
-            return Task.FromResult(new ApiResponse<Emergency>(new Emergency
+            if (BeforeResponseAsync is { } beforeResponse)
+            {
+                await beforeResponse();
+            }
+
+            return new ApiResponse<Emergency>(new Emergency
             {
                 Id = "offline-emergency", ClientId = "offline-client", ClientRsiHandle = "Pilot", SubscriptionTier = "Test",
                 System = request.Location.System, Subsystem = request.Location.Subsystem, TertiaryLocation = request.Location.TertiaryLocation,
-                RespondingTeam = new Team { Id = "offline-team", Name = "Test" }, RespondingTeams = [], Status = MissionStatus.Pending,
-            }));
+                RespondingTeam = new EmergencyResponseTeam { MaxMembers = 6 }, RespondingTeams = [], Status = MissionStatus.Pending,
+            });
         }
 
         public Task<ApiResponse<Emergency>> GetEmergencyAsync(string emergencyId) => throw new NotSupportedException();

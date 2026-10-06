@@ -17,7 +17,7 @@ public class MockTokenProvider : IMedRunnerTokenProvider
         => Task.FromResult<string?>(null);
 
     public Task<Result<MedRunnerTokenAuthentication>> AuthenticateApiTokenAsync(string apiToken, CancellationToken cancellationToken)
-        => Task.FromResult(Result.Fail<MedRunnerTokenAuthentication>("Mock MedRunner authentication is not available."));
+        => Task.FromResult(Result.Fail<MedRunnerTokenAuthentication>("Mock Medrunner authentication is not available."));
 
     public void ApplyAuthentication(MedRunnerTokenAuthentication authentication)
     {

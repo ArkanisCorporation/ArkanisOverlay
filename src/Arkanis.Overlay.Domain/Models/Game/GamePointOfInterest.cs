@@ -14,6 +14,10 @@ public sealed class GamePointOfInterest(int id, string fullName, string shortNam
         new GameEntityName.NameWithShortVariant(fullName, shortName)
     );
 
+    public string? Type { get; init; }
+
+    public string? Subtype { get; init; }
+
     protected override IEnumerable<SearchableTrait> CollectSearchableTraits()
     {
         yield return new SearchableName(fullName);

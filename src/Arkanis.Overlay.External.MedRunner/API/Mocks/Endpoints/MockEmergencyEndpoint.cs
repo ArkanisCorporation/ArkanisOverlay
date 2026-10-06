@@ -45,7 +45,7 @@ public class MockEmergencyEndpoint(
         {
             Id = Guid.NewGuid().ToString(),
             Status = MissionStatus.Pending,
-            CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+            CreationTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             ClientId = clientEndpoint.Person.Id,
             System = request.Location.System,
             Subsystem = request.Location.Subsystem,
@@ -54,7 +54,7 @@ public class MockEmergencyEndpoint(
             Remarks = request.Remarks,
             ClientRsiHandle = clientEndpoint.Person.RsiHandle ?? request.RsiHandle ?? "__UNKNOWN__",
             SubscriptionTier = "Budget",
-            RespondingTeam = respondingTeam,
+            RespondingTeam = new EmergencyResponseTeam { MaxMembers = 6 },
             RespondingTeams = [respondingTeam],
             Test = true,
             MissionName = $"Test Mission {Emergencies.Count + 1}",
@@ -77,7 +77,7 @@ public class MockEmergencyEndpoint(
 
         emergency.Status = MissionStatus.Cancelled;
         emergency.CancellationReason = reason;
-        emergency.CompletionTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        emergency.CompletionTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         eventProvider.SendEmergencyUpdate(emergency);
 
         return OkResponseAsync(emergencyId);
@@ -128,7 +128,7 @@ public class MockEmergencyEndpoint(
         await UpdateAsync(() =>
             {
                 emergency.Status = MissionStatus.Accepted;
-                emergency.AcceptedTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                emergency.AcceptedTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }
         );
 
@@ -152,7 +152,7 @@ public class MockEmergencyEndpoint(
         await UpdateAsync(() =>
             {
                 emergency.Status = MissionStatus.Completed;
-                emergency.CompletionTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                emergency.CompletionTimestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }
         );
 
