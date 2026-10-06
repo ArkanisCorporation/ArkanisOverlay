@@ -12,6 +12,11 @@
     color: inherit;
 }
 
+.mud-paper,
+.mud-expansion-panels {
+    animation: 250ms fadeInDown;
+}
+
 .text-justify {
     text-align: justify;
 }
@@ -47,6 +52,7 @@
     white-space: nowrap;
 }
 
+.focus.active,
 .focus:focus,
 .focus:focus-within {
     outline: 2px solid var(--mud-palette-primary);
@@ -108,6 +114,11 @@
     & *:not(.mud-ripple):hover {
         overflow: visible;
     }
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
 }
 
 @keyframes fadeInDown {
@@ -177,6 +188,10 @@
 
 .hover-parent:hover .hidden-on-parent-hover {
     display: none !important;
+}
+
+.mud-card-actions.mud-stepper-actions:empty {
+    display: none;
 }
 
 .mud-tabs {
@@ -258,6 +273,16 @@
 .width-min-content {
     max-width: min-content !important;
     width: min-content !important;
+}
+
+.mud-card-actions:empty,
+.mud-stepper-actions:empty {
+    padding: 0;
+}
+
+/* shared.css loads before MudBlazor, so this outranks MudBlazor's no-gutter rule. */
+body .mud-dialog .mud-dialog-content.mud-dialog-no-side-padding {
+    padding: 0;
 }
 
 .shimmer {

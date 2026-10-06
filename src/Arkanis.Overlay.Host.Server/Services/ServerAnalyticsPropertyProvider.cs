@@ -1,6 +1,7 @@
 namespace Arkanis.Overlay.Host.Server.Services;
 
 using Common.Abstractions;
+using Common.Abstractions.Services;
 using Domain.Abstractions.Services;
 using Overlay.Components.Services;
 

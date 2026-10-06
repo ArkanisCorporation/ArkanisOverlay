@@ -8,6 +8,7 @@ using Domain.Abstractions.Services;
 using Infrastructure.Services;
 using LocalLink;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ViewModels;
 
 public static class DependencyInjection
@@ -27,8 +28,17 @@ public static class DependencyInjection
         => services.AddSingleton<IGlobalAnalyticsReporter, FakeAnalyticsReporter>();
 
     public static IServiceCollection AddSharedComponentServices(this IServiceCollection services)
-        => services.AddScoped<OverlayModules>()
+    {
+        services.TryAddSingleton(TimeProvider.System);
+        foreach (var announcement in FeatureAnnouncementCatalog.All)
+        {
+            services.AddSingleton(announcement);
+        }
+
+        return services.AddScoped<FeatureAnnouncementService>()
+            .AddScoped<OverlayModules>()
             .AddComponentViewModels();
+    }
 
     public static IServiceCollection AddEssentialComponentServices(this IServiceCollection services)
         => services

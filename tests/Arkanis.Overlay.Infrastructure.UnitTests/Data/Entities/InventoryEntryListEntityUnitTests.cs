@@ -1,5 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Data.Entities;
 
+using System.Threading.Tasks;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;

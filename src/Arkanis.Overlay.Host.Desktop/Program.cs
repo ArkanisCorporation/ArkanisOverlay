@@ -6,6 +6,7 @@ using System.Security.Principal;
 using Windows.Win32;
 using Common;
 using Common.Abstractions;
+using Common.Abstractions.Services;
 using Common.Enums;
 using Common.Extensions;
 using Components.Helpers;
@@ -22,6 +23,7 @@ using Infrastructure.Services.Abstractions;
 using LocalLink.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
@@ -33,7 +35,7 @@ using Services.Factories;
 using UI;
 using UI.Windows;
 using Velopack;
-using Velopack.Sources;
+using Velopack.Locators;
 using Workers;
 
 // based on:
@@ -244,22 +246,16 @@ public static class Program
     }
 
     internal static IServiceCollection AddVelopackServices(this IServiceCollection services)
-        => services
-            .AddTransient<IUpdateSource>(provider =>
-                {
-                    var userPreferencesProvider = provider.GetRequiredService<IUserPreferencesProvider>();
-                    return UpdateHelper.CreateSourceFor(userPreferencesProvider.CurrentPreferences.UpdateChannel);
-                }
-            )
-            .AddTransient<UpdateOptions>(provider => new UpdateOptions
-                {
-                    AllowVersionDowngrade = true,
-                    ExplicitChannel = provider.GetRequiredService<IUserPreferencesProvider>().CurrentPreferences.UpdateChannel.VelopackChannelId,
-                }
-            )
-            .AddTransient<ArkanisOverlayUpdateManager>(provider => ActivatorUtilities.CreateInstance<ArkanisOverlayUpdateManager>(provider))
+    {
+        // Resolve lazily: VelopackApp.Run initializes the locator after the startup host is built.
+        services.TryAddSingleton<IVelopackLocator>(_ => VelopackLocator.Current);
+
+        return services
+            .AddTransient<UpdateHelper>()
+            .AddTransient<ArkanisOverlayUpdateManager>(provider => provider.GetRequiredService<UpdateHelper>().CreateUpdateManager())
             .AddTransient<IAppVersionProvider, VelopackAppVersionProvider>()
             .AddHostedService<UpdateProcess.CheckForUpdatesJob.SelfScheduleService>();
+    }
 
     private class SystemAppMutexManager : IDisposable
     {

@@ -30,7 +30,7 @@ public class ExternalAccountContext(
     protected virtual ExternalAuthenticator.AuthTaskBase? CurrentAuthentication
         => _currentAuthentication;
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         userPreferences.ApplyPreferences -= OnApplyPreferences;
         authenticator.RefreshRequested -= AuthenticatorOnRefreshRequested;
@@ -47,7 +47,7 @@ public class ExternalAccountContext(
 
     public Result<ClaimsIdentity>? LastResult { get; private set; }
 
-    public async Task UpdateAsync(CancellationToken cancellationToken)
+    public virtual async Task UpdateAsync(CancellationToken cancellationToken)
     {
         var serviceCredentials = userPreferences.CurrentPreferences.GetCredentialsOrDefaultFor(ServiceIdentifier);
         var validationResult = authenticator.ValidateCredentials(serviceCredentials);
@@ -55,7 +55,8 @@ public class ExternalAccountContext(
         {
             Logger.LogWarning("Credentials for {ServiceIdentifier} are invalid (clearing current auth): {@Errors}", ServiceIdentifier, validationResult.Errors);
             _currentAuthentication = null;
-            await UpdateAsyncCore(cancellationToken);
+            LastResult = null;
+            await OnAuthenticationStateChangedAsync(cancellationToken);
             return;
         }
 
@@ -63,12 +64,13 @@ public class ExternalAccountContext(
         {
             Logger.LogDebug("No valid credentials for {ServiceIdentifier} found, clearing current auth", ServiceIdentifier);
             _currentAuthentication = null;
-            await UpdateAsyncCore(cancellationToken);
+            LastResult = null;
+            await OnAuthenticationStateChangedAsync(cancellationToken);
             return;
         }
 
-        await UpdateAsync(serviceCredentials, cancellationToken);
-        //? regardless of the result, we do not update stored credentials here
+        await AuthenticateAsync(serviceCredentials, cancellationToken);
+        await OnAuthenticationStateChangedAsync(cancellationToken);
     }
 
     public async Task UnlinkAsync(CancellationToken cancellationToken)
@@ -77,20 +79,22 @@ public class ExternalAccountContext(
         await userPreferences.SaveAndApplyUserPreferencesAsync(updatedPreferences);
     }
 
-    public async Task<Result<ClaimsIdentity>> ConfigureAsync(AccountCredentials credentials, CancellationToken cancellationToken)
+    public virtual async Task<Result<ClaimsIdentity>> ConfigureAsync(AccountCredentials credentials, CancellationToken cancellationToken)
     {
         await _semaphoreSlim.WaitAsync(cancellationToken);
         try
         {
-            await UpdateAsync(credentials, cancellationToken);
-            if (!IsAuthenticated)
+            var previousAuthentication = _currentAuthentication;
+            var authenticationResult = await AuthenticateAsync(credentials, cancellationToken);
+            if (authenticationResult.IsFailed || !IsAuthenticated)
             {
+                _currentAuthentication = previousAuthentication;
                 return LastResult;
             }
 
-            //? authentication was successful, save the credentials
             var updatedPreferences = userPreferences.CurrentPreferences.SetCredentials(credentials);
             await userPreferences.SaveAndApplyUserPreferencesAsync(updatedPreferences);
+            await OnAuthenticationStateChangedAsync(cancellationToken);
 
             return LastResult;
         }
@@ -102,15 +106,15 @@ public class ExternalAccountContext(
 
 #pragma warning disable CS8774 // Member 'LastResult' must have a non-null value when exiting.
     [MemberNotNull(nameof(LastResult))]
-    protected async Task UpdateAsync(AccountCredentials credentials, CancellationToken cancellationToken)
+    protected async Task<Result<ClaimsIdentity>> AuthenticateAsync(AccountCredentials credentials, CancellationToken cancellationToken)
     {
         _currentAuthentication = authenticator.AuthenticateAsync(credentials, cancellationToken);
         LastResult = await _currentAuthentication;
-        await UpdateAsyncCore(cancellationToken);
+        return LastResult;
     }
 #pragma warning restore CS8774
 
-    protected virtual Task UpdateAsyncCore(CancellationToken cancellationToken)
+    protected virtual Task OnAuthenticationStateChangedAsync(CancellationToken cancellationToken)
         => Task.CompletedTask;
 
     protected override async Task InitializeAsyncCore(CancellationToken cancellationToken)

@@ -1,5 +1,7 @@
 @using System.Text
+@using Arkanis.Overlay.External.MedRunner.API.Abstractions
 @using Arkanis.Overlay.Infrastructure.Helpers
+@inject IMedRunnerClientConfig ClientConfig
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
     .medrunner-logo-wrapper {
@@ -83,7 +85,8 @@ else
     private string OrientationIdentifier
         => OrientationVariant.ToString("G").ToLowerInvariant();
 
-    private bool IsMock { get; set; }
+    private bool IsMock
+        => ClientConfig.IsMock;
 
     [Parameter]
     public Color ColorVariant { get; set; } = Color.Default;

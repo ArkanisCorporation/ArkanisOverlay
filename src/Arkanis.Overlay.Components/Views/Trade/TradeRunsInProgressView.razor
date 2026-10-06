@@ -3,11 +3,6 @@
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
-    .mud-paper,
-    .mud-expansion-panels {
-        animation: 250ms fadeInDown;
-    }
-
     .mud-expand-panel-text {
         max-width: calc(100% - 24px); /* -24px for the header toggle button */
     }
@@ -17,6 +12,12 @@
     }
 
     .trade-runs {
+        .mud-stepper {
+            .mud-stepper-content > .d-flex[role="group"] {
+                min-height: 30vh;
+            }
+        }
+
         .mud-expand-panel-content {
             padding-bottom: 0;
         }
