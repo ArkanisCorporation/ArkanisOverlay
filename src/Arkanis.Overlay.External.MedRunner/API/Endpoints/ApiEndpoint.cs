@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Security.Authentication;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Abstractions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Memory;
@@ -40,6 +41,7 @@ public abstract class ApiEndpoint(
     private static readonly JsonSerializerOptions Options = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
     private readonly HttpClient _httpClient = httpClient ?? new HttpClient();
@@ -92,7 +94,7 @@ public abstract class ApiEndpoint(
 
         if (body != null)
         {
-            var json = JsonSerializer.Serialize(body);
+            var json = JsonSerializer.Serialize(body, Options);
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
         }
 

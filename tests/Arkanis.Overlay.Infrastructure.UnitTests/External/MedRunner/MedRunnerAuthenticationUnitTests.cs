@@ -3,11 +3,13 @@ namespace Arkanis.Overlay.Infrastructure.UnitTests.Services.MedRunner;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 using Arkanis.Overlay.External.MedRunner.API;
 using Arkanis.Overlay.External.MedRunner.API.Abstractions;
 using Arkanis.Overlay.External.MedRunner.API.Abstractions.Endpoints;
 using Arkanis.Overlay.External.MedRunner.API.Endpoints;
 using Arkanis.Overlay.External.MedRunner.API.Endpoints.Auth.Request;
+using Arkanis.Overlay.External.MedRunner.API.Endpoints.Emergency.Request;
 using Arkanis.Overlay.External.MedRunner.Models;
 using FluentResults;
 using Microsoft.Extensions.Caching.Memory;
@@ -128,11 +130,38 @@ public sealed class MedRunnerAuthenticationUnitTests
         public Task<HttpRequestMessage> CreateAuthenticatedRequestAsync()
             => CreateRequestMessageAsync(HttpMethod.Get, "https://api.medrunner.space/test");
 
+        public Task<HttpRequestMessage> CreateEmergencyRequestAsync(CreateEmergencyRequest body)
+            => CreateRequestMessageAsync(HttpMethod.Post, "https://api.medrunner.space/emergency/", body);
+
         public Task<ApiResponse<string>> GetUnauthenticatedAsync()
             => GetRequestAsync<string>("", requestOptions: RequestOptions.Unauthenticated);
 
         public Task<ApiResponse<string>> GetAuthenticatedAsync()
             => GetRequestAsync<string>("");
+    }
+
+    [Fact]
+    public async Task EmergencyRequestUsesCamelCaseAndOmitsUnsetLocationFields()
+    {
+        using var cache = new EphemeralMemoryCache();
+        var endpoint = new TestApiEndpoint(new MedRunnerClientConfig(), new StaticTokenProvider("access-token"), cache,
+            new RecordingLogger<TestApiEndpoint>());
+        using var request = await endpoint.CreateEmergencyRequestAsync(new CreateEmergencyRequest
+        {
+            Location = new Location { System = "Stanton", Subsystem = "Crusader" },
+            ThreatLevel = ThreatLevel.Low,
+            Remarks = "Closest location: Stanton / Crusader / Orison",
+        });
+
+        request.Content.ShouldNotBeNull();
+        request.Content.Headers.ContentType!.MediaType.ShouldBe("application/json");
+        using var json = JsonDocument.Parse(await request.Content.ReadAsStringAsync(TestContext.Current.CancellationToken));
+        json.RootElement.TryGetProperty("location", out var location).ShouldBeTrue();
+        location.GetProperty("system").GetString().ShouldBe("Stanton");
+        location.GetProperty("subsystem").GetString().ShouldBe("Crusader");
+        location.TryGetProperty("tertiaryLocation", out _).ShouldBeFalse();
+        json.RootElement.TryGetProperty("rsiHandle", out _).ShouldBeFalse();
+        json.RootElement.GetProperty("remarks").GetString().ShouldBe("Closest location: Stanton / Crusader / Orison");
     }
 
     private sealed class StaticTokenProvider(string? accessToken) : IMedRunnerTokenProvider
