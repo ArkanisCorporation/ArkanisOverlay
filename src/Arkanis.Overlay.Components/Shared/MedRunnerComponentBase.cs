@@ -93,6 +93,7 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
             => Errors is { Count: > 0 };
 
         public Emergency? Emergency { get; set; }
+        public EmergencyDetailsDefaults? DetailsDefaults { get; set; }
         public TeamDetailsResponse? RespondingTeam { get; set; }
 
         public List<string> Errors { get; init; } = [];
@@ -145,4 +146,6 @@ public abstract class MedRunnerComponentBase : ComponentBase, IDisposable
         private void SendUpdate()
             => _callback.InvokeAsync();
     }
+
+    public sealed record EmergencyDetailsDefaults(string EmergencyId, string ExactLocation, string? LocationType, string? Remarks);
 }

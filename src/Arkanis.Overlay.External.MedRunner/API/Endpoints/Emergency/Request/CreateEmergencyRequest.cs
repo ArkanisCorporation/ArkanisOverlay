@@ -21,6 +21,11 @@ public class CreateEmergencyRequest
     ///     The rsiHandle of the client (optional)
     /// </summary>
     public string? RsiHandle { get; set; }
+
+    /// <summary>
+    ///     Additional location information or incident remarks.
+    /// </summary>
+    public string? Remarks { get; set; }
 }
 
 /// <summary>

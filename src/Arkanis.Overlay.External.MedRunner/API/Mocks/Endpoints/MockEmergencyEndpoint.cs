@@ -51,6 +51,7 @@ public class MockEmergencyEndpoint(
             Subsystem = request.Location.Subsystem,
             TertiaryLocation = request.Location.TertiaryLocation,
             ThreatLevel = request.ThreatLevel,
+            Remarks = request.Remarks,
             ClientRsiHandle = clientEndpoint.Person.RsiHandle ?? request.RsiHandle ?? "__UNKNOWN__",
             SubscriptionTier = "Budget",
             RespondingTeam = respondingTeam,

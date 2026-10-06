@@ -342,6 +342,17 @@
         }
 
         _loadedEmergencyId = EmergencyId;
+        ResetInputs();
+        _exactLocation = string.Join(" / ", new[] { Emergency.System, Emergency.Subsystem, Emergency.TertiaryLocation }
+            .Where(name => !string.IsNullOrWhiteSpace(name)));
+        _remarks = Emergency.Remarks ?? string.Empty;
+        if (EmergencyContext.DetailsDefaults is { } defaults && defaults.EmergencyId == EmergencyId)
+        {
+            _exactLocation = defaults.ExactLocation;
+            _locationType = defaults.LocationType ?? string.Empty;
+            _remarks = defaults.Remarks ?? _remarks;
+        }
+
         await RestoreProgressAsync();
     }
 

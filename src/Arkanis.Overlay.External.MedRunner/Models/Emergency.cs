@@ -17,6 +17,9 @@ public class Emergency : ModelBase
     /// <summary>The threat level of the emergency.</summary>
     public ThreatLevel ThreatLevel { get; set; }
 
+    /// <summary>Additional information supplied when the emergency was created.</summary>
+    public string? Remarks { get; set; }
+
     /// <summary>The RSI handle of the client.</summary>
     public required string ClientRsiHandle { get; set; }
 
