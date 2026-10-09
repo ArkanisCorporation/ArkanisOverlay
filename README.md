@@ -92,7 +92,7 @@ The overlay is currently in **active development** and driven by a clear mission
 ---
 
 > [!TIP]
-> You can check out the in-browser demo of the overlay at [overlay.arkanis.cc][overlay-demo]!
+> You can check out the in-browser demo of the overlay at [overlay.arkanis.space][overlay-demo]!
 > It features an identical UI and functionality as the in-game version, just without the game integration.
 
 ## 🛠️ Getting Started
@@ -168,10 +168,6 @@ We're dreaming big — here's what's ahead:
 - [x] Game entity search sourced from [UEX Corporation][uex]
 - [ ] [UEX CLI](https://github.com/UEXCorp/UEX-CLI) and MFD screen integration
 - [ ] Embedded tools and services _(permissions required)_
-    - [ ] [SPViewer](https://www.spviewer.eu/)
-    - [ ] [Erkul](https://www.erkul.games/)
-    - [ ] [Regolith Co.](https://regolith.rocks/)
-    - and more...
 - [ ] API-driven data enrichment from the community (Wiki, JSON exports, etc.)
 - [ ] Additional social features (Discord, orgs, etc.)
 
@@ -277,7 +273,7 @@ Let’s make Star Citizen a little smoother — together.
 
 ---
 
-[overlay-demo]: https://overlay.arkanis.cc
+[overlay-demo]: https://overlay.arkanis.space
 [overlay-homepage]: https://arkanis.cc/overlay
 [arkanis-discord]: https://join.arkanis.cc
 [uex]: https://uexcorp.space

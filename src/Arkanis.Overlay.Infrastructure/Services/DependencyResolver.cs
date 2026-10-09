@@ -1,6 +1,6 @@
 namespace Arkanis.Overlay.Infrastructure.Services;
 
-using Domain.Abstractions;
+using Common.Abstractions.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;

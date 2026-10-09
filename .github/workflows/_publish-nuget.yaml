@@ -1,0 +1,80 @@
+name: Publish NuGet package
+
+permissions: {}
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: "Runner pool used for package publication"
+        required: false
+        type: string
+      version:
+        description: "Bare semantic-release version applied to package metadata"
+        required: true
+        type: string
+      project:
+        description: "Project to restore, pack, and publish"
+        required: true
+        type: string
+      environment-name:
+        description: "Existing GitHub Environment that guards package publication"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    name: ${{ inputs.version }} @ ${{ inputs.environment-name }}
+    runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+    timeout-minutes: 30
+    environment: ${{ inputs.environment-name }}
+    concurrency:
+      group: publish-nuget-${{ inputs.environment-name }}-${{ inputs.project }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Validate trusted publishing configuration
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if [[ -z "$NUGET_USER" ]]; then
+            echo "The protected publish environment must define NUGET_USER." >&2
+            exit 2
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Pack ${{ inputs.project }} @ ${{ inputs.version }}
+        id: pack
+        uses: ArkanisCorporation/ci/.github/actions/dotnet-pack-nuget@v1
+        env:
+          GITHUB_TOKEN_FOR_NUGET_AUTH: ${{ github.token }}
+        with:
+          project: ${{ inputs.project }}
+          version: ${{ inputs.version }}
+          runs-on-self-hosted: ${{ (inputs.runner || vars.RUNNER_DEFAULT || 'daedalus') != 'ubuntu-latest' }}
+          runs-on-json: ${{ format('[{0}]', toJSON(inputs.runner || vars.RUNNER_DEFAULT || 'daedalus')) }}
+          global-json-file: global.json
+          github-packages-auth: true
+
+      - name: NuGet Trusted Publishing login
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Publish ${{ inputs.project }} @ ${{ inputs.version }}
+        uses: ArkanisCorporation/ci/.github/actions/dotnet-publish-nuget@v1
+        with:
+          api-key: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          package-directory: ${{ steps.pack.outputs.package-directory }}
+          skip-duplicate: true

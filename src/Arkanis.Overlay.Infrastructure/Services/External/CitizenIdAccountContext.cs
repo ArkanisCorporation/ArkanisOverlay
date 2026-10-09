@@ -22,7 +22,7 @@ public class CitizenIdAccountContext(
 
     public ClaimsIdentity RsiIdentity { get; private set; } = new();
 
-    protected override Task UpdateAsyncCore(CancellationToken cancellationToken)
+    protected override Task OnAuthenticationStateChangedAsync(CancellationToken cancellationToken)
     {
         if (!IsAuthenticated || Identity.FindFirst(RsiUsernameClaim) is not { } rsiUsernameClaim)
         {

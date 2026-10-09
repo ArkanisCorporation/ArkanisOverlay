@@ -1,0 +1,21 @@
+@inject IDialogService DialogService
+
+<MudMenu TransformOrigin="@Origin.TopRight"
+         AnchorOrigin="@Origin.CenterCenter"
+         OpenChanged="@(() => { _pendingNotifications = false; })">
+    <ActivatorContent>
+        <MudBadge Color="@Color.Success" Visible="@_pendingNotifications" Dot Overlap>
+            <MudIconButton Icon="@MaterialSymbols.Outlined.Notifications"/>
+        </MudBadge>
+    </ActivatorContent>
+    <ChildContent>
+        <MudMenuItem OnClick="@(() => AnniversaryDialog.ShowAsync(DialogService))">
+            🎉 Celebrating 1 Year of Arkanis Corporation! 🎉
+        </MudMenuItem>
+    </ChildContent>
+</MudMenu>
+
+@code
+{
+    private bool _pendingNotifications = true;
+}

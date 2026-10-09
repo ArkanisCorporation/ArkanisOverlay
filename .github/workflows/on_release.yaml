@@ -21,7 +21,7 @@ on:
 
 jobs:
   virustotal:
-    runs-on: ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
+    runs-on: &ordinary_runner ${{ inputs.runner || vars.RUNNER_DEFAULT || 'daedalus' }}
     permissions:
       # required to write GitHub Release body
       contents: write

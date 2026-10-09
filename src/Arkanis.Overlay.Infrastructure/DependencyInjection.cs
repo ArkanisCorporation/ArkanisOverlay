@@ -2,6 +2,7 @@ namespace Arkanis.Overlay.Infrastructure;
 
 using Common;
 using Common.Abstractions;
+using Common.Abstractions.Services;
 using Common.Enums;
 using Common.Extensions;
 using Common.Models;
@@ -12,6 +13,8 @@ using Domain.Abstractions.Services;
 using Domain.Services;
 using External.Backend.Options;
 using External.CitizenId;
+using External.MedRunner;
+using External.MedRunner.API;
 using External.UEX;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +29,7 @@ using Services.External;
 using Services.Hosted;
 using Services.Hydration;
 using Services.PriceProviders;
+using MedRunnerAccountContext = Services.External.MedRunnerAccountContext;
 using UexAccountContext = Services.External.UexAccountContext;
 
 public static class DependencyInjection
@@ -114,6 +118,27 @@ public static class DependencyInjection
             .AddUexInMemoryGameEntityServices()
             .AddPriceProviders()
             .AddUexHydrationServices();
+
+        if (options.HostingMode is HostingMode.Server)
+        {
+            services.AddMockMedRunnerApiClient();
+        }
+        else
+        {
+            services
+                .AddLiveMedRunnerApiClient(_ => new MedRunnerClientConfig
+                    {
+                        // BaseUrl = "https://api.medrunner.dev",
+                    }
+                );
+        }
+
+        services.AddOptions<MedRunnerIntegrationOptions>();
+
+        services
+            .AddSingleton<MedRunnerAccountContext>()
+            .Alias<ISelfInitializable, MedRunnerAccountContext>()
+            .Alias<IExternalAccountContext, MedRunnerAccountContext>();
 
         services.AddHostedService<InitializeServicesHostedService>();
         services.AddHostedService<JobScheduleProviderScheduler>();

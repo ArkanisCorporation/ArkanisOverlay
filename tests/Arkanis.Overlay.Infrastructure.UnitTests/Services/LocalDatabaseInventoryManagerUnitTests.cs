@@ -1,5 +1,7 @@
 namespace Arkanis.Overlay.Infrastructure.UnitTests.Services;
 
+using System.Linq;
+using System.Threading.Tasks;
 using Common.UnitTests.Extensions;
 using Data;
 using Data.Entities;

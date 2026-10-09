@@ -1,0 +1,10 @@
+@inject IDialogService DialogService
+
+<MudLink OnClick="@(() => AnniversaryDialog.ShowAsync(DialogService))"
+         Underline="@Underline.None">
+    <MudText Typo="@Typo.caption"
+             Align="@Align.Center"
+             Class="text-secondary py-1">
+        🎉 Celebrating 1 Year of Arkanis Corporation! 🎉
+    </MudText>
+</MudLink>

@@ -3,18 +3,17 @@
 @inject ISearchService SearchService
 
 <MudAutocomplete T="@(IGameEntity?)"
-                 @ref="@_field"
                  Label="@Label"
                  Placeholder="@Placeholder"
                  Value="@Value"
                  ValueChanged="@OnValueChanged"
                  OnBlur="@StateHasChanged"
-                 Text="@Text"
+                 ToStringFunc="@GetText"
                  HelperText="@HelperText"
                  Error="@DisplayError"
                  ErrorText="@ErrorText"
                  Disabled="@Disabled"
-                 Clearable="@(!Required)"
+                 Clearable="@(Clearable ?? !Required)"
                  Required="@Required"
                  CoerceText="@false"
                  CoerceValue="@false"
@@ -49,15 +48,11 @@
 @code
 {
 
-    private MudAutocomplete<IGameEntity>? _field;
     private HashSet<IGameEntity> _except = [];
     private HashSet<IGameEntity>? _only;
 
     private bool DisplayError
         => HasError || (Value is null && Required);
-
-    private string? Text
-        => GetText(Value);
 
     [Parameter]
     public string? Label { get; set; } = "Game entity";
@@ -76,6 +71,9 @@
 
     [Parameter]
     public bool Required { get; set; }
+
+    [Parameter]
+    public bool? Clearable { get; set; }
 
     [Parameter]
     public GameProductCategory? ProductCategory { get; set; }

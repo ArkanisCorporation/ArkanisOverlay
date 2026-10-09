@@ -1,0 +1,382 @@
+@using Arkanis.Overlay.Components.Extensions
+@using Arkanis.Overlay.External.MedRunner.API.Endpoints.ChatMessage.Request
+@using Arkanis.Overlay.External.MedRunner.Models
+@using Microsoft.JSInterop
+@using Origin = MudBlazor.Origin
+@inherits MedRunnerComponentBase
+@inject IDialogService DialogService
+@inject IJSRuntime JsRuntime
+
+<MudGrid>
+    <MudItem xs="12" md="5">
+        <MudStack AlignItems="@AlignItems.Center"
+                  Class="h-100 w-100">
+            <MudTimeline Class="w-100"
+                         Style="min-height: 100%"
+                         TimelineAlign="@TimelineAlign.Start"
+                         TimelineOrientation="@TimelineOrientation.Vertical"
+                         TimelinePosition="@TimelinePosition.Left">
+                @if (Emergency is not null)
+                {
+                    <MedRunnerTimelineItem
+                        Type="@MedRunnerTimelineItem.EventType.Submitted"
+                        CreatedAt="@Emergency.CreatedAt"/>
+                }
+                @if (Emergency is { Status: MissionStatus.Pending })
+                {
+                    <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending">
+                        @CancelButton
+                    </MedRunnerTimelineItem>
+                }
+                @if (Emergency?.AcceptedAt is { } acceptedAt)
+                {
+                    <MedRunnerTimelineItem
+                        Type="@MedRunnerTimelineItem.EventType.Accepted"
+                        CreatedAt="@acceptedAt"/>
+                }
+                @if (Emergency?.CompletedAt is { } completedAt)
+                {
+                    var type = Emergency.Status is MissionStatus.Completed
+                        ? MedRunnerTimelineItem.EventType.Completed
+                        : MedRunnerTimelineItem.EventType.Cancelled;
+                    <MedRunnerTimelineItem Type="type"
+                                           CreatedAt="@completedAt">
+                        @if (Emergency.Status is MissionStatus.Completed)
+                        {
+                            <MudButton Variant="@Variant.Outlined"
+                                       Color="@Color.Success"
+                                       Size="@Size.Small"
+                                       OnClick="@FinalizeAsync"
+                                       StartIcon="@Icons.Material.Filled.Check">
+                                Finalize
+                            </MudButton>
+                        }
+                    </MedRunnerTimelineItem>
+                }
+                else if (Emergency is { Status: not MissionStatus.Pending })
+                {
+                    <MedRunnerTimelineItem Type="@MedRunnerTimelineItem.EventType.ResponsePending"
+                                           Title="Communicate and wait for rescue">
+                        @CancelButton
+                    </MedRunnerTimelineItem>
+                }
+            </MudTimeline>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="12" md="7" Class="pa-5 mt-5">
+        <MudStack>
+            <MedRunnerServiceProvidedBy
+                ContentId="@ContentId"/>
+
+            <div @ref="@_chatContainer"
+                 class="overflow-y-scroll"
+                 style="height: 30vh">
+                <MudStack Justify="@Justify.FlexEnd"
+                          Class="pb-3">
+                    @if (_chatMessages.Count == 0)
+                    {
+                        if (Emergency is { Status: MissionStatus.Pending })
+                        {
+                            <MudText Typo="@Typo.caption"
+                                     Align="@Align.Center"
+                                     Class="text-secondary">
+                                Please wait to be connected with the emergency responders.
+                            </MudText>
+                        }
+
+                        if (Emergency is { Status: MissionStatus.Accepted } or { AcceptedAt: not null })
+                        {
+                            <MudText Typo="@Typo.caption"
+                                     Align="@Align.Center"
+                                     Class="text-secondary">
+                                Your request has been accepted and the dispatch team lead has been assigned.
+                            </MudText>
+                        }
+
+                        if (EmergencyContext.Emergency?.Status is MissionStatus.Cancelled)
+                        {
+                            <MudText Typo="@Typo.caption"
+                                     Align="@Align.Center"
+                                     Class="text-secondary">
+                                Your request has been cancelled.
+                            </MudText>
+                        }
+                    }
+                    @for (var messageIndex = 0; messageIndex < _chatMessages.Count; /* incremented below */)
+                    {
+                        var firstMessage = _chatMessages[messageIndex];
+                        var isClientMessage = firstMessage.SenderId == EmergencyContext.Emergency?.ClientId;
+                        var messages = _chatMessages
+                            .Skip(messageIndex)
+                            .TakeWhile(x => x.SenderId == firstMessage.SenderId)
+                            .ToArray();
+
+                        messageIndex += messages.Length;
+                        if (firstMessage.SenderId == string.Empty)
+                        {
+                            @foreach (var message in messages)
+                            {
+                                <MudText Typo="@Typo.caption"
+                                         Align="@Align.Center"
+                                         Class="text-secondary">
+                                    @message.Content
+                                </MudText>
+                            }
+
+                            continue;
+                        }
+
+                        <MedRunnerChatMessages
+                            Models="@messages"
+                            FromClient="@isClientMessage"/>
+                    }
+
+                    @if (Emergency is { RefusalReason.Length: > 0 } reason)
+                    {
+                        <MedRunnerChatMessages>
+                            <MessageContent>
+                                @reason
+                            </MessageContent>
+                        </MedRunnerChatMessages>
+                    }
+
+                    @if (IsChatDisabled && Emergency is not { Status: MissionStatus.Pending })
+                    {
+                        <MudText Typo="@Typo.caption"
+                                 Align="@Align.Center"
+                                 Class="text-secondary">
+                            The emergency has already been concluded.
+                        </MudText>
+                    }
+                </MudStack>
+            </div>
+
+            <MudTextField
+                @ref="@_messageContentInput"
+                Label="Message content"
+                Placeholder="Communicate with the emergency dispatch"
+                @bind-Value="@_messageContent"
+                OnKeyUp="@TrySendChatMessageAsync"
+                Class="chat-input"
+                Disabled="@IsChatDisabled"
+                Immediate
+                AutoGrow/>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+
+    private Timer? _timer;
+    private List<ChatMessage> _chatMessages = [];
+    private string _messageContent = string.Empty;
+    private MudTextField<string>? _messageContentInput;
+    private readonly ElementJsInterop _elementInterop = new();
+    private ElementReference _chatContainer;
+
+    private CancellationReason[] CancellationReasons { get; } =
+    [
+        CancellationReason.SuccumbedToWounds,
+        CancellationReason.ServerError,
+        CancellationReason.Respawned,
+        CancellationReason.Other,
+    ];
+
+    private bool IsChatDisabled
+        => !HasEmergencyInProgress
+           || EmergencyContext.Emergency?.Status is MissionStatus.Pending;
+
+    [Parameter]
+    public string? StatusTitle { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> StatusTitleChanged { get; set; }
+
+    private RenderFragment CancelButton
+        => @<MudMenu AnchorOrigin="@Origin.BottomCenter"
+                     TransformOrigin="@Origin.TopCenter"
+                     ActivationEvent="@MouseEvent.LeftClick"
+                     Class="w-100"
+                     Dense>
+               <ActivatorContent>
+                   <MudButton Variant="@Variant.Outlined"
+                              Color="@Color.Error"
+                              Size="@Size.Small"
+                              Class="w-100"
+                              StartIcon="@Icons.Material.Filled.Cancel">
+                       Cancel response
+                   </MudButton>
+               </ActivatorContent>
+               <ChildContent>
+                   <MudText Typo="@Typo.caption" Class="text-secondary px-6">
+                       Please provide a reason
+                   </MudText>
+                   @foreach (var reason in CancellationReasons)
+                   {
+                       <MudMenuItem OnClick="@(() => CancelAsync(reason))">
+                           @reason.Humanize()
+                       </MudMenuItem>
+                   }
+               </ChildContent>
+           </MudMenu>;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _elementInterop.Connect(JsRuntime);
+
+        _timer = new Timer(OnTimerTick, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
+        MedRunner.WebSocket.Events.ChatMessageCreated += OnChatMessageCreated;
+        MedRunner.WebSocket.Events.ChatMessageUpdated += OnChatMessageUpdated;
+
+        await PerformSafeAsync(async () =>
+            {
+                if (HasEmergency)
+                {
+                    var messagesResponse = await MedRunner.ChatMessage.GetMessageHistoryAsync(EmergencyId, 50);
+                    if (messagesResponse.Success)
+                    {
+                        _chatMessages = messagesResponse.Data.Data;
+                    }
+                }
+            }
+        );
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!IsChatDisabled && _messageContentInput is not null)
+        {
+            await UpdateChatDisplayAsync();
+        }
+    }
+
+    private async void OnTimerTick(object? _)
+    {
+        try
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    private async void OnChatMessageCreated(object? _, ChatMessage chatMessage)
+    {
+        try
+        {
+            if (chatMessage.EmergencyId != EmergencyId)
+            {
+                return;
+            }
+
+            _chatMessages.Add(chatMessage);
+            await InvokeAsync(StateHasChanged);
+            await UpdateChatDisplayAsync();
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    private async Task UpdateChatDisplayAsync()
+    {
+        await Task.Delay(TimeSpan.FromMilliseconds(50));
+        await _elementInterop.ScrollToBottomAsync(_chatContainer);
+    }
+
+    private void OnChatMessageUpdated(object? _, ChatMessage chatMessage)
+    {
+        if (_chatMessages.FindIndex(x => x.Id == chatMessage.Id) is not (var index and >= 0))
+        {
+            return;
+        }
+
+        _chatMessages[index] = chatMessage;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CancelAsync(CancellationReason reason)
+    {
+        if (!EmergencyContext.IsEmergencyInProgress)
+        {
+            return;
+        }
+
+        var options = new MessageBoxOptions
+        {
+            Title = "Are you sure?",
+            MarkupMessage = new MarkupString($"Do you really want to cancel an <u>already accepted</u> rescue mission with reason <b>{reason.Humanize().ToLowerInvariant()}</b>?"),
+            YesText = "Abandon rescue",
+            CancelText = "Cancel",
+        };
+        if (EmergencyContext.Emergency.Status == MissionStatus.Accepted && await DialogService.ShowMessageBox(options) == false)
+        {
+            return;
+        }
+
+        await PerformSafeAsync(async () =>
+            {
+                EmergencyContext.Emergency.CancellationReason = reason;
+                await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, reason);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
+            }
+        );
+    }
+
+    private async Task FinalizeAsync()
+    {
+        await PerformSafeAsync(async () =>
+            {
+                // Context.Emergency.CancellationReason = CancellationReason.Rescued;
+                // await MedRunner.Emergency.CancelEmergencyWithReasonAsync(EmergencyId!, CancellationReason.Rescued);
+                await EmergencyContextChanged.InvokeAsync(EmergencyContext);
+            }
+        );
+    }
+
+    private async Task TrySendChatMessageAsync(KeyboardEventArgs eventArgs)
+    {
+        if (eventArgs.GetKey() is not KeyboardKey.Enter)
+        {
+            return;
+        }
+
+        var content = _messageContent.Trim();
+        _messageContent = string.Empty;
+        await _messageContentInput!.BlurAsync();
+
+        if (IsChatDisabled || !HasEmergencyInProgress || string.IsNullOrWhiteSpace(content))
+        {
+            await _messageContentInput!.FocusAsync();
+            return;
+        }
+
+        await PerformSafeAsync(async () =>
+            {
+                var messageRequest = new ChatMessageRequest
+                {
+                    EmergencyId = EmergencyId,
+                    Contents = content,
+                };
+                await MedRunner.ChatMessage.SendMessageAsync(messageRequest);
+                await UpdateChatDisplayAsync();
+                await _messageContentInput!.FocusAsync();
+            }
+        );
+    }
+
+    public override void Dispose()
+    {
+        _timer?.Dispose();
+        MedRunner.WebSocket.Events.ChatMessageCreated -= OnChatMessageCreated;
+        MedRunner.WebSocket.Events.ChatMessageUpdated -= OnChatMessageUpdated;
+        base.Dispose();
+    }
+}

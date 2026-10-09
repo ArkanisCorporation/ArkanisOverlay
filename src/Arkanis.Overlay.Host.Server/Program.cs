@@ -1,18 +1,12 @@
-using System.Globalization;
-using Arkanis.Overlay.Common.Extensions;
+using Arkanis.Common.Aspire.ServiceDefaults;
 using Arkanis.Overlay.Host.Server;
 using Arkanis.Overlay.Host.Server.Components;
 using Arkanis.Overlay.Infrastructure.Data;
 using Arkanis.Overlay.Infrastructure.Data.Extensions;
-using Serilog;
-
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
-    .CreateBootstrapLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.UseCommonServices((environment, options) => options.UseSeqLogging = environment.IsDevelopment());
+builder.AddServiceDefaults();
 builder.Services.AddAllServerHostServices(builder.Configuration);
 
 var app = builder.Build();
@@ -25,7 +19,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error", true);
 }
 
-app.MapHealthChecks("/healthz");
+app.MapDefaultEndpoints();
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();

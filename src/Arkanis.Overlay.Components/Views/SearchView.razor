@@ -6,7 +6,6 @@
 @inject ISearchService SearchService
 @inject IGlobalAnalyticsReporter GlobalAnalyticsReporter
 @inject EventInterop EventInterop
-@inject IDialogService DialogService
 
 <!--suppress CssUnusedSymbol, CssUnresolvedCustomProperty -->
 <style>
@@ -57,121 +56,56 @@
     .mud-icon-button.focus {
         border-radius: 0;
     }
-
-    :root {
-        --animated-border-weight: 3px;
-    }
-
-    .animated-border-box {
-        animation: 250ms fadeInDown;
-        overflow: hidden;
-        position: absolute;
-        top: calc(-1 * var(--animated-border-weight));
-        left: calc(-1.5 * var(--animated-border-weight));
-        right: calc(-1.5 * var(--animated-border-weight));
-        bottom: calc(-1 * var(--animated-border-weight));
-    }
-
-    .animated-border-box-glow {
-        animation: 250ms fadeInDown;
-        overflow: hidden;
-        position: absolute;
-        filter: blur(40px);
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-
-    .animated-border-box:before,
-    .animated-border-box-glow:before {
-        --d: 200px;
-        --angle: 120deg;
-        --animated-border-weight: 80px;
-        content: '';
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(0deg);
-        position: absolute;
-        background: repeating-linear-gradient(
-            var(--angle),
-            #c07e15,
-            #e7b14f,
-            #f8c65d,
-            #e4b04d,
-            #fff1a3,
-            #ffffc2,
-            #fff1a3,
-            #e4b04d,
-            #f8c65d,
-            #e7b14f,
-            #c07e15 var(--d)
-        );
-        background-size: calc(var(--d) / sin(var(--angle))) 100%;
-        width: calc(100% + 4px);
-        height: calc(100% + 4px);
-        animation: LoopingGradientBackground 3s linear infinite reverse;
-    }
-
-    @@keyframes LoopingGradientBackground {
-        0% {
-            background-position: calc(var(--d) / sin(var(--angle))) 0;
-        }
-    }
-
 </style>
 
-<div class="px-3">
-    <div style="padding: 7.5vh"></div>
-    <div style="width: fit-content; min-width: 60vw; margin: auto;">
-        <div
-            style="width: fit-content; margin: auto; position: sticky; top: var(--animated-border-weight); z-index: 9;">
-            <div class="animated-border-box rounded"></div>
-            <div class="animated-border-box-glow"></div>
-            <MudPaper id="search-box-container" Class="relative">
-                <MudStack id="searchContainer"
-                          AlignItems="@AlignItems.Center"
-                          Class="d-flex justify-start flex-grow-1"
-                          Spacing="0">
-                    <CascadingValue Value="@_searchContext">
-                        <MudLink
-                            OnClick="@(() => AnniversaryDialog.ShowAsync(DialogService))"
-                            Underline="@Underline.None">
-                            <MudText Typo="@Typo.caption"
-                                     Align="@Align.Center"
-                                     Class="text-secondary py-1">
-                                🎉 Celebrating 1 Year of Arkanis Corporation! 🎉
-                            </MudText>
-                        </MudLink>
+<CascadingValue Value="@_searchContext">
+    <div class="px-3 @(OrgAnniversary.Enabled ? "org-anniversary-search" : null)">
+        <div style="padding: 7.5vh"></div>
+        <div style="width: fit-content; min-width: 60vw; margin: auto;">
+            <div
+                style="width: fit-content; margin: auto; position: sticky; top: var(--animated-border-weight, 0px); z-index: 9;">
+            @if (OrgAnniversary.Enabled)
+            {
+                <div class="animated-border-box rounded"></div>
+                <div class="animated-border-box-glow"></div>
+                }<MudPaper id="search-box-container" Class="relative">
+                    <MudStack id="searchContainer"
+                              AlignItems="@AlignItems.Center"
+                              Class="d-flex justify-start flex-grow-1"
+                              Spacing="0">
+                        @if (OrgAnniversary.Enabled)
+                        {
+                            <AnniversaryBanner/>
+                        }
                         <SearchBox
                             @ref="_searchBox"
                             @bind-SearchText="@SearchText"
                             @bind-SearchText:after="@SearchAsync"
                             HelperText="@ShortcutsText"/>
-                    </CascadingValue>
-                </MudStack>
-            </MudPaper>
-        </div>
-        <MudStack AlignItems="@AlignItems.Center" Class="w-100">
-            @if (CalculatorResult is { } result)
-            {
-                <MudStack Class="mt-10 w-100">
-                    <CalculationResult
-                        Model="@result"
-                        HasError="@HasCalculatorError"/>
-                </MudStack>
-            }
-            else if (SearchResults.GameEntities.Count > 0)
-            {
-                <MudChip T="string" Variant="@Variant.Filled" Color="@Color.Surface">
-                    Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
-                </MudChip>
-            }
-        </MudStack>
+                    </MudStack>
+                </MudPaper>
+            </div>
+            <MudStack AlignItems="@AlignItems.Center" Class="w-100">
+                @if (CalculatorResult is { } result)
+                {
+                    <MudStack Class="mt-10 w-100">
+                        <CalculationResult
+                            Model="@result"
+                            HasError="@HasCalculatorError"/>
+                    </MudStack>
+                }
+                else if (SearchResults.GameEntities.Count > 0)
+                {
+                    <MudChip T="string" Variant="@Variant.Filled" Color="@Color.Surface">
+                        Found @SearchResults.GameEntities.Count results in @SearchResults.SearchTime.Humanize()
+                    </MudChip>
+                }
+            </MudStack>
 
-        <SearchResultStack Model="SearchResults"/>
+            <SearchResultStack Model="SearchResults"/>
+        </div>
     </div>
-</div>
+</CascadingValue>
 
 @code
 {
@@ -228,6 +162,7 @@
 
             var windowFocusHandler = EventInterop.CreateHandler(_searchBox.FocusSearchBoxAsync);
             await EventInterop.RegisterWindowEventHandlerAsync("focus", windowFocusHandler);
+            StateHasChanged();
         }
     }
 
@@ -239,16 +174,24 @@
 
     private async Task SearchAsync()
     {
-        if (SearchText?.StartsWith("=") == true)
-        {
-            HasCalculatorError = !TryEvaluateMathExpression(SearchText, out var result);
-            CalculatorResult = result;
-            await GlobalAnalyticsReporter.TrackEventAsync(new SearchCalculationEvent());
-            return;
-        }
+        var previousSearchCancellation = _searchCancellation;
+        var searchCancellation = new CancellationTokenSource();
+        _searchCancellation = searchCancellation;
+        var cancellationToken = searchCancellation.Token;
 
         try
         {
+            await previousSearchCancellation.CancelAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (SearchText?.StartsWith("=") == true)
+            {
+                HasCalculatorError = !TryEvaluateMathExpression(SearchText, out var result);
+                CalculatorResult = result;
+                await GlobalAnalyticsReporter.TrackEventAsync(new SearchCalculationEvent());
+                return;
+            }
+
             CalculatorResult = null;
             if (string.IsNullOrWhiteSpace(SearchText))
             {
@@ -274,9 +217,9 @@
                 searchQueries.Add(new LocationSearch(location));
             }
 
-            await _searchCancellation.CancelAsync();
-            _searchCancellation = new CancellationTokenSource();
-            SearchResults = await SearchService.SearchAsync(searchQueries, _searchCancellation.Token);
+            var searchResults = await SearchService.SearchAsync(searchQueries, cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            SearchResults = searchResults;
             await GlobalAnalyticsReporter.TrackEventAsync(new SearchEvent(SearchText));
         }
         catch (OperationCanceledException)

@@ -12,7 +12,7 @@ public record UpdateChannel(string Name, string InternalId, string? VelopackChan
         Description = "Contains fairly stable changes close to a stable release. May contain bugs.",
     };
 
-    public static readonly UpdateChannel Nightly = new("Nightly", "nightly", "nightly")
+    public static readonly UpdateChannel Preview = new("Developer Preview", "nightly", "preview")
     {
         IsUnstable = true,
         Description = "Contains latest development changes. May contain major bugs and breaking changes.",
@@ -29,7 +29,7 @@ public record UpdateChannel(string Name, string InternalId, string? VelopackChan
         Default,
         Stable,
         ReleaseCandidate,
-        Nightly,
+        Preview,
     ];
 
     public static readonly IEnumerable<UpdateChannel> All =
@@ -37,7 +37,7 @@ public record UpdateChannel(string Name, string InternalId, string? VelopackChan
         Default,
         Stable,
         ReleaseCandidate,
-        Nightly,
+        Preview,
     ];
 
     public bool IsUnstable { get; init; }

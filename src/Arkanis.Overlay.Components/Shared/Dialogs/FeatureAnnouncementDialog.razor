@@ -1,0 +1,38 @@
+<MudDialog>
+    <DialogContent>
+        <DynamicComponent Type="@Announcement.ContentComponentType"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="@Variant.Filled" Color="@Color.Primary" OnClick="@Dismiss">
+            Got it — don't show again
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [Parameter]
+    [EditorRequired]
+    public required FeatureAnnouncement Announcement { get; set; }
+
+    [CascadingParameter]
+    public required IMudDialogInstance MudDialog { get; set; }
+
+    private void Dismiss()
+        => MudDialog.Close(DialogResult.Ok(true));
+
+    public static async Task<IDialogReference> ShowAsync(IDialogService dialogService, FeatureAnnouncement announcement)
+        => await dialogService.ShowAsync<FeatureAnnouncementDialog>(
+            null,
+            new DialogParameters<FeatureAnnouncementDialog> { { x => x.Announcement, announcement } },
+            new DialogOptions
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small,
+                BackdropClick = false,
+                CloseOnEscapeKey = false,
+                CloseButton = false,
+            }
+        );
+
+}
