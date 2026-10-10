@@ -8,33 +8,33 @@
     <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.1Password" Version="2.1.0-dev.1" />
     <PackageVersion Include="Arkanis.Aspire.Hosting.Extensions.Kubernetes" Version="1.0.0-dev.22" />
     <PackageVersion Include="Arkanis.Common.Aspire.ServiceDefaults" Version="1.0.0-dev.1" />
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.6.1" />
     <PackageVersion Include="Aspire.Hosting.Kubernetes" Version="13.5.3-preview.1.26425.3" />
-    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.5.3" />
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.6.1" />
     <PackageVersion Include="Blazor-Analytics" Version="4.0.0" />
     <PackageVersion Include="Chapter.Net.WPF.SystemTray" Version="2.1.0" />
-    <PackageVersion Include="CitizenId.Domain.Shared" Version="1.10.2" />
-    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="CitizenId.Domain.Shared" Version="1.13.1" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.AppServices" Version="1.0.14" />
     <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Plugins" Version="1.0.14" />
     <PackageVersion Include="Dapplo.Microsoft.Extensions.Hosting.Wpf" Version="1.0.14" />
     <PackageVersion Include="Duende.IdentityModel.OidcClient" Version="7.1.0" />
     <PackageVersion Include="FluentResults" Version="4.0.0" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
+    <PackageVersion Include="FluentValidation" Version="12.2.0" />
     <PackageVersion Include="FuzzySharp" Version="2.0.2" />
     <PackageVersion Include="Humanizer" Version="3.0.10" />
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
-    <PackageVersion Include="MathEvaluator" Version="3.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.80" />
-    <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.11" />
-    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.11" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+    <PackageVersion Include="MathEvaluator" Version="3.4.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.110" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.13" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.13" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.12" />
@@ -43,7 +43,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.FileProviders.Physical" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
@@ -53,22 +53,22 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.12" />
-    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.23.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.298" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.360" />
     <PackageVersion Include="morelinq" Version="4.4.0" />
-    <PackageVersion Include="MudBlazor.FontIcons.MaterialIcons" Version="1.4.0" />
-    <PackageVersion Include="MudBlazor.FontIcons.MaterialSymbols" Version="1.4.0" />
+    <PackageVersion Include="MudBlazor.FontIcons.MaterialIcons" Version="1.5.0" />
+    <PackageVersion Include="MudBlazor.FontIcons.MaterialSymbols" Version="1.5.0" />
     <PackageVersion Include="MudBlazor" Version="8.15.0" />
-    <PackageVersion Include="NuGet.Versioning" Version="7.6.0" />
+    <PackageVersion Include="NuGet.Versioning" Version="7.9.0" />
     <PackageVersion Include="Octokit" Version="14.0.0" />
-    <PackageVersion Include="Polly" Version="8.7.0" />
-    <PackageVersion Include="Polly.RateLimiting" Version="8.7.0" />
-    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.18.2" />
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.18.2" />
-    <PackageVersion Include="Quartz.Jobs" Version="3.18.2" />
-    <PackageVersion Include="Quartz" Version="3.18.2" />
+    <PackageVersion Include="Polly" Version="8.8.0" />
+    <PackageVersion Include="Polly.RateLimiting" Version="8.8.0" />
+    <PackageVersion Include="Quartz.Extensions.DependencyInjection" Version="3.22.4" />
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.22.4" />
+    <PackageVersion Include="Quartz.Jobs" Version="3.22.4" />
+    <PackageVersion Include="Quartz" Version="3.22.4" />
     <PackageVersion Include="Riok.Mapperly" Version="4.3.1" />
     <PackageVersion Include="Scrutor" Version="7.0.0" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
@@ -82,18 +82,18 @@
     <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="Serilog.Sinks.Seq" Version="9.1.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
-    <PackageVersion Include="StrawberryShake.Server" Version="16.5.0" />
+    <PackageVersion Include="StrawberryShake.Server" Version="16.6.8" />
     <PackageVersion Include="SingleInstanceCore" Version="2.2.2" />
     <PackageVersion Include="System.Diagnostics.EventLog" Version="10.0.12" />
     <PackageVersion Include="System.Linq.Async" Version="7.0.1" />
-    <PackageVersion Include="Velopack" Version="1.2.0" />
-    <PackageVersion Include="Xunit.Microsoft.DependencyInjection" Version="10.0.5" />
+    <PackageVersion Include="Velopack" Version="1.2.161" />
+    <PackageVersion Include="Xunit.Microsoft.DependencyInjection" Version="10.1.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.AspNetCore.WebUtilities" Version="10.0.12" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.12" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.19.2" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
     <PackageVersion Include="bunit" Version="2.11.3" />
   </ItemGroup>
 </Project>
