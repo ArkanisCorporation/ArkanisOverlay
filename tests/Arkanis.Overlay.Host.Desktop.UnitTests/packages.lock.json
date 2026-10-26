@@ -1525,6 +1525,7 @@
           "Microsoft.Extensions.Options.DataAnnotations": "[10.0.12, )",
           "Microsoft.Toolkit.Uwp.Notifications": "[7.1.3, )",
           "SingleInstanceCore": "[2.2.2, )",
+          "System.Diagnostics.EventLog": "[10.0.12, )",
           "Velopack": "[1.2.0, )"
         }
       },
