@@ -181,6 +181,8 @@ public sealed class KubernetesPublishTests
         deployment.ShouldContain("replicas: 1");
         deployment.ShouldContain("type: \"Recreate\"");
         deployment.ShouldNotContain("rollingUpdate:");
+        deployment.ShouldContain("seccompProfile:");
+        deployment.ShouldContain("type: \"RuntimeDefault\"");
         deployment.ShouldContain("runAsNonRoot: true");
         deployment.ShouldContain("runAsUser: 1654");
         deployment.ShouldContain("runAsGroup: 1654");
