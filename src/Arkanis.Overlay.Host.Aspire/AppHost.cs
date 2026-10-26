@@ -119,6 +119,7 @@ void ConfigureKubernetesOverlayDeployment(Deployment deployment)
         RunAsUser = 1654,
         RunAsGroup = 1654,
         FsGroup = 1654,
+        SeccompProfile = new SeccompProfileV1 { Type = "RuntimeDefault" },
     };
     podSpec.ImagePullSecrets.Add(new LocalObjectReferenceV1 { Name = "ghcr-pull" });
 
