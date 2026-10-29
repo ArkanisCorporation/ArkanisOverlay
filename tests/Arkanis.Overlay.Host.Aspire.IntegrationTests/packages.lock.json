@@ -119,10 +119,10 @@
           "Microsoft.Extensions.Logging.Abstractions": "10.0.10"
         }
       },
-      "Aspire.Dashboard.Sdk.win-x64": {
+      "Aspire.Dashboard.Sdk.linux-x64": {
         "type": "Transitive",
         "resolved": "13.5.3",
-        "contentHash": "6AhmBiDsENiPegvxCtv5c1p42f+IIUZD6TReq7Ks1+kHHIXmqQuTtTgRY6C8kJFtjzyZ2crBKJy+elph6nHqfg=="
+        "contentHash": "2mIgiPb05AcBKgmINQ79vl5ETrHifPbwZ5c701dzrLFY7rhXetBmGnio4UkVFc/rsy4F5w1zLvsOSK2kuuMBHQ=="
       },
       "Aspire.Hosting": {
         "type": "Transitive",
@@ -160,10 +160,10 @@
           "YamlDotNet": "16.3.0"
         }
       },
-      "Aspire.Hosting.Orchestration.win-x64": {
+      "Aspire.Hosting.Orchestration.linux-x64": {
         "type": "Transitive",
         "resolved": "13.5.3",
-        "contentHash": "3fXcjcpWyyXYQg4nxYYHr06IqUxII3AAYbHouYTOytAQFz5ZwBlYkJBLepI5a3cHGC9XMP/xztHTV0OW35bYuQ=="
+        "contentHash": "V2N93XPRLB2BYQVxQp4fQSpiAX2sBJfRIYaZX+B77L271t+pNHl7WpbnOrlXxIF1k+CqMTDfpE9TBH4o3+E16g=="
       },
       "AspNetCore.HealthChecks.Uris": {
         "type": "Transitive",
@@ -916,10 +916,10 @@
         "dependencies": {
           "Arkanis.Aspire.Hosting.Extensions.1Password": "[2.1.0-dev.1, )",
           "Arkanis.Aspire.Hosting.Extensions.Kubernetes": "[1.0.0-dev.22, )",
-          "Aspire.Dashboard.Sdk.win-x64": "[13.5.3, )",
+          "Aspire.Dashboard.Sdk.linux-x64": "[13.5.3, )",
           "Aspire.Hosting.AppHost": "[13.5.3, )",
           "Aspire.Hosting.Kubernetes": "[13.5.3-preview.1.26425.3, )",
-          "Aspire.Hosting.Orchestration.win-x64": "[13.5.3, )"
+          "Aspire.Hosting.Orchestration.linux-x64": "[13.5.3, )"
         }
       },
       "Arkanis.Aspire.Hosting.Extensions.1Password": {
