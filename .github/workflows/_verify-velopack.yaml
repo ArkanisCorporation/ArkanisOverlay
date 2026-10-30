@@ -1,6 +1,7 @@
 name: Verify Windows release assets
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:

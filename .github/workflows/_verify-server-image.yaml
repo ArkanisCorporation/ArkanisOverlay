@@ -1,6 +1,7 @@
 name: Verify server image
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:

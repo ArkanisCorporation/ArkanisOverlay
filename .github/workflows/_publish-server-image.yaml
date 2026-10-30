@@ -1,6 +1,7 @@
 name: Publish server image
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:

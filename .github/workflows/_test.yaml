@@ -15,7 +15,8 @@
 
 name: .NET Test
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:

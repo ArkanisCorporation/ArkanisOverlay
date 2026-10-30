@@ -1,6 +1,7 @@
 name: Publish NuGet package
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:
