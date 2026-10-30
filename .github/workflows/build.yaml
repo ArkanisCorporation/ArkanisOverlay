@@ -33,6 +33,17 @@ jobs:
         @semantic-release/changelog@7.0.0
       allow-exec-plugin: false
 
+  # Shared actionlint gate for every workflow in this repo (ArkanisCorporation/ci standard).
+  # Not a release prerequisite: it reports workflow defects without changing release gating.
+  lint-workflows:
+    name: Workflow
+    uses: ArkanisCorporation/ci/.github/workflows/wf-lint-github-actions.yml@v1
+    permissions:
+      contents: read
+    with:
+      runs-on: *ordinary_runner
+      runs-on-self-hosted: *ordinary_runner_self_hosted
+
   project-verification:
     name: Tests
     uses: ./.github/workflows/_test.yaml
