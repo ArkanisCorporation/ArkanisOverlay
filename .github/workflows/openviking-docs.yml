@@ -1,0 +1,41 @@
+# Mirrors this repository's docs into OpenViking for cross-repo discovery (ARK-642).
+# Managed by ArkanisCorporation/repo-standards: the adoption PR adds this file verbatim.
+# Git stays the source of truth; OpenViking holds a read-only copy under
+# viking://resources/arkanis/projects/<repo>, replaced on every run.
+# Opt out instead with: gh repo edit <owner>/<repo> --add-topic openviking-docs-optout
+name: openviking-docs
+
+on:
+  push:
+    branches: ["main"] # repo-standards:default-branch
+    # Must match repo-standards OPENVIKING_DOC_GLOBS and ci's default include-paths,
+    # plus this file so merging the adoption PR runs the first import.
+    paths:
+      - README.md
+      - AGENTS.md
+      - CLAUDE.md
+      - docs/**/*.md
+      - .claude/rules/**/*.md
+      - .claude/context/**/*.md
+      - openspec/specs/**/*.md
+      - .github/workflows/openviking-docs.yml
+  # Manual backfill, for example after OpenViking was rebuilt.
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: openviking-docs
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # arkanis-runners pods reach OpenViking in-cluster and carry the ingest key (ARK-651, ARK-652),
+    # so this caller passes no secrets.
+    uses: ArkanisCorporation/ci/.github/workflows/wf-publish-docs-openviking.yml@v1
+    permissions:
+      contents: read
+    with:
+      runs-on: arkanis-runners
+      runs-on-self-hosted: true
