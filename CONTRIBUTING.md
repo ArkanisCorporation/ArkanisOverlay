@@ -103,6 +103,15 @@ chore(build): update CI pipeline to .NET 8
 Reference related issues in the commit body or footer when applicable.
 Add body text for more context if needed.
 
+**Local check**: [Husky.NET](https://alirezanet.github.io/Husky.Net/) ships as a local .NET tool and provides a
+`commit-msg` hook that rejects non-conforming subjects (tasks live in `.husky/task-runner.json`).
+Enable it once per clone:
+
+```
+dotnet tool restore
+dotnet husky install
+```
+
 ---
 
 ## Code Style

@@ -1,0 +1,11 @@
+{
+   "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+   "tasks": [
+       {
+           "name": "commit-message-linter",
+           "group": "commit-msg",
+           "command": "bash",
+           "args": [ "scripts/lint-commit-message.sh", "${args}" ]
+       }
+   ]
+}
