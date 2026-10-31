@@ -81,7 +81,7 @@ jobs:
 
       - name: Install Azure CLI
         if: env.ENABLE_CODE_SIGNING == 'true'
-        uses: elstudio/action-install-azure-cli@v1
+        uses: elstudio/action-install-azure-cli@2264fe44e297e4daaa449d08f2097c5af1680cc5 # v1
 
       - name: Azure Login
         if: env.ENABLE_CODE_SIGNING == 'true'
