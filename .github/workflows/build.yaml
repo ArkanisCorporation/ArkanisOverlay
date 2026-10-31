@@ -17,7 +17,8 @@ on:
           - ubuntu-latest
         default: daedalus
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   verify-release:

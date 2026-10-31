@@ -1,6 +1,7 @@
 name: Deploy Aspire Kubernetes
 
-permissions: {}
+permissions:
+  contents: read
 
 on:
   workflow_call:
